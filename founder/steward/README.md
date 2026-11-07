@@ -272,8 +272,11 @@ every child that names an umbrella parent is `not-evaluated` before any other di
 proofs, founder locks and questions included): never dispatched, closed or held as a duplicate. Only work that cannot
 depend on a closed umbrella (for example a child with no umbrella, or a bot report) proceeds. Candidate matching uses
 the full candidate id with its evidence repository. A legacy slug-only row takes its full identity from the closed
-batch's own closed child intake when the census still holds it; otherwise the child is `not-evaluated`
-(`closed-batch-candidate-identity-ambiguous`), never matched on a slug.
+batch's own closed child intake when the census still holds it and names exactly this child; otherwise (including when
+only a differently named closed child is known) the child is `not-evaluated`
+(`closed-batch-candidate-identity-ambiguous`), never matched on a slug. The closed-batch verdict is evaluated before proofs,
+locks and questions: an ambiguous child is not closable on an A1-A5 proof, and a matched duplicate is held unless the
+registry already proves its closure under an enabled rule.
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.

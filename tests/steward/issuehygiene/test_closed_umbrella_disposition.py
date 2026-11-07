@@ -609,14 +609,16 @@ def test_a_same_repository_same_slug_other_contributor_is_not_held_without_a_kno
     assert not any(reason.startswith("closed-umbrella-duplicate") for reason in child["notProven"])
 
 
-def test_a_known_closed_child_with_another_identity_makes_the_same_slug_new_work(tmp_path: Path) -> None:
+def test_a_known_closed_child_with_another_identity_does_not_prove_the_same_slug_is_new(tmp_path: Path) -> None:
+    """The census holds only a window of closed issues, so one differently named closed child never excludes others."""
     suiteRecord(tmp_path, "v6.0.0")
     census = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), sameRepoOtherContributor(31, 30)],
                       closed=[closedUmbrella(20, adds=["alpha"]), closedChild(21, "obra/alpha", parent=20)])
 
     child = item(run(census, tmp_path), 31)
 
-    assert child["authority"] == "B" and child["state"] != "held"
+    assert child["state"] == "not-evaluated" and child["authority"] == "none"
+    assert "closed-batch-candidate-identity-ambiguous:#20" in child["unknowns"]
 
 
 def test_a_known_closed_child_with_the_same_identity_is_a_duplicate(tmp_path: Path) -> None:
@@ -654,3 +656,78 @@ def test_a_v2_row_matches_only_on_full_identity_and_repository(tmp_path: Path, c
     entry = item(run(census, tmp_path), 31)
 
     assert (entry["state"] == "held") is held
+
+
+# --------------------------------------------- the closed-batch verdict precedes proofs (round-4 review)
+
+
+def provenAlphaCensus(tmp_path: Path, candidate: str, closedExtra=()):
+    """Closed #20 has legacy adds alpha; #30 repeats it; child #31 carries an A1 proof from a matching registry entry."""
+    evidence = BLOB.replace("writing-skills", "alpha")
+    writeNamed(tmp_path, candidate, skill(candidate, github=evidence))
+    suiteRecord(tmp_path, "v6.0.0")
+    rows = [umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), childRow(31, candidate, evidence, parent=30)]
+    return censusOf(rows, closed=[closedUmbrella(20, adds=["alpha"]), *closedExtra])
+
+
+def test_an_a1_proven_child_with_an_ambiguous_legacy_identity_is_not_closable(tmp_path: Path) -> None:
+    """Review repro: #31 different/alpha, suite-repository evidence, matching registry entry, no attributable closed child."""
+    census = provenAlphaCensus(tmp_path, "different/alpha")
+
+    manifest = run(census, tmp_path)
+
+    child = item(manifest, 31)
+    assert (child["state"], child["authority"], child["ruleId"]) == ("not-evaluated", "none", None)
+    assert child["proposedTransition"]["action"] == "keep"
+    assert "closed-batch-candidate-identity-ambiguous:#20" in child["unknowns"]
+    from gaia_cli.steward.issuehygiene.closure import planClosures
+
+    assert planClosures(manifest, policyFor()) == []
+    assert all(child["key"] not in batch["classB"] for batch in manifest["batches"])
+
+
+def test_the_same_proven_child_outside_a_repeated_batch_still_closes(tmp_path: Path) -> None:
+    evidence = BLOB.replace("writing-skills", "alpha")
+    writeNamed(tmp_path, "different/alpha", skill("different/alpha", github=evidence))
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([umbrellaRow(30, SUITE, "v7.1.0", adds=["alpha"]), childRow(31, "different/alpha", evidence, parent=30)],
+                      closed=[closedUmbrella(20, adds=["alpha"])])  # a new version: not a repeat
+
+    child = item(run(census, tmp_path), 31)
+
+    assert child["authority"] == "A" and child["ruleId"] == "A1-child-curated"
+
+
+def test_a_proven_child_matching_a_known_closed_identity_may_still_be_closed(tmp_path: Path) -> None:
+    census = provenAlphaCensus(tmp_path, "obra/alpha", closedExtra=[closedChild(21, "obra/alpha", parent=20)])
+
+    child = item(run(census, tmp_path), 31)
+
+    assert child["authority"] == "A" and child["ruleId"] == "A1-child-curated"  # a registry-proven closure is cleanup
+
+
+def test_a_matched_duplicate_with_a_disabled_rule_proof_is_held_not_dispatched(tmp_path: Path) -> None:
+    census = provenAlphaCensus(tmp_path, "obra/alpha", closedExtra=[closedChild(21, "obra/alpha", parent=20)])
+
+    manifest = run(census, tmp_path, policy=policyFor(enabledRules=["A2-umbrella-synced"]))
+
+    child = item(manifest, 31)
+    assert (child["state"], child["authority"], child["ruleId"]) == ("held", "none", None)
+    assert "closed-umbrella-duplicate:#20" in child["notProven"]
+    assert all(child["key"] not in batch["classB"] for batch in manifest["batches"])
+
+
+def test_a_v2_row_without_a_suggested_id_is_ambiguous_even_for_a_proven_child(tmp_path: Path) -> None:
+    evidence = f"https://github.com/{SUITE}/blob/main/skills/delta/SKILL.md"
+    writeNamed(tmp_path, "obra/delta", skill("obra/delta", github=evidence))
+    suiteRecord(tmp_path, "v6.0.0")
+    body, digest = v2Body([{"id": f"{SUITE}:delta", "slug": "delta"}])  # no suggestedId: identity unproven
+    closed = closedUmbrella(20)
+    closed.update(body=body, bodySha256=digest)
+    open30 = umbrellaRow(30, SUITE, "v7.0.0")
+    open30.update(body=body, bodySha256=digest)
+    census = censusOf([open30, childRow(31, "obra/delta", evidence, parent=30)], closed=[closed])
+
+    child = item(run(census, tmp_path), 31)
+
+    assert (child["state"], child["authority"]) == ("not-evaluated", "none")
