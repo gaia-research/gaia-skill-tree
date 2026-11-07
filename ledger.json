@@ -1,5 +1,5 @@
 {
- "generation": 1222,
+ "generation": 1223,
  "lane": {
   "entries": [
    {
@@ -3607,7 +3607,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -3628,14 +3628,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch3-verifier-fcadb5abc97e (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-009403bfca6453f34882",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T03:04:42.428250Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 1,
@@ -4802,6 +4808,25 @@
     "state": "closed"
    },
    {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
     "attempts": 1,
     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
     "firstQueuedAt": "2026-11-05T17:28:39.801414Z",
@@ -4881,6 +4906,614 @@
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
     "state": "closed"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-steward-workflowproof-py:ce3a82469342146f",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-docs-cohesion-yml:331205eb910bc7e8",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-fast-track-ci-yml:4c822d02f38dfe01",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-intake-approval-yml:30877071ea0ea0d1",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-labels-sync-yml:5bbae5258760516f",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-meta-guard-yml:e4d2cbafd65aa5a2",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-og-png-regen-yml:6a4f58e5855fcb87",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-pr-author-identity-yml:b1cbdd7f6a55aecc",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-pr-first-time-contributor-yml:9358fea113f55a0b",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-pr-guards-yml:faa60e755df62f9f",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-publish-pypi-yml:abd40c325dd53f16",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-python-package-yml:a679ed0ef81e803c",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-release-yml:c7a986f4c74c4729",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-sdk-tests-yml:978c15bb23bc6ef3",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-stale-bot-yml:530f8a30332df424",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-stargazer-heartbeat-yml:dd4c9efa2faf5ee1",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-sync-artifacts-yml:06d10d37dc08360e",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-upstream-approve-yml:98a1885bb302ca66",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-upstream-close-children-yml:70ad79523d9da1c5",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-upstream-reject-yml:789e57c6f1aebdac",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-upstream-watcher-yml:1c35d150efb14249",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-validate-yml:8c6baaebf1b3043e",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-verify-evidence-yml:aacced23c627e88a",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:workflow_hygiene:github-workflows-weekly-content-engine-yml:a90df8685cd99a62",
+    "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
+    "history": [
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastVerdict": null,
+    "priority": 0.756,
+    "rule": "workflow-timeout-repair",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
    }
   ],
   "policy": {
@@ -4893,7 +5526,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:25:26.530962Z",
-   "expiresAt": "2026-11-07T09:58:12.234921Z",
+   "expiresAt": "2026-11-07T09:59:42.526714Z",
    "holder": "run-20261107T092526Z-c6c6c44d"
   }
  },
@@ -97555,7 +98188,36 @@
    "unresolvedWork": []
   },
   "run-20261107T092526Z-c6c6c44d": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+     "emittedAt": "2026-11-07T09:28:17.139193Z",
+     "idempotencyKey": "dispatch-009403bfca6453f34882:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-fcadb5abc97e",
+      "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+      "dispatchId": "dispatch-009403bfca6453f34882",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-fcadb5abc97e.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-fcadb5abc97e.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-fcadb5abc97e.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:fcadb5abc97e:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -98634,6 +99296,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-07T09:28:17.139193Z",
+     "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+     "idempotencyKey": "dispatch-009403bfca6453f34882:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:fcadb5abc97e:2"
     }
    ],
    "thinkingEfforts": [],
@@ -98644,7 +99314,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:28:12.235720Z",
+ "updatedAt": "2026-11-07T09:29:42.530996Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -100251,16 +100921,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch3-verifier-fcadb5abc97e (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-fcadb5abc97e",
    "build": null,
    "createdAt": "2026-11-07T01:26:07.516027Z",
    "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
    "dispatchId": "dispatch-009403bfca6453f34882",
-   "dispatchedAt": "2026-11-07T01:26:07.516027Z",
+   "dispatchedAt": "2026-11-07T09:28:17.139193Z",
    "history": [
     {
      "at": "2026-11-07T01:26:07.516027Z",
@@ -100273,24 +100942,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch3-verifier-fcadb5abc97e (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T09:28:17.139193Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-009403bfca6453f34882 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-fcadb5abc97e.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-fcadb5abc97e.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261107T012053Z-9dcda16b",
+   "runId": "run-20261107T092526Z-c6c6c44d",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T03:04:42.428250Z",
-   "verification": {
-    "agentId": "pi-herdr-batch3-verifier-fcadb5abc97e",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports json at line 3 without reading it; the candidate removes only that import.\" - \"The offered 15-test pytest result corresponds to tests/test_crawlers.py, which tests common modules and the GitHub crawler but never imports or tests the changed SkillsMP crawler; it does not demonstrate the required test of the importing package.\" - \"An independent mocked SkillsMP import and search smoke check passed, but it is not the required pytest proof.\"",
-    "recordedAt": "2026-11-07T03:04:42.428250Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T09:28:17.139193Z",
+   "verification": null
   },
   "debt:unused_import:scripts-crawlers-vscode-marketplace-crawler-py:6d2e9221511f5f68": {
    "assignments": [
