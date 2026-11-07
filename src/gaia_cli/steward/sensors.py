@@ -2063,6 +2063,7 @@ class FrozenSkillIntegritySensor:
     _NAMED_ROOT = "registry/named"
     _DECISIONS_DIR = "founder/steward/decisions"
     _ACK_RESOLUTION = "acknowledged"
+    _ACK_PREFIX = "steward-frozen-history"
 
     @classmethod
     def acknowledgementRecordId(cls, skill_id: str) -> str:
@@ -2095,36 +2096,56 @@ class FrozenSkillIntegritySensor:
         )
 
     @classmethod
-    def _acknowledgedEvents(cls, repo_root: Path, skill_id: str) -> tuple[str | None, Counter]:
-        """Return (record id, acknowledged evidence lines); empty when no valid record.
+    def _acknowledgedEvents(cls, repo_root: Path, skill_id: str) -> tuple[list[str], Counter]:
+        """Return (contributing record ids, acknowledged evidence lines for ``skill_id``).
 
-        The record is a normal founder decision record (schema
+        Acknowledgements live in normal founder decision records (schema
         ``steward-decision-v1``, validated by the desk's own checker, so no
-        extra schema fields are used) with ``status: decided`` and
-        ``resolution: acknowledged``. Its ``evidence`` must name each event with
-        :meth:`acknowledgementLine`. Anything else fails closed.
+        extra schema fields are used) named ``steward-frozen-history*.json``,
+        with ``status: decided`` and ``resolution: acknowledged``. One record
+        may acknowledge events of several skills (founder ruling F4,
+        2026-11-08: "one decision record acknowledges these 4 historical
+        events"); each evidence line names its skill, so a line can only ever
+        acknowledge that skill's exact event. Anything malformed fails closed.
 
-        The lines are returned as a multiset: byte-identical duplicate events
-        are each acknowledged only by their own copy of the line.
+        The lines are a multiset: byte-identical duplicate events are each
+        acknowledged only by their own copy of the line. When several records
+        carry the same line, the largest count in any one record is used, so
+        repeating a record never acknowledges an extra duplicate.
         """
 
         from gaia_cli.steward.desk import _check_record
 
-        record_id = cls.acknowledgementRecordId(skill_id)
-        path = repo_root / cls._DECISIONS_DIR / f"{record_id}.json"
+        directory = repo_root / cls._DECISIONS_DIR
         try:
-            if path.is_symlink() or not path.is_file():
-                return None, Counter()
-            record = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            return None, Counter()
-        if not isinstance(record, dict):
-            return None, Counter()
-        if _check_record({**record, "_source": f"{cls._DECISIONS_DIR}/{path.name}"}) is not None:
-            return None, Counter()
-        if record.get("status") != "decided" or record.get("resolution") != cls._ACK_RESOLUTION:
-            return None, Counter()
-        return record_id, Counter(item for item in record.get("evidence", []) if isinstance(item, str))
+            paths = sorted(directory.glob(f"{cls._ACK_PREFIX}*.json")) if directory.is_dir() else []
+        except OSError:
+            return [], Counter()
+        prefix = f"postFreezeEvent {skill_id} "
+        merged: Counter = Counter()
+        contributing: list[str] = []
+        for path in paths:
+            try:
+                if path.is_symlink() or not path.is_file():
+                    continue
+                record = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if not isinstance(record, dict):
+                continue
+            if _check_record({**record, "_source": f"{cls._DECISIONS_DIR}/{path.name}"}) is not None:
+                continue
+            if record.get("status") != "decided" or record.get("resolution") != cls._ACK_RESOLUTION:
+                continue
+            lines = Counter(
+                item for item in record.get("evidence", []) if isinstance(item, str) and item.startswith(prefix)
+            )
+            if not lines:
+                continue
+            contributing.append(str(record["id"]))
+            for line, count in lines.items():
+                merged[line] = max(merged[line], count)
+        return contributing, merged
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
@@ -2255,8 +2276,8 @@ class FrozenSkillIntegritySensor:
                         })
 
                 has_level_mismatch = bool(frozen_level and current_level != frozen_level)
-                record_id, acknowledged_lines = (
-                    self._acknowledgedEvents(repo_root, skill_id) if history else (None, Counter())
+                record_ids, acknowledged_lines = (
+                    self._acknowledgedEvents(repo_root, skill_id) if history else ([], Counter())
                 )
                 remaining = Counter(acknowledged_lines)
                 for event in history:
@@ -2279,8 +2300,11 @@ class FrozenSkillIntegritySensor:
                     "unacknowledgedEventCount": len(unacknowledged),
                 }
                 if history:
-                    observed_state["acknowledgementRecord"] = record_id or self.acknowledgementRecordId(skill_id)
-                    observed_state["acknowledgementRecordPresent"] = record_id is not None
+                    observed_state["acknowledgementRecord"] = (
+                        record_ids[0] if record_ids else self.acknowledgementRecordId(skill_id)
+                    )
+                    observed_state["acknowledgementRecords"] = record_ids
+                    observed_state["acknowledgementRecordPresent"] = bool(record_ids)
                 if drift:
                     # Never a write command: frozen records are immutable
                     # (preflightNamedSkillMutable refuses every mutation).

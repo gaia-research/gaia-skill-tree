@@ -63,6 +63,16 @@ _RECORDED_UNGATED = {
     "prefill": "steward-dev-mutation-gates",
 }
 _DECISIONS_DIR = "founder/steward/decisions"
+# Unsafe-execution findings the founder ruled a scoped exception (F6,
+# 2026-11-08: "Record a scoped exception for benchmark use only"). An entry is
+# (path, pattern, enclosing function) -> decided record id. A matching finding
+# is still reported, annotated ``acknowledged`` with the record; the same
+# construct anywhere else (another file, function or pattern) is not covered.
+# The exemption holds only while the record exists and is ``decided``.
+_RECORDED_EXECUTION_EXCEPTIONS = {
+    ("scripts/benchmarks/humaneval/run.py", "exec-nonliteral", "_execAndCheck"):
+        "steward-humaneval-exec-benchmark-exception",
+}
 _GATING_NAME = "MUTATING_DEV_COMMANDS"
 _PYTHON_ROOTS = ("src/gaia_cli", "scripts")
 _CROSS_MODULE_DEPTH = 1
@@ -686,6 +696,43 @@ class MutationBoundarySensor:
         return observations
 
     @staticmethod
+    def _decidedRecord(root: Path, record_id: str) -> bool:
+        try:
+            record = json.loads((root / _DECISIONS_DIR / f"{record_id}.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return False
+        return isinstance(record, dict) and record.get("id") == record_id and record.get("status") == "decided"
+
+    def _acknowledgeExceptions(
+        self, root: Path, rel: str, tree: ast.Module, findings: list[dict[str, Any]]
+    ) -> None:
+        """Annotate findings covered by a decided scoped exception (F6); never drop them."""
+
+        scoped = {
+            (pattern, function): record
+            for (path, pattern, function), record in _RECORDED_EXECUTION_EXCEPTIONS.items()
+            if path == rel
+        }
+        if not scoped:
+            return
+        spans = [
+            (node.lineno, node.end_lineno or node.lineno, node.name)
+            for node in ast.walk(tree)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        ]
+        for item in findings:
+            # The innermost enclosing function is the one that starts last.
+            function = max(
+                ((start, name) for start, end, name in spans if start <= item["line"] <= end),
+                default=(0, None),
+            )[1]
+            record = scoped.get((item["pattern"], function))
+            if record is not None and self._decidedRecord(root, record):
+                item["acknowledged"] = True
+                item["decisionRecord"] = f"{_DECISIONS_DIR}/{record}.json"
+                item["scope"] = f"{rel}:{function} ({item['pattern']}), benchmark use only"
+
+    @staticmethod
     def _decidedExemption(root: Path, name: str) -> str | None:
         """Return the decided record id that exempts ``name``, or None (fail closed)."""
 
@@ -724,18 +771,23 @@ class MutationBoundarySensor:
             findings = _UnsafeVisitor(tree).findings()
             if not findings:
                 continue
+            self._acknowledgeExceptions(root, rel, tree, findings)
             ambiguous = all(item.get("ambiguous") for item in findings)
+            unacknowledged = [item for item in findings if not item.get("acknowledged")]
             observations.append(
                 Observation(
                     kind="unsafe_execution",
                     subject=Subject(type="source-file", id=rel),
                     observed_at=observed_at,
                     source=self.id,
-                    status="drift",
+                    # Healthy only when every finding is covered by a decided
+                    # scoped exception; the findings stay listed either way.
+                    status="drift" if unacknowledged else "healthy",
                     current_state={"unsafeConstructs": 0},
                     observed_state={
                         **finding_payload(findings),
                         "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
+                        "acknowledgedCount": len(findings) - len(unacknowledged),
                     },
                     confidence=0.5 if ambiguous else 0.8,
                     provenance={

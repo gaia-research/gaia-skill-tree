@@ -622,3 +622,119 @@ class TestS9SideEffectLabel:
         (observation,) = observations  # the unused import is still reported
         (finding,) = observation.observed_state["findings"]
         assert finding["sideEffectPossible"] is expected
+
+
+# --------------------------------------------------------------------------
+# F4: one decision record may acknowledge several frozen skills' history
+# --------------------------------------------------------------------------
+
+
+class TestF4SharedAcknowledgement:
+    def test_one_record_acknowledges_another_skills_events_only_by_their_own_lines(self, tmp_path: Path) -> None:
+        root = _frozen_repo(tmp_path)
+        other = (root / "registry/named/owner/frozen.md").read_text(encoding="utf-8").replace(
+            "id: owner/frozen", "id: owner/other"
+        )
+        (root / "registry/named/owner/other.md").write_text(other, encoding="utf-8")
+        record = _record(BOTH, id="steward-frozen-history-batch")
+        # Lines for owner/frozen only: owner/other has identical events but is
+        # not named, so it must stay unacknowledged.
+        target = root / "founder/steward/decisions/steward-frozen-history-batch.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(record), encoding="utf-8")
+        track_all(root)
+        observations = {obs.subject.id: obs for obs in FrozenSkillIntegritySensor().scan(root, NOW)}
+        assert observations["owner/frozen"].status == "healthy"
+        assert observations["owner/frozen"].observed_state["acknowledgementRecords"] == ["steward-frozen-history-batch"]
+        assert observations["owner/other"].status == "drift"
+        assert observations["owner/other"].observed_state["acknowledgementRecordPresent"] is False
+
+    def test_records_outside_the_prefix_never_acknowledge(self, tmp_path: Path) -> None:
+        record = _record(BOTH, id="steward-some-other-decision")
+        root = _frozen_repo(tmp_path)
+        target = root / "founder/steward/decisions/steward-some-other-decision.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(record), encoding="utf-8")
+        track_all(root)
+        (obs,) = FrozenSkillIntegritySensor().scan(root, NOW)
+        assert obs.status == "drift"
+
+    def test_repeating_a_line_in_two_records_does_not_cover_an_extra_duplicate(self, tmp_path: Path) -> None:
+        root = _frozen_repo(tmp_path, record=_record(BOTH), extra=COPY)
+        second = _record([E1], id="steward-frozen-history-second")
+        (root / "founder/steward/decisions/steward-frozen-history-second.json").write_text(
+            json.dumps(second), encoding="utf-8"
+        )
+        track_all(root)
+        (obs,) = FrozenSkillIntegritySensor().scan(root, NOW)
+        assert obs.status == "drift"
+        assert obs.observed_state["unacknowledgedEventCount"] == 1
+
+    def test_live_f4_record_resolves_the_four_mattpocock_findings(self) -> None:
+        repo_root = Path(__file__).resolve().parents[2]
+        observations = {obs.subject.id: obs for obs in FrozenSkillIntegritySensor().scan(repo_root, NOW)}
+        for skill in ("diagnose", "edit-article", "obsidian-vault", "ubiquitous-language"):
+            obs = observations[f"mattpocock/{skill}"]
+            assert obs.status == "healthy", skill
+            assert obs.observed_state["levelMismatch"] is False
+            assert obs.observed_state["acknowledgementRecords"] == ["steward-frozen-history-2026-11-08"]
+
+
+# --------------------------------------------------------------------------
+# F6: scoped benchmark exception for HumanEval's in-process exec
+# --------------------------------------------------------------------------
+
+HUMANEVAL = "scripts/benchmarks/humaneval/run.py"
+F6_RECORD = "founder/steward/decisions/steward-humaneval-exec-benchmark-exception.json"
+EXEC_IN_HARNESS = (
+    "def _execAndCheck(problem, completion):\n"
+    "    namespace = {}\n"
+    "    exec(compile(completion, '<humaneval>', 'exec'), namespace)\n"
+    "    return True\n"
+)
+
+
+def _f6(tmp_path: Path, files: dict[str, str], *, decided: bool = True):
+    overrides = dict(files)
+    if decided is not None:
+        overrides[F6_RECORD] = json.dumps(
+            {"id": "steward-humaneval-exec-benchmark-exception", "status": "decided" if decided else "open"}
+        )
+    _, observations = _mutation(tmp_path, **overrides)
+    return {item.subject.id: item for item in _execution(observations)}
+
+
+class TestF6ScopedExecException:
+    def test_covered_exec_is_listed_acknowledged_and_the_file_is_healthy(self, tmp_path: Path) -> None:
+        item = _f6(tmp_path, {HUMANEVAL: EXEC_IN_HARNESS})[HUMANEVAL]
+        assert item.status == "healthy"
+        (finding,) = item.observed_state["findings"]  # never silently dropped
+        assert finding["pattern"] == "exec-nonliteral"
+        assert finding["acknowledged"] is True
+        assert finding["decisionRecord"] == F6_RECORD
+        assert item.observed_state["acknowledgedCount"] == 1
+
+    def test_same_exec_outside_the_benchmark_path_still_flags(self, tmp_path: Path) -> None:
+        items = _f6(tmp_path, {"scripts/other/run.py": EXEC_IN_HARNESS})
+        item = items["scripts/other/run.py"]
+        assert item.status == "drift"
+        assert "acknowledged" not in item.observed_state["findings"][0]
+
+    def test_exec_in_another_function_of_the_benchmark_file_still_flags(self, tmp_path: Path) -> None:
+        source = EXEC_IN_HARNESS + "\n\ndef helper(code):\n    exec(code)\n"
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        flags = {(f["line"], bool(f.get("acknowledged"))) for f in item.observed_state["findings"]}
+        assert flags == {(3, True), (8, False)}
+
+    def test_other_patterns_in_the_covered_function_still_flag(self, tmp_path: Path) -> None:
+        source = EXEC_IN_HARNESS.replace("    return True\n", "    eval(completion)\n    return True\n")
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert [f["pattern"] for f in item.observed_state["findings"] if not f.get("acknowledged")] == ["eval-nonliteral"]
+
+    @pytest.mark.parametrize("decided", [False, None])
+    def test_without_a_decided_record_the_exception_does_not_hold(self, tmp_path: Path, decided) -> None:
+        item = _f6(tmp_path, {HUMANEVAL: EXEC_IN_HARNESS}, decided=decided)[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
