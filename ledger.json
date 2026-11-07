@@ -1,5 +1,5 @@
 {
- "generation": 1484,
+ "generation": 1485,
  "lane": {
   "entries": [
    {
@@ -5790,7 +5790,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T16:10:52.598412Z",
-   "expiresAt": "2026-11-07T16:44:04.625247Z",
+   "expiresAt": "2026-11-07T16:44:09.252130Z",
    "holder": "run-20261107T145403Z-b871b1e2"
   }
  },
@@ -116543,7 +116543,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -116556,28 +116556,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-567539e5f70ab51b1723",
-     "dispatched": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
-     "dispatchedAll": [
-      {
-       "dispatchId": "dispatch-567539e5f70ab51b1723",
-       "dispatched": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
-       "stepId": "build:2ab63c86d569:2"
-      },
-      {
-       "dispatchId": "dispatch-b8c59e2e9b66a8448637",
-       "dispatched": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
-       "stepId": "build:be8ba959184b:2"
-      },
-      {
-       "dispatchId": "dispatch-0925d54c33545e17a5b2",
-       "dispatched": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
-       "stepId": "build:f6d1a832e6e8:2"
-      }
-     ],
-     "status": "awaiting-build",
-     "stepId": "build:2ab63c86d569:2",
-     "stopReason": "no queued Class B debt"
+     "dispatched": null,
+     "reason": "this run already dispatched 3 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -117634,6 +117615,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:f6d1a832e6e8:2"
+    },
+    {
+     "at": "2026-11-07T16:14:08.397529Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -117647,7 +117634,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:14:04.629785Z",
+ "updatedAt": "2026-11-07T16:14:09.252335Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
