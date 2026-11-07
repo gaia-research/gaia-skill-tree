@@ -11,8 +11,10 @@ Rules, each one pinned by a test:
 * A count that goes up or stays level replaces the baseline.
 * A decrease is first explained. Reopening closed issues lowers the closed count legitimately, so a decrease no
   larger than the number of issues reopened since the baseline was observed replaces the baseline and says why.
-* A decrease nothing explains does not replace the baseline on its first sighting: it is held as pending, and only
-  a second consecutive run that sees the same lower count adopts it. A single bad read cannot lower the baseline.
+* A decrease nothing explains is NEVER adopted, however often it is seen. The verified baseline is kept and the lower
+  count is reported as a diagnostic (`unexplainedLower`). Only reopening evidence can lower the baseline.
+* The baseline is written only after the whole census proved complete (the collector enforces this), and a baseline that
+  could not be restored is never replaced (it is reported as not evaluated).
 
 The module reads and writes one small JSON file and never touches the network.
 """
@@ -30,8 +32,6 @@ SCHEMA = "steward-closed-issue-baseline-v1"
 DEFAULT_PATH = Path(".gaia/steward/inputs/closed-issue-baseline.json")
 SCOPE = "issues only (pull requests excluded), state=closed, all time"
 SOURCES = ("gh-api", "mcp")
-# A lower count must be seen on this many consecutive runs before an unexplained decrease is adopted.
-ADOPT_UNEXPLAINED_AFTER = 2
 _MAX_BYTES = 64 * 1024
 
 
@@ -41,7 +41,7 @@ class Baseline:
     observedAt: str
     source: str
     scope: str
-    pending: Mapping[str, Any] | None = None
+    unexplainedLower: Mapping[str, Any] | None = None
 
     def to_dict(self, repo: str) -> dict[str, Any]:
         document: dict[str, Any] = {
@@ -52,8 +52,8 @@ class Baseline:
             "source": self.source,
             "scope": self.scope,
         }
-        if self.pending:
-            document["pendingDecrease"] = dict(self.pending)
+        if self.unexplainedLower:
+            document["unexplainedLower"] = dict(self.unexplainedLower)
         return document
 
     def summary(self) -> dict[str, Any]:
@@ -90,13 +90,13 @@ def loadBaseline(path: Path, repo: str) -> tuple[Baseline | None, str | None]:
         return None, "baseline-malformed"
     if not isinstance(raw.get("observedAt"), str) or not isinstance(raw.get("scope"), str):
         return None, "baseline-malformed"
-    pending = raw.get("pendingDecrease")
-    if pending is not None and not (
-        isinstance(pending, dict) and _isCount(pending.get("count")) and _isCount(pending.get("consecutive"))
-        and isinstance(pending.get("firstObservedAt"), str)
+    lower = raw.get("unexplainedLower")
+    if lower is not None and not (
+        isinstance(lower, dict) and _isCount(lower.get("count")) and _isCount(lower.get("consecutive"))
+        and isinstance(lower.get("firstObservedAt"), str)
     ):
         return None, "baseline-malformed"
-    return Baseline(raw["count"], raw["observedAt"], raw["source"], raw["scope"], pending), None
+    return Baseline(raw["count"], raw["observedAt"], raw["source"], raw["scope"], lower), None
 
 
 def saveBaseline(path: Path, repo: str, baseline: Baseline) -> None:
@@ -123,7 +123,7 @@ class Judgement:
     delta: int | None
     explained: bool | None
     explanation: str
-    update: str  # created | updated | unchanged | adopted-decrease | pending-decrease | preserved
+    update: str  # created | updated | unchanged | kept-unexplained-lower | preserved | not-evaluated
     next: Baseline | None
 
 
@@ -156,24 +156,19 @@ def judge(
         f"only {reopened} reopened issue(s) found since {baseline.observedAt} for a drop of {drop}"
         if reopened is not None else f"reopen events unavailable ({reopenedReason or 'unknown'})"
     )
-    pending = baseline.pending
-    if pending and pending.get("count") == count:
-        consecutive = int(pending["consecutive"]) + 1
-        first = str(pending["firstObservedAt"])
+    lower = baseline.unexplainedLower
+    if lower and lower.get("count") == count:
+        consecutive = int(lower["consecutive"]) + 1
+        first = str(lower["firstObservedAt"])
     else:
         consecutive, first = 1, observedAt
-    if consecutive >= ADOPT_UNEXPLAINED_AFTER:
-        return Judgement(
-            "down", delta, False,
-            f"{why}; the same lower count was seen on {consecutive} consecutive runs, so it is adopted",
-            "adopted-decrease", fresh,
-        )
     held = Baseline(
         baseline.count, baseline.observedAt, baseline.source, baseline.scope,
         {"count": count, "consecutive": consecutive, "firstObservedAt": first, "lastObservedAt": observedAt},
     )
     return Judgement(
         "down", delta, False,
-        f"{why}; baseline kept at {baseline.count} until the same lower count is seen again",
-        "pending-decrease", held,
+        f"{why}; the verified baseline of {baseline.count} is kept and {count} is reported as a diagnostic "
+        f"(seen on {consecutive} consecutive run(s)); only reopening evidence can lower the baseline",
+        "kept-unexplained-lower", held,
     )

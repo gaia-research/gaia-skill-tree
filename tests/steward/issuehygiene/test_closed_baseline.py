@@ -8,7 +8,7 @@ retries with telemetry, and that only closure operations (not the rest of Stewar
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -66,6 +66,7 @@ class Repo:
 
 def census(repo: Repo, baseline=BASELINE, **kwargs) -> dict:
     kwargs.setdefault("authenticated", True)
+    kwargs.setdefault("verifyClosedCount", True)
     return collectCensus(REPO, NOW, repo.fetch, 30, baseline=baseline, sleep=noSleep, **kwargs)
 
 
@@ -107,22 +108,35 @@ def test_a_drop_no_larger_than_the_reopened_issues_is_explained_and_adopted() ->
     assert judgement.next is not None and judgement.next.count == 8
 
 
-def test_an_unexplained_drop_is_held_pending_and_the_baseline_is_kept() -> None:
+def test_an_unexplained_drop_is_kept_as_a_diagnostic_and_the_baseline_is_not_lowered() -> None:
     judgement = rules.judge(BASELINE, 4, NOW_TEXT, "gh-api", 1)
 
-    assert (judgement.explained, judgement.update) == (False, "pending-decrease")
-    assert judgement.next is not None and judgement.next.count == 10
-    assert judgement.next.pending["count"] == 4 and judgement.next.pending["consecutive"] == 1
+    assert (judgement.explained, judgement.update) == (False, "kept-unexplained-lower")
+    assert judgement.next is not None and judgement.next.count == 10 and judgement.next.observedAt == BASE_TIME
+    assert judgement.next.unexplainedLower["count"] == 4 and judgement.next.unexplainedLower["consecutive"] == 1
 
 
-def test_the_same_lower_count_on_a_second_run_is_adopted_but_a_different_one_restarts_the_wait() -> None:
+def test_an_unexplained_lower_count_is_never_adopted_however_often_it_is_seen() -> None:
+    held = BASELINE
+    for run in range(1, 8):
+        judgement = rules.judge(held, 4, f"2026-10-{20 + run:02d}T00:00:00Z", "gh-api", 0)
+        held = judgement.next
+        assert judgement.update == "kept-unexplained-lower"
+        assert held.count == 10
+        assert held.unexplainedLower["consecutive"] == run
+
+
+def test_a_different_lower_count_restarts_the_diagnostic_and_a_recovery_clears_it() -> None:
     held = rules.judge(BASELINE, 4, NOW_TEXT, "gh-api", 0).next
+    assert rules.judge(held, 5, NOW_TEXT, "gh-api", 0).next.unexplainedLower["consecutive"] == 1
+    recovered = rules.judge(held, 11, NOW_TEXT, "gh-api", 0)
+    assert recovered.update == "updated" and recovered.next.unexplainedLower is None
 
-    adopted = rules.judge(held, 4, "2026-10-22T00:00:00Z", "gh-api", 0)
-    assert adopted.update == "adopted-decrease" and adopted.next.count == 4 and adopted.next.pending is None
 
-    restarted = rules.judge(held, 5, "2026-10-22T00:00:00Z", "gh-api", 0)
-    assert restarted.update == "pending-decrease" and restarted.next.pending["consecutive"] == 1
+def test_reopening_evidence_that_arrives_later_explains_and_adopts_the_lower_count() -> None:
+    held = rules.judge(BASELINE, 4, NOW_TEXT, "gh-api", 0).next
+    explained = rules.judge(held, 4, "2026-10-22T00:00:00Z", "gh-api", 6)
+    assert explained.explained is True and explained.next.count == 4 and explained.next.unexplainedLower is None
 
 
 def test_unavailable_reopen_events_leave_a_drop_unexplained() -> None:
@@ -151,7 +165,7 @@ def test_a_verified_count_is_recorded_with_provider_scope_and_a_baseline_to_writ
 
     section = history(document)
     assert section["provider"] == "gh-api" and section["scope"] == rules.SCOPE
-    assert section["count"] == {"value": 12, "verified": True}
+    assert section["count"] == {"value": 12, "verified": True, "checked": True}
     assert section["refusal"] is None and section["auth"] == "token"
     assert section["baseline"]["update"] == "created"
     assert section["baseline"]["after"]["count"] == 12
@@ -175,13 +189,37 @@ def test_a_count_drop_explained_by_a_reopen_updates_the_baseline_and_says_why() 
     assert section["baseline"]["update"] == "updated" and section["baseline"]["after"]["count"] == 8
 
 
-def test_a_count_drop_nothing_explains_is_flagged_and_does_not_lower_the_baseline() -> None:
-    section = history(census(Repo(total=4, events=[reopenedEvent(31)])))
+def test_a_count_drop_nothing_explains_is_reported_and_does_not_lower_the_baseline() -> None:
+    document = census(Repo(total=4, events=[reopenedEvent(31)]))
 
+    section = history(document)
     assert section["change"]["explained"] is False
-    assert section["baseline"]["update"] == "pending-decrease"
+    assert section["baseline"]["update"] == "kept-unexplained-lower"
     assert section["baseline"]["after"]["count"] == 10  # still the verified baseline
-    assert section["baseline"]["after"]["pendingDecrease"]["count"] == 4
+    assert section["baseline"]["after"]["unexplainedLower"]["count"] == 4
+    # a diagnostic, not a refusal: the inventory itself is complete
+    assert document["completeness"]["closed"]["complete"] is True and document["completeness"]["issues"]["complete"] is True
+
+
+def test_a_complete_reopening_to_zero_is_explained_by_the_reopen_events() -> None:
+    baseline = rules.Baseline(3, BASE_TIME, "gh-api", rules.SCOPE)
+    events = [reopenedEvent(31), reopenedEvent(32), reopenedEvent(33)]
+
+    document = census(Repo(total=0, events=events), baseline=baseline)
+
+    section = history(document)
+    assert section["count"] == {"value": 0, "verified": True, "checked": True} and section["refusal"] is None
+    assert section["change"]["explained"] is True and section["baseline"]["after"]["count"] == 0
+    assert document["completeness"]["closed"]["complete"] is True
+
+
+def test_a_partial_reopening_does_not_explain_a_zero() -> None:
+    baseline = rules.Baseline(3, BASE_TIME, "gh-api", rules.SCOPE)
+
+    document = census(Repo(total=0, events=[reopenedEvent(31)]), baseline=baseline)
+
+    assert history(document)["refusal"] == "false-empty-suspect"
+    assert document["completeness"]["closed"]["complete"] is False
 
 
 # --- empty 200 pages and bounded retries ------------------------------------------------------
@@ -217,36 +255,57 @@ def test_persistently_empty_closed_pages_are_retried_within_the_bound_then_repor
     assert repo.searches() == 0  # no count is read, so nothing could be verified from an incomplete window
 
 
-def test_an_empty_count_against_a_non_empty_baseline_is_a_suspected_false_empty() -> None:
-    repo = Repo(total=0)
+def test_an_empty_count_against_a_non_empty_baseline_is_a_suspected_false_empty_and_closed_is_incomplete() -> None:
+    document = census(Repo(total=0))
 
-    section = history(census(repo))
-
+    section = history(document)
     counts = [item for item in section["attempts"] if item["read"] == "closed-count"]
     assert len(counts) == CLOSED_ATTEMPTS and all(item["reason"] == "false-empty-suspect" for item in counts)
-    assert section["refusal"] == "false-empty-suspect"
-    assert section["count"]["verified"] is False
+    assert section["refusal"] == "false-empty-suspect" and section["count"]["verified"] is False
     assert section["baseline"]["after"] is None
+    closed = document["completeness"]["closed"]
+    assert closed == {"complete": False, "reason": "false-empty-suspect"}
+    assert document["completeness"]["open"]["complete"] is True
+    assert document["completeness"]["issues"]["complete"] is False and "closed-inventory-unverified:false-empty-suspect" in document["completeness"]["issues"]["reason"]
 
 
 def test_an_empty_count_on_a_first_run_is_a_genuine_empty_history() -> None:
     section = history(census(Repo(total=0), baseline=None))
 
-    assert section["count"] == {"value": 0, "verified": True}
+    assert section["count"] == {"value": 0, "verified": True, "checked": True}
     assert section["baseline"]["after"]["count"] == 0
 
 
-def test_a_window_holding_more_issues_than_the_total_is_not_verified() -> None:
+def test_a_window_holding_more_issues_than_the_total_makes_closed_incomplete() -> None:
     def crowded(url: str) -> Response:
         rows = [{"number": n, "state": "closed", "title": "t", "body": "", "labels": [], "user": {"login": "u"},
                  "created_at": "2026-10-10T00:00:00Z", "updated_at": "2026-10-10T00:00:00Z",
                  "closed_at": "2026-10-11T00:00:00Z", "comments": 0} for n in range(1, 6)]
         return Response(200, {}, json.dumps([] if "page=2" in url else rows))
 
-    section = history(census(Repo(total=3, closedPage=crowded)))
+    document = census(Repo(total=3, closedPage=crowded))
 
+    section = history(document)
     assert section["refusal"] == "window-exceeds-count" and section["count"]["verified"] is False
     assert section["baseline"]["after"] is None
+    assert document["completeness"]["closed"] == {"complete": False, "reason": "window-exceeds-count"}
+    assert document["completeness"]["open"]["complete"] is True
+
+
+def test_an_unreadable_count_makes_closed_incomplete_not_merely_noted() -> None:
+    document = census(Repo(searchBody={"total_count": "many"}))
+
+    assert history(document)["refusal"] == "count-unreadable"
+    assert document["completeness"]["closed"] == {"complete": False, "reason": "count-unreadable"}
+
+
+def test_without_the_cross_check_the_closed_inventory_is_not_judged_by_a_count() -> None:
+    repo = Repo(total=0)
+    document = census(repo, verifyClosedCount=False)
+
+    assert repo.searches() == 0
+    assert history(document)["count"] == {"value": None, "verified": False, "checked": False}
+    assert document["completeness"]["closed"]["complete"] is True
 
 
 def test_a_transient_server_error_is_retried_and_a_later_good_read_verifies() -> None:
@@ -261,12 +320,12 @@ def test_a_transient_server_error_is_retried_and_a_later_good_read_verifies() ->
             return answers.pop(0)
         return original(url)
 
-    document = collectCensus(REPO, NOW, flaky, 30, baseline=BASELINE, sleep=slept.append, authenticated=True)
+    document = collectCensus(REPO, NOW, flaky, 30, baseline=BASELINE, sleep=slept.append, authenticated=True, verifyClosedCount=True)
 
     section = history(document)
     counts = [item["reason"] for item in section["attempts"] if item["read"] == "closed-count"]
     assert counts == ["http-502", None]
-    assert section["count"] == {"value": 11, "verified": True}
+    assert section["count"] == {"value": 11, "verified": True, "checked": True}
     assert len(slept) == 1  # one backoff, between the two attempts
 
 
@@ -293,7 +352,7 @@ def test_a_rate_limited_read_is_not_retried_either() -> None:
             raise FetchError("rate-limited")
         return original(url)
 
-    section = history(collectCensus(REPO, NOW, limited, 30, baseline=BASELINE, sleep=noSleep, authenticated=False))
+    section = history(collectCensus(REPO, NOW, limited, 30, baseline=BASELINE, sleep=noSleep, authenticated=False, verifyClosedCount=True))
 
     assert section["auth"] == "anonymous" and section["refusal"] == "rate-limited"
     assert len([item for item in section["attempts"] if item["read"] == "closed-count"]) == 1
@@ -327,15 +386,84 @@ def test_a_failed_scan_never_overwrites_a_verified_baseline(tmp_path: Path, monk
     assert path.read_bytes() == before
 
 
-def test_an_unverified_count_never_overwrites_the_baseline(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_a_refused_cross_check_fails_the_census_and_never_overwrites_the_baseline(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     baselinePath = tmp_path / "inputs" / "closed-issue-baseline.json"
     rules.saveBaseline(baselinePath, REPO, BASELINE)
     before = baselinePath.read_bytes()
 
-    code, _out, path = run(tmp_path, Repo(searchStatus=401), monkeypatch)
+    code, out, path = run(tmp_path, Repo(searchStatus=401), monkeypatch)
 
-    assert code == 0  # the diagnostic never fails the census
+    assert code == 3
+    document = json.loads(out.read_text(encoding="utf-8"))
+    assert document["completeness"]["closed"]["complete"] is False
     assert path.read_bytes() == before
+
+
+def test_a_malformed_closed_row_after_a_verified_count_does_not_write_the_baseline(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    def malformed(url: str) -> Response:
+        return Response(200, {}, json.dumps([] if "page=2" in url else [{"title": "no number"}]))
+
+    baselinePath = tmp_path / "inputs" / "closed-issue-baseline.json"
+    rules.saveBaseline(baselinePath, REPO, BASELINE)
+    before = baselinePath.read_bytes()
+
+    code, out, path = run(tmp_path, Repo(total=25, closedPage=malformed), monkeypatch)
+
+    document = json.loads(out.read_text(encoding="utf-8"))
+    assert code == 3
+    assert document["closedHistory"]["count"]["verified"] is True  # the count was fine; the inventory around it was not
+    assert document["closedHistory"]["baseline"]["after"] is None
+    assert document["completeness"]["closed"] == {"complete": False, "reason": "malformed-rows:1"}
+    assert path.read_bytes() == before
+
+
+def test_a_restore_failure_never_writes_a_new_baseline_and_reports_it_not_evaluated(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    out = tmp_path / "inputs" / "github-issues.json"
+    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
+    repo = Repo(total=12)
+
+    code = main(["--repo", REPO, "--out", str(out), "--closed-window-days", "30", "--now", NOW_TEXT,
+                 "--baseline-state", "restore-failed"], fetch=repo.fetch)
+
+    document = json.loads(out.read_text(encoding="utf-8"))
+    baseline = document["closedHistory"]["baseline"]
+    assert code == 0
+    assert baseline["update"] == "not-evaluated" and baseline["problem"] == "baseline-restore-failed" and baseline["after"] is None
+    assert not (out.parent / "closed-issue-baseline.json").exists()
+
+
+def test_a_restore_failure_leaves_a_stray_local_file_untouched(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    stray = tmp_path / "inputs" / "closed-issue-baseline.json"
+    rules.saveBaseline(stray, REPO, BASELINE)
+    before = stray.read_bytes()
+    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
+
+    main(["--repo", REPO, "--out", str(tmp_path / "inputs" / "github-issues.json"), "--closed-window-days", "30",
+          "--now", NOW_TEXT, "--baseline-state", "restore-failed"], fetch=Repo(total=99).fetch)
+
+    assert stray.read_bytes() == before
+
+
+def test_a_first_run_creates_the_baseline_only_from_a_verified_complete_census(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    out = tmp_path / "inputs" / "github-issues.json"
+    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
+
+    code = main(["--repo", REPO, "--out", str(out), "--closed-window-days", "30", "--now", NOW_TEXT,
+                 "--baseline-state", "first-run"], fetch=Repo(total=12).fetch)
+
+    assert code == 0 and rules.loadBaseline(out.parent / "closed-issue-baseline.json", REPO)[0].count == 12
+
+
+def test_an_unexplained_lower_count_leaves_the_stored_baseline_in_place(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    baselinePath = tmp_path / "inputs" / "closed-issue-baseline.json"
+    rules.saveBaseline(baselinePath, REPO, BASELINE)
+
+    for _ in range(3):  # three consecutive runs see the same lower count
+        code, out, path = run(tmp_path, Repo(total=4), monkeypatch)
+        assert code == 0
+
+    stored = rules.loadBaseline(path, REPO)[0]
+    assert stored.count == 10 and stored.unexplainedLower["count"] == 4 and stored.unexplainedLower["consecutive"] == 3
 
 
 def test_a_verified_scan_writes_and_the_next_run_reads_it(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -413,18 +541,92 @@ def test_a_stale_census_is_never_closed_only() -> None:
     assert stale.status.status == "incomplete"
 
 
-def test_the_sensor_reports_missing_closed_history_as_not_evaluated_with_telemetry_and_does_not_blind_steward(tmp_path: Path) -> None:
-    root = makeCheckout(tmp_path, census=failingClosedDocument())
+def degrade(document: dict, reason: str = "count-unreadable") -> dict:
+    """The census shape a closed-only failure leaves: open complete, closed not, legacy sections conservative."""
 
-    with pytest.raises(SensorNotEvaluated) as raised:
+    degraded = json.loads(json.dumps(document))
+    for section in ("issues", "pulls"):
+        degraded["completeness"][section]["complete"] = False
+        degraded["completeness"][section]["reason"] = f"closed-inventory-unverified:{reason}"
+    degraded["completeness"]["open"] = {"complete": True}
+    degraded["completeness"]["closed"] = {"complete": False, "reason": reason}
+    return degraded
+
+
+def closableSetup(tmp_path: Path):
+    from scripts.steward_issue_census import writeAtomic
+    from tests.steward.issuehygiene.e_fakes import FakeGitHub, loadFixture, seedFromDocument
+    from tests.steward.issuehygiene.test_e_steward_full_e2e import curatedRegistry, eligibleFromFixture
+
+    gh = FakeGitHub()
+    seedFromDocument(gh, loadFixture())
+    picks = eligibleFromFixture(3)
+    root = makeCheckout(tmp_path, named=curatedRegistry(picks))
+    return gh, root, writeAtomic
+
+
+def test_a_closed_only_failure_keeps_open_observations_and_fails_only_closure_operations_closed(tmp_path: Path) -> None:
+    gh, root, writeAtomic = closableSetup(tmp_path)
+    whole = gh.census(NOW)
+    writeAtomic(root / CENSUS_INPUT, whole)
+
+    healthy = IssueHygieneSensor().scan_detailed(root, NOW_TEXT)
+    healthyKinds = {o.kind for o in healthy.observations}
+    plans = [plan for o in healthy.observations if o.kind == "issue_closure_ready" for plan in o.observed_state.get("plans", [])]
+    assert plans and {"issue_suite_review", "issue_founder_decision"} <= healthyKinds  # something is closable when history is whole
+
+    writeAtomic(root / CENSUS_INPUT, degrade(whole))
+    scan = IssueHygieneSensor().scan_detailed(root, NOW_TEXT)  # no exception: Steward is not blinded
+
+    kinds = {o.kind for o in scan.observations}
+    assert "issue_closure_ready" not in kinds  # no closure rule is reported healthy on a missing inventory
+    assert {"issue_suite_review", "issue_founder_decision"} <= kinds  # open-inventory observations continue
+    (skipped,) = [item for item in scan.skipped if item["subjectId"] == "closure-operations"]
+    assert "closed history is incomplete (count-unreadable)" in skipped["reason"]
+    assert "issue closure operations are NOT EVALUATED" in skipped["reason"]
+    assert "provider gh-api" in skipped["reason"] or "no closed-history telemetry recorded" in skipped["reason"]
+
+
+def test_nothing_is_proven_closable_without_closed_history(tmp_path: Path) -> None:
+    from gaia_cli.steward.issuehygiene.census import loadCensus
+    from gaia_cli.steward.issuehygiene.sensor import _hygienePolicy, reconcileCensus
+    from scripts.steward_issue_census import writeAtomic as write
+
+    gh, root, writeAtomic = closableSetup(tmp_path)
+    whole = gh.census(NOW)
+    hygiene = _hygienePolicy(root)
+    writeAtomic(root / CENSUS_INPUT, whole)
+    full = reconcileCensus(loadCensus(root / CENSUS_INPUT, now=NOW), root, hygiene, NOW)
+    writeAtomic(root / CENSUS_INPUT, degrade(whole))
+    census = loadCensus(root / CENSUS_INPUT, now=NOW)
+    degraded = reconcileCensus(census, root, hygiene, NOW, closedHistoryUnavailable=True)
+
+    assert full["stats"]["classA"] > 0
+    assert degraded["stats"]["classA"] == 0 and degraded["closedHistory"] == "unavailable"
+    assert all(item["authority"] != "A" for item in degraded["items"])
+    assert "closedHistory" not in full  # a normal manifest is unchanged
+    # and without the explicit flag the old conservative behaviour holds: nothing is evaluated
+    assert reconcileCensus(census, root, hygiene, NOW)["coverage"]["unknown"]
+
+
+def test_the_closure_planner_has_nothing_to_plan_without_closed_history(tmp_path: Path) -> None:
+    from gaia_cli.steward.issuehygiene.census import loadCensus
+    from gaia_cli.steward.issuehygiene.closure import planClosures
+    from gaia_cli.steward.issuehygiene.sensor import _hygienePolicy, reconcileCensus
+
+    gh, root, writeAtomic = closableSetup(tmp_path)
+    hygiene = _hygienePolicy(root)
+    writeAtomic(root / CENSUS_INPUT, degrade(gh.census(NOW)))
+    manifest = reconcileCensus(loadCensus(root / CENSUS_INPUT, now=NOW), root, hygiene, NOW, closedHistoryUnavailable=True)
+
+    assert planClosures(dict(manifest), hygiene) == []
+
+
+def test_a_stale_closed_only_census_is_not_degraded_but_blinds_steward(tmp_path: Path) -> None:
+    gh, root, writeAtomic = closableSetup(tmp_path)
+    writeAtomic(root / CENSUS_INPUT, degrade(gh.census(NOW - timedelta(hours=7))))
+    with pytest.raises(SensorUnavailable):
         IssueHygieneSensor().scan_detailed(root, NOW_TEXT)
-
-    message = str(raised.value)
-    assert "closed history is incomplete (empty-linked-page)" in message
-    assert "issue closure operations are NOT EVALUATED" in message
-    assert "provider gh-api" in message and "attempts 3" in message and "refusal empty-linked-page" in message
-    # A person can fix a failed read, so the desk must not hide it as an absent input.
-    assert raised.value.input_absent is False
 
 
 def test_the_sensor_still_blinds_steward_for_an_incomplete_open_inventory(tmp_path: Path) -> None:
@@ -452,7 +654,25 @@ def test_the_scheduled_workflow_restores_collects_and_persists_the_baseline_in_o
     persist = names.index("Persist the closed-issue baseline for the next run")
     assert restore < collect < persist
     assert steps[persist]["with"]["path"] == ".gaia/steward/inputs/closed-issue-baseline.json"
-    assert steps[persist]["if"] == "always()"
+    assert steps[persist]["if"] == "always() && steps.baseline.outputs.state != 'restore-failed'"
+
+
+def test_the_restore_step_distinguishes_a_first_run_from_a_restore_failure_and_passes_the_state_on() -> None:
+    import yaml
+
+    workflow = Path(__file__).resolve().parents[3] / ".github" / "workflows" / "steward.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["full-observe"]["steps"]
+    restore = next(step for step in steps if step.get("name") == "Restore the closed-issue baseline")
+    collect = next(step for step in steps if "steward_issue_census.py" in step.get("run", ""))
+    script = restore["run"]
+
+    assert restore["id"] == "baseline"
+    for state in ("first-run", "restored", "restore-failed"):
+        assert state in script
+    assert "total_count" in script and "expired == false" in script  # only expired baselines is a failure, not a first run
+    assert "STEWARD_CLOSED_BASELINE_RESEED" in restore["env"]["RESEED"]
+    assert '--baseline-state "$BASELINE_STATE"' in collect["run"]
+    assert collect["env"]["BASELINE_STATE"] == "${{ steps.baseline.outputs.state }}"
 
 
 def test_loading_a_written_census_keeps_the_closed_history_section(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
