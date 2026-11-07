@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T11:34:45Z",
+  "generatedAt": "2026-11-07T22:04:09Z",
   "distribution": {
     "total": 342,
     "S": 3,
@@ -8,7 +8,7 @@
     "C": 109,
     "ungraded": 7,
     "floor": 0,
-    "up": 103
+    "up": 98
   },
   "rows": [
     {
@@ -323,13 +323,13 @@
       "id": "cathrynlavery/diagram-design",
       "trustMagnitude": 132.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 132.67
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "nvidia/accelerated-computing-cudf",
@@ -361,25 +361,25 @@
       "id": "emilkowalski/animate",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/animate-expo",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/animation-performance",
@@ -433,25 +433,25 @@
       "id": "emilkowalski/find-animation-opportunities",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/improve-animations",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/mobile-native",
@@ -2563,7 +2563,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2628,7 +2628,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2667,7 +2667,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2862,7 +2862,7 @@
         "repo-own": 10.18,
         "github-stars-own": 39.82
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -4471,7 +4471,7 @@
     "architecture-diagram": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "cathrynlavery/diagram-design",
@@ -6651,27 +6651,19 @@
     "timeline-animation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-animation",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate",
+        "contributor": "emilkowalski"
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-keyframes",
-        "contributor": "heygen-com"
-      },
-      {
-        "origin": true,
-        "level": "3★",
-        "status": "named",
-        "redacted": false,
-        "id": "heygen-com/motion-graphics",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate-expo",
+        "contributor": "emilkowalski"
       }
     ],
     "token-observability": [
@@ -6721,11 +6713,19 @@
     "ui-audit": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "leonxlnx/redesign-skill",
-        "contributor": "leonxlnx"
+        "id": "emilkowalski/find-animation-opportunities",
+        "contributor": "emilkowalski"
+      },
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/improve-animations",
+        "contributor": "emilkowalski"
       }
     ],
     "ui-red-teaming": [

@@ -570,15 +570,15 @@
     {
       "id": "cathrynlavery/diagram-design",
       "name": "diagram-design",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 132.67,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "cathrynlavery",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
       },
@@ -621,15 +621,15 @@
     {
       "id": "emilkowalski/animate",
       "name": "animate",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animate.json"
       },
@@ -638,15 +638,15 @@
     {
       "id": "emilkowalski/animate-expo",
       "name": "animate-expo",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animate-expo.json"
       },
@@ -723,15 +723,15 @@
     {
       "id": "emilkowalski/find-animation-opportunities",
       "name": "find-animation-opportunities",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
       },
@@ -740,15 +740,15 @@
     {
       "id": "emilkowalski/improve-animations",
       "name": "improve-animations",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/improve-animations.json"
       },
@@ -1212,7 +1212,7 @@
     "architecture-diagram": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "cathrynlavery/diagram-design",
@@ -3392,27 +3392,19 @@
     "timeline-animation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-animation",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate",
+        "contributor": "emilkowalski"
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-keyframes",
-        "contributor": "heygen-com"
-      },
-      {
-        "origin": true,
-        "level": "3★",
-        "status": "named",
-        "redacted": false,
-        "id": "heygen-com/motion-graphics",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate-expo",
+        "contributor": "emilkowalski"
       }
     ],
     "token-observability": [
@@ -3462,11 +3454,19 @@
     "ui-audit": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "leonxlnx/redesign-skill",
-        "contributor": "leonxlnx"
+        "id": "emilkowalski/find-animation-opportunities",
+        "contributor": "emilkowalski"
+      },
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/improve-animations",
+        "contributor": "emilkowalski"
       }
     ],
     "ui-red-teaming": [

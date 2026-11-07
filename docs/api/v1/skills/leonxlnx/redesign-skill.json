@@ -25,7 +25,7 @@
   },
   "title": "Redesign Skill",
   "genericSkillRef": "ui-audit",
-  "origin": true,
+  "origin": false,
   "description": "Systematic UI/UX audit and overhaul workflow for existing web codebases, diagnosing AI layout anti-patterns and applying non-breaking redesigns.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
