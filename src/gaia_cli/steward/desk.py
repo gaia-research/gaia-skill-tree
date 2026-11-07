@@ -439,6 +439,39 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
     if kind == "trust_stamp_stale":
         pure = sum(1 for item in ordered if item.observed_state.get("recomputationOnly") is True)
         governed = count - pure
+
+        def held(reason: str) -> int:
+            return sum(
+                1 for item in ordered
+                if item.observed_state.get("recomputationOnly") is not True
+                and reason in (item.observed_state.get("holdReasons") or ())
+            )
+
+        recorded = sum(
+            1 for item in ordered
+            if item.observed_state.get("recomputationOnly") is not True and item.observed_state.get("holdReasons")
+        )
+        parts = []
+        if pure:
+            parts.append(
+                f"{pure} stamp(s) are recomputation-only: have a Verifier run "
+                "`gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed "
+                "PR (the backstop; the verb holds anything that is not safe and never writes a star level)."
+            )
+        if governed:
+            detail = (
+                f"{held('level-disagrees-with-computed-grade')} with a computed grade that disagrees with the "
+                f"stored level, {held('stored-grade-differs-from-computed-grade')} whose refresh would rewrite "
+                f"the stored grade, {held('stored-grade-missing')} with no stored grade to preserve"
+            )
+            unknown = governed - recorded
+            if unknown:
+                detail += f", {unknown} with no recorded hold reason"
+            parts.append(
+                f"{governed} stamp(s) are governed ({detail}): the refresh is held, no write command is "
+                "recommended, and any level or grade change belongs to trust calibration governance (#2148)."
+            )
+        recommended = " ".join(parts)
         return DeskDecision(
             decision_id=identity,
             decision=(
@@ -453,14 +486,7 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
                 "stamps."
             ),
             evidence=tuple(_generic_evidence(ordered)),
-            recommended=(
-                f"{pure} stamp(s) are recomputation-only: have a Verifier run "
-                "`gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed "
-                "PR (the backstop; no star level can move). "
-                f"{governed} stamp(s) are not: their computed grade disagrees with the stored "
-                "level, so the refresh is held and the level change belongs to trust calibration "
-                "governance (#2148)."
-            ),
+            recommended=recommended,
             alternative=(
                 "Declare stored stamps historical snapshots and exclude them from drift detection."
             ),

@@ -11,18 +11,21 @@ from pathlib import Path
 
 import pytest
 import yaml
+from types import SimpleNamespace
 
 from gaia_cli.commands.dev import calibrate as calibrate_module
 from gaia_cli.commands.dev.evidence import meta_evidence_command
+from gaia_cli import trustMagnitude as trust_magnitude_module
 from gaia_cli.trustMagnitude import computeTrustMagnitudeInputHash
 from gaia_cli.trustRestamp import (
     RestampVerificationError,
     namedTrustSnapshot,
     protectedState,
+    _restampLocked,
     restampAfterEvidenceChange,
     verifyRestamp,
 )
-from tests.test_trust_restamp import _evidence, _read, _set, _stale, registry  # noqa: F401 (fixture)
+from tests.test_trust_restamp import _evidence, _named, _read, _set, _stale, _stamp, registry  # noqa: F401 (fixture)
 
 pytestmark = [pytest.mark.integration]
 
@@ -248,3 +251,229 @@ def test_a_pending_canonical_transaction_blocks_a_direct_restamp(registry) -> No
         restampAfterEvidenceChange(str(root), before, trigger="test", targetId="parent")
 
     assert registry["pure"].read_bytes() == snapshot
+
+
+# --- second review: the writer boundary, partial stamps, fingerprints ---------------------------
+
+
+def _intruder(registry: dict, monkeypatch) -> dict:
+    """Make the operator unauthorized: a Verifier exists and the caller is not one."""
+    root = registry["root"]
+    (root / "registry" / "named-skills.json").write_text(
+        json.dumps({"buckets": {"x": [{"contributor": "boss", "level": "4★"}]}}), encoding="utf-8"
+    )
+    monkeypatch.setattr("gaia_cli.authz._gaia_user", lambda: "intruder")
+    monkeypatch.delenv("GAIA_OPERATOR_OVERRIDE", raising=False)
+    return {key: path.read_bytes() for key, path in registry.items() if key != "root"}
+
+
+def _verb(root: Path, **overrides) -> SimpleNamespace:
+    base = dict(
+        registry=str(root), skill=["acme/pure"], all=False, dry_run=False, yes=True, no_build=True,
+        refresh_apex=False, recomputation_only=True, restamp_trigger="direct",
+    )
+    base.update(overrides)
+    return SimpleNamespace(**base)
+
+
+@pytest.mark.parametrize("overrides", [
+    {},
+    {"skill": None, "all": True},
+    {"recomputation_only": False},
+])
+def test_the_writer_itself_refuses_an_unauthorized_operator_and_writes_nothing(registry, monkeypatch, overrides) -> None:
+    root = registry["root"]
+    _set(registry["pure"], trustMagnitude=1.0)  # stale: the writer would change it if it ran
+    snapshot = _intruder(registry, monkeypatch)
+    snapshot["pure"] = registry["pure"].read_bytes()
+
+    with pytest.raises(SystemExit) as raised:
+        calibrate_module.calibrate_trust_magnitude_command(_verb(root, **overrides))
+
+    assert raised.value.code == 1
+    assert {key: path.read_bytes() for key, path in registry.items() if key != "root"} == snapshot
+    assert _read(registry["pure"])["trustMagnitude"] == 1.0
+
+
+def test_the_restamp_body_itself_refuses_an_unauthorized_operator(registry, monkeypatch) -> None:
+    root = registry["root"]
+    before = _moved(registry)
+    snapshot = _intruder(registry, monkeypatch)
+    monkeypatch.setattr(
+        calibrate_module, "calibrate_trust_magnitude_command",
+        lambda args: pytest.fail("the writer must not run for an unauthorized caller"),
+    )
+
+    with pytest.raises(SystemExit) as raised:
+        _restampLocked(str(root), before, trigger="direct", targetId="parent", dryRun=False)
+
+    assert raised.value.code == 1
+    assert {key: path.read_bytes() for key, path in registry.items() if key != "root"} == snapshot
+
+
+def test_the_writer_keeps_its_preflights_for_an_authorized_operator(registry) -> None:
+    root = registry["root"]
+    with pytest.raises(SystemExit):
+        calibrate_module.calibrate_trust_magnitude_command(_verb(root, skill=["acme/frozen"]))  # frozen: refused
+    with pytest.raises(SystemExit):
+        calibrate_module.calibrate_trust_magnitude_command(_verb(root, skill=["acme/missing"]))  # unknown: refused
+
+
+def test_the_writer_holds_the_canonical_lock_when_called_directly(registry, monkeypatch) -> None:
+    from gaia_cli import canonicalTransaction
+
+    taken: list[str] = []
+    original = canonicalTransaction.canonicalTransactionLock
+
+    @contextlib.contextmanager
+    def spy(path):
+        taken.append(str(path))
+        with original(path):
+            yield
+
+    monkeypatch.setattr(canonicalTransaction, "canonicalTransactionLock", spy)
+    _set(registry["pure"], trustMagnitude=1.0)
+
+    result = calibrate_module.calibrate_trust_magnitude_command(_verb(registry["root"]))
+
+    assert str(registry["root"]) in taken and result["changed"] == ["acme/pure"]
+
+
+def test_a_pending_transaction_blocks_the_writer_when_called_directly(registry) -> None:
+    from gaia_cli.canonicalTransaction import TransactionError
+
+    root = registry["root"]
+    state = root / ".gaia" / "canonical-transactions"
+    state.mkdir(parents=True, exist_ok=True)
+    (state / "x.pending.json").write_text("{}", encoding="utf-8")
+    _set(registry["pure"], trustMagnitude=1.0)
+    snapshot = registry["pure"].read_bytes()
+
+    with pytest.raises(TransactionError):
+        calibrate_module.calibrate_trust_magnitude_command(_verb(root))
+
+    assert registry["pure"].read_bytes() == snapshot
+
+
+def test_a_partial_stamp_never_gains_a_grade_through_the_restamp(registry, capsys) -> None:
+    root = registry["root"]
+    _strip(registry["pure"], "overallTrustGrade")  # TM and hash remain; level 3★ agrees with the computed grade B
+    before = registry["pure"].read_bytes()
+
+    meta_evidence_command(_evidence(root, "parent"))
+
+    assert registry["pure"].read_bytes() == before
+    assert "overallTrustGrade" not in _read(registry["pure"])
+    assert "HELD acme/pure" in capsys.readouterr().out
+    stamp = _stale(root)["acme/pure"]
+    assert stamp["holdReasons"] == ["stored-grade-missing"] and "restampCommand" not in stamp
+
+
+def test_the_verb_holds_a_partial_stamp_under_recomputation_only(registry) -> None:
+    _strip(registry["pure"], "overallTrustGrade")
+    _set(registry["pure"], trustMagnitude=1.0)
+    before = registry["pure"].read_bytes()
+
+    result = calibrate_module.calibrate_trust_magnitude_command(_verb(registry["root"]))
+
+    assert result["changed"] == [] and result["held"][0]["holdReasons"] == ["stored-grade-missing"]
+    assert registry["pure"].read_bytes() == before
+
+
+def test_verification_compares_the_stored_grade_including_none(registry) -> None:
+    root = registry["root"]
+    _strip(registry["pure"], "overallTrustGrade")
+    guarded = protectedState(str(root))
+    _stamp(root, registry["pure"])  # a writer that introduced a grade where there was none
+
+    with pytest.raises(RestampVerificationError, match=r"stored grade changed None -> 'B'"):
+        verifyRestamp(str(root), ["acme/pure"], guarded)
+
+
+def _breakable(registry: dict, monkeypatch) -> dict:
+    """A stamped named skill whose fingerprint can be made to fail on demand."""
+    root = registry["root"]
+    path = _named(root, "acme/broken", level="3★", parent="parent")
+    _stamp(root, path)
+    state = {"fail": False}
+    real = trust_magnitude_module.computeTrustMagnitude
+
+    def flaky(skill, *args, **kwargs):
+        if state["fail"] and skill.get("id") == "acme/broken":
+            raise ValueError("simulated fingerprint failure")
+        return real(skill, *args, **kwargs)
+
+    monkeypatch.setattr(trust_magnitude_module, "computeTrustMagnitude", flaky)
+    state["path"] = path
+    return state
+
+
+def test_a_fingerprint_that_fails_before_the_write_is_held_and_reported(registry, monkeypatch) -> None:
+    root = registry["root"]
+    state = _breakable(registry, monkeypatch)
+    state["fail"] = True
+    before = namedTrustSnapshot(str(root))
+    assert before.unevaluable == ("acme/broken",) and "acme/broken" not in before
+    state["fail"] = False
+    meta_evidence_command(_evidence(root, "parent", no_restamp=True))
+    broken_bytes = state["path"].read_bytes()
+
+    report = restampAfterEvidenceChange(str(root), before, trigger="test", targetId="parent")
+
+    held = {item["skillId"]: item for item in report.held}
+    assert "before the evidence write" in held["acme/broken"]["reason"]
+    assert state["path"].read_bytes() == broken_bytes
+    assert "acme/broken" in report.unevaluable
+    assert report.restamped == ("acme/pure",) and report.verified  # evaluable skills are still handled
+
+
+def test_a_fingerprint_that_fails_after_the_write_fails_closed_before_any_stamp_is_written(registry, monkeypatch) -> None:
+    root = registry["root"]
+    state = _breakable(registry, monkeypatch)
+    before = namedTrustSnapshot(str(root))
+    assert "acme/broken" in before
+    meta_evidence_command(_evidence(root, "parent", no_restamp=True))
+    snapshot = {key: path.read_bytes() for key, path in registry.items() if key != "root"}
+    broken_bytes = state["path"].read_bytes()
+    state["fail"] = True
+
+    # Origin standings (a protected input) cannot be derived with a failing skill, so nothing is written.
+    with pytest.raises(RestampVerificationError, match="cannot derive Origin standings"):
+        restampAfterEvidenceChange(str(root), before, trigger="test", targetId="parent")
+
+    assert state["path"].read_bytes() == broken_bytes
+    assert {key: path.read_bytes() for key, path in registry.items() if key != "root"} == snapshot
+
+
+def test_an_unfingerprintable_skill_with_no_stamp_is_reported_but_not_held(registry, monkeypatch) -> None:
+    root = registry["root"]
+    state = _breakable(registry, monkeypatch)
+    _strip(state["path"], "trustMagnitude", "overallTrustGrade", "trustMagnitudeInputHash")
+    state["fail"] = True
+    before = namedTrustSnapshot(str(root))
+    state["fail"] = False
+    meta_evidence_command(_evidence(root, "parent", no_restamp=True))
+
+    report = restampAfterEvidenceChange(str(root), before, trigger="test", targetId="parent")
+
+    assert "acme/broken" in report.unevaluable
+    assert "acme/broken" not in {item["skillId"] for item in report.held}
+
+
+def test_a_skill_that_changes_evaluability_during_the_restamp_fails_verification(registry, monkeypatch) -> None:
+    root = registry["root"]
+    state = _breakable(registry, monkeypatch)
+    before = _moved(registry)
+    real = calibrate_module.calibrate_trust_magnitude_command
+
+    def write(args):
+        result = real(args)
+        state["fail"] = True  # the fingerprint now fails after the writer ran
+        # Origin derivation would also fail; isolate the evaluability comparison.
+        monkeypatch.setattr("gaia_cli.origin.registryOrigins", lambda pool: {})
+        return result
+
+    monkeypatch.setattr(calibrate_module, "calibrate_trust_magnitude_command", write)
+
+    with pytest.raises(RestampVerificationError, match="evaluability changed"):
+        restampAfterEvidenceChange(str(root), before, trigger="test", targetId="parent")

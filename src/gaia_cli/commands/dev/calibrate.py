@@ -293,6 +293,22 @@ def calibrate_evidence_grades_command(args):
 
 
 def calibrate_trust_magnitude_command(args):
+    """Guarded writer boundary: authorize and lock, then refresh (see the body below).
+
+    The CLI dispatcher already requires an operator and holds the canonical lock
+    for ``gaia dev calibrate-trust-magnitude``; this repeats both here (the lock
+    is re-entrant) so a direct call of the handler, such as the event-driven
+    restamp, cannot write the registry unauthorized or outside the transaction.
+    """
+    from gaia_cli.authz import require_operator
+    from gaia_cli.canonicalTransaction import canonicalTransactionLock
+
+    require_operator("dev calibrate-trust-magnitude", args.registry)
+    with canonicalTransactionLock(args.registry):
+        return _calibrateTrustMagnitudeLocked(args)
+
+
+def _calibrateTrustMagnitudeLocked(args):
     """Refresh cached trustMagnitude/overallTrustGrade/trustMagnitudeInputHash
     frontmatter fields from the canonical computeTrustMagnitude pipeline (Issue #1600).
 
@@ -418,20 +434,22 @@ def calibrate_trust_magnitude_command(args):
         new_hash = computeTrustMagnitudeInputHash(skill_data)
 
         if recomputation_only:
-            from gaia_cli.trustRestamp import isRecomputationOnly
+            from gaia_cli.trustRestamp import holdReasons
 
-            if not isRecomputationOnly(skill_data.get("level"), new_grade, skill_data.get("overallTrustGrade")):
+            reasons = holdReasons(skill_data.get("level"), new_grade, skill_data.get("overallTrustGrade"))
+            if reasons:
                 print(
-                    f"  {skill_id}: HELD (computed grade {new_grade} disagrees with stored level "
-                    f"{skill_data.get('level')} or would rewrite stored grade "
-                    f"{skill_data.get('overallTrustGrade')}; not a recomputation, stamp left unchanged)"
+                    f"  {skill_id}: HELD ({', '.join(reasons)}; computed grade {new_grade}, stored level "
+                    f"{skill_data.get('level')}, stored grade {skill_data.get('overallTrustGrade')}; "
+                    "not a recomputation, stamp left unchanged)"
                 )
                 held.append({
                     "skillId": skill_id,
                     "storedLevel": skill_data.get("level"),
                     "storedGrade": skill_data.get("overallTrustGrade"),
                     "computedGrade": new_grade,
-                    "reason": "computed grade disagrees with the stored level or would rewrite the stored grade: a governed trust question, not a recomputation",
+                    "holdReasons": reasons,
+                    "reason": f"not a pure recomputation ({', '.join(reasons)}): a governed trust question",
                 })
                 continue
 

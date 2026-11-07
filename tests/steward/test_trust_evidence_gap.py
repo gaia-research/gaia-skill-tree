@@ -438,3 +438,57 @@ def test_discovery_is_deterministic(tmp_path: Path) -> None:
     first = buildDiscoveryReceipt(_log(), repoRoot=repo, generatedAt=NOW)
     second = buildDiscoveryReceipt(_log(), repoRoot=repo, generatedAt=NOW)
     assert first == second and first["receiptId"].startswith("discovery-")
+
+
+# --- stale-stamp desk commands: only safe cases get a write command (review of #2323) ----------
+
+
+def _stampDebt(name: str, *, safe: bool, reasons: list[str] | None = None) -> Debt:
+    state = {"recomputationOnly": safe, "holdReasons": reasons or []}
+    return replace(_debt("trust_stamp_stale", name), observed_state=state)
+
+
+def _stampDesk(*debts: Debt):
+    return build_desk(
+        open_debts=debts, founder_queue=FounderQueue.create(()), lane=Lane(entries=(), policy=StewardPolicy.load(REPO_ROOT).lane),
+        coverage_unknown=(), not_evaluated=(), decision_records=(),
+        ledger_shared=True, last_scheduled_run_at="2026-11-07T00:00:00Z", now=NOW,
+    )
+
+
+def test_the_desk_recommends_the_restricted_command_only_when_a_safe_stamp_exists() -> None:
+    safe = _stampDebt("owner/a", safe=True)
+    governed = _stampDebt("owner/b", safe=False, reasons=["level-disagrees-with-computed-grade"])
+
+    (mixed,) = _stampDesk(safe, governed).decisions
+    (only_safe,) = _stampDesk(safe).decisions
+    (only_governed,) = _stampDesk(governed).decisions
+
+    restricted = "gaia dev calibrate-trust-magnitude --all --recomputation-only"
+    assert restricted in mixed.recommended and restricted in only_safe.recommended
+    # A governed-only desk item carries no write command at all.
+    assert "calibrate-trust-magnitude" not in only_governed.recommended
+    assert "no write command is recommended" in only_governed.recommended
+    # Whatever command is recommended is never the unrestricted form.
+    for decision in (mixed, only_safe):
+        assert decision.recommended.count("calibrate-trust-magnitude") == decision.recommended.count(restricted)
+
+
+def test_the_desk_describes_every_kind_of_governed_hold() -> None:
+    debts = [
+        _stampDebt("owner/level", safe=False, reasons=["level-disagrees-with-computed-grade"]),
+        _stampDebt("owner/rewrite", safe=False, reasons=["stored-grade-differs-from-computed-grade"]),
+        _stampDebt("owner/missing", safe=False, reasons=["stored-grade-missing"]),
+        _stampDebt("owner/both", safe=False, reasons=["level-disagrees-with-computed-grade", "stored-grade-differs-from-computed-grade"]),
+        replace(_debt("trust_stamp_stale", "owner/unknown"), observed_state={}),
+    ]
+
+    (decision,) = _stampDesk(*debts).decisions
+
+    text = decision.recommended
+    assert "5 stamp(s) are governed" in text
+    assert "2 with a computed grade that disagrees with the stored level" in text
+    assert "2 whose refresh would rewrite the stored grade" in text
+    assert "1 with no stored grade to preserve" in text
+    assert "1 with no recorded hold reason" in text
+    assert "#2148" in text

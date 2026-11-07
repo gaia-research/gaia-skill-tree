@@ -31,7 +31,7 @@ from gaia_cli.trustMagnitude import (
     computeTrustMagnitude,
     computeTrustMagnitudeInputHash,
 )
-from gaia_cli.trustRestamp import isRecomputationOnly, sensorStampTolerance, targetLevelByGrade
+from gaia_cli.trustRestamp import holdReasons, sensorStampTolerance, targetLevelByGrade
 
 
 
@@ -1766,8 +1766,11 @@ class TrustCalibrationDriftSensor:
 
             # #1642 detection only: a live star/evidence refresh moves the
             # computed stamp inputs without re-stamping the frontmatter. This is a
-            # separate finding; it never feeds the calibration logic below. TM
-            # staleness uses the rounding-noise tolerance; a stored grade that
+            # separate finding; it never feeds the calibration logic below. Only
+            # stamp fields the record carries are judged (a partial stamp is judged
+            # on what it has). TM staleness uses the 0.02 rounding-noise tolerance
+            # (the restamp verifier is stricter, 0.005, so a stamp off by rounding
+            # alone is not debt); a stored grade that
             # disagrees with the computed grade, or an own-input hash that no
             # longer matches, is stale even when TM did not move (evidence-type
             # diversity and the independent witness move the grade with TM fixed).
@@ -1787,6 +1790,7 @@ class TrustCalibrationDriftSensor:
                 stale_fields.append("trustMagnitudeInputHash")
             if stale_fields:
                 has_tm = isinstance(stored_tm, (int, float)) and not isinstance(stored_tm, bool)
+                hold_reasons = holdReasons(skill.get("level"), grade, stored_grade)
                 current_stamp: dict[str, Any] = {}
                 if has_tm:
                     current_stamp["trustMagnitude"] = round(float(stored_tm), 2)
@@ -1813,8 +1817,23 @@ class TrustCalibrationDriftSensor:
                         # stamp is recomputation-only when the computed grade
                         # still agrees with the stored star level and the refresh
                         # would not rewrite the stored grade.
-                        "recomputationOnly": isRecomputationOnly(skill.get("level"), grade, stored_grade),
-                        "restampCommand": f"gaia dev calibrate-trust-magnitude --skill {skill_id}",
+                        "recomputationOnly": not hold_reasons,
+                        # Why a refresh is held (empty when it is safe): the level
+                        # disagrees with the computed grade, the stamp has no grade
+                        # (a refresh would introduce one), or the stored grade
+                        # differs (a refresh would rewrite it).
+                        "holdReasons": hold_reasons,
+                        # A write command is recommended only for the safe case, and
+                        # always restricted: governed cases get none.
+                        **(
+                            {}
+                            if hold_reasons
+                            else {
+                                "restampCommand": (
+                                    f"gaia dev calibrate-trust-magnitude --skill {skill_id} --recomputation-only"
+                                )
+                            }
+                        ),
                     },
                     confidence=1.0,
                     provenance={"path": relative},

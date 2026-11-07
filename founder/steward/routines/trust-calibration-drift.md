@@ -53,22 +53,34 @@ routine in `trust-evidence-gap.md`.
 differs from the computed grade, or a `trustMagnitudeInputHash` that no longer
 matches (`observedState.staleFields` names which), so grade-only and hash-only
 staleness is caught even when TM did not move. Each finding carries
-`recomputationOnly`: true when the computed grade still agrees with the stored star
-level and the refresh would not rewrite the stored grade.
+`recomputationOnly`, true only when the computed grade agrees with the stored star
+level **and** the stamp already stores that exact grade, and `holdReasons`, which
+names every reason a refresh is held: `level-disagrees-with-computed-grade`,
+`stored-grade-differs-from-computed-grade` (a refresh would rewrite the grade) and
+`stored-grade-missing` (a partial stamp: a refresh would introduce a grade). A
+finding carries a `restampCommand` only when it is safe, and that command always
+includes `--recomputation-only`; a governed finding gets no write command. Only the
+stamp fields a record carries are judged, and TM staleness uses the 0.02
+rounding-noise tolerance (the restamp verifier is stricter, 0.005), so a stamp off by
+rounding alone is not debt.
 
 - **Event-driven.** `gaia dev evidence` and `gaia dev rm-evidence` measure computed
   Trust Magnitude before and after the write and restamp only the skills it
   moved (plus the skill written directly), inside the same invocation and PR. The
   refresh calls the handler of the existing `gaia dev calibrate-trust-magnitude`
-  verb with `--recomputation-only` through one shared write boundary
-  (`src/gaia_cli/trustRestamp.py`) that enforces `require_operator` and the
-  canonical transaction lock itself, so a direct call cannot bypass them. The verb
+  verb with `--recomputation-only`. Authorization and the canonical transaction lock
+  are enforced at the writer itself (`calibrate_trust_magnitude_command`) and again at
+  the restamp body (`src/gaia_cli/trustRestamp.py`), both re-entrant under the CLI
+  dispatcher, so no direct call can write the registry unauthorized or outside the
+  transaction; the verb keeps its preflights (frozen, unknown skill). The verb
   writes the three derived stamp fields and one `recalibrate_trust_magnitude`
   timeline event, and never a star level. Affected skills are found by a
   before/after fingerprint of TM, computed grade and own-input hash. A skill is
-  **held** (stamp stays stale, finding stays Class C) when its computed grade
-  disagrees with its level or the refresh would rewrite its stored grade. Frozen
-  skills are never touched. Afterwards the registry is re-read from disk and every
+  **held** (stamp stays stale, finding stays Class C) for any hold reason above,
+  including a partial stamp with no grade. A named skill whose fingerprint cannot be
+  computed before or after the write is held and reported (never silently skipped),
+  and a failure that stops Origin standings being derived fails the restamp closed
+  before anything is written. Frozen skills are never touched. Afterwards the registry is re-read from disk and every
   intended target must carry all three stamp fields, matching, while every level,
   computed grade, frozen state, Origin standing and non-target record is unchanged;
   `--no-restamp` opts out.

@@ -58,7 +58,7 @@ def _restampAfter(args, before, trigger, targetId) -> None:
     except RestampVerificationError as exc:
         print(f"Error: event-driven restamp failed independent verification: {exc}", file=sys.stderr)
         sys.exit(1)
-    if not (report.affected or report.held):
+    if not (report.affected or report.held or report.unevaluable):
         return
     print(
         f"Trust stamp restamp (event-driven, #1642): {len(report.affected)} affected, "
@@ -68,8 +68,14 @@ def _restampAfter(args, before, trigger, targetId) -> None:
     for item in report.held:
         print(
             f"  HELD {item['skillId']}: {item['reason']} "
-            f"(level {item['storedLevel']}, computed grade {item['computedGrade']}). "
-            "Stamp left stale; it stays a Class C trust_stamp_stale finding."
+            f"(level {item['storedLevel']}, stored grade {item.get('storedGrade')}, "
+            f"computed grade {item['computedGrade']}). Stamp left unchanged; "
+            "it stays a Class C trust_stamp_stale finding."
+        )
+    if report.unevaluable:
+        print(
+            f"  WARNING: {len(report.unevaluable)} named skill(s) could not be fingerprinted "
+            f"({', '.join(report.unevaluable[:5])}); affected status is unproven for any that carry a stamp."
         )
 
 

@@ -69,19 +69,37 @@ class RestampVerificationError(RuntimeError):
     """A restamp left something other than a clean, level-preserving refresh."""
 
 
-def isRecomputationOnly(storedLevel: Any, computedGrade: str, storedGrade: Any = None) -> bool:
-    """True when refreshing the stamp cannot change what the skill is rated.
+def holdReasons(storedLevel: Any, computedGrade: str, storedGrade: Any) -> list[str]:
+    """Why a refresh is not a pure recomputation (empty when it is).
 
-    The computed grade still agrees with the stored star level, and the grade
-    the refresh would write equals the grade already stored in the stamp (when
-    the stamp carries one). A skill whose computed grade disagrees with its
-    level, or whose refresh would rewrite the stored grade, is a calibration
-    question (Class C), never a refresh.
+    * ``level-disagrees-with-computed-grade``: the computed grade supports a
+      different star level than the one stored (a calibration question).
+    * ``stored-grade-missing``: the stamp carries no grade, so a refresh would
+      introduce one (grade movement from nothing).
+    * ``stored-grade-differs-from-computed-grade``: a refresh would rewrite the
+      grade the stamp already stores.
     """
 
-    if storedGrade is not None and storedGrade != computedGrade:
-        return False
-    return targetLevelByGrade.get(computedGrade) == storedLevel
+    reasons: list[str] = []
+    if targetLevelByGrade.get(computedGrade) != storedLevel:
+        reasons.append("level-disagrees-with-computed-grade")
+    if storedGrade is None:
+        reasons.append("stored-grade-missing")
+    elif storedGrade != computedGrade:
+        reasons.append("stored-grade-differs-from-computed-grade")
+    return reasons
+
+
+def isRecomputationOnly(storedLevel: Any, computedGrade: str, storedGrade: Any) -> bool:
+    """True when refreshing the stamp cannot change what the skill is rated.
+
+    The computed grade agrees with the stored star level, **and** the stamp
+    already stores exactly that grade. ``storedGrade`` is required and ``None``
+    is a hold: a partial stamp must never gain an ``overallTrustGrade`` through a
+    "recomputation". The Steward sensor and the verb share this one function.
+    """
+
+    return not holdReasons(storedLevel, computedGrade, storedGrade)
 
 
 def hasStamp(skill: Mapping[str, Any]) -> bool:
@@ -161,12 +179,26 @@ def _fingerprints(skillMap: Mapping[str, Mapping[str, Any]]) -> tuple[dict[str, 
     return values, unevaluable
 
 
-def namedTrustSnapshot(registryPath: str = ".") -> dict[str, TrustFingerprint]:
-    """Fingerprint of every evaluable named skill, read-only."""
+class TrustSnapshot(dict):
+    """``{skill id: TrustFingerprint}`` plus the named skills whose fingerprint failed.
+
+    A skill that cannot be fingerprinted is never silently dropped: its id is kept
+    in ``unevaluable`` so the restamp can hold or report it instead of treating it
+    as unaffected.
+    """
+
+    unevaluable: tuple[str, ...] = ()
+
+
+def namedTrustSnapshot(registryPath: str = ".") -> TrustSnapshot:
+    """Fingerprint of every named skill, read-only; failures are kept, not dropped."""
 
     from gaia_cli.registryMaps import buildMergedSkillMap
 
-    return _fingerprints(buildMergedSkillMap(registryPath))[0]
+    values, unevaluable = _fingerprints(buildMergedSkillMap(registryPath))
+    snapshot = TrustSnapshot(values)
+    snapshot.unevaluable = tuple(unevaluable)
+    return snapshot
 
 
 @dataclass(frozen=True)
@@ -179,6 +211,7 @@ class ProtectedState:
     frozen: frozenset
     origins: Mapping[str, frozenset]
     digests: Mapping[str, str]
+    unevaluable: frozenset = frozenset()
 
 
 def _recordDigests(registryPath: str) -> dict[str, str]:
@@ -213,7 +246,7 @@ def protectedState(registryPath: str) -> ProtectedState:
 
     skillMap = buildMergedSkillMap(registryPath)
     named = _namedSkills(skillMap)
-    fingerprints, _ = _fingerprints(skillMap)
+    fingerprints, unevaluable = _fingerprints(skillMap)
     try:
         origins = {ref: frozenset(holders) for ref, holders in registryOrigins(contenderPool(registryPath, skillMap)).items()}
     except ValueError as exc:
@@ -225,6 +258,7 @@ def protectedState(registryPath: str) -> ProtectedState:
         frozen=frozenset(frozenIds(named.values())),
         origins=origins,
         digests=_recordDigests(registryPath),
+        unevaluable=frozenset(unevaluable),
     )
 
 
@@ -294,15 +328,28 @@ def restampAfterEvidenceChange(
     taken before the evidence write.
     """
 
+    return _restampLocked(registryPath, before, trigger=trigger, targetId=targetId, dryRun=dryRun)
+
+
+def _restampLocked(
+    registryPath: str,
+    before: Mapping[str, TrustFingerprint],
+    *,
+    trigger: str,
+    targetId: str | None,
+    dryRun: bool,
+) -> RestampReport:
+    """The guarded restamp body: it authorizes and locks itself, so no caller can skip either."""
+
     from gaia_cli.authz import require_operator
     from gaia_cli.canonicalTransaction import canonicalTransactionLock
 
     require_operator("dev restamp-trust", registryPath)
     with canonicalTransactionLock(registryPath):
-        return _restampLocked(registryPath, before, trigger=trigger, targetId=targetId, dryRun=dryRun)
+        return _restampBody(registryPath, before, trigger=trigger, targetId=targetId, dryRun=dryRun)
 
 
-def _restampLocked(
+def _restampBody(
     registryPath: str,
     before: Mapping[str, TrustFingerprint],
     *,
@@ -319,6 +366,14 @@ def _restampLocked(
     named = _namedSkills(skillMap)
     frozen = frozenIds(named.values())
     affected = affectedSkillIds(before, after, targetId)
+    # A skill whose fingerprint could not be computed before OR after the write
+    # cannot be proven unaffected. It is held and reported, never skipped silently.
+    unproven = sorted(
+        (set(getattr(before, "unevaluable", ())) | set(unevaluable)
+         | {skillId for skillId in after if skillId not in before}
+         | {skillId for skillId in before if skillId not in after})
+        & set(named)
+    )
 
     toRestamp: list[str] = []
     current: list[str] = []
@@ -326,7 +381,20 @@ def _restampLocked(
     frozenSkipped: list[str] = []
     held: list[dict[str, Any]] = []
     levels: dict[str, Any] = {}
+    for skillId in unproven:
+        if skillId in frozen or not hasStamp(named[skillId]):
+            continue
+        side = "before" if skillId in getattr(before, "unevaluable", ()) or skillId not in before else "after"
+        held.append({
+            "skillId": skillId,
+            "storedLevel": named[skillId].get("level"),
+            "storedGrade": named[skillId].get("overallTrustGrade"),
+            "computedGrade": None,
+            "reason": f"fingerprint could not be computed {side} the evidence write: affected status is unproven, so the stamp is left unchanged",
+        })
     for skillId in affected:
+        if skillId in unproven:
+            continue
         skill = named[skillId]
         if skillId in frozen:
             frozenSkipped.append(skillId)
@@ -338,13 +406,15 @@ def _restampLocked(
         if not stampIsStale(skill, now.tm, now.grade, now.inputHash):
             current.append(skillId)
             continue
-        if not isRecomputationOnly(skill.get("level"), now.grade, skill.get("overallTrustGrade")):
+        reasons = holdReasons(skill.get("level"), now.grade, skill.get("overallTrustGrade"))
+        if reasons:
             held.append({
                 "skillId": skillId,
                 "storedLevel": skill.get("level"),
                 "storedGrade": skill.get("overallTrustGrade"),
                 "computedGrade": now.grade,
-                "reason": "computed grade disagrees with the stored level or would rewrite the stored grade: a governed trust question, not a recomputation",
+                "holdReasons": reasons,
+                "reason": f"not a pure recomputation ({', '.join(reasons)}): a governed trust question",
             })
             continue
         toRestamp.append(skillId)
@@ -384,7 +454,7 @@ def _restampLocked(
         current=tuple(current),
         unstamped=tuple(unstamped),
         frozen=tuple(frozenSkipped),
-        unevaluable=tuple(unevaluable),
+        unevaluable=tuple(sorted(set(unevaluable) | set(getattr(before, "unevaluable", ())))),
         held=tuple(held),
         verified=verified,
         levels=levels,
@@ -427,10 +497,11 @@ def verifyRestamp(
             for problem in stampProblems(skill, fingerprint.tm, fingerprint.grade, computeTrustMagnitudeInputHash(skill))
         ]
         previousGrade = guarded.storedGrades.get(skillId)
-        if previousGrade is not None and skill.get("overallTrustGrade") != previousGrade:
+        if skill.get("overallTrustGrade") != previousGrade:
             violations.append(f"{skillId}: stored grade changed {previousGrade!r} -> {skill.get('overallTrustGrade')!r}")
-        if not isRecomputationOnly(skill.get("level"), fingerprint.grade):
-            violations.append(f"{skillId}: computed grade {fingerprint.grade} no longer agrees with level {skill.get('level')!r}")
+        reasons = holdReasons(skill.get("level"), fingerprint.grade, previousGrade)
+        if reasons:
+            violations.append(f"{skillId}: restamp is not a pure recomputation ({', '.join(reasons)})")
         if guarded.digests.get(skillId) == now.digests.get(skillId):
             violations.append(f"{skillId}: record bytes are unchanged, so the intended write did not happen")
     for skillId, level in guarded.levels.items():
@@ -439,6 +510,8 @@ def verifyRestamp(
     for skillId, grade in guarded.computedGrades.items():
         if now.computedGrades.get(skillId) != grade:
             violations.append(f"{skillId}: computed grade moved {grade!r} -> {now.computedGrades.get(skillId)!r}")
+    if now.unevaluable != guarded.unevaluable:
+        violations.append(f"fingerprint evaluability changed during the restamp: {sorted(now.unevaluable ^ guarded.unevaluable)}")
     if now.frozen != guarded.frozen:
         violations.append(f"frozen set changed: {sorted(now.frozen ^ guarded.frozen)}")
     if now.origins != guarded.origins:

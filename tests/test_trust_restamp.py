@@ -31,6 +31,7 @@ from gaia_cli.trustRestamp import (
     RestampVerificationError,
     TrustFingerprint,
     affectedSkillIds,
+    holdReasons,
     isRecomputationOnly,
     namedTrustSnapshot,
     protectedState,
@@ -308,12 +309,17 @@ def test_the_all_form_without_the_flag_keeps_its_old_behaviour(registry) -> None
 
 
 def test_the_gate_is_the_one_the_sensor_stamps_on_every_finding() -> None:
-    assert isRecomputationOnly("3★", "B") and not isRecomputationOnly("2★", "B")
-    # The refresh may not rewrite the grade already stored in the stamp.
-    assert isRecomputationOnly("3★", "B", "B") and isRecomputationOnly("3★", "B", None)
+    assert isRecomputationOnly("3★", "B", "B") and not isRecomputationOnly("2★", "B", "B")
+    # The refresh may not rewrite the grade already stored, nor introduce one.
     assert not isRecomputationOnly("3★", "B", "A")
-    assert isRecomputationOnly("1★", "ungraded") and not isRecomputationOnly("4★", "S")
-    assert not isRecomputationOnly("6★", "S") and not isRecomputationOnly(None, "ungraded")
+    assert not isRecomputationOnly("3★", "B", None)
+    assert isRecomputationOnly("1★", "ungraded", "ungraded") and not isRecomputationOnly("4★", "S", "S")
+    assert not isRecomputationOnly("6★", "S", "S") and not isRecomputationOnly(None, "ungraded", "ungraded")
+    assert holdReasons("2★", "B", "B") == ["level-disagrees-with-computed-grade"]
+    assert holdReasons("3★", "B", None) == ["stored-grade-missing"]
+    assert holdReasons("3★", "B", "A") == ["stored-grade-differs-from-computed-grade"]
+    assert holdReasons("2★", "B", "A") == ["level-disagrees-with-computed-grade", "stored-grade-differs-from-computed-grade"]
+    assert holdReasons("3★", "B", "B") == []
 
 
 def _fp(tm: float, grade: str = "B", digest: str = "h") -> TrustFingerprint:
