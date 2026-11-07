@@ -658,14 +658,20 @@ def test_the_routine_guide_says_findings_are_configuration_not_runtime_timeouts(
 
 
 def test_unavailable_run_history_is_an_unconditional_stop() -> None:
-    """No semantics-only fallback anywhere in the policy envelope or the guide."""
+    """Unreadable history has no fallback of any kind.
+
+    The no-history default (decision steward-workflow-timeout-no-history-2283)
+    applies only when history WAS read and holds no successful run of the job;
+    it never stands in for history that could not be read.
+    """
 
     rule = _live_rule()
     joined = " ".join(rule.stop_conditions).lower()
     assert "history cannot be read" in joined
     assert "do not bound" not in joined and "semantics do not" not in joined
     guide = (REPO_ROOT / rule.prompt_guide).read_text(encoding="utf-8")
-    assert "there is no semantics-only fallback" in guide
+    assert "there is no semantics-only fallback for unreadable history" in guide
+    assert "History was read and the job has no successful run in it" in guide
     assert "does not bound" not in guide
 
 
