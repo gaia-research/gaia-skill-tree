@@ -1,5 +1,5 @@
 {
- "generation": 1611,
+ "generation": 1612,
  "lane": {
   "entries": [
    {
@@ -125919,6 +125919,15 @@
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "emittedAt": "2026-11-07T20:12:06.869150Z",
      "idempotencyKey": "dispatch-d216c83b661079e59258:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch10-builder-4e35681dda17",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.proof.json",
+      "summary": "Batch batch10 builder (openai/openai-codex gpt-6-luna medium, pi pane) ran exactly one gaia dev calibrate --no-build to the grade target (founder ruling F1 route); verb-written record only; commit 440dab731; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -125939,7 +125948,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T21:03:38.203779Z",
+     "status": "done",
      "stepId": "build:4e35681dda17:1",
      "type": "agent.build"
     },
@@ -126141,7 +126151,20 @@
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-batch10-builder-4e35681dda17",
+     "at": "2026-11-07T21:03:38.204029Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:4e35681dda17:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -126628,8 +126651,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 8 pending action(s) (agent.build), record each with `gaia steward full record run-20261107T200905Z-82a8d6bb <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T200905Z-82a8d6bb`",
    "options": {
     "afk": false,
@@ -127809,7 +127834,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.proof.json",
+     "stepId": "build:4e35681dda17:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -127854,11 +127886,11 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-07T20:12:06.869150Z",
+     "at": "2026-11-07T21:03:38.203779Z",
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "idempotencyKey": "dispatch-d216c83b661079e59258:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:4e35681dda17:1"
     },
     {
@@ -127918,15 +127950,18 @@
      "stepId": "build:a02ebafd4927:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-07T21:03:38.203779Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:25:06.972880Z",
+ "updatedAt": "2026-11-07T21:03:38.204840Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128112,12 +128147,33 @@
    }
   },
   "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch10-builder-4e35681dda17",
+     "at": "2026-11-07T21:03:38.204029Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:4e35681dda17:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/trust-calibration-drift-4e35681dda17",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch10-builder-4e35681dda17",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.diff",
+    "dispatchId": "dispatch-d216c83b661079e59258",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.proof.json",
+    "recordedAt": "2026-11-07T21:03:38.204029Z",
+    "summary": "Batch batch10 builder (openai/openai-codex gpt-6-luna medium, pi pane) ran exactly one gaia dev calibrate --no-build to the grade target (founder ruling F1 route); verb-written record only; commit 440dab731; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T20:12:06.869150Z",
    "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
    "dispatchId": "dispatch-d216c83b661079e59258",
@@ -128138,7 +128194,7 @@
    "runId": "run-20261107T200905Z-82a8d6bb",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-07T20:12:06.869150Z",
+   "updatedAt": "2026-11-07T21:03:38.204029Z",
    "verification": null
   },
   "debt:trust_calibration_drift:cathrynlavery-diagram-design:f97969b87df5be3c": {
