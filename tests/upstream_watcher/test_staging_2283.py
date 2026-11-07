@@ -1272,3 +1272,80 @@ def test_a_vanished_candidate_on_the_open_umbrella_keeps_its_older_umbrella_firs
     assert row["lastSeenVersion"] == "v2" and row["child"] == 77 and row["status"] == "tracked"
     assert "carriedFrom" not in row
     assert REPO not in journal.data["repos"]
+
+
+@pytest.mark.parametrize("unstaged", [None, "off"])
+def test_midcycle_rollback_from_staged_hold_to_unstaged_executes_cleanly_with_dormant_journal(tmp_path, unstaged, monkeypatch):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+
+    # Day 1: Run with weekly staging holding candidates in journalPath=str(tmp_path / "journal.json"), bootstrap=True, initialized=True.
+    report1, code1 = go(
+        gh,
+        [finding("v1", ["alpha", "transient_held"])],
+        weekly(TUE, journalPath=str(path), bootstrap=True, initialized=True),
+    )
+    assert code1 == 0
+    assert gh.write_count() == 0
+    assert report1["suites"][0]["outcome"] == "held"
+    assert path.is_file()
+
+    journal_day1 = st.Journal.load(path, initialized=True)
+    assert journal_day1.pendingSince(REPO) == TUE
+    assert "garrytan/gbrain:transient_held" in journal_day1.data["repos"][REPO]["candidates"]
+
+    journal_bytes_before = path.read_bytes()
+
+    # Instrument/monkeypatch st.Journal.load and st.Journal.save during the unstaged step
+    # to guarantee no journal operations occur during unstaged run.
+    load_calls = []
+    save_calls = []
+
+    def spy_load(*args, **kwargs):
+        load_calls.append((args, kwargs))
+        raise AssertionError("st.Journal.load was called during unstaged run")
+
+    def spy_save(*args, **kwargs):
+        save_calls.append((args, kwargs))
+        raise AssertionError("st.Journal.save was called during unstaged run")
+
+    monkeypatch.setattr(st.Journal, "load", spy_load)
+    monkeypatch.setattr(st.Journal, "save", spy_save)
+
+    # Day 2: Simulate operator rollback by running without staging (e.g. staging=None or mode="off", with the existing journal still on disk).
+    config2 = None if unstaged is None else st.StagingConfig(mode="off", now=WED, journalPath=str(path))
+    report2, code2 = go(gh, [finding("v2", ["alpha", "gamma"])], config2)
+    assert code2 == 0
+    assert gh.write_count() == 1
+    assert report2["issuesCreated"] == 1
+    assert report2["suites"][0]["outcome"] == "created"
+
+    # Guarantee no journal operations occurred during unstaged run.
+    assert load_calls == []
+    assert save_calls == []
+
+    umbrellas = open_umbrellas(gh)
+    assert len(umbrellas) == 1
+    assert umbrellas[0]["title"] == PREFIX + "v2"
+    rows = rows_of(gh)
+    assert "garrytan/gbrain:alpha" in rows and "garrytan/gbrain:gamma" in rows
+
+    # Assert that 'transient_held' is completely absent from the created umbrella/rows (proves journal was not replayed).
+    assert "garrytan/gbrain:transient_held" not in rows
+    assert "transient_held" not in umbrellas[0]["body"]
+
+    # Assert that 'alpha' has firstSeenVersion='v2' (proves it took the fresh finding, not journal's v1).
+    assert rows["garrytan/gbrain:alpha"]["firstSeenVersion"] == "v2"
+    assert rows["garrytan/gbrain:gamma"]["firstSeenVersion"] == "v2"
+
+    # Verify the unstaged run succeeds with exit code 0, creates the normal unstaged umbrella / findings on FakeGh,
+    # the report does not have active staging ("staging" not in report or staging mode is off/None), and dormant journal is untouched.
+    assert "staging" not in report2 or report2.get("staging") is None or report2["staging"].get("mode") in (None, "off")
+
+    # Verify file bytes remain identical on disk.
+    assert path.read_bytes() == journal_bytes_before
+
+    # Verify dormant journal on disk remains intact and valid when reloaded.
+    monkeypatch.undo()
+    assert st.Journal.load(path, initialized=True).pendingSince(REPO) == TUE
+
