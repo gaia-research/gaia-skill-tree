@@ -1,5 +1,5 @@
 {
- "generation": 1477,
+ "generation": 1478,
  "lane": {
   "entries": [
    {
@@ -115893,6 +115893,14 @@
      "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
      "emittedAt": "2026-11-07T15:00:18.665276Z",
      "idempotencyKey": "dispatch-567539e5f70ab51b1723:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch8-builder-2ab63c86d569",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T145403Z-b871b1e2/build-2ab63c86d569.proof.json",
+      "summary": "Batch batch8 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: attempt 2 re-confirmed: src/gaia_cli/embeddings.py is wildcard re-exported by packages/cli-npm/cli/embeddings.py, so the flagged imports may be public surface; removal not proven safe. Public-surface question for the founder."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -115913,7 +115921,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T145403Z-b871b1e2/build-2ab63c86d569.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T15:16:07.903609Z",
+     "status": "done",
      "stepId": "build:2ab63c86d569:2",
      "type": "agent.build"
     },
@@ -115975,7 +115984,20 @@
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-batch8-builder-2ab63c86d569",
+     "at": "2026-11-07T15:16:07.903800Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2ab63c86d569:2",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -116462,8 +116484,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 3 pending action(s) (agent.build), record each with `gaia steward full record run-20261107T145403Z-b871b1e2 <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T145403Z-b871b1e2`",
    "options": {
     "afk": false,
@@ -117481,7 +117505,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+     "diffPath": null,
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T145403Z-b871b1e2/build-2ab63c86d569.proof.json",
+     "stepId": "build:2ab63c86d569:2"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -117526,11 +117557,11 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-07T15:00:18.665276Z",
+     "at": "2026-11-07T15:16:07.903609Z",
      "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
      "idempotencyKey": "dispatch-567539e5f70ab51b1723:2",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:2ab63c86d569:2"
     },
     {
@@ -117550,15 +117581,18 @@
      "stepId": "build:f6d1a832e6e8:2"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-07T15:16:07.903609Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T15:09:12.577240Z",
+ "updatedAt": "2026-11-07T15:16:07.904649Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -121309,13 +121343,33 @@
      "stepId": "verify:2ab63c86d569:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch8-builder-2ab63c86d569",
+     "at": "2026-11-07T15:16:07.903800Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2ab63c86d569:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-2ab63c86d569",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch8-builder-2ab63c86d569",
+    "attempt": 2,
+    "diffPath": null,
+    "dispatchId": "dispatch-567539e5f70ab51b1723",
+    "noChange": true,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T145403Z-b871b1e2/build-2ab63c86d569.proof.json",
+    "recordedAt": "2026-11-07T15:16:07.903800Z",
+    "summary": "Batch batch8 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: attempt 2 re-confirmed: src/gaia_cli/embeddings.py is wildcard re-exported by packages/cli-npm/cli/embeddings.py, so the flagged imports may be public surface; removal not proven safe. Public-surface question for the founder."
+   },
    "createdAt": "2026-11-07T10:34:05.249425Z",
    "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
    "dispatchId": "dispatch-567539e5f70ab51b1723",
@@ -121348,7 +121402,7 @@
    "runId": "run-20261107T145403Z-b871b1e2",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T15:00:18.665276Z",
+   "updatedAt": "2026-11-07T15:16:07.903800Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031": {
