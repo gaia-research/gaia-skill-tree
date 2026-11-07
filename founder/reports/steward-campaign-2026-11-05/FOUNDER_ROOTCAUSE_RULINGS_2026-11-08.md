@@ -207,3 +207,15 @@ Lead's operational reading, applied until the founder says otherwise:
 2. Cap-only suite components get no automatic 3★: they are excluded from F1's automatic calibration. A 3★ for one of them stays a governed per-skill calibration.
 3. The 59 suite components already at 3★ with TM 50.0 are untouched (B allows 3★).
 4. "Ratify the RFC" is recorded as the founder's ratification of this cap-and-grade reading under RFC #2148; the lead does not edit the RFC issue itself without a further instruction.
+
+## Addendum 2: F2 final ruling (verbatim, 2026-11-08) — supersedes the reading in Addendum 1
+
+Further founder messages to the engineering partner:
+
+> Interesting. Ok cap it at 49.9. Thats the final RFC. They need one more thing to get them 3star.
+
+> mention to coordinator of course. I'm just messaging you directly cause i can ;)
+
+F2 is decided: `SUITE_COMPONENT_REPOSITORY_CAP` becomes 49.9, so cap-only suite evidence grades C (2★ ceiling) and a component needs at least one scoring row of its own to reach B and 3★. Implemented in draft PR #2378 (its own verbatim record: `FOUNDER_RULING_SUITE_CAP_2026-11-08.md`). With this, F1's automatic calibration has no cap-only overlap.
+
+Open founder question: whether the 46 unfrozen suite components stored at 3★ with cap-only evidence are grandfathered at 3★ or recalibrated to 2★ (13 frozen ones are unaffected).
