@@ -69,18 +69,28 @@ rounding alone is not debt.
   moved (plus the skill written directly), inside the same invocation and PR. The
   refresh calls the handler of the existing `gaia dev calibrate-trust-magnitude`
   verb with `--recomputation-only`. Authorization and the canonical transaction lock
-  are enforced at the writer itself (`calibrate_trust_magnitude_command`) and again at
-  the restamp body (`src/gaia_cli/trustRestamp.py`), both re-entrant under the CLI
-  dispatcher, so no direct call can write the registry unauthorized or outside the
-  transaction; the verb keeps its preflights (frozen, unknown skill). The verb
+  are enforced on the function that actually writes (`_calibrateTrustMagnitudeLocked`,
+  guarded by `_guardedWriter`) and again at the restamp body
+  (`src/gaia_cli/trustRestamp.py`), both re-entrant under the CLI dispatcher, so no
+  direct call can write the registry unauthorized or outside the transaction; the verb
+  keeps its preflights (frozen, unknown skill). The verb
   writes the three derived stamp fields and one `recalibrate_trust_magnitude`
   timeline event, and never a star level. Affected skills are found by a
   before/after fingerprint of TM, computed grade and own-input hash. A skill is
   **held** (stamp stays stale, finding stays Class C) for any hold reason above,
   including a partial stamp with no grade. A named skill whose fingerprint cannot be
   computed before or after the write is held and reported (never silently skipped),
-  and a failure that stops Origin standings being derived fails the restamp closed
-  before anything is written. Frozen skills are never touched. Afterwards the registry is re-read from disk and every
+  and `gaia dev evidence` / `rm-evidence` **preflight** the whole dependent restamp
+  before mutating anything: every named skill must be fingerprintable and Origin
+  standings and frozen locks must be derivable, otherwise the command is refused with
+  nothing written and a message pointing at `--no-restamp` (which writes the evidence
+  without refreshing stamps; the sensor then flags them). A failure that can still
+  happen after the write (a post-write verification failure, an unauthorized restamp)
+  exits nonzero with "Evidence written; stamps not refreshed (sensor backstop will
+  flag)", says not to re-add the evidence, and names the recovery
+  (`gaia dev calibrate-trust-magnitude --all --recomputation-only`). There is no
+  rollback: the evidence is on disk and the stale stamps stay visible to the backstop.
+  Frozen skills are never touched. Afterwards the registry is re-read from disk and every
   intended target must carry all three stamp fields, matching, while every level,
   computed grade, frozen state, Origin standing and non-target record is unchanged;
   `--no-restamp` opts out.

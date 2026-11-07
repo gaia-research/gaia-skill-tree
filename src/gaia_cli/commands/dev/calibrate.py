@@ -292,22 +292,38 @@ def calibrate_evidence_grades_command(args):
         print("Skipping documentation rebuild as requested (--no-build).")
 
 
-def calibrate_trust_magnitude_command(args):
-    """Guarded writer boundary: authorize and lock, then refresh (see the body below).
+def _guardedWriter(label):
+    """Decorate a registry writer so it authorizes and locks itself on every call.
 
-    The CLI dispatcher already requires an operator and holds the canonical lock
-    for ``gaia dev calibrate-trust-magnitude``; this repeats both here (the lock
-    is re-entrant) so a direct call of the handler, such as the event-driven
-    restamp, cannot write the registry unauthorized or outside the transaction.
+    The CLI dispatcher already requires an operator and holds the canonical lock;
+    this repeats both on the function that actually writes (the lock is
+    re-entrant), so no caller, direct or through the event-driven restamp, can
+    reach the write unauthorized or outside the transaction. The decorated
+    function is the only name the body is bound to.
     """
-    from gaia_cli.authz import require_operator
-    from gaia_cli.canonicalTransaction import canonicalTransactionLock
+    import functools
 
-    require_operator("dev calibrate-trust-magnitude", args.registry)
-    with canonicalTransactionLock(args.registry):
-        return _calibrateTrustMagnitudeLocked(args)
+    def decorate(function):
+        @functools.wraps(function)
+        def guarded(args, *rest, **options):
+            from gaia_cli.authz import require_operator
+            from gaia_cli.canonicalTransaction import canonicalTransactionLock
+
+            require_operator(label, args.registry)
+            with canonicalTransactionLock(args.registry):
+                return function(args, *rest, **options)
+
+        return guarded
+
+    return decorate
 
 
+def calibrate_trust_magnitude_command(args):
+    """CLI entry point; the guarded writer below does the authorization and locking."""
+    return _calibrateTrustMagnitudeLocked(args)
+
+
+@_guardedWriter("dev calibrate-trust-magnitude")
 def _calibrateTrustMagnitudeLocked(args):
     """Refresh cached trustMagnitude/overallTrustGrade/trustMagnitudeInputHash
     frontmatter fields from the canonical computeTrustMagnitude pipeline (Issue #1600).
