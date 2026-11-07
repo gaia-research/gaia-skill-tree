@@ -9,7 +9,8 @@ from datetime import timedelta
 import pytest
 
 from gaia_cli.steward.policy import StewardPolicy
-from gaia_cli.steward.prmaintenance import gate, receipts, state
+from gaia_cli.steward.prmaintenance import coordination as core, gate, receipts, state
+from .test_executor import world as sharedWorld, prepare as sharedPrepare
 from gaia_cli.steward.prmaintenance.evaluate import KIND_MERGE
 from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401  (the sensor this gate is the executor of)
 
@@ -93,20 +94,17 @@ def outcomes(fx):
     return state.readRecords(fx.root, "outcomes")
 
 
-def test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    assert auth["headSha"] == head and auth["method"] == "merge" and auth["action"] == "merge"
-    assert [o["state"] for o in outcomes(fx)] == ["reserved"]
-    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
-    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True,
-                          mergeCommitSha="9" * 40)
-    done = gate.finalize(fx.root, auth, after, h.utc(), parents=["a" * 40, head], postMerge="2 pending")
-    assert done["state"] == "merged" and done["mergeCommitSha"] == "9" * 40 and done["parentsVerified"] is True
-    # exactly once: a repeat is reported from the record, never performed again
-    with pytest.raises(gate.AlreadyDone) as again:
-        gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")
-    assert again.value.code == "already-recorded"
+def test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, _ = fixture
+    auth = sharedPrepare(fixture)
+    assert auth["headSha"] == req["expectedHeadSha"] and auth["method"] == "merge" and auth["state"] == "intent"
+    assert outcomes(fx) == [] and forge.invocations == []
+    done = executor.execute(auth["operationId"])
+    assert done["state"] == "merged" and done["evidenceSha256"]
+    assert gate.finalize(fx.root, auth, forge.snap, h.utc())["state"] == "merged"
+    assert executor.execute(auth["operationId"])["state"] == "merged"
+    assert len(forge.invocations) == len(forge.effects) == 1
 
 
 def test_no_independent_verification_means_no_merge(fx):
@@ -160,38 +158,41 @@ def test_policy_or_registry_revision_change_invalidates_verification(fx):
     refused(fx, snapshot(fx, head), request(head), "policy-revision-moved")  # committed, but the verification vouched for other bytes
 
 
-def test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists(fx):
-    head = ready(fx)
-    gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    refused(fx, snapshot(fx, head), request(head), "concurrent-attempt", run="run-2", now=h.utc() + timedelta(minutes=2))
+def test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, _ = fixture
+    sharedPrepare(fixture)
+    with pytest.raises(core.Refused):
+        gate.gateMerge(fx.root, req, forge.snap, h.utc(), "run-2")
+    assert forge.invocations == [] and len(executor.coordinator.inspect()["operations"]) == 1
 
 
-def test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    later = h.utc() + timedelta(minutes=30)  # the first attempt died: its reservation is stale
-    again = gate.gateMerge(fx.root, request(head), snapshot(fx, head), later, "run-2")
-    assert again["digest"] != auth["digest"]
-    unmerged = gate.finalize(fx.root, again, snapshot(fx, head), later)
-    assert unmerged["state"] == "failed" and "does not show" in unmerged["reason"]
-    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None  # failure is not a terminal success
+def test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, clock, executor, req, _ = fixture
+    auth = sharedPrepare(fixture)
+    clock.instant += 1800
+    with pytest.raises(core.Refused):
+        executor.execute(auth["operationId"])
+    with pytest.raises(core.Refused):
+        gate.gateMerge(fx.root, req, forge.snap, h.utc() + timedelta(minutes=30), "run-2")
+    assert gate.finalize(fx.root, auth, forge.snap, h.utc())["state"] == "intent"
+    assert forge.invocations == forge.effects == []
 
 
-def test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
-    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
-    gate.finalize(fx.root, auth, after, h.utc())
-    # the process died before the MERGED receipt: the store says merged, no receipt is recorded or on the PR
-    assert state.terminalFor(fx.root, h.REPO, 2270, "merge")["state"] == "merged"
+def test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, cold = fixture
+    auth = sharedPrepare(fixture)
+    forge.lost = True
+    assert executor.execute(auth["operationId"])["state"] == "unknown"
+    assert cold().recover(auth["operationId"])["state"] == "already-merged"
+    head = req["expectedHeadSha"]
     assert state.receiptPosted(fx.root, h.REPO, 2270, "merged", head[:12]) is None
-    assert receipts.findReceipt(trail(2270, head), "merged", 2270, head[:12]) is None
-    body = receipts.merged(number=2270, head=head, runId=RUN, url="u", destination="main", mergeCommit="9" * 40, method="merge", postMerge="pending")
-    posted = [*trail(2270, head), comment(body, cid=3)]
-    assert receipts.findReceipt(posted, "merged", 2270, head[:12]) is not None  # a resumed run sees it and does not post twice
-    with pytest.raises(gate.AlreadyDone):
-        gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")
+    body = receipts.merged(number=2270, head=head, runId=RUN, url="u", destination="main", mergeCommit="d" * 40, method="merge", postMerge="pending")
+    assert receipts.findReceipt([comment(body)], "merged", 2270, head[:12]) is not None
+    assert executor.execute(auth["operationId"])["state"] == "already-merged"
+    assert len(forge.invocations) == len(forge.effects) == 1
 
 
 def test_comment_write_failure_leaves_no_false_record_and_the_marker_is_the_idempotency_key(fx):
@@ -283,42 +284,58 @@ def test_ineligible_pull_requests_are_refused_with_their_disposition(fx):
     refused(fx, snapshot(fx, head), request(head, producerId="scheduled-docs-routine"), "producer-mismatch")
 
 
-def test_github_trail_is_required_before_a_merge(fx):
-    head = ready(fx)
-    refused(fx, snapshot(fx, head, comments=[]), request(head), "trail-missing")
-    strangers = [comment(c["body"], assoc="NONE") for c in trail(2270, head)]
-    refused(fx, snapshot(fx, head, comments=strangers), request(head), "trail-missing")
-    other = trail(2270, "b" * 40)  # receipts for a different head do not vouch for this one
-    refused(fx, snapshot(fx, head, comments=other), request(head), "trail-missing")
+def test_github_trail_is_best_effort_not_independent_verification(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, _ = fixture
+    for comments in ([], [comment(c["body"], assoc="NONE") for c in trail(2270, req["expectedHeadSha"])], trail(2270, "b" * 40)):
+        forge.snap = dataclasses.replace(forge.snap, row={**forge.snap.row, "comments": comments})
+        assert sharedPrepare(fixture)["state"] == "intent"
+    assert len(executor.coordinator.inspect()["operations"]) == 1 and forge.invocations == []
+    (state.storeDir(fx.root) / "verifications.jsonl").unlink()
+    with pytest.raises(gate.GateRefused, match="no-verification"):
+        sharedPrepare(fixture)
 
 
-def test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop(fx):
-    first = ready(fx)
-    policy = StewardPolicy.load(fx.root)
-    one = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, maxMergesPerRun=1))
-    gate.gateMerge(fx.root, request(first), snapshot(fx, first), h.utc(), RUN, policy=one)
+def test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, _ = fixture
+    executor.services.limits = lambda: core.Limits(mergesPerRun=1, writesPerHour=1)
+    auth = sharedPrepare(fixture)
+    executor.execute(auth["operationId"])
     second = fx.head("2026-45")
-    verification(fx, second, number=2271)
-    refused(fx, snapshot(fx, second, "2026-45", number=2271), request(second, number=2271), "run-budget-exhausted", policy=one)
-    hourly = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, hourlyWriteCap=1))
-    refused(fx, snapshot(fx, second, "2026-45", number=2271), request(second, number=2271), "hourly-budget-exhausted", run="run-9", policy=hourly)
+    verification(fx, second, number=2271, runId="stable-run")
+    nextSnap = snapshot(fx, second, "2026-45", number=2271, prId="2271", repositoryId="42")
+    forge.snap = nextSnap
+    for run in ("stable-run", "different-run"):
+        with pytest.raises(core.Refused, match="ceiling"):
+            gate.gateMerge(fx.root, request(second, number=2271), nextSnap, h.utc(), run)
+    assert len(forge.invocations) == 1 and len(executor.coordinator.inspect()["operations"]) == 1
 
 
-def test_abort_releases_the_reservation_without_claiming_a_merge(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    gate.abort(fx.root, auth, "forge call not made", h.utc())
-    assert state.openReservation(fx.root, h.REPO, 2270, "merge", h.utc()) is None
-    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
-    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")["action"] == "merge"
+def test_abort_releases_only_unsent_capacity_and_retains_replay_tombstone(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, req, _ = fixture
+    auth = sharedPrepare(fixture)
+    assert gate.abort(fx.root, auth, "forge call not made", h.utc())["state"] == "aborted"
+    durable = executor.coordinator.inspect()
+    assert durable["activeOperationId"] is None
+    assert durable["operations"][auth["operationId"]]["state"] == "canceled-unsent"
+    with pytest.raises(core.Refused):
+        gate.gateMerge(fx.root, req, forge.snap, h.utc(), "run-2")
+    assert forge.invocations == [] and state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
 
 
-def test_finalize_trusts_observation_not_the_drivers_word(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    elsewhere = {**h.row(fx, head, "2026-44"), "headSha": "c" * 40, "merged": True, "state": "closed"}
-    wrongHead = gate.Snapshot(row=elsewhere, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
-    assert gate.finalize(fx.root, auth, wrongHead, h.utc())["state"] == "failed"
+def test_finalize_trusts_independent_observation_not_supplied_snapshot(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, _, _ = fixture
+    auth = sharedPrepare(fixture)
+    forge.lost = True
+    executor.execute(auth["operationId"])
+    forge.fact["head"] = {"sha": "c" * 40}
+    fabricated = dataclasses.replace(forge.snap, merged=True, mergeCommitSha="9" * 40)
+    assert gate.finalize(fx.root, auth, fabricated, h.utc(), parents=[forge.snap.row["headSha"]])["state"] == "quarantined"
+    assert executor.coordinator.inspect()["activeOperationId"] == auth["operationId"]
+    assert len(forge.invocations) == 1
 
 
 # --- closure ------------------------------------------------------------------------------------------------------
@@ -344,21 +361,23 @@ def refusedClose(fx, snap, req, code):
     assert caught.value.code == code, caught.value
 
 
-def test_closure_happy_path_requires_justification_first_then_settles_from_observed_closed_state(tmp_path):
-    fx, head, snap, req = closureWorld(tmp_path)
-    auth = gate.gateClose(fx.root, req, snap, h.utc(), RUN)
-    closedRow = {**snap.row, "state": "closed", "merged": False}
-    done = gate.finalize(fx.root, auth, dataclasses.replace(snap, row=closedRow), h.utc())
-    assert done["state"] == "closed" and state.terminalFor(fx.root, h.REPO, 2270, "close")["state"] == "closed"
-    with pytest.raises(gate.AlreadyDone):
-        gate.gateClose(fx.root, req, snap, h.utc(), "run-2")
+def test_closure_happy_path_stores_justification_before_sole_coordinated_close(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch, "close")
+    fx, forge, _, executor, _, _ = fixture
+    auth = sharedPrepare(fixture)
+    stored = executor.coordinator.inspect()["operations"][auth["operationId"]]
+    assert stored["proof"]["justification"] and stored["state"] == "intent" and forge.invocations == []
+    assert executor.execute(auth["operationId"])["state"] == "closed"
+    assert gate.finalize(fx.root, auth, forge.snap, h.utc())["state"] == "closed"
+    assert executor.execute(auth["operationId"])["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
 
 
 def test_closure_without_adequate_evidence_is_refused(tmp_path):
     fx, head, snap, req = closureWorld(tmp_path, replacement=False)
     refusedClose(fx, snap, req, "closure-not-proven")  # label published but no merged, marker-linked replacement
     fx, head, snap, req = closureWorld(tmp_path / "b", justification=False)
-    refusedClose(fx, snap, req, "justification-missing")  # the reason must be posted before the close
+    assert gate.validateClose(fx.root, req, snap, h.utc())["verdict"] == "pass"  # publication is best effort; proof is still mandatory
     fx, head, snap, req = closureWorld(tmp_path / "c")
     refusedClose(fx, snap, {**req, "reason": "duplicate-of-open-sibling"}, "closure-reason-not-eligible")
     refusedClose(fx, snap, {**req, "replacement": 9999}, "replacement-missing")
@@ -407,7 +426,7 @@ def test_the_policy_digest_is_computed_by_the_gate_never_taken_from_the_caller(f
     head = fx.head("2026-44")
     stored = verification(fx, head, policySha256="0" * 64)
     assert stored["policySha256"] == gate.policyDigest(fx.root) != "0" * 64
-    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+    assert gate.validateWrite(fx.root, request(head), snapshot(fx, head), h.utc(), "merge")["policySha256"] == stored["policySha256"]
 
 
 def test_a_verification_written_around_the_recorder_is_still_refused_at_the_gate(fx):
@@ -431,62 +450,59 @@ def test_authority_source_must_be_named_and_the_default_fails_closed(fx, monkeyp
     monkeypatch.setenv(gate.AUTHORITY_LOCAL, "yes")  # only the explicit value 1 counts
     refused(fx, snapshot(fx, head), request(head), "authority-source-unset")
     monkeypatch.setenv(gate.AUTHORITY_LOCAL, "1")
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    assert auth["authority"]["mode"] == "local-head" and len(auth["authority"]["commit"]) == 40  # the source is on the record
+    assert gate.validateWrite(fx.root, request(head), snapshot(fx, head), h.utc(), "merge")["verdict"] == "pass"
+    with pytest.raises(core.CoordinationError, match="unconfigured"):
+        gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)  # local authority is not a shared send route
 
 
-def test_every_authorization_records_that_its_exactly_once_and_budget_guarantees_are_checkout_local(fx, monkeypatch):
-    """The outcome store is a file in one checkout. It proves nothing about another host's writes or a global budget."""
-
+def test_local_authority_or_receipt_json_cannot_replace_configured_shared_coordination(fx, monkeypatch):
     head = ready(fx)
-    monkeypatch.setenv(gate.AUTHORITY_LOCAL, "1")
-    local = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    assert local["authority"]["coordination"] == "checkout-local"
-    h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)
-    monkeypatch.delenv(gate.AUTHORITY_LOCAL)
-    monkeypatch.setenv(gate.AUTHORITY_REF, "origin/dest")
-    assert gate.authorityInfo(fx.root)["coordination"] == "checkout-local"  # naming a remote ref does not make the store shared
+    for ref in (None, "origin/dest"):
+        if ref:
+            h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)
+            monkeypatch.setenv(gate.AUTHORITY_REF, ref)
+        with pytest.raises(core.CoordinationError, match="unconfigured"):
+            gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    with pytest.raises(gate.GateRefused, match="legacy-route-disabled"):
+        gate.checkAuthorization(fx.root, {"digest": "forged-local-json"})
+    assert outcomes(fx) == []
 
 
 def test_authority_must_equal_the_destination_tip_when_one_is_named(fx, monkeypatch):
     head = ready(fx)
     h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)
     monkeypatch.setenv(gate.AUTHORITY_REF, "origin/dest")
-    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+    assert gate.validateWrite(fx.root, request(head), snapshot(fx, head), h.utc(), "merge")["verdict"] == "pass"
     (fx.root / "founder/steward/pr-producers.json").write_text((fx.root / "founder/steward/pr-producers.json").read_text() + " ")
     h.run(fx.root, "add", "-A")
     h.run(fx.root, "commit", "-q", "-m", "widened registry on a branch")
     refused(fx, snapshot(fx, head), request(head), "authority-drift", run="run-2")  # committed here, but not what the destination holds
 
 
-def test_finalize_and_abort_refuse_forged_replayed_or_settled_authorizations(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
-    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
-    forged = {**auth, "runId": "someone-else"}
-    with pytest.raises(gate.GateRefused) as caught:
-        gate.finalize(fx.root, forged, after, h.utc())
-    assert caught.value.code == "authorization-forged"
-    invented = {k: v for k, v in auth.items() if k != "digest"} | {"number": 777}
-    invented["digest"] = gate.hashlib.sha256(gate.stable_json({k: v for k, v in invented.items() if k != "digest"}).encode()).hexdigest()
-    with pytest.raises(gate.GateRefused) as unknown:
-        gate.finalize(fx.root, invented, after, h.utc())  # a merge a human did, credited to Steward, is refused
-    assert unknown.value.code == "unknown-authorization"
+def test_finalize_and_abort_refuse_legacy_forgery_and_cannot_resurrect_canceled_operation(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, _, executor, _, _ = fixture
+    auth = sharedPrepare(fixture)
+    with pytest.raises(gate.GateRefused, match="legacy-route-disabled"):
+        gate.finalize(fx.root, {"digest": "caller-claimed-success"}, forge.snap, h.utc())
+    with pytest.raises(core.Refused, match="unknown operation"):
+        gate.finalize(fx.root, {"operationId": "0" * 64}, forge.snap, h.utc())
     gate.abort(fx.root, auth, "not made", h.utc())
-    with pytest.raises(gate.GateRefused) as replay:
-        gate.finalize(fx.root, auth, after, h.utc())  # an aborted authorization cannot be replayed
-    assert replay.value.code == "unknown-authorization"
-    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
+    assert gate.finalize(fx.root, {**auth, "state": "merged", "runId": "forged"}, forge.snap, h.utc())["state"] == "aborted"
+    with pytest.raises(core.Refused):
+        executor.coordinator.invoke(core.tokenFor(executor.coordinator.inspect()["operations"][auth["operationId"]]), "fresh-send")
+    assert forge.invocations == [] and state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
 
 
-def test_a_late_authorization_is_recorded_as_late_not_silently_accepted(fx):
-    head = ready(fx)
-    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
-    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
-    done = gate.finalize(fx.root, auth, after, h.utc() + timedelta(hours=1))
-    assert done["state"] == "merged" and done["lateAuthorization"] is True
+def test_late_preparation_cannot_send_or_manufacture_terminal_observation(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch)
+    fx, forge, clock, executor, _, _ = fixture
+    auth = sharedPrepare(fixture)
+    clock.instant += 3600
+    with pytest.raises(core.Refused, match="live preparation"):
+        executor.execute(auth["operationId"])
+    assert gate.finalize(fx.root, auth, dataclasses.replace(forge.snap, merged=True), h.utc())["state"] == "intent"
+    assert forge.invocations == []
 
 
 def test_closure_of_a_held_or_draft_original_is_refused_even_when_superseded(tmp_path):
@@ -499,18 +515,19 @@ def test_closure_of_a_held_or_draft_original_is_refused_even_when_superseded(tmp
         assert outcomes(fx) == []
 
 
-def test_the_latest_reservation_alone_validates_an_older_authorization_is_dead(fx):
-    head = ready(fx)
-    first = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
-    later = h.utc() + timedelta(minutes=30)  # the first attempt's reservation is stale and is superseded
-    second = gate.gateMerge(fx.root, request(head), snapshot(fx, head), later, "run-2")
-    assert first["digest"] != second["digest"]
-    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
-    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
-    with pytest.raises(gate.GateRefused) as caught:
-        gate.finalize(fx.root, first, after, later)
-    assert caught.value.code == "unknown-authorization"
-    assert gate.finalize(fx.root, second, after, later)["state"] == "merged"
+def test_new_run_or_negative_get_never_supersedes_claimed_sender(tmp_path, monkeypatch):
+    fixture = sharedWorld(tmp_path, monkeypatch, "close")
+    fx, forge, clock, executor, req, _ = fixture
+    auth = sharedPrepare(fixture)
+    forge.lost = True
+    executor.execute(auth["operationId"])
+    clock.instant += 1800
+    with pytest.raises(core.Refused):
+        gate.gateClose(fx.root, req, forge.snap, h.utc() + timedelta(minutes=30), "run-2")
+    assert gate.finalize(fx.root, auth, forge.snap, h.utc())["state"] == "quarantined"
+    with pytest.raises(core.Refused):
+        gate.abort(fx.root, auth, "claimed sender is not canceled by local supersession", h.utc())
+    assert len(forge.invocations) == len(forge.effects) == 1
 
 
 def test_a_verifier_dispatch_that_does_not_name_this_head_cannot_back_a_verification(fx):

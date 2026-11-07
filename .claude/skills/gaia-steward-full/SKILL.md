@@ -77,7 +77,7 @@ as a pending action. Drive it like this, and nothing else:
    | `agent.verify` | a different, fresh agent following `gaia-steward-verify` |
    | `forge.open_pr` | `gaia-steward-land` (draft PR to the integration branch) |
    | `forge.close_issue` | `gaia-steward-issue-hygiene` (one proven closure, performed by `scripts/steward_issue_close.py`) |
-| `forge.merge_pr`, `forge.close_pr` | `gaia-steward-pr-maintenance` (one gated write, authorized by `scripts/steward_pr.py gate-merge` or `gate-close`) |
+| `forge.merge_pr`, `forge.close_pr` | `gaia-steward-pr-maintenance` (shared preparation, then explicit `execute --operation-id`; unattended driver refuses) |
    | `lead.integrate` | the orchestrator, merging into the integration branch only |
 
 3. Record each outcome: `gaia steward full record RUN STEP --input outcome.json`.
@@ -87,7 +87,17 @@ as a pending action. Drive it like this, and nothing else:
 
 The runner tracks every step in a durable ledger (`refs/heads/steward/ledger`, or a
 local file when no remote answers). Resuming never repeats a recorded step, and a
-second concurrent invocation loses the lease and refuses cleanly.
+second concurrent invocation loses the lease and refuses cleanly. Only the Lead
+writes the shared ledger; `--ledger git` is unchanged and is never replaced by local
+state to get a green run.
+
+Only Routine 19 critical operation identity, immutable proof, global slot/accounting
+and outcomes use its separately provisioned canonical coordination ref; ordinary run
+state never moves there. Local run
+expiry/action supersession cannot refund or cancel that shared sender. Every
+success-shaped PR report (including already-*) binds shared head/evidence; unknown
+stays recoverable. Missing coordination/current authority/clock config refuses
+execution. Full-run completion does not settle an outstanding critical operation.
 
 ## Agents, models and effort
 
