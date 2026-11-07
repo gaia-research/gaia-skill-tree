@@ -25,9 +25,11 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
+from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
+from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
     DispatchPacket,
@@ -67,6 +69,13 @@ _GUARD_SIGNAL = re.compile(
 )
 
 
+# A direct-child workflow file. The only edit a Class B dispatch may make to one is
+# adding an integer job-level `timeout-minutes` (1..360), and that is proven on YAML
+# structure (see ``workflowproof``), never on how an added line happens to be spelled.
+_WORKFLOW_FILE = ".github/workflows/*.yml"
+_MAX_WORKFLOW_VIOLATIONS = 20
+
+
 class VerificationError(RuntimeError):
     """A verification precondition was not proven; no verdict is rendered."""
 
@@ -79,14 +88,18 @@ class FileChange:
     added: int
     removed: int
     deleted_file: bool
+    created_file: bool = False
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        data: dict[str, Any] = {
             "path": self.path,
             "added": self.added,
             "removed": self.removed,
             "deletedFile": self.deleted_file,
         }
+        if self.created_file:
+            data["createdFile"] = True
+        return data
 
 
 @dataclass(frozen=True)
@@ -102,13 +115,19 @@ class ChangeSet:
     # verificationReceipt to a non-empty value, or cannot be evaluated at all. Each entry is
     # (path, reason). A builder never stamps, and an unreadable record is never trusted.
     stamped_paths: tuple[tuple[str, str], ...] = ()
+    # Workflow-file edits that are not the pure addition of a `timeout-minutes`
+    # line (founder ruling #14). Empty for every diff that touches no workflow.
+    workflow_edit_violations: tuple[str, ...] = ()
+    # Parsed hunks of every modified (not created, not deleted) workflow file, for
+    # the structural proof; see ``workflow_structure_violations``.
+    workflow_patches: tuple[tuple[str, tuple[Hunk, ...]], ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
         return tuple(change.path for change in self.changes)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        data: dict[str, Any] = {
             "diffHash": self.diff_hash,
             "fileCount": len(self.changes),
             "files": [change.to_dict() for change in self.changes],
@@ -121,6 +140,9 @@ class ChangeSet:
                 else {}
             ),
         }
+        if self.workflow_edit_violations:
+            data["workflowEditViolations"] = list(self.workflow_edit_violations)
+        return data
 
 
 @dataclass(frozen=True)
@@ -223,6 +245,24 @@ def _matches(path: str, pattern: str) -> bool:
     return path == pattern or PurePosixPath(path).match(pattern)
 
 
+def _in_scope(path: str, pattern: str) -> bool:
+    """Whether ``path`` is inside an envelope scope: a ``dir/**`` subtree or an exact path.
+
+    A file glob such as ``.github/workflows/*.yml`` matches a direct child of that
+    one directory, anchored at the repository root. ``_matches`` is right-anchored
+    (``PurePosixPath.match``), which would also accept ``docs/.github/workflows/x.yml``;
+    an envelope must never be wider than it reads.
+    """
+
+    if pattern.endswith("/**") or "*" not in pattern:
+        return _matches(path, pattern)
+    pattern_parts = PurePosixPath(pattern).parts
+    path_parts = PurePosixPath(path).parts
+    return len(pattern_parts) == len(path_parts) and all(
+        fnmatchcase(part, glob) for part, glob in zip(path_parts, pattern_parts)
+    )
+
+
 def _carveOut(path: str, denied: str, packet: DispatchPacket) -> bool:
     """Whether the one policy carve-out lifts the ``founder/**`` ban for ``path``.
 
@@ -236,7 +276,7 @@ def _carveOut(path: str, denied: str, packet: DispatchPacket) -> bool:
         return False
     kind = packet.debt.get("kind") if isinstance(packet.debt, Mapping) else None
     return any(
-        exempt_kind == kind and glob in packet.allowed_paths and _matches(path, glob)
+        exempt_kind == kind and glob in packet.allowed_paths and _in_scope(path, glob)
         for glob, exempt_kind in DISPATCH_EXEMPT_SUBTREES.items()
     )
 
@@ -328,8 +368,6 @@ def _postImageProblem(path: str, is_new: bool, hunks: list[_Hunk], read: BaseRea
         if str(key).strip().casefold() in _STAMP_FIELDS and value not in (None, ""):
             return f"sets {key}: only the lead's integrate step may stamp a record"
     return None
-
-
 def _is_guard(path: str) -> bool:
     return any(_matches(path, pattern) for pattern in _GUARD_PATTERNS)
 
@@ -380,39 +418,88 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
     stamped: dict[str, str] = {}
     guard_added = guard_removed = 0
     hunks: list[_Hunk] = []
-    is_new = False
+    workflow_violations: list[str] = []
+    workflow_patches: list[tuple[str, tuple[Hunk, ...]]] = []
 
     current: str | None = None
     added = removed = 0
     deleted_file = False
+    created_file = False
     pending_header: str | None = None
     pending_deleted = False
+    pending_created = False
     pending_old: str | None = None
     old_remaining = new_remaining = 0
+    # Hunk capture for workflow files: [old_start, old_length, [[marker, text, no_newline]]].
+    open_hunks: list[list[Any]] = []
 
     def flush() -> None:
-        nonlocal current, added, removed, deleted_file, hunks, is_new
+        nonlocal current, added, removed, deleted_file, created_file, open_hunks, hunks
         if current is None:
             return
         if current.startswith(_STAMP_SUBTREE) and not deleted_file:
-            problem = _postImageProblem(current, is_new, hunks, base)
+            problem = _postImageProblem(current, created_file, hunks, base)
             if problem is not None:
                 stamped[current] = problem
-        hunks, is_new = [], False
+        hunks = []
         changes.append(
-            FileChange(path=current, added=added, removed=removed, deleted_file=deleted_file)
+            FileChange(
+                path=current, added=added, removed=removed,
+                deleted_file=deleted_file, created_file=created_file,
+            )
         )
+        if _in_scope(current, _WORKFLOW_FILE):
+            if deleted_file:
+                workflow_violations.append(f"{current}: deletes the workflow file")
+            elif created_file:
+                workflow_violations.append(f"{current}: creates a workflow file; creation is never allowed")
+            else:
+                workflow_patches.append(
+                    (
+                        current,
+                        tuple(
+                            (int(h[0]), int(h[1]), tuple((m, t, bool(n)) for m, t, n in h[2]))
+                            for h in open_hunks
+                        ),
+                    )
+                )
         if deleted_file and _is_guard(current):
             deleted_guards.append(current)
-        current, added, removed, deleted_file = None, 0, 0, False
+        current, added, removed, deleted_file, created_file = None, 0, 0, False, False
+        open_hunks = []
 
-    for line in text.splitlines():
+    def header_only() -> None:
+        """Record a ``diff --git`` section that has no ``---``/``+++`` pair.
+
+        git applies such a section (an empty new file, a mode change, a binary change),
+        so its path must be scope-checked like any other rather than silently unseen.
+        """
+
+        nonlocal current, deleted_file, created_file, pending_header
+        if pending_header is None:
+            return
+        current, deleted_file, created_file = pending_header, pending_deleted, pending_created
+        pending_header = None
+        flush()
+
+    # Split on LF only, like git: ``str.splitlines`` would also break on CR, VT, FF, NEL and
+    # U+2028/9 and silently drop the CR of CRLF content, so what the verifier saw would not
+    # be the bytes git applies.
+    records = text.split("\n")
+    if records and records[-1] == "":
+        records.pop()
+    for line in records:
         if old_remaining > 0 or new_remaining > 0:
             # Inside a hunk of declared length. Nothing here is a header, no
             # matter what it looks like.
             assert current is not None
             if line.startswith("\\"):
-                continue  # "\ No newline at end of file" belongs to neither side
+                # "\ No newline at end of file" belongs to neither side's line count.
+                if open_hunks and open_hunks[-1][2]:
+                    open_hunks[-1][2][-1][2] = True
+                continue
+            if open_hunks and _in_scope(current, _WORKFLOW_FILE):
+                open_hunks[-1][2].append([line[:1] if line[:1] in ("+", "-", " ") else " ", line[1:], False])
             if line.startswith("+"):
                 new_remaining -= 1
                 added += 1
@@ -442,8 +529,10 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
 
         if line.startswith("diff --git "):
             flush()
+            header_only()
             pending_header = _diff_header_path(line)
             pending_deleted = False
+            pending_created = False
             pending_old = None
             continue
         if line.startswith("diff --cc ") or line.startswith("diff --combined "):
@@ -455,6 +544,14 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
             )
         if line.startswith("deleted file mode"):
             pending_deleted = True
+            continue
+        if line.startswith("new file mode"):
+            pending_created = True
+            continue
+        if line.startswith("\\") and open_hunks:
+            # "\ No newline at end of file" arriving after the hunk's last counted line.
+            if open_hunks[-1][2]:
+                open_hunks[-1][2][-1][2] = True
             continue
         if line.startswith("Binary files") or line.startswith(_IGNORED_METADATA):
             continue
@@ -469,7 +566,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
             flush()
             current, deleted_file = _section_path(pending_old, line[4:])
             deleted_file = deleted_file or pending_deleted
-            is_new = _strip_side(pending_old) == "/dev/null"
+            created_file = pending_created or _strip_side(pending_old) == "/dev/null"
             if pending_header is not None and pending_header != current:
                 # The header said one path and the body says another. git
                 # applies the body; a parser that believed the header would be
@@ -478,7 +575,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
                     f"diff header names {pending_header!r} but its body names "
                     f"{current!r}; the two must agree"
                 )
-            pending_header, pending_old, pending_deleted = None, None, False
+            pending_header, pending_old, pending_deleted, pending_created = None, None, False, False
             continue
         match = _HUNK_HEADER.match(line)
         if match is not None:
@@ -487,6 +584,9 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
             old_remaining = int(match.group(2)) if match.group(2) is not None else 1
             new_remaining = int(match.group(4)) if match.group(4) is not None else 1
             hunks.append(_Hunk(old_start=int(match.group(1)), lines=[]))
+            open_hunks.append(
+                [int(match.group(1)), old_remaining, []]
+            )
             continue
         if not line.strip() or line.startswith(_TOLERATED_PREAMBLE):
             continue
@@ -495,6 +595,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
     if old_remaining > 0 or new_remaining > 0:
         raise VerificationError("the diff ends inside an unfinished hunk")
     flush()
+    header_only()
 
     if not changes:
         raise VerificationError("candidate diff touches no files")
@@ -508,6 +609,8 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
         guard_signal_removed=guard_removed,
         deleted_guard_files=tuple(sorted(deleted_guards)),
         stamped_paths=tuple(sorted(stamped.items())),
+        workflow_edit_violations=tuple(workflow_violations),
+        workflow_patches=tuple(sorted(workflow_patches)),
     )
 
 
@@ -634,6 +737,32 @@ def parse_proof_transcript(raw: str, *, proof_contract_length: int) -> ProofTran
     )
 
 
+def is_workflow_path(path: str) -> bool:
+    """Whether ``path`` is a direct-child ``.github/workflows/*.yml`` file."""
+
+    return _in_scope(path, _WORKFLOW_FILE)
+
+
+def workflow_structure_violations(
+    change_set: ChangeSet, baseline: Mapping[str, str | None] | None
+) -> list[str]:
+    """Structural proof for every modified workflow file in the diff.
+
+    ``baseline`` maps each workflow path to the content the diff was cut against
+    (``None`` when the file is absent there). With no baseline the edit cannot be
+    proven, which is a rejection, never a pass.
+    """
+
+    problems: list[str] = []
+    for path, hunks in change_set.workflow_patches:
+        before = (baseline or {}).get(path)
+        if before is None:
+            problems.append(f"{path}: no baseline content was supplied, so the edit cannot be proven structurally")
+            continue
+        problems.extend(f"{path}: {item}" for item in prove_workflow_edit(before, hunks))
+    return problems
+
+
 def evaluate(
     *,
     packet: DispatchPacket,
@@ -644,6 +773,7 @@ def evaluate(
     baseline_open_debt: Sequence[str],
     current_open_debt: Sequence[str],
     authority_still_class_b: bool,
+    workflow_baseline: Mapping[str, str | None] | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -668,24 +798,41 @@ def evaluate(
     outside = [
         path
         for path in change_set.paths
-        if not any(_matches(path, allowed) for allowed in packet.allowed_paths)
+        if not any(_in_scope(path, allowed) for allowed in packet.allowed_paths)
     ]
     forbidden = [
         path
         for path in change_set.paths
         if any(
-            _matches(path, denied) and not _carveOut(path, denied, packet)
+            _in_scope(path, denied) and not _carveOut(path, denied, packet)
             for denied in packet.forbidden_paths
         )
     ]
     stamped = list(change_set.stamped_paths)
-    scope_valid = not outside and not forbidden and not stamped
+    structural = workflow_structure_violations(change_set, workflow_baseline)
+    scope_valid = (
+        not outside
+        and not forbidden
+        and not stamped
+        and not change_set.workflow_edit_violations
+        and not structural
+    )
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
     if forbidden:
         reasons.append("diff writes inside forbiddenPaths: " + ", ".join(sorted(forbidden)))
     for stamped_path, why in stamped:
         reasons.append(f"disposition record {stamped_path}: {why}")
+    if change_set.workflow_edit_violations:
+        reasons.append(
+            "a workflow diff may not create or delete a workflow file: "
+            + "; ".join(change_set.workflow_edit_violations)
+        )
+    if structural:
+        reasons.append(
+            "a workflow edit must be proven to add only job-level timeout-minutes: "
+            + "; ".join(structural[:_MAX_WORKFLOW_VIOLATIONS])
+        )
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.
