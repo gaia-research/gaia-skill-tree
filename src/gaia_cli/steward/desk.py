@@ -59,6 +59,8 @@ DECISION_RECORD_SCHEMA = "steward-decision-v1"
 DECISIONS_RELATIVE_DIR = "founder/steward/decisions"
 QUIET_LINE = "Gaia Steward: nothing needs you."
 TRUST_STAMP_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+TRUST_GAP_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/2201"
+TRUST_STAMP_GOVERNANCE_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/2148"
 
 DECISION_SOURCES = ("class-c-debt", "escalated-lane", "decision-record")
 OPERATION_KINDS = (
@@ -389,6 +391,18 @@ def _generic_evidence(debts: Sequence[Debt]) -> list[str]:
     return rows
 
 
+def _trust_gap_evidence(debts: Sequence[Debt]) -> list[str]:
+    rows: list[str] = []
+    for debt in sorted(debts, key=lambda item: item.id):
+        state = debt.observed_state
+        preserved = state.get("preservedLevel") or debt.current_state.get("level")
+        rows.append(
+            f"{debt.subject.id}: rating {preserved} preserved; {state.get('evidenceBasis', 'no scoring evidence')} "
+            f"({state.get('effectiveRowCount', 0)} effective row(s))"
+        )
+    return rows
+
+
 def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
     ordered = sorted(debts, key=lambda item: item.id)
     ids = tuple(item.id for item in ordered)
@@ -423,24 +437,92 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
             priority=_PRIORITY_CREDENTIAL,
         )
     if kind == "trust_stamp_stale":
+        pure = sum(1 for item in ordered if item.observed_state.get("recomputationOnly") is True)
+        governed = count - pure
+
+        def held(reason: str) -> int:
+            return sum(
+                1 for item in ordered
+                if item.observed_state.get("recomputationOnly") is not True
+                and reason in (item.observed_state.get("holdReasons") or ())
+            )
+
+        recorded = sum(
+            1 for item in ordered
+            if item.observed_state.get("recomputationOnly") is not True and item.observed_state.get("holdReasons")
+        )
+        parts = []
+        if pure:
+            parts.append(
+                f"{pure} stamp(s) are recomputation-only: have a Verifier run "
+                "`gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed "
+                "PR (the backstop; the verb holds anything that is not safe and never writes a star level)."
+            )
+        if governed:
+            detail = (
+                f"{held('level-disagrees-with-computed-grade')} with a computed grade that disagrees with the "
+                f"stored level, {held('stored-grade-differs-from-computed-grade')} whose refresh would rewrite "
+                f"the stored grade, {held('stored-grade-missing')} with no stored grade to preserve"
+            )
+            unknown = governed - recorded
+            if unknown:
+                detail += f", {unknown} with no recorded hold reason"
+            parts.append(
+                f"{governed} stamp(s) are governed ({detail}): the refresh is held, no write command is "
+                "recommended, and any level or grade change belongs to trust calibration governance (#2148)."
+            )
+        recommended = " ".join(parts)
         return DeskDecision(
             decision_id=identity,
-            decision="Decide the Trust Magnitude stamp refresh policy for stale stored stamps.",
+            decision=(
+                f"Decide what to do with {count} stale Trust Magnitude stamp(s) the event-driven "
+                "refresh did not clear."
+            ),
             why_it_matters=(
-                "Stored trustMagnitude stamps disagree with the computed effective value, so "
-                "displayed trust and computed trust differ until a refresh policy exists. "
-                "Steward measures this and never edits stamps."
+                "Stored trustMagnitude stamps disagree with the computed effective value. Founder "
+                "ruling 2026-11-06 (#1642, 8A) refreshes a stamp inside the PR that changes its "
+                "evidence when the refresh is a pure recomputation; what is left here either "
+                "escaped that trigger or is not a recomputation. Steward measures and never edits "
+                "stamps."
             ),
             evidence=tuple(_generic_evidence(ordered)),
-            recommended=(
-                "Choose one refresh mechanism in #1642 (for example a gated `gaia dev` command "
-                "that restamps inside a reviewed PR) and record it as a decision."
-            ),
+            recommended=recommended,
             alternative=(
                 "Declare stored stamps historical snapshots and exclude them from drift detection."
             ),
             unblocks=unblocks,
             links=(TRUST_STAMP_ISSUE,),
+            debt_ids=ids,
+            source="class-c-debt",
+        )
+    if kind == "trust_evidence_gap":
+        return DeskDecision(
+            decision_id=identity,
+            decision=(
+                f"Decide how to resolve {count} named skill(s) whose effective evidence pool is "
+                "empty (evidence gap)."
+            ),
+            why_it_matters=(
+                "Missing evidence is not evidence of degradation (#2201). Steward preserves every "
+                "current rating, never proposes a demotion from an empty pool, and never admits "
+                "evidence or changes trust itself; the read-only discovery routine only records "
+                "what was searched."
+            ),
+            evidence=tuple(_trust_gap_evidence(ordered)),
+            recommended=(
+                "Run the read-only discovery routine for each gap "
+                "(`python scripts/steward_evidence_discovery.py plan`, then `record`), review its "
+                "receipts, and admit any admissible evidence through `gaia dev evidence` so the "
+                "calibration is recomputed from qualifying evidence. Where none exists keep the "
+                "current rating and record the gap; a demotion needs counter-evidence or "
+                "supersession under #2148."
+            ),
+            alternative=(
+                "Rule the gap acceptable for named skills (keep the rating and stop reporting), or "
+                "open a governed demotion for one of them under #2148."
+            ),
+            unblocks=unblocks,
+            links=(TRUST_GAP_ISSUE, TRUST_STAMP_GOVERNANCE_ISSUE),
             debt_ids=ids,
             source="class-c-debt",
         )
