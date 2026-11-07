@@ -15,6 +15,7 @@ from gaia_cli.trustMagnitude import (
     GRADE_B_FLOOR,
     GRADE_C_FLOOR,
     GRADE_S_FLOOR,
+    SUITE_COMPONENT_REPOSITORY_CAP,
     TYPE_WEIGHTS,
     checkAGradedOriginsGte5,
     checkApexPromotionPrSigned,
@@ -566,8 +567,12 @@ def _taste_like_component(extraEvidence=None):
     }
 
 
-def test_suite_component_shared_repository_rows_cap_at_50_and_cannot_reach_a_or_s():
-    """A component inherits at most 50 TM from its suite root's repository."""
+def test_suite_component_shared_repository_rows_cap_below_grade_b():
+    """A component inherits at most 49.9 TM from its suite root's repository.
+
+    Founder ruling 2026-11-08 (RFC #2148): the cap sits just below the inclusive
+    Grade B floor, so the inherited baseline alone grades C (2★ ceiling).
+    """
     component = _taste_like_component()
     rows = computeRowArtifactScores(component)
     sharedTotal = sum(
@@ -575,12 +580,25 @@ def test_suite_component_shared_repository_rows_cap_at_50_and_cannot_reach_a_or_
     )
     byType = computeTrustMagnitudeByType(component)
 
-    assert sharedTotal == pytest.approx(50.0)
-    assert computeTrustMagnitude(component) == pytest.approx(50.0)
-    assert sum(byType.values()) == pytest.approx(50.0)
-    assert computeOverallTrustGradeFromSkill(component) == "B"
+    assert SUITE_COMPONENT_REPOSITORY_CAP == 49.9 < GRADE_B_FLOOR
+    assert sharedTotal == pytest.approx(49.9)
+    assert computeTrustMagnitude(component) == pytest.approx(49.9)
+    assert sum(byType.values()) == pytest.approx(49.9)
+    assert computeOverallTrustGradeFromSkill(component) == "C"
     explanation = explainTrustMagnitude(component)
-    assert "suite component repository baseline: 50.00 / 50.00 TM" in explanation
+    assert "suite component repository baseline: 49.90 / 49.90 TM" in explanation
+
+
+def test_one_more_scoring_row_lifts_a_capped_component_to_grade_b():
+    """The capped baseline plus any own scoring row of at least 0.1 TM reaches B."""
+    component = _taste_like_component(extraEvidence=[{
+        "type": "repo-own",
+        "commits": 50,
+        "contributors": 2,
+        "source": "https://github.com/someone-else/taste-component/blob/main/SKILL.md",
+    }])
+    assert computeTrustMagnitude(component) >= GRADE_B_FLOOR
+    assert computeOverallTrustGradeFromSkill(component) == "B"
 
 
 def test_suite_component_keeps_other_repository_evidence_fully_eligible():
@@ -596,7 +614,7 @@ def test_suite_component_keeps_other_repository_evidence_fully_eligible():
     componentRow = next(score for row, score in rows if "taste/component" in row.get("source", ""))
 
     assert componentRow == pytest.approx(36.0)
-    assert computeTrustMagnitude(component) == pytest.approx(86.0)
+    assert computeTrustMagnitude(component) == pytest.approx(SUITE_COMPONENT_REPOSITORY_CAP + 36.0)
 
 
 def test_suite_component_benchmark_and_review_lift_normally():
@@ -609,7 +627,7 @@ def test_suite_component_benchmark_and_review_lift_normally():
 
     assert byType["benchmark-result"] == pytest.approx(140.0)
     assert byType["peer-review"] == pytest.approx(120.0)
-    assert computeTrustMagnitude(component) == pytest.approx(310.0)
+    assert computeTrustMagnitude(component) == pytest.approx(SUITE_COMPONENT_REPOSITORY_CAP + 140.0 + 120.0)
     assert computeOverallTrustGradeFromSkill(component) == "S"
 
 

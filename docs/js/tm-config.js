@@ -45,7 +45,9 @@
     benchmarkReportedLanes: ['reported', 'mirrored'],
     benchmarkRejectedLanes: ['rejected', 'pending', 'candidate', 'retired', 'unknown'],
   };
-  var SUITE_COMPONENT_REPOSITORY_CAP = 50;
+  // Mirrors trustMagnitude.SUITE_COMPONENT_REPOSITORY_CAP (founder ruling
+  // 2026-11-08: just below the inclusive Grade B floor of 50).
+  var SUITE_COMPONENT_REPOSITORY_CAP = 49.9;
 
   function isInvalidEvidence(row) {
     if (!row || row._phantom === true || row.phantom === true) return true;

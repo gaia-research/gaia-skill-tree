@@ -102,6 +102,6 @@ the bug.
 - `benchmark-result` that is not catalog-eligible (unknown or rejected `benchmarkId`, or a non-scoring lane) → excluded.
 - A second row of the **same** type at the same canonical URL → collapsed. Dedup is within type: `github-stars-own` + `repo-own` at one URL **both** count.
 - Rows beyond a stackable type's plateau max-rows → 0.
-- Shared suite-root repository evidence on a suite component → capped at 50.0 TM per component.
+- Shared suite-root repository evidence on a suite component → capped at 49.9 TM per component (alone it grades C).
 - A verifier-attestation from a deranked verifier → excluded (null).
 - `skillCountInRepo` never reduces a score. There is no repository-count divisor.
