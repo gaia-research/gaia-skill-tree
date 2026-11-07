@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-authz-fail-closed-2283",
+  "status": "decided",
+  "decision": "How should authorization behave when the generated named-skills index cannot be read or parsed?",
+  "whyItMatters": "Treating missing or corrupt authorization data as bootstrap silently lets every actor run mutating commands.",
+  "evidence": [
+    "Founder ruling 2026-11-08: \"Fail closed on unreadable or malformed index; empty registry keeps bootstrap; override still works\"",
+    "A missing or unreadable registry/named-skills.json is not the genuine empty-registry bootstrap condition. CI and fresh environments that must mutate can set GAIA_OPERATOR_OVERRIDE=1."
+  ],
+  "recommended": "Deny with the index path and repair guidance; preserve bootstrap only for a readable index containing zero 4★+ verifiers; always honor GAIA_OPERATOR_OVERRIDE=1.",
+  "alternative": "Treat missing or malformed authorization data as bootstrap.",
+  "unblocks": "Fail-closed Verifier authorization with an explicit CI override.",
+  "links": ["https://github.com/gaia-research/gaia-skill-tree/issues/2283"],
+  "resolution": "approved"
+}

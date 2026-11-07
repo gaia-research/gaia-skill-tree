@@ -325,7 +325,7 @@ All commands default to **local-first** output (user's own skill levels, detecte
 ## Authorization — Verifier Guardrail
 
 All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
-rm-evidence, link, reclassify, update-named, timeline, timeline-resort, rm, verify, build) require
+rm-evidence, link, reclassify, update-named, timeline, timeline-resort, rm, verify, challenge, build) require
 **Verifier authorization**.  Read-only subcommands (`list`, `audit`, `diff`) and all
 player-facing commands (`gaia fuse`, `gaia scan`, `gaia push`) are
 **never** gated.
@@ -339,12 +339,15 @@ Run `gaia whoami` to check your current authorization status and see which path
 |---|---|---|
 | `verifier` | Contributor holds a 4★+ named skill in `registry/named-skills.json` | Human maintainers |
 | `override` | `GAIA_OPERATOR_OVERRIDE=1` env var is set | CI runners, bots, automation |
-| `bootstrap` | No 4★ verifiers exist in the registry yet | Fresh / empty registries |
+| `bootstrap` | Readable index has no 4★ verifiers | Fresh / empty registries |
 | `denied` | None of the above | Unauthorized |
 
-**Bootstrap lockout prevention:** a registry with zero Verifiers auto-allows all actors.
-Gating activates automatically once the first 4★ named skill lands.  Set
-`GAIA_OPERATOR_OVERRIDE=1` in CI pipelines that must mutate the registry after that point.
+**Bootstrap lockout prevention:** a readable index with zero Verifiers auto-allows all actors.
+Gating activates automatically once the first 4★ named skill lands. A missing, unreadable, or malformed
+`registry/named-skills.json` is denied (it is generated Class P data): regenerate with
+`gaia dev docs` or refresh with `gaia pull`. Fresh clones/CI that need mutations must prepare the
+index or set `GAIA_OPERATOR_OVERRIDE=1`; CI pipelines that mutate after verifiers exist must set
+the override.
 
 ### CI enforcement
 
