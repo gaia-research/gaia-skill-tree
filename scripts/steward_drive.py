@@ -234,6 +234,8 @@ class DriveOptions:
     agentTimeout: float = DEFAULTAGENTTIMEOUT
     census: bool = False
     repo: str = DEFAULTREPO
+    # "external": an earlier least-privilege job collected the browser render and a validator accepted it.
+    browserCollection: str = "local"
 
 
 @dataclass
@@ -339,6 +341,8 @@ class Driver:
             tail += ["--integration-branch", o.integrationBranch]
         if o.push:
             tail.append("--push")
+        if o.browserCollection != "local":
+            tail += ["--browser-collection", o.browserCollection]
         tail.append("--json")
         return tail
 
@@ -633,6 +637,19 @@ class Driver:
         if result.returncode == 3:
             # The collector writes the file with its completeness flags false, so the sensor reports it not evaluated.
             return {"state": "incomplete", "detail": "a page failed or was short; issue hygiene is not evaluated"}
+        if result.returncode in (4, 5):
+            # An invalid restored baseline could not be preserved. The census file is still written; its own completeness
+            # fields, not the exit code, say whether the census is complete.
+            note = "the invalid restored closed-issue baseline could not be preserved; the baseline is not evaluated"
+            try:
+                complete = json.loads(target.read_text(encoding="utf-8"))["completeness"]["issues"]["complete"]
+            except (OSError, ValueError, KeyError, TypeError):
+                if target.is_file():
+                    target.unlink()
+                return {"state": "failed", "detail": f"census collector exited {result.returncode} and its file is unusable; input removed"}
+            if result.returncode == 4 and complete is True:
+                return {"state": "complete", "detail": f"{o.repo} census collected; {note}"}
+            return {"state": "incomplete", "detail": f"a page failed or was short or the closed inventory is unverified; {note}"}
         if target.is_file():
             target.unlink()
         return {"state": "failed", "detail": f"census collector exited {result.returncode}; input removed"}
@@ -926,6 +943,9 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--no-agents", action="store_true", help="Never dispatch Class B agent work")
     parser.add_argument("--report", default=DEFAULTREPORT, metavar="PATH",
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
+    parser.add_argument("--browser-collection", choices=("local", "external"), default="local",
+                        help="local: the run collects the headless browser render itself; external: an earlier "
+                             "least-privilege job collected it and a validator accepted the artifact")
     parser.add_argument("--no-census", action="store_true",
                         help="Do not refresh the GitHub issue census before the run (issue hygiene then reports not evaluated)")
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY") or DEFAULTREPO, metavar="OWNER/NAME",
@@ -946,6 +966,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if refusal:
             print(f"steward drive refused: {refusal}", file=sys.stderr)
             return EXITREFUSEDINPUT
+    options.browserCollection = args.browser_collection
     options.census = not args.no_census
     options.repo = args.repo
     options.agents = not args.no_agents

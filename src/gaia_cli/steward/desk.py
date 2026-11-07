@@ -78,7 +78,11 @@ _RECORD_KEYS = frozenset({
     "schemaVersion", "id", "status", "decision", "whyItMatters", "evidence",
     "recommended", "alternative", "unblocks", "links",
 })
-_RECORD_OPTIONAL_KEYS = frozenset({"resolution"})
+_RECORD_OPTIONAL_KEYS = frozenset({"resolution", "landedIn"})
+
+# A decided record carrying this resolution is a founder approval whose change
+# is not yet recorded as landed: it still needs someone to implement or land it.
+APPROVED_RESOLUTION = "approved"
 _RECORD_ID = re.compile(r"[a-z0-9][a-z0-9._-]{0,127}")
 _MAX_RECORD_BYTES = 64 * 1024
 _MAX_EVIDENCE_ITEMS = 8
@@ -256,6 +260,8 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         return "status must be 'open' or 'decided'"
     if "resolution" in body and (not isinstance(body["resolution"], str) or not body["resolution"].strip()):
         return "resolution must be a non-empty string when present"
+    if "landedIn" in body and (not isinstance(body["landedIn"], str) or not body["landedIn"].strip()):
+        return "landedIn must be a non-empty string when present"
     for key in ("decision", "whyItMatters", "recommended", "alternative", "unblocks"):
         if not isinstance(body[key], str) or not body[key].strip():
             return f"{key} must be a non-empty string"
@@ -266,8 +272,67 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
     return None
 
 
+@dataclass(frozen=True)
+class AwaitingRecord:
+    """A founder-approved record whose implementation or landing is not yet recorded."""
+
+    record_id: str
+    decision: str
+    resolution: str
+    ruling: str
+    unblocks: str
+    links: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "recordId": self.record_id,
+            "decision": self.decision,
+            "resolution": self.resolution,
+            "ruling": self.ruling,
+            "unblocks": self.unblocks,
+            "links": list(self.links),
+        }
+
+
+@dataclass(frozen=True)
+class RecordDesk:
+    """Every canonical decision record, sorted into what the founder must act on.
+
+    ``pending`` records are open questions awaiting a ruling. ``awaiting`` records
+    are approved rulings that still need implementation or landing. ``invalid``
+    records could not be read and are never silently dropped.
+    """
+
+    pending: tuple[DeskDecision, ...] = ()
+    awaiting: tuple[AwaitingRecord, ...] = ()
+    invalid: tuple[DeskOperation, ...] = ()
+
+    def actionable(self) -> bool:
+        return bool(self.pending or self.awaiting or self.invalid)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "pending": [item.to_dict() for item in self.pending],
+            "awaitingImplementation": [item.to_dict() for item in self.awaiting],
+            "invalid": [item.to_dict() for item in self.invalid],
+        }
+
+
+def classify_decision_records(records: Iterable[Mapping[str, Any]]) -> RecordDesk:
+    """Sort decision records into pending, approved-awaiting-landing and invalid."""
+
+    awaiting: list[AwaitingRecord] = []
+    pending, invalid = _records_to_desk(records, awaiting)
+    return RecordDesk(
+        pending=tuple(sorted(pending, key=lambda item: item.decision_id)),
+        awaiting=tuple(sorted(awaiting, key=lambda item: item.record_id)),
+        invalid=tuple(sorted(invalid, key=lambda op: (op.subject, op.detail))),
+    )
+
+
 def _records_to_desk(
     records: Iterable[Mapping[str, Any]],
+    awaiting: list[AwaitingRecord] | None = None,
 ) -> tuple[list[DeskDecision], list[DeskOperation]]:
     decisions: list[DeskDecision] = []
     operations: list[DeskOperation] = []
@@ -286,6 +351,19 @@ def _records_to_desk(
             continue
         seen.add(str(identifier))
         if record["status"] != "open":
+            if (
+                awaiting is not None
+                and record.get("resolution") == APPROVED_RESOLUTION
+                and "landedIn" not in record
+            ):
+                awaiting.append(AwaitingRecord(
+                    record_id=str(identifier),
+                    decision=record["decision"].strip(),
+                    resolution=APPROVED_RESOLUTION,
+                    ruling=record["recommended"].strip(),
+                    unblocks=record["unblocks"].strip(),
+                    links=tuple(item.strip() for item in record["links"]),
+                ))
             continue
         decisions.append(DeskDecision(
             decision_id=str(identifier),
