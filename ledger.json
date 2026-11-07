@@ -1,5 +1,5 @@
 {
- "generation": 1400,
+ "generation": 1401,
  "lane": {
   "entries": [
    {
@@ -4392,7 +4392,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -4413,14 +4413,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch5-verifier-e32db45574f4 (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T11:54:04.703234Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-c475fcc30286619c27c0",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T10:14:47.540306Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T11:54:04.703234Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 1,
@@ -5730,7 +5736,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:51:11.610261Z",
-   "expiresAt": "2026-11-07T12:28:43.505540Z",
+   "expiresAt": "2026-11-07T12:30:17.385260Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -110371,6 +110377,34 @@
      "status": "pending",
      "stepId": "build:6daedf9b733f:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+     "emittedAt": "2026-11-07T11:54:04.703234Z",
+     "idempotencyKey": "dispatch-c475fcc30286619c27c0:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-e32db45574f4",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+      "dispatchId": "dispatch-c475fcc30286619c27c0",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-e32db45574f4.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-e32db45574f4.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-e32db45574f4.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:e32db45574f4:2",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -111460,6 +111494,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:6daedf9b733f:2"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+     "idempotencyKey": "dispatch-c475fcc30286619c27c0:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:e32db45574f4:2"
     }
    ],
    "thinkingEfforts": [],
@@ -111470,7 +111512,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:58:43.509921Z",
+ "updatedAt": "2026-11-07T12:00:17.389719Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -114287,16 +114329,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch5-verifier-e32db45574f4 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-e32db45574f4",
    "build": null,
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
    "dispatchId": "dispatch-c475fcc30286619c27c0",
-   "dispatchedAt": "2026-11-07T09:28:17.139193Z",
+   "dispatchedAt": "2026-11-07T11:54:04.703234Z",
    "history": [
     {
      "at": "2026-11-07T09:28:17.139193Z",
@@ -114309,24 +114350,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch5-verifier-e32db45574f4 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-c475fcc30286619c27c0 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-e32db45574f4.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-e32db45574f4.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261107T092526Z-c6c6c44d",
+   "runId": "run-20261107T115111Z-802da939",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T10:14:47.540306Z",
-   "verification": {
-    "agentId": "pi-herdr-batch5-verifier-e32db45574f4",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The three imports existed in the base and were removed without other source changes; the supplied reproduction reports no reads. - The offered 44-test result is reproducible by running only the three challenge-watch test files, not the importing package's full test suite. - An independent run of scripts/upstream_watcher/tests exceeded 72 tests before the 30-second command limit terminated it; the offered evidence does not establish that the required package-wide pytest run passed. - Independent review is supplied by this verification; the empty review item is not itself a defect.",
-    "recordedAt": "2026-11-07T10:14:47.540306Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T11:54:04.703234Z",
+   "verification": null
   },
   "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588": {
    "assignments": [
