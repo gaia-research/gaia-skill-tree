@@ -1,5 +1,5 @@
 {
- "generation": 1699,
+ "generation": 1700,
  "lane": {
   "entries": [
    {
@@ -132181,6 +132181,15 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "emittedAt": "2026-11-07T22:34:17.166999Z",
      "idempotencyKey": "dispatch-2f1cf771b91cddb9a30a:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-builder-2933fea8b223",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.proof.json",
+      "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) added job-level timeout-minutes from the governed workflowproof rule over lead-prefetched raw job history (SP/hist-batch11); commit 671bff9dc; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -132201,7 +132210,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T23:44:20.447199Z",
+     "status": "done",
      "stepId": "build:2933fea8b223:2",
      "type": "agent.build"
     },
@@ -132403,7 +132413,20 @@
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-batch11-builder-2933fea8b223",
+     "at": "2026-11-07T23:44:20.447489Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2933fea8b223:2",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -132905,8 +132928,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 8 pending action(s) (agent.build), record each with `gaia steward full record run-20261107T222830Z-f75ff7de <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T222830Z-f75ff7de`",
    "options": {
     "afk": false,
@@ -133960,7 +133985,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.proof.json",
+     "stepId": "build:2933fea8b223:2"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -134005,11 +134037,11 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-07T22:34:17.166999Z",
+     "at": "2026-11-07T23:44:20.447199Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "idempotencyKey": "dispatch-2f1cf771b91cddb9a30a:2",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:2933fea8b223:2"
     },
     {
@@ -134069,15 +134101,18 @@
      "stepId": "build:70c6c5849b04:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-07T23:44:20.447199Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T22:54:52.382056Z",
+ "updatedAt": "2026-11-07T23:44:20.448344Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -139412,13 +139447,33 @@
      "stepId": "verify:2933fea8b223:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-builder-2933fea8b223",
+     "at": "2026-11-07T23:44:20.447489Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2933fea8b223:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-2933fea8b223",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch11-builder-2933fea8b223",
+    "attempt": 2,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.diff",
+    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-2933fea8b223.proof.json",
+    "recordedAt": "2026-11-07T23:44:20.447489Z",
+    "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) added job-level timeout-minutes from the governed workflowproof rule over lead-prefetched raw job history (SP/hist-batch11); commit 671bff9dc; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
@@ -139451,7 +139506,7 @@
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "updatedAt": "2026-11-07T23:44:20.447489Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0": {
