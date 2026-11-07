@@ -289,10 +289,17 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert any("does not contain it yet" in n["note"] for n in item["notes"])
 
     # 8. only after the condition is observed healthy does it become resolved.
+    # This scenario records a synthetic SHA; model an already integrated checkout for the predicate.
+    runner._mergedInto = lambda _item: True
     sensor.heal("leaked-artifact")
     final = runner.start("verify")
     assert final.status == "completed"
-    assert ledgerOf(store)["work"][debtId]["state"] == "resolved"
+    resolved = ledgerOf(store)["work"][debtId]
+    assert resolved["state"] == "resolved"
+    assert resolved["resolvedBy"]["kind"] == "lane_repair"
+    assert resolved["resolvedBy"]["mergedSha"] == resolved["mergedSha"]
+    assert resolved["resolvedBy"]["verifiedBy"] == "verifier-1"
+    assert final.summary["reobserve"]["resolvedByRepair"] == [debtId]
 
 
 def test_scenario_c_mechanical_reject_returns_the_debt_and_attempts_are_bounded(tmp_path: Path) -> None:
@@ -1033,6 +1040,11 @@ def test_scenario_d6_blocked_work_resolves_when_the_debt_is_observed_resolved(tm
     assert doc["work"][debtId]["state"] == "resolved"
     assert "resolved by observation" in doc["work"][debtId]["history"][-1]["reason"]
     assert final.summary["reobserve"]["resolvedWork"] == [debtId]
+    assert ledgerOf(store)["work"][debtId]["resolvedBy"] == {
+        "kind": "condition_not_reobserved", "receipt": final.summary["reobserve"]["scanReceiptId"],
+        "priorState": "blocked",
+    }
+    assert final.summary["reobserve"]["resolvedByRepair"] == []
     assert final.status == "completed" and final.desk["decisions"] == []
     assert not [op for op in final.desk["operations"] if op["kind"] == "failed_dispatch"]
     entry = load_lane(doc["lane"], StewardPolicy.load(repo).lane).by_id(debtId)
