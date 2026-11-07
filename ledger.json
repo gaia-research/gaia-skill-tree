@@ -1,5 +1,5 @@
 {
- "generation": 1418,
+ "generation": 1419,
  "lane": {
   "entries": [
    {
@@ -5742,7 +5742,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T14:20:56.103570Z",
-   "expiresAt": "2026-11-07T14:56:07.711975Z",
+   "expiresAt": "2026-11-07T14:57:42.221965Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -110537,6 +110537,30 @@
      "status": "pending",
      "stepId": "verify:01bdcf8a1d9c:2",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "emittedAt": "2026-11-07T14:27:40.957109Z",
+     "idempotencyKey": "verify:dispatch-c014cb105fdf43f2f948:2",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch5-builder-6daedf9b733f",
+       "pi-herdr-batch7-builder-6daedf9b733f"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/verify-6daedf9b733f.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:6daedf9b733f:2",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -112212,6 +112236,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:01bdcf8a1d9c:2"
+    },
+    {
+     "at": "2026-11-07T14:27:40.957109Z",
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "idempotencyKey": "verify:dispatch-c014cb105fdf43f2f948:2",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:6daedf9b733f:2"
     }
    ],
    "thinkingEfforts": [
@@ -112225,7 +112257,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:26:07.712180Z",
+ "updatedAt": "2026-11-07T14:27:42.222170Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -115085,7 +115117,12 @@
    "source": "dead-code",
    "state": "building",
    "updatedAt": "2026-11-07T14:19:42.938634Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261107T142612Z-6b0b7b47b38f4d12",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/verify-6daedf9b733f.prompt.md"
+   }
   },
   "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3": {
    "assignments": [
