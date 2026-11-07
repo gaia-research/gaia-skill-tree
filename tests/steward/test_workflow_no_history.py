@@ -207,3 +207,33 @@ def test_policy_carries_the_no_history_contract() -> None:
     assert any("no-history default" in condition for condition in rule.stop_conditions)
     assert any("no-history" in item for item in rule.proof)
     assert rule.allowed_paths == (".github/workflows/*.yml",)
+
+
+# --- #2382 re-review: unusable or empty history never yields a value --------
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        {"conclusion": "success", "started_at": "not-a-time", "completed_at": "2026-11-01T00:01:00Z"},
+        {"conclusion": "success", "started_at": "2026-11-01T00:10:00Z", "completed_at": "2026-11-01T00:00:00Z"},
+        {"conclusion": "success", "started_at": "2026-11-01T00:00:00", "completed_at": "2026-11-01T00:01:00Z"},
+    ],
+    ids=["malformed", "reversed", "naive-vs-aware"],
+)
+@pytest.mark.parametrize("rule", ["history", "no-history"])
+def test_an_unusable_success_row_stops_both_rules(tmp_path: Path, capsys, bad: dict, rule: str) -> None:
+    rows = [_run("success", 60), bad]
+    args = ["history"] if rule == "history" else ["no-history", "--class", "api-script", "--declared-wait-seconds", "0"]
+    assert _main(args + ["--history", _rows(tmp_path, rows)]) == 3
+    out = capsys.readouterr().out
+    assert out.startswith("selection: ") and "no usable times" in out
+
+
+@pytest.mark.parametrize("rule", ["history", "no-history"])
+def test_an_empty_history_stops(tmp_path: Path, capsys, rule: str) -> None:
+    args = ["history"] if rule == "history" else ["no-history", "--class", "api-script", "--declared-wait-seconds", "0"]
+    assert _main(args + ["--history", _rows(tmp_path, [])]) == 3
+    assert "no sampled history" in capsys.readouterr().out
+    value, _selection, reason = no_history_from_rows("api-script", declared_wait_seconds=0, rows=[])
+    assert value is None and "no sampled history" in reason

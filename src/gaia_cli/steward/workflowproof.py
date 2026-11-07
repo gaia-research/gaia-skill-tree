@@ -435,9 +435,12 @@ def _parse_time(value: Any) -> Any:
     if not isinstance(value, str) or not value.strip():
         return None
     try:
-        return datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
     except ValueError:
         return None
+    # A timestamp without a timezone cannot be compared with an aware one; the
+    # jobs API always returns UTC, so a naive value is unusable, never guessed.
+    return parsed if parsed.tzinfo is not None else None
 
 
 def select_job_history(rows: Sequence[Any]) -> dict[str, Any]:
@@ -483,10 +486,12 @@ def no_history_from_rows(
     """
 
     selection = select_job_history(rows)
-    if selection["successful"]:
-        return None, selection, "the job has successful runs; use the history rule"
+    if not rows:
+        return None, selection, "no sampled history rows (unreadable or no completed runs); stop"
     if selection["unusable"]:
         return None, selection, "a sampled run that was not skipped has no usable times; stop"
+    if selection["successful"]:
+        return None, selection, "the job has successful runs; use the history rule"
     executed = [item["seconds"] for item in selection["executed"]]
     longest = max(executed) if executed else None
     value = no_history_timeout(step_class, declared_wait_seconds=declared_wait_seconds, longest_observed_seconds=longest)
@@ -536,6 +541,15 @@ def _main(argv: Sequence[str] | None = None) -> int:
     if args.rule == "history":
         selection = select_job_history(rows)
         print("selection: " + json.dumps(selection, sort_keys=True))
+        # Before any rule runs: a sampled run that was not skipped but cannot be
+        # measured (malformed, missing, naive or reversed times) is never dropped
+        # silently, whatever its conclusion; and an empty sample is no history.
+        if not rows:
+            print("no sampled history rows (unreadable or no completed runs); stop")
+            return 3
+        if selection["unusable"]:
+            print("a sampled run that was not skipped has no usable times; stop")
+            return 3
         if not selection["successful"]:
             print("no successful run: the history rule does not apply; stop")
             return 3

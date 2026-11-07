@@ -79,7 +79,10 @@ the same as none.
    of the successful durations, never below 5. State the sample size, p95, max
    and the result for every job in the proof, and recompute it from the job's raw
    rows with `python -m gaia_cli.steward.workflowproof history --history history.json`
-   (rows collected as in the no-history section, step 3).
+   (rows collected as in the no-history section, step 3). It stops (exit 3) on an
+   empty sample and on any sampled run that was not skipped but has malformed,
+   missing, timezone-less or reversed times, whatever its conclusion: an unusable
+   row is never dropped silently.
 4. **Cap by semantics.** A job with no external wait that already runs in under
    two minutes does not get a 60-minute bound. A job that deploys or fetches
    over the network may need more headroom than its median suggests; say why.
@@ -132,8 +135,9 @@ The no-history default, in order:
      that time; it is a lower bound, never ignored;
    - value = `ceil to 5 minutes of max(base + 2 x declared waits, 1.5 x longest
      executed run)`, never below 10;
-   - **stop** (exit 3) when the job has a successful run (use the history rule), when
-     a non-skipped row has no usable times, or when the result is above **60**, for
+   - **stop** (exit 3) when the sample is empty, when a non-skipped row has no
+     usable times, when the job has a successful run (use the history rule), or
+     when the result is above **60**, for
      example because an executed run was long (a job that may legitimately need more
      than an hour needs real history first).
    Paste the command, `history.json`, its output (selection and value), the class
