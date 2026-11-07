@@ -356,6 +356,14 @@ class Subject:
         return cls(type=str(data["type"]), id=str(data["id"]))
 
 
+def debtIdFor(kind: str, subject: Subject) -> str:
+    """The debt id an observation of ``kind`` about ``subject`` deduplicates to."""
+
+    semantic = stable_json({"kind": kind, "subject": subject.to_dict()})
+    digest = hashlib.sha256(semantic.encode("utf-8")).hexdigest()[:16]
+    return f"debt:{kind}:{_slug(subject.id)}:{digest}"
+
+
 @dataclass(frozen=True)
 class Observation:
     """A sensor statement about one reproducible repository condition."""
@@ -388,8 +396,7 @@ class Observation:
 
     @property
     def debt_id(self) -> str:
-        digest = hashlib.sha256(self.semantic_key.encode("utf-8")).hexdigest()[:16]
-        return f"debt:{self.kind}:{_slug(self.subject.id)}:{digest}"
+        return debtIdFor(self.kind, self.subject)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -481,8 +488,14 @@ class Debt:
     last_observed_at: str
     observation_count: int
     resolution: str | None = None
+    # Debt id migration (#2201): when a finding moves to a more precise kind, the
+    # successor names the debt ids it replaces and each predecessor names its
+    # successor. Nothing is deleted, so the predecessor's receipts stay linked.
+    supersedes: tuple[str, ...] = ()
+    superseded_by: str | None = None
 
     def __post_init__(self) -> None:
+        object.__setattr__(self, "supersedes", tuple(sorted(set(self.supersedes))))
         if self.status not in {"open", "resolved"}:
             raise ValueError("V1 debt status must be open or resolved")
         if self.observation_count < 1:
@@ -507,6 +520,10 @@ class Debt:
         }
         if self.resolution is not None:
             data["resolution"] = self.resolution
+        if self.supersedes:
+            data["supersedes"] = list(self.supersedes)
+        if self.superseded_by is not None:
+            data["supersededBy"] = self.superseded_by
         return data
 
     @classmethod
@@ -528,6 +545,8 @@ class Debt:
             last_observed_at=str(data["lastObservedAt"]),
             observation_count=int(data["observationCount"]),
             resolution=data.get("resolution"),
+            supersedes=tuple(str(item) for item in data.get("supersedes") or ()),
+            superseded_by=(str(data["supersededBy"]) if data.get("supersededBy") is not None else None),
         )
 
 

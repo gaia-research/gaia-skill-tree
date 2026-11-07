@@ -50,6 +50,9 @@ authority:
   timeline_causality_drift: B
   frontend_contract_drift: B
   trust_stamp_stale: C
+  # Founder ruling 2026-11-06 (#2201, option 11A): an empty effective evidence pool is a
+  # Class C evidence gap, never drift and never a demotion.
+  trust_evidence_gap: C
   issue_closure_ready: A
   issue_suite_review: B
   issue_founder_decision: C
@@ -297,6 +300,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.6
     expectedCost: 0.3
+  trust_evidence_gap:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 0.5
+    expectedCost: 0.4
   issue_closure_ready:
     importance: 0.6
     decisionImpact: 0.6
