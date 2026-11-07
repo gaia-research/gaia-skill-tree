@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -576,6 +577,114 @@ def test_when_the_invalid_baseline_cannot_be_preserved_nothing_is_seeded_over_it
     assert document["completeness"]["issues"]["complete"] is True  # the census itself is sound and was still written
 
 
+def test_a_failed_move_together_with_an_incomplete_census_carries_both_conditions(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    path = tmp_path / "inputs" / "closed-issue-baseline.json"
+    path.parent.mkdir(parents=True)
+    path.write_text("{broken", encoding="utf-8")
+    failEvidenceMove(monkeypatch, PermissionError("read-only"))
+
+    code, out, _ = run(tmp_path, Repo(searchStatus=401), monkeypatch)  # the closed count is refused: the census is incomplete
+
+    captured = capsys.readouterr()
+    document = json.loads(out.read_text(encoding="utf-8"))
+    assert code == 5  # not 4: the exit code carries BOTH conditions
+    assert document["completeness"]["issues"]["complete"] is False
+    assert document["completeness"]["closed"] == {"complete": False, "reason": "http-401"}
+    assert "census INCOMPLETE" in captured.err and "closed-issue baseline: NOT EVALUATED" in captured.err
+    assert path.read_text(encoding="utf-8") == "{broken" and not evidenceOf(path).exists()
+
+
+def test_the_exit_codes_are_unchanged_without_a_baseline_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    complete = run(tmp_path / "a", Repo(total=5), monkeypatch)[0]
+    incomplete = run(tmp_path / "b", Repo(searchStatus=401), monkeypatch)[0]
+    assert (complete, incomplete) == (0, 3)
+
+
+STUB = """\
+import os, shutil, sys
+from pathlib import Path
+target = Path(".gaia/steward/inputs/github-issues.json")
+target.parent.mkdir(parents=True, exist_ok=True)
+if os.environ.get("STUB_DOC"):
+    shutil.copy(os.environ["STUB_DOC"], target)
+sys.exit(int(os.environ["STUB_CODE"]))
+"""
+
+
+def runCensusStep(tmp_path: Path, code: int, document: dict | None):
+    """Execute the workflow's real census reporting step in bash against a stub collector that exits `code`."""
+
+    import os
+    import subprocess
+
+    work = tmp_path / "work"
+    (work / "scripts").mkdir(parents=True)
+    (work / "scripts" / "steward_issue_census.py").write_text(STUB, encoding="utf-8")
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    (bin_ / "python").symlink_to(sys.executable)
+    env = {**os.environ, "PATH": f"{bin_}:{os.environ['PATH']}", "RUNNER_TEMP": str(tmp_path), "GITHUB_REPOSITORY": REPO,
+           "BASELINE_STATE": "restored", "STUB_CODE": str(code), "GH_TOKEN": "x"}
+    if document is not None:
+        (tmp_path / "doc.json").write_text(json.dumps(document), encoding="utf-8")
+        env["STUB_DOC"] = str(tmp_path / "doc.json")
+    step = next(step for step in jobSteps() if step.get("id") == "census")
+    result = subprocess.run(["bash", "-e", "-c", step["run"]], cwd=work, env=env, capture_output=True, text=True, check=False)
+
+    def report(name: str):
+        return (tmp_path / name).read_text().strip() if (tmp_path / name).exists() else None
+
+    return result, report("inputs-census.txt"), report("inputs-baseline.txt")
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq is not installed")
+class TestCensusReportingStep:
+    @staticmethod
+    def whole() -> dict:
+        return census(Repo(total=5), baseline=None)
+
+    @staticmethod
+    def broken() -> dict:
+        return census(Repo(searchStatus=401))
+
+    def test_exit_four_with_an_incomplete_census_is_reported_partial_not_ok(self, tmp_path: Path) -> None:
+        result, censusLine, baselineLine = runCensusStep(tmp_path, 4, self.broken())  # inconsistent code: the file decides
+        assert censusLine.startswith("issue-census=partial") and censusLine != "issue-census=ok"
+        assert baselineLine.startswith("closed-baseline=failed") and result.returncode == 4
+
+    def test_exit_five_reports_both_conditions(self, tmp_path: Path) -> None:
+        result, censusLine, baselineLine = runCensusStep(tmp_path, 5, self.broken())
+        assert censusLine.startswith("issue-census=partial") and "NOT EVALUATED" in censusLine
+        assert baselineLine.startswith("closed-baseline=failed") and result.returncode == 5
+        assert "::error" in result.stdout
+
+    def test_exit_four_with_a_complete_census_is_ok_and_still_reports_the_baseline_failure(self, tmp_path: Path) -> None:
+        result, censusLine, baselineLine = runCensusStep(tmp_path, 4, self.whole())
+        assert censusLine == "issue-census=ok" and baselineLine.startswith("closed-baseline=failed") and result.returncode == 4
+
+    def test_exit_zero_is_ok_only_because_the_file_says_complete(self, tmp_path: Path) -> None:
+        result, censusLine, baselineLine = runCensusStep(tmp_path, 0, self.whole())
+        assert (result.returncode, censusLine, baselineLine) == (0, "issue-census=ok", None)
+
+    def test_exit_zero_with_an_incomplete_file_is_never_reported_ok(self, tmp_path: Path) -> None:
+        _result, censusLine, _ = runCensusStep(tmp_path, 0, self.broken())
+        assert censusLine.startswith("issue-census=partial")
+
+    def test_exit_three_with_a_complete_looking_file_is_partial(self, tmp_path: Path) -> None:
+        _result, censusLine, _ = runCensusStep(tmp_path, 3, self.whole())
+        assert censusLine.startswith("issue-census=partial")
+
+    def test_a_missing_or_unusable_census_file_is_failed(self, tmp_path: Path) -> None:
+        for number, code in enumerate((4, 5, 3, 2)):
+            _result, censusLine, _ = runCensusStep(tmp_path / str(number), code, None)
+            assert censusLine.startswith("issue-census=failed"), code
+
+    def test_an_unexpected_exit_code_is_failed_even_with_a_complete_looking_file(self, tmp_path: Path) -> None:
+        _result, censusLine, _ = runCensusStep(tmp_path, 2, self.whole())
+        assert censusLine.startswith("issue-census=failed")
+
+
 def test_an_unpreserved_baseline_is_not_replaced_by_a_later_successful_run_either_until_it_can_be_preserved(
         tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     path = tmp_path / "inputs" / "closed-issue-baseline.json"
@@ -601,7 +710,9 @@ def test_the_census_step_fails_visibly_on_exit_four_and_nothing_is_persisted_aft
     stage = steps["Stage the closed-issue baseline for upload"]
 
     assert census["id"] == "census" and census["continue-on-error"] is True  # visible failure, observation still runs
-    assert "-eq 4" in census["run"] and "exit 4" in census["run"] and "closed-baseline=failed" in census["run"]
+    assert "-eq 4" in census["run"] and "-eq 5" in census["run"] and 'exit "$code"' in census["run"]
+    assert "closed-baseline=failed" in census["run"]
+    assert "tostring" in census["run"]  # the census status is read from the file's completeness, not inferred from the code
     assert "steps.census.outcome != 'failure'" in stage["if"]  # the invalid file is not re-uploaded as the newest baseline
 
 

@@ -344,25 +344,32 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BASELINE_STATE: ${{ steps.baseline.outputs.state }}
-        # Exit 4 (an invalid restored baseline could not be preserved) fails this step visibly but must not stop the
-        # observation: the census itself is sound and nothing was seeded or overwritten.
+        # Exit 4 or 5 (an invalid restored baseline could not be preserved; 5 when the census is also incomplete) fails
+        # this step visibly but must not stop the observation. The census status is read from the written file's own
+        # completeness fields, never inferred from the exit code, so the two conditions are reported independently.
         continue-on-error: true
         run: |
           code=0
           python scripts/steward_issue_census.py --repo "$GITHUB_REPOSITORY" \
             --out .gaia/steward/inputs/github-issues.json --baseline-state "$BASELINE_STATE" || code=$?
-          if [ "$code" -eq 4 ]; then
-            echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
+          census=.gaia/steward/inputs/github-issues.json
+          complete=missing
+          if [ -f "$census" ]; then complete=$(jq -r '.completeness.issues.complete | tostring' "$census" 2>/dev/null || echo missing); fi
+          case "$code" in
+            0|4)
+              if [ "$complete" = "true" ]; then state=ok; elif [ "$complete" = "false" ]; then state=partial; else state=failed; fi ;;
+            3|5) if [ "$complete" = "true" ] || [ "$complete" = "false" ]; then state=partial; else state=failed; fi ;;
+            *) state=failed ;;
+          esac
+          case "$state" in
+            ok) echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt" ;;
+            partial) echo "issue-census=partial:a page failed or was short, or the closed inventory could not be verified; issue closure operations are NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt" ;;
+            *) echo "issue-census=failed:collector exited $code and its census file is unusable; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt" ;;
+          esac
+          if [ "$code" -eq 4 ] || [ "$code" -eq 5 ]; then
             echo "closed-baseline=failed:the invalid restored baseline could not be preserved; nothing was seeded or overwritten and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt"
             echo "::error title=steward closed-issue baseline::the invalid restored baseline could not be preserved; no baseline was written"
-            exit 4
-          fi
-          if [ "$code" -eq 0 ]; then
-            echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
-          elif [ "$code" -eq 3 ]; then
-            echo "issue-census=partial:a page failed or was short, or the closed inventory could not be verified; issue closure operations are NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
-          else
-            echo "issue-census=failed:collector exited $code; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
+            exit "$code"
           fi
 
       # The collector ran in the unprivileged browser-collect job. Only what the validator accepts as data

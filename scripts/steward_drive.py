@@ -637,6 +637,19 @@ class Driver:
         if result.returncode == 3:
             # The collector writes the file with its completeness flags false, so the sensor reports it not evaluated.
             return {"state": "incomplete", "detail": "a page failed or was short; issue hygiene is not evaluated"}
+        if result.returncode in (4, 5):
+            # An invalid restored baseline could not be preserved. The census file is still written; its own completeness
+            # fields, not the exit code, say whether the census is complete.
+            note = "the invalid restored closed-issue baseline could not be preserved; the baseline is not evaluated"
+            try:
+                complete = json.loads(target.read_text(encoding="utf-8"))["completeness"]["issues"]["complete"]
+            except (OSError, ValueError, KeyError, TypeError):
+                if target.is_file():
+                    target.unlink()
+                return {"state": "failed", "detail": f"census collector exited {result.returncode} and its file is unusable; input removed"}
+            if result.returncode == 4 and complete is True:
+                return {"state": "complete", "detail": f"{o.repo} census collected; {note}"}
+            return {"state": "incomplete", "detail": f"a page failed or was short or the closed inventory is unverified; {note}"}
         if target.is_file():
             target.unlink()
         return {"state": "failed", "detail": f"census collector exited {result.returncode}; input removed"}

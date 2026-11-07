@@ -52,7 +52,8 @@ An empty store and a restore-invalid baseline may be seeded ONLY from a verified
 telemetry say so ("seeded (no prior baseline retrievable)" or "seeded (prior baseline invalid)"), so a re-seed is always
 visible. In Actions the baseline lives in an artifact that every run re-uploads, renewing its 90-day retention.
 If an invalid restored file cannot be moved aside as evidence (for example a PermissionError), nothing is seeded or overwritten,
-the baseline is reported not evaluated and the script exits 4 (the census itself is still written).
+the baseline is reported not evaluated and the script exits 4 (5 when the census is also incomplete; 3 stays
+incomplete only). The census itself is still written, and its `completeness` fields, not the exit code, say whether it is complete.
 
 This collector writes only the census. Removing a stale census is the driver's job
 (`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
@@ -95,6 +96,7 @@ EXIT_COMPLETE = 0
 EXIT_USAGE = 2
 EXIT_INCOMPLETE = 3
 EXIT_BASELINE_EVIDENCE = 4  # an invalid restored baseline could not be preserved: nothing was seeded or overwritten
+EXIT_BASELINE_AND_INCOMPLETE = 5  # both: the census is incomplete AND the baseline evidence could not be preserved
 
 
 class FetchError(Exception):
@@ -1049,20 +1051,26 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     if after is not None and document["completeness"]["issues"]["complete"]:
         writeAtomic(baselinePath, after)
     complete = document["completeness"]["issues"]["complete"]
-    if baselineState == "restore-invalid-unpreserved":
+    counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"
+    unpreserved = baselineState == "restore-invalid-unpreserved"
+    # Both conditions are independent and both are reported: the exit code carries them (3 incomplete, 4 baseline
+    # evidence unpreserved, 5 both) and so does the output. A caller must read `completeness` from the census file, not
+    # infer the census status from the exit code alone.
+    if unpreserved:
         print(f"closed-issue baseline: NOT EVALUATED, the invalid restored baseline could not be preserved ({baselineProblem})",
               file=sys.stderr)
-        return EXIT_BASELINE_EVIDENCE
-    seeded = document["closedHistory"]["baseline"].get("seeded") if after is not None and complete else None
-    if seeded:
-        print(f"closed-issue baseline: {seeded}")
-    counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"
+    else:
+        seeded = document["closedHistory"]["baseline"].get("seeded") if after is not None and complete else None
+        if seeded:
+            print(f"closed-issue baseline: {seeded}")
     if complete:
         print(f"census complete: {counts} -> {args.out}")
-        return EXIT_COMPLETE
-    reason = document["completeness"]["issues"].get("reason", "unknown")
-    print(f"census INCOMPLETE ({reason}): {counts} -> {args.out}", file=sys.stderr)
-    return EXIT_INCOMPLETE
+    else:
+        reason = document["completeness"]["issues"].get("reason", "unknown")
+        print(f"census INCOMPLETE ({reason}): {counts} -> {args.out}", file=sys.stderr)
+    if unpreserved:
+        return EXIT_BASELINE_AND_INCOMPLETE if not complete else EXIT_BASELINE_EVIDENCE
+    return EXIT_COMPLETE if complete else EXIT_INCOMPLETE
 
 
 if __name__ == "__main__":
