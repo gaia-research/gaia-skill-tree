@@ -19,7 +19,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Mapping
 
-from gaia_cli.steward.issuehygiene.census import COMPLETE, Census, validateCensus
+from gaia_cli.steward.issuehygiene.census import closedOnlyIncomplete, COMPLETE, Census, validateCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
 from gaia_cli.steward.issuehygiene.questions import BINDINGS, decidedBindings
 from gaia_cli.steward.primitives.redact import scrub
@@ -228,6 +228,8 @@ class Context:
         # the authoritative full identity a legacy slug-only batch row lacks, when the census still holds that child.
         self.closedChildren: dict[int, list[tuple[str, str, str]]] = {}
         self.closeoutEvaluation: dict[str, Any] = {"status": "evaluated", "reasons": []}
+        # True when closed history is unavailable: nothing may be proven closable, everything else still reconciles.
+        self.closedUnavailable = False
 
 
 def snapshot(row: dict) -> dict:
@@ -948,7 +950,7 @@ def holdClosedDuplicate(ctx: Context, draft: Draft, repeatOf: int) -> None:
 
 def provenClosable(ctx: Context, draft: Draft) -> bool:
     """An item the registry already proves closable under an enabled rule: closing it is cleanup, not reprocessing."""
-    return draft.proofRule is not None and not draft.unknowns and not draft.forcedC and ctx.policy.ruleEnabled(draft.proofRule)
+    return draft.proofRule is not None and not draft.unknowns and not draft.forcedC and not ctx.closedUnavailable and ctx.policy.ruleEnabled(draft.proofRule)
 
 
 # ----------------------------------------------------------------- finalize
@@ -1052,7 +1054,13 @@ def finalize(ctx: Context, draft: Draft) -> None:
         rule = draft.proofRule
         draft.ruleId = rule
         draft.state = RULE_STATE[rule]
-        if ctx.policy.ruleEnabled(rule):
+        if ctx.closedUnavailable:
+            # A closure proof reads closed history, which this census does not have. Nothing becomes closable.
+            draft.authority = AUTH_B
+            draft.ruleId = None
+            draft.notProven.append("closed-history-unavailable")
+            draft.confidence = "high"
+        elif ctx.policy.ruleEnabled(rule):
             draft.authority = AUTH_A
             draft.confidence = "proven"
         else:
@@ -1166,22 +1174,32 @@ def reconcile(
     now: Any,
     workflowDisabled: Mapping[str, dict] | None = None,
     decisionRecords: tuple[Mapping[str, Any], ...] = (),
+    closedHistoryUnavailable: bool = False,
 ) -> dict:
-    """Build the reconciliation manifest. Deterministic: same inputs give the same bytes."""
+    """Build the reconciliation manifest. Deterministic: same inputs give the same bytes.
+
+    ``closedHistoryUnavailable`` is for a census whose open inventory is complete and whose closed history is not
+    (``census.closedOnlyIncomplete``). The open inventory is reconciled as usual with no closed rows, and no item can be
+    proven closable, so every operation that needs closed history fails closed while the rest keeps its observations.
+    """
     document = census.document if isinstance(census.document, dict) else None
     if document is not None:
         status = validateCensus(document, now, policy.maxCensusAgeSeconds)
     else:
         status = census.status
     fetchedAt = document.get("fetchedAt") if document is not None else None
-    complete = status.status == COMPLETE
+    degraded = closedHistoryUnavailable and closedOnlyIncomplete(census)
+    complete = status.status == COMPLETE or degraded
 
     rowsOpen = [row for row in census.openIssues() if isinstance(row.get("number"), int)] if document is not None else []
-    rowsClosed = census.rows("recentlyClosed") if document is not None else []
+    rowsClosed = census.rows("recentlyClosed") if document is not None and not degraded else []
     ctx = Context(census, registryIndex, policy, workflowDisabled)
+    ctx.closedUnavailable = degraded
     ctx.closedNumbers = {row["number"] for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")}
     openPulls = census.openPulls() if document is not None else []
-    ctx.mergedSyncs = [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None else []
+    ctx.mergedSyncs = (
+        [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None and not degraded else []
+    )
     # Closed umbrella history has no age window (founder ruling #6). When that history cannot be trusted, only the
     # umbrella-dependent decisions are not evaluated; every other decision proceeds on the windowed rows as before.
     historyRows, historyReasons = census.closedUmbrellaHistory() if document is not None else (None, ())
@@ -1284,6 +1302,8 @@ def reconcile(
         "closeoutDiscrepancies": discrepancies,
         "closeoutEvaluation": dict(ctx.closeoutEvaluation) if complete else {"status": "not-evaluated", "reasons": [f"census:{status.status}"]},
     }
+    if degraded:
+        manifest["closedHistory"] = "unavailable"  # only present when true, so a normal manifest is byte-identical
     manifest["manifestSha256"] = manifestDigest(manifest)
     return manifest
 

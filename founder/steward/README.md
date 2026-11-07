@@ -74,6 +74,27 @@ names a model, a provider, or a harness (founder ruling 2026-08-13,
 work knows whether they are handing over a chore or a judgment call, and so a
 stronger reasoner is never mistaken for a wider envelope.
 
+### The one `.github/` exception — workflow timeouts (founder ruling #14)
+
+Every dispatch rule must forbid `.github/**`, and `policy.py` refuses a policy
+that lets any other debt kind write there. `workflow-timeout-repair`
+(`workflow_hygiene`, a job with no `timeout-minutes`) is the single exception,
+pinned in code rather than in `POLICY.yaml`: its allowed path is exactly
+`.github/workflows/*.yml` (direct children only), it must forbid
+`.github/workflows/*.lock.yml` (gh-aw compiled output), `shared/`, `_disabled/`
+and `.github/actions/`; the rule id and debt kind are bound to each other in code;
+dispatch only ever hands the packet to a debt whose findings are all
+`missing-timeout`; and verification applies two gates: byte preservation first (a
+pure-insertion diff, every existing byte untouched, each inserted line exactly
+`timeout-minutes: 1..360`) and then a strict single-document, anchor-free,
+duplicate-key-free YAML structure check that the line is a top-level job's own key.
+Run `gaia steward verify` from a checkout whose `HEAD` is the diff's baseline. The sensor marks lock-file
+findings `laneEligible: false` so they stay visible but never take a lane slot.
+The value is chosen from job semantics and sampled run durations; see
+`routines/workflow-timeout.md`. A missing timeout is a configuration finding,
+not proof that any job ever timed out
+(`founder/reports/steward-campaign-2026-11-05/WORKFLOW_TIMEOUT_ATTRIBUTION.md`).
+
 ## Class B — the rolling lane
 
 `gaia steward dispatch <debt-id>` answers *render this one*. The lane answers the
@@ -125,10 +146,10 @@ on an empty lane. Quiet days are the common case and must not page anyone.
 
 ## Routine 19 critical coordination and rollout boundary
 
-Ordinary observation, debt, profiles and full-run state are checkout-local. `full --ledger auto/local` does not probe origin;
-explicit general `git` supports only read-only legacy status. Existing canonical campaign runs/history are not migrated,
-completed or settled, and cannot be resumed/recorded by the new local-only runner. Campaign compatibility and rollout remain
-separate owner gates; this source change does not retire or drain any real writer.
+Ordinary `steward full` run/record state is unchanged: it stays on the shared Steward Git ledger (`--ledger auto|git|local`
+exactly as before), only the Lead writes it, and it fails closed when unavailable; no local state stands in for it. Observation,
+census, profiles and dispatches remain checkout-local as before. This source change does not retire, migrate or drain the
+shared ledger or any real writer.
 
 Routine 19 alone uses a separately provisioned dedicated Git coordination ref for critical merge/close identity, durable
 verification/justification, one global slot, conservative attempt budgets and outcomes. Gate output is preparation, not a send

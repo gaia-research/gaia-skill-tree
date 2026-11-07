@@ -1,6 +1,5 @@
 """Crawls VS Code Marketplace for AI/agent extensions."""
 
-import json
 import sys
 import os
 

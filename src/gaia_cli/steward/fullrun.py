@@ -260,6 +260,14 @@ class FullRunConfig:
     trigger: str = "manual"
     agents: bool = True
     holder: str = "steward"
+    # Run-scoped switch for real/interactive browser access; off unless the run asks (policy browser.interactive can also enable it).
+    interactive_browser: bool = False
+    # "local": this run starts the headless collector itself (the default for scheduled and founder runs).
+    # "external": an earlier least-privilege job already collected and a validator accepted the artifact; this
+    # run then collects nothing and evaluates only what was accepted.
+    browser_collection: str = "local"
+    # Seam for tests: (root, repository, headless, interactive) -> {state, reason, mode}.
+    browser_collector: Callable[..., dict[str, Any]] | None = None
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
@@ -269,6 +277,8 @@ class FullRunConfig:
         self.repo_root = Path(self.repo_root).resolve()
         if self.trigger not in {"manual", "scheduled"}:
             raise ValueError("trigger must be manual or scheduled")
+        if self.browser_collection not in {"local", "external"}:
+            raise ValueError("browser_collection must be local or external")
         if self.lease_ttl_seconds <= 0:
             raise ValueError("lease_ttl_seconds must be positive")
 
@@ -292,6 +302,7 @@ class RunView:
     desk: dict[str, Any] | None = None
     ledger: dict[str, Any] = field(default_factory=dict)
     error: str | None = None
+    browser: dict[str, bool] | None = None
 
     @property
     def exitCode(self) -> int:
@@ -318,6 +329,8 @@ class RunView:
             "notEvaluated": self.notEvaluated,
             "ledger": self.ledger,
         }
+        if self.browser is not None:
+            data["browser"] = self.browser
         if self.holder is not None:
             data["holder"] = self.holder
             data["holderPhase"] = self.holderPhase
@@ -434,12 +447,7 @@ class FullRunner:
             self._controller = factory()
         return self._controller
 
-    def _requireLocal(self) -> None:
-        if getattr(self.config.store, "shared", False):
-            raise FullRunError("general shared ledger is read-only legacy status; ordinary mutations require checkout-local state")
-
     def _update(self, mutate: Callable[[dict[str, Any]], Any], message: str = "steward full") -> Any:
-        self._requireLocal()  # BEFORE any load/update, including direct library callers
         result, _version = update(
             self.config.store, mutate, retries=CONTENDEDRETRIES,
             clock=self.config.clock, message=message,
@@ -455,7 +463,8 @@ class FullRunner:
             "transport": self.config.store.transport,
             "shared": bool(self.config.store.shared),
         }
-        info["scope"] = "legacy-read-only" if info["shared"] else "ordinary-local"
+        if not info["shared"]:
+            info["warning"] = "ledger_local_only"
         return info
 
     def _runDirectory(self, runId: str) -> Path:
@@ -525,6 +534,7 @@ class FullRunner:
         options = {
             "routine": routine, "debt": debt, "afk": bool(afk),
             "push": bool(self.config.push), "agents": bool(self.config.agents),
+            "browser": self._browserSetting(),
         }
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -592,7 +602,6 @@ class FullRunner:
         return self.advance(runId)
 
     def resume(self, runId: str) -> RunView:
-        self._requireLocal()
         now = self._now()
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -630,7 +639,6 @@ class FullRunner:
     def advance(self, runId: str) -> RunView:
         """Run phases from the recorded phase until done or a driver is needed."""
 
-        self._requireLocal()
         try:
             while True:
                 run = self._loadRun(runId)
@@ -725,7 +733,6 @@ class FullRunner:
         run adopts it from the ledger instead of waiting out the lease.
         """
 
-        self._requireLocal()
         if not str(reason).strip():
             raise FullRunError("abandon needs a reason; the ledger keeps it as the audit record")
         now = self._now()
@@ -939,7 +946,6 @@ class FullRunner:
     # ------------------------------------------------------------------
 
     def record(self, runId: str, stepId: str, outcome: Mapping[str, Any]) -> RunView:
-        self._requireLocal()
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
@@ -1321,6 +1327,12 @@ class FullRunner:
     # view
     # ------------------------------------------------------------------
 
+    def _browserSetting(self) -> dict[str, bool]:
+        """The browser access this run was started with: headless from policy, interactive only from this run's flag."""
+
+        policy = self._policyLoaded().browser
+        return policy.setting(interactiveRequested=self.config.interactive_browser)
+
     def _view(self, doc: dict[str, Any], runId: str) -> RunView:
         run = doc["runs"].get(runId)
         if run is None:
@@ -1337,6 +1349,7 @@ class FullRunner:
             desk=copy.deepcopy(run.get("desk")),
             ledger=self._ledgerInfo(),
             error=run.get("error"),
+            browser=copy.deepcopy(run.get("options", {}).get("browser")),
         )
 
     # ------------------------------------------------------------------
@@ -1467,10 +1480,31 @@ class FullRunner:
             "observationsBySensor": dict(sorted(bySensor.items())),
         }
 
+    def _collectBrowser(self) -> dict[str, Any] | None:
+        """Start this run's own headless collection, tied to this attempt. None when an earlier job supplied it."""
+
+        from gaia_cli.steward import browsercollect
+
+        if self.config.browser_collection == "external":
+            # An earlier least-privilege job collected. Evaluate it only if the validator accepted it for this very
+            # attempt; otherwise the render is invalidated and the sensor reports NOT EVALUATED.
+            return browsercollect.verifyExternal(self.root, os.environ.get(browsercollect.ATTEMPT_ENV))
+        from gaia_cli.steward.primitives.inputs import origin_repository
+
+        setting = self._browserSetting()
+        repository = origin_repository(self.root) or os.environ.get("GITHUB_REPOSITORY") or None
+        collector = self.config.browser_collector or browsercollect.collect
+        return dict(collector(
+            self.root, repository=repository, headless=setting["headless"], interactive=setting["interactive"],
+        ))
+
     def _phaseObserve(self, runId: str) -> bool:
+        browser = self._collectBrowser()
         scan = self._controllerInstance().scan(self.root)
         self._scans[runId] = scan
         summary = self._observationSummary(scan, self._load()["work"])
+        if browser is not None:
+            summary["browserCollection"] = browser
         receiptId = summary["scanReceiptId"]
 
         def updates(_doc: dict[str, Any], run: dict[str, Any]) -> None:
@@ -2934,7 +2968,6 @@ class FullRunner:
             ],
             decision_records=records,
             ledger_shared=bool(self.config.store.shared),
-            ordinary_local=not bool(self.config.store.shared),
             last_scheduled_run_at=max(scheduled) if scheduled else None,
             now=now,
             failed_dispatches=failed,

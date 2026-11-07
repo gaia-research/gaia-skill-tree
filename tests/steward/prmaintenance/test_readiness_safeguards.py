@@ -274,8 +274,6 @@ def test_no_workflow_or_script_invokes_the_critical_write_verbs_and_full_workflo
     workflow = yaml.safe_load((ROOT / ".github/workflows/steward-full.yml").read_text(encoding="utf-8"))
     triggers = workflow.get("on", workflow.get(True))
     assert set(triggers) == {"workflow_dispatch"}, "steward-full must stay manual-only until reauthorized"
-    # The general ledger transport is read-only legacy status in the CLI; the workflow must not ask the driver for it.
-    assert "--ledger git" not in (ROOT / ".github/workflows/steward-full.yml").read_text(encoding="utf-8")
     verbs = re.compile(r"steward_pr(?:\.py)?[\"' ]+(?:gate-merge|gate-close|execute|recover|abort|finalize)|steward pr (?:execute|gate-)")
     workflows = ROOT / ".github/workflows"
     scanned = [*sorted(workflows.glob("*.y*ml")), *sorted(workflows.glob("*.md")),

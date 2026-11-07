@@ -10,8 +10,9 @@ version: 1.0.0
 
 # gaia-steward-pr-maintenance
 
-Routine owners produce; Steward verifies and accounts for eligible work. Sensors
-and ordinary orchestration remain checkout-local. A proposal is not a send grant.
+Routine owners produce; Steward verifies and accounts for eligible work. Sensors,
+census, profiles and dispatches remain checkout-local; ordinary `steward full` run
+state stays on the shared ledger as before. A proposal is not a send grant.
 The unattended driver still refuses Routine 19 writes.
 
 ## Authority and true stops

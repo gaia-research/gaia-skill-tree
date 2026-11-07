@@ -164,7 +164,7 @@ class StewardCommand(Command):
         def ledgerOptions(target: argparse.ArgumentParser) -> None:
             target.add_argument(
                 "--ledger", choices=("auto", "git", "local"), default="auto",
-                help="Ordinary state: auto/local use a checkout-local file; git is read-only legacy full status",
+                help="Ledger transport: git ref on the remote, a local file, or auto (git when the remote answers)",
             )
             target.add_argument("--json", action="store_true", help="Output the result as JSON")
 
@@ -184,6 +184,20 @@ class StewardCommand(Command):
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
         run.add_argument("--trigger", choices=("manual", "scheduled"), default="manual", help="What started this run")
+        run.add_argument(
+            "--interactive-browser", dest="interactiveBrowser", action="store_true",
+            help=(
+                "Allow a real, interactive browser for this run only (default off; no persistent setting can grant it). "
+                "Headless Chromium is on by default."
+            ),
+        )
+        run.add_argument(
+            "--browser-collection", dest="browserCollection", choices=("local", "external"), default="local",
+            help=(
+                "local (default): this run starts the headless browser collector. external: an earlier "
+                "least-privilege job collected and a validator accepted the artifact; this run collects nothing."
+            ),
+        )
         run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
         run.add_argument(
             "--integration-branch", dest="integrationBranch", metavar="B",
@@ -279,6 +293,9 @@ class StewardCommand(Command):
                     )
             elif args.json:
                 result = render_founder_queue(root)
+                from gaia_cli.steward.desk import classify_decision_records, load_decision_records
+
+                founderRecords = classify_decision_records(load_decision_records(root)).to_dict()
             else:
                 # The digest *is* the human surface. A terse list of decision
                 # ids is machine output wearing a person's clothes.
@@ -297,6 +314,8 @@ class StewardCommand(Command):
 
         if args.json:
             payload = result.to_dict()
+            if args.steward_command == "founder":
+                payload["decisionRecords"] = founderRecords
             if prompt is not None:
                 payload["prompt"] = prompt
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
@@ -450,12 +469,27 @@ class StewardCommand(Command):
 
     @staticmethod
     def _fullStore(root: Path, choice: str, remote: str):
-        """Ordinary state is checkout-local; explicit git is legacy read-only status."""
+        """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers."""
+
+        import subprocess
 
         from gaia_cli.steward.ledger import FileLedgerStore, GitRefLedgerStore
 
         local = FileLedgerStore(root / ".gaia" / "steward" / "full" / "ledger.json")
-        return GitRefLedgerStore(root, remote) if choice == "git" else local
+        if choice == "local":
+            return local
+        shared = GitRefLedgerStore(root, remote)
+        if choice == "git":
+            return shared
+        try:
+            probe = subprocess.run(
+                ["git", "-C", str(root), "ls-remote", "--exit-code", remote, "HEAD"],
+                capture_output=True, timeout=30, check=False,
+            )
+            reachable = probe.returncode == 0
+        except (OSError, subprocess.TimeoutExpired):
+            reachable = False
+        return shared if reachable else local
 
     @staticmethod
     def _fullModeOf(args: argparse.Namespace) -> str:
@@ -479,8 +513,6 @@ class StewardCommand(Command):
         root = Path(args.registry).resolve()
         remote = "origin"
         try:
-            if args.ledger == "git" and action != "status":
-                raise _FullRefused("general git ledger is read-only legacy status; use local ordinary state; no migration is performed")
             store = self._fullStore(root, args.ledger, remote)
             config = FullRunConfig(
                 repo_root=root,
@@ -494,6 +526,8 @@ class StewardCommand(Command):
                 push=bool(getattr(args, "push", False)),
                 trigger=getattr(args, "trigger", "manual"),
                 agents=not getattr(args, "noAgents", False),
+                interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
+                browser_collection=getattr(args, "browserCollection", "local"),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
             )
             runner = FullRunner(config)
@@ -565,7 +599,20 @@ class StewardCommand(Command):
         print(f"Run                  {view.runId}  (mode {view.mode})")
         print(f"Status               {view.status}  (phase {view.phase})")
         print(f"Ledger               {ledger.get('transport')}  {shared}")
+        if view.browser is not None:
+            print(
+                "Browser              headless "
+                + ("on" if view.browser.get("headless") else "off")
+                + ", interactive "
+                + ("ON" if view.browser.get("interactive") else "off")
+            )
         summary = view.summary
+        collected = (summary.get("observe") or {}).get("browserCollection")
+        if isinstance(collected, dict):
+            print(
+                f"Browser collection   {collected.get('state')}  ({collected.get('mode')})"
+                + (f"  - {collected['reason']}" if collected.get("reason") else "")
+            )
         observe = summary.get("reobserve") or summary.get("observe")
         if observe:
             print(

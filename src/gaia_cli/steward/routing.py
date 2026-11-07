@@ -32,7 +32,7 @@ from gaia_cli.steward.lane import (
     reconcile,
     record_verdict,
 )
-from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.policy import WORKFLOW_ROUTE_DEBT_KIND, WORKFLOW_ROUTE_RULE_ID, StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
     exclusive_scan_lock,
@@ -46,6 +46,7 @@ from gaia_cli.steward.verification import (
     VerificationError,
     VerificationVerdict,
     evaluate,
+    is_workflow_path,
     parse_proof_transcript,
     parse_unified_diff,
     read_text_input,
@@ -133,6 +134,69 @@ def _assert_fresh_open(debt: Debt, scan: ScanResult) -> None:
         raise RoutingError(f"debt is not open: {debt.id}")
     if debt.id not in scan.fresh_open_debt_ids:
         raise RoutingError(f"debt is stale for this scan: {debt.id}")
+
+
+def _workflow_baseline(root: Path, paths: tuple[str, ...]) -> dict[str, str | None]:
+    """Tracked content at ``HEAD`` of every workflow file a candidate diff touches.
+
+    The structural proof needs the exact bytes the diff was cut against, not the
+    working tree (which may already carry the candidate). Verification therefore
+    runs from a checkout whose ``HEAD`` is that baseline; a file absent there, or
+    content that is not UTF-8, is ``None`` and the edit is rejected as unprovable.
+    """
+
+    import subprocess
+
+    baseline: dict[str, str | None] = {}
+    for path in paths:
+        if not is_workflow_path(path):
+            continue
+        done = subprocess.run(
+            ["git", "-C", str(root), "cat-file", "blob", f"HEAD:{path}"],
+            capture_output=True,
+            check=False,
+        )
+        try:
+            baseline[path] = done.stdout.decode("utf-8") if done.returncode == 0 else None
+        except UnicodeDecodeError:
+            baseline[path] = None
+    return baseline
+
+
+def _assert_route_eligible(rule: Any, debt: Debt) -> None:
+    """Refuse a packet the route's own contract says it may never carry.
+
+    The workflow-timeout route is the only Steward write into ``.github/``. Its
+    envelope was ruled for missing job timeouts alone, so a debt gets that packet
+    only when every finding is ``missing-timeout``, the list is complete (not
+    capped), the subject is a direct-child, hand-written workflow file, and the
+    sensor did not mark it lane-ineligible. Mixed or other findings never obtain
+    it, whether the debt came from the lane or from an explicit ``--debt`` request.
+    """
+
+    if rule.id != WORKFLOW_ROUTE_RULE_ID and debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
+        return
+    state = debt.observed_state
+    findings = state.get("findings")
+    subject = debt.subject.id
+    reason = None
+    if rule.id != WORKFLOW_ROUTE_RULE_ID or debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
+        reason = "the workflow rule and debt kind must be paired"
+    elif state.get("laneEligible") is False:
+        reason = str(state.get("laneIneligibleReason") or "the sensor marked this debt lane-ineligible")
+    elif not isinstance(findings, list) or not findings or state.get("findingsCapped"):
+        reason = "the finding list is empty or capped, so every finding cannot be proven to be missing-timeout"
+    elif any(not isinstance(item, dict) or item.get("rule") != "missing-timeout" for item in findings):
+        reason = "the debt has findings other than missing-timeout; only missing-timeout is repairable by this route"
+    elif not (
+        subject.startswith(".github/workflows/")
+        and subject.endswith(".yml")
+        and subject.count("/") == 2
+        and not subject.endswith(".lock.yml")
+    ):
+        reason = "the subject is not a direct-child hand-written .github/workflows/*.yml file"
+    if reason is not None:
+        raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
 
 
 def _routing_evidence(debt: Debt) -> dict[str, Any]:
@@ -407,6 +471,7 @@ def render_lane_next(
         rule = policy.dispatch_rule_for(debt.kind)
         if rule is None or debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"lane selected non-Class-B debt: {debt.id}")
+        _assert_route_eligible(rule, debt)
         packet = DispatchPacket.create(
             debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
@@ -504,6 +569,7 @@ def render_dispatch(
             raise RoutingError(f"unsupported Class B routing debt: {debt.id}")
         if debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"authority mismatch for dispatch debt: {debt.id}")
+        _assert_route_eligible(rule, debt)
         return DispatchPacket.create(
             debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
@@ -649,6 +715,7 @@ def render_verification(
         proof_path, label="proof transcript", limit=MAX_TRANSCRIPT_BYTES
     )
     change_set = parse_unified_diff(diff_text)
+    workflow_baseline = _workflow_baseline(root, change_set.paths)
     transcript = parse_proof_transcript(
         transcript_text, proof_contract_length=len(packet.proof)
     )
@@ -674,6 +741,7 @@ def render_verification(
             baseline_open_debt=[str(item) for item in baseline_open],
             current_open_debt=[debt.id for debt in scan.open_debts],
             authority_still_class_b=still_class_b,
+            workflow_baseline=workflow_baseline,
         )
 
     def commit(scan: ScanResult, artifact: object) -> None:
@@ -819,6 +887,7 @@ def render_founder_digest(
     spends nothing.
     """
 
+    from gaia_cli.steward.desk import classify_decision_records, load_decision_records
     from gaia_cli.steward.digest import render_founder_digest as _render
 
     root = repo_root.resolve()
@@ -827,4 +896,5 @@ def render_founder_digest(
     queue = result.artifact
     if not isinstance(queue, FounderQueue):
         raise RoutingError("founder routing did not render a queue")
-    return result, _render(result.scan, queue, _read_lane(root, policy))
+    records = classify_decision_records(load_decision_records(root))
+    return result, _render(result.scan, queue, _read_lane(root, policy), records)

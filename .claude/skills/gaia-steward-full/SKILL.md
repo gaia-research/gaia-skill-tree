@@ -86,15 +86,15 @@ as a pending action. Drive it like this, and nothing else:
    `completed` or `blocked`.
 5. Render the desk (`gaia-steward-desk`) and stop.
 
-The runner tracks ordinary steps in a checkout-local durable file. `--ledger auto`
-and `local` never probe origin; `git` is read-only legacy `full status`. Old shared
-campaign runs are NOT migrated, completed or settled by this change; do not resume
-or record them with the new local runner. Existing campaign compatibility and any
-rollout/draining decision remain separate owner gates. Within one checkout, a
-second concurrent invocation loses the local run lease and refuses cleanly.
+The runner tracks every step in a durable ledger (`refs/heads/steward/ledger`, or a
+local file when no remote answers). Resuming never repeats a recorded step, and a
+second concurrent invocation loses the lease and refuses cleanly. Only the Lead
+writes the shared ledger; `--ledger git` is unchanged and is never replaced by local
+state to get a green run.
 
 Only Routine 19 critical operation identity, immutable proof, global slot/accounting
-and outcomes use its separately provisioned canonical coordination ref. Local run
+and outcomes use its separately provisioned canonical coordination ref; ordinary run
+state never moves there. Local run
 expiry/action supersession cannot refund or cancel that shared sender. Every
 success-shaped PR report (including already-*) binds shared head/evidence; unknown
 stays recoverable. Missing coordination/current authority/clock config refuses
