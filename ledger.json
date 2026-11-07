@@ -1,5 +1,5 @@
 {
- "generation": 1178,
+ "generation": 1179,
  "lane": {
   "entries": [
    {
@@ -3969,14 +3969,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-cee3b536bc09d0815259",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T09:06:51.258232Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (mechanical verification (input refusal))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T03:31:19.356563Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T09:06:51.258232Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 2,
@@ -4875,7 +4881,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T08:51:51.571864Z",
-   "expiresAt": "2026-11-07T09:36:47.557532Z",
+   "expiresAt": "2026-11-07T09:36:52.157265Z",
    "holder": "run-20261107T032809Z-31f4a5be"
   }
  },
@@ -92272,7 +92278,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:06:47.560839Z",
+ "updatedAt": "2026-11-07T09:06:52.160501Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -94441,17 +94447,9 @@
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "mechanical verification (input refusal): rejected - verification input refused: the diff ends inside an unfinished hunk",
    "branch": "steward/b/unused-import-a25b268aaa3e",
-   "build": {
-    "agentId": "pi-herdr-batch4-builder-a25b268aaa3e",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-a25b268aaa3e.diff",
-    "dispatchId": "dispatch-cee3b536bc09d0815259",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-a25b268aaa3e.proof.json",
-    "recordedAt": "2026-11-07T08:50:43.927090Z",
-    "summary": "Batch batch4 builder (openai-codex/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit 447e8114a; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T03:31:19.356563Z",
    "debtId": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2",
    "dispatchId": "dispatch-cee3b536bc09d0815259",
@@ -94462,6 +94460,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-cee3b536bc09d0815259 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T09:06:51.258232Z",
+     "from": "building",
+     "reason": "mechanical verification (input refusal): rejected - verification input refused: the diff ends inside an unfinished hunk",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -94471,9 +94475,16 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T032809Z-31f4a5be",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T08:50:43.927090Z",
-   "verification": null
+   "state": "blocked",
+   "updatedAt": "2026-11-07T09:06:51.258232Z",
+   "verification": {
+    "reasons": [
+     "verification input refused: the diff ends inside an unfinished hunk"
+    ],
+    "recordedAt": "2026-11-07T09:06:51.258232Z",
+    "stage": "mechanical",
+    "verdict": "reject"
+   }
   },
   "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0": {
    "assignments": [
