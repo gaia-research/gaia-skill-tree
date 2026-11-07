@@ -1252,3 +1252,23 @@ def test_still_present_candidates_keep_the_umbrella_provenance_and_vanished_ones
     rows = rows_of(gh)
     assert (rows["garrytan/gbrain:alpha"]["firstSeenVersion"], rows["garrytan/gbrain:alpha"]["lastSeenVersion"]) == ("v2", "v3")
     assert (rows["garrytan/gbrain:ephemeral"]["firstSeenVersion"], rows["garrytan/gbrain:ephemeral"]["lastSeenVersion"]) == ("v1", "v1")
+
+
+def test_a_vanished_candidate_on_the_open_umbrella_keeps_its_older_umbrella_first_seen_never_a_later_journal_value():
+    gh = FakeGh([childIntake(77, "ephemeral", 1)])
+    go(gh, [finding("v1", ["alpha", "ephemeral"])], None)
+    go(gh, [finding("v2", ["alpha", "ephemeral"])], None)
+    number = open_umbrellas(gh)[0]["number"]
+    before = rows_of(gh)["garrytan/gbrain:ephemeral"]
+    assert (before["firstSeenVersion"], before["lastSeenVersion"]) == ("v1", "v2")
+    # The journal began observing later, at v3: its first-seen for ephemeral is a LATER value than the umbrella's.
+    journal = st.Journal()
+    journal.observe(REPO, finding("v3", ["alpha", "ephemeral"]), candidateRows("v3", ["alpha", "ephemeral"]), TUE)
+    assert journal.data["repos"][REPO]["candidates"]["garrytan/gbrain:ephemeral"]["firstSeenVersion"] == "v3"
+    go(gh, [finding("v4", ["alpha"])], weekly(MON), journal)
+    assert [r["number"] for r in open_umbrellas(gh)] == [number], "updated in place on the open umbrella"
+    row = rows_of(gh)["garrytan/gbrain:ephemeral"]
+    assert row["firstSeenVersion"] == "v1", "earliest true observation wins; the later journal value never overwrites it"
+    assert row["lastSeenVersion"] == "v2" and row["child"] == 77 and row["status"] == "tracked"
+    assert "carriedFrom" not in row
+    assert REPO not in journal.data["repos"]

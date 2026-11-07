@@ -350,9 +350,10 @@ def merge_rows(
     *touchLastSeen* False (staged batching, replaying journaled candidates that are gone from the fresh poll)
     leaves an existing row's ``lastSeenVersion`` alone and a new row keeps the one the journal recorded.
 
-    *journalProvenance* True (the same replay) makes the incoming row's ``firstSeenVersion`` and ``lastSeenVersion``
-    authoritative even when a row for that vanished candidate already exists (for example carried forward from a
-    closed umbrella): a vanished candidate always keeps its exact journal provenance (#2283 ruling). Disposition,
+    *journalProvenance* True (the same replay, only when the existing rows were carried forward from a closed
+    umbrella) makes the incoming row's ``firstSeenVersion`` and ``lastSeenVersion`` authoritative even when a row for
+    that vanished candidate already exists there: a carried row has no other true record of a vanished candidate
+    (#2283 ruling). A row on the OPEN umbrella is never overwritten (earliest true observation wins). Disposition,
     status merging and child linkage are unchanged, and the closed umbrella is never edited.
 
     Existing rows are never dropped. Escalated status and child links survive
@@ -743,7 +744,10 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
     if replay:
-        rows, replayed = merge_rows(rows, replay, new_version, touchLastSeen=False, journalProvenance=True)
+        # The journal's provenance overrides ONLY rows carried from a closed umbrella (they have no other true record
+        # of a vanished candidate). A row already on the OPEN umbrella keeps its own, older first-seen: never overwritten.
+        rows, replayed = merge_rows(rows, replay, new_version, touchLastSeen=False,
+                                    journalProvenance=prior_rows is carried)
         added = sorted(set(added) | set(replayed))
     rows = annotate_rows(rows, state_of)
     payload, body, record_rows = layout(finding, rows, previous_version=None)
