@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-routine19-activation-2283",
+  "status": "decided",
+  "decision": "May Routine 19 be completed, integrated and activated without a further founder decision once its readiness criteria are independently satisfied?",
+  "whyItMatters": "Supersedes the previous R19 activation hold; R19 engineering moves to a separate native-Claude lane that must not displace Steward debt burn-down.",
+  "evidence": [
+    "Founder authorization update 2026-11-06 (verbatim, section 3): \"NEW FOUNDER AUTHORIZATION: Routine 19 may be completed, integrated, and activated once its operational readiness criteria are independently satisfied.\"",
+    "Readiness (verbatim list): complete authority, identity, clock and durable-outcome wiring; real shared coordination, CAS, leases and fencing; safe legacy-writer retirement and migration; correct failure, retry, unknown-outcome and recovery behavior; end-to-end and cross-process verification; independent full-feature acceptance; required exact-head CI and normal protected merges; verified provisioning and an observable rollback path.",
+    "\"If readiness is incomplete, keep the current operational mode and finish only the missing safeguards. Never manufacture green status or weaken protection.\"",
+    "\"Activation grants no additional authority to merge, close issues, alter trust/rank, accept deferred intakes or bypass existing kill switches.\" Existing disabled write permissions remain disabled.",
+    "Lane: native Claude Haiku/Sonnet subagents, optional Opus Medium; not the Steward Herdr roster. Only the designated coordinator modifies the canonical shared ledger; R19 agents must not activate competing writers. F3 remains binding.",
+    "\"It is authorized, but it does not outrank the debt backlog.\""
+  ],
+  "recommended": "Bounded readiness audit of 3bf9093b against the list, then finish only missing safeguards with independent acceptance, normal protected PRs, and a controlled, observable switchover.",
+  "alternative": "n/a (decided)",
+  "unblocks": "R19 candidate dev/steward-r19-uncertainty-contract-2283",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

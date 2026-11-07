@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-upstream-batch-activation-2283",
+  "status": "decided",
+  "decision": "Activate upstream staged batching (#2320) in production?",
+  "whyItMatters": "Daily fan-out issue noise; #2320 is on main and a zero-write dry run succeeded, but activation needed V2 rollout approval and a journal bootstrap.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**APPROVED for controlled production activation without further founder approval.**\n\n- Verify the `garrytan/gstack` 404 and reconcile any genuinely moved upstream reference.\n- Complete the documented no-write journal bootstrap.\n- Validate durable restoration, candidate preservation, and rollback.\n- Enable `STEWARD_ISSUE_HYGIENE_V2`, `UPSTREAM_STAGING_INITIALIZED`, and `UPSTREAM_BATCH_STAGING=weekly` in the documented safe sequence.\n- Monitor two weekly windows for issue noise, dropped candidates, urgent writes, and journal failures.\n- Keep historical epic closure and provenance intact.\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Controlled production activation of weekly upstream batching.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved"
+}

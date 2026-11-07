@@ -1,8 +1,9 @@
 """``gaia steward pr``: the operator and driver surface for routine PR maintenance.
 
-Exit codes: 0 done / authorized; 2 refused or bad input (nothing was written to GitHub); 3 already done (the recorded or
-observed end state is reported); 5 not evaluated (a required input is missing). The command never merges, closes or
-comments by itself: ``gate`` authorizes exactly one forge call and ``finalize`` records what GitHub then shows.
+Exit codes: 0 prepared / terminal; 2 refused, unknown or bad input; 3 already-observed diagnostic (not shared settlement);
+5 not evaluated. Only explicit ``execute --operation-id`` may invoke the one-shot adapter. Gate output is preparation,
+recover/finalize never resend, and abort cancels only unsent preparation (its reason is recorded in the shared cancel
+event). ``takeover`` re-owns an EXPIRED unsent preparation only. Unknown may include an already-sent effect.
 """
 
 from __future__ import annotations
@@ -16,7 +17,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-from gaia_cli.steward.prmaintenance import collect, gate, receipts, reconcile, roster, state
+from gaia_cli.steward import ledger
+from gaia_cli.steward.prmaintenance import collect, coordination, gate, proofs, receipts, reconcile, roster, state
 from gaia_cli.steward.prmaintenance.census import CENSUS_INPUT
 from gaia_cli.steward.prmaintenance.producers import RegistryError, loadRegistry
 
@@ -88,7 +90,7 @@ def build() -> argparse.ArgumentParser:
     ver.add_argument("--input", required=True)
 
     for name in ("merge", "close"):
-        g = sub.add_parser(f"gate-{name}", help=f"re-prove eligibility and authorize exactly one forge {name}")
+        g = sub.add_parser(f"gate-{name}", help=f"re-prove eligibility and prepare shared {name} intent (not a send grant)")
         g.add_argument("--repo", required=True)
         g.add_argument("--number", type=int, required=True)
         g.add_argument("--head", required=True, help="the exact head SHA the action names")
@@ -97,11 +99,18 @@ def build() -> argparse.ArgumentParser:
         if name == "close":
             g.add_argument("--reason", required=True)
             g.add_argument("--replacement", type=int, required=True)
-    fz = sub.add_parser("finalize", help="settle an authorization from GitHub's observed state")
-    fz.add_argument("--auth", required=True)
-    ab = sub.add_parser("abort", help="release a reservation when the forge call was not made")
-    ab.add_argument("--auth", required=True)
-    ab.add_argument("--reason", required=True)
+    fz = sub.add_parser("finalize", help="reconcile a shared operation using independent evidence; never resend")
+    fz.add_argument("--operation-id")
+    fz.add_argument("--auth", help="deprecated operation-identity file; raw authorization JSON is refused")
+    ab = sub.add_parser("abort", help="cancel unsent shared preparation only; never cancel a claimed sender")
+    ab.add_argument("--operation-id")
+    ab.add_argument("--auth", help="deprecated operation-identity file")
+    ab.add_argument("--reason", required=True, help="1-256 printable ASCII characters; recorded in the shared cancel event")
+    tk = sub.add_parser("takeover", help="re-own an EXPIRED (lease 120 s) unsent preparation under a newer fence; never a claimed sender")
+    tk.add_argument("--operation-id", required=True)
+    for command in ("execute", "recover"):
+        execution = sub.add_parser(command, help="invoke once explicitly" if command == "execute" else "reconcile without resend")
+        execution.add_argument("--operation-id", required=True)
 
     rc = sub.add_parser("receipt", help="render, check or record a GitHub receipt")
     rsub2 = rc.add_subparsers(dest="receiptAction", required=True)
@@ -233,53 +242,64 @@ def doRoster(root: Path, args: argparse.Namespace) -> int:
 
 
 def snapshotFor(root: Path, repo: str, number: int) -> gate.Snapshot:
-    import subprocess
-
     def fetch(n: int) -> None:
         # The pull request head AND the destination tip: the gate proves "already published on the base" from git objects, so an
         # unfetched tip must never be possible (it would read as "not published" and refuse, safely but wrongly).
         for refspec in (f"+refs/pull/{n}/head:refs/steward/pr/{n}", "+refs/heads/main:refs/remotes/origin/main"):
-            subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "origin", refspec], capture_output=True, timeout=180, check=False)
+            proofs.git(root, "fetch", "--quiet", "origin", refspec, timeout=180)
 
     return collect.liveSnapshot(collect.ghApi, repo, number, fetch)
+
+
+SHARED_UNAVAILABLE = {"refused": "shared-route-unavailable",
+                      "message": "coordination/current authority/clock/evidence unavailable; no replay or refund"}
 
 
 def doGate(root: Path, args: argparse.Namespace, action: str) -> int:
     request = {"action": action, "repo": args.repo, "number": args.number, "expectedHeadSha": args.head,
                "producerId": args.producer, "runId": args.runId}
     try:
+        execution = gate.makeExecutor(root)  # unconfigured route refuses before live collection
+        instant = datetime.fromtimestamp(execution.services.clock().upper, timezone.utc)
         snap = snapshotFor(root, args.repo, args.number)
         request["baseRef"] = snap.row["baseRef"]
         if action == "close":
             request.update(reason=args.reason, replacement=args.replacement)
-        authorize = gate.gateMerge if action == "merge" else gate.gateClose
-        auth = authorize(root, request, snap, utc(), args.runId)
+        found = gate.validateWrite(root, request, snap, instant, action)
+        auth = execution.prepare(request, snap, found, args.runId)
     except gate.AlreadyDone as exc:
         out({"alreadyDone": exc.code, "message": exc.message, "detail": exc.detail}, args.json, f"already done: {exc}")
         return 3
     except gate.GateRefused as exc:
         out({"refused": exc.code, "message": exc.message}, args.json, f"refused: {exc}")
         return 2
+    except ledger.LedgerUnavailable:
+        out(SHARED_UNAVAILABLE, args.json, f"refused: {SHARED_UNAVAILABLE['message']}")
+        return 2
     except (collect.CollectError, KeyError, state.StoreError) as exc:
         out({"refused": "live-read-failed", "message": str(exc)}, args.json, f"refused: live state could not be read ({exc})")
         return 2
-    out(auth, args.json, f"authorized {action} #{args.number} at {args.head[:12]} (digest {auth['digest'][:12]}, run {args.runId})")
-    return 0
+    out(auth, args.json, f"{auth['state']} {action} #{args.number}: operation {auth['operationId']} (not a send grant)")
+    return 0 if auth["state"] in {"intent", "reserved", "merged", "closed", "already-merged"} else 2
 
 
 def doFinalize(root: Path, args: argparse.Namespace) -> int:
-    auth = readJson(args.auth)
-    try:
-        snap = snapshotFor(root, auth["repo"], auth["number"])
-        merged = bool(snap.merged or snap.row.get("merged"))
-        parents = collect.mergeParents(collect.ghApi, auth["repo"], snap.mergeCommitSha) if merged and snap.mergeCommitSha else []
-        post = collect.checksAt(collect.ghApi, auth["repo"], snap.mergeCommitSha) if merged and snap.mergeCommitSha else "not observed"
-        outcome = gate.finalize(root, auth, snap, utc(), parents=parents, postMerge=post)
-    except (collect.CollectError, KeyError, state.StoreError) as exc:
-        out({"refused": "live-read-failed", "message": str(exc)}, args.json, f"could not observe the final state: {exc}")
-        return 2
-    out(outcome, args.json, f"{outcome['state']}: #{outcome['number']} {outcome.get('mergeCommitSha', '')}")
-    return 0 if outcome["state"] in ("merged", "closed") else 2
+    from gaia_cli.steward.prmaintenance.executor import makeExecutor
+    operationId = operationIdentity(args)
+    outcome = makeExecutor(root).recover(operationId)
+    out(outcome, args.json)
+    return 0 if outcome["state"] in ("merged", "closed", "already-merged") else 2
+
+
+def operationIdentity(args) -> str:
+    from gaia_cli.steward.prmaintenance import coordination
+    value = getattr(args, "operation_id", None)
+    if value is None and getattr(args, "auth", None):
+        identity = readJson(args.auth)
+        gate.checkAuthorization(Path("."), identity)
+        value = identity["operationId"]
+    coordination.sha(value)
+    return value
 
 
 def doReconcile(root: Path, args: argparse.Namespace) -> int:
@@ -380,16 +400,14 @@ def doReconcileRefresh(root: Path, args: argparse.Namespace) -> int:
 
 
 def doReconcileRetired(root: Path, args: argparse.Namespace) -> int:
-    import subprocess
-
     census = json.loads((root / CENSUS_INPUT).read_text(encoding="utf-8"))
     with state.lock(root):
         built = [line for line in state.readRecords(root, "outcomes")
                  if line.get("action") == "reconcile" and line.get("state") == "built" and line.get("originalHead") == args.head
                  and line.get("number") == args.number]
         for line in built[-1:]:  # clean the local worktree and branch of the withdrawn replacement so its name can be reused
-            subprocess.run(["git", "-C", str(root), "worktree", "remove", "--force", str(line.get("worktree", ""))], capture_output=True, check=False)
-            subprocess.run(["git", "-C", str(root), "branch", "-D", str(line.get("branch", ""))], capture_output=True, check=False)
+            proofs.git(root, "worktree", "remove", "--force", str(line.get("worktree", "")))
+            proofs.git(root, "branch", "-D", str(line.get("branch", "")))
         state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": census["repo"], "number": args.number,
                                               "action": "reconcile", "state": "retired", "headSha": args.head, "originalHead": args.head,
                                               "replacement": args.replacement, "reason": args.reason[:300]})
@@ -445,10 +463,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             return doGate(root, args, "close")
         if args.action == "finalize":
             return doFinalize(root, args)
-        if args.action == "abort":
-            outcome = gate.abort(root, readJson(args.auth), args.reason, utc())
-            out(outcome, args.json, "reservation released")
-            return 0
+        if args.action in {"execute", "recover", "abort", "takeover"}:
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            executor = makeExecutor(root)
+            operationId = operationIdentity(args)
+            if args.action == "takeover":
+                outcome = executor.takeover(operationId)
+                out(outcome, args.json)
+                return 0 if outcome["state"] in {"reserved", "intent"} and "commitStatus" not in outcome else 2
+            outcome = (executor.abort(operationId, args.reason) if args.action == "abort"
+                       else executor.execute(operationId) if args.action == "execute" else executor.recover(operationId))
+            out(outcome, args.json)
+            return 0 if outcome["state"] in {"merged", "closed", "already-merged", "aborted"} else 2
         if args.action == "receipt":
             return doReceipt(root, args)
         if args.action == "reconcile":
@@ -468,6 +494,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             active = state.killSwitchActive(root)
             out({"killSwitch": active}, args.json, f"kill switch: {active or 'inactive'}")
             return 0
+    except (ledger.LedgerUnavailable, collect.CollectError):
+        # CoordinationError is a LedgerUnavailable; a raw ledger fetch/CAS failure must never escape as a traceback.
+        out(SHARED_UNAVAILABLE, args.json)
+        return 2
     except gate.GateRefused as exc:
         out({"refused": exc.code, "message": exc.message}, args.json, f"refused: {exc}")
         return 2
