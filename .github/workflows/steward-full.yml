@@ -140,13 +140,11 @@ jobs:
           fi
           python scripts/steward_drive.py \
             --integration-branch "$INTEGRATION_BRANCH" \
-            --ledger local --trigger scheduled \
+            --ledger git --trigger scheduled \
             "${agent_args[@]}" \
             --report drive-report.json
           rc=$?
-          # The ledger is checkout-local (--ledger local): the general shared git ledger is read-only legacy
-          # status, so this manual workflow cannot write shared state and carries no cross-run lease beyond the
-          # concurrency group. Exit 4: another run holds the ledger lease (30 min TTL). Nothing is
+          # Exit 4: another run holds the ledger lease (30 min TTL). Nothing is
           # lost and nothing was done; the next run adopts any unfinished work.
           if [ "$rc" -eq 4 ]; then
             echo "::warning title=steward run skipped::another run holds the ledger lease; nothing was done"
@@ -160,7 +158,7 @@ jobs:
           {
             echo "## Gaia Steward Full (drive)"
             echo '```'
-            gaia steward full status --ledger local
+            gaia steward full status --ledger git
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
