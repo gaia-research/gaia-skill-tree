@@ -172,9 +172,11 @@ def test_contract_is_checked_before_any_read(fixtures) -> None:
 
 def test_default_is_copied_so_callers_cannot_share_mutable_state(fixtures) -> None:
     default = {"items": []}
-    first = readJson(fixtures["missing"], mode="bestEffort", default=default, onDiagnostic=DiagnosticLog())
+    log = DiagnosticLog()
+    first = readJson(fixtures["missing"], mode="bestEffort", default=default, onDiagnostic=log)
     first["items"].append(1)
     assert default == {"items": []}
+    assert len(log) == 1
 
 
 def test_shape_mismatch_is_a_failure_handled_by_the_mode(tmp_path: Path) -> None:
@@ -239,6 +241,7 @@ def test_read_text_modes(fixtures) -> None:
     assert caught.value.kind == "encoding"
     log = DiagnosticLog()
     assert readText(fixtures["missing"], mode="optional", default="", onDiagnostic=log) == ""
+    assert [entry.kind for entry in log.entries] == ["missing"]
 
 
 def test_read_yaml_uses_safe_load_and_reports_malformed(tmp_path: Path) -> None:
@@ -292,3 +295,134 @@ def test_shared_proof_fixtures_produce_the_documented_kinds(tmp_path: Path) -> N
             assert [entry.kind for entry in log.entries] == [kind], name
     finally:
         restorePermissions(paths)
+
+
+# ------------------------------------------- #2376 review: parser and path edges
+
+
+def _huge_int(tmp_path: Path) -> Path:
+    path = tmp_path / "huge.json"
+    path.write_text("1" * 5000, encoding="utf-8")
+    return path
+
+
+def _bad_timestamp(tmp_path: Path) -> Path:
+    path = tmp_path / "date.yaml"
+    path.write_text("date: 2024-99-99\n", encoding="utf-8")
+    return path
+
+
+def _bad_timestamp_frontmatter(tmp_path: Path) -> Path:
+    path = tmp_path / "skill.md"
+    path.write_text("---\nid: x\ndate: 2024-99-99\n---\nbody\n", encoding="utf-8")
+    return path
+
+
+PARSER_EDGES = [
+    (readJson, _huge_int),
+    (readYaml, _bad_timestamp),
+    (readFrontmatter, _bad_timestamp_frontmatter),
+]
+
+
+@pytest.mark.parametrize("target, reader, name", [
+    ("json.loads", readJson, "deep.json"),
+    ("yaml.safe_load", readYaml, "deep.yaml"),
+    ("yaml.safe_load", readFrontmatter, "deep.md"),
+])
+def test_recursion_errors_follow_the_contract(tmp_path: Path, monkeypatch, target: str, reader, name: str) -> None:
+    # Whether a given interpreter recurses on deep input varies (CPython 3.14's
+    # C JSON scanner does not); the mapping is what is under test.
+    path = tmp_path / name
+    path.write_text("---\nid: x\n---\n" if name.endswith(".md") else "[1]", encoding="utf-8")
+
+    def deep(*_args, **_kwargs):
+        raise RecursionError("maximum recursion depth exceeded")
+
+    monkeypatch.setattr(target, deep)
+    with pytest.raises(InputReadError) as caught:
+        reader(path, mode="required")
+    assert caught.value.kind == "malformed"
+    with pytest.raises(AuthorityInputError):
+        reader(path, mode="authority")
+    log = DiagnosticLog()
+    assert reader(path, mode="bestEffort", default=None, onDiagnostic=log) is None
+    assert [entry.kind for entry in log.entries] == ["malformed"]
+
+
+@pytest.mark.parametrize("reader, make", PARSER_EDGES)
+def test_parser_failures_follow_the_strict_contracts(tmp_path: Path, reader, make) -> None:
+    path = make(tmp_path)
+    with pytest.raises(InputReadError) as caught:
+        reader(path, mode="required")
+    assert caught.value.kind == "malformed" and not isinstance(caught.value, AuthorityInputError)
+    with pytest.raises(AuthorityInputError):
+        reader(path, mode="authority")
+    with pytest.raises(InputReadError):
+        reader(path, mode="optional", default=None, onDiagnostic=DiagnosticLog())
+
+
+@pytest.mark.parametrize("reader, make", PARSER_EDGES)
+def test_parser_failures_fall_back_with_a_diagnostic_in_best_effort(tmp_path: Path, reader, make) -> None:
+    log = DiagnosticLog()
+    assert reader(make(tmp_path), mode="bestEffort", default="FALLBACK", onDiagnostic=log) == "FALLBACK"
+    assert [entry.kind for entry in log.entries] == ["malformed"]
+
+
+def _not_a_directory(tmp_path: Path) -> Path:
+    parent = tmp_path / "parent"
+    parent.write_text("a regular file", encoding="utf-8")
+    return parent / "child.json"
+
+
+def _symlink_loop(tmp_path: Path) -> Path:
+    first, second = tmp_path / "a.json", tmp_path / "b.json"
+    first.symlink_to(second)
+    second.symlink_to(first)
+    return first
+
+
+@pytest.mark.parametrize("make", [_not_a_directory, _symlink_loop], ids=["enotdir", "symlink-loop"])
+def test_broken_paths_are_unreadable_never_missing(tmp_path: Path, make) -> None:
+    if make is _symlink_loop and sys.platform.startswith("win"):
+        pytest.skip("symlinks need privileges on Windows")
+    path = make(tmp_path)
+    with pytest.raises(InputReadError) as caught:
+        readJson(path, mode="required")
+    assert caught.value.kind == "unreadable"
+    with pytest.raises(AuthorityInputError):
+        readJson(path, mode="authority")
+    with pytest.raises(InputReadError) as optional:
+        readText(path, mode="optional", default="DEFAULT", onDiagnostic=DiagnosticLog())
+    assert optional.value.kind == "unreadable"
+    log = DiagnosticLog()
+    assert readJson(path, mode="bestEffort", default={}, onDiagnostic=log) == {}
+    assert [entry.kind for entry in log.entries] == ["unreadable"]
+
+
+def test_an_unreported_diagnostic_log_warns_when_dropped(tmp_path: Path) -> None:
+    import gc
+
+    log = DiagnosticLog()
+    readJson(tmp_path / "missing.json", mode="bestEffort", default={}, onDiagnostic=log)
+    with pytest.warns(ResourceWarning, match="unreported"):
+        del log
+        gc.collect()
+
+
+def test_a_reported_or_read_log_does_not_warn(tmp_path: Path, recwarn) -> None:
+    import gc
+
+    for surface in ("report", "entries", "drain"):
+        log = DiagnosticLog()
+        readJson(tmp_path / "missing.json", mode="bestEffort", default={}, onDiagnostic=log)
+        if surface == "report":
+            seen: list = []
+            assert log.report(seen.append) == 1 and len(seen) == 1
+        elif surface == "entries":
+            assert len(log.entries) == 1
+        else:
+            assert len(log.drain()) == 1
+        del log
+        gc.collect()
+    assert not [w for w in recwarn if issubclass(w.category, ResourceWarning)]

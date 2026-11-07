@@ -31,10 +31,13 @@ The two defaulting modes require both ``default`` and ``onDiagnostic`` (a
 callable receiving the :class:`ReadDiagnostic`), so a fallback is never silent.
 Use :func:`logDiagnostic` to log, or a :class:`DiagnosticLog` to collect.
 
-Failure ``kind`` values: ``missing``, ``unreadable`` (permission, directory,
-other OS error), ``encoding`` (not valid text in the requested encoding),
-``oversize``, ``malformed`` (JSON/YAML syntax, or no frontmatter fence) and
-``shape`` (the parsed value is not of the ``expect`` type).
+Failure ``kind`` values: ``missing`` (the file itself does not exist),
+``unreadable`` (permission, a directory, a parent that is not a directory, a
+symlink loop, other OS error), ``encoding`` (not valid text in the requested
+encoding), ``oversize``, ``malformed`` (JSON/YAML syntax, a value the parser or
+a safe constructor cannot build such as a huge integer or an impossible
+timestamp, too-deep nesting, or no frontmatter fence) and ``shape`` (the parsed
+value is not of the ``expect`` type). No parser exception escapes the mode.
 
 Diagnostics and error messages describe the failure; they never echo file
 content.
@@ -109,16 +112,57 @@ class AuthorityInputError(InputReadError):
 
 
 class DiagnosticLog:
-    """Collect diagnostics; pass an instance as ``onDiagnostic``."""
+    """Collect diagnostics; pass an instance as ``onDiagnostic``.
+
+    A collected diagnostic must be surfaced: read ``entries`` (or ``len``),
+    call :meth:`report` to forward them to a sink, or :meth:`drain`. A log that
+    is garbage-collected while holding diagnostics nobody looked at emits a
+    ``ResourceWarning`` (shown by pytest and ``python -W default``), so a
+    collected-then-dropped log does not pass silently.
+    """
 
     def __init__(self) -> None:
-        self.entries: list[ReadDiagnostic] = []
+        self._entries: list[ReadDiagnostic] = []
+        self._surfaced = 0
 
     def __call__(self, diagnostic: ReadDiagnostic) -> None:
-        self.entries.append(diagnostic)
+        self._entries.append(diagnostic)
+
+    @property
+    def entries(self) -> list[ReadDiagnostic]:
+        self._surfaced = len(self._entries)
+        return list(self._entries)
 
     def __len__(self) -> int:
-        return len(self.entries)
+        self._surfaced = len(self._entries)
+        return len(self._entries)
+
+    def report(self, sink: Callable[[ReadDiagnostic], Any] | None = None) -> int:
+        """Forward every diagnostic to ``sink`` (default :func:`logDiagnostic`); return the count."""
+
+        target = sink or logDiagnostic
+        for diagnostic in self._entries:
+            target(diagnostic)
+        self._surfaced = len(self._entries)
+        return len(self._entries)
+
+    def drain(self) -> list[ReadDiagnostic]:
+        """Return and clear the collected diagnostics."""
+
+        drained, self._entries, self._surfaced = list(self._entries), [], 0
+        return drained
+
+    def __del__(self) -> None:
+        unseen = len(self._entries) - self._surfaced
+        if unseen > 0:
+            import warnings
+
+            warnings.warn(
+                f"DiagnosticLog dropped {unseen} unreported read diagnostic(s); "
+                "report() or read them so a fallback is never silent",
+                ResourceWarning,
+                stacklevel=2,
+            )
 
 
 def logDiagnostic(diagnostic: ReadDiagnostic) -> None:
@@ -159,7 +203,9 @@ def _readBytes(path: Path, maxBytes: int) -> bytes:
     except IsADirectoryError:
         raise _Failure("unreadable", "path is a directory") from None
     except NotADirectoryError:
-        raise _Failure("missing", "a parent path component is not a directory") from None
+        # A parent that exists but is not a directory is a broken path, not an
+        # absent file: it must never let an optional read fall back to a default.
+        raise _Failure("unreadable", "a parent path component is not a directory") from None
     except OSError as exc:
         raise _Failure("unreadable", f"{type(exc).__name__}: {exc.strerror or 'I/O error'}") from None
     if len(data) > maxBytes:
@@ -236,6 +282,9 @@ def _parseJson(text: str) -> Any:
         raise _Failure("malformed", f"invalid JSON at line {exc.lineno} column {exc.colno}: {exc.msg}") from None
     except RecursionError:
         raise _Failure("malformed", "JSON nesting too deep") from None
+    except (ValueError, OverflowError, MemoryError) as exc:
+        # e.g. the integer string-conversion limit on a huge number literal.
+        raise _Failure("malformed", f"JSON value cannot be decoded ({type(exc).__name__})") from None
 
 
 def readJson(
@@ -269,6 +318,12 @@ def _parseYaml(text: str) -> Any:
         mark = getattr(exc, "problem_mark", None)
         where = f" at line {mark.line + 1}" if mark is not None else ""
         raise _Failure("malformed", f"invalid YAML{where}: {type(exc).__name__}") from None
+    except RecursionError:
+        raise _Failure("malformed", "YAML nesting too deep") from None
+    except (ValueError, TypeError, OverflowError, MemoryError) as exc:
+        # A safe constructor can still fail on a well-formed scalar, e.g. an
+        # out-of-range timestamp ("date: 2024-99-99") or a huge integer.
+        raise _Failure("malformed", f"YAML value cannot be constructed ({type(exc).__name__})") from None
 
 
 def readYaml(
