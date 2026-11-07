@@ -1,5 +1,5 @@
 {
- "generation": 1230,
+ "generation": 1231,
  "lane": {
   "entries": [
    {
@@ -5568,7 +5568,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:25:26.530962Z",
-   "expiresAt": "2026-11-07T10:10:15.260833Z",
+   "expiresAt": "2026-11-07T10:10:20.193559Z",
    "holder": "run-20261107T092526Z-c6c6c44d"
   }
  },
@@ -98504,6 +98504,54 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-009403bfca6453f34882",
+     "dispatched": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-009403bfca6453f34882",
+       "dispatched": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+       "stepId": "build:fcadb5abc97e:2"
+      },
+      {
+       "dispatchId": "dispatch-05455591a0ffb6520938",
+       "dispatched": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f",
+       "stepId": "build:96615ea01a6a:2"
+      },
+      {
+       "dispatchId": "dispatch-ff0ed71b61bad114dc87",
+       "dispatched": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+       "stepId": "build:d179e1da2ecc:1"
+      },
+      {
+       "dispatchId": "dispatch-6847593639a1b68774d5",
+       "dispatched": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+       "stepId": "build:01bdcf8a1d9c:1"
+      },
+      {
+       "dispatchId": "dispatch-c014cb105fdf43f2f948",
+       "dispatched": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+       "stepId": "build:6daedf9b733f:1"
+      },
+      {
+       "dispatchId": "dispatch-c475fcc30286619c27c0",
+       "dispatched": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+       "stepId": "build:e32db45574f4:1"
+      },
+      {
+       "dispatchId": "dispatch-983c82aec7203f8490c2",
+       "dispatched": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
+       "stepId": "build:b63e9eae65c5:1"
+      },
+      {
+       "dispatchId": "dispatch-47f2688d80062c4ca0fc",
+       "dispatched": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
+       "stepId": "build:a9c405a45169:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:fcadb5abc97e:2"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -99608,7 +99656,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:40:15.264951Z",
+ "updatedAt": "2026-11-07T09:40:20.193729Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
