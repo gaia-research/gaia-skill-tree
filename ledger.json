@@ -1,5 +1,5 @@
 {
- "generation": 1529,
+ "generation": 1530,
  "lane": {
   "entries": [
    {
@@ -5808,7 +5808,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T16:41:34.216459Z",
-   "expiresAt": "2026-11-07T17:14:09.370529Z",
+   "expiresAt": "2026-11-07T17:14:17.485885Z",
    "holder": "run-20261107T164134Z-574a6b71"
   }
  },
@@ -121144,7 +121144,7 @@
     "push": false,
     "routine": 13
    },
-   "phase": "triage",
+   "phase": "class_a",
    "phases": {
     "observe": {
      "authorityCounts": {
@@ -122080,6 +122080,63 @@
      "integrationHead": "1a264cdd5d3a2c54d9bfb81c2da09dc0c2a0c326",
      "sourceHead": "1a264cdd5d3a2c54d9bfb81c2da09dc0c2a0c326",
      "unresolvedWork": 0
+    },
+    "triage": {
+     "carried": 0,
+     "classA": [],
+     "classB": [
+      "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+      "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+      "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+      "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+      "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+      "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+      "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+      "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
+      "debt:workflow_hygiene:github-workflows-docs-cohesion-yml:331205eb910bc7e8",
+      "debt:workflow_hygiene:github-workflows-fast-track-ci-yml:4c822d02f38dfe01",
+      "debt:workflow_hygiene:github-workflows-intake-approval-yml:30877071ea0ea0d1",
+      "debt:workflow_hygiene:github-workflows-labels-sync-yml:5bbae5258760516f",
+      "debt:workflow_hygiene:github-workflows-meta-guard-yml:e4d2cbafd65aa5a2",
+      "debt:workflow_hygiene:github-workflows-og-png-regen-yml:6a4f58e5855fcb87",
+      "debt:workflow_hygiene:github-workflows-pr-author-identity-yml:b1cbdd7f6a55aecc",
+      "debt:workflow_hygiene:github-workflows-pr-first-time-contributor-yml:9358fea113f55a0b",
+      "debt:workflow_hygiene:github-workflows-pr-guards-yml:faa60e755df62f9f",
+      "debt:workflow_hygiene:github-workflows-publish-pypi-yml:abd40c325dd53f16",
+      "debt:workflow_hygiene:github-workflows-python-package-yml:a679ed0ef81e803c",
+      "debt:workflow_hygiene:github-workflows-release-yml:c7a986f4c74c4729",
+      "debt:workflow_hygiene:github-workflows-sdk-tests-yml:978c15bb23bc6ef3",
+      "debt:workflow_hygiene:github-workflows-stale-bot-yml:530f8a30332df424",
+      "debt:workflow_hygiene:github-workflows-stargazer-heartbeat-yml:dd4c9efa2faf5ee1",
+      "debt:workflow_hygiene:github-workflows-steward-build-claude-lock-yml:6225fdacfee43e36",
+      "debt:workflow_hygiene:github-workflows-steward-build-codex-lock-yml:adb38247cbd3eb85",
+      "debt:workflow_hygiene:github-workflows-steward-build-copilot-lock-yml:0f5878893a1ca3b6",
+      "debt:workflow_hygiene:github-workflows-steward-build-pi-lock-yml:41877d082ac238ec",
+      "debt:workflow_hygiene:github-workflows-steward-verify-claude-lock-yml:f48ecb2694f1c767",
+      "debt:workflow_hygiene:github-workflows-steward-verify-codex-lock-yml:e386119903729fe9",
+      "debt:workflow_hygiene:github-workflows-steward-verify-copilot-lock-yml:296ea424e3c364a1",
+      "debt:workflow_hygiene:github-workflows-steward-verify-pi-lock-yml:df150566bc9135e7",
+      "debt:workflow_hygiene:github-workflows-sync-artifacts-yml:06d10d37dc08360e",
+      "debt:workflow_hygiene:github-workflows-upstream-approve-yml:98a1885bb302ca66",
+      "debt:workflow_hygiene:github-workflows-upstream-close-children-yml:70ad79523d9da1c5",
+      "debt:workflow_hygiene:github-workflows-upstream-reject-yml:789e57c6f1aebdac",
+      "debt:workflow_hygiene:github-workflows-upstream-watcher-yml:1c35d150efb14249",
+      "debt:workflow_hygiene:github-workflows-validate-yml:8c6baaebf1b3043e",
+      "debt:workflow_hygiene:github-workflows-verify-evidence-yml:aacced23c627e88a",
+      "debt:workflow_hygiene:github-workflows-weekly-content-engine-yml:a90df8685cd99a62"
+     ],
+     "classC": [],
+     "counts": {
+      "A": 0,
+      "B": 39,
+      "B-report-only": 0,
+      "C": 0
+     },
+     "filtered": 335,
+     "held": [],
+     "issueClosure": [],
+     "reportOnly": [],
+     "skippedActive": []
     }
    },
    "proofArtifacts": [],
@@ -122113,6 +122170,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-11-07T16:44:16.504116Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
     }
    ],
    "thinkingEfforts": [],
@@ -122123,7 +122186,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:44:09.370740Z",
+ "updatedAt": "2026-11-07T16:44:17.486328Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
