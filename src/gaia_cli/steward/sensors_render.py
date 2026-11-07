@@ -58,6 +58,9 @@ _STATUS_REASONS = {
     "chromium-launch-failed": "Chromium could not be launched",
     "collection-error": "the collector stopped with an error",
     "interactive-not-allowed": "an interactive browser was requested but the run did not allow one",
+    "collection-incomplete": "the collection attempt never finished (killed, timed out or never started)",
+    "headless-disabled": "headless collection is switched off in POLICY.yaml",
+    "artifact-rejected": "the collected render failed validation and was discarded",
 }
 _MAX_RENDERS = 4000
 _MAX_FAILURES_PER_RENDER = 50

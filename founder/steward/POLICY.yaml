@@ -784,8 +784,7 @@ prMaintenance:
     - merge
 
 # Browser access for rendered-frontend observation (routine 15; founder ruling steward-browser-render-driver).
-# Headless Chromium is free and on by default for scheduled and founder runs. A real, interactive browser is off:
-# it is switched on for one run with `gaia steward full run --interactive-browser`, or here for every run.
+# Headless Chromium is free and on by default for scheduled and founder runs. A real, interactive browser is
+# never a persistent setting: only `gaia steward full run --interactive-browser` authorizes it, for that run.
 browser:
   headless: true
-  interactive: false

@@ -29,14 +29,15 @@
  *   --concurrency N           default 4
  *   --interactive             launch a real, visible browser instead of headless Chromium. Refused
  *                             unless STEWARD_INTERACTIVE_BROWSER=1: headless is free to use at any
- *                             time, a real browser is something a Steward run must be told it may use
- *                             (`gaia steward full run --interactive-browser`, or POLICY.yaml
- *                             browser.interactive).
+ *                             time, a real browser is something a Steward run must be told it may use.
+ *                             Only `gaia steward full run --interactive-browser` sets the variable; no
+ *                             persistent policy or workflow does.
  *   --record-failure REASON   write only the status file, as a failed collection (for a driver step
  *                             that failed before this script could run, e.g. the Chromium install)
  *
  * Every run also writes browser-render-status.json beside --out ({ok|failed|refused} and a reason from
- * a fixed list), so a browser that could not run is reported as not evaluated, never as healthy.
+ * a fixed list), first as a failed 'collection-incomplete' marker and finally as ok, so a browser that could
+ * not run (or never finished) is reported as not evaluated, never as healthy.
  *
  * Requires Playwright with a Chromium it can launch (`require('playwright')`).
  */
@@ -55,7 +56,7 @@ const VIEWPORTS = [{ name: 'mobile', width: 390, height: 800 }, { name: 'desktop
 const SCHEMA = 'steward-browser-render-v1';
 const STATUS_SCHEMA = 'steward-browser-render-status-v1';
 // Must equal _STATUS_REASONS in src/gaia_cli/steward/sensors_render.py (a test pins the two together).
-const STATUS_REASONS = ['playwright-missing', 'chromium-install-failed', 'chromium-launch-failed', 'collection-error', 'interactive-not-allowed'];
+const STATUS_REASONS = ['playwright-missing', 'chromium-install-failed', 'chromium-launch-failed', 'collection-error', 'interactive-not-allowed', 'collection-incomplete', 'headless-disabled', 'artifact-rejected'];
 const NAV_TIMEOUT_MS = 20000;
 const SETTLE_MS = 400;
 const MAX_FAILURES = 50;
@@ -188,6 +189,9 @@ async function main() {
     writeStatus(args.out, 'refused', 'interactive-not-allowed', mode);
     throw new CollectionFailure('interactive-not-allowed', 'an interactive browser needs STEWARD_INTERACTIVE_BROWSER=1 (gaia steward full run --interactive-browser)');
   }
+  // The attempt marker. Anything short of a clean finish (killed, timed out, crashed) leaves this failed status
+  // behind, so the sensor reports not evaluated and never reads an older render as this attempt's result.
+  writeStatus(args.out, 'failed', 'collection-incomplete', mode);
   let chromium;
   try { ({ chromium } = require('playwright')); } catch (error) { throw new CollectionFailure('playwright-missing', 'Playwright is not installed'); }
   const discovered = trackedPages();

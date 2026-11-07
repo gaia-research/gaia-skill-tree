@@ -187,8 +187,15 @@ class StewardCommand(Command):
         run.add_argument(
             "--interactive-browser", dest="interactiveBrowser", action="store_true",
             help=(
-                "Allow a real, interactive browser for this run only (default off). Headless Chromium is "
-                "on by default; a person-visible browser needs this flag or POLICY.yaml browser.interactive."
+                "Allow a real, interactive browser for this run only (default off; no persistent setting can grant it). "
+                "Headless Chromium is on by default."
+            ),
+        )
+        run.add_argument(
+            "--browser-collection", dest="browserCollection", choices=("local", "external"), default="local",
+            help=(
+                "local (default): this run starts the headless browser collector. external: an earlier "
+                "least-privilege job collected and a validator accepted the artifact; this run collects nothing."
             ),
         )
         run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
@@ -520,6 +527,7 @@ class StewardCommand(Command):
                 trigger=getattr(args, "trigger", "manual"),
                 agents=not getattr(args, "noAgents", False),
                 interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
+                browser_collection=getattr(args, "browserCollection", "local"),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
             )
             runner = FullRunner(config)
@@ -599,6 +607,12 @@ class StewardCommand(Command):
                 + ("ON" if view.browser.get("interactive") else "off")
             )
         summary = view.summary
+        collected = (summary.get("observe") or {}).get("browserCollection")
+        if isinstance(collected, dict):
+            print(
+                f"Browser collection   {collected.get('state')}  ({collected.get('mode')})"
+                + (f"  - {collected['reason']}" if collected.get("reason") else "")
+            )
         observe = summary.get("reobserve") or summary.get("observe")
         if observe:
             print(

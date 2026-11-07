@@ -30,7 +30,7 @@ _TOP_LEVEL_KEYS = {
 }
 # Optional: an absent issueHygiene section means no closure authority at all.
 _OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene", "prMaintenance", "browser"}
-_BROWSER_KEYS = {"headless", "interactive"}
+_BROWSER_KEYS = {"headless"}
 _PRIORITY_KEYS = {
     "importance",
     "decisionImpact",
@@ -149,20 +149,16 @@ class BrowserPolicy:
     """Browser access for the rendered-frontend collector (founder ruling steward-browser-render-driver).
 
     ``headless`` is the default: scheduled and founder runs collect rendered facts in headless Chromium, which is
-    free to use at any time. ``interactive`` is a real browser a person can see and drive; it stays off unless
-    the policy turns it on or one run asks for it with ``gaia steward full run --interactive-browser``.
+    free to use at any time. A real, interactive browser is NOT a policy setting. Persistent policy cannot grant
+    it; only the current run can, with ``gaia steward full run --interactive-browser``.
     """
 
     headless: bool = True
-    interactive: bool = False
 
-    def effective(self, *, interactiveRequested: bool = False) -> "BrowserPolicy":
-        """The setting for one run: the run flag can switch real-browser access on, never off."""
+    def setting(self, *, interactiveRequested: bool = False) -> dict[str, bool]:
+        """The browser access for one run: headless from policy, interactive only if this run asked for it."""
 
-        return BrowserPolicy(headless=self.headless, interactive=self.interactive or interactiveRequested)
-
-    def to_dict(self) -> dict[str, bool]:
-        return {"headless": self.headless, "interactive": self.interactive}
+        return {"headless": self.headless, "interactive": bool(interactiveRequested)}
 
 
 def _browserOf(data: Mapping[str, Any]) -> BrowserPolicy:
@@ -172,13 +168,11 @@ def _browserOf(data: Mapping[str, Any]) -> BrowserPolicy:
     block = _mapping(raw, "browser")
     unknown = set(block) - _BROWSER_KEYS
     if unknown:
+        # `interactive` lands here on purpose: a persistent policy key must never authorize a real browser.
         raise PolicyError(f"browser keys invalid; unknown={sorted(unknown)}")
-    values: dict[str, bool] = {}
-    for key in _BROWSER_KEYS & set(block):
-        if not isinstance(block[key], bool):
-            raise PolicyError(f"browser.{key} must be true or false")
-        values[key] = block[key]
-    return BrowserPolicy(**values)
+    if "headless" in block and not isinstance(block["headless"], bool):
+        raise PolicyError("browser.headless must be true or false")
+    return BrowserPolicy(headless=block.get("headless", True))
 
 
 @dataclass(frozen=True)

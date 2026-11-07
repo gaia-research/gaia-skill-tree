@@ -122,12 +122,80 @@ jobs:
             steward-repair.patch
             .gaia/steward/receipts/
 
+  # Browser rendering runs here and nowhere else. This job has a read-only token, no persisted git credentials
+  # and no secrets, installs its single dependency with `npm ci --ignore-scripts` (no package lifecycle script
+  # runs), and hands the privileged job a plain artifact that `scripts/steward_accept_browser_render.py` validates
+  # as data. Headless Chromium is free and on by default; a real/interactive browser is never used in CI.
+  browser-collect:
+    name: Browser render collection (unprivileged)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # POLICY.yaml `browser.headless: false` switches collection off; the privileged job records that as refused.
+      - name: Read the headless setting from POLICY.yaml
+        id: policy
+        run: |
+          if awk '/^browser:/{f=1;next} /^[^ #]/{f=0} f' founder/steward/POLICY.yaml | grep -Eq '^[[:space:]]+headless:[[:space:]]*false'; then
+            echo "headless=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "headless=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install the collector dependency without lifecycle scripts
+        id: deps
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Install headless Chromium
+        id: chromium
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Record an install failure
+        if: always() && (steps.deps.outcome == 'failure' || steps.chromium.outcome == 'failure')
+        run: node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
+
+      - name: Collect rendered-frontend facts (headless)
+        if: steps.policy.outputs.headless == 'true' && steps.deps.outcome == 'success' && steps.chromium.outcome == 'success'
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ github.workspace }}/scripts/steward-browser/node_modules
+        run: node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"
+
+      - name: Publish the render artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-browser-render
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            .gaia/steward/inputs/browser-render.json
+            .gaia/steward/inputs/browser-render-status.json
+
   # The full pipeline in observe mode: every detector, the founder desk, and the
   # three driver inputs (CI runs, advisories, test history). Read-only; its ledger
   # is local to this runner. The persistent ledger, Class A landing and the
   # unattended Class B builder/verifier loop live in steward-full.yml.
   full-observe:
     name: Full pipeline (observe)
+    needs: browser-collect
+    # Observe even when the browser job failed: that is then a recorded failed collection, never a silent skip.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -191,59 +259,81 @@ jobs:
           fi
 
       # The last verified closed-issue count (founder ruling steward-census-empty-page-crosschecks) must survive
-      # between runs, so it is restored from the previous run's artifact and persisted again below. It is a
-      # diagnostic baseline: if it cannot be restored the census still runs and simply starts a new baseline.
+      # between runs. It lives in an Actions artifact (no new git-ref writer): restored here, re-uploaded by every run
+      # that has one, so its 90-day retention is renewed while runs continue. If runs STOP for 90 days it expires.
+      # That is a restore failure, not a first run: the census then never writes a new baseline (it reports the baseline
+      # as NOT EVALUATED) until a founder sets the repository variable STEWARD_CLOSED_BASELINE_RESEED=true for one run.
+      #   first-run       the store holds no baseline at all -> a new one starts from the first verified, complete census
+      #   restored        the latest baseline was downloaded -> compared and, when verified and complete, renewed
+      #   restore-failed  the store could not be read, or only expired baselines exist -> no baseline is written
       - name: Restore the closed-issue baseline
+        id: baseline
         env:
           GH_TOKEN: ${{ github.token }}
+          RESEED: ${{ vars.STEWARD_CLOSED_BASELINE_RESEED }}
         run: |
           mkdir -p .gaia/steward/inputs prev-baseline
-          rid=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-closed-baseline&per_page=1" --jq '.artifacts[0].workflow_run.id // empty' 2>/dev/null || true)
-          if [ -n "$rid" ] && gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-closed-baseline --dir prev-baseline \
-             && [ -f prev-baseline/closed-issue-baseline.json ]; then
-            cp prev-baseline/closed-issue-baseline.json .gaia/steward/inputs/closed-issue-baseline.json
+          state=restored
+          if ! json=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-closed-baseline&per_page=10" 2>/dev/null); then
+            state=restore-failed
           else
-            echo "::notice title=steward closed-issue baseline::no earlier baseline restored; a new one starts from the first verified count"
+            total=$(jq '.total_count' <<<"$json")
+            rid=$(jq -r '[.artifacts[] | select(.expired == false)] | .[0].workflow_run.id // empty' <<<"$json")
+            if [ "$total" = "0" ]; then
+              state=first-run
+            elif [ -z "$rid" ]; then
+              state=restore-failed
+            elif gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-closed-baseline --dir prev-baseline \
+                 && [ -f prev-baseline/closed-issue-baseline.json ]; then
+              cp prev-baseline/closed-issue-baseline.json .gaia/steward/inputs/closed-issue-baseline.json
+            else
+              state=restore-failed
+            fi
           fi
+          if [ "$state" = "restore-failed" ] && [ "$RESEED" = "true" ]; then state=first-run; fi
+          echo "state=$state" >> "$GITHUB_OUTPUT"
+          case "$state" in
+            restored) echo "closed-baseline=ok:restored from the artifact store" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            first-run) echo "closed-baseline=missing:first run, no earlier baseline exists; one starts from the first verified census" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            *) echo "closed-baseline=failed:the earlier baseline could not be restored (store unreadable or expired); no new baseline is written and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+          esac
 
       # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
       # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
       - name: Collect the GitHub issue census for the issue-hygiene sensor
         env:
           GH_TOKEN: ${{ github.token }}
+          BASELINE_STATE: ${{ steps.baseline.outputs.state }}
         run: |
           code=0
           python scripts/steward_issue_census.py --repo "$GITHUB_REPOSITORY" \
-            --out .gaia/steward/inputs/github-issues.json || code=$?
+            --out .gaia/steward/inputs/github-issues.json --baseline-state "$BASELINE_STATE" || code=$?
           if [ "$code" -eq 0 ]; then
             echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
           elif [ "$code" -eq 3 ]; then
-            echo "issue-census=partial:a page failed or was short; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
+            echo "issue-census=partial:a page failed or was short, or the closed inventory could not be verified; issue closure operations are NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
           else
             echo "issue-census=failed:collector exited $code; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
           fi
 
-      # Headless Chromium is free and on by default for scheduled and founder runs (founder ruling
-      # steward-browser-render-driver). It is optional: a failed install or collection is recorded as
-      # failed in the inputs report and in .gaia/steward/inputs/browser-render-status.json, so the
-      # browser-render sensor reports NOT EVALUATED, never healthy. A real/interactive browser is never
-      # used here; it needs `gaia steward full run --interactive-browser` on a machine with a display.
-      # POLICY.yaml `browser.headless: false` turns this step into a recorded "missing".
-      - name: Collect rendered-frontend facts for the browser-render detector (headless Chromium)
+      # The collector ran in the unprivileged browser-collect job. Only what the validator accepts as data
+      # reaches .gaia/steward/inputs; anything else leaves a current failed status, so the browser-render
+      # detector reports NOT EVALUATED and an older render is never read as healthy.
+      - name: Download the browser-render artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: steward-browser-render
+          path: browser-artifact
+
+      - name: Accept the browser-render artifact (validated, headless only)
+        if: always()
         run: |
-          mkdir -p .gaia/steward/inputs
-          headless=$(python -c "import yaml; print(str((yaml.safe_load(open('founder/steward/POLICY.yaml')).get('browser') or {}).get('headless', True)).lower())")
-          if [ "$headless" != "true" ]; then
-            echo "browser-render=missing:headless collection is off in POLICY.yaml browser.headless; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
-            exit 0
-          fi
-          if ! { npm install --no-save --no-package-lock --silent playwright@1.49.1 && npx playwright install --with-deps chromium; }; then
-            node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
-            echo "browser-render=failed:Chromium could not be installed; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
-          elif node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"; then
+          python scripts/steward_accept_browser_render.py --from browser-artifact | tee "$RUNNER_TEMP/browser-accept.txt"
+          if grep -q "artifact: ok" "$RUNNER_TEMP/browser-accept.txt"; then
             echo "browser-render=ok" > "$RUNNER_TEMP/inputs-browser.txt"
           else
-            echo "browser-render=failed:the collector exited non-zero; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
+            echo "browser-render=failed:$(cat "$RUNNER_TEMP/browser-accept.txt"); rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
           fi
 
       # A failing suite must stay visible but must not stop the observation: it is
@@ -277,7 +367,7 @@ jobs:
 
       # Exit 3 means a detector was blind: that fails the job on purpose.
       - name: Observe with every detector
-        run: gaia steward full run --observe --trigger scheduled --ledger local --json > steward-full.json
+        run: gaia steward full run --observe --trigger scheduled --ledger local --browser-collection external --json > steward-full.json
 
       - name: Founder desk
         if: always()
@@ -298,8 +388,10 @@ jobs:
           retention-days: 90
           path: .gaia/steward/inputs/test-history.json
 
+      # Every run that holds a baseline re-uploads it, which renews the artifact's 90-day retention. A failed restore
+      # holds none, so nothing is uploaded and the stored evidence is never replaced.
       - name: Persist the closed-issue baseline for the next run
-        if: always()
+        if: always() && steps.baseline.outputs.state != 'restore-failed'
         uses: actions/upload-artifact@v4
         with:
           name: steward-closed-baseline

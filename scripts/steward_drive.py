@@ -234,6 +234,8 @@ class DriveOptions:
     agentTimeout: float = DEFAULTAGENTTIMEOUT
     census: bool = False
     repo: str = DEFAULTREPO
+    # "external": an earlier least-privilege job collected the browser render and a validator accepted it.
+    browserCollection: str = "local"
 
 
 @dataclass
@@ -339,6 +341,8 @@ class Driver:
             tail += ["--integration-branch", o.integrationBranch]
         if o.push:
             tail.append("--push")
+        if o.browserCollection != "local":
+            tail += ["--browser-collection", o.browserCollection]
         tail.append("--json")
         return tail
 
@@ -926,6 +930,9 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--no-agents", action="store_true", help="Never dispatch Class B agent work")
     parser.add_argument("--report", default=DEFAULTREPORT, metavar="PATH",
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
+    parser.add_argument("--browser-collection", choices=("local", "external"), default="local",
+                        help="local: the run collects the headless browser render itself; external: an earlier "
+                             "least-privilege job collected it and a validator accepted the artifact")
     parser.add_argument("--no-census", action="store_true",
                         help="Do not refresh the GitHub issue census before the run (issue hygiene then reports not evaluated)")
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY") or DEFAULTREPO, metavar="OWNER/NAME",
@@ -946,6 +953,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if refusal:
             print(f"steward drive refused: {refusal}", file=sys.stderr)
             return EXITREFUSEDINPUT
+    options.browserCollection = args.browser_collection
     options.census = not args.no_census
     options.repo = args.repo
     options.agents = not args.no_agents
