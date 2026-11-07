@@ -1,5 +1,5 @@
 {
- "generation": 1160,
+ "generation": 1161,
  "lane": {
   "entries": [
    {
@@ -90479,6 +90479,15 @@
      "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
      "emittedAt": "2026-11-07T03:31:19.356563Z",
      "idempotencyKey": "dispatch-b1a9ec6d2be84878071d:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch4-builder-bea677b92540",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.proof.json",
+      "summary": "Batch batch4 builder (openai/gpt-6.1-terra (attempt 2 / escalated tier) medium, pi pane) removed the flagged unused import(s); commit 6537c5f7a; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -90499,7 +90508,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T03:59:32.048818Z",
+     "status": "done",
      "stepId": "build:bea677b92540:1",
      "type": "agent.build"
     },
@@ -90705,6 +90715,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:568e4a413656:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch4-builder-bea677b92540",
+     "at": "2026-11-07T03:59:32.049255Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:bea677b92540:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -91990,6 +92012,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-568e4a413656.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-568e4a413656.proof.json",
      "stepId": "build:568e4a413656:2"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.proof.json",
+     "stepId": "build:bea677b92540:1"
     }
    ],
    "pullRequests": [],
@@ -92044,11 +92072,11 @@
      "stepId": "build:288be108ed47:2"
     },
     {
-     "at": "2026-11-07T03:31:19.356563Z",
+     "at": "2026-11-07T03:59:32.048818Z",
      "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
      "idempotencyKey": "dispatch-b1a9ec6d2be84878071d:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:bea677b92540:1"
     },
     {
@@ -92107,11 +92135,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T03:59:20.374911Z"
+   "updatedAt": "2026-11-07T03:59:32.048818Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:59:20.377238Z",
+ "updatedAt": "2026-11-07T03:59:32.051594Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -94003,12 +94031,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch4-builder-bea677b92540",
+     "at": "2026-11-07T03:59:32.049255Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:bea677b92540:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-bea677b92540",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch4-builder-bea677b92540",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.diff",
+    "dispatchId": "dispatch-b1a9ec6d2be84878071d",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.proof.json",
+    "recordedAt": "2026-11-07T03:59:32.049255Z",
+    "summary": "Batch batch4 builder (openai/gpt-6.1-terra (attempt 2 / escalated tier) medium, pi pane) removed the flagged unused import(s); commit 6537c5f7a; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T03:31:19.356563Z",
    "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
    "dispatchId": "dispatch-b1a9ec6d2be84878071d",
@@ -94029,7 +94078,7 @@
    "runId": "run-20261107T032809Z-31f4a5be",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T03:31:19.356563Z",
+   "updatedAt": "2026-11-07T03:59:32.049255Z",
    "verification": null
   },
   "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0": {
