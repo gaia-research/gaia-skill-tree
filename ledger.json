@@ -1,5 +1,5 @@
 {
- "generation": 1114,
+ "generation": 1115,
  "lane": {
   "entries": [
    {
@@ -4773,7 +4773,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T03:07:07.678256Z",
-   "expiresAt": "2026-11-07T03:39:27.995291Z",
+   "expiresAt": "2026-11-07T03:39:35.055005Z",
    "holder": "run-20261107T012053Z-9dcda16b"
   }
  },
@@ -85801,7 +85801,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T02:23:08.096947Z",
+    "asOf": "2026-11-07T03:09:33.309982Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -86002,6 +86002,27 @@
      {
       "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
       "debtIds": [
+       "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+       "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-4f3c9a95f2ce381c975c",
+      "evidence": [
+       "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9 - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `unused-import-cleanup` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "2 open Class C debt item(s) under lane-escalation/unused-import-cleanup.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
        "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9"
       ],
       "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
@@ -86023,10 +86044,10 @@
       "debtIds": [
        "debt:routine_pr_founder_decision:gaia-research-gaia-skill-tree-2235:fb647ee4fb7bfedb"
       ],
-      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head 9018cd0c5014.",
+      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head d8e0861079ba.",
       "decisionId": "decision-1fde053ffffef5198094",
       "evidence": [
-       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: 956b684fe179098c96eb2c00c38235e78f42499a; basis: producer scheduled-docs-routine; head 9018cd0c5014; gates: holds=fail, review-threads=unknown, …"
+       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: f28575eb7d5dde5895b9249cc7e77ba6c5f24030; basis: producer scheduled-docs-routine; head d8e0861079ba; gates: holds=fail, review-threads=unknown, …"
       ],
       "links": [],
       "priority": 30,
@@ -86040,17 +86061,7 @@
      {
       "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
       "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
       "subject": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9"
      },
      {
       "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
@@ -86063,6 +86074,16 @@
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
      },
      {
+      "detail": "independent verification by pi-herdr-batch3-verifier-fcadb5abc97e (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch3-verifier-96615ea01a6a (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f"
+     },
+     {
       "detail": "independent verification by pi-herdr-v5-verifier (pi, effort medium): rejected - findingConfirmed true; scopeValid true; proofValid false; authorityStillValid true; guardsWeakened false. Packet marks `import os` sideEffectPossible; builder e",
       "kind": "failed_dispatch",
       "subject": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a"
@@ -86073,7 +86094,7 @@
       "subject": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0"
      },
      {
-      "detail": "last scheduled run was 119h ago (limit 48h).",
+      "detail": "last scheduled run was 120h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -86086,7 +86107,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-07T03:09:33.309982Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -86094,6 +86115,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "b2bd3350b9f860f721d50792f485135005615124",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 225,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T01:20:53.468038Z",
@@ -86106,7 +86135,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 4 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T012053Z-9dcda16b <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T012053Z-9dcda16b`",
    "options": {
     "afk": false,
     "agents": true,
@@ -86114,7 +86143,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -88787,7 +88816,7 @@
    "sequence": 36,
    "sourceHead": "b2bd3350b9f860f721d50792f485135005615124",
    "startedAt": "2026-11-07T01:20:53.468038Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T01:20:53.468038Z",
@@ -89002,6 +89031,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-07T03:09:33.309982Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -89015,7 +89050,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:09:27.995393Z",
+ "updatedAt": "2026-11-07T03:09:35.055144Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
