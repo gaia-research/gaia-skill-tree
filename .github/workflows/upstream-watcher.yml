@@ -28,6 +28,15 @@ on:
         type: choice
         options: [fanout, batch]
         default: fanout
+      staging:
+        description: "Staged weekly batching (#2283, ruling #12). inherit = follow repo variable UPSTREAM_BATCH_STAGING (unset = off). weekly requires child_mode=batch."
+        type: choice
+        options: [inherit, "off", weekly]
+        default: inherit
+      staging_bootstrap:
+        description: "First staged run only: allow a missing pending-observation journal (never a corrupt one). Dispatch only; the schedule never bootstraps."
+        type: boolean
+        default: false
       escalate_candidate:
         description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
         required: false
@@ -68,6 +77,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      # Staged batching switch (#2283). Present only when staging resolves to weekly; with the repository variable
+      # UPSTREAM_BATCH_STAGING unset (the default) these two steps are skipped and the job is exactly as before.
+      # The journal is required state, not a convenience: a cache miss or eviction FAILS CLOSED (every suite held,
+      # nothing written, job red) until a human re-dispatches with staging_bootstrap=true. Nothing resets silently.
+      - name: Restore staging journal
+        if: ${{ (inputs.staging == 'weekly' || (vars.UPSTREAM_BATCH_STAGING == 'weekly' && (inputs.staging == '' || inputs.staging == 'inherit'))) && inputs.escalate_candidate == '' }}
+        uses: actions/cache/restore@v4
+        with:
+          path: generated-output/staging-journal.json
+          key: upstream-staging-journal-${{ github.run_id }}
+          restore-keys: upstream-staging-journal-
+
       - name: Run upstream watcher
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,6 +97,11 @@ jobs:
           INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
           INPUT_APPLY: ${{ inputs.apply }}
           INPUT_CHILD_MODE: ${{ inputs.child_mode }}
+          INPUT_STAGING: ${{ inputs.staging }}
+          INPUT_STAGING_BOOTSTRAP: ${{ inputs.staging_bootstrap }}
+          STEWARD_ISSUE_HYGIENE_V2: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
+          STAGING_INITIALIZED: ${{ vars.UPSTREAM_STAGING_INITIALIZED }}
+          STAGING_VAR: ${{ vars.UPSTREAM_BATCH_STAGING }}
           V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
@@ -104,6 +130,30 @@ jobs:
             echo "::error::Unknown child_mode"
             exit 1
           fi
+          # Staged batching (#2283). Unset variable and inherit input resolve to off: the deployed behaviour.
+          STAGING="${STAGING_VAR:-off}"
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "${INPUT_STAGING:-}" ] && [ "$INPUT_STAGING" != inherit ]; then
+            STAGING="$INPUT_STAGING"
+          fi
+          if [[ "$STAGING" != off && "$STAGING" != weekly ]]; then
+            echo "::error::UPSTREAM_BATCH_STAGING / staging must be off or weekly; got a different value."
+            exit 1
+          fi
+          if [ "$STAGING" = weekly ]; then
+            if [ "$EVENT_NAME" = "schedule" ]; then
+              # Activation: the repository variable moves the daily run onto the staged batch contract. The durable
+              # initialized marker (outside the cache) must already be set, so a later cache eviction is recognised
+              # as a LOST journal and fails closed instead of looking like a first run.
+              if [ "${STAGING_INITIALIZED:-}" != true ]; then
+                echo "::error::Scheduled staging needs the repo variable UPSTREAM_STAGING_INITIALIZED=true (set it after the bootstrap dispatch)."
+                exit 1
+              fi
+              MODE=batch
+            elif [ "$MODE" != batch ]; then
+              echo "::error::staging=weekly requires child_mode=batch; fanout cannot be staged."
+              exit 1
+            fi
+          fi
           if { [ "$MODE" = batch ] || [ -n "$INPUT_ESCALATE" ]; } && [ "${APPLY[0]}" = --apply ] && [ "${V2_ENABLED:-}" != true ]; then
             echo "::error::Staged issue writes require STEWARD_ISSUE_HYGIENE_V2=true and founder rollout approval."
             exit 1
@@ -114,11 +164,27 @@ jobs:
             exit 0
           fi
           ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
+          if [ "$STAGING" = weekly ]; then
+            ARGS+=(--staging weekly --staging-journal generated-output/staging-journal.json)
+            if [ "${STAGING_INITIALIZED:-}" = true ]; then
+              ARGS+=(--staging-initialized)
+            fi
+            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "${INPUT_STAGING_BOOTSTRAP:-}" = "true" ]; then
+              ARGS+=(--staging-bootstrap)
+            fi
+          fi
           if [ -n "$INPUT_SKILL_ID" ]; then
             ARGS+=(--skill "$INPUT_SKILL_ID")
           fi
           # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
           python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+
+      - name: Save staging journal
+        if: ${{ always() && ((inputs.staging == 'weekly' || (vars.UPSTREAM_BATCH_STAGING == 'weekly' && (inputs.staging == '' || inputs.staging == 'inherit')))) && inputs.escalate_candidate == '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: generated-output/staging-journal.json
+          key: upstream-staging-journal-${{ github.run_id }}
 
       - name: Upload watcher report
         if: always()
