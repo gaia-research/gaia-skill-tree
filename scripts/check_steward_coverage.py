@@ -82,19 +82,57 @@ def _string_sequence(node: ast.AST, constants: dict[str, Any]) -> tuple[str, ...
     return None
 
 
+def _rebound_between(name: str, binding: ast.AST, use: ast.AST, scope: ast.AST) -> bool:
+    """Fail closed if the name is rebound between its literal binding and use."""
+    start = (getattr(binding, "lineno", -1), getattr(binding, "col_offset", -1))
+    end = (getattr(use, "lineno", -1), getattr(use, "col_offset", -1))
+
+    def before_use(node: ast.AST) -> bool:
+        position = (getattr(node, "lineno", -1), getattr(node, "col_offset", -1))
+        return start < position < end
+
+    for node in ast.walk(scope):
+        targets: list[ast.AST] = []
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr, ast.For, ast.AsyncFor)):
+            targets.extend(node.targets if isinstance(node, ast.Assign) else [node.target])
+        elif isinstance(node, (ast.With, ast.AsyncWith)):
+            targets.extend(item.optional_vars for item in node.items if item.optional_vars is not None)
+        elif isinstance(node, ast.ExceptHandler) and node.name == name:
+            if before_use(node):
+                return True
+        elif isinstance(node, ast.Delete):
+            targets.extend(node.targets)
+        for target in targets:
+            if before_use(node) and any(isinstance(part, ast.Name) and part.id == name for part in ast.walk(target)):
+                return True
+    return False
+
+
 def _bound_kind_values(name: str, call: ast.AST, parents: dict[ast.AST, ast.AST], constants: dict[str, Any]) -> set[str]:
-    """Resolve a name bound by an enclosing literal for-loop/comprehension only."""
+    """Resolve an enclosing literal binding only when it is not reassigned before use."""
+    child = call
+    parent = parents.get(child)
+    lexical_scope: ast.AST = call
+    while parent is not None:
+        if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Module)):
+            lexical_scope = parent
+            break
+        child, parent = parent, parents.get(parent)
     child = call
     parent = parents.get(child)
     while parent is not None:
         if isinstance(parent, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
             for generator in reversed(parent.generators):
                 if name in {target.id for target in ast.walk(generator.target) if isinstance(target, ast.Name)}:
+                    if _rebound_between(name, generator.target, call, lexical_scope):
+                        return set()
                     values = _string_sequence(generator.iter, constants)
                     return set(values or ())
         if isinstance(parent, (ast.For, ast.AsyncFor)) and name in {
             target.id for target in ast.walk(parent.target) if isinstance(target, ast.Name)
         }:
+            if _rebound_between(name, parent.target, call, lexical_scope):
+                return set()
             values = _string_sequence(parent.iter, constants)
             return set(values or ())
         child, parent = parent, parents.get(parent)

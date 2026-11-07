@@ -26,3 +26,14 @@ def test_comprehension_bound_kind_is_detected() -> None:
 
 def test_unresolvable_kind_name_is_not_counted() -> None:
     assert _values("items = [Observation(kind=kind) for kind in unknown_kinds]", "kind") == set()
+
+
+def test_reassigned_loop_target_is_not_counted() -> None:
+    source = '''
+class Sensor:
+    def scan(self, external):
+        for kind in ("ghost",):
+            kind = external
+            Observation(kind=kind)
+'''
+    assert _values(source, "kind") == set()
