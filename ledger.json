@@ -1,5 +1,5 @@
 {
- "generation": 1571,
+ "generation": 1572,
  "lane": {
   "entries": [
    {
@@ -5224,14 +5224,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-2f1cf771b91cddb9a30a",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T20:00:12.757245Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch9-verifier-2933fea8b223 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T16:45:05.162534Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T20:00:12.757245Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -121379,6 +121385,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "emittedAt": "2026-11-07T19:41:13.215631Z",
      "idempotencyKey": "verify:dispatch-2f1cf771b91cddb9a30a:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-verifier-2933fea8b223",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at commit 1a264cdd5. Reading .github/workflows/auto-label-bot-prs.yml and running rg for label-bots, runs-on, and timeout-minutes shows the job at line 11 and its runner at line 13, but no timeout-minutes anywhere in the workflow. The git diff against origin/dev/steward-campaign-2026-11-05 for this file is empty.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -121394,7 +121407,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-2933fea8b223.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T20:00:12.756960Z",
+     "status": "done",
      "stepId": "verify:2933fea8b223:1",
      "type": "agent.verify"
     },
@@ -121585,6 +121599,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:79f5e518ae90:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-2933fea8b223",
+     "at": "2026-11-07T20:00:12.757245Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2933fea8b223:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -123270,11 +123296,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-11-07T19:41:13.215631Z",
+     "at": "2026-11-07T20:00:12.756960Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "idempotencyKey": "verify:dispatch-2f1cf771b91cddb9a30a:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:2933fea8b223:1"
     },
     {
@@ -123325,11 +123351,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T19:37:13.791774Z"
+   "updatedAt": "2026-11-07T20:00:12.756960Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T19:47:29.465092Z",
+ "updatedAt": "2026-11-07T20:00:12.760375Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -127960,22 +127986,25 @@
      "stepId": "build:2933fea8b223:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-2933fea8b223",
+     "at": "2026-11-07T20:00:12.757245Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2933fea8b223:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch9-verifier-2933fea8b223 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
    "branch": "steward/b/workflow-hygiene-2933fea8b223",
-   "build": {
-    "agentId": "pi-herdr-batch9-builder-2933fea8b223",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
-    "noChange": true,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.proof.json",
-    "recordedAt": "2026-11-07T18:47:44.172594Z",
-    "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: all 50 completed runs of the flagged job are 'skipped', so no successful completed-run duration history exists to derive timeout-minutes (founder/steward/routines/workflow-timeout.md: 'If no successful completed-run duration history can be read for a flagged job, stop.'). Route gap noted for engineering: jobs with no successful history need a governed default."
-   },
+   "build": null,
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
@@ -127986,6 +128015,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-2f1cf771b91cddb9a30a (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T20:00:12.757245Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch9-verifier-2933fea8b223 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+     "to": "blocked"
     }
    ],
    "kind": "workflow_hygiene",
@@ -127995,13 +128030,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T18:47:44.172594Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T20:00:12.757245Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-2933fea8b223.prompt.md"
+    "agentId": "pi-herdr-batch9-verifier-2933fea8b223",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at commit 1a264cdd5. Reading .github/workflows/auto-label-bot-prs.yml and running rg for label-bots, runs-on, and timeout-minutes shows the job at line 11 and its runner at line 13, but no timeout-minutes anywhere in the workflow. The git diff against origin/dev/steward-campaign-2026-11-05 for this file is empty.",
+    "recordedAt": "2026-11-07T20:00:12.757245Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0": {
