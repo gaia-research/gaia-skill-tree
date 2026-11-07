@@ -1,5 +1,5 @@
 {
- "generation": 1442,
+ "generation": 1443,
  "lane": {
   "entries": [
    {
@@ -4171,14 +4171,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-ff0ed71b61bad114dc87",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T14:40:34.668913Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch7-verifier-d179e1da2ecc)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-07T11:54:04.703234Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T14:40:34.668913Z",
+    "lastVerdict": "accept",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -110659,6 +110665,17 @@
      "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
      "emittedAt": "2026-11-07T14:35:41.080331Z",
      "idempotencyKey": "integrate:dispatch-ff0ed71b61bad114dc87:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "86545f8b29767dbfef181acd0da4c027ad760271",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/unused-import-d179e1da2ecc",
+       "number": 2361,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2361"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -110666,7 +110683,8 @@
       "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T115111Z-802da939/build-d179e1da2ecc.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T14:40:34.668584Z",
+     "status": "done",
      "stepId": "integrate:d179e1da2ecc:2",
      "type": "lead.integrate"
     },
@@ -110842,7 +110860,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-07T14:40:34.668913Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-07T14:39:50.602192Z",
@@ -114098,7 +114124,16 @@
      "stepId": "build:e1ea235755db:1"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+     "head": "steward/b/unused-import-d179e1da2ecc",
+     "merged": true,
+     "number": 2361,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2361"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261107T115138Z-f00fa7ca8f01b433",
@@ -114228,11 +114263,11 @@
      "stepId": "verify:e1ea235755db:1"
     },
     {
-     "at": "2026-11-07T14:35:41.080331Z",
+     "at": "2026-11-07T14:40:34.668584Z",
      "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
      "idempotencyKey": "integrate:dispatch-ff0ed71b61bad114dc87:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:d179e1da2ecc:2"
     },
     {
@@ -114291,11 +114326,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T14:36:09.164796Z"
+   "updatedAt": "2026-11-07T14:40:34.668584Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:40:10.343215Z",
+ "updatedAt": "2026-11-07T14:40:34.671956Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -116981,17 +117016,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch7-verifier-d179e1da2ecc (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-07T14:40:34.668913Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "unused_import",
+   "mergedSha": "86545f8b29767dbfef181acd0da4c027ad760271",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-d179e1da2ecc.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/unused-import-d179e1da2ecc",
+    "number": 2361,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2361"
+   },
    "routine": "dead-code-gardener",
    "runId": "run-20261107T115111Z-802da939",
    "source": "dead-code",
-   "state": "verified",
-   "updatedAt": "2026-11-07T14:35:41.080331Z",
+   "state": "landed",
+   "updatedAt": "2026-11-07T14:40:34.668913Z",
    "verification": {
     "agentId": "pi-herdr-batch7-verifier-d179e1da2ecc",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The base file imports re and has no AST references to it; the candidate removes only that import. - The supplied issue-hygiene tests exercise imports of the affected script and passed; compileall passed, and this review satisfies the independent-review item. - The diff contains no other changes and does not weaken guards.",
