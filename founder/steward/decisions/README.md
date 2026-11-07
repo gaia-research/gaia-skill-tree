@@ -84,6 +84,24 @@ These records do **not** decide `steward-issue-closure-authority.json`, change
 `writesEnabled`, activate workflows or update a live ledger. Old persisted debt
 requires a separate authorized re-observation before its queue state can change.
 
+## Frozen post-freeze history acknowledgements (#2283 S7)
+
+A frozen skill's timeline is append-only, so rank events recorded after its
+freeze can never be repaired. `frozen_skill_drift` reports them until a founder
+acknowledges them with an ordinary decision record (no extra schema fields):
+
+- file and `id`: `steward-frozen-history-<skill id lowercased, "/" -> ".">`,
+  e.g. `steward-frozen-history-mattpocock.diagnose.json`;
+- `status: decided` and `resolution: acknowledged`;
+- one `evidence` line per acknowledged event, exactly
+  `postFreezeEvent <skill id> <timestamp> <action>` (the sensor's
+  `postFreezeHistory` lists them).
+
+Each event is matched exactly, so a later post-freeze event is reported again. A
+malformed, open or differently resolved record acknowledges nothing. A stored
+level that differs from the frozen level is never acknowledged this way; it stays
+a founder decision. Steward never writes these records.
+
 ## `gaia steward founder`
 
 `gaia steward founder` lists the same records `gaia steward full` does, in three groups:

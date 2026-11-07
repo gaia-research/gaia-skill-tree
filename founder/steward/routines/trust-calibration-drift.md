@@ -23,6 +23,22 @@ A human Verifier reviews the packet, confirms any evidence or Star Bar gates, an
 runs the proposed command. After calibration, rerun the Steward scan; the debt
 should reconcile as healthy.
 
+## Annotations for the reviewing Verifier (#2283 S8)
+
+Each `trust_calibration_drift` finding also carries, without changing what is
+reported:
+
+- `direction`: `promotion-candidate` (stored level below the grade ceiling) or
+  `ceiling-exceeded` (above it; the displayed level is already clamped). Whether a
+  level below the ceiling is debt at all is an open founder question (F1); the
+  sensor does not decide it.
+- `gatesUnmet` and `commandWouldBeRefused`: what the canonical `gaia dev calibrate`
+  preflights (frozen, Star Bar blob link, status, star gate) would refuse for the
+  proposed command, from the predicates themselves.
+- `priorGovernedDemotion`: the latest rank event when it is a recorded `demote`.
+- `frozen`: the canonical `gaia_cli.frozen` verdict. The drift skip rule itself is
+  unchanged (only `upstream_deprecated` exempts), so nothing leaves the census.
+
 ## Evidence gaps are not demotions (founder rulings 2026-10-28 and 2026-11-06, #2201)
 
 Missing evidence is not evidence of degradation. When the effective evidence pool

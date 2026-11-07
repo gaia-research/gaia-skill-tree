@@ -1733,6 +1733,7 @@ class TrustCalibrationDriftSensor:
 
         unreadable: list[str] = []
         unresolved: list[str] = []
+        gates = _CalibrationGateProbe(repo_root, context)
         for path in sorted(named_root.rglob("*.md")):
             relative = str(path.relative_to(repo_root))
             try:
@@ -1894,6 +1895,21 @@ class TrustCalibrationDriftSensor:
                     "trustGrade": grade,
                     "targetLevel": target_level,
                     "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+                    # #2283 S8 annotations (nothing is filtered; F1 policy unchanged).
+                    # direction: the grade is published as a ceiling (META 4.1);
+                    # below it is a promotion candidate, above it the stored level
+                    # exceeds what is displayed.
+                    "direction": (
+                        "promotion-candidate"
+                        if self._LEVEL_ORDER[target_level] > self._LEVEL_ORDER[current_level]
+                        else "ceiling-exceeded"
+                    ),
+                    # gatesUnmet: what the canonical calibrate preflights would
+                    # refuse for calibrationCommand, from the predicates themselves.
+                    "gatesUnmet": (unmet := gates.unmet(skill_id, skill, target_level)),
+                    "commandWouldBeRefused": bool(unmet),
+                    "priorGovernedDemotion": _lastGovernedDemotion(timeline),
+                    "frozen": gates.frozen(skill_id),
                 },
                 confidence=1.0,
                 provenance={"path": relative},
@@ -1916,29 +1932,178 @@ class TrustCalibrationDriftSensor:
         return SensorScan(tuple(observations), skips.entries())
 
 
+def _lastGovernedDemotion(timeline: Any) -> dict[str, str] | None:
+    """The most recent rank event when it is a recorded ``demote``, else None."""
+
+    if not isinstance(timeline, list):
+        return None
+    last = None
+    for event in timeline:
+        if isinstance(event, dict) and event.get("action") in ("rank_up", "demote"):
+            last = event
+    if last is None or last.get("action") != "demote":
+        return None
+    return {
+        "timestamp": str(last.get("timestamp") or ""),
+        "details": scrub(str(last.get("details") or ""))[:160],
+    }
+
+
+class _CalibrationGateProbe:
+    """Ask the canonical ``gaia dev calibrate`` preflight predicates, read-only.
+
+    The predicates are called exactly as ``meta_calibrate_command`` calls them
+    (``commands/dev/calibrate.py``); a ``DevPreflightError`` is recorded as an
+    unmet gate instead of exiting. The star gate reuses the sensor's own
+    ``buildMergedSkillMap`` context and builds the Origin contender pool once,
+    lazily. ``preflightNamedSkillMutable`` is given the canonical frozen set
+    (``namedFrozenIds``, built on ``gaia_cli.frozen.frozenIds``) once per scan
+    rather than rescanning the registry for every skill.
+
+    Read-only: the predicates only inspect their arguments and raise.
+    """
+
+    def __init__(self, repo_root: Path, context: dict) -> None:
+        self._root = repo_root
+        self._context = context
+        self._pool: Any = None
+        self._frozen: frozenset[str] | None = None
+
+    def frozen(self, skill_id: str) -> bool:
+        if self._frozen is None:
+            from gaia_cli.commands.dev.helpers import namedFrozenIds
+
+            self._frozen = namedFrozenIds(str(self._root))
+        return skill_id in self._frozen
+
+    def unmet(self, skill_id: str, skill: dict, level: str) -> list[dict[str, str]]:
+        from gaia_cli.commands.dev.helpers import (
+            DevPreflightError,
+            _preflight_calibrate_status,
+            _preflight_star_gate,
+            _preflight_starbar_blob_link,
+            preflightNamedSkillMutable,
+        )
+
+        root = str(self._root)
+
+        def star_gate() -> None:
+            if level in ("4★", "5★", "6★") and self._pool is None:
+                from gaia_cli.origin import contenderPool
+
+                self._pool = contenderPool(root, self._context)
+            _preflight_star_gate(skill_id, skill, level, root, mergedMap=self._context, originPool=self._pool)
+
+        def mutable() -> None:
+            self.frozen(skill_id)  # computes the canonical frozen set once per scan
+            preflightNamedSkillMutable(root, skill_id, knownFrozen=self._frozen)
+
+        # The same predicates, in the same order, as meta_calibrate_command.
+        checks = (
+            ("named-skill-frozen", mutable),
+            ("star-bar-blob-link", lambda: _preflight_starbar_blob_link(skill_id, skill, level)),
+            ("calibrate-status", lambda: _preflight_calibrate_status(skill_id, skill, level)),
+            ("star-gate", star_gate),
+        )
+        unmet: list[dict[str, str]] = []
+        for gate, check in checks:
+            try:
+                check()
+            except DevPreflightError as error:
+                unmet.append({"gate": gate, "message": scrub(str(error.message))[:240]})
+        return unmet
+
+
 class FrozenSkillIntegritySensor:
-    """Report frozen named skills that suffered post-freeze rank mutations or recalibrations."""
+    """Report frozen named skills that suffered post-freeze rank mutations or recalibrations.
+
+    Two conditions are reported, separately (#2283 S7):
+
+    - ``levelMismatch``: the stored level differs from the frozen level. Repair
+      is a founder decision; no write command is ever proposed, because every
+      named-record mutation of a frozen skill is refused by
+      ``preflightNamedSkillMutable``.
+    - ``postFreezeHistory``: rank events recorded after the freeze. The timeline
+      is append-only, so this history cannot be repaired; it can only be
+      acknowledged by a founder decision record (see ``_acknowledgedEvents``).
+      Each event is acknowledged individually, so a new post-freeze event is
+      reported even when older ones were acknowledged.
+    """
 
     id = "frozen-skill-integrity"
     debt_kinds = ("frozen_skill_drift",)
     routine_ids = (7, 10,)
     _NAMED_ROOT = "registry/named"
+    _DECISIONS_DIR = "founder/steward/decisions"
+    _ACK_RESOLUTION = "acknowledged"
+
+    @classmethod
+    def acknowledgementRecordId(cls, skill_id: str) -> str:
+        """The decision record id that may acknowledge ``skill_id``'s post-freeze history."""
+
+        return "steward-frozen-history-" + re.sub(r"[^a-z0-9._-]+", ".", str(skill_id).lower())
+
+    @staticmethod
+    def acknowledgementLine(skill_id: str, timestamp: str, action: str) -> str:
+        """The exact ``evidence`` line that acknowledges one post-freeze event."""
+
+        return f"postFreezeEvent {skill_id} {timestamp} {action}"
+
+    @classmethod
+    def _acknowledgedEvents(cls, repo_root: Path, skill_id: str) -> tuple[str | None, frozenset[str]]:
+        """Return (record id, acknowledged evidence lines); empty when no valid record.
+
+        The record is a normal founder decision record (schema
+        ``steward-decision-v1``, validated by the desk's own checker, so no
+        extra schema fields are used) with ``status: decided`` and
+        ``resolution: acknowledged``. Its ``evidence`` must name each event with
+        :meth:`acknowledgementLine`. Anything else fails closed.
+        """
+
+        from gaia_cli.steward.desk import _check_record
+
+        record_id = cls.acknowledgementRecordId(skill_id)
+        path = repo_root / cls._DECISIONS_DIR / f"{record_id}.json"
+        try:
+            if path.is_symlink() or not path.is_file():
+                return None, frozenset()
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return None, frozenset()
+        if not isinstance(record, dict):
+            return None, frozenset()
+        if _check_record({**record, "_source": f"{cls._DECISIONS_DIR}/{path.name}"}) is not None:
+            return None, frozenset()
+        if record.get("status") != "decided" or record.get("resolution") != cls._ACK_RESOLUTION:
+            return None, frozenset()
+        return record_id, frozenset(item for item in record.get("evidence", []) if isinstance(item, str))
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         observations: list[Observation] = []
+        skips = SkipLog()
         named_root = _require_named_records(repo_root, self._NAMED_ROOT)
 
+        # Imported before the loop: the except clause below names yaml.YAMLError,
+        # which must be bound even when the very first read fails.
+        import yaml
+
         for path in sorted(named_root.rglob("*.md")):
+            relative = str(path.relative_to(repo_root))
             try:
                 parts = path.read_text(encoding="utf-8").split("---", 2)
                 if len(parts) < 3:
+                    skips.add("named-skill-record", relative, "no closed frontmatter fence")
                     continue
-                import yaml
                 skill = yaml.safe_load(parts[1]) or {}
                 if not isinstance(skill, dict):
+                    skips.add("named-skill-record", relative, "frontmatter is not a mapping")
                     continue
                 skill_id = skill.get("id")
                 if not skill_id:
+                    skips.add("named-skill-record", relative, "frontmatter declares no skill id")
                     continue
 
                 timeline = skill.get("timeline", [])
@@ -2021,33 +2186,53 @@ class FrozenSkillIntegritySensor:
                     candidate_events = []
 
                 post_freeze_events: list[str] = []
+                history: list[dict[str, str]] = []
                 for ev in candidate_events:
                     if not isinstance(ev, dict):
                         continue
                     action = ev.get("action")
-                    details = str(ev.get("details") or "").lower()
-                    if "founder override" in details:
-                        continue
                     # recalibrate_trust_magnitude only restamps the derived
                     # trustMagnitude / grade / input hash (calibrate-trust-magnitude);
                     # it never writes the star level. Recomputing derived
                     # information is not a rank mutation (founder ruling
                     # 2026-10-28), so only rank-changing events count here.
+                    # (#2283 S7: the former free-text "founder override" skip is
+                    # gone; acknowledgement is a structured decision record.)
                     if action in ("demote", "rank_up"):
                         post_freeze_events.append(str(action))
+                        history.append({"timestamp": str(ev.get("timestamp") or ""), "action": str(action)})
 
                 has_level_mismatch = bool(frozen_level and current_level != frozen_level)
-                has_post_freeze_actions = bool(post_freeze_events)
-                drift = has_level_mismatch or has_post_freeze_actions
+                record_id, acknowledged_lines = (
+                    self._acknowledgedEvents(repo_root, skill_id) if history else (None, frozenset())
+                )
+                for event in history:
+                    event["acknowledged"] = (
+                        self.acknowledgementLine(skill_id, event["timestamp"], event["action"]) in acknowledged_lines
+                    )
+                unacknowledged = [event for event in history if not event["acknowledged"]]
+                drift = has_level_mismatch or bool(unacknowledged)
 
                 observed_state: dict[str, Any] = {
                     "freezeTimestamp": freeze_ts,
                     "frozenLevel": frozen_level,
                     "currentLevel": current_level,
                     "postFreezeEvents": post_freeze_events,
+                    "levelMismatch": has_level_mismatch,
+                    "postFreezeHistory": history,
+                    "unacknowledgedEventCount": len(unacknowledged),
                 }
-                if drift and frozen_level:
-                    observed_state["remediationCommand"] = f"gaia dev calibrate {skill_id} {frozen_level}"
+                if history:
+                    observed_state["acknowledgementRecord"] = record_id or self.acknowledgementRecordId(skill_id)
+                    observed_state["acknowledgementRecordPresent"] = record_id is not None
+                if drift:
+                    # Never a write command: frozen records are immutable
+                    # (preflightNamedSkillMutable refuses every mutation).
+                    observed_state["remediation"] = (
+                        "founder decision: a frozen skill's stored level differs from its frozen level"
+                        if has_level_mismatch
+                        else "founder acknowledgement of append-only post-freeze history (decision record)"
+                    )
 
                 observations.append(Observation(
                     kind="frozen_skill_drift",
@@ -2063,9 +2248,11 @@ class FrozenSkillIntegritySensor:
                     confidence=1.0,
                     provenance={"path": str(path.relative_to(repo_root))},
                 ))
-            except (OSError, ValueError, TypeError, yaml.YAMLError):
+            except (OSError, ValueError, TypeError, yaml.YAMLError) as exc:
+                # #2283 S7c: an unreadable record is a visible skip, never silence.
+                skips.add("named-skill-record", relative, f"unreadable: {type(exc).__name__}")
                 continue
-        return observations
+        return SensorScan(tuple(observations), skips.entries())
 
 
 class GeneratedProjectionsSensor:

@@ -2457,7 +2457,7 @@ def test_frozen_skill_integrity_sensor_still_reports_rank_events_beside_a_restam
     assert obs.observed_state["postFreezeEvents"] == ["rank_up"]
 
 
-def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remediation(tmp_path: Path) -> None:
+def test_frozen_skill_integrity_sensor_detects_level_mismatch_without_a_write_command(tmp_path: Path) -> None:
     content = (
         "---\n"
         "id: owner/mismatched-level\n"
@@ -2485,7 +2485,11 @@ def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remed
     assert obs.status == "drift"
     assert obs.observed_state["frozenLevel"] == "3★"
     assert obs.observed_state["currentLevel"] == "1★"
-    assert obs.observed_state["remediationCommand"] == "gaia dev calibrate owner/mismatched-level 3★"
+    # #2283 S7: frozen records are immutable (preflightNamedSkillMutable refuses
+    # every mutation), so no write command is ever proposed.
+    assert "remediationCommand" not in obs.observed_state
+    assert obs.observed_state["levelMismatch"] is True
+    assert obs.observed_state["remediation"].startswith("founder decision")
 
 
 def test_default_sensors_contains_frozen_skill_integrity_sensor() -> None:
