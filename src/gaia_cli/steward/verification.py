@@ -30,6 +30,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.calibrationroute import CALIBRATION_ROUTE_RULE_ID, calibrationViolations
+from gaia_cli.steward.workflowhistory import history_provenance_violations, uses_fetch
 from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -37,7 +38,7 @@ from gaia_cli.steward.models import (
     content_hash,
     stable_json,
 )
-from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES
+from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES, WORKFLOW_ROUTE_RULE_ID
 
 
 VERDICT_SCHEMA = "steward-verification-verdict-v1"
@@ -786,6 +787,23 @@ def calibration_structure_violations(root: Path, packet: DispatchPacket, change_
     )
 
 
+def workflow_history_violations(packet: DispatchPacket, transcript_text: str) -> list[str] | None:
+    """The history-provenance check for a workflow-timeout packet, or None for any other.
+
+    None also for a packet commissioned before ``workflowproof fetch`` existed: a
+    packet is held to the envelope it was dispatched under, never a later one.
+    """
+
+    if packet.rule != WORKFLOW_ROUTE_RULE_ID or not uses_fetch(packet.allowed_commands):
+        return None
+    subject = packet.evidence.get("subject") or packet.debt.get("subject")
+    return history_provenance_violations(
+        evidence=packet.evidence,
+        subject=subject.get("id") if isinstance(subject, Mapping) else None,
+        transcript_text=transcript_text,
+    )
+
+
 def is_workflow_path(path: str) -> bool:
     """Whether ``path`` is a direct-child ``.github/workflows/*.yml`` file."""
 
@@ -824,6 +842,7 @@ def evaluate(
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
     calibration_violations: Sequence[str] | None = None,
+    history_violations: Sequence[str] | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -906,7 +925,21 @@ def evaluate(
     )
     uncovered = sorted(required - transcript.covered())
     failed = transcript.failures()
-    proof_valid = not uncovered and not failed
+    # A workflow-timeout packet commissioned with `workflowproof fetch` must compute
+    # every flagged job's value from a fetched rows file; an unchecked one is rejected.
+    provenance: list[str] = []
+    if packet.rule == WORKFLOW_ROUTE_RULE_ID and uses_fetch(packet.allowed_commands):
+        provenance = (
+            list(history_violations)
+            if history_violations is not None
+            else ["no history-provenance check was computed, so the values cannot be accepted"]
+        )
+    proof_valid = not uncovered and not failed and not provenance
+    if provenance:
+        reasons.append(
+            "workflow history rows must come from workflowproof fetch: "
+            + "; ".join(provenance[:_MAX_WORKFLOW_VIOLATIONS])
+        )
     if uncovered:
         reasons.append(
             "proof contract items with no evidence: " + ", ".join(str(item) for item in uncovered)

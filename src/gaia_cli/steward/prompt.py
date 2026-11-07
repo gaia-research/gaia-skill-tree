@@ -21,6 +21,7 @@ import json
 from typing import Any, Mapping
 
 from gaia_cli.steward.models import DispatchPacket
+from gaia_cli.steward.workflowhistory import verifier_recompute_commands
 
 
 PROMPT_SCHEMA = "steward-tree-keeper-prompt-v1"
@@ -180,6 +181,12 @@ def render_verifier_prompt(
 ) -> str:
     """Render the independent verifier's prompt for one pending verification.
 
+    For a workflow-timeout packet commissioned with ``workflowproof fetch`` it
+    adds the recompute the verifier must run itself (refetch the pinned history
+    runs, prove the rows file byte-identical, recompute the value). Those commands
+    are built from the packet (subject, flagged jobs, dispatch id) and only
+    regex-validated digests and run ids from captured output, never from builder text.
+
     This is only ever rendered for a ``pending`` mechanical verdict. When
     machinery already reached ``reject`` or ``escalate``, there is nothing left
     to judge and spending a model on it would be spending it to re-derive a
@@ -234,6 +241,20 @@ def render_verifier_prompt(
         f"```diff\n{diff_text.rstrip()}\n```",
         "## The proof contract, and the evidence offered for each item\n\n"
         + "\n\n".join(proof_sections),
-        "## Your verdict\n\n" + _VERIFIER_REPORTING,
     ]
+    recompute = verifier_recompute_commands(packet, proof_outputs.get(2, ()))
+    if recompute:
+        sections.append(
+            "## Recompute the inputs yourself (required)\n\n"
+            "Do not trust the builder's history rows or values. Run these, in order, from the "
+            "repository root. Each `fetch` re-reads the builder's pinned runs and must print "
+            "`recompute: byte-identical` (exit 4 means the rows differ). Then apply the rule to "
+            "that file: `history` as listed when the job has successful runs, otherwise "
+            "`no-history --class <class> --declared-wait-seconds <s>` with the class and waits "
+            "you derive yourself from the job's YAML. The selection and value must match the "
+            "builder's item-2 output and the value inserted in the diff. Any difference is a "
+            "`reject`; a fetch that cannot read history (exit 3) is an `escalate`.\n\n"
+            "```bash\n" + "\n".join(recompute) + "\n```"
+        )
+    sections.append("## Your verdict\n\n" + _VERIFIER_REPORTING)
     return "\n\n".join(sections).strip() + "\n"

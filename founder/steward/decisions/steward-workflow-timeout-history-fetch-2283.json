@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-timeout-history-fetch-2283",
+  "status": "decided",
+  "resolution": "standing-authority-r4",
+  "decision": "How does a workflow-timeout builder produce the per-job raw history rows file that proof item 2 requires, and how does the verifier recompute from the same input?",
+  "whyItMatters": "The packet was unsatisfiable as written. Proof item 2 required a per-job rows file for workflowproof history/no-history, but the allowed paths are only .github/workflows/*.yml (.gaia/steward/** forbidden), no allowed command produced the file (gh api --jq emits one JSON line per job per run), and the jobs API keys jobs by display name, not YAML key. All four batch-11 builders correctly stopped; the lead unblocked them with an out-of-band prefetch script, which is a workaround, not a route.",
+  "evidence": [
+    "Founder Ruling 4, 2026-11-08 (FOUNDER_RULINGS_2026-11-08.md): routine, demonstrably safe Class B routes may be activated after independent acceptance without another founder ruling; each route needs narrow paths, commands, stop conditions and proof, independent review with negative tests, and preserved security boundaries.",
+    "Why this qualifies as routine and demonstrably safe under R4: it widens no write path (allowedPaths stay exactly .github/workflows/*.yml, policy.py still pins them; fetch refuses an --out inside the checkout), it adds one read-only command, and it changes neither the history rule, the no-history rule (decision steward-workflow-timeout-no-history-2283), any stop condition, nor the fail-closed behaviour on unreadable or empty history.",
+    "The command: python -m gaia_cli.steward.workflowproof fetch --workflow <file> --job <job-key> --out ${TMPDIR:-/tmp}/gaia-steward-history/<dispatch-id>/build/<job-key>.json. It resolves the YAML key to the display name(s) from the workflow (name, literal matrix legs; anything else refused), samples the latest 50 completed runs as before, reads each run's jobs for the reported attempt, keeps rows for the current display names only, and writes one canonical JSON document, printing its sha256 and the pinned run-ids.",
+    "Verifier recompute: mechanical verification rejects a packet commissioned with fetch unless every flagged job has a fetch entry and a history/no-history entry reading exactly its rows file; the verifier prompt then lists fetch --run-ids <pinned> --expect-sha256 <digest> (exit 4 on any byte difference) and the history command on the refetched file (for a no-history job the verifier derives class and waits itself), built only from the packet and validated digests, never from builder text.",
+    "Packets dispatched before this change keep their envelope: the provenance check applies only when the packet's allowed commands include fetch.",
+    "Takes effect only after independent acceptance of the change and its negative tests, per R4."
+  ],
+  "recommended": "Produce history rows only with workflowproof fetch, outside the checkout, and verify by pinned refetch plus recompute.",
+  "alternative": "Keep the lead-side prefetch workaround for every workflow_hygiene batch.",
+  "unblocks": "Workflow-timeout dispatches whose builders can satisfy proof item 2 inside their own envelope.",
+  "links": [
+    "founder/steward/routines/workflow-timeout.md",
+    "src/gaia_cli/steward/workflowhistory.py",
+    "src/gaia_cli/steward/workflowproof.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

@@ -512,17 +512,10 @@ def _read_rows(path: str) -> list[Any]:
     return data
 
 
-def _main(argv: Sequence[str] | None = None) -> int:
-    """``python -m gaia_cli.steward.workflowproof history|no-history --history FILE ...``.
-
-    ``FILE`` is the raw per-job history: a JSON list (or ``{"jobs": [...]}``) of
-    ``{conclusion, started_at, completed_at}`` rows for THIS job, as returned by
-    the jobs API. The CLI selects the rows itself, prints the selection and the
-    value, so builder and verifier recompute identically.
-    """
+def build_parser() -> Any:
+    """The CLI parser; also used to read ``workflowproof`` commands back out of a proof transcript."""
 
     import argparse
-    import json
 
     parser = argparse.ArgumentParser(prog="python -m gaia_cli.steward.workflowproof")
     sub = parser.add_subparsers(dest="rule", required=True)
@@ -532,7 +525,38 @@ def _main(argv: Sequence[str] | None = None) -> int:
     nohist.add_argument("--class", dest="step_class", choices=sorted(NO_HISTORY_BASE_MINUTES), required=True)
     nohist.add_argument("--declared-wait-seconds", type=float, required=True)
     nohist.add_argument("--history", required=True, metavar="FILE.json")
-    args = parser.parse_args(argv)
+    fetch = sub.add_parser(
+        "fetch",
+        help="read-only: write one job's raw history rows file (outside the checkout) for history/no-history",
+    )
+    fetch.add_argument("--workflow", required=True, metavar=".github/workflows/FILE.yml")
+    fetch.add_argument("--job", required=True, metavar="JOB-KEY|DISPLAY-NAME")
+    fetch.add_argument("--out", required=True, metavar="PATH-OUTSIDE-CHECKOUT.json")
+    fetch.add_argument("--run-ids", default=None, metavar="ID:ATTEMPT,...",
+                       help="pin the sampled runs (the verifier recompute); default: latest 50 completed")
+    fetch.add_argument("--expect-sha256", default=None, metavar="HEX",
+                       help="exit 4 unless the written rows file has exactly this digest")
+    fetch.add_argument("--repo", default="gaia-research/gaia-skill-tree", help=argparse.SUPPRESS)
+    return parser
+
+
+def _main(argv: Sequence[str] | None = None) -> int:
+    """``python -m gaia_cli.steward.workflowproof fetch|history|no-history ...``.
+
+    ``fetch`` (``workflowhistory``) is the one way to produce ``FILE``: the raw
+    per-job history, a JSON list (or ``{"jobs": [...]}``) of
+    ``{conclusion, started_at, completed_at}`` rows for THIS job, as returned by
+    the jobs API. ``history`` / ``no-history`` select the rows themselves, print
+    the selection and the value, so builder and verifier recompute identically.
+    """
+
+    import json
+
+    args = build_parser().parse_args(argv)
+    if args.rule == "fetch":
+        from gaia_cli.steward.workflowhistory import fetch_main
+
+        return fetch_main(args)
     try:
         rows = _read_rows(args.history)
     except (OSError, ValueError) as exc:

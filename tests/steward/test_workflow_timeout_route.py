@@ -26,6 +26,7 @@ from gaia_cli.steward.verification import (
     evaluate,
     parse_proof_transcript,
     parse_unified_diff,
+    workflow_history_violations,
 )
 from gaia_cli.steward.workflowproof import apply_patch
 from tests.steward.sensor_fixtures import make_repo
@@ -191,15 +192,28 @@ def _packet() -> DispatchPacket:
     )
 
 
-def _transcript(packet: DispatchPacket):
+_ROWS = "/tmp/gaia-steward-history/dispatch-x/build/build.json"
+
+
+def _transcript_text(packet: DispatchPacket) -> str:
+    # Item 2 carries the fetch -> history pair the packet's proof contract requires
+    # (decision steward-workflow-timeout-history-fetch-2283); the rest are placeholders.
     entries = [
         {"contractIndex": index, "command": f"proof item {index}", "exitCode": 0, "output": "ok"}
         for index in range(1, len(packet.proof) + 1)
     ]
-    return parse_proof_transcript(
-        json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries}),
-        proof_contract_length=len(packet.proof),
-    )
+    entries[1:2] = [
+        {"contractIndex": 2, "exitCode": 0,
+         "command": f"python -m gaia_cli.steward.workflowproof fetch --workflow {CI} --job build --out {_ROWS}",
+         "output": "job-key: build\nsha256: " + "0" * 64 + "\nrun-ids: 1:1,2:1\n"},
+        {"contractIndex": 2, "exitCode": 0,
+         "command": f"python -m gaia_cli.steward.workflowproof history --history {_ROWS}", "output": "15"},
+    ]
+    return json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries})
+
+
+def _transcript(packet: DispatchPacket):
+    return parse_proof_transcript(_transcript_text(packet), proof_contract_length=len(packet.proof))
 
 
 def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[str, str | None] | None = None):
@@ -208,6 +222,7 @@ def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[
         packet=packet,
         change_set=parse_unified_diff(diff),
         transcript=_transcript(packet),
+        history_violations=workflow_history_violations(packet, _transcript_text(packet)),
         debt_source="ci-workflow",
         sensor_sources=["ci-workflow"],
         baseline_open_debt=[],
