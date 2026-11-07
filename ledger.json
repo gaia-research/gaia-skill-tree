@@ -1,5 +1,5 @@
 {
- "generation": 1549,
+ "generation": 1550,
  "lane": {
   "entries": [
    {
@@ -121265,6 +121265,15 @@
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "emittedAt": "2026-11-07T16:45:05.162534Z",
      "idempotencyKey": "dispatch-a4a9f6b7551b39c56ecb:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-builder-1e13396e7fe5",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.proof.json",
+      "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 803483dcc; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -121285,7 +121294,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T19:01:37.669430Z",
+     "status": "done",
      "stepId": "build:1e13396e7fe5:1",
      "type": "agent.build"
     },
@@ -121381,6 +121391,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:5d98e47e79c0:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-builder-1e13396e7fe5",
+     "at": "2026-11-07T19:01:37.669668Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:1e13396e7fe5:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -122483,6 +122505,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-5d98e47e79c0.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-5d98e47e79c0.proof.json",
      "stepId": "build:5d98e47e79c0:1"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.proof.json",
+     "stepId": "build:1e13396e7fe5:1"
     }
    ],
    "pullRequests": [],
@@ -122553,11 +122581,11 @@
      "stepId": "build:55b938d79131:1"
     },
     {
-     "at": "2026-11-07T16:45:05.162534Z",
+     "at": "2026-11-07T19:01:37.669430Z",
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "idempotencyKey": "dispatch-a4a9f6b7551b39c56ecb:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:1e13396e7fe5:1"
     },
     {
@@ -122584,11 +122612,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T19:01:30.375874Z"
+   "updatedAt": "2026-11-07T19:01:37.669430Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T19:01:30.377053Z",
+ "updatedAt": "2026-11-07T19:01:37.670791Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -127361,12 +127389,33 @@
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch9-builder-1e13396e7fe5",
+     "at": "2026-11-07T19:01:37.669668Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:1e13396e7fe5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-1e13396e7fe5",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch9-builder-1e13396e7fe5",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.diff",
+    "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.proof.json",
+    "recordedAt": "2026-11-07T19:01:37.669668Z",
+    "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 803483dcc; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
    "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
@@ -127387,7 +127436,7 @@
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T16:45:05.162534Z",
+   "updatedAt": "2026-11-07T19:01:37.669668Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae": {
