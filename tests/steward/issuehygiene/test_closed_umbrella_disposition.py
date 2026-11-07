@@ -405,7 +405,8 @@ def test_an_unusable_history_leaves_only_the_umbrella_decisions_not_evaluated(tm
     suiteRecord(tmp_path, "v6.0.0")
     census = censusOf(
         [umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), childRow(10, "obra/writing-skills", BLOB, parent=30),
-         childRow(31, "obra/alpha", BLOB, parent=20)],
+         childRow(31, "obra/alpha", BLOB, parent=20),
+         childRow(12, "obra/standalone", BLOB.replace("writing-skills", "standalone"), parent=None)],
         history=[oldClosedUmbrella(20, adds=["alpha"])],
     )
     breakHistory(kind, census.document)
@@ -414,10 +415,18 @@ def test_an_unusable_history_leaves_only_the_umbrella_decisions_not_evaluated(tm
 
     assert manifest["closeoutEvaluation"] == {"status": "not-evaluated", "reasons": [reason]}
     assert manifest["closeoutDiscrepancies"] == []
-    # Nothing is suppressed and nothing else is disturbed: the repeat umbrella is ordinary batch work, and the
-    # unrelated A1-proven child is still closable.
-    assert item(manifest, 30)["authority"] == "B"
+    # Fail closed: the repeat umbrella and the children that depend on closed umbrellas are neither dispatched nor held
+    # as duplicates. Unrelated work proceeds: the A1-proven child still closes, and a child with no umbrella is batch work.
+    for number in (30, 31):
+        entry = item(manifest, number)
+        assert entry["state"] == "not-evaluated" and entry["authority"] == "none"
+        assert "closed-umbrella-history-not-evaluated" in entry["unknowns"]
+        assert entry["proposedTransition"]["action"] == "keep"
+    assert manifest["batches"] == [] or all(item(manifest, n)["key"] not in batch["classB"]
+                                           for batch in manifest["batches"] for n in (30, 31))
     assert item(manifest, 10)["authority"] == "A" and item(manifest, 10)["ruleId"] == "A1-child-curated"
+    assert item(manifest, 12)["authority"] == "B" and item(manifest, 12)["state"] != "not-evaluated"
+    assert sorted(manifest["coverage"]["notEvaluated"]) == [30, 31]
     assert manifest["coverage"]["unknown"] == [] and manifest["censusStatus"] == "complete"
 
 
@@ -440,3 +449,76 @@ def test_the_sensor_skips_nothing_when_the_history_is_evaluated(tmp_path: Path) 
     scan = IssueHygieneSensor()._observations(manifest, policyFor(writesEnabled=False), "2026-10-21T19:30:00Z")
 
     assert scan.skipped == ()
+
+
+def test_missing_history_never_dispatches_a_possible_repeat(tmp_path: Path) -> None:
+    """Review repro: with the history removed, open #30 (a repeat of closed #20) must not become actionable."""
+    suiteRecord(tmp_path, "v6.0.0")
+    withHistory = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"])], closed=[closedUmbrella(20, adds=["alpha"])])
+    assert item(run(withHistory, tmp_path), 30)["state"] == "held"
+    withoutHistory = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"])], closed=[closedUmbrella(20, adds=["alpha"])])
+    withoutHistory.document.pop("closedUmbrellas")
+
+    manifest = run(withoutHistory, tmp_path)
+
+    umbrella = item(manifest, 30)
+    assert umbrella["authority"] == "none" and umbrella["state"] == "not-evaluated"
+    assert manifest["batches"] == []
+    scan = IssueHygieneSensor()._observations(manifest, policyFor(writesEnabled=False), "2026-10-21T19:30:00Z")
+    assert not [o for o in scan.observations if o.kind == "issue_suite_review"]
+    assert {row["subjectId"] for row in scan.skipped} == {"closed-umbrella-history", "unevaluated-issues"}
+
+
+# --------------------------------------------------------------- full candidate identity, never a bare slug
+
+
+def test_a_same_slug_candidate_from_another_repository_is_new_work(tmp_path: Path) -> None:
+    """Review repro: closed #20 alpha, repeat #30 alpha, new #31 different/alpha pointing at a different repository."""
+    suiteRecord(tmp_path, "v6.0.0")
+    elsewhere = "https://github.com/different/unrelated/blob/main/skills/alpha/SKILL.md"
+    census = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), childRow(31, "different/alpha", elsewhere, parent=30)],
+                      closed=[closedUmbrella(20, adds=["alpha"])])
+
+    manifest = run(census, tmp_path)
+
+    assert item(manifest, 30)["state"] == "held"
+    child = item(manifest, 31)
+    assert child["authority"] == "B" and child["state"] != "held"
+    assert not any(reason.startswith("closed-umbrella-duplicate") for reason in child["notProven"])
+
+
+def test_a_same_slug_candidate_in_the_suite_repository_matches_a_legacy_add(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]),
+                       childRow(31, "obra/alpha", BLOB.replace("writing-skills", "alpha"), parent=30)],
+                      closed=[closedUmbrella(20, adds=["alpha"])])
+
+    assert item(run(census, tmp_path), 31)["state"] == "held"
+
+
+def v2Body(rows):
+    payload = {"skillId": SUITE, "newVersion": "v7.0.0", "payloadVersion": 2, "candidates": rows}
+    body = "<!-- gaia-upstream-payload\n" + json.dumps(payload) + "\n-->\n"
+    return body, hashlib.sha256(body.encode()).hexdigest()
+
+
+@pytest.mark.parametrize("candidate, evidence, held", [
+    ("obra/delta", f"https://github.com/{SUITE}/blob/main/skills/delta/SKILL.md", True),
+    ("other/delta", f"https://github.com/{SUITE}/blob/main/skills/delta/SKILL.md", False),   # another contributor
+    ("obra/delta", "https://github.com/elsewhere/repo/blob/main/skills/delta/SKILL.md", False),  # another repository
+    ("obra/delta", None, False),  # no evidence repository: nothing positive to match
+])
+def test_a_v2_row_matches_only_on_full_identity_and_repository(tmp_path: Path, candidate, evidence, held) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    rows = [{"id": f"{SUITE}:delta", "suggestedId": "obra/delta", "slug": "delta"}]
+    body, digest = v2Body(rows)
+    closed = closedUmbrella(20)
+    closed.update(body=body, bodySha256=digest)
+    open30 = umbrellaRow(30, SUITE, "v7.0.0")
+    open30.update(body=body, bodySha256=digest)
+    child = childRow(31, candidate, evidence or "", parent=30)
+    census = censusOf([open30, child], closed=[closed])
+
+    entry = item(run(census, tmp_path), 31)
+
+    assert (entry["state"] == "held") is held

@@ -237,7 +237,8 @@ Steward owner (`stewardOwner`) and the worker (`worker`), the ratified authority
 and the issue's state before (`before`) and after (`after`) the closure. Pass them with
 `--steward-owner` and `--worker` (or `GAIA_STEWARD_OWNER` and `GAIA_STEWARD_WORKER`); without both,
 nothing is written. `gaia steward full record` accepts a closed outcome only when its receipt names
-both. A closed issue that a person reopens is respected: the pair is never closed again, and the sensor
+both, and `steward_issue_close.py` and `--apply-closures` run the same receipt check before they
+report a close (fresh or replayed): an unproven receipt exits 2 as `receipt-invalid`. A closed issue that a person reopens is respected: the pair is never closed again, and the sensor
 raises `reopened-after-closure`. Ambiguous, contested or unsupported cases are excluded.
 
 A closed upstream umbrella is a completed epic (ruling #6): the reconciliation suppresses a repeat of
@@ -249,7 +250,10 @@ positively matches a candidate of the closed batch is held, and a new candidate 
 new work. Closed umbrellas come from the census's `closedUmbrellas` section, one label-scoped listing per
 umbrella label with no age window (no persistent store). If that listing fails, the census stays complete and
 only the umbrella-dependent decisions are reported as not evaluated (the `closed-umbrella-history` skipped
-scope and `closeoutEvaluation` in the manifest).
+scope and `closeoutEvaluation` in the manifest). Fail closed: while the history is missing, an open umbrella and the
+children that name an umbrella parent are `not-evaluated`, never dispatched as batch work and never held as duplicates;
+A proofs and children with no umbrella proceed. Candidate matching uses the full candidate id with its evidence
+repository (or a legacy component slug only inside the suite repository), never a bare slug.
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.

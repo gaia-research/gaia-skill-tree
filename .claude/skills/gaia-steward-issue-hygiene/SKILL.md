@@ -49,7 +49,7 @@ python scripts/steward_issue_close.py --action ACTION.json --root . --repo gaia-
 `--steward-owner` and `--worker` (or `GAIA_STEWARD_OWNER` and `GAIA_STEWARD_WORKER`) are required: without both,
 nothing is written (exit 2, reason `attribution-missing`). Every receipt then records `stewardOwner`, `worker`,
 the ratified `authority` record, the exact `closureProof`, and the issue's state `before` and `after` the closure.
-The full-run record step refuses a closed outcome whose receipt does not name both.
+The full-run record step refuses a closed outcome whose receipt does not name both. The close script applies the same receipt check to every terminal outcome it prints, fresh or replayed (attribution, approved authority, proof matching the action, open before state, consistent after state): a legacy, malformed or contradictory receipt, or an after observation of open, exits 2 with reason `receipt-invalid` and is never reported as a close.
 
 It prints one JSON line: `outcome`, `key`, `issue`, `closedAt`, `failure`,
 `preservedSha256`, and exactly ONE proof field: `commentUrl` (a GitHub comment URL on this

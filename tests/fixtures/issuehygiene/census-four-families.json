@@ -2685,5 +2685,14 @@
       "baseRef": null
     }
   ],
-  "recentlyClosed": []
+  "recentlyClosed": [],
+  "closedUmbrellas": {
+    "complete": true,
+    "labels": [
+      "upstream:release",
+      "upstream:bootstrap"
+    ],
+    "pagesFetched": 1,
+    "items": []
+  }
 }

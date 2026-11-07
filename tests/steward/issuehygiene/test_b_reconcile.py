@@ -77,6 +77,11 @@ def censusOf(rows, closed=(), complete=True, fetchedAt=FETCHED):
         "source": "rest",
         "completeness": {"issues": issuesDone, "pulls": {"complete": True, "pagesFetched": 1, "expectedPages": 1, "itemCount": len(pullRows), "lastLink": None}},
         "issues": list(rows), "recentlyClosed": list(closed),
+        # The closed umbrella history (no age window): every closed umbrella row given. Complete unless a test breaks it.
+        "closedUmbrellas": {
+            "complete": True, "labels": ["upstream:release", "upstream:bootstrap"], "pagesFetched": 1,
+            "items": [row for row in closed if set(row.get("labels", ())) & {"upstream:release", "upstream:bootstrap"}],
+        },
     }
     status = validateCensus(document, NOW, 21600)
     return Census(document, status, "test")

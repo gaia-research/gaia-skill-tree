@@ -45,6 +45,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureAction,
     executeClosure,
     planClosures,
+    receiptProblem,
     resolveAttribution,
 )
 from gaia_cli.steward.issuehygiene.executor import (
@@ -437,6 +438,13 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         except ActionRefused as exc:
             print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)
             return EXIT_REFUSED
+        if result["outcome"] in ("closed", "already-closed"):
+            # The same receipt validation the full-run record step applies: a receipt that does not prove the closure
+            # is never reported as a close.
+            problem = receiptProblem(result, action)
+            if problem is not None:
+                print(f"refusing to report {plan['key']} (#{plan['issue']}) as closed: {problem}", file=sys.stderr)
+                return EXIT_REFUSED
         results.append(result)
         if result["outcome"] == "blocked":
             break

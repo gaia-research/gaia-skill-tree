@@ -359,3 +359,127 @@ def test_the_runner_refuses_a_closed_receipt_missing_proof_or_state(tmp_path, mo
 
     with pytest.raises(RecordRefused, match="fully proven receipt"):
         settleWithout(runner, view.runId, action, outcomeFor(action), **{k: (v if v is not None else None) for k, v in changes.items()})
+
+
+# ---------------------------------------------------------------- the CLI boundaries run the same receipt validation
+
+
+def rewriteClosedReceipt(tmp_path: Path, **changes) -> None:
+    """Rewrite the closed line of the receipts file; a ``None`` value removes the field (a legacy receipt)."""
+    path = tmp_path / RECEIPT
+    lines = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    for entry in lines:
+        if entry.get("outcome") == "closed":
+            for field, value in changes.items():
+                if value is None:
+                    entry.pop(field, None)
+                else:
+                    entry[field] = value
+    path.write_text("".join(json.dumps(entry, sort_keys=True) + "\n" for entry in lines), encoding="utf-8")
+
+
+def replay(tmp_path: Path, forge: FakeForge, capsys) -> tuple[int, dict, str]:
+    manifest, _ = scenario(tmp_path)
+    action = writeAction(tmp_path, manifest, planFor(manifest))
+    code = main(["--root", str(tmp_path), "--action", str(action), "--run-id", "R1"], forgeFactory=lambda repo, token: forge)
+    captured = capsys.readouterr()
+    return code, json.loads(captured.out.strip().splitlines()[-1]), captured.err
+
+
+LEGACY = {"stewardOwner": None, "worker": None, "authority": None, "closureProof": None, "after": None}
+
+
+@pytest.mark.parametrize("changes, fragment", [
+    (LEGACY, "stewardOwner"),
+    ({"authority": None}, "approved closure authority"),
+    ({"closureProof": None}, "no closureProof"),
+    ({"before": None}, "before state"),
+    ({"after": None}, "no after state"),
+    ({"after": {"state": "open", "verified": False}}, "must be null"),
+    ({"after": {"state": "open", "verified": True}}, "not closed"),
+])
+def test_a_malformed_or_contradictory_receipt_is_never_replayed_as_a_close(tmp_path, capsys, changes, fragment) -> None:
+    forge = FakeForge({10: liveOf(scenarioRow(10))})
+    code, outcome, _ = runClose(tmp_path, forge, capsys)
+    assert code == EXIT_OK and outcome["outcome"] == "closed"
+    rewriteClosedReceipt(tmp_path, **changes)
+    callsBefore = len(forge.calls)
+
+    code, printed, err = replay(tmp_path, forge, capsys)
+
+    assert code == EXIT_REFUSED
+    assert printed["outcome"] == "refused" and printed["reason"] == "receipt-invalid"
+    assert fragment in printed["failure"] and "does not prove the closure" in err
+    assert len(forge.calls) == callsBefore  # replay never re-closes and never re-reads
+
+
+def test_a_valid_receipt_still_replays_as_the_recorded_close(tmp_path, capsys) -> None:
+    forge = FakeForge({10: liveOf(scenarioRow(10))})
+    runClose(tmp_path, forge, capsys)
+
+    code, printed, _ = replay(tmp_path, forge, capsys)
+
+    assert code == EXIT_OK and printed["outcome"] == "closed" and printed["stewardOwner"] == "steward-owner-test"
+
+
+def test_an_after_observation_of_open_is_not_reported_as_a_close_by_the_direct_cli(tmp_path, capsys) -> None:
+    class StaleAfterClose(FakeForge):
+        def getIssue(self, number):
+            issue = super().getIssue(number)
+            if ("close", number) in [call[:2] for call in self.calls]:
+                issue["state"] = "open"
+            return issue
+
+    forge = StaleAfterClose({10: liveOf(scenarioRow(10))})
+
+    code, outcome, err = runClose(tmp_path, forge, capsys)
+
+    assert code == EXIT_REFUSED
+    assert outcome["outcome"] == "refused" and outcome["reason"] == "receipt-invalid"
+    assert "closed" not in {outcome.get("outcome")} and "does not prove the closure" in err
+    assert receiptLines(tmp_path)[-1]["after"]["state"] == "open"  # the observation is still on the record
+
+
+def test_an_already_closed_receipt_is_validated_at_replay_too(tmp_path, capsys) -> None:
+    live = liveOf(scenarioRow(10))
+    live["state"] = "closed"
+    forge = FakeForge({10: live})
+    code, outcome, _ = runClose(tmp_path, forge, capsys)
+    assert code == EXIT_OK and outcome["outcome"] == "already-closed"
+    path = tmp_path / RECEIPT
+    lines = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    for entry in lines:
+        if entry.get("outcome") == "already-closed":
+            entry.pop("after")
+    path.write_text("".join(json.dumps(entry, sort_keys=True) + "\n" for entry in lines), encoding="utf-8")
+
+    code, printed, _ = replay(tmp_path, forge, capsys)
+
+    assert code == EXIT_REFUSED and printed["reason"] == "receipt-invalid"
+
+
+def test_the_apply_closures_path_refuses_to_report_an_unproven_close(tmp_path, capsys) -> None:
+    from scripts.steward_issue_reconcile import main as reconcileMain
+    from tests.steward.issuehygiene.test_b5_pilot import liveForges, pilotReceipts, twoChildCheckout
+    from tests.steward.issuehygiene.test_b_reconcile import censusOf, umbrellaRow
+
+    class StaleAfterClose(type(liveForges())):
+        def getIssue(self, number):
+            issue = super().getIssue(number)
+            if any(call[0] == "close" and call[1] == number for call in self.calls):
+                issue["state"] = "open"
+            return issue
+
+    root = twoChildCheckout(tmp_path, policy={"writesEnabled": True})
+    forge = StaleAfterClose(liveForges().issues)
+    repo = censusOf([umbrellaRow(20, "obra/superpowers", "v7.0.0")]).document["repo"]
+
+    code = reconcileMain(
+        ["--root", str(root), "--apply-closures", "--receipts", str(pilotReceipts(root)), "--i-understand-writes",
+         "--repo", repo, "--max-closures", "1"],
+        forgeFactory=lambda name, secret: forge,
+    )
+    captured = capsys.readouterr()
+
+    assert code == EXIT_REFUSED
+    assert "refusing to report" in captured.err and '"closed"' not in captured.out

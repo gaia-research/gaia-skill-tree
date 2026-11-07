@@ -55,6 +55,7 @@ from gaia_cli.steward.issuehygiene.closure import (  # noqa: E402
     ForgeBlockedError,
     closureProven,
     executeClosure,
+    receiptProblem,
     resolveAttribution,
 )
 from gaia_cli.steward.issuehygiene.executor import (  # noqa: E402
@@ -144,7 +145,7 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
         done = recordedReceipt(receipt, action["key"], action["issue"]) if receipt is not None and action else None
         if done is None:
             return refusal(exc, action)
-        return printRecorded(done, action["issue"], repo)
+        return printRecorded(done, action["issue"], repo, action)
     except ActionRefused as exc:
         return refusal(exc, action)
     try:
@@ -171,14 +172,22 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
         if done is None:
             return refusal(ActionRefused("the pair is recorded as done elsewhere in the receipts store", code="already-recorded"), action)
         executed = done
-    return printRecorded(executed, plan["issue"], repo)
+    return printRecorded(executed, plan["issue"], repo, action)
 
 
-def printRecorded(executed: dict[str, Any], issue: int, repo: str) -> int:
+def printRecorded(executed: dict[str, Any], issue: int, repo: str, action: dict[str, Any] | None = None) -> int:
+    """Print the outcome of a fresh or replayed closure. A terminal outcome (closed or already-closed) is reported
+    only if its receipt passes the same ``receiptProblem`` check the full-run record step applies: attribution,
+    approved authority, the proof matching the action, an open before state and a consistent after state. A legacy,
+    malformed or contradictory receipt is refused, never reported as a close. Nothing is re-closed either way."""
     outcome = outcomeFrom(executed)
     if outcome["outcome"] == "closed" and not closureProven(outcome, issue, repo):
         print("steward issue close refused: the outcome carries no single valid proof", file=sys.stderr)
         return EXIT_REFUSED
+    if outcome["outcome"] in ("closed", "already-closed"):
+        problem = receiptProblem(executed, action or {})
+        if problem is not None:
+            return refusal(ActionRefused(f"the recorded receipt does not prove the closure: {problem}", code="receipt-invalid"), action)
     print(json.dumps(outcome, sort_keys=True))
     return EXIT_BY_OUTCOME[outcome["outcome"]]
 

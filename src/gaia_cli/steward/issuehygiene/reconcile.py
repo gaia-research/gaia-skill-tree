@@ -719,50 +719,60 @@ def candidateIdsOf(identity: Identity) -> frozenset | None:
 
 
 def candidateForms(identity: Identity) -> tuple[frozenset, frozenset]:
-    """Lower-cased candidate identities of an umbrella payload, plus the child issue numbers its v2 rows name.
+    """Canonical candidate identities of an umbrella payload, plus the child issue numbers its v2 rows name.
 
-    Forms cover every spelling a child can be matched by: the row id (``owner/repo:slug``), the suggested id
-    (``contributor/slug``) and a bare component slug.
+    Every entry is a tuple and none is a bare slug that could belong to anyone:
+
+    - ``("full", suggestedId, repo)``: a v2 row's contributor/slug id with the repository its row id names;
+    - ``("repo-slug", repo, slug)``: a v2 row whose suggested id is unknown, still bound to its repository;
+    - ``("suite-slug", slug)``: a legacy component add, which is only meaningful inside the umbrella's own suite
+      repository, so it matches only a child whose evidence repository is that suite.
     """
     payload = identity.payload if isinstance(identity.payload, dict) else {}
-    forms: set[str] = set()
+    entries: set[tuple] = set()
     children: set[int] = set()
     for row in payload.get("candidates") or []:
         if not isinstance(row, dict):
             continue
-        for field in ("id", "suggestedId", "slug"):
-            if isinstance(row.get(field), str) and row[field].strip():
-                forms.add(row[field].strip().lower())
+        rowId = row.get("id").strip().lower() if isinstance(row.get("id"), str) else ""
+        repo = rowId.rsplit(":", 1)[0] if ":" in rowId else None
+        slug = (row.get("slug").strip().lower() if isinstance(row.get("slug"), str) and row["slug"].strip()
+                else (rowId.rsplit(":", 1)[-1] if rowId else ""))
+        suggested = row.get("suggestedId").strip().lower() if isinstance(row.get("suggestedId"), str) else ""
+        if repo and suggested:
+            entries.add(("full", suggested, repo))
+        if repo and slug:
+            entries.add(("repo-slug", repo, slug))
         child = row.get("child")
         if isinstance(child, int) and not isinstance(child, bool):
             children.add(child)
     for slug in payload.get("componentAdds") or []:
         if isinstance(slug, str) and slug.strip():
-            forms.add(slug.strip().lower())
-    return frozenset(forms), frozenset(children)
-
-
-def childForms(identity: Identity) -> frozenset:
-    """Every normalized identity one open child intake can be matched by."""
-    forms: set[str] = set()
-    if identity.candidateId:
-        forms.add(identity.candidateId.strip().lower())
-    if identity.slug:
-        slug = identity.slug.strip().lower()
-        forms.add(slug)
-        if identity.evidenceRepo:
-            forms.add(f"{identity.evidenceRepo.strip().lower()}:{slug}")
-    return frozenset(forms)
+            entries.add(("suite-slug", slug.strip().lower()))
+    return frozenset(entries), frozenset(children)
 
 
 def childInClosedBatch(draft: Draft, closed: ClosedUmbrella) -> bool:
-    """Whether this child is POSITIVELY one of the closed batch's candidates. No match means new work, never held."""
+    """Whether this child is POSITIVELY one of the closed batch's candidates. No match means new work, never held.
+
+    A child matches by the child number a closed row names, by its full candidate id together with its evidence
+    repository, or (legacy component adds) by its slug together with the suite repository as its evidence repository.
+    The slug alone is never proof: a same-named candidate under another repository or contributor is new work.
+    """
     if draft.number in closed.rowChildren:
         return True
-    forms = childForms(draft.identity)
-    if closed.suite and draft.identity.slug:
-        forms = forms | {f"{suiteRepo(closed.suite)}:{draft.identity.slug}".lower()}
-    return bool(forms & closed.candidateForms)
+    identity = draft.identity
+    repo = identity.evidenceRepo.strip().lower() if identity.evidenceRepo else None
+    slug = identity.slug.strip().lower() if identity.slug else None
+    candidate = identity.candidateId.strip().lower() if identity.candidateId else None
+    if repo is None or slug is None:
+        return False
+    if candidate is not None and ("full", candidate, repo) in closed.candidateForms:
+        return True
+    if ("repo-slug", repo, slug) in closed.candidateForms and candidate is None:
+        return True
+    suite = suiteRepo(closed.suite)
+    return suite is not None and repo == suite.strip().lower() and ("suite-slug", slug) in closed.candidateForms
 
 
 def closedUmbrellaOf(identity: Identity, row: dict) -> ClosedUmbrella:
@@ -855,6 +865,12 @@ def evaluateClosedUmbrellas(ctx: Context) -> list[dict]:
             "disposition": CLOSEOUT_DISPOSITION,
         })
     return found
+
+
+def dependsOnClosedHistory(draft: Draft) -> bool:
+    """Whether this item's disposition depends on closed umbrellas: an umbrella (it may repeat a closed batch) or a
+    child that names an umbrella parent (it may belong to a repeated, or to a closed, batch)."""
+    return draft.kind == "umbrella" or (draft.kind == "child" and draft.parent is not None)
 
 
 def suppressedBy(ctx: Context, draft: Draft) -> int | None:
@@ -961,6 +977,13 @@ def finalize(ctx: Context, draft: Draft) -> None:
             draft.confidence = "high"
         if rule == RULE_A4:
             draft.duplicateOf = draft.canonical
+        return
+    if ctx.closeoutEvaluation["status"] == "not-evaluated" and draft.authority == AUTH_NONE and dependsOnClosedHistory(draft):
+        # Fail closed (founder ruling #6): without the closed umbrella history this work could be a repeat of a
+        # completed epic, so it is neither dispatched nor held as a duplicate. Unrelated work and A proofs proceed.
+        draft.state = STATE_NOT_EVALUATED
+        draft.unknowns.append("closed-umbrella-history-not-evaluated")
+        draft.confidence = "low"
         return
     repeatOf = suppressedBy(ctx, draft)
     if repeatOf is not None and draft.authority == AUTH_NONE:
