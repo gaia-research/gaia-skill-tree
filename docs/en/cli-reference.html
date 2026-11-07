@@ -2019,6 +2019,11 @@
                   <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>. Routine 19 success-shaped outcomes require matching shared operation/head/evidence; local outcome JSON is not settlement authority.</td>
                   <td>—</td>
                 </tr>
+                <tr data-summary="Release one held no_change build under a decided record.">
+                  <td><code>full release RUN_ID STEP_ID --ruling RECORD [--ledger {auto,git,local}] [--json]</code></td>
+                  <td style="max-width: 420px;">Return one held <code>no_change</code> build to the queue, only when a decided record named in code lists that exact run and build step. Consumed once; the original build and verification are kept.</td>
+                  <td>—</td>
+                </tr>
                 <tr data-summary="End a run with an audit reason.">
                   <td><code>full abandon RUN_ID --reason TEXT [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">End an open run with an auditable reason. Pending actions are superseded, and unbuilt work stays adoptable by a later run.</td>

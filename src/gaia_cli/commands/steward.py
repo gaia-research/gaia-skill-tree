@@ -212,6 +212,15 @@ class StewardCommand(Command):
         record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
         ledgerOptions(record)
 
+        release = actions.add_parser(
+            "release",
+            help="Return one held no_change build to the queue under a decided record that names it (consumed once)",
+        )
+        release.add_argument("runId", metavar="RUN_ID", help="Run whose build step ended no_change")
+        release.add_argument("stepId", metavar="STEP_ID", help="The build step, e.g. build:<slug>:<attempt>")
+        release.add_argument("--ruling", required=True, help="Decided release record id naming this run and step")
+        ledgerOptions(release)
+
         abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work stays adoptable")
         abandon.add_argument("runId", metavar="RUN_ID", help="Open run to abandon")
         abandon.add_argument("--reason", required=True, help="Why the run is being ended (kept in the ledger)")
@@ -507,8 +516,8 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         action = getattr(args, "fullAction", None)
-        if action not in {"run", "record", "abandon", "status"}:
-            print("usage: gaia steward full {run,record,abandon,status} [--json]", file=sys.stderr)
+        if action not in {"run", "record", "release", "abandon", "status"}:
+            print("usage: gaia steward full {run,record,release,abandon,status} [--json]", file=sys.stderr)
             return 2
         root = Path(args.registry).resolve()
         remote = "origin"
@@ -535,6 +544,8 @@ class StewardCommand(Command):
                 result = runner.status()
             elif action == "abandon":
                 result = runner.abandon(args.runId, args.reason)
+            elif action == "release":
+                result = runner.release_no_change(args.runId, args.stepId, ruling=args.ruling)
             elif action == "record":
                 outcome = self._readOutcome(args.input)
                 result = runner.record(args.runId, args.stepId, outcome)

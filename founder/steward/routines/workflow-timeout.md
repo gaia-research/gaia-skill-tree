@@ -77,15 +77,63 @@ the same as none.
    timed out says nothing about how long healthy work takes.
 3. **Apply the rule.** `timeout = ceil to 5 minutes of max(2 x p95, 1.5 x max)`
    of the successful durations, never below 5. State the sample size, p95, max
-   and the result for every job in the proof.
+   and the result for every job in the proof, and recompute it with
+   `python -m gaia_cli.steward.workflowproof history --successful-seconds <s> ...`.
 4. **Cap by semantics.** A job with no external wait that already runs in under
    two minutes does not get a 60-minute bound. A job that deploys or fetches
    over the network may need more headroom than its median suggests; say why.
 5. **Placement.** Put `timeout-minutes` directly under the job's `runs-on` (or
    `needs`/`if`), at the job's own indentation. Never edit an existing key.
 
-If no successful completed-run duration history can be read for a flagged job, stop.
-Job semantics alone never substitute for history: there is no semantics-only fallback.
+### A job with no successful history (decision `steward-workflow-timeout-no-history-2283`)
+
+Two different situations, never confused:
+
+- **History cannot be read** (the API fails, the workflow has no completed runs at
+  all, or fewer runs than the sample asks for were returned and none is usable):
+  **stop**, as before; there is no semantics-only fallback for unreadable history.
+- **History was read and the job has no successful run in it** (for example the
+  job was `skipped` on every one of the 50 sampled runs, because its `if:` rarely
+  holds): apply the **no-history default**, below. It is the only case where the
+  value comes from the job's own steps rather than its durations.
+
+The no-history default, in order:
+
+1. **Classify the job by what its own steps do** (all steps, not the workflow):
+   - `api-script` (base 10 min): only GitHub API / CLI / shell or `github-script`
+     calls; no dependency checkout, install or build;
+   - `checkout-script` (base 15 min): checks out the repository and runs a
+     repository script, still with no dependency install;
+   - `install-build-test` (base 30 min): installs dependencies, builds or runs tests.
+   Anything else has no default: **stop**.
+2. **Add the job's own declared waits.** Sum every explicit, bounded wait its steps
+   declare (a poll loop's `rounds x sleep`, an action's wait/timeout input). An
+   unbounded wait (a loop with no cap) or a wait on a human or environment
+   approval: **stop** (stop condition 5).
+3. **Respect what was observed.** Take the longest completed run of this job that
+   actually executed (`failure` counts; `skipped`, `cancelled` and `timed_out` do
+   not). The value is never shorter than 1.5 x that duration.
+4. **Compute** `ceil to 5 minutes of max(base + 2 x declared waits, 1.5 x longest
+   observed)`, never below 10. A result above **60** has no default: **stop** (a job
+   that may legitimately need more than an hour needs real history first).
+5. **Recompute it mechanically:** `python -m gaia_cli.steward.workflowproof no-history
+   --class <class> --declared-wait-seconds <s> [--longest-observed-seconds <s>]`
+   prints the value (exit 3 and "no default" means stop). Paste the command and its
+   output in the proof with the class, the waits you summed (step names and
+   arithmetic) and the observed durations.
+
+Why this is safe: the value only ever bounds a job, never changes what it does;
+the bases are an order of magnitude above what jobs of that class take in this
+repository (sibling API jobs finish in 3 to 14 seconds) while still bounding a
+hang to a sixth of the 360-minute platform default or less; the floor of 1.5 x
+any observed execution means it can never be shorter than work already seen to
+complete; and sibling jobs' history is deliberately **not** used, because a
+sibling with different steps says nothing about this job's waits.
+
+Worked examples (batch 9): `auto-label-bot-prs.yml` job `label-bots`, a single
+`github-script` labeling call, `api-script`, no waits, never executed: **10**.
+`auto-triage.yml` job `auto-merge`, `gh`/`jq` steps with a declared poll of 60
+rounds x 10 s (600 s): `api-script`, 10 + 2 x 10 = **30**.
 
 ## Stop conditions
 
@@ -94,7 +142,9 @@ Job semantics alone never substitute for history: there is no semantics-only fal
 3. Any change besides adding `timeout-minutes` keys would be needed, or the debt
    carries any finding besides `missing-timeout` (such a debt is not routed here;
    if you were handed one anyway, report it and stop).
-4. Successful completed-run duration history cannot be read for a flagged job.
+4. Completed-run duration history cannot be read for a flagged job; or it was read,
+   has no successful run, and the no-history default does not apply (no class,
+   an unbounded wait, or a result above 60).
 5. The job legitimately waits on a human or an environment approval.
 6. A flagged job is a reusable-workflow call (cannot declare `timeout-minutes`).
 7. The edited file does not parse as YAML.
@@ -102,7 +152,8 @@ Job semantics alone never substitute for history: there is no semantics-only fal
 ## Proof
 
 Reproduce every finding, show a one-file diff that only adds `timeout-minutes`
-keys, paste the per-job sample and arithmetic, parse the edited file as YAML,
+keys, paste the per-job sample and arithmetic (and, for a no-history job, the class,
+declared waits, observed durations and the `workflowproof no-history` output), parse the edited file as YAML,
 run `python scripts/check_steward_coverage.py --check` and
 `python -m pytest tests/steward/test_sensors_ci.py`, and paste exact results. A
 different, fresh agent verifies independently, and the PR still goes through

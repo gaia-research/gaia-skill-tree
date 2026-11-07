@@ -28,24 +28,26 @@ def steward_rows():
 
 def test_steward_keeps_complete_reference_behind_short_overviews():
     _, rows = steward_rows()
-    assert len(rows) == 12
+    assert len(rows) == 13
     assert all(row.count("<td") == 3 for row in rows)
     summaries = [re.search(r'data-summary="([^"]+)"', row).group(1) for row in rows]
-    assert len(set(summaries)) == 12
+    assert len(set(summaries)) == 13
     assert all(len(summary) <= 65 for summary in summaries)
-    for row, command in zip(rows[-4:], (
+    for row, command in zip(rows[-5:], (
         "full run [--observe | --triage | --verify | --retro]",
         "full record RUN_ID STEP_ID --input FILE.json",
+        "full release RUN_ID STEP_ID --ruling RECORD",
         "full abandon RUN_ID --reason TEXT",
         "full status [--ledger {auto,git,local}]",
     )):
         assert command in row
         assert "<td>—</td>" in row
-    assert "[--no-agents] [--integration-branch B] [--push]" in rows[-4]
-    assert "Actions needing a model or forge are emitted for a driver." in rows[-4]
-    assert "Never merges or pushes to main." in summaries[-4]
-    assert "Never merges or pushes to <code>main</code>." in rows[-4]
-    assert "Record a driver's outcome for an action emitted by" in rows[-3]
+    assert "[--no-agents] [--integration-branch B] [--push]" in rows[-5]
+    assert "Actions needing a model or forge are emitted for a driver." in rows[-5]
+    assert "Never merges or pushes to main." in summaries[-5]
+    assert "Never merges or pushes to <code>main</code>." in rows[-5]
+    assert "Record a driver's outcome for an action emitted by" in rows[-4]
+    assert "Consumed once; the original build and verification are kept." in rows[-3]
     assert "unbuilt work stays adoptable by a later run." in rows[-2]
     assert "Read-only view of the ledger and active run." in rows[-1]
 

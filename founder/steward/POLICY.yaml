@@ -813,6 +813,8 @@ routing:
         - python -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" <workflow-file>
         - gh run list --workflow <workflow-file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt
         - gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'
+        - python -m gaia_cli.steward.workflowproof history --successful-seconds <seconds> ...
+        - python -m gaia_cli.steward.workflowproof no-history --class <class> --declared-wait-seconds <seconds> --longest-observed-seconds <seconds>
       forbiddenPaths:
         - .agents/skills/**
         - .claude/skills/**
@@ -831,14 +833,15 @@ routing:
         - the finding does not reproduce on the current head
         - the subject is a gh-aw generated lock file or has a gh-aw source beside it; fix the source and recompile is a founder-gated step
         - any change other than adding a job-level timeout-minutes line would be needed, or the debt carries any finding other than missing-timeout
-        - successful completed-run duration history cannot be read for a flagged job; semantics alone never substitute for history
+        - completed-run duration history cannot be read for a flagged job; or it was read, shows no successful run, and the no-history default (decision steward-workflow-timeout-no-history-2283) does not apply
+        - the no-history default would exceed 60 minutes, the job has an unbounded wait, or its steps fit none of the three classes
         - the job legitimately waits on a human, an environment approval or an external deploy and no bound is justifiable
         - a flagged job is a reusable-workflow call, which cannot declare timeout-minutes
         - the workflow file does not parse as YAML after the edit
         - validation, coverage, or independent proof is incomplete
       proof:
         - reproduce every missing-timeout finding for the subject workflow on the current head
-        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied
+        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied, with the matching python -m gaia_cli.steward.workflowproof history or no-history command and its exact output (no-history jobs also state class, declared waits and observed durations)
         - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
         - parse the edited workflow as YAML and report exact results
         - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results

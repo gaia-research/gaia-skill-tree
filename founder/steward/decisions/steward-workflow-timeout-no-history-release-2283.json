@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-timeout-no-history-release-2283",
+  "status": "decided",
+  "resolution": "standing-authority-r4",
+  "decision": "Release exactly the two batch-9 workflow-timeout builds that stopped no_change for lack of history, so they are rebuilt under the no-history default?",
+  "whyItMatters": "no_change is terminal (HELDWORK): without a release the two debts never return to the lane, although the route gap that stopped them is fixed.",
+  "evidence": [
+    "Founder Ruling 4, 2026-11-08 (verbatim, FOUNDER_RULINGS_2026-11-08.md; line breaks shown as \" / \"): \"**APPROVED: Steward should proactively make Class B debt repairable.** / A missing dispatch route is a coverage gap requiring engineering, not a permanent reason to leave Class B debt untouched. / **Flash's non-Steward engineering lane** may sample real findings and design/implement missing routes. Each route requires: / - Narrow debt kind, paths, commands, stop conditions, and proof contract. / - Independent review, including negative tests rejecting out-of-envelope edits. / - Preservation of security boundaries, product behavior, and canonical policy. / - Normal protected-main delivery. / **Standing authorization:** Routine, demonstrably safe Class B routes may be activated after independent acceptance without requesting another founder ruling for each category.\"",
+    "The release is part of activating the no-history route under R4 for the work that exposed the gap; it binds to exact run and build steps, is consumed once per step, and keeps the original build and verification (FullRunner.release_no_change). It is not a general reopen.",
+    "Use only after the no-history route change (decision steward-workflow-timeout-no-history-2283) has been independently accepted and integrated.",
+    "releaseNoChange run-20261107T164134Z-574a6b71 build:2933fea8b223:1",
+    "releaseNoChange run-20261107T164134Z-574a6b71 build:55b938d79131:1",
+    "build:2933fea8b223:1 = debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341 (dispatch-2f1cf771b91cddb9a30a); build:55b938d79131:1 = debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f (dispatch-d30fe56e2dcc6693dd92)."
+  ],
+  "recommended": "Release these two steps once, after the route change lands; each rebuild then goes through normal build and independent verification.",
+  "alternative": "Leave both held as no_change.",
+  "unblocks": "gaia steward full release run-20261107T164134Z-574a6b71 build:2933fea8b223:1 --ruling steward-workflow-timeout-no-history-release-2283 (and the same for build:55b938d79131:1).",
+  "links": [
+    "founder/steward/decisions/steward-workflow-timeout-no-history-2283.json",
+    "src/gaia_cli/steward/fullrun.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

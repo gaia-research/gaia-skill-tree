@@ -333,3 +333,126 @@ def prove_workflow_edit(before: str, hunks: Sequence[Hunk]) -> list[str]:
     if "\n".join(remaining) != before:
         return ["the patched file differs from the baseline by more than the inserted lines"]
     return prove_timeout_additions(before, after, inserted)
+
+
+# --------------------------------------------------------------------------
+# Choosing the value: two deterministic rules a verifier can recompute
+# --------------------------------------------------------------------------
+#
+# The structural proof above says nothing about WHICH value was inserted. The
+# routine guide (founder/steward/routines/workflow-timeout.md) fixes the value
+# by one of two rules, and both are pure functions here, so an independent
+# verifier recomputes the builder's number from the stated inputs instead of
+# trusting it.
+#
+# History rule (unchanged): ceil to 5 minutes of max(2 x p95, 1.5 x max) over
+# the job's successful completed-run durations, never below 5.
+#
+# No-history rule (decision steward-workflow-timeout-no-history-2283, R4): a job
+# whose read history has NO successful completed run (for example skipped on
+# every run) gets a conservative default from its own step semantics. The
+# inputs are the job's step class, the explicit bounded waits its own steps
+# declare, and the longest duration of any of its completed runs that actually
+# executed (failure counts; skipped, cancelled and timed-out do not). The value
+# is never shorter than 1.5 x that longest observed duration, never below 10 and
+# never above 60. A job outside the three classes, with an unbounded wait or a
+# human/environment approval, or whose formula exceeds 60, gets no default: the
+# builder stops, exactly as before.
+
+HISTORY_FLOOR_MINUTES = 5
+NO_HISTORY_FLOOR_MINUTES = 10
+NO_HISTORY_CEILING_MINUTES = 60
+# Conservative bases by what a job's own steps do (minutes). Typical GitHub API
+# and script jobs in this repository finish in seconds (e.g. auto-triage's
+# classify/check-named-skills/route-review at 3-14 s); the bases leave an order
+# of magnitude of headroom while still bounding a hang far below the 360-minute
+# platform default.
+NO_HISTORY_BASE_MINUTES = {
+    # only GitHub API / CLI / shell or github-script calls; no checkout of
+    # dependencies, no install, no build
+    "api-script": 10,
+    # checks out the repository and runs a repository script, still with no
+    # dependency install
+    "checkout-script": 15,
+    # installs dependencies, builds or runs a test suite
+    "install-build-test": 30,
+}
+
+
+def _ceil5(minutes: float) -> int:
+    whole = int(-(-minutes // 1))
+    return ((whole + 4) // 5) * 5
+
+
+def history_timeout(successful_seconds: Sequence[float]) -> int:
+    """The history rule: ceil5(max(2 x p95, 1.5 x max)) minutes, at least 5.
+
+    ``p95`` is the nearest-rank 95th percentile. Raises ``ValueError`` on an
+    empty sample: the history rule never applies without history.
+    """
+
+    values = sorted(float(value) for value in successful_seconds)
+    if not values or any(value < 0 for value in values):
+        raise ValueError("the history rule needs at least one non-negative successful duration")
+    rank = max(1, -(-95 * len(values) // 100))
+    p95 = values[rank - 1]
+    minutes = max(2 * p95, 1.5 * values[-1]) / 60
+    return min(MAX_TIMEOUT_MINUTES, max(HISTORY_FLOOR_MINUTES, _ceil5(minutes)))
+
+
+def no_history_timeout(
+    step_class: str, *, declared_wait_seconds: float, longest_observed_seconds: float | None
+) -> int | None:
+    """The no-history default, or None when it does not apply (the builder stops).
+
+    ``declared_wait_seconds`` is the sum of the explicit, bounded waits the job's
+    own steps declare (a poll loop's rounds x sleep, an action's wait/timeout
+    input); 0 when there are none. ``longest_observed_seconds`` is the longest
+    completed run of this job that actually executed, or None when it never ran.
+    """
+
+    base = NO_HISTORY_BASE_MINUTES.get(step_class)
+    if base is None or declared_wait_seconds < 0:
+        return None
+    if longest_observed_seconds is not None and longest_observed_seconds < 0:
+        return None
+    candidate = base + 2 * declared_wait_seconds / 60
+    if longest_observed_seconds:
+        candidate = max(candidate, 1.5 * longest_observed_seconds / 60)
+    value = max(NO_HISTORY_FLOOR_MINUTES, _ceil5(candidate))
+    if value > NO_HISTORY_CEILING_MINUTES:
+        return None
+    return value
+
+
+def _main(argv: Sequence[str] | None = None) -> int:
+    """``python -m gaia_cli.steward.workflowproof history|no-history ...``: print the rule's value."""
+
+    import argparse
+
+    parser = argparse.ArgumentParser(prog="python -m gaia_cli.steward.workflowproof")
+    sub = parser.add_subparsers(dest="rule", required=True)
+    history = sub.add_parser("history", help="the history rule over successful durations")
+    history.add_argument("--successful-seconds", type=float, nargs="+", required=True)
+    nohist = sub.add_parser("no-history", help="the no-history default for a job with no successful run")
+    nohist.add_argument("--class", dest="step_class", choices=sorted(NO_HISTORY_BASE_MINUTES), required=True)
+    nohist.add_argument("--declared-wait-seconds", type=float, required=True)
+    nohist.add_argument("--longest-observed-seconds", type=float, default=None)
+    args = parser.parse_args(argv)
+    if args.rule == "history":
+        print(history_timeout(args.successful_seconds))
+        return 0
+    value = no_history_timeout(
+        args.step_class,
+        declared_wait_seconds=args.declared_wait_seconds,
+        longest_observed_seconds=args.longest_observed_seconds,
+    )
+    if value is None:
+        print("no default: the no-history rule does not apply; stop")
+        return 3
+    print(value)
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover - thin CLI over the pure functions above
+    raise SystemExit(_main())
