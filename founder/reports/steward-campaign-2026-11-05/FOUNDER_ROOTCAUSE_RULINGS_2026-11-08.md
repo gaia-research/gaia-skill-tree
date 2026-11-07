@@ -195,3 +195,15 @@ Options:
 
 **Founder choice:** `regen`
 
+
+## Addendum: F2 follow-up (verbatim, 2026-11-08)
+
+The founder replied directly to the engineering partner about F1 and F2 overlapping on the 81 cap-pinned suite components:
+
+> Ratify the RFC now based on my comments. They do not get automatic 3 star--they get the cap 50 WHICH THEN gives them the grade right? so its fine
+
+Lead's operational reading, applied until the founder says otherwise:
+1. No trust-engine change: `SUITE_COMPONENT_REPOSITORY_CAP` stays 50.0 and the inclusive B floor stays 50.0, so a cap-only suite component legitimately holds grade B.
+2. Cap-only suite components get no automatic 3★: they are excluded from F1's automatic calibration. A 3★ for one of them stays a governed per-skill calibration.
+3. The 59 suite components already at 3★ with TM 50.0 are untouched (B allows 3★).
+4. "Ratify the RFC" is recorded as the founder's ratification of this cap-and-grade reading under RFC #2148; the lead does not edit the RFC issue itself without a further instruction.
