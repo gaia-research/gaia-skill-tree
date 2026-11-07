@@ -1,5 +1,5 @@
 {
- "generation": 1573,
+ "generation": 1574,
  "lane": {
   "entries": [
    {
@@ -5286,14 +5286,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-d30fe56e2dcc6693dd92",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T20:00:26.409534Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch9-verifier-55b938d79131 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T16:45:05.162534Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T20:00:26.409534Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -121453,6 +121459,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "emittedAt": "2026-11-07T19:42:48.031437Z",
      "idempotencyKey": "verify:dispatch-d30fe56e2dcc6693dd92:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-verifier-55b938d79131",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 2e59ca507. I read .github/workflows/auto-triage.yml and ran a scoped rg for the four job declarations and job-level timeout-minutes. It found classify (line 15), auto-merge (75), route-review (152), and check-named-skills (183), but no job-level timeout-minutes. All four jobs lack the reported setting. git diff --stat against origin/dev/steward-campaign-2026-11-05 was empty.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -121468,7 +121481,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-55b938d79131.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T20:00:26.409201Z",
+     "status": "done",
      "stepId": "verify:55b938d79131:1",
      "type": "agent.verify"
     },
@@ -121637,6 +121651,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:5d98e47e79c0:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-55b938d79131",
+     "at": "2026-11-07T20:00:26.409534Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:55b938d79131:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -123338,11 +123364,11 @@
      "stepId": "verify:5d98e47e79c0:1"
     },
     {
-     "at": "2026-11-07T19:42:48.031437Z",
+     "at": "2026-11-07T20:00:26.409201Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "idempotencyKey": "verify:dispatch-d30fe56e2dcc6693dd92:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:55b938d79131:1"
     },
     {
@@ -123377,11 +123403,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T20:00:19.658358Z"
+   "updatedAt": "2026-11-07T20:00:26.409201Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:00:19.661869Z",
+ "updatedAt": "2026-11-07T20:00:26.412921Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128144,22 +128170,25 @@
      "stepId": "build:55b938d79131:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-55b938d79131",
+     "at": "2026-11-07T20:00:26.409534Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:55b938d79131:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch9-verifier-55b938d79131 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
    "branch": "steward/b/workflow-hygiene-55b938d79131",
-   "build": {
-    "agentId": "pi-herdr-batch9-builder-55b938d79131",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
-    "noChange": true,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-55b938d79131.proof.json",
-    "recordedAt": "2026-11-07T18:58:03.433606Z",
-    "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: job auto-merge in .github/workflows/auto-triage.yml has no successful completed-run duration history (skipped in all sampled successful runs), so its timeout cannot be derived and a partial repair of the other three jobs is not permitted by the packet. Route gap for engineering: governed default for jobs with no successful history."
-   },
+   "build": null,
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
    "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
@@ -128170,6 +128199,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-d30fe56e2dcc6693dd92 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T20:00:26.409534Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch9-verifier-55b938d79131 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+     "to": "blocked"
     }
    ],
    "kind": "workflow_hygiene",
@@ -128179,13 +128214,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T18:58:03.433606Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T20:00:26.409534Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-55b938d79131.prompt.md"
+    "agentId": "pi-herdr-batch9-verifier-55b938d79131",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 2e59ca507. I read .github/workflows/auto-triage.yml and ran a scoped rg for the four job declarations and job-level timeout-minutes. It found classify (line 15), auto-merge (75), route-review (152), and check-named-skills (183), but no job-level timeout-minutes. All four jobs lack the reported setting. git diff --stat against origin/dev/steward-campaign-2026-11-05 was empty.",
+    "recordedAt": "2026-11-07T20:00:26.409534Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d": {
