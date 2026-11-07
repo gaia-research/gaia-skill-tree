@@ -1180,3 +1180,75 @@ def test_unstaged_escalation_and_challenge_watch_are_untouched(monkeypatch):
     monkeypatch.setattr(watcher, "escalate_candidate", lambda *a, **k: seen.append("escalate") or ({}, 0))
     assert watcher.main(["--child-mode", "batch", "--apply", "--escalate", "garrytan/gbrain:alpha"]) == 0
     assert seen == ["escalate"]
+
+
+# --- round 4: a vanished candidate keeps its exact journal provenance even when carried rows already hold it ------------
+
+
+def childIntake(number, slug, umbrella):
+    return {
+        "number": number, "title": f"[intake] garrytan/{slug}", "state": "open",
+        "labels": [{"name": "intake"}, {"name": "upstream:child"}],
+        "body": (f"> Auto-populated by upstream watcher. Umbrella: #{umbrella}.\n\n**Suggested ID:** `garrytan/{slug}`\n\n"
+                 f"### Evidence\n\n- **url:** https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md\n"),
+    }
+
+
+def test_a_vanished_candidate_already_in_carried_rows_keeps_the_journals_exact_provenance_and_its_disposition():
+    gh = FakeGh([childIntake(77, "ephemeral", 1)])
+    go(gh, [finding("v2", ["alpha", "ephemeral"])], None)        # closed-to-be umbrella: ephemeral first/last v2
+    closed = open_umbrellas(gh)[0]["number"]
+    carriedBefore = rows_of(gh)["garrytan/gbrain:ephemeral"]
+    assert (carriedBefore["firstSeenVersion"], carriedBefore["lastSeenVersion"]) == ("v2", "v2")
+    assert carriedBefore["child"] == 77 and carriedBefore["status"] == "tracked"
+    gh.issues[closed]["state"] = "closed"
+    snapshot = json.dumps(gh.issues[closed], sort_keys=True)
+    journal = st.Journal()
+    journal.observe(REPO, finding("v1", ["alpha", "ephemeral"]), candidateRows("v1", ["alpha", "ephemeral"]), TUE)
+    gh.writes.clear()
+    held, _ = go(gh, [finding("v3", ["alpha"])], weekly(WED), journal)
+    assert held["suites"][0]["outcome"] == "held" and gh.write_count() == 0
+    assert "garrytan/gbrain:ephemeral" in journal.data["repos"][REPO]["candidates"], "still pending until the handoff"
+    go(gh, [finding("v3", ["alpha"])], weekly(MON), journal)
+    assert json.dumps(gh.issues[closed], sort_keys=True) == snapshot, "the closed umbrella is never edited"
+    [new] = open_umbrellas(gh)
+    row = rows_of(gh)["garrytan/gbrain:ephemeral"]
+    assert (row["firstSeenVersion"], row["lastSeenVersion"]) == ("v1", "v1"), "the journal's exact provenance"
+    assert row["child"] == 77 and row["status"] == "tracked", "disposition and child linkage preserved"
+    assert row["carriedFrom"] == f"#{closed}"
+    assert REPO not in journal.data["repos"], "cleared only after the handoff"
+
+
+def test_a_vanished_candidate_in_a_records_mode_carried_umbrella_keeps_the_journals_exact_provenance():
+    adds = recordsAdds()
+    gh = FakeGh()
+    go(gh, [finding("v2", adds)], None)                          # records-mode umbrella, every row first/last v2
+    [closed] = [r["number"] for r in open_umbrellas(gh)]
+    assert "candidateRecords" in parse_payload(gh.issues[closed]["body"])
+    gh.issues[closed]["state"] = "closed"
+    snapshot = json.dumps(gh.issues[closed], sort_keys=True)
+    journal = st.Journal()
+    journal.observe(REPO, finding("v1", ["skill-007"]), candidateRows("v1", ["skill-007"]), TUE)
+    gh.writes.clear()
+    remaining = [slug for slug in adds if slug != "skill-007"]
+    go(gh, [finding("v3", remaining)], weekly(MON), journal)
+    assert json.dumps(gh.issues[closed], sort_keys=True) == snapshot
+    [new] = [r for r in open_umbrellas(gh)]
+    assert "candidateRecords" in parse_payload(new["body"]), "the new batch is records mode too"
+    rows = rowsFrom(gh, new["number"])
+    assert len(rows) == 250
+    assert (rows["garrytan/gbrain:skill-007"]["firstSeenVersion"], rows["garrytan/gbrain:skill-007"]["lastSeenVersion"]) == ("v1", "v1")
+    assert rows["garrytan/gbrain:skill-008"]["firstSeenVersion"] == "v2", "still-present rows: the umbrella's provenance wins"
+    assert REPO not in journal.data["repos"]
+
+
+def test_still_present_candidates_keep_the_umbrella_provenance_and_vanished_ones_the_journal_provenance_together():
+    gh = FakeGh()
+    go(gh, [finding("v2", ["alpha", "ephemeral"])], None)
+    gh.issues[open_umbrellas(gh)[0]["number"]]["state"] = "closed"
+    journal = st.Journal()
+    journal.observe(REPO, finding("v1", ["alpha", "ephemeral"]), candidateRows("v1", ["alpha", "ephemeral"]), TUE)
+    go(gh, [finding("v3", ["alpha"])], weekly(MON), journal)
+    rows = rows_of(gh)
+    assert (rows["garrytan/gbrain:alpha"]["firstSeenVersion"], rows["garrytan/gbrain:alpha"]["lastSeenVersion"]) == ("v2", "v3")
+    assert (rows["garrytan/gbrain:ephemeral"]["firstSeenVersion"], rows["garrytan/gbrain:ephemeral"]["lastSeenVersion"]) == ("v1", "v1")

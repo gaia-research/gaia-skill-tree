@@ -343,11 +343,17 @@ def merge_rows(
     version: str,
     dead: frozenset[int] | set[int] = frozenset(),
     touchLastSeen: bool = True,
+    journalProvenance: bool = False,
 ) -> tuple[list[dict], list[str]]:
     """Merge incoming candidate rows into existing ones, keyed by candidate id.
 
     *touchLastSeen* False (staged batching, replaying journaled candidates that are gone from the fresh poll)
     leaves an existing row's ``lastSeenVersion`` alone and a new row keeps the one the journal recorded.
+
+    *journalProvenance* True (the same replay) makes the incoming row's ``firstSeenVersion`` and ``lastSeenVersion``
+    authoritative even when a row for that vanished candidate already exists (for example carried forward from a
+    closed umbrella): a vanished candidate always keeps its exact journal provenance (#2283 ruling). Disposition,
+    status merging and child linkage are unchanged, and the closed umbrella is never edited.
 
     Existing rows are never dropped. Escalated status and child links survive
     version churn. A child link in *dead* (definitively 301/404/410) is cleared and
@@ -368,7 +374,12 @@ def merge_rows(
         row = dict(fresh)
         if fresh["id"] in by_id:
             current = by_id[fresh["id"]]
-            if touchLastSeen:
+            if journalProvenance:
+                current["firstSeenVersion"] = fresh["firstSeenVersion"]
+                current["lastSeenVersion"] = fresh["lastSeenVersion"]
+                if fresh.get("provenanceReset"):
+                    current["provenanceReset"] = True
+            elif touchLastSeen:
                 current["lastSeenVersion"] = version
             current["precheck"] = fresh["precheck"]
             current["status"] = merged_status(current.get("status"), fresh["status"])
@@ -732,7 +743,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
     if replay:
-        rows, replayed = merge_rows(rows, replay, new_version, touchLastSeen=False)
+        rows, replayed = merge_rows(rows, replay, new_version, touchLastSeen=False, journalProvenance=True)
         added = sorted(set(added) | set(replayed))
     rows = annotate_rows(rows, state_of)
     payload, body, record_rows = layout(finding, rows, previous_version=None)
