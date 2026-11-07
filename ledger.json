@@ -1,5 +1,5 @@
 {
- "generation": 1547,
+ "generation": 1548,
  "lane": {
   "entries": [
    {
@@ -121218,6 +121218,14 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "emittedAt": "2026-11-07T16:45:05.162534Z",
      "idempotencyKey": "dispatch-d30fe56e2dcc6693dd92:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-builder-55b938d79131",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-55b938d79131.proof.json",
+      "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: job auto-merge in .github/workflows/auto-triage.yml has no successful completed-run duration history (skipped in all sampled successful runs), so its timeout cannot be derived and a partial repair of the other three jobs is not permitted by the packet. Route gap for engineering: governed default for jobs with no successful history."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -121238,7 +121246,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/build-55b938d79131.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T18:58:03.433288Z",
+     "status": "done",
      "stepId": "build:55b938d79131:1",
      "type": "agent.build"
     },
@@ -121338,6 +121347,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:2933fea8b223:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-builder-55b938d79131",
+     "at": "2026-11-07T18:58:03.433606Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:55b938d79131:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -122428,6 +122449,12 @@
      "diffPath": null,
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.proof.json",
      "stepId": "build:2933fea8b223:1"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+     "diffPath": null,
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-55b938d79131.proof.json",
+     "stepId": "build:55b938d79131:1"
     }
    ],
    "pullRequests": [],
@@ -122490,11 +122517,11 @@
      "stepId": "build:5d98e47e79c0:1"
     },
     {
-     "at": "2026-11-07T16:45:05.162534Z",
+     "at": "2026-11-07T18:58:03.433288Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "idempotencyKey": "dispatch-d30fe56e2dcc6693dd92:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:55b938d79131:1"
     },
     {
@@ -122529,11 +122556,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T18:47:44.172080Z"
+   "updatedAt": "2026-11-07T18:58:03.433288Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T18:47:44.173881Z",
+ "updatedAt": "2026-11-07T18:58:03.434593Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -127234,12 +127261,33 @@
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch9-builder-55b938d79131",
+     "at": "2026-11-07T18:58:03.433606Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:55b938d79131:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-55b938d79131",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch9-builder-55b938d79131",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
+    "noChange": true,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-55b938d79131.proof.json",
+    "recordedAt": "2026-11-07T18:58:03.433606Z",
+    "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: job auto-merge in .github/workflows/auto-triage.yml has no successful completed-run duration history (skipped in all sampled successful runs), so its timeout cannot be derived and a partial repair of the other three jobs is not permitted by the packet. Route gap for engineering: governed default for jobs with no successful history."
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
    "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
@@ -127260,7 +127308,7 @@
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T16:45:05.162534Z",
+   "updatedAt": "2026-11-07T18:58:03.433606Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d": {
