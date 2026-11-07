@@ -75,7 +75,7 @@ from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven
+from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven, receiptProblem
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
@@ -1795,7 +1795,7 @@ class FullRunner:
         summary["deferred"] = len(deferred)
         return summary
 
-    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> None:
+    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """A terminal closure outcome is trusted only when this checkout's receipts record the same outcome (B7 D7).
 
         The receipt is written by the executor before the driver reports, in the confined store. A driver
@@ -1820,6 +1820,11 @@ class FullRunner:
                 matches = outcome.get("markerVerified") is True and entry.get("markerVerified") is True
         if not matches:
             raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
+        # Founder ruling #10: a closure is trusted only when its receipt holds the Steward owner and the worker.
+        problem = receiptProblem(entry, params)
+        if problem is not None:
+            raise RecordRefused(f"{problem}; a closure without an attributable, fully proven receipt stays pending")
+        return entry
 
     def _cancelClosuresWhenDisabled(self, runId: str) -> int:
         """Writes switched off, or a rule disabled, ends pending closures here, so the run can settle (B7 D3).
@@ -1863,8 +1868,9 @@ class FullRunner:
         commentId = outcome.get("commentId")
         if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
             raise RecordRefused("commentId, when given, must be a positive integer")
+        receiptEntry: dict[str, Any] = {}
         if result in ("closed", "already-closed"):
-            self._requireReceipt(result, outcome, params)
+            receiptEntry = self._requireReceipt(result, outcome, params)
         if result in ("closed", "already-closed") and not (isinstance(params.get("repo"), str) and params["repo"].strip()):
             raise RecordRefused("the closure action names no repository, so its outcome cannot be verified")
         if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
@@ -1884,6 +1890,9 @@ class FullRunner:
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
             "reason": reason if result == "refused" else None,
         }
+        if receiptEntry:
+            entry["stewardOwner"] = receiptEntry["stewardOwner"]
+            entry["worker"] = receiptEntry["worker"]
         key, issue = params["key"], params["issue"]
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:

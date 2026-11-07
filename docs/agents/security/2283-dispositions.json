@@ -932,18 +932,18 @@
       "ledgerDisposition": "unchanged; parent-owned",
       "status": "fixture",
       "originalSourceSha256": "ab69dcad83db264ea303a50dc0074c97861320ab475771a997b86a394a8df3fd",
-      "reviewedSourceSha256": "b71f0b76db5279eece61ebedbb3d8d7522a2837c588dfdc0f53a7d0b6946e75c",
+      "reviewedSourceSha256": "a11f32e7b4a3652248dc219e05c756aa11e6698f319ed6b77bd49d5946760603",
       "findings": [
         {
           "fingerprint": "7eb3777115fa",
-          "line": 15,
+          "line": 17,
           "pattern": "credential-assignment",
           "status": "fixture",
           "reason": "Local short fake-transport sentinel, not a provider token."
         },
         {
           "fingerprint": "7c6791c527dc",
-          "line": 248,
+          "line": 252,
           "pattern": "credential-assignment",
           "status": "harmless",
           "reason": "Lambda parameter/return expression supplying LiveForge, not a credential literal."

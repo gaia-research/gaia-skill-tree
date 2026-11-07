@@ -218,7 +218,9 @@ def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp
 
         def getIssue(self, number):
             live = rows[number]
-            return {"number": number, "title": live["title"], "state": live["state"], "stateReason": None,
+            # A closed issue reads back closed: the post-close observation is part of the receipt's proof.
+            closed = any(number == item[0] for item in self.closed)
+            return {"number": number, "title": live["title"], "state": "closed" if closed else live["state"], "stateReason": None,
                     "updatedAt": live["updatedAt"], "body": live["body"],
                     "labels": [label if isinstance(label, str) else label["name"] for label in live["labels"]]}
 

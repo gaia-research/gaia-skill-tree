@@ -45,6 +45,8 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureAction,
     executeClosure,
     planClosures,
+    receiptProblem,
+    resolveAttribution,
 )
 from gaia_cli.steward.issuehygiene.executor import (
     AlreadyRecorded,
@@ -270,6 +272,14 @@ def renderMatrix(manifest: dict) -> str:
     if not manifest["founderQuestions"]:
         lines.append("- none")
     lines.append("")
+    lines += ["## Closeout discrepancies (HIGH PRIORITY)", ""]
+    for row in manifest.get("closeoutDiscrepancies") or []:
+        children = ", ".join(f"#{number}" for number in row["openChildren"]) or "none"
+        lines.append(f"- **#{row['umbrella']}** ({row['suite']} {row['version']}, closed {row['closedAt']}): "
+                     f"{'; '.join(row['reasons'])}. Open children: {children}. Closure preserved; reconcile explicitly.")
+    if not manifest.get("closeoutDiscrepancies"):
+        lines.append("- none")
+    lines.append("")
     return "\n".join(lines)
 
 
@@ -309,6 +319,9 @@ def renderSummary(manifest: dict, plannedClosures: int | None = None, writesEnab
             lines.append(f"  #{item['issue']} {item['kind']} {label}: {item['authority']} {item['state']}" + (f" ({item['ruleId']})" if item["ruleId"] else ""))
     lines += ["", f"batches: {len(manifest['batches'])} (B children {sum(batch['size'] for batch in manifest['batches'])})"]
     lines.append(f"founder questions: {len(manifest['founderQuestions'])}")
+    for row in manifest.get("closeoutDiscrepancies") or []:
+        lines.append(f"HIGH PRIORITY closeout discrepancy: closed umbrella #{row['umbrella']} {row['suite']} {row['version']}: "
+                     f"{'; '.join(row['reasons'])} (closure preserved; reconcile explicitly)")
     if plannedClosures is not None and writesEnabled:
         lines.append(f"closure plans: {plannedClosures}")
     elif plannedClosures is not None:
@@ -330,6 +343,10 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--i-understand-writes", action="store_true", help="required with --apply-closures")
     parser.add_argument("--repo", default=None, help="owner/repo (default: the census repo)")
     parser.add_argument("--run-id", default=None, help="receipt run id (default: receipts file stem)")
+    parser.add_argument("--steward-owner", default=None,
+                        help="with --apply-closures: the accountable Steward owner recorded in every receipt (default: $GAIA_STEWARD_OWNER)")
+    parser.add_argument("--worker", default=None,
+                        help="with --apply-closures: the worker performing the closures, recorded in every receipt (default: $GAIA_STEWARD_WORKER)")
     parser.add_argument("--max-closures", type=int, default=None,
                         help="pilot cap for this run (1 to the policy maxClosuresPerRun; default: the policy value)")
     return parser.parse_args(argv)
@@ -375,6 +392,10 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
     policy = loaded.issue_hygiene
     if not policy.writesEnabled:
         return refuse("issueHygiene.writesEnabled is false; no closure is performed")
+    try:
+        attribution = resolveAttribution({"stewardOwner": args.steward_owner, "worker": args.worker})
+    except ActionRefused as exc:
+        return refuse(str(exc))
     now = utcNow()
     census = loadCensus(root / CENSUS_INPUT, now=now, maxAgeSeconds=policy.maxCensusAgeSeconds)
     if not census.status.complete:
@@ -412,11 +433,18 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         try:
             result = executeClosure(
                 gated, forge, receipt, now, runId, args.repo,
-                root=root,
+                root=root, attribution=attribution,
             )
         except ActionRefused as exc:
             print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)
             return EXIT_REFUSED
+        if result["outcome"] in ("closed", "already-closed"):
+            # The same receipt validation the full-run record step applies: a receipt that does not prove the closure
+            # is never reported as a close.
+            problem = receiptProblem(result, action)
+            if problem is not None:
+                print(f"refusing to report {plan['key']} (#{plan['issue']}) as closed: {problem}", file=sys.stderr)
+                return EXIT_REFUSED
         results.append(result)
         if result["outcome"] == "blocked":
             break
