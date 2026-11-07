@@ -27,7 +27,7 @@ import re
 from dataclasses import dataclass
 from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
@@ -36,6 +36,7 @@ from gaia_cli.steward.models import (
     content_hash,
     stable_json,
 )
+from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES
 
 
 VERDICT_SCHEMA = "steward-verification-verdict-v1"
@@ -110,6 +111,10 @@ class ChangeSet:
     guard_signal_added: int
     guard_signal_removed: int
     deleted_guard_files: tuple[str, ...]
+    # Disposition records whose COMPLETE post-diff JSON sets verifiedBy, verifiedAt or
+    # verificationReceipt to a non-empty value, or cannot be evaluated at all. Each entry is
+    # (path, reason). A builder never stamps, and an unreadable record is never trusted.
+    stamped_paths: tuple[tuple[str, str], ...] = ()
     # Workflow-file edits that are not the pure addition of a `timeout-minutes`
     # line (founder ruling #14). Empty for every diff that touches no workflow.
     workflow_edit_violations: tuple[str, ...] = ()
@@ -129,6 +134,11 @@ class ChangeSet:
             "guardSignalAdded": self.guard_signal_added,
             "guardSignalRemoved": self.guard_signal_removed,
             "deletedGuardFiles": list(self.deleted_guard_files),
+            **(
+                {"stampedPaths": [{"path": path, "reason": reason} for path, reason in self.stamped_paths]}
+                if self.stamped_paths
+                else {}
+            ),
         }
         if self.workflow_edit_violations:
             data["workflowEditViolations"] = list(self.workflow_edit_violations)
@@ -253,6 +263,111 @@ def _in_scope(path: str, pattern: str) -> bool:
     )
 
 
+def _carveOut(path: str, denied: str, packet: DispatchPacket) -> bool:
+    """Whether the one policy carve-out lifts the ``founder/**`` ban for ``path``.
+
+    Exact pair only: a packet for the carve-out's own debt kind that allows that
+    exact subtree, a path inside it, and the ``founder/**`` ban. No other ban is
+    ever lifted, and no other rule or kind ever qualifies; for everything else a
+    forbidden path stays forbidden even when a narrower path is allowed.
+    """
+
+    if denied != "founder/**":
+        return False
+    kind = packet.debt.get("kind") if isinstance(packet.debt, Mapping) else None
+    return any(
+        exempt_kind == kind and glob in packet.allowed_paths and _in_scope(path, glob)
+        for glob, exempt_kind in DISPATCH_EXEMPT_SUBTREES.items()
+    )
+
+
+# Post-review stamp fields of a credential disposition record. Only the lead's
+# integrate step sets them; a builder diff must leave them empty or absent. The
+# check runs on the COMPLETE post-diff JSON of each record, never on isolated
+# added lines (a multi-line value can change under an unchanged key line), and
+# fails closed when that JSON cannot be produced or is not a valid object.
+_STAMP_SUBTREE = "founder/steward/security-dispositions/"
+_STAMP_FIELDS = ("verifiedby", "verifiedat", "verificationreceipt")
+MAX_BASE_BYTES = 256 * 1024
+
+BaseReader = Callable[[str], "str | None"]
+
+
+def checkoutBase(root: Path) -> BaseReader:
+    """Read a file's pre-diff text from a checkout, or None when it is not a plain readable file."""
+
+    resolved = root.resolve()
+
+    def read(rel: str) -> str | None:
+        path = (resolved / rel)
+        try:
+            if path.is_symlink() or not path.is_file() or resolved not in path.resolve().parents:
+                return None
+            if path.stat().st_size > MAX_BASE_BYTES:
+                return None
+            return path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            return None
+
+    return read
+
+
+@dataclass
+class _Hunk:
+    old_start: int
+    lines: list[tuple[str, str]]
+
+
+def _applyHunks(base: list[str], hunks: list[_Hunk]) -> list[str]:
+    """Apply unified-diff hunks to ``base`` lines; any mismatch raises (fail closed)."""
+
+    out: list[str] = []
+    cursor = 0  # next unread index into base
+    for hunk in hunks:
+        # A hunk with no old lines inserts AFTER old_start, otherwise it starts AT old_start.
+        has_old = any(tag in (" ", "-") for tag, _ in hunk.lines)
+        start = hunk.old_start - 1 if has_old else hunk.old_start
+        if start < cursor or start > len(base):
+            raise VerificationError("a hunk overlaps an earlier one or lies outside the file")
+        out.extend(base[cursor:start])
+        cursor = start
+        for tag, content in hunk.lines:
+            if tag in (" ", "-"):
+                if cursor >= len(base) or base[cursor] != content:
+                    raise VerificationError("a hunk does not apply to the current file")
+                if tag == " ":
+                    out.append(content)
+                cursor += 1
+            else:
+                out.append(content)
+    out.extend(base[cursor:])
+    return out
+
+
+def _postImageProblem(path: str, is_new: bool, hunks: list[_Hunk], read: BaseReader | None) -> str | None:
+    """Why a disposition record's post-diff JSON cannot be accepted, or None when it is clean."""
+
+    if is_new:
+        base: list[str] = []
+    else:
+        text = read(path) if read is not None else None
+        if text is None:
+            return "post-diff JSON unavailable: the file's current content could not be read"
+        base = text.split("\n")
+    try:
+        post = "\n".join(_applyHunks(base, hunks))
+    except VerificationError as exc:
+        return f"post-diff JSON unavailable: {exc}"
+    try:
+        body = json.loads(post)
+    except ValueError:
+        return "post-diff content is not valid JSON"
+    if not isinstance(body, dict):
+        return "post-diff JSON is not an object"
+    for key, value in body.items():
+        if str(key).strip().casefold() in _STAMP_FIELDS and value not in (None, ""):
+            return f"sets {key}: only the lead's integrate step may stamp a record"
+    return None
 def _is_guard(path: str) -> bool:
     return any(_matches(path, pattern) for pattern in _GUARD_PATTERNS)
 
@@ -270,7 +385,7 @@ _IGNORED_METADATA = (
 )
 
 
-def parse_unified_diff(text: str) -> ChangeSet:
+def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSet:
     """Parse a git unified diff the way ``git apply`` reads one, failing closed.
 
     Scope checking is only as trustworthy as this function: a path it fails to
@@ -300,7 +415,9 @@ def parse_unified_diff(text: str) -> ChangeSet:
 
     changes: list[FileChange] = []
     deleted_guards: list[str] = []
+    stamped: dict[str, str] = {}
     guard_added = guard_removed = 0
+    hunks: list[_Hunk] = []
     workflow_violations: list[str] = []
     workflow_patches: list[tuple[str, tuple[Hunk, ...]]] = []
 
@@ -317,9 +434,14 @@ def parse_unified_diff(text: str) -> ChangeSet:
     open_hunks: list[list[Any]] = []
 
     def flush() -> None:
-        nonlocal current, added, removed, deleted_file, created_file, open_hunks
+        nonlocal current, added, removed, deleted_file, created_file, open_hunks, hunks
         if current is None:
             return
+        if current.startswith(_STAMP_SUBTREE) and not deleted_file:
+            problem = _postImageProblem(current, created_file, hunks, base)
+            if problem is not None:
+                stamped[current] = problem
+        hunks = []
         changes.append(
             FileChange(
                 path=current, added=added, removed=removed,
@@ -383,14 +505,20 @@ def parse_unified_diff(text: str) -> ChangeSet:
                 added += 1
                 if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
                     guard_added += 1
+                if hunks:
+                    hunks[-1].lines.append(("+", line[1:]))
             elif line.startswith("-"):
                 old_remaining -= 1
                 removed += 1
                 if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
                     guard_removed += 1
+                if hunks:
+                    hunks[-1].lines.append(("-", line[1:]))
             elif line.startswith(" ") or line == "":
                 old_remaining -= 1
                 new_remaining -= 1
+                if hunks:
+                    hunks[-1].lines.append((" ", line[1:]))
             else:
                 raise VerificationError(
                     f"unreadable line inside a hunk of {current}: {line[:80]!r}"
@@ -455,6 +583,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
                 raise VerificationError(f"hunk belongs to no file: {line[:80]!r}")
             old_remaining = int(match.group(2)) if match.group(2) is not None else 1
             new_remaining = int(match.group(4)) if match.group(4) is not None else 1
+            hunks.append(_Hunk(old_start=int(match.group(1)), lines=[]))
             open_hunks.append(
                 [int(match.group(1)), old_remaining, []]
             )
@@ -479,6 +608,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
         guard_signal_added=guard_added,
         guard_signal_removed=guard_removed,
         deleted_guard_files=tuple(sorted(deleted_guards)),
+        stamped_paths=tuple(sorted(stamped.items())),
         workflow_edit_violations=tuple(workflow_violations),
         workflow_patches=tuple(sorted(workflow_patches)),
     )
@@ -673,16 +803,26 @@ def evaluate(
     forbidden = [
         path
         for path in change_set.paths
-        if any(_in_scope(path, denied) for denied in packet.forbidden_paths)
+        if any(
+            _in_scope(path, denied) and not _carveOut(path, denied, packet)
+            for denied in packet.forbidden_paths
+        )
     ]
+    stamped = list(change_set.stamped_paths)
     structural = workflow_structure_violations(change_set, workflow_baseline)
     scope_valid = (
-        not outside and not forbidden and not change_set.workflow_edit_violations and not structural
+        not outside
+        and not forbidden
+        and not stamped
+        and not change_set.workflow_edit_violations
+        and not structural
     )
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
     if forbidden:
         reasons.append("diff writes inside forbiddenPaths: " + ", ".join(sorted(forbidden)))
+    for stamped_path, why in stamped:
+        reasons.append(f"disposition record {stamped_path}: {why}")
     if change_set.workflow_edit_violations:
         reasons.append(
             "a workflow diff may not create or delete a workflow file: "

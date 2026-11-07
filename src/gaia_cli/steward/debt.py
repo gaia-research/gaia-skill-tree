@@ -162,13 +162,23 @@ def reconcile_debt(
         if observation.status == "healthy":
             if previous is None or previous.status == "resolved":
                 continue
+            decided = observation.observed_state.get("decidedDisposition") is True
+            reclassified = observation.observed_state.get("reclassifiedTo") is not None
+            # Resolving as a decided disposition or a reclassification must not
+            # erase what was found: the open debt's observed state (findings
+            # included) is kept whole.
+            resolvedState = (
+                {**observation.observed_state, "priorObservedState": dict(previous.observed_state)}
+                if decided or reclassified
+                else observation.observed_state
+            )
             debts[debt_id] = Debt(
                 id=debt_id,
                 kind=observation.kind,
                 subject=observation.subject,
                 source=observation.source,
                 current_state=observation.current_state,
-                observed_state=observation.observed_state,
+                observed_state=resolvedState,
                 confidence=observation.confidence,
                 priority=priority,
                 authority=authority,
@@ -176,7 +186,12 @@ def reconcile_debt(
                 first_observed_at=previous.first_observed_at,
                 last_observed_at=observation.observed_at,
                 observation_count=previous.observation_count + 1,
-                resolution="condition_recovered",
+                # A sensor-verified founder disposition or a reclassification is
+                # not a recovery: the condition still exists. Keep them
+                # distinguishable in the ledger.
+                resolution=(
+                    "decided_disposition" if decided else "reclassified" if reclassified else "condition_recovered"
+                ),
                 supersedes=previous.supersedes,
                 superseded_by=previous.superseded_by,
             )

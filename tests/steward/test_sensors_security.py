@@ -747,21 +747,25 @@ class TestSecretScan:
         _, observations = _secrets(tmp_path, {"src/a.py": line + "\n"})
         assert observations == []
 
-    def test_synthetic_test_fixture_is_exempt_and_counted(self, tmp_path: Path) -> None:
+    def test_synthetic_looking_fixture_in_tests_is_reported_not_exempt(self, tmp_path: Path) -> None:
+        # Founder: no downgrade solely because a file is under tests/. The former
+        # tests/-only synthetic skip is gone; an issuer-shaped fixture is judged
+        # like any other match and needs a per-finding record.
         token = "AKIA" + "IOSFODNN7" + "EXAMPLE"
         files = {
             "tests/test_scanner.py": f"SAMPLE = '{token}'\n",
             "src/real.py": f"k = '{_github_token()}'\n",
         }
         _, observations = _secrets(tmp_path, files)
-        (item,) = observations
-        assert item.subject.id == "src/real.py"
-        assert item.provenance["skippedSyntheticTestFixture"] == 1
+        assert sorted(item.subject.id for item in observations) == ["src/real.py", "tests/test_scanner.py"]
+        assert all(item.kind == "credential_leak" and item.status == "drift" for item in observations)
+        assert all("skippedSyntheticTestFixture" not in item.provenance for item in observations)
 
-    def test_ascending_placeholder_in_tests_is_exempt(self, tmp_path: Path) -> None:
+    def test_ascending_placeholder_in_tests_is_reported_not_exempt(self, tmp_path: Path) -> None:
         placeholder = "ghp" + "_" + "abcdef" + "0123456789" + "abcdefghijklmnopqrst"[:20]
         _, observations = _secrets(tmp_path, {"tests/test_a.py": f"t = '{placeholder}'\n"})
-        assert observations == []
+        (item,) = observations
+        assert (item.kind, item.status) == ("credential_leak", "drift")
 
     def test_exemption_does_not_apply_outside_tests(self, tmp_path: Path) -> None:
         token = "AKIA" + "IOSFODNN7" + "EXAMPLE"
