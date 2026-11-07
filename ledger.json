@@ -1,5 +1,5 @@
 {
- "generation": 1576,
+ "generation": 1577,
  "lane": {
   "entries": [
    {
@@ -5379,14 +5379,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-19b449f11c49ce659a79",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T20:00:46.399445Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch9-verifier-52236ab2419b (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T16:45:05.162534Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T20:00:46.399445Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -121564,6 +121570,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "emittedAt": "2026-11-07T19:47:15.534392Z",
      "idempotencyKey": "verify:dispatch-19b449f11c49ce659a79:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-verifier-52236ab2419b",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The baseline deploy job lacked a job-level timeout; the diff adds only timeout-minutes: 10 under that job, and the edited YAML parses.\" - \"The timeout-selection proof does not state the p95, maximum, or required arithmetic. For the two reported successful durations, the prescribed formula rounds to 5 minutes, not 10; network headroom is mentioned only generally and does not establish an authorized exception to the rule.\" - \"The reported YAML parse has no exact result; an independent parse succeeded, but it does not cure the unsupported timeout selection.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -121579,7 +121592,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-52236ab2419b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T20:00:46.399138Z",
+     "status": "done",
      "stepId": "verify:52236ab2419b:1",
      "type": "agent.verify"
     }
@@ -121715,6 +121729,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:79f5e518ae90:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-52236ab2419b",
+     "at": "2026-11-07T20:00:46.399445Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:52236ab2419b:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -123440,11 +123466,11 @@
      "stepId": "verify:79f5e518ae90:1"
     },
     {
-     "at": "2026-11-07T19:47:15.534392Z",
+     "at": "2026-11-07T20:00:46.399138Z",
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "idempotencyKey": "verify:dispatch-19b449f11c49ce659a79:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:52236ab2419b:1"
     }
    ],
@@ -123455,11 +123481,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T20:00:39.723807Z"
+   "updatedAt": "2026-11-07T20:00:46.399138Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:00:39.727179Z",
+ "updatedAt": "2026-11-07T20:00:46.402685Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128420,22 +128446,25 @@
      "stepId": "build:52236ab2419b:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-52236ab2419b",
+     "at": "2026-11-07T20:00:46.399445Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:52236ab2419b:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch9-verifier-52236ab2419b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/workflow-hygiene-52236ab2419b",
-   "build": {
-    "agentId": "pi-herdr-batch9-builder-52236ab2419b",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.diff",
-    "dispatchId": "dispatch-19b449f11c49ce659a79",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.proof.json",
-    "recordedAt": "2026-11-07T19:01:44.658171Z",
-    "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 08c2af794; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
    "dispatchId": "dispatch-19b449f11c49ce659a79",
@@ -128446,6 +128475,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-19b449f11c49ce659a79 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T20:00:46.399445Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch9-verifier-52236ab2419b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "workflow_hygiene",
@@ -128455,13 +128490,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T19:01:44.658171Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T20:00:46.399445Z",
    "verification": {
-    "receipt": "steward-20261107T194551Z-7fefecdf166cab6e",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-52236ab2419b.prompt.md"
+    "agentId": "pi-herdr-batch9-verifier-52236ab2419b",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The baseline deploy job lacked a job-level timeout; the diff adds only timeout-minutes: 10 under that job, and the edited YAML parses.\" - \"The timeout-selection proof does not state the p95, maximum, or required arithmetic. For the two reported successful durations, the prescribed formula rounds to 5 minutes, not 10; network headroom is mentioned only generally and does not establish an authorized exception to the rule.\" - \"The reported YAML parse has no exact result; an independent parse succeeded, but it does not cure the unsupported timeout selection.\"",
+    "recordedAt": "2026-11-07T20:00:46.399445Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   }
  }
