@@ -31,5 +31,42 @@
     "c5823bb41629",
     "d19aa39af12c",
     "01bdcf8a1d9c"
+  ],
+  "authorizedTargets": [
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+      "workItem": "288be108ed47"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+      "workItem": "568e4a413656"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+      "workItem": "bea677b92540"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+      "workItem": "5ded3e5c5e18"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+      "workItem": "c5823bb41629"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+      "workItem": "d19aa39af12c"
+    },
+    {
+      "runId": "run-20261107T115111Z-802da939",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+      "workItem": "01bdcf8a1d9c"
+    }
   ]
 }

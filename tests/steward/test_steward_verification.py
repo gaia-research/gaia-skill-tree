@@ -5,6 +5,7 @@ from __future__ import annotations
 import inspect
 import itertools
 import json
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 import shutil
@@ -763,13 +764,109 @@ def test_real_git_repo_with_worktrees_and_concurrent_merge(tmp_path: Path) -> No
         diff_path=diff_path,
         proof_path=proof_path,
         controller=controller,
-        base_commit=rev_base,
     )
+    assert dispatch.artifact.head_commit == rev_base
     assert result.artifact.verdict == "pending"
     assert result.artifact.new_debt == ()
     assert len(result.artifact.unrelated_new_debt) == 1
     assert result.artifact.global_new_debt == result.artifact.unrelated_new_debt
     assert any("concurrent merge, not charged to patch" in r for r in result.artifact.reasons)
+
+
+def test_git_dispatch_without_recorded_base_fails_closed_even_with_caller_base(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import gaia_cli.steward.routing as routing
+
+    root = _repo(tmp_path)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "initial"], cwd=root, check=True)
+    base = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    original = routing._dispatch_receipt_for
+
+    def legacy_receipt(*args, **kwargs):
+        receipt = original(*args, **kwargs)
+        receipt = dict(receipt)
+        receipt["artifact"] = dict(receipt["artifact"])
+        for field in ("headCommit", "gitHead"):
+            receipt.pop(field, None)
+            receipt["artifact"].pop(field, None)
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", legacy_receipt)
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path,
+        controller=controller, base_commit=base,
+    )
+    assert result.artifact.attribution_failed is True
+    assert result.artifact.verdict == "escalate"
+
+
+def test_supplied_base_must_match_dispatch_receipt(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "initial"], cwd=root, check=True)
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    with pytest.raises(RoutingError, match="supplied base_commit does not match authenticated dispatch receipt base"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path,
+                            controller=controller, base_commit="different-base")
+
+
+def test_git_attribution_requires_explicit_baseline(tmp_path: Path) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    assert compute_patch_attribution(tmp_path, "", "debt:x", _controller(IntegritySensor())) is None
+
+
+@pytest.mark.parametrize("field", ["not_evaluated", "partial_coverage"])
+@pytest.mark.parametrize("incomplete_scan", [0, 1])
+def test_incomplete_scratch_coverage_fails_closed(
+    tmp_path: Path, field: str, incomplete_scan: int, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    controller = _controller(IntegritySensor())
+    original_scan = controller.scan
+    calls = 0
+
+    def scan(path: Path):
+        nonlocal calls
+        result = original_scan(path)
+        if calls == incomplete_scan:
+            result = replace(result, receipt=replace(result.receipt, **{field: ({"sensor": "missing"},)}))
+        calls += 1
+        return result
+
+    monkeypatch.setattr(controller, "scan", scan)
+    assert compute_patch_attribution(root, _diff("scripts/fix.py"), "debt:x", controller) is None
+    assert calls == 2
+
+
+def test_missing_specific_dispatch_never_falls_back(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    render_dispatch(root, debt_id, controller=controller)
+    render_dispatch(root, debt_id, controller=controller)
+    with pytest.raises(RoutingError, match="no dispatch receipt found for dispatch missing"):
+        render_verification(root, debt_id, diff_path=root / "none", proof_path=root / "none",
+                            controller=controller, dispatch_id="missing")
 
 
 def test_unknown_sensor_coverage_on_scratch_scan_fails_closed(tmp_path: Path) -> None:
@@ -814,10 +911,14 @@ def test_worktree_creation_failure_fails_closed(tmp_path: Path, monkeypatch: pyt
     controller = _controller(sensor)
     diff = _diff("scripts/fix.py")
 
+    base_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
     orig_run = subprocess.run
+    worktree_attempted = False
 
     def mock_run(cmd, *args, **kwargs):
+        nonlocal worktree_attempted
         if isinstance(cmd, list) and len(cmd) >= 3 and cmd[:3] == ["git", "worktree", "add"]:
+            worktree_attempted = True
             return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="fatal: mock failure")
         return orig_run(cmd, *args, **kwargs)
 
@@ -828,7 +929,9 @@ def test_worktree_creation_failure_fails_closed(tmp_path: Path, monkeypatch: pyt
         diff_text=diff,
         target_debt_id="debt:x",
         controller=controller,
+        base_commit=base_commit,
     )
+    assert worktree_attempted
     assert introduced is None
 
 

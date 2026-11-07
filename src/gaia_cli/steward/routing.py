@@ -506,8 +506,17 @@ def render_lane_next(
         if rule is None or debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"lane selected non-Class-B debt: {debt.id}")
         _assert_route_eligible(rule, debt)
+        head_commit = None
+        if (root / ".git").exists():
+            head = subprocess.run(
+                ["git", "rev-parse", "--verify", "HEAD^{commit}"],
+                cwd=root, capture_output=True, text=True, check=False,
+            )
+            if head.returncode != 0 or not head.stdout.strip():
+                raise RoutingError("cannot determine dispatch HEAD commit")
+            head_commit = head.stdout.strip()
         packet = DispatchPacket.create(
-            debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
+            head_commit=head_commit, debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
             allowed_paths=rule.allowed_paths, allowed_commands=rule.allowed_commands,
             forbidden_paths=rule.forbidden_paths, stop_conditions=rule.stop_conditions,
@@ -604,8 +613,17 @@ def render_dispatch(
         if debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"authority mismatch for dispatch debt: {debt.id}")
         _assert_route_eligible(rule, debt)
+        head_commit = None
+        if (root / ".git").exists():
+            head = subprocess.run(
+                ["git", "rev-parse", "--verify", "HEAD^{commit}"],
+                cwd=root, capture_output=True, text=True, check=False,
+            )
+            if head.returncode != 0 or not head.stdout.strip():
+                raise RoutingError("cannot determine dispatch HEAD commit")
+            head_commit = head.stdout.strip()
         return DispatchPacket.create(
-            debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
+            head_commit=head_commit, debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
             allowed_paths=rule.allowed_paths, allowed_commands=rule.allowed_commands,
             forbidden_paths=rule.forbidden_paths, stop_conditions=rule.stop_conditions,
@@ -661,7 +679,9 @@ def _read_receipt(path: Path) -> Mapping[str, Any]:
     return data
 
 
-def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[str, Any]:
+def _dispatch_receipt_for(
+    receipts_directory: Path, debt_id: str, dispatch_id: str | None = None
+) -> Mapping[str, Any]:
     """Return the most recent dispatch receipt that authorized work on this debt.
 
     Verification is only meaningful for work Steward actually dispatched. If no
@@ -670,8 +690,6 @@ def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[
     fixed-width timestamp, so lexicographic order is chronological order.
     """
 
-    if not receipts_directory.is_dir():
-        raise RoutingError(f"no dispatch receipt exists for debt {debt_id}")
     candidates: list[Mapping[str, Any]] = []
     for path in sorted(receipts_directory.glob("steward-*.json")):
         data = _read_receipt(path)
@@ -682,6 +700,10 @@ def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[
             continue
         debt = artifact.get("debt")
         if not isinstance(debt, dict) or debt.get("id") != debt_id:
+            continue
+        if dispatch_id is not None and dispatch_id not in (
+            data.get("receiptId"), artifact.get("dispatch_id"), artifact.get("dispatchId"), data.get("runId")
+        ):
             continue
         # The receipt is the only record of what was authorized, so it has to
         # still attest to itself. Its id is a digest of exactly this payload;
@@ -701,11 +723,20 @@ def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[
             )
         candidates.append(data)
     if not candidates:
+        if dispatch_id is not None:
+            raise RoutingError(f"no dispatch receipt found for dispatch {dispatch_id} (debt {debt_id})")
         raise RoutingError(
             f"no dispatch receipt exists for debt {debt_id}; run "
             f"`gaia steward dispatch {debt_id}` before verifying work against it"
         )
-    return max(candidates, key=lambda item: str(item.get("runId", "")))
+    return max(candidates, key=lambda item: (
+        dispatch_id is not None and item.get("receiptId") == dispatch_id,
+        str(item.get("runId", "")),
+    ))
+
+
+def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[str, Any]:
+    return _dispatch_receipt_for(receipts_directory, debt_id)
 
 
 def compute_patch_attribution(
@@ -730,37 +761,22 @@ def compute_patch_attribution(
     patched_dir = scratch_dir / "patched"
     worktrees_to_cleanup: list[Path] = []
 
+    is_git = False
     try:
-        is_git = (repo_root / ".git").exists()
+        is_git = subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            cwd=repo_root, capture_output=True, text=True, check=False,
+        ).returncode == 0
         if is_git:
-            target_commit = base_commit
-            if target_commit is None:
-                proc = subprocess.run(
-                    ["git", "rev-parse", "--verify", "HEAD"],
-                    cwd=repo_root,
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-                if proc.returncode == 0 and proc.stdout.strip():
-                    target_commit = proc.stdout.strip()
-                else:
-                    return None
-            else:
-                proc = subprocess.run(
-                    ["git", "rev-parse", "--verify", target_commit],
-                    cwd=repo_root,
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-                if proc.returncode == 0 and proc.stdout.strip():
-                    target_commit = proc.stdout.strip()
-                else:
-                    return None
-
-            if not target_commit:
+            if base_commit is None:
                 return None
+            proc = subprocess.run(
+                ["git", "rev-parse", "--verify", f"{base_commit}^{{commit}}"],
+                cwd=repo_root, capture_output=True, text=True, check=False,
+            )
+            if proc.returncode != 0 or not proc.stdout.strip():
+                return None
+            target_commit = proc.stdout.strip()
 
             wt_base = subprocess.run(
                 ["git", "worktree", "add", "--quiet", "--detach", str(base_dir), target_commit],
@@ -806,7 +822,10 @@ def compute_patch_attribution(
         # Scan patched directory with controller
         patched_scan = controller.scan(patched_dir)
 
-        if base_scan.receipt.coverage_unknown or patched_scan.receipt.coverage_unknown:
+        if any(
+            receipt.coverage_unknown or receipt.not_evaluated or receipt.partial_coverage
+            for receipt in (base_scan.receipt, patched_scan.receipt)
+        ):
             return None
 
         base_debts = {debt.id for debt in base_scan.open_debts}
@@ -851,6 +870,7 @@ def render_verification(
     proof_path: Path,
     controller: StewardController | None = None,
     base_commit: str | None = None,
+    dispatch_id: str | None = None,
 ) -> tuple[RoutingResult, str, Mapping[int, tuple[str, ...]]]:
     """Verify one dispatched Class B patch against the envelope that authorized it.
 
@@ -862,7 +882,7 @@ def render_verification(
     root = repo_root.resolve()
     policy = StewardPolicy.load(root)
     receipts_directory = root / policy.state_directory / policy.receipts_directory
-    dispatch_receipt = _latest_dispatch_receipt(receipts_directory, debt_id)
+    dispatch_receipt = _dispatch_receipt_for(receipts_directory, debt_id, dispatch_id)
     try:
         packet = DispatchPacket.from_dict(dispatch_receipt["artifact"])
     except (KeyError, TypeError, ValueError) as exc:
@@ -881,16 +901,17 @@ def render_verification(
     if not isinstance(baseline_open, list):
         raise RoutingError("the scan receipt behind this dispatch records no open debt set")
 
-    resolved_base_commit = base_commit
-    if resolved_base_commit is None:
-        resolved_base_commit = (
-            dispatch_receipt.get("headCommit")
-            or dispatch_receipt.get("gitHead")
-            or (dispatch_receipt.get("artifact", {}).get("headCommit") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
-            or (dispatch_receipt.get("artifact", {}).get("gitHead") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
-            or baseline_receipt.get("headCommit")
-            or baseline_receipt.get("gitHead")
-        )
+    receipt_base_commit = (
+        dispatch_receipt.get("headCommit")
+        or dispatch_receipt.get("gitHead")
+        or (dispatch_receipt.get("artifact", {}).get("headCommit") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
+        or (dispatch_receipt.get("artifact", {}).get("gitHead") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
+    )
+    if base_commit and receipt_base_commit and base_commit != receipt_base_commit:
+        raise RoutingError("supplied base_commit does not match authenticated dispatch receipt base")
+    # Only the authenticated receipt can supply a git attribution baseline.
+    # With no receipt base, compute_patch_attribution fails closed in git repos.
+    resolved_base_commit = receipt_base_commit
 
     diff_text = read_text_input(diff_path, label="candidate diff", limit=MAX_DIFF_BYTES)
     transcript_text = read_text_input(
@@ -972,6 +993,7 @@ def render_verifier_prompt_for(
     proof_path: Path,
     controller: StewardController | None = None,
     base_commit: str | None = None,
+    dispatch_id: str | None = None,
 ) -> tuple[RoutingResult, str]:
     """Verify mechanically, then render a judgment prompt only if one is needed."""
 
@@ -986,6 +1008,7 @@ def render_verifier_prompt_for(
         proof_path=proof_path,
         controller=controller,
         base_commit=base_commit,
+        dispatch_id=dispatch_id,
     )
     verdict = result.artifact
     if not isinstance(verdict, VerificationVerdict):
@@ -996,8 +1019,8 @@ def render_verifier_prompt_for(
             "is required and none should be paid for. Reasons: "
             + "; ".join(verdict.reasons)
         )
-    dispatch_receipt = _latest_dispatch_receipt(
-        root / policy.state_directory / policy.receipts_directory, debt_id
+    dispatch_receipt = _dispatch_receipt_for(
+        root / policy.state_directory / policy.receipts_directory, debt_id, dispatch_id
     )
     packet = DispatchPacket.from_dict(dispatch_receipt["artifact"])
     rule = policy.dispatch_rules.get(packet.rule)

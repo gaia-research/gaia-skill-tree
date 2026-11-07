@@ -79,7 +79,7 @@ _RECORD_KEYS = frozenset({
     "recommended", "alternative", "unblocks", "links",
 })
 _RECORD_OPTIONAL_KEYS = frozenset({
-    "resolution", "landedIn", "authorizedDebtIds", "authorizedWorkItems",
+    "resolution", "landedIn", "authorizedDebtIds", "authorizedWorkItems", "authorizedTargets",
 })
 
 # A decided record carrying this resolution is a founder approval whose change
@@ -271,6 +271,16 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         or not all(isinstance(item, str) and item.strip() for item in body["authorizedDebtIds"])
     ):
         return "authorizedDebtIds must be a list of non-empty strings when present"
+    if "authorizedTargets" in body and (
+        not isinstance(body["authorizedTargets"], list)
+        or not all(
+            isinstance(item, dict)
+            and isinstance(item.get("runId"), str) and item["runId"].strip()
+            and isinstance(item.get("debtId"), str) and item["debtId"].strip()
+            for item in body["authorizedTargets"]
+        )
+    ):
+        return "authorizedTargets must be a list of mappings with non-empty runId and debtId"
     if "authorizedWorkItems" in body and (
         not isinstance(body["authorizedWorkItems"], list)
         or not all(isinstance(item, str) and item.strip() for item in body["authorizedWorkItems"])

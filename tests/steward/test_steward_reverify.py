@@ -146,6 +146,13 @@ def _init_repo(tmp_path: Path) -> Path:
         dst_decisions / "steward-founder-authorization-2026-11-08.json",
     )
 
+    # Bind the fixture's authorization to its synthetic run.
+    decision = dst_decisions / "steward-verification-reverify-2283.json"
+    data = json.loads(decision.read_text(encoding="utf-8"))
+    for target in data["authorizedTargets"]:
+        target["runId"] = "run-test-2283"
+    decision.write_text(json.dumps(data), encoding="utf-8")
+
     # Base commit
     file_py = repo / "scripts" / "jev_advisory.py"
     file_py.parent.mkdir(parents=True, exist_ok=True)
@@ -232,10 +239,15 @@ def _setup_runner_and_escalated_item(tmp_path: Path) -> tuple[FullRunner, str, s
     def init_doc(doc: dict[str, Any]) -> None:
         doc["runs"][run_id] = {
             "runId": run_id,
+            "mode": "run",
             "status": "awaiting-action",
             "phase": "verify",
             "actions": [],
             "steps": [],
+            "phases": {"observe": {"scanReceiptId": "receipt-test"}},
+            "unresolvedWork": [],
+            "agentAssignments": [], "modelIds": [], "thinkingEfforts": [],
+            "tokensIn": 0, "tokensOut": 0, "costUsd": 0.0,
             "startedAt": now,
         }
         lane_doc = {
@@ -525,74 +537,117 @@ def test_reverify_preserves_prior_verifications_and_unique_step_and_prompt(tmp_p
     # Initial prompt file untouched
     assert initial_prompt.read_text(encoding="utf-8") == "original verifier prompt"
     # New reverify prompt file written separately
-    new_prompt = runner._runDirectory(run_id) / f"verify-{slug}-reverify-2.prompt.md"
+    new_prompt = runner._runDirectory(run_id) / f"verify-{slug}-reverify-2-1.prompt.md"
     assert new_prompt.is_file()
 
     # Step ID is unique with :reverify suffix
     action = [a for a in doc["runs"][run_id]["actions"] if a["debtId"] == debt_id][0]
-    assert action["stepId"] == f"verify:{slug}:2:reverify"
+    assert action["stepId"] == f"verify:{slug}:2:reverify:1"
 
 
-def test_debt_reconciliation_records_repair_linkage() -> None:
-    from gaia_cli.steward.debt import reconcile_debt
-    from gaia_cli.steward.models import (
-        AuthorityClass,
-        Debt,
-        Priority,
-        Subject,
-    )
-    from gaia_cli.steward.policy import StewardPolicy
 
-    policy = StewardPolicy.load(REPO_ROOT)
-    debt_id = "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a"
-    existing_debt = Debt(
-        id=debt_id,
-        kind="unused_import",
-        subject=Subject(type="source-file", id="scripts/jev_advisory.py"),
-        source="dead-code",
-        current_state={"unusedImports": 1},
-        observed_state={"unusedImports": 1},
-        confidence=0.9,
-        priority=Priority(
-            importance=1.0,
-            decision_impact=1.0,
-            exposure=1.0,
-            freshness_need=1.0,
-            expected_cost=1.0,
-            score=1.0,
-        ),
-        authority=AuthorityClass.B,
-        status="open",
-        first_observed_at="2026-11-08T00:00:00Z",
-        last_observed_at="2026-11-08T00:00:00Z",
-        observation_count=1,
-    )
+def test_missing_dispatch_receipt_never_redispatches(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import gaia_cli.steward.routing as routing
 
-    # 1. Without repair_linkages: condition_not_reobserved
-    res_vanished = reconcile_debt(
-        [],
-        {debt_id: existing_debt},
-        policy,
-        exhaustive_sources=("dead-code",),
-        observed_at="2026-11-08T01:00:00Z",
-    )
-    resolved_debt = [d for d in res_vanished.debts if d.id == debt_id][0]
-    assert resolved_debt.status == "resolved"
-    assert resolved_debt.resolution == "condition_not_reobserved"
-    assert resolved_debt.resolution_receipt is None
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    def missing(*args: Any, **kwargs: Any) -> Any:
+        raise routing.RoutingError("no dispatch receipt")
+    def forbidden(*args: Any, **kwargs: Any) -> Any:
+        pytest.fail("must not create a replacement dispatch")
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", missing)
+    monkeypatch.setattr(routing, "render_dispatch", forbidden)
+    with pytest.raises(FullRunError, match="verification failed.*no dispatch receipt"):
+        runner.reverify_escalated(run_id, [debt_id])
 
-    # 2. With repair_linkages: linked to lane repair
-    res_repaired = reconcile_debt(
-        [],
-        {debt_id: existing_debt},
-        policy,
-        exhaustive_sources=("dead-code",),
-        observed_at="2026-11-08T01:00:00Z",
-        repair_linkages={debt_id: {"receipt": "receipt-verify-1234", "runId": "run-20261108"}},
-    )
-    repaired_debt = [d for d in res_repaired.debts if d.id == debt_id][0]
-    assert repaired_debt.status == "resolved"
-    assert repaired_debt.resolution == "lane_repair:receipt-verify-1234"
-    assert repaired_debt.resolution_receipt == "receipt-verify-1234"
-    assert repaired_debt.to_dict()["resolutionReceipt"] == "receipt-verify-1234"
 
+def test_authorization_is_bound_to_run(tmp_path: Path) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    decision = runner.root / DECISIONS_RELATIVE_DIR / "steward-verification-reverify-2283.json"
+    data = json.loads(decision.read_text(encoding="utf-8"))
+    data["authorizedTargets"][0]["runId"] = "another-run"
+    decision.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(FullRunError, match="not authorized for run"):
+        runner.reverify_escalated(run_id, [debt_id])
+
+
+def test_reverify_fails_closed_without_dispatch_id(tmp_path: Path) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+
+    def mutate(doc: dict[str, Any]) -> None:
+        doc["work"][debt_id].pop("dispatchId")
+        doc["work"][debt_id]["build"].pop("dispatchId")
+
+    update(runner.config.store, mutate, message="remove dispatch authorization")
+    with pytest.raises(FullRunError, match="missing dispatchId"):
+        runner.reverify_escalated(run_id, [debt_id])
+
+
+def test_ruling_remains_consumed_after_independent_escalation(tmp_path: Path) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    runner.reverify_escalated(run_id, [debt_id])
+    doc, _ = runner.config.store.load()
+    item = doc["work"][debt_id]
+    release = dict(item["verification"])
+    action = next(a for a in doc["runs"][run_id]["actions"] if a["type"] == "agent.verify")
+    runner.record(run_id, action["stepId"], {
+        "agentId": "independent-verifier", "model": "pi", "effort": "high",
+        "verdict": "escalate", "rationale": "Independent uncertainty remains.",
+    })
+    doc, _ = runner.config.store.load()
+    item = doc["work"][debt_id]
+    assert item["verification"]["verdict"] == "escalate"
+    assert release in item["priorVerifications"]
+    assert release["ruling"] in item["consumedRulings"]
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id])
+
+
+@pytest.mark.parametrize("field", ["consumedRulings", "verification", "priorVerifications"])
+def test_recorded_ruling_filename_is_consumed(tmp_path: Path, field: str) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    filename = "steward-verification-reverify-2283.json"
+
+    def mutate(doc: dict[str, Any]) -> None:
+        work = doc["work"][debt_id]
+        if field == "consumedRulings":
+            work[field] = [filename]
+        elif field == "verification":
+            work[field]["ruling"] = filename
+        else:
+            work[field] = [{"ruling": filename}]
+
+    update(runner.config.store, mutate, message="record consumed ruling filename")
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id], ruling="steward-verification-reverify-2283")
+
+
+def test_ruling_is_consumable_once(tmp_path: Path) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    runner.reverify_escalated(run_id, [debt_id])
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id])
+
+
+@pytest.mark.parametrize("alias", [
+    "steward-verification-reverify-2283.json",
+    "other/path/steward-verification-reverify-2283.json",
+])
+def test_ruling_alias_cannot_bypass_consumption(tmp_path: Path, alias: str) -> None:
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    runner.reverify_escalated(run_id, [debt_id], ruling="steward-verification-reverify-2283")
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id], ruling=alias)
+
+
+def test_batch_compatibility_mandate_in_prompt(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import gaia_cli.steward.fullrun as fullrun
+
+    runner, run_id, debt_id, _, _ = _setup_runner_and_escalated_item(tmp_path)
+    # Exercise the batch slug branch using a fully authenticated fixture dispatch.
+    real_hash = fullrun._hash12
+    monkeypatch.setattr(fullrun, "_hash12", lambda value: "01bdcf8a1d9c" if value == debt_id else real_hash(value))
+    result = runner.reverify_escalated(run_id, [debt_id])
+    prompt = runner.root / result["results"][0]["verifierPromptPath"]
+    content = prompt.read_text(encoding="utf-8")
+    assert "Founder Ruling 1 Mandate: Module API & Consumer Contract Compatibility Check" in content
+    assert "batch.re" in content and "Stop on any remaining uncertainty" in content

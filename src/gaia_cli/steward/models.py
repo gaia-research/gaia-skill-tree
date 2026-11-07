@@ -116,6 +116,7 @@ class DispatchPacket:
     proof: tuple[str, ...]
     budget: RoutingBudget
     capability: str
+    head_commit: str | None = None
 
     def __post_init__(self) -> None:
         if self.authority is not AuthorityClass.B:
@@ -159,6 +160,7 @@ class DispatchPacket:
         proof: tuple[str, ...],
         budget: RoutingBudget,
         capability: str,
+        head_commit: str | None = None,
     ) -> "DispatchPacket":
         # A packet remains the same requested work when its evidence refreshes.
         # Content is separately hashed below so receipts can still attest to the
@@ -187,10 +189,11 @@ class DispatchPacket:
             proof=proof,
             budget=budget,
             capability=capability,
+            head_commit=head_commit,
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        result = {
             "schemaVersion": DISPATCH_PACKET_SCHEMA,
             "dispatchId": self.dispatch_id,
             "debt": dict(self.debt),
@@ -209,6 +212,9 @@ class DispatchPacket:
             # or a harness. Founder ruling 2026-08-13, STEWARD.md § 9.
             "capability": self.capability,
         }
+        if self.head_commit is not None:
+            result["headCommit"] = self.head_commit
+        return result
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "DispatchPacket":
@@ -242,6 +248,7 @@ class DispatchPacket:
                 max_minutes=data["budget"]["maxMinutes"],
             ),
             capability=str(data["capability"]),
+            head_commit=data.get("headCommit"),
         )
         if packet.dispatch_id != data["dispatchId"]:
             raise ValueError("dispatch packet identity does not match its contents")
@@ -488,7 +495,6 @@ class Debt:
     last_observed_at: str
     observation_count: int
     resolution: str | None = None
-    resolution_receipt: str | None = None
     # Debt id migration (#2201): when a finding moves to a more precise kind, the
     # successor names the debt ids it replaces and each predecessor names its
     # successor. Nothing is deleted, so the predecessor's receipts stay linked.
@@ -521,8 +527,6 @@ class Debt:
         }
         if self.resolution is not None:
             data["resolution"] = self.resolution
-        if self.resolution_receipt is not None:
-            data["resolutionReceipt"] = self.resolution_receipt
         if self.supersedes:
             data["supersedes"] = list(self.supersedes)
         if self.superseded_by is not None:
@@ -548,7 +552,6 @@ class Debt:
             last_observed_at=str(data["lastObservedAt"]),
             observation_count=int(data["observationCount"]),
             resolution=data.get("resolution"),
-            resolution_receipt=(str(data["resolutionReceipt"]) if data.get("resolutionReceipt") is not None else None),
             supersedes=tuple(str(item) for item in data.get("supersedes") or ()),
             superseded_by=(str(data["supersededBy"]) if data.get("supersededBy") is not None else None),
         )

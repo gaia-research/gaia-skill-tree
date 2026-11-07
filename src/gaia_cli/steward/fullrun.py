@@ -965,9 +965,7 @@ class FullRunner:
         from gaia_cli.steward.models import DispatchPacket
         from gaia_cli.steward.prompt import render_verifier_prompt
         from gaia_cli.steward.routing import (
-            RoutingError,
-            _latest_dispatch_receipt,
-            render_dispatch,
+            _dispatch_receipt_for,
             render_verification,
         )
 
@@ -986,6 +984,9 @@ class FullRunner:
         if check_err:
             raise FullRunError(f"invalid decision record {ruling}: {check_err}")
 
+        canonical_ruling_id = str(record_data.get("id") or ruling_stem)
+        ruling = canonical_ruling_id
+
         if record_data.get("status") != "decided" or record_data.get("resolution") != "approved":
             raise FullRunError(
                 f"decision record {ruling} is not decided and approved "
@@ -994,6 +995,15 @@ class FullRunner:
 
         authorized_debts = set(record_data.get("authorizedDebtIds") or ())
         authorized_slugs = set(record_data.get("authorizedWorkItems") or ())
+        authorized_targets = record_data.get("authorizedTargets") or []
+
+        def authorized_for_run(debt_id: str) -> bool:
+            slug = _hash12(debt_id)
+            return any(
+                target["runId"] == runId
+                and (target["debtId"] == debt_id or target.get("workItem") == slug)
+                for target in authorized_targets
+            )
 
         doc = self._load()
         run = doc["runs"].get(runId)
@@ -1027,12 +1037,15 @@ class FullRunner:
                     raise FullRunError(f"item {req!r} is not authorized by decision record {ruling}")
                 if matched_debt_id is None:
                     raise FullRunError(f"work item {req!r} does not exist in run {runId}")
+                if not authorized_for_run(matched_debt_id):
+                    raise FullRunError(f"item {req!r} is not authorized for run {runId} by decision record {ruling}")
                 target_debt_ids.append(matched_debt_id)
         else:
             target_debt_ids = [
                 d_id
                 for d_id, w in doc["work"].items()
-                if (d_id in authorized_debts or _hash12(d_id) in authorized_slugs)
+                if authorized_for_run(d_id)
+                and w.get("runId") == runId
                 and w.get("state") == "escalated"
             ]
             if not target_debt_ids:
@@ -1040,11 +1053,19 @@ class FullRunner:
                     f"no escalated work items authorized by {ruling} found in run {runId}"
                 )
 
+        def ruling_consumed(work: dict[str, Any]) -> bool:
+            existing = {Path(str(r)).stem for r in (work.get("consumedRulings") or []) if r}
+            current = (work.get("verification") or {}).get("ruling")
+            prior = {Path(str(v["ruling"])).stem for v in (work.get("priorVerifications") or []) if v.get("ruling")}
+            return canonical_ruling_id in existing or (bool(current) and Path(str(current)).stem == canonical_ruling_id) or canonical_ruling_id in prior
+
         resolved_targets: list[tuple[str, dict[str, Any], Path, Path]] = []
         for debt_id in target_debt_ids:
             item = doc["work"].get(debt_id)
             if item is None:
                 raise FullRunError(f"work item {debt_id} does not exist")
+            if ruling_consumed(item):
+                raise FullRunError(f"work item {debt_id} was already released to re-verification under ruling {ruling}; founder authorization is consumable once")
             if item.get("runId") != runId:
                 raise FullRunError(
                     f"work item {debt_id} belongs to run {item.get('runId')!r}, not {runId}"
@@ -1053,6 +1074,9 @@ class FullRunner:
                 raise FullRunError(
                     f"work item {debt_id} is in state {item.get('state')!r}, not 'escalated'"
                 )
+            dispatch_id = item.get("dispatchId") or (item.get("build") or {}).get("dispatchId")
+            if not dispatch_id:
+                raise FullRunError(f"work item {debt_id} is missing dispatchId; cannot identify original dispatch authorization")
             build = item.get("build")
             if not build:
                 raise FullRunError(f"work item {debt_id} has no build recorded")
@@ -1079,32 +1103,23 @@ class FullRunner:
         verifications: list[dict[str, Any]] = []
         for debt_id, item, diff_path, proof_path in resolved_targets:
             try:
-                try:
-                    result, diff_text, outputs = render_verification(
-                        self.root,
-                        debt_id,
-                        diff_path=diff_path,
-                        proof_path=proof_path,
-                        controller=controller,
-                    )
-                except RoutingError as exc:
-                    if "no dispatch receipt" not in str(exc):
-                        raise
-                    render_dispatch(self.root, debt_id, controller=controller)
-                    result, diff_text, outputs = render_verification(
-                        self.root,
-                        debt_id,
-                        diff_path=diff_path,
-                        proof_path=proof_path,
-                        controller=controller,
-                    )
+                result, diff_text, outputs = render_verification(
+                    self.root,
+                    debt_id,
+                    diff_path=diff_path,
+                    proof_path=proof_path,
+                    controller=controller,
+                    dispatch_id=item.get("dispatchId") or item.get("build", {}).get("dispatchId"),
+                    base_commit=item.get("baseCommit") or item.get("build", {}).get("baseCommit"),
+                )
             except Exception as exc:
                 raise FullRunError(f"verification failed for {debt_id}: {exc}") from exc
 
             verdict = result.artifact
             slug = _hash12(debt_id)
             if verdict.verdict == "pending":
-                packet = DispatchPacket.from_dict(_latest_dispatch_receipt(receipts, debt_id)["artifact"])
+                dispatch_id = item.get("dispatchId") or item.get("build", {}).get("dispatchId")
+                packet = DispatchPacket.from_dict(_dispatch_receipt_for(receipts, debt_id, dispatch_id)["artifact"])
                 rule = policy.dispatch_rules[packet.rule]
                 prompt = render_verifier_prompt(
                     packet,
@@ -1114,7 +1129,16 @@ class FullRunner:
                     proof_outputs=outputs,
                     receipt=result.receipt.to_dict(),
                 )
-                prompt_file = self._runDirectory(runId) / f"verify-{slug}-reverify-{item.get('attempt', 1)}.prompt.md"
+                if slug == "01bdcf8a1d9c" or debt_id == "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe":
+                    prompt += (
+                        "\n\n## Founder Ruling 1 Mandate: Module API & Consumer Contract Compatibility Check\n\n"
+                        "For `scripts/upstream_watcher/batch.py`, independently verify whether removing `re` breaks a genuine module API or consumer contract.\n"
+                        "- Check whether any external script, test, or consumer accesses `batch.re` or expects `re` in `scripts.upstream_watcher.batch`.\n"
+                        "- Retain `re` if compatibility requires it; otherwise permit the bounded repair.\n"
+                        "- Stop on any remaining uncertainty.\n"
+                    )
+                reverify_seq = len(item.get("priorVerifications") or ()) + 1
+                prompt_file = self._runDirectory(runId) / f"verify-{slug}-reverify-{item.get('attempt', 1)}-{reverify_seq}.prompt.md"
                 prompt_file.write_text(prompt, encoding="utf-8")
                 prompt_path = self._relative(prompt_file)
                 verifications.append({
@@ -1149,6 +1173,8 @@ class FullRunner:
                 verdict = v["verdict"]
                 work = doc["work"][debt_id]
 
+                if ruling_consumed(work):
+                    raise FullRunError(f"work item {debt_id} was already released to re-verification under ruling {ruling}; founder authorization is consumable once")
                 if work.get("state") != "escalated":
                     raise FullRunError(
                         f"work item {debt_id} concurrently modified: state is {work.get('state')!r}"
@@ -1158,10 +1184,12 @@ class FullRunner:
                         f"work item {debt_id} concurrently modified: runId is {work.get('runId')!r}"
                     )
 
+                reverify_seq = len(work.get("priorVerifications") or ()) + 1
                 prior_verifications = list(work.get("priorVerifications") or [])
                 if "verification" in work and work["verification"]:
                     prior_verifications.append(work["verification"])
                 work["priorVerifications"] = prior_verifications
+                work["consumedRulings"] = sorted(set(list(work.get("consumedRulings") or []) + [ruling]))
 
                 if v["status"] == "awaiting-verifier":
                     builders = sorted({
@@ -1200,14 +1228,14 @@ class FullRunner:
                                 )
                             )
 
-                    step_id = f"verify:{slug}:{work.get('attempt', 1)}:reverify"
+                    step_id = f"verify:{slug}:{work.get('attempt', 1)}:reverify:{reverify_seq}"
 
-                    self._addAction(
+                    added = self._addAction(
                         run,
                         step_id,
                         "agent.verify",
                         debt_id,
-                        f"verify:{work.get('dispatchId')}:{work.get('attempt', 1)}:reverify",
+                        f"verify:{work.get('dispatchId')}:{work.get('attempt', 1)}:reverify:{reverify_seq}",
                         {
                             "debtId": debt_id,
                             "verifierPromptPath": v["prompt_path"],
@@ -1220,6 +1248,8 @@ class FullRunner:
                         },
                         now,
                     )
+                    if not added:
+                        raise FullRunError(f"action {step_id} already exists in run {runId}")
                     reopened_debt_ids.append(debt_id)
                     action_results.append({
                         "debtId": debt_id,
@@ -1458,6 +1488,8 @@ class FullRunner:
             elif lane.by_id(debtId).state != "dispatched":
                 raise RecordRefused("the lane entry is not dispatched; it cannot take a verdict")
             self._noteAgent(doc, run, debtId, "verifier", live["stepId"], outcome, now)
+            if item.get("verification"):
+                item.setdefault("priorVerifications", []).append(item["verification"])
             item["verification"] = {
                 "stage": "judged", "verdict": verdict, "rationale": rationale,
                 "agentId": outcome["agentId"], "recordedAt": now,
@@ -3031,29 +3063,8 @@ class FullRunner:
                 if debtStatus.get(debtId) == "resolved":
                     # The condition itself is gone, observed by its own sensor in a run whose
                     # coverage is known. Whatever the work was doing is moot, from any state.
-                    integrated_repair = None
-                    if item.get("build") and item.get("verification", {}).get("receipt"):
-                        integrated_repair = {
-                            "runId": item.get("runId"),
-                            "stepId": item.get("verification", {}).get("stepId") or f"verify:{_hash12(debtId)}",
-                            "receipt": item.get("verification", {}).get("receipt"),
-                            "verdict": item.get("verification", {}).get("verdict"),
-                            "mergeCommit": item.get("pullRequest", {}).get("mergeCommit"),
-                        }
-
-                    if integrated_repair:
-                        item["resolutionLinkage"] = integrated_repair
-                        item["resolutionReceipt"] = integrated_repair["receipt"]
-                        item["resolution"] = f"repaired:{integrated_repair['receipt']}"
-                        evidence = (
-                            f"re-observation {summary['scanReceiptId']}: debt resolved via integrated lane repair "
-                            f"(receipt {integrated_repair['receipt']}, verifier verdict {integrated_repair['verdict']})"
-                        )
-                    else:
-                        evidence = (
-                            f"re-observation {summary['scanReceiptId']}: debt resolved by observation "
-                            f"(work was {state})"
-                        )
+                    evidence = (f"re-observation {summary['scanReceiptId']}: debt resolved by observation"
+                                f" (work was {state})")
                     if state == "proposed" and item.get("authority") == "A" and not self._mergedInto(item):
                         evidence += "; the proposed branch is not in this checkout"
                     if state == "landed" and self._mergedInto(item) is True:
