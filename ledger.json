@@ -1,5 +1,5 @@
 {
- "generation": 1320,
+ "generation": 1321,
  "lane": {
   "entries": [
    {
@@ -104417,6 +104417,13 @@
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "emittedAt": "2026-11-07T10:34:05.249425Z",
      "idempotencyKey": "dispatch-b8c59e2e9b66a8448637:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch6-builder-be8ba959184b",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "summary": "Batch batch6 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: src/gaia_cli/semantic_search.py is wildcard re-exported by packages/cli-npm/cli/semantic_search.py:1 (from gaia_cli.semantic_search import *), so the ten flagged imports may be part of a public surface; the builder reverted its removal."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -104437,7 +104444,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-be8ba959184b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T11:07:03.282231Z",
+     "status": "done",
      "stepId": "build:be8ba959184b:1",
      "type": "agent.build"
     },
@@ -104481,6 +104489,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:2ab63c86d569:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch6-builder-be8ba959184b",
+     "at": "2026-11-07T11:07:03.283677Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:be8ba959184b:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -106106,11 +106126,11 @@
      "stepId": "build:ce70d2a904b1:1"
     },
     {
-     "at": "2026-11-07T10:34:05.249425Z",
+     "at": "2026-11-07T11:07:03.282231Z",
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "idempotencyKey": "dispatch-b8c59e2e9b66a8448637:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:be8ba959184b:1"
     },
     {
@@ -106129,11 +106149,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T11:06:42.355783Z"
+   "updatedAt": "2026-11-07T11:07:03.282231Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:06:42.359417Z",
+ "updatedAt": "2026-11-07T11:07:03.288013Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -109475,12 +109495,33 @@
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch6-builder-be8ba959184b",
+     "at": "2026-11-07T11:07:03.283677Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:be8ba959184b:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-be8ba959184b",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch6-builder-be8ba959184b",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-b8c59e2e9b66a8448637",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-11-07T11:07:03.283677Z",
+    "summary": "Batch batch6 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: src/gaia_cli/semantic_search.py is wildcard re-exported by packages/cli-npm/cli/semantic_search.py:1 (from gaia_cli.semantic_search import *), so the ten flagged imports may be part of a public surface; the builder reverted its removal."
+   },
    "createdAt": "2026-11-07T10:34:05.249425Z",
    "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
    "dispatchId": "dispatch-b8c59e2e9b66a8448637",
@@ -109501,7 +109542,7 @@
    "runId": "run-20261107T103110Z-5e4b906c",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T10:34:05.249425Z",
+   "updatedAt": "2026-11-07T11:07:03.283677Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-shadowcorpus-py:0ef3d1c38966cf1d": {
