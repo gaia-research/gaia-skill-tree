@@ -35,15 +35,22 @@ policy that lets any other debt kind write there. This rule is the single,
 code-pinned exception, and it is as narrow as the ruling:
 
 - **May write:** direct-child `.github/workflows/*.yml` files only, and only by
-  **adding** an integer `timeout-minutes` of 1..360, written as a plain decimal,
-  directly under an existing job that lacked one. Verification proves this
-  structurally, not by line spelling: it loads the baseline (the file at the
-  verifier checkout's `HEAD`) and the patched file as single anchor-free,
-  alias-free, duplicate-key-free YAML documents and requires that nothing else
-  changed at any depth. A step-level or `run:` scalar line, a second key that
-  overrides a first, an alias or anchor, multi-document input, a non-ASCII or
-  non-decimal numeral, and any workflow creation or deletion are rejected, as is
-  a diff that does not apply to the baseline.
+  **inserting whole lines**. Verification applies two gates against the baseline
+  (the file at the verifier checkout's `HEAD`), and both must pass.
+  1. *Byte preservation (primary).* The diff has zero removed or modified lines and
+     no no-newline marker, so every existing byte (whitespace, CRLF, BOM, comments,
+     quoting, trailing newline) is untouched. A YAML loader calling two versions
+     "equal" is never accepted as proof: `on` and `yes`, `012` and `10` are different
+     to GitHub Actions. Each inserted line must match exactly
+     `^( +)timeout-minutes: (1..360)$`: no comment, quotes or trailing space.
+  2. *Structure.* The patched file loads as a single anchor-free, alias-free,
+     tag-free, duplicate-key-free YAML document; the only semantic change is that
+     integer key, as the key of a top-level job in a block mapping, at that job's
+     own child-key indentation, at most once per job, and only where the job had none.
+  A step-level key, text in a `run:` scalar, a key under `strategy`, `steps` or `on`,
+  a flow-mapping job, a second key overriding a first, an alias or anchor,
+  multi-document input, a non-ASCII or non-decimal numeral, any rewrite, and any
+  workflow creation or deletion are rejected, as is a diff that does not apply.
 - **Only for debts that are purely `missing-timeout`.** Dispatch (lane or explicit
   `--debt`) refuses this packet for a debt with any other finding, mixed or alone,
   for a capped finding list, a lock file, or a non-`.yml` subject.

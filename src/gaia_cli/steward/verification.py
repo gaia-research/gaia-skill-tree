@@ -29,12 +29,7 @@ from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
 from typing import Any, Mapping, Sequence
 
-from gaia_cli.steward.workflowproof import (
-    Hunk,
-    WorkflowProofError,
-    apply_patch,
-    prove_timeout_additions,
-)
+from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
     DispatchPacket,
@@ -365,7 +360,13 @@ def parse_unified_diff(text: str) -> ChangeSet:
         pending_header = None
         flush()
 
-    for line in text.splitlines():
+    # Split on LF only, like git: ``str.splitlines`` would also break on CR, VT, FF, NEL and
+    # U+2028/9 and silently drop the CR of CRLF content, so what the verifier saw would not
+    # be the bytes git applies.
+    records = text.split("\n")
+    if records and records[-1] == "":
+        records.pop()
+    for line in records:
         if old_remaining > 0 or new_remaining > 0:
             # Inside a hunk of declared length. Nothing here is a header, no
             # matter what it looks like.
@@ -628,12 +629,7 @@ def workflow_structure_violations(
         if before is None:
             problems.append(f"{path}: no baseline content was supplied, so the edit cannot be proven structurally")
             continue
-        try:
-            after = apply_patch(before, hunks)
-        except WorkflowProofError as exc:
-            problems.append(f"{path}: the diff does not apply to the baseline ({exc})")
-            continue
-        problems.extend(f"{path}: {item}" for item in prove_timeout_additions(before, after))
+        problems.extend(f"{path}: {item}" for item in prove_workflow_edit(before, hunks))
     return problems
 
 

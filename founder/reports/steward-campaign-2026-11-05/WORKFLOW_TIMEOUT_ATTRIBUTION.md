@@ -2,7 +2,7 @@
 
 **Context:** founder ruling #14 (`founder/steward/decisions/steward-workflow-timeout-route.json`, #2283). The founder said "I do think most timeouts are related to cloudflare. Please research and check if its the culprit." The ruling's own condition: attribute to Cloudflare only on actual run evidence.
 
-**Method (read-only):** GitHub Actions API for `gaia-research/gaia-skill-tree`, every run created in the query window 2026-09-08T00:00:00Z (inclusive) to 2026-11-08T00:00:00Z (exclusive; the observed runs span 2026-09-08T01:11:51Z to 2026-11-06T22:49:45Z), collected 2026-11-06T23:00Z, fetched in one-day windows (one-hour windows for 2026-10-27) so no query hit the 1000-result cap. 9,952 runs were returned: 9,951 completed and 1 still in progress. The completed conclusions sum to 9,951 (an earlier draft wrongly said 9,952 completed). The exact query recipe, per-attribution run ids and a hash of all analysed run ids are in the companion manifest `WORKFLOW_TIMEOUT_ATTRIBUTION.manifest.json`; the Actions API history is mutable, so a later re-query can differ by a run or two in a bucket. For every non-success run (cancelled, failure, timed_out, startup_failure): the jobs API (step conclusions and durations), the check-run annotations of each failing job, and job logs where noted. Nothing was written to GitHub or to any workflow.
+**Method (read-only):** GitHub Actions API for `gaia-research/gaia-skill-tree`, every run created in the query window 2026-09-08T00:00:00Z (inclusive) to 2026-11-08T00:00:00Z (exclusive; the observed runs span 2026-09-08T01:11:51Z to 2026-11-06T22:49:45Z), collected 2026-11-06T23:00Z, fetched in one-day windows (one-hour windows for 2026-10-27) so no query hit the 1000-result cap. 9,952 runs were returned: 9,951 completed and 1 incomplete (queued). The completed conclusions sum to 9,951 (an earlier draft wrongly said 9,952 completed). The exact query recipe, per-attribution run ids and the full analysed run-id set with its digest recipe are in the companion manifest `WORKFLOW_TIMEOUT_ATTRIBUTION.manifest.json`; the Actions API history is mutable, so a later re-query can differ by a run or two in a bucket. For every non-success run (cancelled, failure, timed_out, startup_failure): the jobs API (step conclusions and durations), the check-run annotations of each failing job, and job logs where noted. Nothing was written to GitHub or to any workflow.
 
 ## Conclusion
 
@@ -23,7 +23,7 @@
 | **Job timeout ("exceeded the maximum execution time")** | **0** | **0.0%** | **0.00%** |
 | **Cloudflare / Wrangler signal in any step name, annotation or workflow name** | **0** | **0.0%** | **0.00%** |
 
-Run-level conclusion counts for the 9,951 completed runs: success 7,208; skipped 1,895; failure 511; cancelled 337; `timed_out` 0; `startup_failure` 0 (sum 9,951). One further run in the window was in progress when collected and is excluded.
+Run-level conclusion counts for the 9,951 completed runs: success 7,208; skipped 1,895; failure 511; cancelled 337; `timed_out` 0; `startup_failure` 0 (sum 9,951). One further run in the window (id 34749378515, status queued) was incomplete when collected and is excluded.
 
 ## The runs closest to a timeout (longest failing or cancelled jobs)
 

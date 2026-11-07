@@ -1,12 +1,19 @@
 """Structural proof that a workflow edit only adds job-level timeouts (founder ruling #14).
 
-The workflow-timeout route is the one Steward write into ``.github/``. A check on the
-spelling of added lines is not enough: an indented ``timeout-minutes: 15`` line can be
-a step key, shell text inside a ``run: |`` scalar, a second key that silently overrides
-a first, or a non-ASCII numeral that parses as a string. So the proof here is about
-YAML meaning. It loads the baseline and the patched file strictly, then demands that
-the only semantic difference is an integer ``timeout-minutes`` of 1..360, written as a
-plain decimal, added directly under an existing job that lacked one.
+The workflow-timeout route is the one Steward write into ``.github/``. Two gates, both
+required, and the first one is the primary:
+
+1. **Byte preservation.** The diff must be pure line insertions: no removed or modified
+   line, no no-newline marker, so every existing byte (whitespace, CRLF, BOM, trailing
+   newline, comments, quoting) is untouched. A YAML loader's notion of "equal" is not
+   proof (``on`` and ``yes`` both load as ``True`` in YAML 1.1 and are different strings
+   to GitHub Actions; ``012`` and ``10`` collide too), so equality is never what protects
+   an existing token. Every inserted line must be exactly an unquoted, uncommented
+   ``timeout-minutes: 1..360`` entry.
+2. **Structure.** The patched file must also load strictly (one document, no anchors,
+   aliases, tags or duplicate keys) with the only semantic change being that integer key
+   added directly under an existing top-level job, in a block mapping, at the job's own
+   child-key indentation, at most once per job and only where the job had none.
 
 Nothing here touches the filesystem, runs a command, or imports a workflow engine.
 """
@@ -22,6 +29,9 @@ MAX_TIMEOUT_MINUTES = 360
 _INT_TAG = "tag:yaml.org,2002:int"
 _PLAIN_DECIMAL = re.compile(r"[1-9][0-9]{0,2}", re.ASCII)
 _KEY = "timeout-minutes"
+# The only line a patch may insert: no comment, quotes or trailing space, LF-terminated
+# (the line's own LF is not part of the text matched here), integer 1..360.
+_INSERTED = re.compile(r"( +)timeout-minutes: (?:[1-9][0-9]?|[1-2][0-9]{2}|3[0-5][0-9]|360)", re.ASCII)
 
 # (marker, text, no-newline-at-end-of-file flag)
 HunkLine = tuple[str, str, bool]
@@ -86,6 +96,13 @@ def strict_load(text: str) -> Any:
 def apply_patch(before: str, hunks: Sequence[Hunk]) -> str:
     """Apply parsed hunks to ``before`` with exact context, or raise."""
 
+    return apply_patch_tracked(before, hunks)[0]
+
+
+def apply_patch_tracked(before: str, hunks: Sequence[Hunk]) -> tuple[str, list[int]]:
+    """Apply hunks exactly; also return the 0-based line numbers of inserted lines in the result."""
+
+    inserted: list[int] = []
     ends_with_newline = before.endswith("\n")
     lines = before.split("\n")
     if ends_with_newline:
@@ -108,6 +125,8 @@ def apply_patch(before: str, hunks: Sequence[Hunk]) -> str:
                 cursor += 1
                 last_old_flag = no_newline
             if marker in (" ", "+"):
+                if marker == "+":
+                    inserted.append(len(out))
                 out.append(text)
                 last_new_flag = no_newline
             if no_newline and not reaches_end:
@@ -117,10 +136,13 @@ def apply_patch(before: str, hunks: Sequence[Hunk]) -> str:
         if reaches_end:
             if last_old_flag is not None and last_old_flag != (not ends_with_newline):
                 raise WorkflowProofError("end-of-file newline state does not match the baseline")
+            if last_old_flag is None and not ends_with_newline and lines:
+                # Touching the end of a file that lacks a final newline must say so.
+                raise WorkflowProofError("end-of-file newline state does not match the baseline")
             final_newline = not bool(last_new_flag)
         position = cursor
     out.extend(lines[position:])
-    return "\n".join(out) + ("\n" if final_newline else "")
+    return "\n".join(out) + ("\n" if final_newline else ""), inserted
 
 
 def _same(first: Any, second: Any) -> bool:
@@ -159,7 +181,7 @@ def _job_nodes(text: str) -> dict[str, yaml.Node]:
     return found
 
 
-def prove_timeout_additions(before: str, after: str) -> list[str]:
+def prove_timeout_additions(before: str, after: str, inserted: Sequence[int] | None = None) -> list[str]:
     """Violations (empty means proven) for turning ``before`` into ``after``.
 
     Proven means: both files load strictly as one document; the job ids are identical;
@@ -211,6 +233,8 @@ def prove_timeout_additions(before: str, after: str) -> list[str]:
         nodes = _job_nodes(after)
     except yaml.YAMLError as exc:
         return [f"unparseable YAML ({type(exc).__name__})"]
+    if inserted is not None:
+        problems.extend(_position_problems(after, inserted, set(added)))
     for job_id in added:
         node = nodes.get(str(job_id))
         literal = getattr(node, "value", None)
@@ -223,3 +247,89 @@ def prove_timeout_additions(before: str, after: str) -> list[str]:
         ):
             problems.append(f"job {str(job_id)[:40]!r}: timeout-minutes must be a plain decimal literal")
     return problems
+
+
+def _position_problems(after: str, inserted: Sequence[int], added_jobs: set[Any]) -> list[str]:
+    """Each inserted line must be the ``timeout-minutes`` key of exactly one top-level job.
+
+    The key must sit in a block mapping that is a direct child of the root ``jobs`` block
+    mapping, at the same indentation as that job's other child keys, with at most one
+    inserted line per job. Anything inside a block scalar, flow mapping, ``strategy``,
+    ``steps`` or ``on`` is some other node and cannot be the key of a top-level job.
+    """
+
+    try:
+        root = yaml.compose(after, Loader=_StrictLoader)
+    except yaml.YAMLError as exc:
+        return [f"unparseable YAML ({type(exc).__name__})"]
+    if not isinstance(root, yaml.MappingNode) or root.flow_style:
+        return ["the workflow root is not a block mapping"]
+    jobs = next(
+        (value for key, value in root.value if getattr(key, "value", None) == "jobs" and key.start_mark.column == 0),
+        None,
+    )
+    if not isinstance(jobs, yaml.MappingNode) or jobs.flow_style:
+        return ["the top-level jobs mapping is not a block mapping"]
+    placed: dict[int, str] = {}
+    for job_key, job_value in jobs.value:
+        if not isinstance(job_value, yaml.MappingNode) or job_value.flow_style:
+            continue
+        columns = {child.start_mark.column for child, _ in job_value.value}
+        for child, _ in job_value.value:
+            if getattr(child, "value", None) == _KEY:
+                placed[child.start_mark.line] = str(job_key.value)
+                column = child.start_mark.column
+                if columns != {column} or column <= job_key.start_mark.column:
+                    placed[child.start_mark.line] = "\0misaligned"
+    problems: list[str] = []
+    per_job: dict[str, int] = {}
+    for line_number in inserted:
+        job = placed.get(line_number)
+        if job is None:
+            problems.append(f"inserted line {line_number + 1} is not the timeout-minutes key of a top-level job in a block mapping")
+        elif job == "\0misaligned":
+            problems.append(f"inserted line {line_number + 1} is not at the job's own child-key indentation")
+        else:
+            per_job[job] = per_job.get(job, 0) + 1
+    problems.extend(f"job {job[:40]!r} received {count} inserted lines; at most one is allowed" for job, count in per_job.items() if count > 1)
+    return problems
+
+
+def byte_gate_problems(hunks: Sequence[Hunk]) -> list[str]:
+    """The primary gate: the patch must be pure insertions of exact timeout lines."""
+
+    problems: list[str] = []
+    insertions = 0
+    for _, _, body in hunks:
+        for marker, text, no_newline in body:
+            if no_newline:
+                problems.append("a no-newline-at-end-of-file marker means an existing byte changes")
+            if marker == "-":
+                problems.append(f"removes or rewrites an existing line ({text.strip()[:40]!r}); only insertions are allowed")
+            elif marker == "+":
+                insertions += 1
+                if _INSERTED.fullmatch(text) is None:
+                    problems.append(
+                        f"inserted line {text.strip()[:40]!r} is not exactly an unquoted, uncommented "
+                        f"'timeout-minutes: 1..{MAX_TIMEOUT_MINUTES}' entry"
+                    )
+    if insertions == 0:
+        problems.append("the patch inserts nothing")
+    return problems[:20]
+
+
+def prove_workflow_edit(before: str, hunks: Sequence[Hunk]) -> list[str]:
+    """Both gates for one modified workflow file; an empty list means proven."""
+
+    problems = byte_gate_problems(hunks)
+    if problems:
+        return problems
+    try:
+        after, inserted = apply_patch_tracked(before, hunks)
+    except WorkflowProofError as exc:
+        return [f"the diff does not apply to the baseline ({exc})"]
+    # Belt and braces for byte preservation: removing the inserted lines restores the baseline.
+    remaining = [line for index, line in enumerate(after.split("\n")) if index not in set(inserted)]
+    if "\n".join(remaining) != before:
+        return ["the patched file differs from the baseline by more than the inserted lines"]
+    return prove_timeout_additions(before, after, inserted)

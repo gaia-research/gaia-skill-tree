@@ -491,7 +491,9 @@ def test_a_no_op_workflow_diff_proves_nothing_and_is_rejected() -> None:
     assert not verdict.scope_valid
 
 
-def test_no_newline_at_end_of_file_is_applied_exactly() -> None:
+def test_no_newline_at_end_of_file_is_applied_exactly_but_the_rewrite_is_rejected() -> None:
+    """The applier is exact; the byte gate then refuses to rewrite the last line."""
+
     before = "jobs:\n  a:\n    runs-on: x"
     after = "jobs:\n  a:\n    runs-on: x\n    timeout-minutes: 5"
     diff = (
@@ -502,7 +504,8 @@ def test_no_newline_at_end_of_file_is_applied_exactly() -> None:
     changes = parse_unified_diff(diff)
     assert apply_patch(before, changes.workflow_patches[0][1]) == after
     verdict = _verdict(diff, baseline={CI: before})
-    assert verdict.scope_valid, verdict.reasons
+    assert not verdict.scope_valid
+    assert any("existing byte changes" in item or "rewrites an existing line" in item for item in verdict.reasons)
 
 
 # --- creation, deletion, header-only sections ---------------------------------------------
@@ -664,3 +667,186 @@ def test_unavailable_run_history_is_an_unconditional_stop() -> None:
     guide = (REPO_ROOT / rule.prompt_guide).read_text(encoding="utf-8")
     assert "there is no semantics-only fallback" in guide
     assert "does not bound" not in guide
+
+
+# --- primary gate: byte preservation ----------------------------------------------------------
+
+REF_BEFORE = """\
+name: ci
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MODE: on
+      N: 012
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: on
+      - run: |
+          echo safe
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - run: echo lint
+"""
+
+
+def _rewrite(text: str, old: str, new: str) -> str:
+    assert text.count(old) == 1, old
+    return text.replace(old, new, 1)
+
+
+@pytest.mark.parametrize(
+    ("label", "mutate"),
+    [
+        # YAML-equal rewrites a loader cannot tell apart; GitHub Actions can (the reviewer's example first).
+        ("checkout ref on -> yes", lambda t: _rewrite(t, "          ref: on\n", "          ref: yes\n")),
+        ("env value on -> yes", lambda t: _rewrite(t, "      MODE: on\n", "      MODE: yes\n")),
+        ("env value 012 -> 10", lambda t: _rewrite(t, "      N: 012\n", "      N: 10\n")),
+        ("env value 012 -> 0o12", lambda t: _rewrite(t, "      N: 012\n", "      N: 0o12\n")),
+        ("env value 12 -> 0xC", lambda t: _rewrite(_rewrite(t, "N: 012", "N: 12"), "N: 12", "N: 0xC")),
+        ("root trigger key on -> yes", lambda t: _rewrite(t, "\non:\n", "\nyes:\n")),
+        ("quoted vs unquoted value", lambda t: _rewrite(t, "    runs-on: ubuntu-latest\n    timeout-minutes: 15\n", '    runs-on: "ubuntu-latest"\n    timeout-minutes: 15\n')),
+        ("unquoting a quoted value", lambda t: _rewrite(t, "      MODE: on\n", "      MODE: 'on'\n")),
+        # Byte-level changes with no YAML meaning at all.
+        ("whitespace-only change (trailing space)", lambda t: _rewrite(t, "name: ci\n", "name: ci \n")),
+        ("whitespace-only change (indent of a continuation)", lambda t: _rewrite(t, "          echo safe\n", "           echo safe\n")),
+        ("comment change", lambda t: "# new comment\n" + t),
+        ("existing comment rewritten", lambda t: _rewrite(t, "name: ci\n", "name: ci # why\n")),
+        ("trailing newline removed", lambda t: t.rstrip("\n")),
+        ("extra trailing blank line", lambda t: t + "\n"),
+        ("CRLF conversion", lambda t: t.replace("\n", "\r\n")),
+        ("BOM added", lambda t: "\ufeff" + t),
+    ],
+)
+def test_the_byte_gate_rejects_any_change_to_existing_bytes_even_beside_a_real_timeout(label: str, mutate) -> None:
+    """Each patch also adds a proper job timeout, so only the rewrite can be what rejects it."""
+
+    after = mutate(_timed(REF_BEFORE))
+    verdict = _structural(REF_BEFORE, after)
+    assert not verdict.scope_valid, label
+    assert verdict.verdict == "reject", label
+
+
+def test_the_reviewers_checkout_ref_patch_is_rejected_with_an_explicit_reason() -> None:
+    after = _rewrite(_timed(REF_BEFORE), "          ref: on\n", "          ref: yes\n")
+    verdict = _structural(REF_BEFORE, after)
+    assert not verdict.scope_valid
+    assert any("removes or rewrites an existing line" in item for item in verdict.reasons)
+
+
+def _insert_after(text: str, anchor: str, line: str) -> str:
+    assert text.count(anchor) == 1, anchor
+    return text.replace(anchor, anchor + line + "\n", 1)
+
+
+BUILD_RUNS_ON = "  build:\n    runs-on: ubuntu-latest\n"
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "    timeout-minutes: 15 # why",
+        "    timeout-minutes: 15 ",
+        "    timeout-minutes: 15\t",
+        "    timeout-minutes:  15",
+        "    timeout-minutes: '15'",
+        '    timeout-minutes: "15"',
+        "    timeout-minutes: 015",
+        "    timeout-minutes: 0",
+        "    timeout-minutes: 361",
+        "    timeout-minutes: 1000",
+        "    timeout-minutes: ١٥",
+        "    timeout-minutes: 0xF",
+        "    timeout-minutes: 15.0",
+        "    Timeout-minutes: 15",
+        "    timeout-minutes : 15",
+        "\ttimeout-minutes: 15",
+        "timeout-minutes: 15",
+        "    - timeout-minutes: 15",
+        "    # timeout-minutes: 15",
+        "",
+    ],
+)
+def test_every_inserted_line_must_match_the_exact_timeout_pattern(line: str) -> None:
+    verdict = _structural(REF_BEFORE, _insert_after(REF_BEFORE, BUILD_RUNS_ON, line))
+    assert not verdict.scope_valid, repr(line)
+
+
+@pytest.mark.parametrize("value", ["1", "9", "10", "99", "100", "299", "300", "359", "360"])
+def test_every_integer_from_one_to_360_is_an_accepted_value(value: str) -> None:
+    verdict = _structural(REF_BEFORE, _timed(REF_BEFORE, value=value))
+    assert verdict.scope_valid, (value, verdict.reasons)
+
+
+@pytest.mark.parametrize(
+    ("label", "anchor", "line"),
+    [
+        ("under env (a nested mapping)", "    env:\n", "      timeout-minutes: 15"),
+        ("inside a block scalar", "          echo safe\n", "          timeout-minutes: 15"),
+        ("under the last step of a job", "    steps:\n      - run: echo lint\n", "        timeout-minutes: 15"),
+        ("under a step", "      - uses: actions/checkout@v4\n", "        timeout-minutes: 15"),
+        ("under with", "        with:\n", "          timeout-minutes: 15"),
+        ("job indentation too deep", BUILD_RUNS_ON, "     timeout-minutes: 15"),
+        ("job indentation too shallow", BUILD_RUNS_ON, "   timeout-minutes: 15"),
+        ("root level", "name: ci\n", "timeout-minutes: 15"),
+        ("under permissions", "permissions:\n", "  timeout-minutes: 15"),
+        ("under on", "on:\n", "  timeout-minutes: 15"),
+        ("a job that already has one", "    timeout-minutes: 360\n", "    timeout-minutes: 15"),
+    ],
+)
+def test_an_inserted_timeout_must_sit_directly_in_a_job_mapping_block(label: str, anchor: str, line: str) -> None:
+    verdict = _structural(REF_BEFORE, _insert_after(REF_BEFORE, anchor, line))
+    assert not verdict.scope_valid, label
+
+
+def test_a_job_may_receive_at_most_one_inserted_line() -> None:
+    after = _insert_after(_timed(REF_BEFORE), BUILD_RUNS_ON + "    timeout-minutes: 15\n", "    timeout-minutes: 20")
+    verdict = _structural(REF_BEFORE, after)
+    assert not verdict.scope_valid
+
+
+def test_a_flow_mapping_job_cannot_take_an_inserted_line() -> None:
+    before = "name: ci\non: push\njobs:\n  build: {runs-on: x}\n"
+    after = before.replace("  build: {runs-on: x}\n", "  build: {runs-on: x}\n    timeout-minutes: 15\n")
+    assert not _structural(before, after).scope_valid
+
+
+def test_insertion_at_the_end_of_a_job_before_the_next_job_is_accepted() -> None:
+    before = "name: ci\non: push\njobs:\n  a:\n    runs-on: x\n  b:\n    runs-on: y\n"
+    after = before.replace("    runs-on: x\n", "    runs-on: x\n    timeout-minutes: 7\n", 1)
+    assert _structural(before, after).scope_valid
+    final = before + "    timeout-minutes: 9\n"
+    assert _structural(before, final).scope_valid  # the last job, at end of file
+
+
+def test_crlf_baseline_takes_an_lf_inserted_line_and_keeps_every_existing_byte() -> None:
+    """The diff is split on LF only, so the CR of CRLF context survives and applies exactly."""
+
+    before = REF_BEFORE.replace("\n", "\r\n")
+    after = before.replace("    runs-on: ubuntu-latest\r\n    env:", "    runs-on: ubuntu-latest\r\n    timeout-minutes: 15\n    env:", 1)
+    assert after.count("timeout-minutes: 15\n") == 1
+    verdict = _structural(before, after)
+    assert verdict.scope_valid, verdict.reasons
+
+
+def test_a_bom_in_the_baseline_is_preserved_not_rewritten() -> None:
+    before = "\ufeff" + REF_BEFORE
+    assert _structural(before, _timed(before)).scope_valid
+
+
+def test_the_byte_gate_runs_before_and_independently_of_the_structural_gate() -> None:
+    from gaia_cli.steward.workflowproof import byte_gate_problems, prove_workflow_edit
+
+    rewrite = parse_unified_diff(_patch(CI, REF_BEFORE, _rewrite(REF_BEFORE, "ref: on", "ref: yes"))).workflow_patches[0][1]
+    assert any("rewrites an existing line" in item for item in byte_gate_problems(rewrite))
+    assert prove_workflow_edit(REF_BEFORE, rewrite)
+    clean = parse_unified_diff(_patch(CI, REF_BEFORE, _timed(REF_BEFORE))).workflow_patches[0][1]
+    assert byte_gate_problems(clean) == []
+    assert prove_workflow_edit(REF_BEFORE, clean) == []

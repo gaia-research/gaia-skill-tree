@@ -84,9 +84,10 @@ pinned in code rather than in `POLICY.yaml`: its allowed path is exactly
 `.github/workflows/*.lock.yml` (gh-aw compiled output), `shared/`, `_disabled/`
 and `.github/actions/`; the rule id and debt kind are bound to each other in code;
 dispatch only ever hands the packet to a debt whose findings are all
-`missing-timeout`; and verification proves structurally (strict single-document,
-anchor-free, duplicate-key-free YAML before and after, patch applied to `HEAD`) that
-the only change is an integer 1..360 `timeout-minutes` added under an existing job.
+`missing-timeout`; and verification applies two gates: byte preservation first (a
+pure-insertion diff, every existing byte untouched, each inserted line exactly
+`timeout-minutes: 1..360`) and then a strict single-document, anchor-free,
+duplicate-key-free YAML structure check that the line is a top-level job's own key.
 Run `gaia steward verify` from a checkout whose `HEAD` is the diff's baseline. The sensor marks lock-file
 findings `laneEligible: false` so they stay visible but never take a lane slot.
 The value is chosen from job semantics and sampled run durations; see
