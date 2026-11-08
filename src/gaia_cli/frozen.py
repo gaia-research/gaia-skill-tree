@@ -89,18 +89,17 @@ def frozenLock(meta: dict) -> Optional[tuple[float, str]]:
     """Return a valid locked ``(trustMagnitude, grade)``, else ``None``.
 
     Frozen records never fall back to live computation. A lock must contain a
-    finite numeric TM and one canonical Overall Trust Grade. Call
+    finite numeric TM (not a bool or a string) and one canonical Overall Trust Grade. Call
     :func:`requireFrozenLocks` at a read or write boundary to fail closed with
     the affected ids rather than silently changing historical standing.
     """
     tm = meta.get("trustMagnitude")
     grade = meta.get("overallTrustGrade")
-    if tm is None or grade not in _VALID_GRADES:
+    # A lock is a real number: bool (float(True) == 1.0), strings and other types
+    # are malformed, never coerced into a standing.
+    if isinstance(tm, bool) or not isinstance(tm, (int, float)) or grade not in _VALID_GRADES:
         return None
-    try:
-        value = float(tm)
-    except (TypeError, ValueError):
-        return None
+    value = float(tm)
     return (value, grade) if math.isfinite(value) else None
 
 

@@ -80,7 +80,11 @@ def _loadNamedSkills(registryPath: str) -> list[dict]:
             fm = load_yaml_simple(fmText)
         except (OSError, ValueError) as exc:
             raise InputError(f"unreadable named skill {mdFile}: {exc}") from exc
-        if fm.get("status") == "named" and fm.get("id"):
+        # A named file that parses to nothing (no or corrupt frontmatter, no id) would
+        # silently drop out of the census, hiding a frozen skill from every check.
+        if not isinstance(fm, dict) or not fm or not fm.get("id"):
+            raise InputError(f"named skill {mdFile} has missing or malformed frontmatter (no id)")
+        if fm.get("status") == "named":
             skills.append(fm)
     return skills
 
@@ -133,7 +137,7 @@ def findViolations(
             if lock is None:
                 violations.append(
                     f"{skillId}: frozen skill lacks a valid trustMagnitude/overallTrustGrade "
-                    f"lock; its bytes must be preserved and the lock repaired through an "
+                    f"lock (missing, bool, string, NaN or inf); its bytes must be preserved and the lock repaired through an "
                     f"explicitly authorized historical-lock workflow."
                 )
                 continue

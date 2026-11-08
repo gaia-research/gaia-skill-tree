@@ -16,9 +16,10 @@ The rule, computed at build time and never stored by hand:
    grade ceiling (S→6★, A→4★, B→3★, C→2★, ungraded→1★), exactly as the named
    index publishes it. A frozen contender is exempt from the ceiling and
    competes at its stored level (founder, 2026-11-03: frozen skills keep their
-   stars; only the computed score may move). TM is compared at canonical computation precision; display
-   rounding never creates a tie. This is
-   the merit order META §4.1 already used ("highest-rated named skill, ties
+   stars; only the computed score may move). TM is compared at the published
+   stamp precision (two decimals, ``STAMP_TM_DECIMALS``, the same rounding the
+   stored stamps and the public named index use), through the one shared
+   :func:`meritKey`. This is the merit order META §4.1 already used ("highest-rated named skill, ties
    broken by … Trust Score") and the one ``run_meta_sweep.py`` audited.
 3. **No star floor.** A 1★ skill can be Origin. "Named" starts at 2★; Origin
    does not. (Redaction of ≤1★ handles is a separate display rule.)
@@ -54,19 +55,20 @@ def publishedLevelNumber(level, grade: Optional[str], frozen: bool = False) -> i
     return min(level_num(level), GRADE_MAX_STARS.get(grade or "ungraded", 1))
 
 
-# Trust Magnitude is compared at canonical computation precision, which is far
-# finer than the two-decimal stamp: display rounding never creates a tie. It is
-# NOT finer than float arithmetic noise, though. The suite repository cap sums
-# scaled rows to 49.9, and the sum can land one ulp away (49.89999999999999) for
-# one contender and exactly 49.9 for another with identical capped evidence. Those
-# are the same real number, so they are a tie ("origin ties mean two are origin").
-# Nine decimals removes ulp noise (~1e-14) while keeping any real difference.
-MERIT_TM_DECIMALS = 9
+# Origin merit compares Trust Magnitude at the PUBLISHED STAMP precision: the two
+# decimals every stored stamp and the public named index carry (the generator rounds
+# the live recomputation to this before publishing). One shared rounding, applied in
+# ``meritKey``, is what every Origin consumer goes through (the live derivation, the
+# index generator, the ledger and the leaderboard), so a pair that tie at the stamp
+# tie everywhere: 50.001 vs 50.002 is a tie, 50.00 vs 50.01 is a single winner. It
+# also absorbs float noise from the 49.9 suite cap, whose scaled rows can sum to
+# 49.89999999999999 for one contender and exactly 49.9 for another.
+STAMP_TM_DECIMALS = 2
 
 
 def meritKey(levelNumber: int, tm: float) -> tuple[int, float]:
-    """Merit order: published level, then canonical Trust Magnitude precision."""
-    return (int(levelNumber), round(float(tm or 0.0), MERIT_TM_DECIMALS))
+    """Merit order: published level, then Trust Magnitude at stamp precision."""
+    return (int(levelNumber), round(float(tm or 0.0), STAMP_TM_DECIMALS))
 
 
 def deriveBucketOrigins(contenders: Iterable[dict]) -> frozenset[str]:

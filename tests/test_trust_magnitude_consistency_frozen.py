@@ -131,3 +131,33 @@ def test_malformed_or_unreadable_inputs_fail_closed(tmp_path, monkeypatch):
     monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
     with pytest.raises(gate.InputError):
         gate._loadNamedSkills(str(tmp_path))
+
+
+@pytest.mark.parametrize("content", ["corrupt content without frontmatter", "", "---\n---\n", "---\nstatus: named\n---\n"])
+def test_named_file_without_usable_frontmatter_fails_closed(tmp_path, monkeypatch, content):
+    named = tmp_path / "registry" / "named" / "demo"
+    named.mkdir(parents=True)
+    (named / "f.md").write_text(content, encoding="utf-8")
+    monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
+    with pytest.raises(gate.InputError):
+        gate._loadNamedSkills(str(tmp_path))
+
+
+def test_main_exits_nonzero_when_a_named_file_is_malformed(tmp_path, monkeypatch, capsys):
+    named = tmp_path / "registry" / "named" / "demo"
+    named.mkdir(parents=True)
+    (named / "f.md").write_text("corrupt content without frontmatter", encoding="utf-8")
+    monkeypatch.setattr(gate, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
+    assert gate.main() == 1
+    assert "cannot be established" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("bad", [True, False, "50.0", "NaN", float("nan"), float("inf"), None])
+def test_frozen_source_lock_of_the_wrong_type_is_a_violation(bad):
+    frozen = {**FROZEN, "trustMagnitude": bad}
+    # Even an index that equals the coerced value (True -> 1.0) must not rescue it.
+    published = {"x/f": {"trustMagnitude": 1.0 if bad is True else 50.0, "overallTrustGrade": "B"}}
+    violations, _, _ = gate.findViolations([frozen], {}, published)
+    assert len(violations) == 1
+    assert "lacks a valid" in violations[0]
