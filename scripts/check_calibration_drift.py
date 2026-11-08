@@ -175,7 +175,11 @@ def scan_drift(root: Path) -> tuple[dict[tuple[str, str, str], dict[str, Any]], 
         raise GateError(f"unevaluated named records at {root}: {', '.join(invalid)}")
 
     try:
-        scan = TrustCalibrationDriftSensor().scan_detailed(root, "1970-01-01T00:00:00Z")
+        # An absent catalog cannot distinguish an older checkout from deletion;
+        # fail closed rather than substitute head data or assume an empty catalog.
+        scan = TrustCalibrationDriftSensor().scan_detailed(
+            root, "1970-01-01T00:00:00Z", requireSourceCatalog=True
+        )
     except SensorUnavailable as exc:
         raise GateError(f"the trust calibration sensor is unavailable at {root}: {exc}") from exc
     drift: dict[tuple[str, str, str], dict[str, Any]] = {}

@@ -20,6 +20,7 @@ FIXTURE_FILES = (
     "registry/named/arcmira/find-quotes.md",
     "registry/nodes/fusion/causal-inference.json",
     "registry/named/aj-geddes/causal-inference.md",
+    "registry/benchmark-sources.json",
 )
 QUOTES = "registry/named/arcmira/find-quotes.md"
 CAUSAL = "registry/named/aj-geddes/causal-inference.md"
@@ -130,6 +131,27 @@ def test_catalog_only_change_detects_new_drift(tmp_path, monkeypatch, capsys) ->
     assert code == 1
     assert "New drift:            1" in out
     assert "addy-osmani/code-simplification" in err
+
+
+@pytest.mark.parametrize("missing_side", ["base", "head"])
+def test_missing_checkout_catalog_fails_closed(pair, capsys, missing_side) -> None:
+    root, head = pair
+    catalog = root / "registry/benchmark-sources.json"
+    if missing_side == "base":
+        contents = catalog.read_bytes()
+        catalog.unlink()
+        head("remove base catalog")
+        subprocess.run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=root, check=True)
+        catalog.write_bytes(contents)
+        subprocess.run(["git", "add", str(catalog)], cwd=root, check=True)
+        head("restore head catalog")
+    else:
+        catalog.unlink()
+        head("remove head catalog")
+    code, out, err = _run(capsys)
+    assert code == 2
+    assert "benchmark-sources.json" in err and "fail closed" in err
+    assert "PASSED" not in out
 
 
 def test_unchanged_head_tolerates_base_drift(pair, capsys) -> None:

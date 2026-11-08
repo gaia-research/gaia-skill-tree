@@ -1837,7 +1837,7 @@ class TrustCalibrationDriftSensor:
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
 
-    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+    def scan_detailed(self, repo_root: Path, observed_at: str, *, requireSourceCatalog: bool = False) -> SensorScan:
         import yaml
 
         observations: list[Observation] = []
@@ -1849,7 +1849,7 @@ class TrustCalibrationDriftSensor:
             from gaia_cli.benchmarkCatalog import loadBenchmarkCatalog
 
             context = buildMergedSkillMap(repo_root)
-            catalog = loadBenchmarkCatalog(repo_root)
+            catalog = loadBenchmarkCatalog(repo_root, requireSource=requireSourceCatalog)
         except Exception as exc:
             raise SensorUnavailable(
                 f"effective-evidence context or benchmark catalog could not be built: {type(exc).__name__}: {exc}"
