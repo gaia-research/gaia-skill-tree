@@ -30,7 +30,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.calibrationroute import CALIBRATION_ROUTE_RULE_ID, calibrationViolations
-from gaia_cli.steward.workflowhistory import history_provenance_violations, uses_fetch
+from gaia_cli.steward.workflowhistory import history_provenance, uses_fetch
 from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -204,6 +204,10 @@ class VerificationVerdict:
     reasons: tuple[str, ...]
     change_set: ChangeSet
     transcript: ProofTranscript
+    # Machine-built commands the independent verifier must rerun (workflow-timeout
+    # route only): rendered from the same fetch records mechanical verification
+    # accepted, never from builder text. Empty for every other route.
+    recompute: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.verdict not in MECHANICAL_VERDICTS:
@@ -233,6 +237,7 @@ class VerificationVerdict:
             "reasons": list(self.reasons),
             "changeSet": self.change_set.to_dict(),
             "proof": self.transcript.to_dict(),
+            **({"recompute": list(self.recompute)} if self.recompute else {}),
         }
 
     @property
@@ -787,20 +792,23 @@ def calibration_structure_violations(root: Path, packet: DispatchPacket, change_
     )
 
 
-def workflow_history_violations(packet: DispatchPacket, transcript_text: str) -> list[str] | None:
-    """The history-provenance check for a workflow-timeout packet, or None for any other.
+def workflow_history_check(packet: DispatchPacket, transcript_text: str) -> tuple[list[str], list[str]] | None:
+    """``(violations, verifier recompute commands)`` for a workflow-timeout packet, else None.
 
-    None also for a packet commissioned before ``workflowproof fetch`` existed: a
-    packet is held to the envelope it was dispatched under, never a later one.
+    One parse of the transcript yields both, so what machinery accepts and what
+    the verifier is told to refetch can never diverge. None also for a packet
+    commissioned before ``workflowproof fetch`` existed: a packet is held to the
+    envelope it was dispatched under, never a later one.
     """
 
     if packet.rule != WORKFLOW_ROUTE_RULE_ID or not uses_fetch(packet.allowed_commands):
         return None
     subject = packet.evidence.get("subject") or packet.debt.get("subject")
-    return history_provenance_violations(
+    return history_provenance(
         evidence=packet.evidence,
         subject=subject.get("id") if isinstance(subject, Mapping) else None,
         transcript_text=transcript_text,
+        dispatch_id=packet.dispatch_id,
     )
 
 
@@ -842,7 +850,7 @@ def evaluate(
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
     calibration_violations: Sequence[str] | None = None,
-    history_violations: Sequence[str] | None = None,
+    history_check: tuple[Sequence[str], Sequence[str]] | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -928,12 +936,17 @@ def evaluate(
     # A workflow-timeout packet commissioned with `workflowproof fetch` must compute
     # every flagged job's value from a fetched rows file; an unchecked one is rejected.
     provenance: list[str] = []
+    recompute: tuple[str, ...] = ()
     if packet.rule == WORKFLOW_ROUTE_RULE_ID and uses_fetch(packet.allowed_commands):
-        provenance = (
-            list(history_violations)
-            if history_violations is not None
-            else ["no history-provenance check was computed, so the values cannot be accepted"]
-        )
+        if history_check is None:
+            provenance = ["no history-provenance check was computed, so the values cannot be accepted"]
+        else:
+            provenance = list(history_check[0])
+            recompute = tuple(history_check[1])
+            if not provenance and not recompute:
+                provenance = ["the provenance check produced no verifier recompute; refusing to omit it"]
+        if provenance:
+            recompute = ()
     proof_valid = not uncovered and not failed and not provenance
     if provenance:
         reasons.append(
@@ -1006,6 +1019,7 @@ def evaluate(
         reasons=tuple(reasons),
         change_set=change_set,
         transcript=transcript,
+        recompute=recompute,
     )
 
 

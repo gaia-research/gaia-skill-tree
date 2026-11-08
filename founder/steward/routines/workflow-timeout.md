@@ -79,7 +79,8 @@ the same as none.
    samples the latest 50 completed runs, reads each run's jobs for the attempt the run
    list reported, keeps rows for the job's **current** display name only (a renamed job
    contributes no rows under its old name), and prints the rows file's `sha256` and the
-   pinned `run-ids`. It exits 3 and writes nothing when history cannot be read (API
+   pinned `run-ids`. Rows and runs are written in canonical order, so the bytes never
+   depend on the order the API listed them. It exits 3 and writes nothing when history cannot be read (API
    failure, a truncated jobs page, no completed runs, no row for the job). Never
    assemble the rows file by hand; `gh run list` and `gh api` stay allowed for reading.
 3. **Apply the rule.** `timeout = ceil to 5 minutes of max(2 x p95, 1.5 x max)`
@@ -152,9 +153,13 @@ The no-history default, in order:
 
 ### How the verifier recomputes
 
-Mechanical verification rejects the build unless every flagged job has a successful
-`fetch` entry under proof item 2 (with its `job-key`, `sha256` and `run-ids` lines)
-and a `history` or `no-history` entry reading exactly that fetch's `--out`. The
+Mechanical verification parses the item-2 `fetch` entries once and rejects the build
+unless every flagged job has exactly one successful `fetch` entry whose captured output
+carries exactly one each of `workflow`, `job-key`, `sha256` and `run-ids`, matching
+its own `--workflow` / `--job`, and a `history` or `no-history` entry reading exactly
+that fetch's `--out`. Metadata is never read from any other entry. The recompute
+commands are built from those same records and recorded on the machine verdict;
+the verifier prompt refuses to render without them. The
 verifier prompt then lists, per job,
 `workflowproof fetch --run-ids <pinned> --expect-sha256 <digest> --out ${TMPDIR:-/tmp}/gaia-steward-history/<dispatch-id>/verify/<job-key>.json`
 (exit 4 on any byte difference), then `history` on that file; for a job with no

@@ -51,7 +51,7 @@ from gaia_cli.steward.verification import (
     VerificationError,
     VerificationVerdict,
     calibration_structure_violations,
-    workflow_history_violations,
+    workflow_history_check,
     evaluate,
     is_workflow_path,
     parse_proof_transcript,
@@ -776,7 +776,7 @@ def render_verification(
             authority_still_class_b=still_class_b,
             workflow_baseline=workflow_baseline,
             calibration_violations=calibration_structure_violations(root, packet, change_set),
-            history_violations=workflow_history_violations(packet, transcript_text),
+            history_check=workflow_history_check(packet, transcript_text),
         )
 
     def commit(scan: ScanResult, artifact: object) -> None:

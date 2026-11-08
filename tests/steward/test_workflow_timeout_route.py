@@ -26,7 +26,7 @@ from gaia_cli.steward.verification import (
     evaluate,
     parse_proof_transcript,
     parse_unified_diff,
-    workflow_history_violations,
+    workflow_history_check,
 )
 from gaia_cli.steward.workflowproof import apply_patch
 from tests.steward.sensor_fixtures import make_repo
@@ -176,7 +176,7 @@ def test_policy_requires_every_workflow_route_exclusion(tmp_path: Path, dropped:
 def _packet() -> DispatchPacket:
     rule = _live_rule()
     return DispatchPacket.create(
-        debt={"id": "debt:workflow_hygiene:x", "kind": "workflow_hygiene"},
+        debt={"id": "debt:workflow_hygiene:x", "kind": "workflow_hygiene", "subject": {"type": "workflow", "id": CI}},
         evidence={"findings": [{"rule": "missing-timeout", "detail": "job build has no timeout-minutes"}]},
         authority=AuthorityClass.B,
         rule=rule.id,
@@ -205,7 +205,7 @@ def _transcript_text(packet: DispatchPacket) -> str:
     entries[1:2] = [
         {"contractIndex": 2, "exitCode": 0,
          "command": f"python -m gaia_cli.steward.workflowproof fetch --workflow {CI} --job build --out {_ROWS}",
-         "output": "job-key: build\nsha256: " + "0" * 64 + "\nrun-ids: 1:1,2:1\n"},
+         "output": f"workflow: {CI}\njob-key: build\nsha256: " + "0" * 64 + "\nrun-ids: 1:1,2:1\n"},
         {"contractIndex": 2, "exitCode": 0,
          "command": f"python -m gaia_cli.steward.workflowproof history --history {_ROWS}", "output": "15"},
     ]
@@ -222,7 +222,7 @@ def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[
         packet=packet,
         change_set=parse_unified_diff(diff),
         transcript=_transcript(packet),
-        history_violations=workflow_history_violations(packet, _transcript_text(packet)),
+        history_check=workflow_history_check(packet, _transcript_text(packet)),
         debt_source="ci-workflow",
         sensor_sources=["ci-workflow"],
         baseline_open_debt=[],

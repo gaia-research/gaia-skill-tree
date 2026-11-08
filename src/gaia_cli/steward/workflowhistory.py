@@ -35,6 +35,7 @@ import json
 import re
 import shlex
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
@@ -50,6 +51,7 @@ _FLAGGED = re.compile(r"^job (?P<job>.+) has no timeout-minutes$")
 _SHA = re.compile(r"^sha256: ([0-9a-f]{64})$", re.MULTILINE)
 _RUN_IDS = re.compile(r"^run-ids: ([0-9]+:[0-9]+(?:,[0-9]+:[0-9]+)*)$", re.MULTILINE)
 _JOB_KEY = re.compile(r"^job-key: (.+)$", re.MULTILINE)
+_WORKFLOW_LINE = re.compile(r"^workflow: (.+)$", re.MULTILINE)
 _SAFE_KEY = re.compile(r"[A-Za-z_][A-Za-z0-9_-]{0,99}")
 _SAFE_PATH = re.compile(r"\.github/workflows/[A-Za-z0-9._-]+\.yml")
 _SHELL_BREAKS = {"&&", "||", ";", "|", ">", ">>", "2>&1", "<"}
@@ -274,15 +276,27 @@ def build_document(
         raise HistoryUnavailable(
             f"none of the {len(sampled)} sampled runs has a job named {sorted(names)}; history cannot be read"
         )
+    # Canonical order, so the bytes never depend on the order the API listed runs or jobs.
+    rows.sort(key=_row_key)
     return {
         "schemaVersion": SCHEMA,
         "repository": repository,
         "workflow": workflow,
         "job": {"key": key, "displayNames": sorted(names)},
-        "runs": [{"id": run_id, "attempt": attempt} for run_id, attempt in sampled],
-        "runsWithoutJob": without,
+        "runs": [{"id": run_id, "attempt": attempt} for run_id, attempt in sorted(set(sampled))],
+        "runsWithoutJob": sorted(set(without)),
         "jobs": rows,
     }
+
+
+def _row_key(row: Mapping[str, Any]) -> tuple[Any, ...]:
+    """A complete sort key: every field of a row, so equal keys mean identical rows."""
+
+    return (
+        row["runId"],
+        row["attempt"],
+        *(json.dumps(row.get(field), sort_keys=True) for field in ("name", "started_at", "completed_at", "conclusion")),
+    )
 
 
 def render(document: Mapping[str, Any]) -> bytes:
@@ -411,12 +425,34 @@ def flagged_jobs(evidence: Mapping[str, Any]) -> list[str]:
     return sorted(set(jobs))
 
 
-def _fetches(transcript_text: str) -> tuple[dict[str, dict[str, str]], list[str], list[tuple[str, Any, dict[str, Any]]]]:
-    """Successful fetch entries keyed by job key, problems, and rule entries."""
+@dataclass(frozen=True)
+class FetchRecord:
+    """One successful ``fetch`` proof entry, with every metadata field present exactly once."""
 
-    fetched: dict[str, dict[str, str]] = {}
+    workflow: str
+    job: str
+    out: str
+    sha256: str
+    run_ids: str
+
+
+def _single(pattern: re.Pattern[str], output: str) -> str | None:
+    found = pattern.findall(output)
+    return found[0].strip() if len(found) == 1 else None
+
+
+def parse_provenance(transcript_text: str) -> tuple[list[FetchRecord], list[tuple[str, Any]], list[str]]:
+    """Parse item-2 proof entries once: ``(fetch records, rule entries, problems)``.
+
+    Metadata is read only from the captured output of a successful ``fetch`` entry,
+    never from a history/no-history entry or a statement. A fetch entry whose output
+    lacks, repeats or contradicts any field (``workflow``, ``job-key``, ``sha256``,
+    ``run-ids``) is a problem, not a skipped record.
+    """
+
+    records: list[FetchRecord] = []
+    rules: list[tuple[str, Any]] = []
     problems: list[str] = []
-    rules: list[tuple[str, Any, dict[str, Any]]] = []
     for entry in _entries(transcript_text):
         if entry.get("contractIndex") != 2 or entry.get("exitCode") != 0:
             continue
@@ -424,92 +460,80 @@ def _fetches(transcript_text: str) -> tuple[dict[str, dict[str, str]], list[str]
         if parsed is None:
             continue
         rule, args = parsed
+        if rule != "fetch":
+            rules.append((rule, args))
+            continue
         output = str(entry.get("output", ""))
-        if rule == "fetch":
-            sha, run_ids, key = _SHA.search(output), _RUN_IDS.search(output), _JOB_KEY.search(output)
-            if not (sha and run_ids and key):
-                problems.append(f"fetch entry for {args.job!r} does not carry its job-key, sha256 and run-ids output")
-                continue
-            fetched[key.group(1).strip()] = {
-                "workflow": args.workflow, "job": key.group(1).strip(), "out": args.out,
-                "sha256": sha.group(1), "runIds": run_ids.group(1),
-            }
-        else:
-            rules.append((rule, args, entry))
-    return fetched, problems, rules
+        fields = {
+            "workflow": _single(_WORKFLOW_LINE, output),
+            "job-key": _single(_JOB_KEY, output),
+            "sha256": _single(_SHA, output),
+            "run-ids": _single(_RUN_IDS, output),
+        }
+        missing = sorted(name for name, value in fields.items() if value is None)
+        if missing:
+            problems.append(
+                f"fetch entry for {str(args.job)[:60]!r} lacks exactly one {', '.join(missing)} line in its output"
+            )
+            continue
+        if fields["workflow"] != args.workflow or fields["job-key"] != args.job:
+            problems.append(
+                f"fetch entry for {str(args.job)[:60]!r}: its output names {fields['workflow']!r} / "
+                f"{fields['job-key']!r}, not the command's --workflow / --job"
+            )
+            continue
+        records.append(FetchRecord(args.workflow, args.job, args.out, fields["sha256"], fields["run-ids"]))
+    return records, rules, problems
 
 
-def history_provenance_violations(
-    *, evidence: Mapping[str, Any], subject: str | None, transcript_text: str
-) -> list[str]:
-    """Every flagged job's value must be computed from a ``fetch``-produced rows file.
+def history_provenance(
+    *, evidence: Mapping[str, Any], subject: str | None, transcript_text: str, dispatch_id: str
+) -> tuple[list[str], list[str]]:
+    """``(violations, verifier recompute commands)`` from one parse of the transcript.
 
-    Offline and mechanical: it checks the transcript's own structure (a fetch per
-    flagged job with its digest and pinned runs, and a history/no-history entry
-    reading exactly that fetch's ``--out``). Whether the bytes are genuine is what
-    the verifier's recompute proves.
+    Every flagged job needs exactly one complete fetch record for the subject
+    workflow, and a history/no-history entry reading exactly that record's ``--out``.
+    The recompute commands are rendered only from those records, with the subject
+    and job names taken from the packet; any violation yields no commands, and the
+    violations reject the build, so provenance is never silently omitted.
     """
 
-    fetched, problems, rules = _fetches(transcript_text)
-    outs = {item["out"]: key for key, item in fetched.items()}
-    consumed: set[str] = set()
-    for rule, args, _ in rules:
+    records, rules, problems = parse_provenance(transcript_text)
+    flagged = flagged_jobs(evidence)
+    if subject is None or _SAFE_PATH.fullmatch(subject) is None:
+        problems.append(f"the packet subject {subject!r} is not a direct-child workflow path")
+    by_job: dict[str, list[FetchRecord]] = {}
+    for record in records:
+        by_job.setdefault(record.job, []).append(record)
+    outs = {record.out for record in records}
+    consumed = {args.history for _, args in rules if args.history in outs}
+    for rule, args in rules:
         if args.history not in outs:
             problems.append(f"{rule} --history {args.history} was not produced by a workflowproof fetch entry")
-        else:
-            consumed.add(outs[args.history])
-    for job in flagged_jobs(evidence):
-        if job not in fetched:
+    chosen: dict[str, FetchRecord] = {}
+    for job in flagged:
+        found = by_job.get(job, [])
+        if not _SAFE_KEY.fullmatch(job):
+            problems.append(f"job {job[:60]!r} is not a plain YAML job key")
+        elif not found:
             problems.append(f"job {job!r}: no successful workflowproof fetch entry under proof item 2")
-        elif job not in consumed:
+        elif len(found) > 1:
+            problems.append(f"job {job!r}: {len(found)} fetch entries; exactly one is allowed")
+        elif found[0].workflow != subject:
+            problems.append(f"job {job!r}: fetched {found[0].workflow}, not the subject {subject}")
+        elif found[0].out not in consumed:
             problems.append(f"job {job!r}: no history or no-history entry reads its fetched rows file")
-        elif subject and fetched[job]["workflow"] != subject:
-            problems.append(f"job {job!r}: fetched {fetched[job]['workflow']}, not the subject {subject}")
-    return problems
-
-
-def _packet_subject(packet: Any) -> str | None:
-    for source in (packet.evidence, packet.debt):
-        subject = source.get("subject") if isinstance(source, Mapping) else None
-        if isinstance(subject, Mapping) and isinstance(subject.get("id"), str):
-            return subject["id"]
-    return None
-
-
-def verifier_recompute_commands(packet: Any, outputs: Sequence[str]) -> list[str]:
-    """The commands the independent verifier reruns: refetch pinned runs, then recompute.
-
-    Built only from the packet (rule, subject workflow, flagged jobs, dispatch id) and
-    from regex-validated ``sha256`` / ``run-ids`` lines of the captured item-2 output,
-    so no builder-written text reaches the verifier prompt. Empty for any other rule
-    and for a packet dispatched before ``fetch`` existed.
-    """
-
-    from gaia_cli.steward.policy import WORKFLOW_ROUTE_RULE_ID
-
-    if packet.rule != WORKFLOW_ROUTE_RULE_ID or not uses_fetch(packet.allowed_commands):
-        return []
-    subject = _packet_subject(packet)
-    flagged = set(flagged_jobs(packet.evidence))
-    if subject is None or _SAFE_PATH.fullmatch(subject) is None:
-        return []
-    directory = f"{HISTORY_DIR_HINT}/{packet.dispatch_id}/verify"
-    pinned: dict[str, tuple[str, str]] = {}
-    for output in outputs:
-        workflow = re.search(r"^workflow: (.+)$", output, re.MULTILINE)
-        key, sha, run_ids = _JOB_KEY.search(output), _SHA.search(output), _RUN_IDS.search(output)
-        if not (workflow and key and sha and run_ids) or workflow.group(1).strip() != subject:
-            continue
-        job = key.group(1).strip()
-        if job in flagged and _SAFE_KEY.fullmatch(job):
-            pinned[job] = (run_ids.group(1), sha.group(1))
+        else:
+            chosen[job] = found[0]
+    if problems or not flagged:
+        return problems or ["the packet names no flagged job"], []
     commands: list[str] = []
-    for job in sorted(pinned):
-        run_ids, sha = pinned[job]
-        rows = f"{directory}/{job}.json"
+    for job in flagged:
+        record = chosen[job]
+        rows = f"{HISTORY_DIR_HINT}/{dispatch_id}/verify/{job}.json"
         commands.append(
             f"python -m gaia_cli.steward.workflowproof fetch --workflow {subject} --job {job} "
-            f"--run-ids {run_ids} --expect-sha256 {sha} --out {rows}"
+            f"--run-ids {record.run_ids} --expect-sha256 {record.sha256} --out {rows}"
         )
         commands.append(f"python -m gaia_cli.steward.workflowproof history --history {rows}")
-    return commands
+    return [], commands

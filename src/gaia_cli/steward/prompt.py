@@ -21,7 +21,7 @@ import json
 from typing import Any, Mapping
 
 from gaia_cli.steward.models import DispatchPacket
-from gaia_cli.steward.workflowhistory import verifier_recompute_commands
+from gaia_cli.steward.workflowhistory import uses_fetch
 
 
 PROMPT_SCHEMA = "steward-tree-keeper-prompt-v1"
@@ -183,9 +183,9 @@ def render_verifier_prompt(
 
     For a workflow-timeout packet commissioned with ``workflowproof fetch`` it
     adds the recompute the verifier must run itself (refetch the pinned history
-    runs, prove the rows file byte-identical, recompute the value). Those commands
-    are built from the packet (subject, flagged jobs, dispatch id) and only
-    regex-validated digests and run ids from captured output, never from builder text.
+    runs, prove the rows file byte-identical, recompute the value). The commands
+    come from the machine verdict, which built them from the same fetch records it
+    accepted; the renderer refuses such a packet without them.
 
     This is only ever rendered for a ``pending`` mechanical verdict. When
     machinery already reached ``reject`` or ``escalate``, there is nothing left
@@ -242,7 +242,11 @@ def render_verifier_prompt(
         "## The proof contract, and the evidence offered for each item\n\n"
         + "\n\n".join(proof_sections),
     ]
-    recompute = verifier_recompute_commands(packet, proof_outputs.get(2, ()))
+    recompute = tuple(getattr(verdict, "recompute", ()) or ())
+    if packet.rule == "workflow-timeout-repair" and uses_fetch(packet.allowed_commands) and not recompute:
+        # Pending implies machinery accepted the fetch records and built these; a
+        # pending verdict without them is a broken invariant, never a reason to omit.
+        raise ValueError("a workflow-timeout verification has no recompute commands; refusing to render without them")
     if recompute:
         sections.append(
             "## Recompute the inputs yourself (required)\n\n"

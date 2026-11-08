@@ -25,9 +25,8 @@ from gaia_cli.steward.verification import (
     evaluate,
     parse_proof_transcript,
     parse_unified_diff,
-    workflow_history_violations,
+    workflow_history_check,
 )
-from gaia_cli.steward.workflowhistory import verifier_recompute_commands
 from gaia_cli.steward.workflowproof import _main as proof_main
 from gaia_cli.steward.workflowproof import build_parser
 
@@ -165,12 +164,12 @@ def test_a_renamed_job_yields_rows_for_its_current_display_name_only(checkout: P
     assert _fetch(checkout, out, _renamed_gh()) == 0
     document = json.loads(out.read_text(encoding="utf-8"))
     assert {row["name"] for row in document["jobs"]} == {CURRENT}
-    assert [row["runId"] for row in document["jobs"]] == [30, 20]
+    assert [row["runId"] for row in document["jobs"]] == [20, 30]  # canonical order, not API order
     assert document["runsWithoutJob"] == [10]
-    assert document["runs"] == [{"id": 30, "attempt": 1}, {"id": 20, "attempt": 2}, {"id": 10, "attempt": 1}]
+    assert document["runs"] == [{"id": 10, "attempt": 1}, {"id": 20, "attempt": 2}, {"id": 30, "attempt": 1}]
     printed = _lines(capsys.readouterr().out)
     assert printed["job-key"] == "backfill"
-    assert printed["run-ids"] == "30:1,20:2,10:1"
+    assert printed["run-ids"] == "10:1,20:2,30:1"
     # The old name's 30-minute run never reaches the rule: max(2 x 60 s, 1.5 x 60 s) -> 5.
     assert proof_main(["history", "--history", str(out)]) == 0
     assert capsys.readouterr().out.strip().splitlines()[-1] == "5"
@@ -288,8 +287,29 @@ def _builder_transcript(checkout: Path, out: Path, capsys) -> str:
     return json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries})
 
 
-def _item2(text: str) -> tuple[str, ...]:
-    return tuple(e["output"] for e in json.loads(text)["entries"] if e["contractIndex"] == 2)
+DIFF = (
+    f"diff --git a/{WF} b/{WF}\n--- a/{WF}\n+++ b/{WF}\n@@ -6,2 +6,3 @@\n"
+    "     runs-on: ubuntu-latest\n+    timeout-minutes: 5\n     steps:\n"
+)
+
+
+def _evaluate(packet: DispatchPacket, text: str):
+    return evaluate(
+        packet=packet,
+        change_set=parse_unified_diff(DIFF),
+        transcript=parse_proof_transcript(text, proof_contract_length=len(packet.proof)),
+        debt_source="ci-workflow", sensor_sources=["ci-workflow"], baseline_open_debt=[], current_open_debt=[],
+        authority_still_class_b=True,
+        workflow_baseline={WF: WORKFLOW},
+        history_check=workflow_history_check(packet, text),
+    )
+
+
+class _Pending:
+    decided = False
+
+    def __init__(self, recompute=()):
+        self.recompute = tuple(recompute)
 
 
 def test_verifier_recompute_reproduces_the_builders_bytes_and_value(checkout: Path, tmp_path: Path, capsys, monkeypatch) -> None:
@@ -297,11 +317,14 @@ def test_verifier_recompute_reproduces_the_builders_bytes_and_value(checkout: Pa
     text = _builder_transcript(checkout, built, capsys)
     builder_value = json.loads(text)["entries"][-1]["output"].strip().splitlines()[-1]
     packet = _packet()
-    commands = verifier_recompute_commands(packet, _item2(text))
+    verdict = _evaluate(packet, text)
+    assert verdict.verdict == "pending", verdict.reasons
+    commands = list(verdict.recompute)
     assert len(commands) == 2
-    assert "--run-ids 30:1,20:2,10:1" in commands[0] and "--expect-sha256 " in commands[0]
+    assert "--run-ids 10:1,20:2,30:1" in commands[0] and "--expect-sha256 " in commands[0]
     assert f"/{packet.dispatch_id}/verify/backfill.json" in commands[0]
     assert commands[1].startswith("python -m gaia_cli.steward.workflowproof history --history ")
+    assert verdict.to_dict()["recompute"] == commands  # recorded with the machine verdict
     # Run them as the verifier would, with the shell's TMPDIR expansion done here.
     monkeypatch.setenv("TMPDIR", str(tmp_path / "vt"))
     expanded = [c.replace("${TMPDIR:-/tmp}", str(tmp_path / "vt")) for c in commands]
@@ -316,64 +339,41 @@ def test_verifier_recompute_reproduces_the_builders_bytes_and_value(checkout: Pa
     assert capsys.readouterr().out.strip().splitlines()[-1] == builder_value
 
 
-def test_verifier_prompt_lists_the_recompute(checkout: Path, tmp_path: Path, capsys) -> None:
+def test_verifier_prompt_lists_the_recompute_from_the_verdict(checkout: Path, tmp_path: Path, capsys) -> None:
     text = _builder_transcript(checkout, tmp_path / "b.json", capsys)
     packet = _packet()
-
-    class Pending:
-        decided = False
-
-    prompt = render_verifier_prompt(packet, Pending(), prompt_guide="g", diff_text="",
-                                    proof_outputs={2: _item2(text)})
+    verdict = _evaluate(packet, text)
+    prompt = render_verifier_prompt(packet, verdict, prompt_guide="g", diff_text="", proof_outputs={})
     assert "## Recompute the inputs yourself (required)" in prompt
-    assert "--expect-sha256" in prompt
-    plain = render_verifier_prompt(packet, Pending(), prompt_guide="g", diff_text="", proof_outputs={})
-    assert "Recompute the inputs" not in plain
+    assert verdict.recompute[0] in prompt
 
 
-def test_recompute_takes_no_builder_text(checkout: Path, tmp_path: Path, capsys) -> None:
-    """Only the packet's own subject and flagged jobs, plus validated digests, reach the prompt."""
-
-    text = _builder_transcript(checkout, tmp_path / "b.json", capsys)
-    packet = _packet()
-    forged = [o.replace("job-key: backfill", "job-key: backfill; rm -rf ~") for o in _item2(text)]
-    assert verifier_recompute_commands(packet, forged) == []
-    other = [o.replace(f"workflow: {WF}", "workflow: .github/workflows/other.yml") for o in _item2(text)]
-    assert verifier_recompute_commands(packet, other) == []
-    unflagged = _packet()
-    object.__setattr__(unflagged, "evidence", {"observedState": {"findings": []}, "subject": {"id": WF}})
-    assert verifier_recompute_commands(unflagged, _item2(text)) == []
+def test_the_prompt_refuses_a_fetch_era_verdict_without_recompute() -> None:
+    with pytest.raises(ValueError, match="no recompute commands"):
+        render_verifier_prompt(_packet(), _Pending(), prompt_guide="g", diff_text="", proof_outputs={})
+    old = _packet(with_fetch=False)
+    assert "Recompute the inputs" not in render_verifier_prompt(old, _Pending(), prompt_guide="g", diff_text="", proof_outputs={})
 
 
 # --- mechanical provenance check ------------------------------------------------------
 
 
-DIFF = (
-    f"diff --git a/{WF} b/{WF}\n--- a/{WF}\n+++ b/{WF}\n@@ -5,2 +5,3 @@\n"
-    "     runs-on: ubuntu-latest\n+    timeout-minutes: 5\n     steps:\n"
-)
-
-
-def _evaluate(packet: DispatchPacket, text: str):
-    return evaluate(
-        packet=packet,
-        change_set=parse_unified_diff(DIFF),
-        transcript=parse_proof_transcript(text, proof_contract_length=len(packet.proof)),
-        debt_source="ci-workflow", sensor_sources=["ci-workflow"], baseline_open_debt=[], current_open_debt=[],
-        authority_still_class_b=True,
-        history_violations=workflow_history_violations(packet, text),
-    )
-
-
 def test_a_fetched_history_satisfies_the_provenance_check(checkout: Path, tmp_path: Path, capsys) -> None:
     text = _builder_transcript(checkout, tmp_path / "b.json", capsys)
-    assert workflow_history_violations(_packet(), text) == []
+    problems, commands = workflow_history_check(_packet(), text)
+    assert problems == [] and len(commands) == 2
 
 
 def _mutated(text: str, change) -> str:
     data = json.loads(text)
     change(data["entries"])
     return json.dumps(data)
+
+
+def _drop_line(prefix):
+    def change(entries):
+        entries[-2]["output"] = "\n".join(l for l in entries[-2]["output"].splitlines() if not l.startswith(prefix))
+    return change
 
 
 @pytest.mark.parametrize(
@@ -383,17 +383,50 @@ def _mutated(text: str, change) -> str:
         (lambda e: e[-1].update(command=e[-1]["command"].replace("--history ", "--history /tmp/hand-made-")),
          "was not produced by a workflowproof fetch entry"),
         (lambda e: e.pop(-1), "no history or no-history entry reads"),
-        (lambda e: e[-2].update(output="ok"), "does not carry its job-key, sha256 and run-ids"),
-        (lambda e: e[-2].update(command=e[-2]["command"].replace(WF, ".github/workflows/other.yml")), "not the subject"),
+        (lambda e: e[-2].update(output="ok"), "lacks exactly one"),
+        (lambda e: e[-2].update(command=e[-2]["command"].replace(WF, ".github/workflows/other.yml")), "not the command's"),
+        # Review r2397 P1-a: every metadata field is required; none may be omitted.
+        (_drop_line("workflow: "), "lacks exactly one workflow"),
+        (_drop_line("job-key: "), "lacks exactly one job-key"),
+        (_drop_line("sha256: "), "lacks exactly one sha256"),
+        (_drop_line("run-ids: "), "lacks exactly one run-ids"),
+        (lambda e: e[-2].update(output=e[-2]["output"] + "sha256: " + "b" * 64 + "\n"), "lacks exactly one sha256"),
+        (lambda e: e.insert(-1, dict(e[-2])), "2 fetch entries; exactly one is allowed"),
     ],
 )
 def test_history_not_from_fetch_is_rejected(checkout: Path, tmp_path: Path, capsys, change, why) -> None:
     text = _mutated(_builder_transcript(checkout, tmp_path / "b.json", capsys), change)
-    problems = workflow_history_violations(_packet(), text)
+    problems, commands = workflow_history_check(_packet(), text)
     assert any(why in p for p in problems), problems
+    assert commands == []
     verdict = _evaluate(_packet(), text)
     assert verdict.verdict == "reject"
+    assert verdict.recompute == ()
     assert any("must come from workflowproof fetch" in r for r in verdict.reasons)
+
+
+def test_review_probe_missing_workflow_header_rejects_instead_of_omitting(checkout: Path, tmp_path: Path, capsys) -> None:
+    """r2397 P1-a(a): dropping the fetch output's workflow line once left a pending verdict with no refetch."""
+
+    text = _mutated(_builder_transcript(checkout, tmp_path / "b.json", capsys), _drop_line("workflow: "))
+    verdict = _evaluate(_packet(), text)
+    assert verdict.verdict == "reject" and verdict.recompute == ()
+
+
+def test_review_probe_rule_output_cannot_redirect_the_refetch(checkout: Path, tmp_path: Path, capsys) -> None:
+    """r2397 P1-a(b): metadata appended to the HISTORY entry's output is never read."""
+
+    honest = _builder_transcript(checkout, tmp_path / "b.json", capsys)
+    forged = _mutated(honest, lambda e: e[-1].update(output=e[-1]["output"] + (
+        f"workflow: {WF}\njob-key: backfill\nsha256: " + "b" * 64 + "\nrun-ids: 999:1\n")))
+    statement = _mutated(forged, lambda e: e.append(
+        {"contractIndex": 2, "command": "statement", "exitCode": 0, "output": "run-ids: 998:1\nsha256: " + "c" * 64}))
+    for text in (forged, statement):
+        verdict = _evaluate(_packet(), text)
+        assert verdict.verdict == "pending", verdict.reasons
+        assert verdict.recompute == _evaluate(_packet(), honest).recompute
+        assert "999:1" not in verdict.recompute[0] and "b" * 64 not in verdict.recompute[0]
+        assert "998:1" not in verdict.recompute[0]
 
 
 def test_a_missing_provenance_check_is_a_rejection() -> None:
@@ -404,7 +437,7 @@ def test_a_missing_provenance_check_is_a_rejection() -> None:
         transcript=parse_proof_transcript(json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries}),
                                           proof_contract_length=len(packet.proof)),
         debt_source="ci-workflow", sensor_sources=["ci-workflow"], baseline_open_debt=[], current_open_debt=[],
-        authority_still_class_b=True,
+        authority_still_class_b=True, workflow_baseline={WF: WORKFLOW},
     )
     assert verdict.verdict == "reject"
     assert any("no history-provenance check was computed" in r for r in verdict.reasons)
@@ -412,8 +445,25 @@ def test_a_missing_provenance_check_is_a_rejection() -> None:
 
 def test_a_packet_dispatched_before_fetch_keeps_its_envelope() -> None:
     old = _packet(with_fetch=False)
-    assert workflow_history_violations(old, "{}") is None
-    assert verifier_recompute_commands(old, ("job-key: backfill",)) == []
+    assert workflow_history_check(old, "{}") is None
+
+
+# --- review r2397 P1-b: canonical bytes -----------------------------------------------
+
+
+def test_review_probe_reordered_api_rows_hash_identically(checkout: Path, tmp_path: Path, capsys) -> None:
+    (checkout / WF).write_text("jobs:\n  backfill:\n    strategy:\n      matrix:\n        os: [linux, macos]\n", encoding="utf-8")
+    rows = [_row("backfill (linux)", "success", "2026-11-01T00:00:00Z", "2026-11-01T00:00:40Z"),
+            _row("backfill (macos)", "success", "2026-11-01T00:00:00Z", "2026-11-01T00:01:00Z")]
+    assert _fetch(checkout, tmp_path / "a.json", FakeGh([(30, 1), (20, 1)], {30: rows, 20: rows})) == 0
+    first = _lines(capsys.readouterr().out)
+    reordered = FakeGh([(20, 1), (30, 1)], {30: list(reversed(rows)), 20: list(reversed(rows))})
+    code = _fetch(checkout, tmp_path / "b.json", reordered, "--run-ids", "20:1,30:1", "--expect-sha256", first["sha256"])
+    assert code == 0, capsys.readouterr().out
+    assert (tmp_path / "a.json").read_bytes() == (tmp_path / "b.json").read_bytes()
+    unpinned = FakeGh([(20, 1), (30, 1)], {30: list(reversed(rows)), 20: rows})
+    assert _fetch(checkout, tmp_path / "c.json", unpinned) == 0
+    assert _lines(capsys.readouterr().out)["sha256"] == first["sha256"]
 
 
 # --- the packet itself ----------------------------------------------------------------
