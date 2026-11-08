@@ -11,10 +11,12 @@ import pytest
 from scripts.check_ruff import (
     classify_code,
     evaluate_violations,
+    find_added_baseline_entries,
     find_stale_entries,
     get_changed_files,
     main as check_ruff_main,
     normalize_message,
+    run_ruff,
 )
 
 
@@ -335,6 +337,29 @@ def test_find_stale_entries_direct():
     assert stale[0]["file"] == "a.py"
 
 
+def test_fake_ruff_exit_0_empty_stdout_fails_closed(capsys, tmp_path):
+    """Verify that ruff exiting 0 with empty stdout fails closed with exit code 2."""
+    fake_ruff = tmp_path / "fake_ruff_exit0_empty.sh"
+    fake_ruff.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    fake_ruff.chmod(0o755)
+
+    with pytest.raises(SystemExit) as exc_info:
+        check_ruff_main(["--ruff-bin", str(fake_ruff), "--base", "HEAD"])
+    assert exc_info.value.code == 2
+    captured = capsys.readouterr()
+    assert "Error: ruff exited 0 with empty output" in captured.err
+
+
+def test_fake_ruff_exit_0_empty_json_list_succeeds(tmp_path):
+    """Verify that ruff exiting 0 with empty JSON list [] returns empty list cleanly."""
+    fake_ruff = tmp_path / "fake_ruff_exit0_clean.sh"
+    fake_ruff.write_text('#!/bin/sh\nprintf "[]\\n"\nexit 0\n', encoding="utf-8")
+    fake_ruff.chmod(0o755)
+
+    res = run_ruff(ruff_bin=str(fake_ruff))
+    assert res == []
+
+
 def test_fake_ruff_exit_1_empty_stdout_fails_closed(monkeypatch, capsys, tmp_path):
     """Verify that ruff exiting 1 with empty stdout fails closed with exit code 2."""
     fake_ruff = tmp_path / "fake_ruff_empty.sh"
@@ -620,3 +645,105 @@ def test_stale_flag_behavior(tmp_path: Path, monkeypatch, capsys: pytest.Capture
         assert "[STALE]" not in captured.out and "[STALE]" not in captured.err
     else:
         assert "[STALE]" in captured.out or "[STALE]" in captured.err
+
+
+def test_update_baseline_in_ci_fails_closed(monkeypatch, capsys):
+    """Verify that --update-baseline fails closed in CI environments."""
+    monkeypatch.setenv("CI", "true")
+    code = check_ruff_main(["--update-baseline"])
+    assert code == 2
+    captured = capsys.readouterr()
+    assert "--update-baseline cannot be run in CI" in captured.err
+
+
+def test_find_added_baseline_entries_detects_growth():
+    """Verify that find_added_baseline_entries detects added entries."""
+    base = {
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1"},
+            {"file": "b.py", "code": "F401", "message": "msg2"},
+        ]
+    }
+    # Grown baseline adds c.py
+    grown = {
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1"},
+            {"file": "b.py", "code": "F401", "message": "msg2"},
+            {"file": "c.py", "code": "F401", "message": "msg3"},
+        ]
+    }
+    added = find_added_baseline_entries(grown, base, Path.cwd())
+    assert len(added) == 1
+    assert added[0]["file"] == "c.py"
+
+    # Shrunk baseline only removes b.py (no added entries)
+    shrunk = {
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1"},
+        ]
+    }
+    added_shrunk = find_added_baseline_entries(shrunk, base, Path.cwd())
+    assert added_shrunk == []
+
+
+def test_baseline_monotonicity_grown_baseline_fails_gate(monkeypatch, capsys, tmp_path):
+    """Verify that a baseline with added entries fails the gate against base baseline."""
+    base_file = tmp_path / "base_baseline.json"
+    base_file.write_text(json.dumps({
+        "version": 1,
+        "violations": [{"file": "a.py", "code": "F401", "message": "msg1", "line": 1, "column": 1}]
+    }), encoding="utf-8")
+
+    current_file = tmp_path / "current_baseline.json"
+    current_file.write_text(json.dumps({
+        "version": 1,
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1", "line": 1, "column": 1},
+            {"file": "b.py", "code": "F401", "message": "msg2", "line": 2, "column": 1},
+        ]
+    }), encoding="utf-8")
+
+    monkeypatch.setattr("scripts.check_ruff.get_changed_files", lambda *args, **kwargs: set())
+    monkeypatch.setattr("scripts.check_ruff.run_ruff", lambda **kwargs: [])
+
+    code = check_ruff_main([
+        "--base-baseline", str(base_file),
+        "--baseline", str(current_file),
+    ])
+    assert code == 1
+    captured = capsys.readouterr()
+    assert "[BASELINE]" in captured.err
+    assert "Baseline additions:   1" in captured.out
+    assert "Baseline is not monotonic" in captured.err
+
+
+def test_baseline_monotonicity_shrunk_baseline_passes_gate(monkeypatch, capsys, tmp_path):
+    """Verify that a shrunk baseline passes the monotonicity check."""
+    base_file = tmp_path / "base_baseline.json"
+    base_file.write_text(json.dumps({
+        "version": 1,
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1", "line": 1, "column": 1},
+            {"file": "b.py", "code": "F401", "message": "msg2", "line": 2, "column": 1},
+        ]
+    }), encoding="utf-8")
+
+    current_file = tmp_path / "current_baseline.json"
+    current_file.write_text(json.dumps({
+        "version": 1,
+        "violations": [
+            {"file": "a.py", "code": "F401", "message": "msg1", "line": 1, "column": 1},
+        ]
+    }), encoding="utf-8")
+
+    monkeypatch.setattr("scripts.check_ruff.get_changed_files", lambda *args, **kwargs: set())
+    monkeypatch.setattr("scripts.check_ruff.run_ruff", lambda **kwargs: [])
+
+    code = check_ruff_main([
+        "--base-baseline", str(base_file),
+        "--baseline", str(current_file),
+    ])
+    assert code == 0
+    captured = capsys.readouterr()
+    assert "Baseline additions:   0" in captured.out
+    assert "PASSED: Ruff multi-tier gate passed." in captured.out

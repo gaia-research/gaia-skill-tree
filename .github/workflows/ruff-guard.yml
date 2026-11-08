@@ -49,4 +49,8 @@ jobs:
 
       - name: Run Ruff Multi-Tier Gate
         run: |
+          # Multi-tier gate: blocking (zero tolerance), ratchet (shrink-only),
+          # and baseline monotonicity against the base branch ref.
           python3 scripts/check_ruff.py
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}

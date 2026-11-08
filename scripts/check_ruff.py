@@ -340,6 +340,110 @@ def find_stale_entries(
     return stale
 
 
+def load_baseline_from_git(
+    repo_root: Path,
+    base_ref: str,
+    baseline_path: Path,
+) -> tuple[dict[str, Any] | None, str | None]:
+    """Load baseline JSON from a git ref; return (data, error_message)."""
+    try:
+        rel_path = baseline_path.resolve().relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return None, f"Baseline path {baseline_path} is outside repository root {repo_root}"
+
+    res = subprocess.run(
+        ["git", "show", f"{base_ref}:{rel_path}"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if res.returncode != 0:
+        return None, f"Baseline file '{rel_path}' not found at git ref '{base_ref}'"
+
+    try:
+        data = json.loads(res.stdout)
+        if not isinstance(data, dict) or "violations" not in data:
+            return None, f"Invalid baseline format at git ref '{base_ref}'"
+        return data, None
+    except json.JSONDecodeError as exc:
+        return None, f"Failed to parse baseline JSON at git ref '{base_ref}': {exc}"
+
+
+def resolve_base_baseline(
+    repo_root: Path,
+    baseline_path: Path,
+    base_baseline_arg: str | None = None,
+    base_arg: str | None = None,
+) -> tuple[dict[str, Any] | None, str | None, str | None]:
+    """Resolve base baseline for monotonicity checks.
+
+    Returns: (base_baseline_data, base_ref_label, error_message)
+    """
+    if base_baseline_arg:
+        p = Path(base_baseline_arg)
+        if not p.is_absolute():
+            p = (repo_root / p).resolve()
+        if p.is_file():
+            data = load_baseline(p)
+            if data is None:
+                return None, str(p), f"Failed to load base baseline from file: {p}"
+            return data, str(p), None
+        data, err = load_baseline_from_git(repo_root, base_baseline_arg, baseline_path)
+        if data is not None:
+            return data, base_baseline_arg, None
+        return None, base_baseline_arg, err
+
+    candidates: list[str] = []
+    if base_arg:
+        candidates.append(base_arg)
+    env_base = os.environ.get("GITHUB_BASE_REF")
+    if env_base:
+        candidates.append(f"origin/{env_base}")
+        candidates.append(env_base)
+    mb = get_merge_base(repo_root, base_target=base_arg)
+    if mb:
+        candidates.append(mb)
+    candidates.extend(["origin/main", "main", "HEAD~1"])
+
+    seen: set[str] = set()
+    for cand in candidates:
+        if not cand or cand in seen:
+            continue
+        seen.add(cand)
+        data, _ = load_baseline_from_git(repo_root, cand, baseline_path)
+        if data is not None:
+            return data, cand, None
+
+    return None, None, None
+
+
+def find_added_baseline_entries(
+    current_baseline: dict[str, Any],
+    base_baseline: dict[str, Any],
+    repo_root: Path,
+) -> list[dict[str, Any]]:
+    """Identify entries in current_baseline that are not in base_baseline (shrink-only)."""
+    base_pool: dict[tuple[str, str, str], int] = {}
+    for item in base_baseline.get("violations", []):
+        norm = normalize_violation(item, repo_root)
+        fp = (norm["file"], norm["code"], normalize_message(norm["message"]))
+        base_pool[fp] = base_pool.get(fp, 0) + 1
+
+    added: list[dict[str, Any]] = []
+    for item in current_baseline.get("violations", []):
+        norm = normalize_violation(item, repo_root)
+        fp = (norm["file"], norm["code"], normalize_message(norm["message"]))
+        if base_pool.get(fp, 0) > 0:
+            base_pool[fp] -= 1
+        else:
+            added.append(norm)
+
+    return added
+
+
 def run_ruff(
     paths: Sequence[str] | None = None,
     repo_root: Path | None = None,
@@ -374,15 +478,13 @@ def run_ruff(
         sys.exit(exit_code)
 
     stdout = res.stdout.strip()
-    if res.returncode == 1 and not stdout:
+    if not stdout:
         print(
-            "Error: ruff exited 1 with empty output. Expected JSON report of violations.",
+            f"Error: ruff exited {res.returncode} with empty output. "
+            f"Expected JSON report of violations (e.g. '[]' for clean scan).",
             file=sys.stderr,
         )
         sys.exit(2)
-
-    if res.returncode == 0 and not stdout:
-        return []
 
     try:
         parsed = json.loads(stdout)
@@ -476,6 +578,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Path to ruff baseline JSON.",
     )
     parser.add_argument(
+        "--base-baseline",
+        type=str,
+        default=None,
+        help="Path or git ref for the trusted base baseline to verify monotonicity (shrink-only).",
+    )
+    parser.add_argument(
         "--base",
         type=str,
         default=None,
@@ -508,6 +616,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     violations = run_ruff(paths=args.paths, repo_root=repo_root, ruff_bin=args.ruff_bin)
 
     if args.update_baseline:
+        if os.environ.get("CI") or os.environ.get("GITHUB_ACTIONS"):
+            print(
+                "Error: --update-baseline cannot be run in CI. "
+                "CI enforces that the baseline only shrinks against the base branch.",
+                file=sys.stderr,
+            )
+            return 2
+
         ratchet_only = [v for v in violations if classify_code(v.get("code", "")) == "ratchet"]
         target_paths = [
             (Path(p) if Path(p).is_absolute() else (repo_root / p)).resolve()
@@ -532,6 +648,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Baseline written to {baseline_path} "
             f"({saved['total_ratchet_violations']} ratchet violations recorded)."
         )
+        base_baseline, base_ref_label, _ = resolve_base_baseline(
+            repo_root=repo_root,
+            baseline_path=baseline_path,
+            base_baseline_arg=args.base_baseline,
+            base_arg=args.base,
+        )
+        if base_baseline is not None:
+            added = find_added_baseline_entries(saved, base_baseline, repo_root)
+            if added:
+                print(
+                    f"Warning: --update-baseline added {len(added)} violation(s) "
+                    f"not in base ref '{base_ref_label}'. The gate will reject this baseline "
+                    f"unless resolved or pruned.",
+                    file=sys.stderr,
+                )
         return 0
 
     if args.prune_baseline:
@@ -583,13 +714,36 @@ def main(argv: Sequence[str] | None = None) -> int:
     baseline_data = load_baseline(baseline_path)
     if baseline_data is None:
         return 2
+
+    base_baseline, base_ref_label, base_err = resolve_base_baseline(
+        repo_root=repo_root,
+        baseline_path=baseline_path,
+        base_baseline_arg=args.base_baseline,
+        base_arg=args.base,
+    )
+    if args.base_baseline and base_baseline is None:
+        print(f"Error: could not resolve base baseline '{args.base_baseline}': {base_err}", file=sys.stderr)
+        return 2
+
+    added_baseline_entries: list[dict[str, Any]] = []
+    if base_baseline is not None:
+        added_baseline_entries = find_added_baseline_entries(
+            current_baseline=baseline_data,
+            base_baseline=base_baseline,
+            repo_root=repo_root,
+        )
+
     changed_files = get_changed_files(repo_root, base_ref=args.base)
     if changed_files is None:
         return 2
 
+    effective_baseline = baseline_data
+    if added_baseline_entries and base_baseline is not None:
+        effective_baseline = base_baseline
+
     blocking, ratchet, advisory, pre_existing_count = evaluate_violations(
         violations=violations,
-        baseline_data=baseline_data,
+        baseline_data=effective_baseline,
         changed_files=changed_files,
         repo_root=repo_root,
     )
@@ -602,6 +756,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             changed_files=changed_files,
             repo_root=repo_root,
             checked_paths=args.paths,
+        )
+
+    # Print baseline additions
+    for b in added_baseline_entries:
+        print(
+            f"[BASELINE] {b['file']}:{b['line']}:{b['column']}: "
+            f"{b['code']} {b['message']} (added to baseline; baseline is shrink-only)",
+            file=sys.stderr,
         )
 
     # Print advisory warnings
@@ -635,13 +797,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Blocking violations:  {len(blocking)} (fails if > 0)")
     print(f"Ratchet violations:   {len(ratchet)} new ({pre_existing_count} pre-existing allowed)")
     print(f"Advisory warnings:    {len(advisory)} (BLE001 - non-blocking)")
+    if base_baseline is not None:
+        print(f"Baseline additions:   {len(added_baseline_entries)} (fails if > 0; shrink-only vs {base_ref_label})")
     if args.stale != "ignore":
         print(f"Stale baseline entries: {len(stale_entries)}")
     print("=============================================================")
 
     has_error = False
-    if blocking or ratchet:
+    if blocking or ratchet or added_baseline_entries:
         has_error = True
+
+    if added_baseline_entries:
+        print(
+            f"FAILED: Found {len(added_baseline_entries)} added baseline entries. "
+            f"Baseline is not monotonic against base ref '{base_ref_label}' (shrink only).",
+            file=sys.stderr,
+        )
 
     if args.stale == "fail" and stale_entries:
         print(
