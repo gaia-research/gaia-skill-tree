@@ -51,8 +51,16 @@ The directive (2026-11-08, verbatim): "For now leave class C, but lock the decis
 
    Two more are refused by the calibrate star-gate preflight: `emilkowalski/apple-design` 4★ and `emilkowalski/emil-design-eng` 4★. They need evidence or a ruling, not a calibration.
 9. **Framework or CLI package downloads as evidence.** Filed as RFC #2403, low priority.
+10. **Re-queue the three batch 14 calibrations (desk decision `decision-8e5aa9337484cb863d96`).** The calibrations are:
+    - `panniantong/agent-reach`
+    - `theqtcompanyrnd/qt-qml-review`
+    - `zhaoxuya520/reverse-skill`
+
+    Batch 14 (`run-20261108T125333Z-2c528d60`) escalated all three on attempt 1. The cause was a verification regression from #2371: patch attribution could not see the gitignored census inputs, so it failed closed on every repair. The cause was not the calibrations themselves. #2423 fixed the regression after three independent review rounds, and against the batch 14 build diff, attribution now returns a real result: no new debt.
+
+    The runner sends any escalation to the desk, and its decision text says another attempt "is not one of the options". So the lead did not re-dispatch them. The founder's choice: re-queue all three (attempt 2 under the same envelope, now that the cause is fixed), or rule on them directly.
 
 ## C. Not locked (handled elsewhere)
 
-- **Repair routes** for Class B kinds that have no active route are filed as issues: `swallowed_exception` #2404, plus the issues listed in the closeout PR.
-- **Leftover routable Class B work** (workflow timeouts, escalated unused imports) has its own Steward leftovers issue, listed in the closeout PR.
+- **Repair routes** for Class B kinds that have no active route are filed as issues: `swallowed_exception` #2404, browser sinks #2405, ledger cap #2420.
+- **Leftover routable Class B work** (workflow timeouts, escalated unused imports) has its own Steward leftovers issue, #2426.
