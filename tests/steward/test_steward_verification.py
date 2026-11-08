@@ -1364,11 +1364,11 @@ def test_symlink_anywhere_in_the_source_inputs_path_fails_closed(tmp_path: Path,
     root, base, diff = _attribution_repo(tmp_path)
     outside = tmp_path / "outside"
     (outside / "steward/inputs").mkdir(parents=True)
-    secret = outside / "steward/inputs/input.json"
-    secret.write_text("outside-secret", encoding="utf-8")
+    sentinel = outside / "steward/inputs/input.json"
+    sentinel.write_text("outside-sentinel", encoding="utf-8")
     if where == "entry":
         _write(root, ".gaia/steward/inputs/real.json", "{}\n")
-        (root / ".gaia/steward/inputs/input.json").symlink_to(secret)
+        (root / ".gaia/steward/inputs/input.json").symlink_to(sentinel)
     elif where == "nested-dir":
         _write(root, ".gaia/steward/inputs/real.json", "{}\n")
         (root / ".gaia/steward/inputs/nested").symlink_to(outside / "steward/inputs", target_is_directory=True)
@@ -1384,7 +1384,7 @@ def test_symlink_anywhere_in_the_source_inputs_path_fails_closed(tmp_path: Path,
     controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
     assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
     assert sensor.seen == []  # refused before any scan
-    assert secret.read_text(encoding="utf-8") == "outside-secret"
+    assert sentinel.read_text(encoding="utf-8") == "outside-sentinel"
 
 
 @pytest.mark.parametrize("where", ["gaia-dir", "steward-dir", "inputs-dir"])
