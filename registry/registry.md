@@ -14,7 +14,7 @@
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 3★ | `/agent-memory-platform` |
 | · ████████/sparc-methodology | Fusion | — | `/agentic-workflow-design` |
-| · [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Fusion | 2★ | `/animation-performance` |
+| · [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Fusion | 4★ | `/animation-performance` |
 | ○ ████████/hf-cli | Basic | — | `/api-call` |
 | · [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Fusion | 4★ | `/architecture-diagram` |
 | ○ /audience-model | Basic | — | `/audience-model` |
@@ -83,7 +83,7 @@
 | · /explainability-audit | Fusion | — | `/explainability-audit` |
 | ○ /extract-entities | Basic | — | `/extract-entities` |
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
-| · [anthropics](../docs/u/anthropics/)/creating-financial-models | Fusion | 2★ | `/financial-modeling` |
+| · [anthropics](../docs/u/anthropics/)/creating-financial-models | Fusion | 4★ | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
 | · [addy-osmani](../docs/u/addy-osmani/)/shipping-and-launch | Fusion | 3★ | `/finishing-a-development-branch` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 3★ | `/firecrawl` |
@@ -277,12 +277,14 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Unique Skill | 4★ | `/animation-performance` |
 | ◉ [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Unique Skill | 4★ | `/architecture-diagram` |
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
 | ◉ [trailhq](../docs/u/trailhq/)/graft | Unique Skill | 4★ | `/codebase-graph-retrieval` |
 | ◉ [mksglu](../docs/u/mksglu/)/context-mode | Unique Skill | 4★ | `/context-safe-execution` |
+| ◉ [anthropics](../docs/u/anthropics/)/creating-financial-models | Unique Skill | 4★ | `/financial-modeling` |
 | ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
 | ◉ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Unique Skill | 4★ | `/gpu-dataframe-acceleration` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |

@@ -655,15 +655,15 @@
     {
       "id": "emilkowalski/animation-performance",
       "name": "animation-performance",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "emilkowalski",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animation-performance.json"
       },
@@ -825,15 +825,15 @@
     {
       "id": "anthropics/creating-financial-models",
       "name": "creating-financial-models",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 127.83,
       "overallTrustGrade": "A",
       "fusionScore": 100.0,
       "contributor": "anthropics",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/anthropics/creating-financial-models.json"
       },
@@ -1194,7 +1194,7 @@
     "animation-performance": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "emilkowalski/animation-performance",
@@ -1890,7 +1890,7 @@
     "financial-modeling": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "anthropics/creating-financial-models",

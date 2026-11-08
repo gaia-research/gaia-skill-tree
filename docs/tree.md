@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-11-07
+GAIA SKILL TREE  ·  generated 2026-11-08
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -369,6 +369,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  ◉ emilkowalski/animation-performance  [4★]
+    ├─ ○ addy-osmani/performance-optimization  [3★]
+    └─ ○ emilkowalski/animate  [4★]
   ◉ cathrynlavery/diagram-design  [4★]
     ├─ ○ /data-visualize
     ├─ ○ ayghri/i-have-adhd  [4★]
@@ -402,6 +405,13 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ arcmira/find-quotes  [2★]
     └─ ○ garrytan/context-audit  [2★]
   ◉ mksglu/context-mode  [4★]
+  ◉ anthropics/creating-financial-models  [4★]
+    ├─ · ████████/huggingface-datasets
+    │  ├─ ○ /generate-sql
+    │  ├─ ○ /data-visualize
+    │  └─ ○ /summarize
+    ├─ ○ /generate-sql  (↑ see above)
+    └─ ○ /statistical-analysis
   ◉ nvidia/accelerated-computing-cudf  [4★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ wheresryan22/anatomy  [4★]
@@ -488,4 +498,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-11-07. Do not edit directly.*
+*Generated from gaia.json on 2026-11-08. Do not edit directly.*
