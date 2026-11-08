@@ -5,11 +5,11 @@ contributor: obra
 origin: false
 genericSkillRef: test-driven-development
 status: named
-level: 2★
+level: 3★
 description: Use when implementing any feature or bugfix, before writing implementation
   code
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: test-driven-development
 links:
   github: https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md
@@ -47,6 +47,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 202.11 -> 59.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T08:26:54Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
