@@ -1,5 +1,5 @@
 {
- "generation": 1732,
+ "generation": 1733,
  "lane": {
   "entries": [
    {
@@ -132628,6 +132628,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
      "emittedAt": "2026-11-07T23:58:17.830900Z",
      "idempotencyKey": "verify:dispatch-3a2d2f1c6bee0b95fb7e:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-79f5e518ae90",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The baseline lacks a timeout for scope-check; the only change adds a job-level integer timeout of 5 minutes. - The display-name mapping is correct; the five newest sampled job rows match live GitHub data, and a newer run also completed in 7 seconds. - Recomputing workflowproof history from the 50 saved rows returns 5, matching the committed value; 46 successes have p95 7 seconds and maximum 8 seconds. - The supplied focused sensor and workflow test results support the change; this independent verification satisfies the review item.",
+      "verdict": "accept"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132644,7 +132651,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-79f5e518ae90.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:07:59.993288Z",
+     "status": "done",
      "stepId": "verify:79f5e518ae90:2",
      "type": "agent.verify"
     },
@@ -132731,6 +132739,21 @@
      },
      "status": "pending",
      "stepId": "integrate:2933fea8b223:2",
+     "type": "lead.integrate"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+     "emittedAt": "2026-11-08T00:07:59.993556Z",
+     "idempotencyKey": "integrate:dispatch-3a2d2f1c6bee0b95fb7e:2",
+     "params": {
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/workflow-hygiene-79f5e518ae90",
+      "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-79f5e518ae90.diff"
+     },
+     "status": "pending",
+     "stepId": "integrate:79f5e518ae90:2",
      "type": "lead.integrate"
     }
    ],
@@ -132877,6 +132900,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:1e13396e7fe5:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-79f5e518ae90",
+     "at": "2026-11-08T00:07:59.993556Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:79f5e518ae90:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134642,11 +134677,11 @@
      "stepId": "verify:1e13396e7fe5:2"
     },
     {
-     "at": "2026-11-07T23:58:17.830900Z",
+     "at": "2026-11-08T00:07:59.993288Z",
      "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
      "idempotencyKey": "verify:dispatch-3a2d2f1c6bee0b95fb7e:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:79f5e518ae90:2"
     },
     {
@@ -134680,6 +134715,14 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:2933fea8b223:2"
+    },
+    {
+     "at": "2026-11-08T00:07:59.993556Z",
+     "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+     "idempotencyKey": "integrate:dispatch-3a2d2f1c6bee0b95fb7e:2",
+     "kind": "lead.integrate",
+     "status": "awaiting",
+     "stepId": "integrate:79f5e518ae90:2"
     }
    ],
    "thinkingEfforts": [
@@ -134689,11 +134732,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:07:53.041072Z"
+   "updatedAt": "2026-11-08T00:07:59.993288Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:07:53.044906Z",
+ "updatedAt": "2026-11-08T00:07:59.995434Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140471,6 +140514,17 @@
      "stepId": "build:79f5e518ae90:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-79f5e518ae90",
+     "at": "2026-11-08T00:07:59.993556Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:79f5e518ae90:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -140509,6 +140563,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-3a2d2f1c6bee0b95fb7e (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:07:59.993556Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-79f5e518ae90 (pi, effort medium)",
+     "to": "verified"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140518,13 +140578,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:44:41.459140Z",
+   "state": "verified",
+   "updatedAt": "2026-11-08T00:07:59.993556Z",
    "verification": {
-    "receipt": "steward-20261107T235649Z-93e480ecc8c7cb5e",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-79f5e518ae90.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-79f5e518ae90",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The baseline lacks a timeout for scope-check; the only change adds a job-level integer timeout of 5 minutes. - The display-name mapping is correct; the five newest sampled job rows match live GitHub data, and a newer run also completed in 7 seconds. - Recomputing workflowproof history from the 50 saved rows returns 5, matching the committed value; 46 successes have p95 7 seconds and maximum 8 seconds. - The supplied focused sensor and workflow test results support the change; this independent verification satisfies the review item.",
+    "recordedAt": "2026-11-08T00:07:59.993556Z",
+    "stage": "judged",
+    "verdict": "accept"
    }
   },
   "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977": {
