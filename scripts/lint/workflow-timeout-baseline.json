@@ -20,10 +20,6 @@
   },
   "entries": [
     {
-      "workflow": ".github/workflows/auto-label-bot-prs.yml",
-      "job": "label-bots"
-    },
-    {
       "workflow": ".github/workflows/auto-merge-small-prs.yml",
       "job": "auto-merge"
     },
@@ -46,10 +42,6 @@
     {
       "workflow": ".github/workflows/backfill-releases.yml",
       "job": "backfill"
-    },
-    {
-      "workflow": ".github/workflows/branch-scope.yml",
-      "job": "scope-check"
     },
     {
       "workflow": ".github/workflows/cf-pr-preview.yml",
