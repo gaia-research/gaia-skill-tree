@@ -1,5 +1,5 @@
 {
- "generation": 1727,
+ "generation": 1728,
  "lane": {
   "entries": [
    {
@@ -6636,7 +6636,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T23:46:44.137840Z",
-   "expiresAt": "2026-11-08T00:31:42.857669Z",
+   "expiresAt": "2026-11-08T00:31:49.527140Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -132774,7 +132774,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T22:54:51.384854Z",
+    "asOf": "2026-11-08T00:01:48.628916Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -133241,7 +133241,7 @@
       "subject": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154"
      },
      {
-      "detail": "last scheduled run was 140h ago (limit 48h).",
+      "detail": "last scheduled run was 141h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -133274,7 +133274,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 8 pending action(s) (agent.verify), record each with `gaia steward full record run-20261107T222830Z-f75ff7de <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T222830Z-f75ff7de`",
    "options": {
     "afk": false,
     "agents": true,
@@ -134394,7 +134394,7 @@
    "sequence": 51,
    "sourceHead": "b9028e9a667ddb172f280bc7b20a78afdc00a586",
    "startedAt": "2026-11-07T22:28:30.246839Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T22:28:30.246839Z",
@@ -134572,7 +134572,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:01:42.857821Z",
+ "updatedAt": "2026-11-08T00:01:49.527282Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
