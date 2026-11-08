@@ -25,7 +25,7 @@
   },
   "title": "Brain Taxonomist",
   "genericSkillRef": "knowledge-management",
-  "origin": false,
+  "origin": true,
   "description": "Filing gate for ALL brain writes. Consulted before creating any new brain page to determine the correct path. Reads the ACTIVE schema pack via `gbrain schema show --json` — no hardcoded directory table. Also runs periodic taxonomy drift detection via `gbrain schema review-orphans`.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

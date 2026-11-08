@@ -176,14 +176,14 @@
     {
       "id": "garrytan/db-repair",
       "name": "db-repair",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 55.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/db-repair.json"
@@ -193,14 +193,14 @@
     {
       "id": "garrytan/postgres-adopt",
       "name": "postgres-adopt",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 55.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/postgres-adopt.json"
@@ -278,14 +278,14 @@
     {
       "id": "garrytan/benchmark",
       "name": "Benchmark",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark.json"
@@ -363,14 +363,14 @@
     {
       "id": "garrytan/brain-ops",
       "name": "Brain Ops",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/brain-ops.json"
@@ -448,14 +448,14 @@
     {
       "id": "garrytan/canary",
       "name": "Canary",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/canary.json"
@@ -465,14 +465,14 @@
     {
       "id": "garrytan/capture",
       "name": "Capture",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/capture.json"
@@ -567,14 +567,14 @@
     {
       "id": "garrytan/concept-synthesis",
       "name": "Concept Synthesis",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/concept-synthesis.json"
@@ -669,14 +669,14 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
@@ -754,14 +754,14 @@
     {
       "id": "garrytan/design-consultation",
       "name": "Design Consultation",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-consultation.json"
@@ -771,14 +771,14 @@
     {
       "id": "garrytan/design-html",
       "name": "Design HTML",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-html.json"
@@ -788,14 +788,14 @@
     {
       "id": "garrytan/design-shotgun",
       "name": "Design Shotgun",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
@@ -805,14 +805,14 @@
     {
       "id": "garrytan/document-generate",
       "name": "Document Generate",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-generate.json"
@@ -1026,14 +1026,14 @@
     {
       "id": "garrytan/land-and-deploy",
       "name": "Land and Deploy",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 100.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
@@ -1145,14 +1145,14 @@
     {
       "id": "garrytan/plan-ceo-review",
       "name": "Plan CEO Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
@@ -1162,14 +1162,14 @@
     {
       "id": "garrytan/plan-design-review",
       "name": "Plan Design Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-design-review.json"
@@ -1179,14 +1179,14 @@
     {
       "id": "garrytan/plan-devex-review",
       "name": "Plan DevEx Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-devex-review.json"
@@ -1213,14 +1213,14 @@
     {
       "id": "garrytan/qa",
       "name": "QA",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 140.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
@@ -1332,14 +1332,14 @@
     {
       "id": "garrytan/review",
       "name": "Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
@@ -1383,14 +1383,14 @@
     {
       "id": "garrytan/ship",
       "name": "Ship",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
@@ -1468,14 +1468,14 @@
     {
       "id": "garrytan/skillify",
       "name": "Skillify",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"

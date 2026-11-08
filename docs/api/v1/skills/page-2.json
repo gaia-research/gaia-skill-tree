@@ -517,14 +517,14 @@
     {
       "id": "obra/test-driven-development",
       "name": "test-driven-development",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 59.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "obra",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/test-driven-development.json"
@@ -568,14 +568,14 @@
     {
       "id": "garrytan/db-repair",
       "name": "db-repair",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 55.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/db-repair.json"
@@ -585,14 +585,14 @@
     {
       "id": "garrytan/postgres-adopt",
       "name": "postgres-adopt",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 55.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/postgres-adopt.json"
@@ -670,14 +670,14 @@
     {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"

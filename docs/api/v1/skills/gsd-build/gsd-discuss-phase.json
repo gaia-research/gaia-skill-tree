@@ -2,13 +2,13 @@
   "id": "gsd-build/gsd-discuss-phase",
   "name": "GSD Discuss Phase",
   "contributor": "gsd-build",
-  "level": "3★",
+  "level": "2★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Evolved",
+  "rankWord": "Named",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json",
@@ -176,6 +176,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T09:26:44Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
     }
   ],
   "links": {

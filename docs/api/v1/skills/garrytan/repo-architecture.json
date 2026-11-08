@@ -25,7 +25,7 @@
   },
   "title": "Repo Architecture",
   "genericSkillRef": "knowledge-management",
-  "origin": false,
+  "origin": true,
   "description": "Where new brain files go. Decision protocol for filing brain pages by primary subject, not by format or source. Reference for all brain-writing skills.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

@@ -54,14 +54,14 @@
     {
       "id": "heygen-com/hyperframes-registry",
       "name": "Hyperframes Registry",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
@@ -71,14 +71,14 @@
     {
       "id": "heygen-com/media-use",
       "name": "Media Use",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/media-use.json"
@@ -156,14 +156,14 @@
     {
       "id": "heygen-com/remotion-to-hyperframes",
       "name": "Remotion To Hyperframes",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
@@ -173,14 +173,14 @@
     {
       "id": "heygen-com/slideshow",
       "name": "Slideshow",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/slideshow.json"
@@ -207,14 +207,14 @@
     {
       "id": "leonxlnx/brandkit",
       "name": "brandkit",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brandkit.json"
@@ -224,14 +224,14 @@
     {
       "id": "leonxlnx/brutalist-skill",
       "name": "brutalist-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
@@ -241,14 +241,14 @@
     {
       "id": "leonxlnx/gpt-tasteskill",
       "name": "gpt-tasteskill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
@@ -258,14 +258,14 @@
     {
       "id": "leonxlnx/image-to-code-skill",
       "name": "image-to-code-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
@@ -275,14 +275,14 @@
     {
       "id": "leonxlnx/imagegen-frontend-mobile",
       "name": "imagegen-frontend-mobile",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
@@ -292,14 +292,14 @@
     {
       "id": "leonxlnx/imagegen-frontend-web",
       "name": "imagegen-frontend-web",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
@@ -309,14 +309,14 @@
     {
       "id": "leonxlnx/minimalist-skill",
       "name": "minimalist-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
@@ -343,14 +343,14 @@
     {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
@@ -360,14 +360,14 @@
     {
       "id": "leonxlnx/soft-skill",
       "name": "soft-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/soft-skill.json"
@@ -377,14 +377,14 @@
     {
       "id": "leonxlnx/stitch-skill",
       "name": "stitch-skill",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
@@ -411,14 +411,14 @@
     {
       "id": "obra/dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"

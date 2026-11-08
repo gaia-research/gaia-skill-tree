@@ -689,15 +689,15 @@
     {
       "id": "emilkowalski/break-ui",
       "name": "break-ui",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 180.0,
       "contributor": "emilkowalski",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/break-ui.json"
       },
@@ -757,15 +757,15 @@
     {
       "id": "emilkowalski/mobile-native",
       "name": "mobile-native",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 100.0,
       "contributor": "emilkowalski",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/mobile-native.json"
       },
@@ -774,15 +774,15 @@
     {
       "id": "emilkowalski/prototype",
       "name": "prototype",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "emilkowalski",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/prototype.json"
       },
@@ -791,15 +791,15 @@
     {
       "id": "emilkowalski/review-animations",
       "name": "review-animations",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/review-animations.json"
       },
@@ -808,15 +808,15 @@
     {
       "id": "emilkowalski/write-swift",
       "name": "write-swift",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/write-swift.json"
       },
@@ -1450,11 +1450,11 @@
     "code-generation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/design-html",
-        "contributor": "garrytan"
+        "id": "emilkowalski/write-swift",
+        "contributor": "emilkowalski"
       }
     ],
     "code-review-pipeline": [
@@ -1518,10 +1518,18 @@
     "concept-synthesis": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/concept-synthesis",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/idea-lineage",
         "contributor": "garrytan"
       }
     ],
@@ -1594,7 +1602,15 @@
     "deployment-automation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/ci-cd-and-automation",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/land-and-deploy",
@@ -1624,17 +1640,17 @@
     "design-review": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/design-shotgun",
-        "contributor": "garrytan"
+        "id": "emilkowalski/prototype",
+        "contributor": "emilkowalski"
       }
     ],
     "design-source-import": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/figma",
@@ -1644,7 +1660,7 @@
     "design-system-extraction": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/design-consultation",
@@ -1652,7 +1668,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/stitch-skill",
@@ -1662,7 +1678,7 @@
     "detect-anomaly": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/canary",
@@ -1672,7 +1688,7 @@
     "dispatching-parallel-agents": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "obra/dispatching-parallel-agents",
@@ -1768,7 +1784,7 @@
     "e2e-testing": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/qa",
@@ -1806,7 +1822,7 @@
     "evaluate-output": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/benchmark",
@@ -1814,7 +1830,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/plan-ceo-review",
@@ -1908,7 +1924,7 @@
     "finishing-a-development-branch": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "addy-osmani/shipping-and-launch",
@@ -1916,7 +1932,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/ship",
@@ -1924,7 +1940,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "gsd-build/gsd-ship",
@@ -1964,7 +1980,15 @@
     "framework-upgrade": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gbrain-upgrade",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/remotion-to-hyperframes",
@@ -2238,7 +2262,7 @@
     "image-generate": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/imagegen-frontend-mobile",
@@ -2246,7 +2270,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/imagegen-frontend-web",
@@ -2276,7 +2300,7 @@
     "interactive-presentation-authoring": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/slideshow",
@@ -2394,10 +2418,50 @@
     "knowledge-management": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-ingest-gate",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-link-discipline",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/brain-ops",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-taxonomist",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/eiirp",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/repo-architecture",
         "contributor": "garrytan"
       }
     ],
@@ -2422,7 +2486,7 @@
     "literature-search": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "firecrawl/firecrawl-research-index",
@@ -2486,7 +2550,7 @@
     "media-asset-orchestration": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/media-use",
@@ -2668,7 +2732,7 @@
     "performance-tuning": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "addy-osmani/performance-optimization",
@@ -2728,7 +2792,7 @@
     "postgres-best-practices": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/db-repair",
@@ -2736,7 +2800,7 @@
       },
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/postgres-adopt",
@@ -3172,11 +3236,11 @@
     "security-audit": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/cso",
-        "contributor": "garrytan"
+        "id": "zhaoxuya520/reverse-skill",
+        "contributor": "zhaoxuya520"
       }
     ],
     "sentiment-analysis": [
@@ -3236,7 +3300,7 @@
     "skill-discovery": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/hyperframes-registry",
@@ -3382,7 +3446,7 @@
     "test-driven-development": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "obra/test-driven-development",
@@ -3467,12 +3531,20 @@
         "redacted": false,
         "id": "emilkowalski/improve-animations",
         "contributor": "emilkowalski"
+      },
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/review-animations",
+        "contributor": "emilkowalski"
       }
     ],
     "ui-red-teaming": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "emilkowalski/break-ui",
@@ -3606,7 +3678,7 @@
     "video-scaffolding": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/hyperframes-cli",
@@ -3616,7 +3688,7 @@
     "vision-qa": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/image-to-code-skill",
@@ -3636,7 +3708,7 @@
     "web-best-practices": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "emilkowalski/mobile-native",

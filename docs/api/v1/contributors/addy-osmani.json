@@ -150,14 +150,14 @@
     {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
@@ -354,14 +354,14 @@
     {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "addy-osmani",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
@@ -388,14 +388,14 @@
     {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"

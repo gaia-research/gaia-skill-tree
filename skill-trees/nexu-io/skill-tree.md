@@ -17,16 +17,16 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — nexu-io  ·  generated 2026-11-07
+GAIA SKILL TREE — nexu-io  ·  generated 2026-11-08
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
 ✓ ◆ leonxlnx/taste-skill  [4★]
-  ├─ · ○ garrytan/design-html  [3★]
+  ├─ · ○ emilkowalski/write-swift  [4★]
   ├─ · ○ emilkowalski/find-animation-opportunities  [4★]
-  └─ · ○ leonxlnx/image-to-code-skill  [3★]
+  └─ · ○ leonxlnx/image-to-code-skill  [2★]
 ```
 
 ## Pending Combinations

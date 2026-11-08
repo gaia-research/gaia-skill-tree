@@ -88,14 +88,14 @@
     {
       "id": "garrytan/land-and-deploy",
       "name": "Land and Deploy",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 100.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
@@ -207,14 +207,14 @@
     {
       "id": "garrytan/plan-ceo-review",
       "name": "Plan CEO Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
@@ -224,14 +224,14 @@
     {
       "id": "garrytan/plan-design-review",
       "name": "Plan Design Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-design-review.json"
@@ -241,14 +241,14 @@
     {
       "id": "garrytan/plan-devex-review",
       "name": "Plan DevEx Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-devex-review.json"
@@ -275,14 +275,14 @@
     {
       "id": "garrytan/qa",
       "name": "QA",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 140.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
@@ -394,14 +394,14 @@
     {
       "id": "garrytan/review",
       "name": "Review",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
@@ -445,14 +445,14 @@
     {
       "id": "garrytan/ship",
       "name": "Ship",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
@@ -530,14 +530,14 @@
     {
       "id": "garrytan/skillify",
       "name": "Skillify",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"
@@ -683,14 +683,14 @@
     {
       "id": "gsd-build/gsd-discuss-phase",
       "name": "GSD Discuss Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
@@ -700,14 +700,14 @@
     {
       "id": "gsd-build/gsd-execute-phase",
       "name": "GSD Execute Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 220.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
@@ -717,14 +717,14 @@
     {
       "id": "gsd-build/gsd-plan-phase",
       "name": "GSD Plan Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
@@ -734,14 +734,14 @@
     {
       "id": "gsd-build/gsd-ship",
       "name": "GSD Ship",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-ship.json"
@@ -785,14 +785,14 @@
     {
       "id": "heygen-com/figma",
       "name": "Figma",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/figma.json"
@@ -836,14 +836,14 @@
     {
       "id": "heygen-com/hyperframes-cli",
       "name": "HyperFrames CLI",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"

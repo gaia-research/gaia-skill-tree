@@ -62,7 +62,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  ├─ ○ mattpocock/edit-article  [3★]
   │  │  └─ ○ /tool-use
   │  ├─ · mattpocock/diagnose  [3★]
-  │  │  ├─ ○ garrytan/design-html  [3★]
+  │  │  ├─ ○ emilkowalski/write-swift  [4★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ garrytan/correction-pipeline  [2★]
   │  ├─ ○ ████████/zoom-out
@@ -73,23 +73,23 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
-  ├─ ○ garrytan/benchmark  [3★]
+  ├─ ○ garrytan/benchmark  [2★]
   ├─ · garrytan/plan-eng-review  [3★]
-  │  ├─ ○ garrytan/design-html  [3★]
+  │  ├─ ○ emilkowalski/write-swift  [4★]
   │  ├─ ○ /diff-content
-  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
+  │  └─ ○ garrytan/benchmark  [2★]  (↑ see above)
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ garrytan/functional-area-resolver  [2★]
-  ├─ · garrytan/design-consultation  [3★]
+  ├─ · garrytan/design-consultation  [2★]
   │  ├─ · firecrawl/firecrawl-build  [2★]
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ emilkowalski/animation-performance  [4★]
-    ├─ ○ addy-osmani/performance-optimization  [3★]
+    ├─ ○ addy-osmani/performance-optimization  [2★]
     └─ ○ emilkowalski/animate  [4★]
   ◉ cathrynlavery/diagram-design  [4★]
     ├─ ○ /data-visualize
