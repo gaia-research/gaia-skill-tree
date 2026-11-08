@@ -2,9 +2,21 @@
   "version": 1,
   "rule": "missing-timeout",
   "source": "gaia_cli.steward.sensors_ci._workflow_findings (Steward ci-workflow sensor rule)",
-  "policy": "shrink-only: stale entries fail; entries added relative to the base ref fail",
+  "policy": "shrink-only: stale entries fail; entries or pins not justified by the base ref fail",
   "excluded": {
-    "generated-lock-files": "gh-aw generated lock file: gh-aw v0.92.6 refuses per-job timeout-minutes on compiled jobs and a hand edit is overwritten by the next compile; the repair is in the .md source plus a founder-gated recompile. Reported, never blocking; the Steward finding stays open."
+    "generated-lock-files": {
+      "reason": "gh-aw generated lock file: gh-aw v0.92.6 refuses per-job timeout-minutes on compiled jobs and a hand edit is overwritten by the next compile; the repair is in the .md source plus a founder-gated recompile. Reported, never blocking; the Steward finding stays open. Only the files listed here are excluded, and only while each is still a gh-aw lock with its .md source beside it.",
+      "files": [
+        ".github/workflows/steward-build-claude.lock.yml",
+        ".github/workflows/steward-build-codex.lock.yml",
+        ".github/workflows/steward-build-copilot.lock.yml",
+        ".github/workflows/steward-build-pi.lock.yml",
+        ".github/workflows/steward-verify-claude.lock.yml",
+        ".github/workflows/steward-verify-codex.lock.yml",
+        ".github/workflows/steward-verify-copilot.lock.yml",
+        ".github/workflows/steward-verify-pi.lock.yml"
+      ]
+    }
   },
   "entries": [
     {

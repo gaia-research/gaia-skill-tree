@@ -41,18 +41,18 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: python3 -m pip install "pyyaml>=6.0" "zizmor==1.32.0"
+      - name: Install gate dependency
+        run: python3 -m pip install "pyyaml>=6.0"
 
       - name: Run missing-timeout ratchet
         env:
@@ -62,15 +62,15 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
         run: |
           set -euo pipefail
-          # Stale entries (a job repaired without pruning the baseline) fail at
-          # the main gate and warn elsewhere, so one-file Steward repair lanes
-          # into dev/* stay green; prune once per integration.
-          base=""
+          # Stale entries (a job repaired without pruning the baseline) warn only
+          # on dev/* integration branches, so one-file Steward repair lanes stay
+          # green; they fail everywhere else, including the main gate. Prune once
+          # per integration. Every event compares against a base ref.
           stale=fail
           case "$EVENT_NAME" in
             pull_request)
               base="origin/$PR_BASE"
-              [ "$PR_BASE" = "main" ] || stale=warn
+              case "$PR_BASE" in dev/*) stale=warn ;; esac
               ;;
             push)
               if [ -n "$PUSH_BEFORE" ] && [ -n "${PUSH_BEFORE//0/}" ]; then
@@ -78,12 +78,17 @@ jobs:
               else
                 base="HEAD~1"
               fi
-              [ "$PUSH_REF" = "refs/heads/main" ] || stale=warn
+              case "$PUSH_REF" in refs/heads/dev/*) stale=warn ;; esac
+              ;;
+            *)
+              base="origin/main"
               ;;
           esac
-          args=(--stale "$stale")
-          [ -z "$base" ] || args+=(--base-ref "$base")
-          python3 scripts/check_workflow_hygiene.py "${args[@]}"
+          python3 scripts/check_workflow_hygiene.py --stale "$stale" --base-ref "$base"
+
+      - name: Install zizmor (advisory)
+        continue-on-error: true
+        run: python3 -m pip install "zizmor==1.32.0"
 
       - name: zizmor (advisory, never blocking)
         continue-on-error: true

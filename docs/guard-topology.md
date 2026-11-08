@@ -24,7 +24,7 @@ each guard's own path scope, runs only the guards a PR touches, and is the local
 | Guard C — Direction rule | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/** | Ultimate-first sort enforcement |
 | Guard D — Nav mounts | `docs-cohesion.yml` | inline check | PR comment only (no fail) | docs/ nav structure | Nav mounts in sync |
 | Guard E — Docs cohesion | `docs-cohesion.yml` | inline check | Fail on label absent | docs/graph/ | docs/graph/* artifacts regenerated alongside registry changes |
-| **Workflow Hygiene Guard** | `workflow-hygiene-guard.yml` | `scripts/check_workflow_hygiene.py` | **Hard-fail (exit 1)** above a shrink-only baseline; zizmor step advisory | `.github/workflows/*.y*ml` (gh-aw `*.lock.yml` reported, not blocking) | No new job without `timeout-minutes` (Steward `ci-workflow` rule); see DEV.md §4.G |
+| **Workflow Hygiene Guard** | `workflow-hygiene-guard.yml` | `scripts/check_workflow_hygiene.py` | **Hard-fail (exit 1)** above a shrink-only baseline; zizmor step advisory | `.github/workflows/*.y*ml` (the 8 pinned gh-aw locks reported, not blocking) | No new job without `timeout-minutes` (Steward `ci-workflow` rule); see DEV.md §4.G |
 
 > **IMPORTANT — Guard A/B mislabel history:** Issue #999 originally referenced a "Guard A" and
 > "Guard B" that did not correspond to the `docs-cohesion.yml` guard labels.  `docs-cohesion.yml`

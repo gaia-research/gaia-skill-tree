@@ -377,14 +377,21 @@ python3 scripts/check_workflow_hygiene.py --base-ref origin/main   # also refuse
 python3 scripts/check_workflow_hygiene.py --prune-baseline  # drop entries whose job now has a timeout
 ```
 * **`[BLOCKING]`**: a new job (or a new workflow) has no `timeout-minutes`. Add one sized to the
-  job's real waits. Do not add it to the baseline: entries added relative to the base ref fail as `[GROWN]`.
+  job's real waits. Do not add it to the baseline: an entry the base ref does not justify fails as
+  `[GROWN]`. When the base has no baseline yet, "justified" means it is already a sensor finding at
+  the base commit.
 * **`[STALE]`**: a baselined job now has a timeout or no longer exists. Run `--prune-baseline` and
-  commit the result. The baseline only shrinks. CI fails on stale entries at the `main` gate and
-  only warns (`[STALE-WARN]`) on PRs and pushes to `dev/*`, so one-file Steward repair lanes stay green;
-  prune once per integration.
-* **`[EXCLUDED]`**: gh-aw generated `*.lock.yml` jobs. gh-aw v0.92.6 refuses per-job timeouts on
-  compiled jobs and a hand edit is overwritten by the next compile, so they are reported, never
-  blocking, and stay open in the Steward census. Never hand-edit a lock file to silence them.
+  commit the result. The baseline only shrinks. CI only warns (`[STALE-WARN]`) on PRs into and
+  pushes to `dev/*`, so one-file Steward repair lanes stay green, and fails everywhere else,
+  including the `main` gate; prune once per integration.
+* **`[EXCLUDED]`**: jobs in the gh-aw lock files pinned by name in the baseline
+  (`excluded.generated-lock-files.files`), and only while each still carries the gh-aw banner and
+  has its `.md` source beside it. gh-aw v0.92.6 refuses per-job timeouts on compiled jobs and a hand
+  edit is overwritten by the next compile, so they are reported, never blocking, and stay open in the
+  Steward census. Never hand-edit a lock file to silence them.
+* **`[UNPINNED]`**: a workflow that looks generated (banner or `.lock.yml` name) but is not pinned.
+  Its jobs are blocking. A real new gh-aw lock is pinned deliberately in the baseline, and a pin the
+  base ref does not justify fails as `[GROWN]`.
 * **Exit 2**: the gate could not evaluate (unparseable workflow, malformed baseline, unresolvable
   base ref). It fails closed.
 * The same job runs **zizmor** (`--min-severity high --min-confidence high`) as advisory output
