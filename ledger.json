@@ -1,5 +1,5 @@
 {
- "generation": 1913,
+ "generation": 1914,
  "lane": {
   "entries": [
    {
@@ -6807,13 +6807,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T09:56:51.702910Z",
-   "holder": "run-20261108T075755Z-3d4cd7b6"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -144542,7 +144536,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-08T09:22:08.144658Z",
+    "asOf": "2026-11-08T09:26:50.761194Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -144808,7 +144802,7 @@
       "decision": "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile explicitly: finish the missed work, or record each leftover as an intentional disposition. Affected issues: #1823, #1996.",
       "decisionId": "decision-6e1112965a18a0d9b55a",
       "evidence": [
-       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: 25c2b624a795937f16123e70c20bc5b762042bd1f33729eb2b0181357c71a1d2"
+       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: 3dd6d69f39fabd17abf342f1a9a2dac1230cd0ceeb315a580ed0390c80ec6cdc"
       ],
       "links": [],
       "priority": 5,
@@ -145142,7 +145136,7 @@
        "garrytan/daily-task-prep - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/data-loss-gate - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/data-research - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
-       "garrytan/db-repair - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02",
+       "garrytan/db-repair - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill garrytan/db-repair --recomputation-only; staleFields: 1 item(s)",
        "garrytan/design-consultation - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/design-html - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/design-shotgun - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
@@ -145169,7 +145163,7 @@
        "garrytan/plan-ceo-review - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/plan-design-review - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/plan-devex-review - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
-       "garrytan/postgres-adopt - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02",
+       "garrytan/postgres-adopt - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill garrytan/postgres-adopt --recomputation-only; staleFields: 1 item(s)",
        "garrytan/publish - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/qa - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "garrytan/query - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
@@ -145243,7 +145237,7 @@
        "mattpocock/to-tickets - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/to-tickets --recomputation-only; staleFields: 1 item(s)",
        "mattpocock/ubiquitous-language - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/ubiquitous-language --recomputation-only; staleFields: 2 item(s)",
        "obra/dispatching-parallel-agents - delta: 0.1; holdReasons: 2 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
-       "obra/test-driven-development - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02",
+       "obra/test-driven-development - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill obra/test-driven-development --recomputation-only; staleFields: 1 item(s)",
        "obra/writing-skills - delta: 0.1; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 2 item(s); tolerance: 0.02",
        "ruvnet/hive-mind - delta: 0.1; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill ruvnet/hive-mind --recomputation-only; staleFields: 1 item(s)",
        "sickn33/ai-dev-jobs-mcp - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill sickn33/ai-dev-jobs-mcp --recomputation-only; staleFields: 1 item(s)",
@@ -145255,7 +145249,7 @@
        "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
       ],
       "priority": 30,
-      "recommended": "24 stamp(s) are recomputation-only: have a Verifier run `gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed PR (the backstop; the verb holds anything that is not safe and never writes a star level). 146 stamp(s) are governed (65 with a computed grade that disagrees with the stored level, 140 whose refresh would rewrite the stored grade, 0 with no stored grade to preserve): the refresh is held, no write command is recommended, and any level or grade change belongs to trust calibration governance (#2148).",
+      "recommended": "27 stamp(s) are recomputation-only: have a Verifier run `gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed PR (the backstop; the verb holds anything that is not safe and never writes a star level). 143 stamp(s) are governed (62 with a computed grade that disagrees with the stored level, 140 whose refresh would rewrite the stored grade, 0 with no stored grade to preserve): the refresh is held, no write command is recommended, and any level or grade change belongs to trust calibration governance (#2148).",
       "source": "class-c-debt",
       "unblocks": "170 open Class C debt item(s) of kind trust_stamp_stale; Steward takes no action until you rule.",
       "whyItMatters": "Stored trustMagnitude stamps disagree with the computed effective value. Founder ruling 2026-11-06 (#1642, 8A) refreshes a stamp inside the PR that changes its evidence when the refresh is a pure recomputation; what is left here either escaped that trigger or is not a recomputation. Steward measures and never edits stamps."
@@ -145266,11 +145260,6 @@
       "detail": "not evaluated: browser collection failed: Playwright is not installed; rendered frontend facts are NOT EVALUATED, not healthy",
       "kind": "not_evaluated",
       "subject": "browser-render"
-     },
-     {
-      "detail": "2 of 2 attempts used under trust-calibration-drift while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154"
      },
      {
       "detail": "independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict:",
@@ -145296,7 +145285,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-08T09:22:08.144658Z",
+   "finishedAt": "2026-11-08T09:26:50.761194Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -145324,7 +145313,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 8 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261108T075755Z-3d4cd7b6 <stepId> --input FILE`, then `gaia steward full run --resume run-20261108T075755Z-3d4cd7b6`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -148919,7 +148908,7 @@
    "sequence": 55,
    "sourceHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
    "startedAt": "2026-11-08T07:57:55.837618Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-08T07:57:55.837618Z",
@@ -149185,7 +149174,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:26:51.703069Z",
+ "updatedAt": "2026-11-08T09:29:15.222541Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
