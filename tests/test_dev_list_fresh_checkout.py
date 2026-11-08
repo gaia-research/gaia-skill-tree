@@ -2,7 +2,6 @@
 import json
 import subprocess
 import sys
-from pathlib import Path
 
 
 def run_list(root, *flags):
