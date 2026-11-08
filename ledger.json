@@ -1,5 +1,5 @@
 {
- "generation": 1898,
+ "generation": 1899,
  "lane": {
   "entries": [
    {
@@ -6762,7 +6762,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T09:52:00.498219Z",
+   "expiresAt": "2026-11-08T09:52:10.236207Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -144341,7 +144341,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-08T08:18:23.236057Z",
+    "asOf": "2026-11-08T09:22:08.144658Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -144607,7 +144607,7 @@
       "decision": "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile explicitly: finish the missed work, or record each leftover as an intentional disposition. Affected issues: #1823, #1996.",
       "decisionId": "decision-6e1112965a18a0d9b55a",
       "evidence": [
-       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: b3c7fc14d9aa76c83cb81d7573edbcd81ea07e144888c608572465a1abd1a87e"
+       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: 25c2b624a795937f16123e70c20bc5b762042bd1f33729eb2b0181357c71a1d2"
       ],
       "links": [],
       "priority": 5,
@@ -145072,11 +145072,6 @@
       "subject": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154"
      },
      {
-      "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
-      "kind": "failed_dispatch",
-      "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
-     },
-     {
       "detail": "independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict:",
       "kind": "failed_dispatch",
       "subject": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7"
@@ -145087,12 +145082,12 @@
       "subject": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d"
      },
      {
-      "detail": "last scheduled run was 149h ago (limit 48h).",
+      "detail": "last scheduled run was 150h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
      {
-      "detail": "open issues 224 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +0 since the previous run; ready (writes disabled): 2 proven closures",
+      "detail": "open issues 227 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +3 since the previous run; ready (writes disabled): 2 proven closures",
       "kind": "issue_backlog",
       "subject": "issue backlog"
      }
@@ -145100,7 +145095,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-08T09:22:08.144658Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -145108,6 +145103,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 227,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-08T07:57:55.837618Z",
@@ -145120,7 +145123,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 8 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261108T075755Z-3d4cd7b6 <stepId> --input FILE`, then `gaia steward full run --resume run-20261108T075755Z-3d4cd7b6`",
    "options": {
     "afk": false,
     "agents": true,
@@ -145132,7 +145135,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -148650,7 +148653,7 @@
    "sequence": 55,
    "sourceHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
    "startedAt": "2026-11-08T07:57:55.837618Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-08T07:57:55.837618Z",
@@ -148897,6 +148900,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-08T09:22:08.144658Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -148910,7 +148919,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:22:00.498492Z",
+ "updatedAt": "2026-11-08T09:22:10.236538Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
