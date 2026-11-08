@@ -79,3 +79,7 @@ Pinned upstream evidence (read-only, v0.92.6):
 
 No workflow was compiled, enabled, dispatched or provided credentials by this
 patch. No release, registry governance change or campaign completion is claimed.
+
+## C4 synchronization (founder ruling F7, 2026-11-08)
+
+The eight locks were recompiled from source with the release compiler gh-aw v0.92.6, and the founder pause is now encoded in source (generator `FOUNDERPAUSE`, top-level `if: ${{ false }}`, compiled to `activation.if: false`). The C4 strict-detection hardening is now in every lock. Activation is still not authorized (step 4 unchanged). Receipt and line-by-line audit: `founder/reports/steward-campaign-2026-11-05/F7_GHAW_RECOMPILE_RECEIPT.md`. The 24 missing job timeouts (activation, conclusion, steward_outcome) have no source setting in v0.92.6 and stay open as a gh-aw limitation.

@@ -837,7 +837,7 @@
         "entrypoint": "skills/diagram-design/SKILL.md",
         "installSubpath": "skills/diagram-design"
       },
-      "currentSkillContentSha256": "1423ad936b377985bb9127140f304b00690a235cae19bf51eb1121daf6964ef0",
+      "currentSkillContentSha256": "92d438fcb3d817895ef9971f7599dabfa94ab116937c3c42fbf6dd5a5831753d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1017,7 +1017,7 @@
         "entrypoint": "skills/animate/SKILL.md",
         "installSubpath": "skills/animate"
       },
-      "currentSkillContentSha256": "b9973fe953fa36722b025a00ae624f43e5de3c67d4c2c7469aadeca8693192cc",
+      "currentSkillContentSha256": "a2d517430a31b35ffe4480831f3aef45b1814965dd95f4390f882d98fedbf0bc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1037,7 +1037,7 @@
         "entrypoint": "skills/animate-expo/SKILL.md",
         "installSubpath": "skills/animate-expo"
       },
-      "currentSkillContentSha256": "5c6715994d4ec0e9b67964435ad0028f83c6a947aa98694c2329c0bc7a01dc0f",
+      "currentSkillContentSha256": "07e7fd866c89f4c939720f8bca6b9c689cd4652b4953d78d9e3d6f0d987d9bd4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1137,7 +1137,7 @@
         "entrypoint": "skills/find-animation-opportunities/SKILL.md",
         "installSubpath": "skills/find-animation-opportunities"
       },
-      "currentSkillContentSha256": "da74cdc77765b0c80389f1b273d437505acaf7442b4aafa44f1898a44772f5e0",
+      "currentSkillContentSha256": "5fd8ba9c248547c55cf3a1127eb9ab9f930ccbbc0100439dbe9d86bc2cd2db5c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1157,7 +1157,7 @@
         "entrypoint": "skills/improve-animations/SKILL.md",
         "installSubpath": "skills/improve-animations"
       },
-      "currentSkillContentSha256": "5a2396b3a109704f0e599431e9c3266bdc312b2e8b0986634aa0630b06bb6049",
+      "currentSkillContentSha256": "f4d203f53d1099a246a664e9db33e493d3d820765c3fbdaafa50ff751b77e9c8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

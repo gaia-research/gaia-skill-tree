@@ -32,7 +32,7 @@ safe-outputs:
             jq -r '[.items[] | select(.type == "steward_outcome")][0].outcome' "$GH_AW_AGENT_OUTPUT" | jq -e 'type == "object"' >/dev/null
             jq -r '[.items[] | select(.type == "steward_outcome")][0].outcome' "$GH_AW_AGENT_OUTPUT" > steward-outcome/outcome.json
         - name: Upload outcome
-          uses: actions/upload-artifact@v4
+          uses: actions/upload-artifact@v7.0.2
           with:
             name: steward-outcome
             path: steward-outcome/outcome.json

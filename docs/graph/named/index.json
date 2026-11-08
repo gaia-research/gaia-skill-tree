@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04",
+  "generatedAt": "2026-11-07",
   "originStandings": {
     "adaptive-pattern-learning": [
       {
@@ -132,7 +132,7 @@
     "architecture-diagram": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "cathrynlavery/diagram-design",
@@ -2312,27 +2312,19 @@
     "timeline-animation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-animation",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate",
+        "contributor": "emilkowalski"
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "heygen-com/hyperframes-keyframes",
-        "contributor": "heygen-com"
-      },
-      {
-        "origin": true,
-        "level": "3★",
-        "status": "named",
-        "redacted": false,
-        "id": "heygen-com/motion-graphics",
-        "contributor": "heygen-com"
+        "id": "emilkowalski/animate-expo",
+        "contributor": "emilkowalski"
       }
     ],
     "token-observability": [
@@ -2382,11 +2374,19 @@
     "ui-audit": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "leonxlnx/redesign-skill",
-        "contributor": "leonxlnx"
+        "id": "emilkowalski/find-animation-opportunities",
+        "contributor": "emilkowalski"
+      },
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/improve-animations",
+        "contributor": "emilkowalski"
       }
     ],
     "ui-red-teaming": [
@@ -19912,7 +19912,7 @@
         "origin": true,
         "genericSkillRef": "architecture-diagram",
         "status": "named",
-        "level": "2★",
+        "level": "4★",
         "description": "Create branded architecture, architecture delta, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, exploded axonometric, axonometric plan, Venn, pyramid/funnel, treemap and marimekko, heatmap, bar and dumbbell, waterfall, line (slopegraph, ridgeline, streamgraph, bump), Gantt and scatter charts (bubble, beeswarm, box plot), high-level, process,",
         "title": "Diagram Design",
         "links": {
@@ -19930,7 +19930,7 @@
           }
         ],
         "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
+        "updatedAt": "2026-11-08",
         "timeline": [
           {
             "timestamp": "2026-11-02T21:53:47Z",
@@ -19949,6 +19949,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 132.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T20:27:24Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
           }
         ],
         "trustMagnitude": 132.67,
@@ -19967,11 +19973,15 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 graded evidence sources"
+        },
         "fusionScore": 60.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -20773,10 +20783,182 @@
     ],
     "timeline-animation": [
       {
+        "id": "emilkowalski/animate",
+        "name": "animate",
+        "contributor": "emilkowalski",
+        "origin": true,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "4★",
+        "description": "Build an animation from scratch, making the decisions in the order that determines whether it feels right — should it animate at all, what purpose, which tool, which properties, which curve and duration, how it interrupts, how it exits. Writes the implementation. Use when asked to animate something, add motion, make a component feel alive, or build a transition. For critiquing existing motion use review-animations; for auditing a whole codebase use improve-animations.",
+        "title": "Animate",
+        "links": {
+          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-03",
+            "type": "github-stars-own",
+            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+            "stars": 50673,
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-03",
+        "updatedAt": "2026-11-08",
+        "timeline": [
+          {
+            "timestamp": "2026-11-02T21:53:52Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill emilkowalski/animate"
+          },
+          {
+            "timestamp": "2026-11-02T21:56:09Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-02T22:14:59Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T20:28:29Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "trustMagnitude": 129.67,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "f303d1c2a9e21361d0e64e9ca871b8a2b35e3c8747a6e4c9acf80015ae9b1cc5",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "emilkowalski/animate-expo",
+        "name": "animate-expo",
+        "contributor": "emilkowalski",
+        "origin": true,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "4★",
+        "description": "Build animations in React Native and Expo, making the decisions in the order that determines whether they feel right — should it animate, which thread it runs on, which properties, spring or timing, how the gesture hands off, how it degrades. Writes the implementation with Reanimated, Gesture Handler, Expo Router and expo-haptics. Use when animating anything in an Expo app, adding gestures, sheets, screen transitions, press feedback or haptics, or fixing motion that stutters on device. For web a",
+        "title": "Animate Expo",
+        "links": {
+          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-03",
+            "type": "github-stars-own",
+            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+            "stars": 50673,
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-03",
+        "updatedAt": "2026-11-08",
+        "timeline": [
+          {
+            "timestamp": "2026-11-02T21:53:50Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill emilkowalski/animate-expo"
+          },
+          {
+            "timestamp": "2026-11-02T21:56:06Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-02T22:14:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T20:27:29Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "trustMagnitude": 129.67,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "b24d28e310f20c2bb859996ad8d4c7f35d93c0d8e53f9415f8dde150113bc5d9",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "heygen-com/hyperframes-animation",
         "name": "HyperFrames Animation",
         "contributor": "heygen-com",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "timeline-animation",
         "status": "named",
         "level": "3★",
@@ -20876,7 +21058,7 @@
         "trustMagnitudeInputHash": "4a027e8d6ddf69143866cd705bc7da2534b437562cddbfd53725dd818e06e5df",
         "type": "basic",
         "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-animation\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md).",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -20905,7 +21087,7 @@
         "id": "heygen-com/hyperframes-keyframes",
         "name": "Hyperframes Keyframes",
         "contributor": "heygen-com",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "timeline-animation",
         "status": "named",
         "level": "3★",
@@ -21007,7 +21189,7 @@
         "trustMagnitudeInputHash": "dc6a6214e8e49b308ba83a5cab662a266325385b261a6a7030b3eaca26b4a58a",
         "type": "basic",
         "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-keyframes\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md).",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -21036,7 +21218,7 @@
         "id": "heygen-com/motion-graphics",
         "name": "Motion Graphics",
         "contributor": "heygen-com",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "timeline-animation",
         "status": "named",
         "level": "3★",
@@ -21150,7 +21332,7 @@
         "trustMagnitudeInputHash": "a894b7d1e00852d8f9c6090e1b6ddbe8d1cdb1d4ecb178d8ebe836e512e77f9b",
         "type": "basic",
         "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update motion-graphics\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md).",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -21164,158 +21346,6 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "emilkowalski/animate",
-        "name": "animate",
-        "contributor": "emilkowalski",
-        "origin": false,
-        "genericSkillRef": "timeline-animation",
-        "status": "named",
-        "level": "2★",
-        "description": "Build an animation from scratch, making the decisions in the order that determines whether it feels right — should it animate at all, what purpose, which tool, which properties, which curve and duration, how it interrupts, how it exits. Writes the implementation. Use when asked to animate something, add motion, make a component feel alive, or build a transition. For critiquing existing motion use review-animations; for auditing a whole codebase use improve-animations.",
-        "title": "Animate",
-        "links": {
-          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-11-03",
-            "type": "github-stars-own",
-            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
-            "stars": 50673,
-            "grade": "A"
-          }
-        ],
-        "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
-        "timeline": [
-          {
-            "timestamp": "2026-11-02T21:53:52Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill emilkowalski/animate"
-          },
-          {
-            "timestamp": "2026-11-02T21:56:09Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-11-02T22:14:59Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 129.67,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "f303d1c2a9e21361d0e64e9ca871b8a2b35e3c8747a6e4c9acf80015ae9b1cc5",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "emilkowalski/animate-expo",
-        "name": "animate-expo",
-        "contributor": "emilkowalski",
-        "origin": false,
-        "genericSkillRef": "timeline-animation",
-        "status": "named",
-        "level": "2★",
-        "description": "Build animations in React Native and Expo, making the decisions in the order that determines whether they feel right — should it animate, which thread it runs on, which properties, spring or timing, how the gesture hands off, how it degrades. Writes the implementation with Reanimated, Gesture Handler, Expo Router and expo-haptics. Use when animating anything in an Expo app, adding gestures, sheets, screen transitions, press feedback or haptics, or fixing motion that stutters on device. For web a",
-        "title": "Animate Expo",
-        "links": {
-          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-11-03",
-            "type": "github-stars-own",
-            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
-            "stars": 50673,
-            "grade": "A"
-          }
-        ],
-        "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
-        "timeline": [
-          {
-            "timestamp": "2026-11-02T21:53:50Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill emilkowalski/animate-expo"
-          },
-          {
-            "timestamp": "2026-11-02T21:56:06Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-11-02T22:14:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 129.67,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "b24d28e310f20c2bb859996ad8d4c7f35d93c0d8e53f9415f8dde150113bc5d9",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -21555,10 +21585,182 @@
     ],
     "ui-audit": [
       {
+        "id": "emilkowalski/find-animation-opportunities",
+        "name": "find-animation-opportunities",
+        "contributor": "emilkowalski",
+        "origin": true,
+        "genericSkillRef": "ui-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks \"what could be animated here?\" or wants to \"make this feel more alive\". For fixing existing animations, use improve-animations or review-animations instead.",
+        "title": "Find Animation Opportunities",
+        "links": {
+          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-03",
+            "type": "github-stars-own",
+            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+            "stars": 50673,
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-03",
+        "updatedAt": "2026-11-08",
+        "timeline": [
+          {
+            "timestamp": "2026-11-02T21:53:58Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill emilkowalski/find-animation-opportunities"
+          },
+          {
+            "timestamp": "2026-11-02T21:56:23Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-02T22:15:05Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T20:28:41Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "trustMagnitude": 129.67,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "f3cce532d49bf1dd1f1cf876f9162f0f171f753362e70081133f6b4e92f7032f",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "emilkowalski/improve-animations",
+        "name": "improve-animations",
+        "contributor": "emilkowalski",
+        "origin": true,
+        "genericSkillRef": "ui-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code — it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
+        "title": "Improve Animations",
+        "links": {
+          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-03",
+            "type": "github-stars-own",
+            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+            "stars": 50673,
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-03",
+        "updatedAt": "2026-11-08",
+        "timeline": [
+          {
+            "timestamp": "2026-11-02T21:53:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill emilkowalski/improve-animations"
+          },
+          {
+            "timestamp": "2026-11-02T21:56:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-02T22:15:07Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T20:29:22Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "trustMagnitude": 129.67,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "52dfd31207e98468c74e97c30a076338c5c36eba7af6dac48e513e36ee5904ec",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "leonxlnx/redesign-skill",
         "name": "redesign-skill",
         "contributor": "leonxlnx",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "ui-audit",
         "status": "named",
         "level": "3★",
@@ -21678,7 +21880,7 @@
         "trustMagnitudeInputHash": "7bc009796eb2b7065fbedf357cff9c963fa21db227b5bc01c4022c97f5871cfc",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -21692,158 +21894,6 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "emilkowalski/find-animation-opportunities",
-        "name": "find-animation-opportunities",
-        "contributor": "emilkowalski",
-        "origin": false,
-        "genericSkillRef": "ui-audit",
-        "status": "named",
-        "level": "2★",
-        "description": "Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks \"what could be animated here?\" or wants to \"make this feel more alive\". For fixing existing animations, use improve-animations or review-animations instead.",
-        "title": "Find Animation Opportunities",
-        "links": {
-          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-11-03",
-            "type": "github-stars-own",
-            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
-            "stars": 50673,
-            "grade": "A"
-          }
-        ],
-        "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
-        "timeline": [
-          {
-            "timestamp": "2026-11-02T21:53:58Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill emilkowalski/find-animation-opportunities"
-          },
-          {
-            "timestamp": "2026-11-02T21:56:23Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-11-02T22:15:05Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 129.67,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "f3cce532d49bf1dd1f1cf876f9162f0f171f753362e70081133f6b4e92f7032f",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "emilkowalski/improve-animations",
-        "name": "improve-animations",
-        "contributor": "emilkowalski",
-        "origin": false,
-        "genericSkillRef": "ui-audit",
-        "status": "named",
-        "level": "2★",
-        "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code — it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
-        "title": "Improve Animations",
-        "links": {
-          "github": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-11-03",
-            "type": "github-stars-own",
-            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
-            "stars": 50673,
-            "grade": "A"
-          }
-        ],
-        "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
-        "timeline": [
-          {
-            "timestamp": "2026-11-02T21:53:59Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill emilkowalski/improve-animations"
-          },
-          {
-            "timestamp": "2026-11-02T21:56:26Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-11-02T22:15:07Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 129.67,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "52dfd31207e98468c74e97c30a076338c5c36eba7af6dac48e513e36ee5904ec",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,

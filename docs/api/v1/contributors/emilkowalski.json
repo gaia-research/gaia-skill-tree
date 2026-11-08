@@ -4,15 +4,15 @@
     {
       "id": "emilkowalski/animate",
       "name": "animate",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animate.json"
       },
@@ -21,15 +21,15 @@
     {
       "id": "emilkowalski/animate-expo",
       "name": "animate-expo",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animate-expo.json"
       },
@@ -106,15 +106,15 @@
     {
       "id": "emilkowalski/find-animation-opportunities",
       "name": "find-animation-opportunities",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
       },
@@ -123,15 +123,15 @@
     {
       "id": "emilkowalski/improve-animations",
       "name": "improve-animations",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/improve-animations.json"
       },
@@ -209,7 +209,7 @@
   "namedSkillsCount": 12,
   "topSkill": {
     "id": "emilkowalski/animate",
-    "level": "2★",
+    "level": "4★",
     "trustMagnitude": 129.67
   },
   "prestigeScore": 1556.04,
