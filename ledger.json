@@ -1,5 +1,5 @@
 {
- "generation": 1755,
+ "generation": 1756,
  "lane": {
   "entries": [
    {
@@ -6681,13 +6681,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T23:46:44.137840Z",
-   "expiresAt": "2026-11-08T00:48:33.433996Z",
-   "holder": "run-20261107T222830Z-f75ff7de"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -133051,7 +133045,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-08T00:15:08.013963Z",
+    "asOf": "2026-11-08T00:18:32.543127Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -133493,16 +133487,6 @@
       "subject": "browser-render"
      },
      {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341"
-     },
-     {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae"
-     },
-     {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
       "kind": "failed_dispatch",
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
@@ -133546,7 +133530,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-08T00:15:08.013963Z",
+   "finishedAt": "2026-11-08T00:18:32.543127Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -133574,7 +133558,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 2 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T222830Z-f75ff7de <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T222830Z-f75ff7de`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -136392,7 +136376,7 @@
    "sequence": 51,
    "sourceHead": "b9028e9a667ddb172f280bc7b20a78afdc00a586",
    "startedAt": "2026-11-07T22:28:30.246839Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T22:28:30.246839Z",
@@ -136610,7 +136594,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:18:33.434135Z",
+ "updatedAt": "2026-11-08T00:20:46.893069Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
