@@ -1,5 +1,5 @@
 {
- "generation": 1729,
+ "generation": 1730,
  "lane": {
   "entries": [
    {
@@ -5981,14 +5981,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-c6e077354da177facab1",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:07:39.274230Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent verification by pi-herdr-batch11-verifier-5d98e47e79c0 (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:07:39.274230Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 2,
@@ -132514,6 +132520,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
      "emittedAt": "2026-11-07T23:53:35.857146Z",
      "idempotencyKey": "verify:dispatch-c6e077354da177facab1:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-5d98e47e79c0",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at b9028e9a6: .github/workflows/auto-merge-small-prs.yml defines job auto-merge (display name Auto-merge if eligible) without timeout-minutes. Git diff against the stated base shows no change to that workflow. The allowed gh run list and gh api job queries confirmed the five newest live runs; four match the prefetched rows and the newest run arrived after that snapshot. The fifth prefetched row also matches its live job. workflowproof history on the prefetched job history returns 5 minutes, below the job steps’ declared 15-minute polling bound, but that does not make the reported missing-timeout finding disappear.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132530,7 +132543,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-5d98e47e79c0.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:07:39.273918Z",
+     "status": "done",
      "stepId": "verify:5d98e47e79c0:2",
      "type": "agent.verify"
     },
@@ -132799,6 +132813,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:2933fea8b223:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-5d98e47e79c0",
+     "at": "2026-11-08T00:07:39.274230Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:5d98e47e79c0:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134540,11 +134566,11 @@
      "stepId": "verify:2933fea8b223:2"
     },
     {
-     "at": "2026-11-07T23:53:35.857146Z",
+     "at": "2026-11-08T00:07:39.273918Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
      "idempotencyKey": "verify:dispatch-c6e077354da177facab1:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:5d98e47e79c0:2"
     },
     {
@@ -134611,11 +134637,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:07:32.251648Z"
+   "updatedAt": "2026-11-08T00:07:39.273918Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:07:32.254352Z",
+ "updatedAt": "2026-11-08T00:07:39.277688Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140069,6 +140095,17 @@
      "stepId": "build:5d98e47e79c0:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-5d98e47e79c0",
+     "at": "2026-11-08T00:07:39.274230Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:5d98e47e79c0:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -140107,6 +140144,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-c6e077354da177facab1 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:07:39.274230Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-5d98e47e79c0 (pi, effort medium): reject",
+     "to": "escalated"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140116,13 +140159,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:49:26.119553Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-08T00:07:39.274230Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-5d98e47e79c0.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-5d98e47e79c0",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at b9028e9a6: .github/workflows/auto-merge-small-prs.yml defines job auto-merge (display name Auto-merge if eligible) without timeout-minutes. Git diff against the stated base shows no change to that workflow. The allowed gh run list and gh api job queries confirmed the five newest live runs; four match the prefetched rows and the newest run arrived after that snapshot. The fifth prefetched row also matches its live job. workflowproof history on the prefetched job history returns 5 minutes, below the job steps’ declared 15-minute polling bound, but that does not make the reported missing-timeout finding disappear.",
+    "recordedAt": "2026-11-08T00:07:39.274230Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f": {
