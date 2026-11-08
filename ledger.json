@@ -1,5 +1,5 @@
 {
- "generation": 1751,
+ "generation": 1752,
  "lane": {
   "entries": [
    {
@@ -6116,14 +6116,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-3a2d2f1c6bee0b95fb7e",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:16:17.665402Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch11-verifier-79f5e518ae90)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:16:17.665402Z",
+    "lastVerdict": "accept",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 2,
@@ -132805,6 +132811,17 @@
      "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
      "emittedAt": "2026-11-08T00:07:59.993556Z",
      "idempotencyKey": "integrate:dispatch-3a2d2f1c6bee0b95fb7e:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "aec8820499ce05b1e5add4833ee63ca19e9bdfce",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/workflow-hygiene-79f5e518ae90",
+       "number": 2399,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2399"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -132812,7 +132829,8 @@
       "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-79f5e518ae90.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:16:17.665145Z",
+     "status": "done",
      "stepId": "integrate:79f5e518ae90:2",
      "type": "lead.integrate"
     }
@@ -133020,6 +133038,13 @@
      "at": "2026-11-08T00:15:59.690671Z",
      "by": "lead-claude-opus-5-5 (herdr w2H)",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "decision": "integrate",
+     "type": "integrate"
+    },
+    {
+     "at": "2026-11-08T00:16:17.665402Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
      "decision": "integrate",
      "type": "integrate"
     }
@@ -136347,6 +136372,14 @@
      "merged": true,
      "number": 2398,
      "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2398"
+    },
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+     "head": "steward/b/workflow-hygiene-79f5e518ae90",
+     "merged": true,
+     "number": 2399,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2399"
     }
    ],
    "receipts": [
@@ -136534,11 +136567,11 @@
      "stepId": "integrate:2933fea8b223:2"
     },
     {
-     "at": "2026-11-08T00:07:59.993556Z",
+     "at": "2026-11-08T00:16:17.665145Z",
      "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
      "idempotencyKey": "integrate:dispatch-3a2d2f1c6bee0b95fb7e:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:79f5e518ae90:2"
     },
     {
@@ -136573,11 +136606,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:15:59.690317Z"
+   "updatedAt": "2026-11-08T00:16:17.665145Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:15:59.695486Z",
+ "updatedAt": "2026-11-08T00:16:17.669100Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -142422,17 +142455,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch11-verifier-79f5e518ae90 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-08T00:16:17.665402Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "workflow_hygiene",
+   "mergedSha": "aec8820499ce05b1e5add4833ee63ca19e9bdfce",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-79f5e518ae90.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/workflow-hygiene-79f5e518ae90",
+    "number": 2399,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2399"
+   },
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "verified",
-   "updatedAt": "2026-11-08T00:07:59.993556Z",
+   "state": "landed",
+   "updatedAt": "2026-11-08T00:16:17.665402Z",
    "verification": {
     "agentId": "pi-herdr-batch11-verifier-79f5e518ae90",
     "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The baseline lacks a timeout for scope-check; the only change adds a job-level integer timeout of 5 minutes. - The display-name mapping is correct; the five newest sampled job rows match live GitHub data, and a newer run also completed in 7 seconds. - Recomputing workflowproof history from the 50 saved rows returns 5, matching the committed value; 46 successes have p95 7 seconds and maximum 8 seconds. - The supplied focused sensor and workflow test results support the change; this independent verification satisfies the review item.",
