@@ -1,5 +1,5 @@
 {
- "generation": 1885,
+ "generation": 1886,
  "lane": {
   "entries": [
    {
@@ -143930,6 +143930,13 @@
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "emittedAt": "2026-11-08T09:03:10.263374Z",
      "idempotencyKey": "verify:dispatch-0f3635f7e2d72b8024db:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch13-verifier-2db0f48e182c",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - \"The baseline was 2★; the supplied pre-calibration inspection and independent current inspection both show TM 54.90 and grade B, corresponding to 3★.\" - \"The sole record change promotes to 3★ and appends the expected rank_up event; the proof reports one successful no-build calibration.\" - \"The promotion fits the Class B envelope; this independent verification supplies the review item, and wave-level artifact regeneration remains the lead's responsibility.\"",
+      "verdict": "accept"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -143945,7 +143952,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/verify-2db0f48e182c.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T09:16:01.087107Z",
+     "status": "done",
      "stepId": "verify:2db0f48e182c:1",
      "type": "agent.verify"
     },
@@ -144068,6 +144076,21 @@
      },
      "status": "pending",
      "stepId": "integrate:808541080ee9:1",
+     "type": "lead.integrate"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "emittedAt": "2026-11-08T09:16:01.087385Z",
+     "idempotencyKey": "integrate:dispatch-0f3635f7e2d72b8024db:1",
+     "params": {
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/trust-calibration-drift-2db0f48e182c",
+      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.diff"
+     },
+     "status": "pending",
+     "stepId": "integrate:2db0f48e182c:1",
      "type": "lead.integrate"
     }
    ],
@@ -144226,6 +144249,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:808541080ee9:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch13-verifier-2db0f48e182c",
+     "at": "2026-11-08T09:16:01.087385Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2db0f48e182c:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -146792,11 +146827,11 @@
      "stepId": "verify:808541080ee9:1"
     },
     {
-     "at": "2026-11-08T09:03:10.263374Z",
+     "at": "2026-11-08T09:16:01.087107Z",
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "idempotencyKey": "verify:dispatch-0f3635f7e2d72b8024db:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:2db0f48e182c:1"
     },
     {
@@ -146854,6 +146889,14 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:808541080ee9:1"
+    },
+    {
+     "at": "2026-11-08T09:16:01.087385Z",
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "idempotencyKey": "integrate:dispatch-0f3635f7e2d72b8024db:1",
+     "kind": "lead.integrate",
+     "status": "awaiting",
+     "stepId": "integrate:2db0f48e182c:1"
     }
    ],
    "thinkingEfforts": [
@@ -146863,11 +146906,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T09:15:54.259910Z"
+   "updatedAt": "2026-11-08T09:16:01.087107Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:15:54.262087Z",
+ "updatedAt": "2026-11-08T09:16:01.089288Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -148303,6 +148346,17 @@
      "stepId": "build:2db0f48e182c:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch13-verifier-2db0f48e182c",
+     "at": "2026-11-08T09:16:01.087385Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2db0f48e182c:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
@@ -148329,6 +148383,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-0f3635f7e2d72b8024db (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T09:16:01.087385Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch13-verifier-2db0f48e182c (pi, effort medium)",
+     "to": "verified"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -148338,13 +148398,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-08T08:42:37.252495Z",
+   "state": "verified",
+   "updatedAt": "2026-11-08T09:16:01.087385Z",
    "verification": {
-    "receipt": "steward-20261108T090055Z-2f1342dfd57638a3",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/verify-2db0f48e182c.prompt.md"
+    "agentId": "pi-herdr-batch13-verifier-2db0f48e182c",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - \"The baseline was 2★; the supplied pre-calibration inspection and independent current inspection both show TM 54.90 and grade B, corresponding to 3★.\" - \"The sole record change promotes to 3★ and appends the expected rank_up event; the proof reports one successful no-build calibration.\" - \"The promotion fits the Class B envelope; this independent verification supplies the review item, and wave-level artifact regeneration remains the lead's responsibility.\"",
+    "recordedAt": "2026-11-08T09:16:01.087385Z",
+    "stage": "judged",
+    "verdict": "accept"
    }
   },
   "debt:trust_calibration_drift:garrytan-postgres-adopt:559577353ee00cff": {
