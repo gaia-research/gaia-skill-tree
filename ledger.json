@@ -1,5 +1,5 @@
 {
- "generation": 1907,
+ "generation": 1908,
  "lane": {
   "entries": [
    {
@@ -2083,14 +2083,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-0f3635f7e2d72b8024db",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T09:24:38.186041Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch13-verifier-2db0f48e182c)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-08T08:01:00.779337Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T09:24:38.186041Z",
+    "lastVerdict": "accept",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -144188,6 +144194,17 @@
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "emittedAt": "2026-11-08T09:16:01.087385Z",
      "idempotencyKey": "integrate:dispatch-0f3635f7e2d72b8024db:1",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "b11730f7725873949f5a5155153155fe31fe5098",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/trust-calibration-drift-2db0f48e182c",
+       "number": 2412,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2412"
+      }
+     },
      "params": {
       "attempt": 1,
       "base": "dev/steward-campaign-2026-11-05",
@@ -144195,7 +144212,8 @@
       "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T09:24:38.185717Z",
+     "status": "done",
      "stepId": "integrate:2db0f48e182c:1",
      "type": "lead.integrate"
     },
@@ -144461,6 +144479,13 @@
      "at": "2026-11-08T09:24:21.697644Z",
      "by": "lead-claude-opus-5-5 (herdr w2H)",
      "debtId": "debt:trust_calibration_drift:emilkowalski-write-swift:917c1cd8a7625a15",
+     "decision": "integrate",
+     "type": "integrate"
+    },
+    {
+     "at": "2026-11-08T09:24:38.186041Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "decision": "integrate",
      "type": "integrate"
     }
@@ -148808,6 +148833,14 @@
      "merged": true,
      "number": 2411,
      "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2411"
+    },
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "head": "steward/b/trust-calibration-drift-2db0f48e182c",
+     "merged": true,
+     "number": 2412,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2412"
     }
    ],
    "receipts": [
@@ -149027,11 +149060,11 @@
      "stepId": "integrate:808541080ee9:1"
     },
     {
-     "at": "2026-11-08T09:16:01.087385Z",
+     "at": "2026-11-08T09:24:38.185717Z",
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "idempotencyKey": "integrate:dispatch-0f3635f7e2d72b8024db:1",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:2db0f48e182c:1"
     },
     {
@@ -149082,11 +149115,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T09:24:21.697322Z"
+   "updatedAt": "2026-11-08T09:24:38.185717Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:24:21.703180Z",
+ "updatedAt": "2026-11-08T09:24:38.191580Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -150657,17 +150690,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch13-verifier-2db0f48e182c (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-08T09:24:38.186041Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "trust_calibration_drift",
+   "mergedSha": "b11730f7725873949f5a5155153155fe31fe5098",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/trust-calibration-drift-2db0f48e182c",
+    "number": 2412,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2412"
+   },
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
-   "state": "verified",
-   "updatedAt": "2026-11-08T09:16:01.087385Z",
+   "state": "landed",
+   "updatedAt": "2026-11-08T09:24:38.186041Z",
    "verification": {
     "agentId": "pi-herdr-batch13-verifier-2db0f48e182c",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - \"The baseline was 2★; the supplied pre-calibration inspection and independent current inspection both show TM 54.90 and grade B, corresponding to 3★.\" - \"The sole record change promotes to 3★ and appends the expected rank_up event; the proof reports one successful no-build calibration.\" - \"The promotion fits the Class B envelope; this independent verification supplies the review item, and wave-level artifact regeneration remains the lead's responsibility.\"",
