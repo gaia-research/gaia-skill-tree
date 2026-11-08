@@ -1,5 +1,5 @@
 {
- "generation": 1840,
+ "generation": 1841,
  "lane": {
   "entries": [
    {
@@ -1019,7 +1019,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -1040,14 +1040,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch10-verifier-3435f8d0b7d1 (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-08T08:01:00.779337Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-883954188741817f3cb4",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T21:56:17.437268Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-08T08:01:00.779337Z",
+    "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -3222,14 +3228,20 @@
       "from": "dispatched",
       "reason": "verification escalated (building for more than 24h without a verified outcome)",
       "to": "escalated"
+     },
+     {
+      "at": "2026-11-08T08:01:00.779337Z",
+      "from": "escalated",
+      "reason": "the debt is no longer eligible for agent repair; the escalation is answered",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:10.609334Z",
+    "lastTransitionAt": "2026-11-08T08:01:00.779337Z",
     "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "escalated"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -6708,7 +6720,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T08:30:55.513553Z",
+   "expiresAt": "2026-11-08T08:32:33.291900Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -143411,7 +143423,36 @@
    "unresolvedWork": []
   },
   "run-20261108T075755Z-3d4cd7b6": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+     "emittedAt": "2026-11-08T08:01:00.779337Z",
+     "idempotencyKey": "dispatch-883954188741817f3cb4:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/trust-calibration-drift-3435f8d0b7d1",
+      "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+      "dispatchId": "dispatch-883954188741817f3cb4",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.diff",
+       "proofPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:3435f8d0b7d1:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -144992,6 +145033,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-08T08:01:00.779337Z",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+     "idempotencyKey": "dispatch-883954188741817f3cb4:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:3435f8d0b7d1:2"
     }
    ],
    "thinkingEfforts": [],
@@ -145002,7 +145051,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T08:00:55.514758Z",
+ "updatedAt": "2026-11-08T08:02:33.296160Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -145775,16 +145824,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch10-verifier-3435f8d0b7d1 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/trust-calibration-drift-3435f8d0b7d1",
    "build": null,
    "createdAt": "2026-11-07T20:12:06.869150Z",
    "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
    "dispatchId": "dispatch-883954188741817f3cb4",
-   "dispatchedAt": "2026-11-07T20:12:06.869150Z",
+   "dispatchedAt": "2026-11-08T08:01:00.779337Z",
    "history": [
     {
      "at": "2026-11-07T20:12:06.869150Z",
@@ -145797,24 +145845,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch10-verifier-3435f8d0b7d1 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-08T08:01:00.779337Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-883954188741817f3cb4 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "trust_calibration_drift",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-3435f8d0b7d1.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
-   "runId": "run-20261107T200905Z-82a8d6bb",
+   "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T21:56:17.437268Z",
-   "verification": {
-    "agentId": "pi-herdr-batch10-verifier-3435f8d0b7d1",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The pre-change inspection reports 2★, TM 129.67, grade A, and a 4★ target; the diff promotes the subject and appends a rank_up event.\" - \"The supplied proof does not demonstrate that the exact calibration command was run exactly once: item 2 contains only a diffstat, while item 3 contains success output and a diff, not an invocation or invocation count. The established zero exit status does not establish that required execution history.\" - \"Independent review is provided by this verification; the empty fourth item is not a separate defect.\"",
-    "recordedAt": "2026-11-07T21:56:17.437268Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-08T08:01:00.779337Z",
+   "verification": null
   },
   "debt:trust_calibration_drift:emilkowalski-find-animation-opportunities:8bb20c9945bcfaaa": {
    "assignments": [
