@@ -1,5 +1,5 @@
 {
- "generation": 1866,
+ "generation": 1867,
  "lane": {
   "entries": [
    {
@@ -6762,7 +6762,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T09:19:32.755224Z",
+   "expiresAt": "2026-11-08T09:19:38.693953Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -144666,7 +144666,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -144679,52 +144679,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-883954188741817f3cb4",
-     "dispatched": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
-     "dispatchedAll": [
-      {
-       "dispatchId": "dispatch-883954188741817f3cb4",
-       "dispatched": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
-       "stepId": "build:3435f8d0b7d1:2"
-      },
-      {
-       "dispatchId": "dispatch-4df7555f84efee74bd72",
-       "dispatched": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
-       "stepId": "build:4eef6ecc6d5f:1"
-      },
-      {
-       "dispatchId": "dispatch-6ee799c1b90fb6c2a3f2",
-       "dispatched": "debt:trust_calibration_drift:emilkowalski-prototype:7f264457d62619d2",
-       "stepId": "build:f305491821be:1"
-      },
-      {
-       "dispatchId": "dispatch-970d024eaf65af0d9f3b",
-       "dispatched": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
-       "stepId": "build:c7f685970a7a:1"
-      },
-      {
-       "dispatchId": "dispatch-d608abf5dda5b779ede8",
-       "dispatched": "debt:trust_calibration_drift:emilkowalski-write-swift:917c1cd8a7625a15",
-       "stepId": "build:808541080ee9:1"
-      },
-      {
-       "dispatchId": "dispatch-0f3635f7e2d72b8024db",
-       "dispatched": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
-       "stepId": "build:2db0f48e182c:1"
-      },
-      {
-       "dispatchId": "dispatch-c7ed2387594b71fc20fd",
-       "dispatched": "debt:trust_calibration_drift:garrytan-postgres-adopt:559577353ee00cff",
-       "stepId": "build:1a270c78f6d1:1"
-      },
-      {
-       "dispatchId": "dispatch-96204b9c6798b231e9e7",
-       "dispatched": "debt:trust_calibration_drift:obra-test-driven-development:b64ffeb35772ede5",
-       "stepId": "build:1a2bc86f3fbb:1"
-      }
-     ],
-     "status": "awaiting-build",
-     "stepId": "build:3435f8d0b7d1:2"
+     "dispatched": null,
+     "reason": "this run already dispatched 8 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -146371,6 +146328,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:1a2bc86f3fbb:1"
+    },
+    {
+     "at": "2026-11-08T08:49:37.372426Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -146384,7 +146347,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T08:49:32.757503Z",
+ "updatedAt": "2026-11-08T08:49:38.694175Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
