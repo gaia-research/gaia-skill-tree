@@ -197,3 +197,54 @@ def test_named_appraisal_scope_effective_vs_not_evaluated(tmp_path, monkeypatch)
     assert missing["genericResolution"] == "not evaluated"
     assert missing["totalStatus"] == "partial"
     assert missing["registryRevision"]
+
+
+def _stampedFixture(tmp_path, *, frozen: bool, lock: bool = True):
+    named = tmp_path / "registry" / "named" / "example" / "tool.md"
+    named.parent.mkdir(parents=True)
+    lines = ["---", "id: example/tool", "genericSkillRef: synthetic-generic"]
+    if frozen:
+        lines.append("frozen: true")
+    if lock:
+        lines += ["trustMagnitude: 50.0", "overallTrustGrade: B"]
+    lines += [
+        "evidence:",
+        "  - type: repo-own",
+        "    source: https://github.com/example/tool",
+        "    commits: 816",
+        "    contributors: 2",
+        "---",
+        "",
+    ]
+    named.write_text("\n".join(lines), encoding="utf-8")
+
+
+def test_frozen_named_appraisal_reports_the_lock_not_the_recomputation(tmp_path, monkeypatch):
+    appraiser = loadAppraiser()
+    _stampedFixture(tmp_path, frozen=True)
+    monkeypatch.setattr(appraiser, "REPO_ROOT", tmp_path)
+
+    result = appraiser.appraise_skill("example/tool", generic_map=dict(GENERIC_MAP), named_map={})
+    assert (result["tm"], result["grade"]) == (50.0, "B")
+    assert result["frozen"] is True
+    assert result["recomputedTm"] == 21.25
+
+
+def test_non_frozen_named_appraisal_still_recomputes(tmp_path, monkeypatch):
+    appraiser = loadAppraiser()
+    _stampedFixture(tmp_path, frozen=False)
+    monkeypatch.setattr(appraiser, "REPO_ROOT", tmp_path)
+
+    result = appraiser.appraise_skill("example/tool", generic_map=dict(GENERIC_MAP), named_map={})
+    assert result["tm"] == 21.25
+    assert "frozen" not in result
+
+
+def test_frozen_named_appraisal_without_a_valid_lock_fails_closed(tmp_path, monkeypatch):
+    appraiser = loadAppraiser()
+    _stampedFixture(tmp_path, frozen=True, lock=False)
+    monkeypatch.setattr(appraiser, "REPO_ROOT", tmp_path)
+
+    result = appraiser.appraise_skill("example/tool", generic_map=dict(GENERIC_MAP), named_map={})
+    assert "lacks a valid" in result["error"]
+    assert "tm" not in result

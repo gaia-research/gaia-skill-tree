@@ -30,6 +30,14 @@ checks two things:
      dry-run value within the same tolerance — the actual cross-surface
      check the issue asked for.
 
+Frozen skills (``gaia_cli.frozen``) are the exception to both checks: their
+stamps are locked and never rewritten, so a later change to the formula (for
+example the 49.9 suite cap, #2378) moves the recomputation but not the lock. For
+a frozen skill the expected value is its locked ``trustMagnitude`` /
+``overallTrustGrade`` (``frozenLock``), never a fresh recomputation: the index
+must publish the lock, and the lock itself must be valid. Non-frozen skills are
+checked exactly as before.
+
 Exit code 0 = all named skills agree across surfaces; 1 = drift (each printed).
 """
 
@@ -45,6 +53,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter  # noqa: E402
+from gaia_cli.frozen import frozenIds, frozenLock  # noqa: E402
 from gaia_cli.registry import named_skills_dir, named_skills_index_path  # noqa: E402
 from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
@@ -88,45 +97,79 @@ def _loadGeneratedIndex(registryPath: str) -> dict[str, dict]:
     return byId
 
 
-def main() -> int:
-    registryPath = str(REPO_ROOT)
-    namedSkills = _loadNamedSkills(registryPath)
-    mergedMap = buildMergedSkillMap(registryPath)
-    generatedIndex = _loadGeneratedIndex(registryPath)
-
+def findViolations(
+    namedSkills: list[dict], mergedMap: dict, generatedIndex: dict[str, dict]
+) -> tuple[list[str], int, int]:
+    """Return ``(violations, cacheChecked, indexChecked)`` for the named skills."""
+    frozen = frozenIds(namedSkills)
     violations: list[str] = []
     cacheChecked = 0
     indexChecked = 0
 
     for skill in namedSkills:
         skillId = skill["id"]
-        dryRunTm = round(computeTrustMagnitude(skill, mergedMap), 2)
+        lock = frozenLock(skill) if skillId in frozen else None
+        if skillId in frozen:
+            if lock is None:
+                violations.append(
+                    f"{skillId}: frozen skill lacks a valid trustMagnitude/overallTrustGrade "
+                    f"lock; its bytes must be preserved and the lock repaired through an "
+                    f"explicitly authorized historical-lock workflow."
+                )
+                continue
+            # The locked stamp IS the expected value; never recompute a frozen skill.
+            expectedTm = round(lock[0], 2)
+        else:
+            expectedTm = round(computeTrustMagnitude(skill, mergedMap), 2)
 
-        storedTm = skill.get("trustMagnitude")
-        storedHash = skill.get("trustMagnitudeInputHash")
-        if storedTm is not None and storedHash is not None:
-            currentHash = computeTrustMagnitudeInputHash(skill)
-            if storedHash == currentHash:
-                cacheChecked += 1
-                if abs(float(storedTm) - dryRunTm) > TOLERANCE:
-                    violations.append(
-                        f"{skillId}: frontmatter trustMagnitude={storedTm} claims a valid "
-                        f"trustMagnitudeInputHash, but recomputing from the same inputs gives "
-                        f"{dryRunTm}. Run `gaia dev calibrate-trust-magnitude --skill {skillId}`."
-                    )
+            storedTm = skill.get("trustMagnitude")
+            storedHash = skill.get("trustMagnitudeInputHash")
+            if storedTm is not None and storedHash is not None:
+                currentHash = computeTrustMagnitudeInputHash(skill)
+                if storedHash == currentHash:
+                    cacheChecked += 1
+                    if abs(float(storedTm) - expectedTm) > TOLERANCE:
+                        violations.append(
+                            f"{skillId}: frontmatter trustMagnitude={storedTm} claims a valid "
+                            f"trustMagnitudeInputHash, but recomputing from the same inputs gives "
+                            f"{expectedTm}. Run `gaia dev calibrate-trust-magnitude --skill {skillId}`."
+                        )
 
         indexEntry = generatedIndex.get(skillId)
         if indexEntry is not None:
             indexTm = indexEntry.get("trustMagnitude")
             if indexTm is not None:
                 indexChecked += 1
-                if abs(float(indexTm) - dryRunTm) > TOLERANCE:
+                if abs(float(indexTm) - expectedTm) > TOLERANCE:
+                    source = "its locked stamp (frozen)" if lock else "the dry-run appraiser's"
+                    fix = (
+                        "The generator must publish the frozen lock unchanged "
+                        "(gaia_cli.frozen.frozenLock)."
+                        if lock
+                        else "The generator and trust_appraise.py must feed computeTrustMagnitude "
+                        "the same registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
+                    )
                     violations.append(
                         f"{skillId}: registry/named-skills.json trustMagnitude={indexTm} "
-                        f"disagrees with the dry-run appraiser's {dryRunTm}. The generator "
-                        f"and trust_appraise.py must feed computeTrustMagnitude the same "
-                        f"registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
+                        f"disagrees with {source} {expectedTm}. {fix}"
                     )
+            if lock is not None and indexEntry.get("overallTrustGrade") not in (None, lock[1]):
+                violations.append(
+                    f"{skillId}: registry/named-skills.json overallTrustGrade="
+                    f"{indexEntry.get('overallTrustGrade')} disagrees with its locked grade "
+                    f"{lock[1]} (frozen). The generator must publish the frozen lock unchanged."
+                )
+
+    return violations, cacheChecked, indexChecked
+
+
+def main() -> int:
+    registryPath = str(REPO_ROOT)
+    namedSkills = _loadNamedSkills(registryPath)
+    mergedMap = buildMergedSkillMap(registryPath)
+    generatedIndex = _loadGeneratedIndex(registryPath)
+
+    violations, cacheChecked, indexChecked = findViolations(namedSkills, mergedMap, generatedIndex)
 
     if not generatedIndex:
         print(

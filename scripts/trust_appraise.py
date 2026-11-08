@@ -33,6 +33,7 @@ SRC = REPO_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from gaia_cli.frozen import frozenIds, frozenLock  # noqa: E402
 from gaia_cli.fusionScore import fusionScoreProjection  # noqa: E402
 from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
@@ -287,6 +288,18 @@ def appraise_skill(
             distinct_types = _countDistinctEvidenceTypes(named_dict, merged_map)
             has_witness = _hasEligibleIndependentWitness(named_dict, merged_map)
             grade = computeOverallTrustGrade(tm, distinct_types, has_witness)
+            # Frozen skills publish their locked TM/grade (gaia_cli.frozen); the
+            # fresh recomputation is reported alongside, never as the standing.
+            frozenFields: dict[str, Any] = {}
+            if named_dict.get("id") in frozenIds([*named_map.values(), named_dict]):
+                lock = frozenLock(named_dict)
+                if lock is None:
+                    return {
+                        "skillRef": skill_id,
+                        "error": f"frozen skill {skill_id!r} lacks a valid trustMagnitude/overallTrustGrade lock",
+                    }
+                frozenFields = {"frozen": True, "recomputedTm": round(tm, 2), "recomputedGrade": grade}
+                tm, grade = lock
             row_scores = computeRowArtifactScores(named_dict, merged_map)
             by_type = computeTrustMagnitudeByType(named_dict, merged_map)
             scope, genericResolution = namedScope(named_dict, merged_map)
@@ -297,6 +310,7 @@ def appraise_skill(
                 "grade": grade,
                 "scope": scope,
                 "genericResolution": genericResolution,
+                **frozenFields,
                 "totalStatus": "final" if genericResolution != GENERIC_NOT_EVALUATED else "partial",
                 "registryRevision": registryRevision(),
                 **fusionScoreProjection(named_dict, merged_map, merged_map),
