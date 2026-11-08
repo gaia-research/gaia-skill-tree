@@ -173,6 +173,26 @@ def test_unscorable_head_record_fails_closed(pair, capsys) -> None:
     assert "UNEVALUATED" in err or "fail closed" in err
 
 
+@pytest.mark.parametrize("level", ["invalid", "", "99★"])
+def test_unsupported_head_level_fails_closed(pair, capsys, level) -> None:
+    root, head = pair
+    _set_level(root, QUOTES, level)
+    head("unsupported level")
+    code, _, err = _run(capsys)
+    assert code == 2
+    assert "unevaluated" in err and "arcmira/find-quotes" in err
+
+
+def test_unsupported_base_level_fails_closed(pair, capsys) -> None:
+    root, head = pair
+    _set_level(root, QUOTES, "invalid")
+    head("unsupported base")
+    subprocess.run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=root, check=True)
+    code, _, err = _run(capsys)
+    assert code == 2
+    assert "unevaluated" in err and "arcmira/find-quotes" in err
+
+
 def test_unexpected_error_is_exit_2_never_a_verdict(pair, capsys, monkeypatch) -> None:
     def boom(root):
         raise KeyError("unexpected")

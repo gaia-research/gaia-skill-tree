@@ -11,6 +11,7 @@ on:
     paths:
       - 'registry/named/**'
       - 'registry/nodes/**'
+      - 'registry/benchmark-sources.json'
       - 'src/gaia_cli/**'
       - 'scripts/check_calibration_drift.py'
       - '.github/workflows/calibration-drift-guard.yml'

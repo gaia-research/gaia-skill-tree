@@ -147,6 +147,33 @@ def scan_drift(root: Path) -> tuple[dict[tuple[str, str, str], dict[str, Any]], 
     from gaia_cli.steward.primitives.files import SensorUnavailable
     from gaia_cli.steward.sensors import TrustCalibrationDriftSensor
 
+    # The sensor intentionally emits no observation or skip for an unsupported
+    # level. Audit the input inventory independently so that silence is never
+    # mistaken for an aligned, evaluated record.
+    import yaml
+
+    named_root = root / "registry/named"
+    if not named_root.is_dir():
+        raise GateError(f"named registry is unavailable at {root}")
+    invalid = []
+    for path in sorted(named_root.rglob("*.md")):
+        relative = str(path.relative_to(root))
+        parts = path.read_text(encoding="utf-8").split("---", 2)
+        if len(parts) < 3:
+            continue  # the sensor explicitly skips this record
+        skill = yaml.safe_load(parts[1]) or {}
+        if not isinstance(skill, dict) or not skill.get("id"):
+            continue  # the sensor reports these as unavailable or skipped
+        timeline = skill.get("timeline", [])
+        frozen = isinstance(timeline, list) and any(
+            isinstance(event, dict) and event.get("action") == "upstream_deprecated"
+            for event in timeline
+        )
+        if not frozen and skill.get("level") not in TrustCalibrationDriftSensor._TARGET_LEVEL.values():
+            invalid.append(str(skill["id"]))
+    if invalid:
+        raise GateError(f"unevaluated named records at {root}: {', '.join(invalid)}")
+
     try:
         scan = TrustCalibrationDriftSensor().scan_detailed(root, "1970-01-01T00:00:00Z")
     except SensorUnavailable as exc:
