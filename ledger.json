@@ -1,5 +1,5 @@
 {
- "generation": 1778,
+ "generation": 1779,
  "lane": {
   "entries": [
    {
@@ -765,7 +765,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -786,14 +786,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-08T00:37:23.141992Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-d216c83b661079e59258",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T21:55:40.735989Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-08T00:37:23.141992Z",
+    "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -6684,7 +6690,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T00:31:05.467343Z",
-   "expiresAt": "2026-11-08T01:07:16.123983Z",
+   "expiresAt": "2026-11-08T01:11:25.902556Z",
    "holder": "run-20261108T003105Z-3faf1f97"
   }
  },
@@ -138105,7 +138111,36 @@
    "unresolvedWork": []
   },
   "run-20261108T003105Z-3faf1f97": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "emittedAt": "2026-11-08T00:37:23.141992Z",
+     "idempotencyKey": "dispatch-d216c83b661079e59258:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/trust-calibration-drift-4e35681dda17",
+      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+      "dispatchId": "dispatch-d216c83b661079e59258",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.diff",
+       "proofPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:4e35681dda17:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -139288,6 +139323,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-08T00:37:23.141992Z",
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "idempotencyKey": "dispatch-d216c83b661079e59258:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:4e35681dda17:2"
     }
    ],
    "thinkingEfforts": [],
@@ -139298,7 +139341,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:37:16.128137Z",
+ "updatedAt": "2026-11-08T00:41:25.914233Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -139508,16 +139551,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/trust-calibration-drift-4e35681dda17",
    "build": null,
    "createdAt": "2026-11-07T20:12:06.869150Z",
    "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
    "dispatchId": "dispatch-d216c83b661079e59258",
-   "dispatchedAt": "2026-11-07T20:12:06.869150Z",
+   "dispatchedAt": "2026-11-08T00:37:23.141992Z",
    "history": [
     {
      "at": "2026-11-07T20:12:06.869150Z",
@@ -139530,24 +139572,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-08T00:37:23.141992Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-d216c83b661079e59258 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "trust_calibration_drift",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
-   "runId": "run-20261107T200905Z-82a8d6bb",
+   "runId": "run-20261108T003105Z-3faf1f97",
    "source": "trust-calibration-drift",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T21:55:40.735989Z",
-   "verification": {
-    "agentId": "pi-herdr-batch10-verifier-4e35681dda17",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The supplied inspection explicitly reports the post-calibration 4★ record; repeating the packet's 2★ finding is not a reproduction on the pre-calibration current head as required by the contract. - The base record and sensor support the finding, and the candidate diff reaches 4★, but they do not establish that the required pre-calibration reproduction was performed. - Independent review is discharged by this verification; its absent builder-supplied entry is not a defect.",
-    "recordedAt": "2026-11-07T21:55:40.735989Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-08T00:37:23.141992Z",
+   "verification": null
   },
   "debt:trust_calibration_drift:cathrynlavery-diagram-design:f97969b87df5be3c": {
    "assignments": [
