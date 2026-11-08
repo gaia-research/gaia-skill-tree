@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import shutil
 import subprocess
@@ -93,6 +94,42 @@ def _run(capsys, *args: str) -> tuple[int, str, str]:
     code = gate.main(["--base", "origin/main", *args])
     out = capsys.readouterr()
     return code, out.out, out.err
+
+
+def test_catalog_only_change_detects_new_drift(tmp_path, monkeypatch, capsys) -> None:
+    root = tmp_path / "repo"
+    for rel in (
+        "registry/nodes/basic/refactor-code.json",
+        "registry/named/addy-osmani/code-simplification.md",
+        "registry/benchmark-sources.json",
+        "registry/schema/benchmarkSourceCatalog.schema.json",
+    ):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(REPO_ROOT / rel, root / rel)
+    def git(*args: str) -> None:
+        subprocess.run(["git", *args], cwd=root, check=True, capture_output=True)
+    git("init", "-q", "-b", "main")
+    git("config", "user.email", "t@example.com")
+    git("config", "user.name", "T")
+    git("config", "commit.gpgsign", "false")
+    git("add", ".")
+    git("commit", "-qm", "base")
+    git("update-ref", "refs/remotes/origin/main", "HEAD")
+    catalog_path = root / "registry/benchmark-sources.json"
+    catalog = json.loads(catalog_path.read_text())
+    for entry in catalog["benchmarks"]:
+        if entry["id"] == "humaneval@v1.0":
+            entry["scoring"]["scoresTrustMagnitude"] = False
+    catalog_path.write_text(json.dumps(catalog))
+    git("commit", "-qam", "disable benchmark scoring")
+    monkeypatch.setattr(gate, "REPO_ROOT", root)
+    monkeypatch.chdir(root)
+    for name in ("GITHUB_BASE_REF", "GITHUB_EVENT_NAME", "GITHUB_EVENT_PATH"):
+        monkeypatch.delenv(name, raising=False)
+    code, out, err = _run(capsys)
+    assert code == 1
+    assert "New drift:            1" in out
+    assert "addy-osmani/code-simplification" in err
 
 
 def test_unchanged_head_tolerates_base_drift(pair, capsys) -> None:
