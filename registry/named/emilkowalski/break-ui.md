@@ -5,7 +5,7 @@ contributor: emilkowalski
 origin: false
 genericSkillRef: ui-red-teaming
 status: named
-level: 2★
+level: 4★
 description: Try to break a piece of UI by feeding it worst-case data — long names,
   unbreakable emails, one-letter names, missing fields, huge counts, zero items, long
   labels, non-Latin text, emoji, extreme numbers — then render it behind a "Demo data
@@ -14,7 +14,7 @@ description: Try to break a piece of UI by feeding it worst-case data — long n
   or to "try the worst case". For visual design critique use emil-design-eng; for
   motion use r
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Break Ui
 links:
   github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md
@@ -33,6 +33,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:20:10Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md
   evaluator: mbtiongson1
