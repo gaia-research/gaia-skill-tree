@@ -1,5 +1,5 @@
 {
- "generation": 1892,
+ "generation": 1893,
  "lane": {
   "entries": [
    {
@@ -6762,7 +6762,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T09:48:12.307709Z",
+   "expiresAt": "2026-11-08T09:48:19.168897Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -145132,7 +145132,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -146640,57 +146640,8 @@
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
-       "receipt": "steward-20261108T085056Z-4c5b87f59f425eaf",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
-       "receipt": "steward-20261108T085335Z-6fd80c701c68bd67",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-prototype:7f264457d62619d2",
-       "receipt": "steward-20261108T085539Z-d15d0bc8832057ab",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
-       "receipt": "steward-20261108T085729Z-9c92715a8539b524",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-write-swift:917c1cd8a7625a15",
-       "receipt": "steward-20261108T085917Z-f4db12f3ecb16c65",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
-       "receipt": "steward-20261108T090055Z-2f1342dfd57638a3",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:garrytan-postgres-adopt:559577353ee00cff",
-       "receipt": "steward-20261108T090315Z-5605b3ae98c7e8d4",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:obra-test-driven-development:b64ffeb35772ede5",
-       "receipt": "steward-20261108T090550Z-abb6f4220fe1d27f",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -146983,6 +146934,12 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:1a2bc86f3fbb:1"
+    },
+    {
+     "at": "2026-11-08T09:18:18.269921Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -146996,7 +146953,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:18:12.309582Z",
+ "updatedAt": "2026-11-08T09:18:19.169089Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
