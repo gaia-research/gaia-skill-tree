@@ -1,5 +1,5 @@
 {
- "generation": 1829,
+ "generation": 1830,
  "lane": {
   "entries": [
    {
@@ -6708,7 +6708,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T08:28:02.639018Z",
+   "expiresAt": "2026-11-08T08:28:12.204374Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -143420,7 +143420,7 @@
    "decisions": [],
    "finishedAt": null,
    "integrationBranch": "dev/steward-campaign-2026-11-05",
-   "integrationHead": null,
+   "integrationHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
    "leases": [
     {
      "acquiredAt": "2026-11-08T07:57:55.837618Z",
@@ -143443,14 +143443,21 @@
     "push": false,
     "routine": 9
    },
-   "phase": "reconcile",
-   "phases": {},
+   "phase": "observe",
+   "phases": {
+    "reconcile": {
+     "integrationBranch": "dev/steward-campaign-2026-11-05",
+     "integrationHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
+     "sourceHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
+     "unresolvedWork": 0
+    }
+   },
    "proofArtifacts": [],
    "pullRequests": [],
    "receipts": [],
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "sequence": 55,
-   "sourceHead": null,
+   "sourceHead": "575bb1ed9fb074bcdc806f272dd8af9944173d85",
    "startedAt": "2026-11-08T07:57:55.837618Z",
    "status": "active",
    "steps": [
@@ -143459,6 +143466,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-11-08T07:58:11.379796Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
     }
    ],
    "thinkingEfforts": [],
@@ -143469,7 +143482,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T07:58:02.639158Z",
+ "updatedAt": "2026-11-08T07:58:12.204528Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
