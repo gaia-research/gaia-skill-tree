@@ -1,5 +1,5 @@
 {
- "generation": 1945,
+ "generation": 1946,
  "lane": {
   "entries": [
    {
@@ -3870,7 +3870,7 @@
     "state": "closed"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -3879,14 +3879,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-08T12:56:38.562810Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-87d01fb2d06c8655f9cc",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-08T12:56:38.562810Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -6810,7 +6816,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T12:53:33.171297Z",
-   "expiresAt": "2026-11-08T13:26:33.175962Z",
+   "expiresAt": "2026-11-08T13:28:09.350333Z",
    "holder": "run-20261108T125333Z-2c528d60"
   }
  },
@@ -153113,7 +153119,36 @@
    "unresolvedWork": []
   },
   "run-20261108T125333Z-2c528d60": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+     "emittedAt": "2026-11-08T12:56:38.562810Z",
+     "idempotencyKey": "dispatch-87d01fb2d06c8655f9cc:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/trust-calibration-drift-cbc570d2083f",
+      "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+      "dispatchId": "dispatch-87d01fb2d06c8655f9cc",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261108T125333Z-2c528d60/build-cbc570d2083f.diff",
+       "proofPath": ".gaia/steward/full/run-20261108T125333Z-2c528d60/build-cbc570d2083f.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261108T125333Z-2c528d60/build-cbc570d2083f.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:cbc570d2083f:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -154466,6 +154501,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-08T12:56:38.562810Z",
+     "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+     "idempotencyKey": "dispatch-87d01fb2d06c8655f9cc:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:cbc570d2083f:1"
     }
    ],
    "thinkingEfforts": [],
@@ -154476,7 +154519,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T12:56:33.177138Z",
+ "updatedAt": "2026-11-08T12:58:09.354763Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -156577,6 +156620,36 @@
     "stage": "judged",
     "verdict": "accept"
    }
+  },
+  "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/trust-calibration-drift-cbc570d2083f",
+   "build": null,
+   "createdAt": "2026-11-08T12:56:38.562810Z",
+   "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+   "dispatchId": "dispatch-87d01fb2d06c8655f9cc",
+   "dispatchedAt": "2026-11-08T12:56:38.562810Z",
+   "history": [
+    {
+     "at": "2026-11-08T12:56:38.562810Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-87d01fb2d06c8655f9cc (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261108T125333Z-2c528d60/build-cbc570d2083f.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261108T125333Z-2c528d60",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-11-08T12:56:38.562810Z",
+   "verification": null
   },
   "debt:unused_import:scripts-add-post-py:812514abccebcebf": {
    "assignments": [
