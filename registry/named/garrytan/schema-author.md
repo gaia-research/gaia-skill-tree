@@ -11,7 +11,7 @@ description: Evolve your brain's schema pack. Add page types, propose new ones f
   when an agent notices untyped pages, custom domains needing typed entities (researcher,
   contract, deposition), or wants to see what types the pack declares.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Schema Author
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:20Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md
@@ -46,8 +51,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:19Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: a5aa1b2c118bbb44a4a36748db79df1732bbfb9e1c143473f2307f03b43e1a1e
 ---
 

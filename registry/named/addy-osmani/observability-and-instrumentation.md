@@ -11,7 +11,7 @@ description: Instruments code so production behavior is visible and diagnosable.
   that runs in production and you need evidence it works. Use when production issues
   are reported but you can't tell what happened from the available data.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: observability-and-instrumentation
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/observability-and-instrumentation/SKILL.md
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:24Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/observability-and-instrumentation/SKILL.md
   evaluator: mbtiongson1
@@ -81,8 +86,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:01Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: e44c0fca2acf4247b00480669a688693c782e471b5a9e20f967b24a1ca5d9382
 suiteRef: addy-osmani/agent-skills
 ---

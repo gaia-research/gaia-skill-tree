@@ -2730,7 +2730,7 @@
     ]
   },
   "version": "9.3.0",
-  "generatedAt": "2026-11-08T14:19:13Z",
+  "generatedAt": "2026-11-08T19:23:53Z",
   "summary": {
     "total": 342,
     "S": 3,
@@ -6780,7 +6780,7 @@
         "repo-own": 10.16,
         "github-stars-own": 39.74
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {

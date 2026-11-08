@@ -9,7 +9,7 @@ level: 3★
 description: Use when implementing any feature or bugfix, before writing implementation
   code
 createdAt: '2026-09-23'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: test-driven-development
 links:
   github: https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md
@@ -51,6 +51,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-11-08T18:10:06Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 59.0 -> 58.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
@@ -76,7 +81,7 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:59Z'
-trustMagnitude: 59.0
+trustMagnitude: 58.9
 overallTrustGrade: B
 trustMagnitudeInputHash: 8ba41abc2969c9298c270fac54f00b62538ab9e32a8e8266952d3c522d872216
 suiteRef: obra/superpowers

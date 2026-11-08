@@ -10,7 +10,7 @@ description: Optimizes agent context setup. Use when starting a new session, whe
   agent output quality degrades, when switching between tasks, or when you need to
   configure rules files and context for a project.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: context-engineering
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md
@@ -54,6 +54,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md
   evaluator: mbtiongson1
@@ -80,8 +85,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:54:57Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 8fba615ff9338577c26d101bee33983a07b06635eb89b9c876adcbc0be45d7a3
 suiteRef: addy-osmani/agent-skills
 ---

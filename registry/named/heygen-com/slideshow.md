@@ -12,7 +12,7 @@ description: Author a HyperFrames slideshow — a presentation, pitch deck, or i
   a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly
   ask for a slideshow, confirm before authoring. Unclear → /hyperframes.
 createdAt: '2026-09-07'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: The Deck Architect
 timeline:
 - timestamp: '2026-09-06T17:23:09Z'
@@ -62,6 +62,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md
 evidence:
@@ -88,8 +93,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T17:23:48Z'
 suiteRef: heygen-com/hyperframes
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 4329b58fbd60635a77d41956b474bc76f4b6c231f06b0a5fbc0ab2328db0a8b1
 ---
 

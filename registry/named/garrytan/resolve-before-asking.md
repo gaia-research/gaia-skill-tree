@@ -12,7 +12,7 @@ description: 'Gate on identity questions to the user. Before any "who is X?" (or
   the chain, ask WITH a hypothesis, never a bare unknown. Also owns the no-placeholders-at-ingest
   rule: pages created during bulk ingestion get their relationshi'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Resolve Before Asking
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:17Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:11Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: b3278dbdb99fcb4661ca8e5d478dba32302cebea9d4c538eb6a3169305e0aee8
 ---
 

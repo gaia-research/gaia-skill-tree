@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 55.0,
+  "trustMagnitude": 54.9,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -78,6 +78,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-11-08T18:09:57Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 55.0 -> 54.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

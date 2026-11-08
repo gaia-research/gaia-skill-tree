@@ -9,7 +9,7 @@ level: 2★
 description: Utilitarian editorial minimalism UI archetype featuring macro-whitespace,
   monochrome palettes, and clean document-inspired layouts.
 createdAt: '2026-08-22'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: Minimalist UI
 links:
   github: https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/minimalist-skill/SKILL.md
@@ -82,6 +82,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:19:10Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1
@@ -107,8 +112,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:16Z'
 suiteRef: leonxlnx/taste-skill
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 3415e910cf3b572a6e0c75e32b472eea9e85db108cffd035a6da0b3cfd076972
 ---
 

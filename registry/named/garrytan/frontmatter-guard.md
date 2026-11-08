@@ -12,7 +12,7 @@ description: Validate and auto-repair YAML frontmatter on brain pages. Catches m
   sync holds instead of importing, and drives the previewed gbrain repair frontmatter
   fix. Wraps the gbrain frontmatter CLI for agent-driven workflows.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Frontmatter Guard
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md
@@ -47,8 +47,13 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitude: 50.0
-overallTrustGrade: B
+- timestamp: '2026-11-08T18:17:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 0033db9b09ce3e2285c31937bf9c0770c3a1799d92377fce39ec46933b3abe81
 ---
 

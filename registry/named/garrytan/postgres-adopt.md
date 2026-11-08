@@ -12,7 +12,7 @@ description: Detect which gbrain engine is in use (PGLite vs Postgres), prefer P
   its history (plan, ask, run). Detection is one engine-free command; the install
   ladder is one flag.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: Postgres Adopt
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md
@@ -39,6 +39,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-11-08T18:09:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 55.0 -> 54.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md
@@ -51,7 +56,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:00:28Z'
-trustMagnitude: 55.0
+trustMagnitude: 54.9
 overallTrustGrade: B
 trustMagnitudeInputHash: 6157d791d5079dceb29d84e6a7fd90128f4c33d4cb92d1d6c7dafd1298621741
 ---

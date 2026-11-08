@@ -49,125 +49,6 @@
       "genericSkillRef": "task-depth-enforcement"
     },
     {
-      "id": "leonxlnx/brandkit",
-      "name": "brandkit",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brandkit.json"
-      },
-      "genericSkillRef": "brand-guideline-application"
-    },
-    {
-      "id": "leonxlnx/brutalist-skill",
-      "name": "brutalist-skill",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "leonxlnx/gpt-tasteskill",
-      "name": "gpt-tasteskill",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "leonxlnx/image-to-code-skill",
-      "name": "image-to-code-skill",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
-      },
-      "genericSkillRef": "vision-qa"
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-mobile",
-      "name": "imagegen-frontend-mobile",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
-      },
-      "genericSkillRef": "image-generate"
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-web",
-      "name": "imagegen-frontend-web",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
-      },
-      "genericSkillRef": "image-generate"
-    },
-    {
-      "id": "leonxlnx/minimalist-skill",
-      "name": "minimalist-skill",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
       "id": "leonxlnx/output-skill",
       "name": "output-skill",
       "level": "3★",
@@ -185,11 +66,130 @@
       "genericSkillRef": "format-output"
     },
     {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
+      },
+      "genericSkillRef": "vision-qa"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      },
+      "genericSkillRef": "image-generate"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      },
+      "genericSkillRef": "image-generate"
+    },
+    {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
       "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
@@ -205,8 +205,8 @@
       "id": "leonxlnx/soft-skill",
       "name": "soft-skill",
       "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
@@ -222,8 +222,8 @@
       "id": "leonxlnx/stitch-skill",
       "name": "stitch-skill",
       "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 80.0,
       "contributor": "leonxlnx",
       "type": "fusion",
@@ -242,10 +242,11 @@
     "level": "4★",
     "trustMagnitude": 174.68
   },
-  "prestigeScore": 816.14,
+  "prestigeScore": 815.14,
   "gradeDistribution": {
     "A": 1,
-    "B": 12
+    "B": 2,
+    "C": 10
   },
   "_links": {
     "self": "/api/v1/contributors/leonxlnx.json",

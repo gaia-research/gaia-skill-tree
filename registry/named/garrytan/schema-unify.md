@@ -12,7 +12,7 @@ description: Migrate a brain from gbrain-base (or any pack) to gbrain-base-v2's 
   when an agent notices pack_upgrade_available, type_proliferation, or asks "what
   is the canonical taxonomy / how do I clean up my page types".
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Schema Unify
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:21Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:26Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: cb2f52134d99a5c10bc89ed68c6071ab469a3901612566d5fb73f2633b1c8f61
 ---
 
