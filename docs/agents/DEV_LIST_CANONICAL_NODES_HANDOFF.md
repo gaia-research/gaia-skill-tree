@@ -2,6 +2,7 @@
 
 **Date**: 2026-11-09  
 **Branch**: `cli/dev-list-canonical-nodes-2301`  
+**Commit**: `8549217d397aa4c6db0881f19f5feb598fd3205f` (PR #2302)  
 **Base**: `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`, post-PR #2427)  
 **Status**: READY FOR REVIEW  
 
@@ -54,5 +55,22 @@ Current `main` at `af57c7f6d6b796364d485688d35c1f5c871f1b04` (which landed Stewa
 ---
 
 ## 4. Review & Merge Readiness
-- Blockers: None.
-- Status: READY FOR REVIEW (pending independent Luna review).
+- **Independent Review**: Completed by Luna HIGH via shared `openai-codex` provider (`openai-codex/gpt-6-luna:high`).
+  - **Verdict**: **READY FOR REVIEW**.
+  - **Findings**: Verified `list.py` reads canonical node JSON directly from `registry/nodes/`, sorts generic results deterministically by ID, preserves legacy graph fallback when no node directory exists, and emits valid `[]` JSON for empty results. Unit tests in `tests/test_dev_list_fresh_checkout.py` verify fresh-checkout listing and filters, node precedence, legacy graph fallback, empty JSON output, and empty non-JSON message.
+- **Ruff Gate**: PASS (unused import `Path` removed, 0 new ratchet violations).
+- **PR Guards**: PASS (all 6 guards green).
+- **Blockers**: None.
+- **Status**: READY FOR REVIEW.
+
+---
+
+## 5. Effective Diff Against Latest `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`)
+`git diff --stat main..HEAD`:
+```
+docs/agents/DEV_LIST_CANONICAL_NODES_HANDOFF.md | 76 +++++++++++++++++++++++++
+src/gaia_cli/commands/dev/list.py               | 20 ++++++---
+tests/test_dev_list_fresh_checkout.py           | 49 +++++++++++++++++++++
+3 files changed, 140 insertions(+), 5 deletions(-)
+```
+Zero files from PR #2427 or earlier Steward work were touched or reverted.
