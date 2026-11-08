@@ -1,5 +1,5 @@
 {
- "generation": 1952,
+ "generation": 1953,
  "lane": {
   "entries": [
    {
@@ -153212,6 +153212,15 @@
      "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
      "emittedAt": "2026-11-08T12:56:38.562810Z",
      "idempotencyKey": "dispatch-49737ae9e8966c580e0e:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch14-builder-f14598216c0e",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.proof.json",
+      "summary": "Batch batch14 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (F1 below-ceiling promotion, rank_up timeline event via CLI); commit 792921052; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -153232,7 +153241,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T13:05:41.278394Z",
+     "status": "done",
      "stepId": "build:f14598216c0e:1",
      "type": "agent.build"
     }
@@ -153260,6 +153270,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:975c63db557f:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch14-builder-f14598216c0e",
+     "at": "2026-11-08T13:05:41.278683Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:f14598216c0e:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -155385,6 +155407,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-975c63db557f.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-975c63db557f.proof.json",
      "stepId": "build:975c63db557f:1"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.proof.json",
+     "stepId": "build:f14598216c0e:1"
     }
    ],
    "pullRequests": [],
@@ -155447,11 +155475,11 @@
      "stepId": "build:975c63db557f:1"
     },
     {
-     "at": "2026-11-08T12:56:38.562810Z",
+     "at": "2026-11-08T13:05:41.278394Z",
      "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
      "idempotencyKey": "dispatch-49737ae9e8966c580e0e:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:f14598216c0e:1"
     }
    ],
@@ -155462,11 +155490,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T13:05:33.423099Z"
+   "updatedAt": "2026-11-08T13:05:41.278394Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T13:05:33.424369Z",
+ "updatedAt": "2026-11-08T13:05:41.279719Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -157671,12 +157699,33 @@
    "verification": null
   },
   "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch14-builder-f14598216c0e",
+     "at": "2026-11-08T13:05:41.278683Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:f14598216c0e:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/trust-calibration-drift-f14598216c0e",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch14-builder-f14598216c0e",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.diff",
+    "dispatchId": "dispatch-49737ae9e8966c580e0e",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T125333Z-2c528d60/build-f14598216c0e.proof.json",
+    "recordedAt": "2026-11-08T13:05:41.278683Z",
+    "summary": "Batch batch14 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (F1 below-ceiling promotion, rank_up timeline event via CLI); commit 792921052; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+   },
    "createdAt": "2026-11-08T12:56:38.562810Z",
    "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
    "dispatchId": "dispatch-49737ae9e8966c580e0e",
@@ -157697,7 +157746,7 @@
    "runId": "run-20261108T125333Z-2c528d60",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-08T12:56:38.562810Z",
+   "updatedAt": "2026-11-08T13:05:41.278683Z",
    "verification": null
   },
   "debt:unused_import:scripts-add-post-py:812514abccebcebf": {
