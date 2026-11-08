@@ -1,5 +1,5 @@
 {
- "generation": 1800,
+ "generation": 1801,
  "lane": {
   "entries": [
    {
@@ -6696,7 +6696,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:16:16.712867Z",
-   "expiresAt": "2026-11-08T08:06:44.995480Z",
+   "expiresAt": "2026-11-08T08:06:51.735192Z",
    "holder": "run-20261108T003105Z-3faf1f97"
   }
  },
@@ -138851,7 +138851,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 2 pending action(s) (agent.verify), record each with `gaia steward full record run-20261108T003105Z-3faf1f97 <stepId> --input FILE`, then `gaia steward full run --resume run-20261108T003105Z-3faf1f97`",
+   "nextAction": "",
    "options": {
     "afk": false,
     "agents": true,
@@ -140015,7 +140015,7 @@
    "sequence": 53,
    "sourceHead": "e146dc8e43bc7dc750d5c284d0bbbf86c60a611b",
    "startedAt": "2026-11-08T00:31:05.467343Z",
-   "status": "awaiting-action",
+   "status": "active",
    "steps": [
     {
      "at": "2026-11-08T00:31:05.467343Z",
@@ -140113,7 +140113,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T07:36:44.995686Z",
+ "updatedAt": "2026-11-08T07:36:51.735347Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
