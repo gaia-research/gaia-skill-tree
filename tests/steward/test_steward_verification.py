@@ -1290,3 +1290,182 @@ def test_git_header_paths_follow_the_same_path_rules(header: str) -> None:
 
     assert _diff_paths_safe(header) is False
     assert _diff_paths_safe("diff --git a/scripts/x.py b/scripts/x.py\nold mode 100644\nnew mode 100755\n") is True
+
+
+# --- Attribution with optional sensor inputs (#2371 follow-up) ----------------------
+
+
+class InputSensor:
+    """Evaluated only when its optional input exists; otherwise input-absent, like ci-health."""
+
+    id = "input-sensor"
+
+    def __init__(self, *, absent_on_call: int | None = None) -> None:
+        self.calls = 0
+        self.absent_on_call = absent_on_call
+        self.seen: list[bool] = []
+
+    def scan(self, root: Path, observed_at: str) -> list[Observation]:
+        from gaia_cli.steward.primitives.files import SensorNotEvaluated
+
+        self.calls += 1
+        present = (root / ".gaia/steward/inputs/input.json").is_file()
+        self.seen.append(present)
+        if not present or self.calls == self.absent_on_call:
+            raise SensorNotEvaluated("no input supplied", input_absent=True)
+        return []
+
+
+def _attribution_repo(tmp_path: Path) -> tuple[Path, str, str]:
+    root = _repo(tmp_path / "root")
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, ".gitignore", ".gaia/\n")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    return root, _git(root, "rev-parse", "HEAD"), _real_diff(root)
+
+
+def test_symmetric_input_absent_sensor_still_attributes(tmp_path: Path) -> None:
+    """Both scratch trees lack the same optional input: a symmetric blind spot, not a failure."""
+    root, base, diff = _attribution_repo(tmp_path)
+    sensor = InputSensor()
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) == ()
+    assert sensor.seen == [False, False]
+
+
+def test_ignored_inputs_are_mirrored_read_only_into_both_trees(tmp_path: Path) -> None:
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    _write(root, ".gaia/steward/inputs/nested/more.json", "[]\n")
+    sensor = InputSensor()
+    copies: list[tuple[bool, bool, int]] = []
+    original = sensor.scan
+
+    def scan(tree: Path, observed_at: str):
+        inputs = tree / ".gaia/steward/inputs"
+        copies.append(((inputs / "input.json").is_file(), (inputs / "nested/more.json").is_file(),
+                       (inputs / "input.json").stat().st_mode & 0o777))
+        return original(tree, observed_at)
+
+    sensor.scan = scan
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) == ()
+    assert sensor.seen == [True, True]
+    assert copies == [(True, True, 0o444), (True, True, 0o444)]
+
+
+@pytest.mark.parametrize("where", ["entry", "nested-dir", "inputs-dir", "steward-dir", "gaia-dir"])
+def test_symlink_anywhere_in_the_source_inputs_path_fails_closed(tmp_path: Path, where: str) -> None:
+    """r2423 P1: a symlink in any source component (ancestor or walked entry) is never followed."""
+    root, base, diff = _attribution_repo(tmp_path)
+    outside = tmp_path / "outside"
+    (outside / "steward/inputs").mkdir(parents=True)
+    sentinel = outside / "steward/inputs/input.json"
+    sentinel.write_text("outside-sentinel", encoding="utf-8")
+    if where == "entry":
+        _write(root, ".gaia/steward/inputs/real.json", "{}\n")
+        (root / ".gaia/steward/inputs/input.json").symlink_to(sentinel)
+    elif where == "nested-dir":
+        _write(root, ".gaia/steward/inputs/real.json", "{}\n")
+        (root / ".gaia/steward/inputs/nested").symlink_to(outside / "steward/inputs", target_is_directory=True)
+    elif where == "inputs-dir":
+        (root / ".gaia/steward").mkdir(parents=True)
+        (root / ".gaia/steward/inputs").symlink_to(outside / "steward/inputs", target_is_directory=True)
+    elif where == "steward-dir":
+        (root / ".gaia").mkdir()
+        (root / ".gaia/steward").symlink_to(outside / "steward", target_is_directory=True)
+    else:
+        (root / ".gaia").symlink_to(outside, target_is_directory=True)
+    sensor = InputSensor()
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+    assert sensor.seen == []  # refused before any scan
+    assert sentinel.read_text(encoding="utf-8") == "outside-sentinel"
+
+
+@pytest.mark.parametrize("where", ["gaia-dir", "steward-dir", "inputs-dir"])
+def test_symlinked_destination_ancestor_fails_closed(tmp_path: Path, where: str) -> None:
+    """r2423 P1: a symlinked destination component never redirects mkdir or writes."""
+    from gaia_cli.steward.routing import _mirror_sensor_inputs
+
+    source = tmp_path / "repo"
+    _write(source, ".gaia/steward/inputs/file.json", "replacement")
+    tree, outside = tmp_path / "tree", tmp_path / "outside"
+    tree.mkdir()
+    outside.mkdir()
+    sentinel = outside / "keep.txt"
+    sentinel.write_text("untouched", encoding="utf-8")
+    link = {"gaia-dir": ".gaia", "steward-dir": ".gaia/steward", "inputs-dir": ".gaia/steward/inputs"}[where]
+    (tree / link).parent.mkdir(parents=True, exist_ok=True)
+    (tree / link).symlink_to(outside, target_is_directory=True)
+    assert _mirror_sensor_inputs(source, tree) is False
+    assert sorted(p.name for p in outside.rglob("*")) == ["keep.txt"]
+    assert sentinel.read_text(encoding="utf-8") == "untouched"
+
+
+def test_preexisting_destination_symlink_is_never_written_through(tmp_path: Path) -> None:
+    from gaia_cli.steward.routing import _mirror_sensor_inputs
+
+    source = tmp_path / "repo"
+    _write(source, ".gaia/steward/inputs/file.json", "replacement")
+    tree, target = tmp_path / "tree", tmp_path / "outside.json"
+    target.write_text("original", encoding="utf-8")
+    (tree / ".gaia/steward/inputs").mkdir(parents=True)
+    (tree / ".gaia/steward/inputs/file.json").symlink_to(target)
+    assert _mirror_sensor_inputs(source, tree) is False
+    assert target.read_text(encoding="utf-8") == "original"
+
+
+def test_unsafe_mirror_makes_attribution_fail_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from gaia_cli.steward import routing
+
+    root, base, diff = _attribution_repo(tmp_path)
+    monkeypatch.setattr(routing, "_mirror_sensor_inputs", lambda repo, tree: False)
+    controller = StewardController(sensors=[IntegritySensor()], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+
+
+def test_asymmetric_not_evaluated_fails_closed(tmp_path: Path) -> None:
+    """Blind in only one of the two scans: the difference cannot be attributed, so None."""
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    sensor = InputSensor(absent_on_call=2)
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+
+
+@pytest.mark.parametrize("where", ["inputs-root", "nested-dir", "file"])
+def test_unreadable_input_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, where: str) -> None:
+    """r2423 round 2: an input that cannot be read never silently drops out of both trees."""
+    import os as real_os
+
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    _write(root, ".gaia/steward/inputs/nested/more.json", "[]\n")
+    inputs = (root / ".gaia/steward/inputs").resolve()
+    blocked = {"inputs-root": inputs, "nested-dir": inputs / "nested", "file": inputs / "input.json"}[where]
+    original_scandir, original_open = real_os.scandir, real_os.open
+
+    def is_blocked(path) -> bool:
+        return isinstance(path, (str, real_os.PathLike)) and Path(path).resolve() == blocked
+
+    def scandir(path="."):
+        if is_blocked(path):
+            raise PermissionError(13, "Permission denied", str(path))
+        return original_scandir(path)
+
+    def opener(path, flags, *args, **kwargs):
+        if is_blocked(path):
+            raise PermissionError(13, "Permission denied", str(path))
+        return original_open(path, flags, *args, **kwargs)
+
+    monkeypatch.setattr(real_os, "scandir", scandir)
+    monkeypatch.setattr(real_os, "open", opener)
+    sensor = InputSensor()
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+    assert sensor.seen == []  # refused before any scan
