@@ -1,5 +1,5 @@
 {
- "generation": 1957,
+ "generation": 1958,
  "lane": {
   "entries": [
    {
@@ -6828,7 +6828,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T12:53:33.171297Z",
-   "expiresAt": "2026-11-08T13:38:24.861259Z",
+   "expiresAt": "2026-11-08T13:38:30.703992Z",
    "holder": "run-20261108T125333Z-2c528d60"
   }
  },
@@ -154098,7 +154098,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -154111,28 +154111,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-87d01fb2d06c8655f9cc",
-     "dispatched": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
-     "dispatchedAll": [
-      {
-       "dispatchId": "dispatch-87d01fb2d06c8655f9cc",
-       "dispatched": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
-       "stepId": "build:cbc570d2083f:1"
-      },
-      {
-       "dispatchId": "dispatch-7329ce9d9ea5be5519c9",
-       "dispatched": "debt:trust_calibration_drift:theqtcompanyrnd-qt-qml-review:f0c0f2ad2e2c6ee5",
-       "stepId": "build:975c63db557f:1"
-      },
-      {
-       "dispatchId": "dispatch-49737ae9e8966c580e0e",
-       "dispatched": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
-       "stepId": "build:f14598216c0e:1"
-      }
-     ],
-     "status": "awaiting-build",
-     "stepId": "build:cbc570d2083f:1",
-     "stopReason": "no queued Class B debt"
+     "dispatched": null,
+     "reason": "this run already dispatched 3 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -155481,6 +155462,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:f14598216c0e:1"
+    },
+    {
+     "at": "2026-11-08T13:08:29.721215Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -155494,7 +155481,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T13:08:24.862442Z",
+ "updatedAt": "2026-11-08T13:08:30.704141Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
