@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-timeout-no-history-2283",
+  "status": "decided",
+  "resolution": "standing-authority-r4",
+  "decision": "How does the workflow-timeout route choose a timeout for a job whose read history has no successful run?",
+  "whyItMatters": "Batch 9 builders correctly stopped on two workflow_hygiene debts because a flagged job never ran successfully (auto-label-bot-prs.yml label-bots skipped on all 50 runs; auto-triage.yml auto-merge skipped in every sampled successful run). Without a governed default these debts can never be repaired.",
+  "evidence": [
+    "Founder Ruling 4, 2026-11-08 (verbatim, FOUNDER_RULINGS_2026-11-08.md; line breaks shown as \" / \"): \"**APPROVED: Steward should proactively make Class B debt repairable.** / A missing dispatch route is a coverage gap requiring engineering, not a permanent reason to leave Class B debt untouched. / **Flash's non-Steward engineering lane** may sample real findings and design/implement missing routes. Each route requires: / - Narrow debt kind, paths, commands, stop conditions, and proof contract. / - Independent review, including negative tests rejecting out-of-envelope edits. / - Preservation of security boundaries, product behavior, and canonical policy. / - Normal protected-main delivery. / **Standing authorization:** Routine, demonstrably safe Class B routes may be activated after independent acceptance without requesting another founder ruling for each category.\"",
+    "Why this qualifies as routine and demonstrably safe under R4: it narrows nothing and widens nothing in the envelope (same debt kind, same pinned .github/workflows/*.yml path, same byte-preservation and structure proof, same 1..360 integer); it only adds a deterministic way to pick the value when history was read and holds no successful run of the job; and it changes no product behavior (a timeout only bounds a hung job).",
+    "The default: ceil5(max(base(class) + 2 x declared bounded waits, 1.5 x longest executed run)), never below 10 and never above 60; classes api-script 10, checkout-script 15, install-build-test 30. Every sampled run that actually executed counts toward the floor, cancelled and timed_out included; any other job, an unbounded or unresolvable wait, a human or environment approval, gh run watch / gh workflow run waits, an opaque composite or third-party action, or a result above 60 still stops. Rows are selected by python -m gaia_cli.steward.workflowproof no-history --history <rows.json>, which prints the selection, so builder and verifier recompute identically.",
+    "Unreadable history still stops, exactly as before; sibling-job history is not used because a sibling with different steps says nothing about this job's waits.",
+    "Worked values: auto-label-bot-prs.yml label-bots (one github-script call, never executed) = 10; auto-triage.yml auto-merge (gh/jq steps, declared poll 60 x 10 s) = 30.",
+    "Takes effect only after independent acceptance of the change and its negative tests, per R4."
+  ],
+  "recommended": "Apply the no-history default in the workflow-timeout route as specified in founder/steward/routines/workflow-timeout.md.",
+  "alternative": "Keep stopping on every job without successful history (the two debts stay unrepairable).",
+  "unblocks": "Repair of workflow_hygiene debts whose flagged job never ran successfully.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md",
+    "founder/steward/routines/workflow-timeout.md",
+    "src/gaia_cli/steward/workflowproof.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

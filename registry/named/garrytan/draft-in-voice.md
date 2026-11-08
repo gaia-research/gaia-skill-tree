@@ -14,7 +14,7 @@ description: 'Ghostwrite content in a specific person''s voice from a VALIDATED 
   profile exists, drafting hard-stops and this skill walks the corpus-to-fingerprint
   build instead. Never auto-posts.'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: draft-in-voice
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/draft-in-voice/SKILL.md
@@ -52,6 +52,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:17:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/draft-in-voice/SKILL.md
   evaluator: mbtiongson1
@@ -77,8 +82,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:26Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 29de78b9aa3464e306f1cc4936b48e25ede5970333c1d060786a6ef8167ac201
 suiteRef: garrytan/gbrain
 ---

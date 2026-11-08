@@ -272,7 +272,6 @@ class TestRenderUnlockPath:
 
     def test_json_serialisable_via_path_tree_to_dict(self, diamond_graph):
         """_path_tree_to_dict output must round-trip through json.dumps."""
-        from gaia_cli.pathEngine import unlock_path, _path_tree_to_dict
         node = unlock_path(diamond_graph, "tip", {"root"})
         skill_map = {s["id"]: s for s in diamond_graph["skills"]}
         out = _path_tree_to_dict(node, skill_map)

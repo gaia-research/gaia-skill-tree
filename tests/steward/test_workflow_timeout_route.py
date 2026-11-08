@@ -26,6 +26,7 @@ from gaia_cli.steward.verification import (
     evaluate,
     parse_proof_transcript,
     parse_unified_diff,
+    workflow_history_check,
 )
 from gaia_cli.steward.workflowproof import apply_patch
 from tests.steward.sensor_fixtures import make_repo
@@ -175,7 +176,7 @@ def test_policy_requires_every_workflow_route_exclusion(tmp_path: Path, dropped:
 def _packet() -> DispatchPacket:
     rule = _live_rule()
     return DispatchPacket.create(
-        debt={"id": "debt:workflow_hygiene:x", "kind": "workflow_hygiene"},
+        debt={"id": "debt:workflow_hygiene:x", "kind": "workflow_hygiene", "subject": {"type": "workflow", "id": CI}},
         evidence={"findings": [{"rule": "missing-timeout", "detail": "job build has no timeout-minutes"}]},
         authority=AuthorityClass.B,
         rule=rule.id,
@@ -191,15 +192,28 @@ def _packet() -> DispatchPacket:
     )
 
 
-def _transcript(packet: DispatchPacket):
+_ROWS = "/tmp/gaia-steward-history/dispatch-x/build/build.json"
+
+
+def _transcript_text(packet: DispatchPacket) -> str:
+    # Item 2 carries the fetch -> history pair the packet's proof contract requires
+    # (decision steward-workflow-timeout-history-fetch-2283); the rest are placeholders.
     entries = [
         {"contractIndex": index, "command": f"proof item {index}", "exitCode": 0, "output": "ok"}
         for index in range(1, len(packet.proof) + 1)
     ]
-    return parse_proof_transcript(
-        json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries}),
-        proof_contract_length=len(packet.proof),
-    )
+    entries[1:2] = [
+        {"contractIndex": 2, "exitCode": 0,
+         "command": f"python -m gaia_cli.steward.workflowproof fetch --workflow {CI} --job build --out {_ROWS}",
+         "output": f"workflow: {CI}\njob-key: build\nsha256: " + "0" * 64 + "\nrun-ids: 1:1,2:1\n"},
+        {"contractIndex": 2, "exitCode": 0,
+         "command": f"python -m gaia_cli.steward.workflowproof history --history {_ROWS}", "output": "15"},
+    ]
+    return json.dumps({"schemaVersion": PROOF_TRANSCRIPT_SCHEMA, "entries": entries})
+
+
+def _transcript(packet: DispatchPacket):
+    return parse_proof_transcript(_transcript_text(packet), proof_contract_length=len(packet.proof))
 
 
 def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[str, str | None] | None = None):
@@ -208,6 +222,7 @@ def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[
         packet=packet,
         change_set=parse_unified_diff(diff),
         transcript=_transcript(packet),
+        history_check=workflow_history_check(packet, _transcript_text(packet)),
         debt_source="ci-workflow",
         sensor_sources=["ci-workflow"],
         baseline_open_debt=[],
@@ -658,14 +673,20 @@ def test_the_routine_guide_says_findings_are_configuration_not_runtime_timeouts(
 
 
 def test_unavailable_run_history_is_an_unconditional_stop() -> None:
-    """No semantics-only fallback anywhere in the policy envelope or the guide."""
+    """Unreadable history has no fallback of any kind.
+
+    The no-history default (decision steward-workflow-timeout-no-history-2283)
+    applies only when history WAS read and holds no successful run of the job;
+    it never stands in for history that could not be read.
+    """
 
     rule = _live_rule()
     joined = " ".join(rule.stop_conditions).lower()
     assert "history cannot be read" in joined
     assert "do not bound" not in joined and "semantics do not" not in joined
     guide = (REPO_ROOT / rule.prompt_guide).read_text(encoding="utf-8")
-    assert "there is no semantics-only fallback" in guide
+    assert "there is no semantics-only fallback for unreadable history" in guide
+    assert "History was read and the job has no successful run in it" in guide
     assert "does not bound" not in guide
 
 

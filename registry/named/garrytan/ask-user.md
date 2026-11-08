@@ -11,7 +11,7 @@ description: Reusable pattern for presenting the user with explicit choices and 
   human input before proceeding. Platform-agnostic — works on Telegram (inline buttons),
   Discord, CLI, or any agent with a message tool.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Ask User
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ask-user/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:41Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ask-user/SKILL.md
@@ -46,8 +51,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:56:54Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 11163ac2495dc3990235fe7e15d8734429fc7d98423dd392ea51abddb5e54839
 ---
 

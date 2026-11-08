@@ -12,7 +12,7 @@ description: Brain-augmented web research. Sends brain context about a topic to 
   and freshness deltas. NOT for simple URL fetches (use web_fetch) or brain-only queries
   (use gbrain query).
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Perplexity Research
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:00:20Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 582f0b0ee6ca0c7d758ec835cb5da77068a77124394e1f690d5c77ff8fd94195
 ---
 

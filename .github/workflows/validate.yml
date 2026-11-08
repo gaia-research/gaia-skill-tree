@@ -56,6 +56,9 @@ jobs:
     # GitHub).
     name: Detect validation-relevant changes
     runs-on: ubuntu-latest
+    # Sparse blobless checkout plus one stdlib script: seconds of work, so a
+    # short cap bounds a hung fetch instead of burning the 6h default.
+    timeout-minutes: 5
     permissions:
       contents: read
     outputs:

@@ -5,12 +5,12 @@ contributor: emilkowalski
 origin: false
 genericSkillRef: ui-audit
 status: named
-level: 2★
+level: 4★
 description: Reviews animation and motion code against a high craft bar derived from
   Emil Kowalski's design engineering philosophy. Default to flagging; approval is
   earned.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Review Animations
 links:
   github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md
@@ -29,6 +29,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:20:54Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md
   evaluator: mbtiongson1

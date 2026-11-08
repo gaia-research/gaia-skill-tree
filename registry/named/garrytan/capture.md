@@ -5,11 +5,11 @@ contributor: garrytan
 origin: false
 genericSkillRef: personal-knowledge-management
 status: named
-level: 3★
+level: 2★
 description: Captures thoughts and content into a persistent personal knowledge brain
   through one idempotent ingestion entrypoint.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: GBrain Capture
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md
@@ -50,6 +50,15 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T09:24:48Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:17:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md
   updatedAt: '2026-10-01'
@@ -66,8 +75,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T16:54:27Z'
 suiteRef: garrytan/gbrain
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 0460e480f3b261cc6002e71cd749d8fc6763fb52c8fcb7e94052dfa1b5b39113
 ---
 

@@ -7,7 +7,7 @@ genericSkillRef: document-editing
 status: named
 title: Diataxis Doc Generator
 catalogRef: garrytan-document-generate
-level: 3★
+level: 2★
 description: Generates structured documentation using the Diataxis framework — tutorials,
   how-to guides, reference materials, and explanations — by thoroughly researching
   the codebase before writing, tailored to the needs of different reader types.
@@ -19,7 +19,7 @@ tags:
 - tutorials
 - reference-docs
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -83,6 +83,15 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:25:35Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:17:31Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
@@ -109,8 +118,8 @@ evidence:
   stars: 134645
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true

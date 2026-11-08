@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-humaneval-exec-benchmark-exception",
+  "status": "decided",
+  "resolution": "scoped-exception",
+  "decision": "HumanEval runs model output with in-process exec. Isolate it, or record an exception? (#2283 root-cause review F6)",
+  "whyItMatters": "scripts/benchmarks/humaneval/run.py _execAndCheck runs the assembled prompt + completion with exec() in the harness process: model-generated code gets the harness's full permissions. It is not a sandbox.",
+  "evidence": [
+    "Founder ruling F6, 2026-11-08 (verbatim choice): \"Record a scoped exception for benchmark use only\". Recorded in founder/reports/steward-campaign-2026-11-05/FOUNDER_ROOTCAUSE_RULINGS_2026-11-08.md.",
+    "Scope (code-pinned in sensors_security._RECORDED_EXECUTION_EXCEPTIONS): path scripts/benchmarks/humaneval/run.py, pattern exec-nonliteral, enclosing function _execAndCheck. The same construct in any other file, function or pattern is still reported.",
+    "Not covered: the subprocess shell=True finding in the same file (_runViaModel); it remains unsafe_execution debt.",
+    "The covered finding stays listed on the observation, annotated acknowledged with this record; nothing is dropped."
+  ],
+  "recommended": "Keep the exception scoped to benchmark use; do not run the harness on untrusted completions outside a disposable environment.",
+  "alternative": "Require isolation (subprocess, timeout, resource limits, no inherited secrets).",
+  "unblocks": "The exec-nonliteral finding in humaneval/run.py is acknowledged; the file's unsafe_execution debt stays open for shell=True only.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_ROOTCAUSE_RULINGS_2026-11-08.md",
+    "scripts/benchmarks/humaneval/run.py",
+    "src/gaia_cli/steward/sensors_security.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

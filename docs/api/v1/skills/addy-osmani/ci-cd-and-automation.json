@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 50.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 49.9,
+  "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -25,7 +25,7 @@
   },
   "title": "ci-cd-and-automation",
   "genericSkillRef": "deployment-automation",
-  "origin": false,
+  "origin": true,
   "description": "Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -109,6 +109,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T18:16:05Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

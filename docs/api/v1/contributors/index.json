@@ -8,7 +8,7 @@
         "level": "5★",
         "trustMagnitude": 356.11
       },
-      "prestigeScore": 6005.55,
+      "prestigeScore": 5997.15,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -21,7 +21,7 @@
         "level": "5★",
         "trustMagnitude": 280.39
       },
-      "prestigeScore": 2390.43,
+      "prestigeScore": 2390.13,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -32,9 +32,9 @@
       "topSkill": {
         "id": "addy-osmani/code-simplification",
         "level": "4★",
-        "trustMagnitude": 190.0
+        "trustMagnitude": 189.9
       },
-      "prestigeScore": 1631.04,
+      "prestigeScore": 1628.74,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
       }
@@ -44,7 +44,7 @@
       "namedSkills": 12,
       "topSkill": {
         "id": "emilkowalski/animate",
-        "level": "2★",
+        "level": "4★",
         "trustMagnitude": 129.67
       },
       "prestigeScore": 1556.04,
@@ -60,7 +60,7 @@
         "level": "4★",
         "trustMagnitude": 175.34
       },
-      "prestigeScore": 1378.52,
+      "prestigeScore": 1378.42,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -73,7 +73,7 @@
         "level": "4★",
         "trustMagnitude": 221.52
       },
-      "prestigeScore": 1202.23,
+      "prestigeScore": 1201.93,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
@@ -86,7 +86,7 @@
         "level": "4★",
         "trustMagnitude": 171.92
       },
-      "prestigeScore": 1071.92,
+      "prestigeScore": 1071.32,
       "_links": {
         "self": "/api/v1/contributors/heygen-com.json"
       }
@@ -99,7 +99,7 @@
         "level": "4★",
         "trustMagnitude": 174.68
       },
-      "prestigeScore": 816.14,
+      "prestigeScore": 815.14,
       "_links": {
         "self": "/api/v1/contributors/leonxlnx.json"
       }
@@ -110,9 +110,9 @@
       "topSkill": {
         "id": "firecrawl/firecrawl-build-scrape",
         "level": "4★",
-        "trustMagnitude": 110.02
+        "trustMagnitude": 109.92
       },
-      "prestigeScore": 456.4,
+      "prestigeScore": 455.9,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
@@ -125,7 +125,7 @@
         "level": "4★",
         "trustMagnitude": 169.31
       },
-      "prestigeScore": 421.97,
+      "prestigeScore": 421.47,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
       }
@@ -317,7 +317,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "cathrynlavery/diagram-design",
-        "level": "2★",
+        "level": "4★",
         "trustMagnitude": 132.67
       },
       "prestigeScore": 132.67,

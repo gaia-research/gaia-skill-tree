@@ -73,23 +73,6 @@
       "genericSkillRef": "video-composition"
     },
     {
-      "id": "heygen-com/figma",
-      "name": "Figma",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/figma.json"
-      },
-      "genericSkillRef": "design-source-import"
-    },
-    {
       "id": "heygen-com/hyperframes-animation",
       "name": "HyperFrames Animation",
       "level": "3★",
@@ -122,23 +105,6 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-audio.json"
       },
       "genericSkillRef": "audio-mixing"
-    },
-    {
-      "id": "heygen-com/hyperframes-cli",
-      "name": "HyperFrames CLI",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
-      },
-      "genericSkillRef": "video-scaffolding"
     },
     {
       "id": "heygen-com/hyperframes-core",
@@ -190,40 +156,6 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
       },
       "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/hyperframes-registry",
-      "name": "Hyperframes Registry",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
-      },
-      "genericSkillRef": "skill-discovery"
-    },
-    {
-      "id": "heygen-com/media-use",
-      "name": "Media Use",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/media-use.json"
-      },
-      "genericSkillRef": "media-asset-orchestration"
     },
     {
       "id": "heygen-com/motion-graphics",
@@ -294,40 +226,6 @@
       "genericSkillRef": "video-composition"
     },
     {
-      "id": "heygen-com/remotion-to-hyperframes",
-      "name": "Remotion To Hyperframes",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
-      },
-      "genericSkillRef": "framework-upgrade"
-    },
-    {
-      "id": "heygen-com/slideshow",
-      "name": "Slideshow",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/slideshow.json"
-      },
-      "genericSkillRef": "interactive-presentation-authoring"
-    },
-    {
       "id": "heygen-com/talking-head-recut",
       "name": "Talking Head Recut",
       "level": "3★",
@@ -343,6 +241,108 @@
         "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
       },
       "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "heygen-com/figma",
+      "name": "Figma",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/figma.json"
+      },
+      "genericSkillRef": "design-source-import"
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "name": "HyperFrames CLI",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
+      },
+      "genericSkillRef": "video-scaffolding"
+    },
+    {
+      "id": "heygen-com/hyperframes-registry",
+      "name": "Hyperframes Registry",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
+      },
+      "genericSkillRef": "skill-discovery"
+    },
+    {
+      "id": "heygen-com/media-use",
+      "name": "Media Use",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/media-use.json"
+      },
+      "genericSkillRef": "media-asset-orchestration"
+    },
+    {
+      "id": "heygen-com/remotion-to-hyperframes",
+      "name": "Remotion To Hyperframes",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
+      },
+      "genericSkillRef": "framework-upgrade"
+    },
+    {
+      "id": "heygen-com/slideshow",
+      "name": "Slideshow",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/slideshow.json"
+      },
+      "genericSkillRef": "interactive-presentation-authoring"
     },
     {
       "id": "heygen-com/general-video",
@@ -368,10 +368,11 @@
     "level": "4★",
     "trustMagnitude": 171.92
   },
-  "prestigeScore": 1071.92,
+  "prestigeScore": 1071.32,
   "gradeDistribution": {
     "A": 1,
-    "B": 18,
+    "B": 12,
+    "C": 6,
     "ungraded": 1
   },
   "_links": {

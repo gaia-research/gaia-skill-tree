@@ -12,7 +12,7 @@ description: 'Re-run or deepen the agent''s identity interview. Drives the SHARE
   One answer store, two surfaces: first-boot bootstrap and this re-run skill write
   the same bank, so an updated answer flows into SOUL.md, USER.'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Soul Audit
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:35Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:57Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: de8a33a5bb75bb3e5e07a4181896220527bd314c7322fe06cc0fde53aad8862d
 ---
 

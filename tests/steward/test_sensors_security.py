@@ -582,7 +582,10 @@ class TestBrowserSink:
         assert item.kind == "browser_sink_risk"
         assert item.subject.id == f"docs/{name}"
         assert item.confidence == 0.6
-        assert item.observed_state["findings"] == [{"line": 1, "pattern": pattern}]
+        (finding,) = item.observed_state["findings"]
+        assert {"line": finding["line"], "pattern": finding["pattern"]} == {"line": 1, "pattern": pattern}
+        # The only extra key is the #2283 S3 shape annotation, on HTML sinks.
+        assert set(finding) - {"line", "pattern"} <= {"shape"}
 
     @pytest.mark.parametrize(
         "name, source",

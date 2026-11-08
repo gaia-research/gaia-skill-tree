@@ -28,6 +28,7 @@ import datetime
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402
 from gaia_cli.frozen import frozenIds  # noqa: E402
+from gaia_cli.origin import STAMP_TM_DECIMALS  # noqa: E402
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
@@ -622,7 +623,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 from publication_context import evaluation_datetime_from_env
                 evaluation_at_utc = evaluation_datetime_from_env()
                 tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc)
-                entry["trustMagnitude"] = round(tm, 2)
+                entry["trustMagnitude"] = round(tm, STAMP_TM_DECIMALS)
                 if evaluation_at_utc is None:
                     grade = overall_trust_grade(
                         effective, skill=entry, generic_skill_map=merged_map,

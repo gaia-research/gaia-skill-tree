@@ -18,6 +18,8 @@ permissions:
 concurrency:
   job-discriminator: ${{ github.event.inputs.dispatch-id }}
 timeout-minutes: 45
+# Founder pause (FOUNDER_LOCK_2283 C4): gh-aw agents disabled; removing this is an activation.
+if: ${{ false }}
 engine: pi
 imports:
   - shared/steward-verify.md

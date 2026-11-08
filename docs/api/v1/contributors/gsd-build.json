@@ -29,7 +29,7 @@
       "id": "gsd-build/gsd-verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
-      "trustMagnitude": 52.66,
+      "trustMagnitude": 52.56,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
@@ -45,14 +45,14 @@
     {
       "id": "gsd-build/gsd-discuss-phase",
       "name": "GSD Discuss Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
@@ -62,14 +62,14 @@
     {
       "id": "gsd-build/gsd-execute-phase",
       "name": "GSD Execute Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 220.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
@@ -79,14 +79,14 @@
     {
       "id": "gsd-build/gsd-plan-phase",
       "name": "GSD Plan Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
@@ -96,14 +96,14 @@
     {
       "id": "gsd-build/gsd-ship",
       "name": "GSD Ship",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 80.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-ship.json"
@@ -117,10 +117,11 @@
     "level": "4★",
     "trustMagnitude": 169.31
   },
-  "prestigeScore": 421.97,
+  "prestigeScore": 421.47,
   "gradeDistribution": {
     "A": 1,
-    "B": 5
+    "B": 1,
+    "C": 4
   },
   "_links": {
     "self": "/api/v1/contributors/gsd-build.json",

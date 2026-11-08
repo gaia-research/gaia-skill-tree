@@ -2,14 +2,14 @@
   "id": "emilkowalski/improve-animations",
   "name": "improve-animations",
   "contributor": "emilkowalski",
-  "level": "2★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 129.67,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/emilkowalski/improve-animations.json",
     "contributor": "/api/v1/contributors/emilkowalski.json",
@@ -25,7 +25,7 @@
   },
   "title": "Improve Animations",
   "genericSkillRef": "ui-audit",
-  "origin": false,
+  "origin": true,
   "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code — it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-07T20:29:22Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

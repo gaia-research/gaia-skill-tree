@@ -6,6 +6,7 @@ import json
 import sys
 import pytest
 from pathlib import Path
+from tests.authindex import writeBootstrapIndex
 from gaia_cli.grading import (
     derive_grade,
     overall_trust_grade,
@@ -453,6 +454,7 @@ class TestEvidenceCLI:
             "updatedAt": "2026-06-14",
             "version": "0.1.0",
         }), encoding="utf-8")
+        writeBootstrapIndex(root)  # fail-closed authorization needs a readable empty index
 
     def test_trust_derives_grade_a(self, tmp_path, monkeypatch, capsys):
         self.write_fixture_skill(tmp_path)

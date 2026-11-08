@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-frozen-history-2026-11-08",
+  "status": "decided",
+  "resolution": "acknowledged",
+  "decision": "Acknowledge the historical post-freeze rank events on the 4 frozen mattpocock skills by decision record? (#2283 root-cause review F4)",
+  "whyItMatters": "Each skill's stored level already equals its frozen level (3★). The rank_up/demote events dated after the freeze are append-only history that already corrected itself; no command can remove them, so the frozen_skill_drift findings could never resolve.",
+  "evidence": [
+    "Founder ruling F4, 2026-11-08 (verbatim choice): \"Approve: one decision record acknowledges these 4 historical events; no skill files touched\". Recorded in founder/reports/steward-campaign-2026-11-05/FOUNDER_ROOTCAUSE_RULINGS_2026-11-08.md.",
+    "Findings: frozen_skill_drift for mattpocock/diagnose, mattpocock/edit-article, mattpocock/obsidian-vault and mattpocock/ubiquitous-language; levelMismatch false for all four (frozen 3★, stored 3★).",
+    "No skill file is touched. Each line below acknowledges exactly one event by its full-content sha256 digest; any later post-freeze event, or a different event sharing a timestamp and action, is reported again.",
+    "postFreezeEvent mattpocock/diagnose 2026-09-02T15:11:39Z rank_up sha256:ac9a4894d9fc84cc",
+    "postFreezeEvent mattpocock/diagnose 2026-09-11T17:46:26Z demote sha256:f6e14586b1050da7",
+    "postFreezeEvent mattpocock/edit-article 2026-09-02T15:11:39Z rank_up sha256:ac9a4894d9fc84cc",
+    "postFreezeEvent mattpocock/edit-article 2026-09-04T00:00:00Z demote sha256:a8677e37c9d4f6ef",
+    "postFreezeEvent mattpocock/edit-article 2026-09-11T17:25:03Z rank_up sha256:8325faab045d2963",
+    "postFreezeEvent mattpocock/obsidian-vault 2026-09-02T15:11:40Z rank_up sha256:e935ec5826ea7043",
+    "postFreezeEvent mattpocock/obsidian-vault 2026-09-04T00:00:00Z demote sha256:a8677e37c9d4f6ef",
+    "postFreezeEvent mattpocock/obsidian-vault 2026-09-11T17:25:05Z rank_up sha256:b50d2daa1705ff3b",
+    "postFreezeEvent mattpocock/ubiquitous-language 2026-09-02T15:11:40Z rank_up sha256:e935ec5826ea7043",
+    "postFreezeEvent mattpocock/ubiquitous-language 2026-09-04T00:00:00Z demote sha256:a8677e37c9d4f6ef",
+    "postFreezeEvent mattpocock/ubiquitous-language 2026-09-11T17:24:57Z rank_up sha256:2dbbaee7ecb7c993"
+  ],
+  "recommended": "Acknowledge the 11 listed events (4 findings) and keep reporting any new post-freeze event or any level mismatch.",
+  "alternative": "Investigate each event before any acknowledgment.",
+  "unblocks": "The 4 frozen_skill_drift findings resolve on the next authorized scan.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_ROOTCAUSE_RULINGS_2026-11-08.md",
+    "registry/named/mattpocock/diagnose.md",
+    "registry/named/mattpocock/edit-article.md",
+    "registry/named/mattpocock/obsidian-vault.md",
+    "registry/named/mattpocock/ubiquitous-language.md",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

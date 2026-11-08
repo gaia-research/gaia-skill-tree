@@ -11,7 +11,7 @@ description: Guides stable API and interface design. Use when designing APIs, mo
   defining type contracts between modules, or establishing boundaries between frontend
   and backend.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: api-and-interface-design
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/api-and-interface-design/SKILL.md
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/api-and-interface-design/SKILL.md
   evaluator: mbtiongson1
@@ -81,8 +86,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:54:33Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 734d6ef80a755ae232241f34e81d09eb832cc463fd9e88d7d29f63764af20997
 suiteRef: addy-osmani/agent-skills
 ---

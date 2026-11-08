@@ -5,7 +5,7 @@
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
-      "trustMagnitude": 110.02,
+      "trustMagnitude": 109.92,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "firecrawl",
@@ -22,7 +22,7 @@
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "3★",
-      "trustMagnitude": 83.62,
+      "trustMagnitude": 83.52,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
@@ -62,14 +62,14 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -79,14 +79,14 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 40.0,
       "contributor": "firecrawl",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
@@ -96,14 +96,14 @@
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
@@ -132,13 +132,13 @@
   "topSkill": {
     "id": "firecrawl/firecrawl-build-scrape",
     "level": "4★",
-    "trustMagnitude": 110.02
+    "trustMagnitude": 109.92
   },
-  "prestigeScore": 456.4,
+  "prestigeScore": 455.9,
   "gradeDistribution": {
     "A": 1,
-    "B": 5,
-    "C": 1
+    "B": 2,
+    "C": 4
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",

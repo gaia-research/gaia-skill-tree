@@ -204,6 +204,31 @@ python scripts/pr_guards.py --dry-run    # list what would run
 ```
 The lexicon and license guards need Node (`npx`); without it they are skipped locally and still run in CI.
 
+### Run Ruff Linting and Multi-Tier Gate
+You can run ruff linting locally using either the raw ruff CLI or the multi-tier gate:
+```bash
+python3 scripts/check_ruff.py --base origin/main # Run the multi-tier gate against the branch you target
+ruff check                                       # Run raw ruff check directly against pyproject.toml
+python3 scripts/check_ruff.py --update-baseline  # Update scripts/lint/ruff-baseline.json with current counts
+python3 scripts/check_ruff.py --prune-baseline   # Prune stale baseline entries after paying down tech debt
+python3 scripts/check_ruff.py --stale fail       # Fail gate if changed files resolve debt without pruning baseline
+```
+
+#### Why Ratchet vs. Blocking Rules
+The Ruff lint gate enforces three distinct tiers:
+- **Blocking (`F821`, `F811`, `F63`, `F7`)**: Correctness rules block at zero across the entire codebase to prevent syntax and runtime errors. Any introduced violation fails immediately.
+- **Ratchet (`F401`, `S110`, `S112`, `E722`)**: Git diff identifies changed files; the committed `scripts/lint/ruff-baseline.json` sets the allowed baseline violations. Untouched files pass. Unlike blocking rules, existing debt is permitted.
+- **Advisory (`BLE001`)**: Blind exception handling (`except Exception:`) outputs an advisory warning but does not fail the gate (exit code 0).
+
+#### Monotonic Ratchet and Baseline Maintenance
+- **Monotonic Ratchet Behavior**: Ratchet violations match on an exact, stable fingerprint `(file, code, normalized_message)` rather than a loose per-file count. Resolving an existing baseline violation never frees up capacity or leaves room for a different new violation in that file. Any unbaselined violation in a changed file immediately fails the ratchet gate.
+- **Baseline Monotonicity Against Base Ref (Shrink-Only)**: The gate resolves exactly one base: `--base-baseline <ref_or_file>`, else `--base <ref>`, else `origin/$GITHUB_BASE_REF` in a pull request, else the push's `before` commit (its parent for a new branch). There is no search across other refs: when that base cannot be resolved, the gate fails closed with exit code 2 (locally, pass `--base <the branch you target>`). If any entry is added to `scripts/lint/ruff-baseline.json` compared to the base's baseline, the gate fails with exit code 1 (`[BASELINE]`). The baseline may only shrink, never grow.
+- **First Adoption**: When the base has no baseline yet, the gate exports the base tree, scans it with this checkout's ruff config, and treats those ratchet findings as the base baseline. An entry is allowed only if the base itself already has that finding; a new violation recorded together with its own baseline entry fails as `[BASELINE]`.
+- **`--update-baseline` Prohibited in CI**: `--update-baseline` is strictly a local developer utility and cannot be run in CI environments (`CI=true` or `GITHUB_ACTIONS=true` fails closed with exit code 2). CI enforces that technical debt is never newly baselined.
+- **Pruning the Baseline (`--prune-baseline`)**: When technical debt is paid down (e.g. unused imports removed or exception handling cleaned up), run `python3 scripts/check_ruff.py --prune-baseline` to prune entries from `scripts/lint/ruff-baseline.json` that are no longer present. Unlike `--update-baseline` which records all current violations and can grow the baseline, `--prune-baseline` only shrinks the baseline monotonically and never adds new violations.
+- **Stale Entry Handling (`--stale {warn,fail,ignore}`)**: When files modified in a PR resolve baseline violations, those baseline entries become stale. By default (`--stale warn`), the gate prints `[STALE]` notices indicating which entries have been resolved and can be pruned. With `--stale fail`, the gate fails with exit code 1 if stale entries remain in changed files, enforcing that PRs which clean up debt also prune the baseline. With `--stale ignore`, stale checking is skipped.
+- **Scanner Fail-Closed Guarantee**: Ruff in JSON mode (`--output-format json`) outputs `[]` on clean scans. Any empty stdout (on exit code 0 or 1), non-list JSON, or unexpected exit code fails closed with exit code 2.
+
 ### Test-suite conventions
 
 **a. Default timeouts (never use `--timeout-method=thread`)**
@@ -365,6 +390,37 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
 * **Fix (since PR #804, v5.0.10+):** the CLI now falls back to NTFS junctions (`mklink /J`) for directories and hardlinks for files via `src/gaia_cli/windowsLinks.py::makeLink`. **No action needed** — the failure should never surface.
 * **If you DO see it on a newer Windows runner**: the helper raised `OSError` because all three mechanisms (symlink, junction, hardlink) failed. Check the surrounding message for `mklink` stderr; common causes are an antivirus blocking `cmd.exe` invocation or the target being on a network mount that doesn't support junctions. Workaround: install to a local NTFS path, then sync.
 * **Caveat:** `os.readlink()` does **not** work on NTFS junctions. If your code introspects the link target, use `os.path.realpath()` or the project helper `windowsLinks.readLinkTarget()`. The two tests that hit this were updated in PR #804.
+
+### G. Workflow Hygiene Guard fails (`missing-timeout`)
+`.github/workflows/workflow-hygiene-guard.yml` blocks any new GitHub Actions job without
+`timeout-minutes`. Detection is the Steward `ci-workflow` sensor's own rule, so the gate and the
+Steward census always agree; the gate only compares it with
+`scripts/lint/workflow-timeout-baseline.json`, the open set when the gate landed.
+```bash
+python3 scripts/check_workflow_hygiene.py                   # same check as CI
+python3 scripts/check_workflow_hygiene.py --base-ref origin/main   # also refuse baseline growth
+python3 scripts/check_workflow_hygiene.py --prune-baseline  # drop entries whose job now has a timeout
+```
+* **`[BLOCKING]`**: a new job (or a new workflow) has no `timeout-minutes`. Add one sized to the
+  job's real waits. Do not add it to the baseline: an entry the base ref does not justify fails as
+  `[GROWN]`. When the base has no baseline yet, "justified" means it is already a sensor finding at
+  the base commit.
+* **`[STALE]`**: a baselined job now has a timeout or no longer exists. Run `--prune-baseline` and
+  commit the result. The baseline only shrinks. CI only warns (`[STALE-WARN]`) on PRs into and
+  pushes to `dev/*`, so one-file Steward repair lanes stay green, and fails everywhere else,
+  including the `main` gate; prune once per integration.
+* **`[EXCLUDED]`**: jobs in the gh-aw lock files pinned by name in the baseline
+  (`excluded.generated-lock-files.files`), and only while each still carries the gh-aw banner and
+  has its `.md` source beside it. gh-aw v0.92.6 refuses per-job timeouts on compiled jobs and a hand
+  edit is overwritten by the next compile, so they are reported, never blocking, and stay open in the
+  Steward census. Never hand-edit a lock file to silence them.
+* **`[UNPINNED]`**: a workflow that looks generated (banner or `.lock.yml` name) but is not pinned.
+  Its jobs are blocking. A real new gh-aw lock is pinned deliberately in the baseline, and a pin the
+  base ref does not justify fails as `[GROWN]`.
+* **Exit 2**: the gate could not evaluate (unparseable workflow, malformed baseline, unresolvable
+  base ref). It fails closed.
+* The same job runs **zizmor** (`--min-severity high --min-confidence high`) as advisory output
+  only. Its measured precision and the proposed ratchet criteria are in `scripts/lint/zizmor-triage.md`.
 
 ## 5. Safe Merging & Conflict Resolution
 

@@ -42,7 +42,7 @@ Rules the engine applies and skills must not contradict:
 
 - **Same-source dedup is within type.** `_dedupeSameSource` keys rows on `(evidence type, canonical URL)`. A `github-stars-own` row and a `repo-own` row at the same URL are different keys, and **both count**. Two rows of the *same* type at the same URL collapse, and the higher one wins.
 - **There is no repository-count divisor.** `skillCountInRepo` is recorded provenance and part of `computeTrustMagnitudeInputHash`. It never divides a score; the old repository-count discount retired with the #1705 logarithmic curve.
-- **Suite-component repository cap.** A component's shared suite-root `github-stars-own` + `repo-own` contributions are bounded to 50.0 TM together (`SUITE_COMPONENT_REPOSITORY_CAP`).
+- **Suite-component repository cap.** A component's shared suite-root `github-stars-own` + `repo-own` contributions are bounded to 49.9 TM together (`SUITE_COMPONENT_REPOSITORY_CAP`), just below the inclusive Grade B floor, so the inherited baseline alone grades C (founder ruling 2026-11-08, RFC #2148).
 - **Plateau.** A stackable type scores its rows in descending order, at factors such as 1.0 / 0.5 / 0.25. Rows past the type's max-row count score 0 (`_PLATEAU_CONFIG`).
 - **Freshness** decays only `benchmark-result`, `social-signal` and `peer-review` with `lastVerified`.
 

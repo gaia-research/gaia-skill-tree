@@ -114,7 +114,7 @@
     "suiteRef": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$",
-      "description": "Named skill ID of the suite capstone this skill belongs to (e.g. ruvnet/ruflo). Optional. Set by suite manifest, not required in the .md file itself. Under existing suiteRef semantics, suite members may receive a bounded inherited github-stars-own/repo-own repository baseline from the capstone, combined cap 50 TM per component; this baseline cannot alone make a component A or S."
+      "description": "Named skill ID of the suite capstone this skill belongs to (e.g. ruvnet/ruflo). Optional. Set by suite manifest, not required in the .md file itself. Under existing suiteRef semantics, suite members may receive a bounded inherited github-stars-own/repo-own repository baseline from the capstone, combined cap 49.9 TM per component (just below the Grade B floor); this baseline alone cannot make a component B, A or S."
     },
     "suiteComponents": {
       "type": "array",

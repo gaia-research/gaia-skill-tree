@@ -7,7 +7,7 @@ genericSkillRef: evaluate-output
 status: named
 title: CEO Plan Review
 catalogRef: garrytan-plan-ceo-review
-level: 3★
+level: 2★
 description: Rigorous product strategy and scope review in four modes — SCOPE EXPANSION,
   SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating architecture,
   security, data flows, testing, and edge cases to ensure plans ship at the highest
@@ -20,7 +20,7 @@ tags:
 - ceo-review
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -106,8 +106,17 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 50.0
-overallTrustGrade: B
+- timestamp: '2026-11-08T09:25:51Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 49.9
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true

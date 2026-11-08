@@ -2,13 +2,13 @@
   "id": "leonxlnx/stitch-skill",
   "name": "stitch-skill",
   "contributor": "leonxlnx",
-  "level": "3★",
+  "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 50.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 49.9,
+  "overallTrustGrade": "C",
   "branch": "standard",
-  "rankWord": "Evolved",
+  "rankWord": "Named",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/leonxlnx/stitch-skill.json",
@@ -138,6 +138,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T09:29:17Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    },
+    {
+      "timestamp": "2026-11-08T18:19:15Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

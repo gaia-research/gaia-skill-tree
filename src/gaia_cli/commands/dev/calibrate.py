@@ -64,15 +64,16 @@ def meta_calibrate_command(args):
     old_level_num = (
         ALLOWED_LEVELS.index(old_level) if old_level in ALLOWED_LEVELS else 0
     )
-    action = "rank_up" if level_num > old_level_num else "demote"
+    if level_num != old_level_num:
+        action = "rank_up" if level_num > old_level_num else "demote"
 
-    append_skill_event(
-        skill_id,
-        action,
-        _get_contributor(),
-        f"Calibrated level from {old_level} to {level}",
-        registry_path=registry_path,
-    )
+        append_skill_event(
+            skill_id,
+            action,
+            _get_contributor(),
+            f"Calibrated level from {old_level} to {level}",
+            registry_path=registry_path,
+        )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

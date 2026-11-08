@@ -5,7 +5,7 @@ contributor: heygen-com
 origin: false
 genericSkillRef: skill-discovery
 status: named
-level: 3★
+level: 2★
 description: Install, discover, and wire registry blocks and components into HyperFrames
   compositions. Use when running hyperframes add or hyperframes catalog, installing
   one item or every block matching a tag, wiring an installed item into index.html,
@@ -13,7 +13,7 @@ description: Install, discover, and wire registry blocks and components into Hyp
   wiring, component snippet merging, and authoring a new block or component to contribute
   upstream (idea → scaffold → validate → PR).
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: The Component Curator
 timeline:
 - timestamp: '2026-09-06T17:23:01Z'
@@ -55,6 +55,15 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:27:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md
 evidence:
@@ -81,8 +90,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T17:23:35Z'
 suiteRef: heygen-com/hyperframes
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: cd105e648b4b8b9f8a74925bd20227399ee54e4715649552fad7955adf5ab674
 ---
 

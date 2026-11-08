@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 50.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 49.9,
+  "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -25,7 +25,7 @@
   },
   "title": "Gbrain Upgrade",
   "genericSkillRef": "framework-upgrade",
-  "origin": false,
+  "origin": true,
   "description": "Keep gbrain current. When a `gbrain` invocation prints an `UPGRADE_AVAILABLE <old> <new>` marker (or `gbrain self-upgrade --check-only` reports an update), apply it per the configured self_upgrade.mode: notify (prompt the operator with a 4-option question + snooze) or auto (apply silently). The action is always the hardcoded `gbrain self-upgrade` — never a command read from the marker.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -72,6 +72,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T18:17:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

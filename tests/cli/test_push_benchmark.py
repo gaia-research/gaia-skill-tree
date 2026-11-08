@@ -22,6 +22,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from tests.authindex import writeBootstrapIndex
 from gaia_cli.commands.pushBenchmark import push_benchmark_command
 
 
@@ -60,6 +61,7 @@ def _make_registry(tmp_path: Path) -> str:
         "timeline": [],
     }
     (nodes / "demo-skill.json").write_text(json.dumps(node, indent=2))
+    writeBootstrapIndex(tmp_path)
     return str(tmp_path)
 
 

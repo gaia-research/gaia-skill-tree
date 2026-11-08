@@ -18,7 +18,7 @@ description: Establishes a project's quality bar as a written contract and stops
   need a coverage or performance threshold and don't know what number to pick, or
   when an agent writes more code than anyone will read.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: constraint-driven-development
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/constraint-driven-development/SKILL.md
@@ -62,6 +62,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:08Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/constraint-driven-development/SKILL.md
   evaluator: mbtiongson1
@@ -88,8 +93,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:54:57Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 384268e90788b3548bc4617634de3f5960e3a0e4da11b3ac9832c6d8fa42d58b
 suiteRef: addy-osmani/agent-skills
 ---

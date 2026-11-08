@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 50.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 49.9,
+  "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -25,7 +25,7 @@
   },
   "title": "Brain Ingest Gate",
   "genericSkillRef": "knowledge-management",
-  "origin": false,
+  "origin": true,
   "description": "Pre-write quality gate for content entering the brain. No raw copies: a bare cp/mv into the brain repo is a bug. Before any new page lands, resolve named entities registry-first (a vector score is a floor for prose, never a gate for named things), then run the read-the-top-hit dedup decision tree (clear-dup / plausible-dup / clear). Owns dedup; delegates enrichment to the shipped ingestion skills.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -72,6 +72,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T18:16:48Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

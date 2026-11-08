@@ -4,71 +4,106 @@
   "unlockedSkills": [
     {
       "skillId": "gsd-build/gsd-discuss-phase",
-      "level": "3\u2605",
+      "level": "2★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3\u2605",
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:52:54Z",
+          "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:53:06Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-02T21:34:07Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-11-08T09:26:44Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "gsd-build/gsd-execute-phase",
-      "level": "3\u2605",
+      "level": "2★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3\u2605",
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:53:09Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-02T21:34:09Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-11-08T09:26:51Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "gsd-build/get-shit-done",
-      "level": "4\u2605",
+      "level": "4★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-07-02T20:53:12Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-02T21:34:10Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:20Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:02Z",
           "source": "promotion"
         }
@@ -76,41 +111,71 @@
     },
     {
       "skillId": "gsd-build/gsd-plan-phase",
-      "level": "3\u2605",
+      "level": "2★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3\u2605",
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:53:07Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-02T21:34:08Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-11-08T09:27:00Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "gsd-build/gsd-ship",
-      "level": "3\u2605",
+      "level": "2★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3\u2605",
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:53:11Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-02T21:34:10Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-11-08T09:27:10Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "gsd-build/gsd-verify-work",
-      "level": "3\u2605",
+      "level": "3★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
         }
@@ -119,20 +184,92 @@
   ],
   "timeline": [
     {
+      "timestamp": "2026-07-02T20:52:54Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/gsd-discuss-phase"
+    },
+    {
+      "timestamp": "2026-07-02T20:53:06Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "2★",
+      "details": "Calibrated level from 2★ to 2★",
+      "skillId": "gsd-build/gsd-discuss-phase"
+    },
+    {
+      "timestamp": "2026-07-02T20:53:07Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/gsd-plan-phase"
+    },
+    {
+      "timestamp": "2026-07-02T20:53:09Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/gsd-execute-phase"
+    },
+    {
+      "timestamp": "2026-07-02T20:53:11Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/gsd-ship"
+    },
+    {
       "timestamp": "2026-07-02T20:53:12Z",
       "action": "rank_up",
-      "previousValue": "1\u2605",
-      "newValue": "2\u2605",
-      "details": "Calibrated level from 1\u2605 to 2\u2605",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:07Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "gsd-build/gsd-discuss-phase"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:08Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "gsd-build/gsd-plan-phase"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:09Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "gsd-build/gsd-execute-phase"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:10Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Calibrated level from 2★ to 4★",
       "skillId": "gsd-build/get-shit-done"
     },
     {
       "timestamp": "2026-07-02T21:34:10Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 2\u2605 to 4\u2605",
-      "skillId": "gsd-build/get-shit-done"
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "gsd-build/gsd-ship"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -140,7 +277,7 @@
       "skillId": "gsd-build/gsd-discuss-phase",
       "details": "Registered named skill gsd-build/gsd-discuss-phase",
       "previousValue": null,
-      "newValue": "3\u2605"
+      "newValue": "3★"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -148,7 +285,7 @@
       "skillId": "gsd-build/gsd-execute-phase",
       "details": "Registered named skill gsd-build/gsd-execute-phase",
       "previousValue": null,
-      "newValue": "3\u2605"
+      "newValue": "3★"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -156,7 +293,7 @@
       "skillId": "gsd-build/get-shit-done",
       "details": "Registered named skill gsd-build/get-shit-done",
       "previousValue": null,
-      "newValue": "4\u2605"
+      "newValue": "4★"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -164,7 +301,7 @@
       "skillId": "gsd-build/gsd-plan-phase",
       "details": "Registered named skill gsd-build/gsd-plan-phase",
       "previousValue": null,
-      "newValue": "3\u2605"
+      "newValue": "3★"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -172,7 +309,7 @@
       "skillId": "gsd-build/gsd-ship",
       "details": "Registered named skill gsd-build/gsd-ship",
       "previousValue": null,
-      "newValue": "3\u2605"
+      "newValue": "3★"
     },
     {
       "timestamp": "2026-07-03T00:00:00Z",
@@ -180,38 +317,38 @@
       "skillId": "gsd-build/gsd-verify-work",
       "details": "Registered named skill gsd-build/gsd-verify-work",
       "previousValue": null,
-      "newValue": "3\u2605"
+      "newValue": "3★"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "gsd-build/get-shit-done"
     },
     {
       "timestamp": "2026-07-30T22:37:20Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "gsd-build/get-shit-done"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "gsd-build/get-shit-done"
     },
     {
       "timestamp": "2026-07-31T00:00:02Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "gsd-build/get-shit-done"
     },
     {
@@ -243,6 +380,38 @@
       "action": "rename",
       "skillId": "gsd-build/gsd-verify-work",
       "details": "Renamed from gsd-build/verify-work to gsd-build/gsd-verify-work"
+    },
+    {
+      "timestamp": "2026-11-08T09:26:44Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "gsd-build/gsd-discuss-phase"
+    },
+    {
+      "timestamp": "2026-11-08T09:26:51Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "gsd-build/gsd-execute-phase"
+    },
+    {
+      "timestamp": "2026-11-08T09:27:00Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "gsd-build/gsd-plan-phase"
+    },
+    {
+      "timestamp": "2026-11-08T09:27:10Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "gsd-build/gsd-ship"
     }
   ],
   "stats": {

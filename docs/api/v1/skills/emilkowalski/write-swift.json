@@ -2,14 +2,14 @@
   "id": "emilkowalski/write-swift",
   "name": "write-swift",
   "contributor": "emilkowalski",
-  "level": "2★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 129.67,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/emilkowalski/write-swift.json",
     "contributor": "/api/v1/contributors/emilkowalski.json",
@@ -25,7 +25,7 @@
   },
   "title": "Write Swift",
   "genericSkillRef": "code-generation",
-  "origin": false,
+  "origin": true,
   "description": "How to write modern Swift well — modeling with value types, Swift 6 data-race safety and approachable concurrency (@concurrent, main-actor-by-default, actors, task groups), protocols and generics (some vs any), API design, performance and ARC, Swift Testing, macros, and the modern language features agents don't know about yet. Use when writing, reviewing, or migrating Swift, or when a concurrency error, a hang, a data race, a retain cycle, or a performance problem needs fixing.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T08:22:32Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {
