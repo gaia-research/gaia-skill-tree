@@ -787,8 +787,13 @@ def _diff_paths_safe(diff_text: str) -> bool:
             rest = line[len("diff --git "):]
             if '"' in rest or "\\" in rest:
                 return False
+            # Same rules as every other header path (a path with spaces splits into
+            # tokens, each of which must still be safe), so a mode-only diff naming
+            # .git is refused too.
             for token in rest.split(" "):
-                if token.startswith("/") or ".." in token.split("/"):
+                if token.startswith(("a/", "b/")):
+                    token = token[2:]
+                if not _path_safe(token):
                     return False
             continue
         for prefix in _PATH_LINE_PREFIXES:

@@ -1276,3 +1276,17 @@ def test_out_of_scope_change_set_is_never_attributed(tmp_path: Path, monkeypatch
     assert result.artifact.scope_valid is False
     assert "patch attribution not run: the change set is out of scope" in result.artifact.reasons
     assert (root / "registry/nodes/a.json").read_text(encoding="utf-8") == "{}\n"
+
+
+@pytest.mark.parametrize("header", [
+    "diff --git a/.git/config b/.git/config\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/scripts/fix.py b/.git/hooks/pre-commit\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/sub/.git/x b/sub/.git/x\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/./x b/./x\nold mode 100644\nnew mode 100755\n",
+])
+def test_git_header_paths_follow_the_same_path_rules(header: str) -> None:
+    """A mode-only diff has no ---/+++ lines; its diff --git header alone must be validated."""
+    from gaia_cli.steward.routing import _diff_paths_safe
+
+    assert _diff_paths_safe(header) is False
+    assert _diff_paths_safe("diff --git a/scripts/x.py b/scripts/x.py\nold mode 100644\nnew mode 100755\n") is True
