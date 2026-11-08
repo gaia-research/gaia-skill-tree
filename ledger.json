@@ -1,5 +1,5 @@
 {
- "generation": 1902,
+ "generation": 1903,
  "lane": {
   "entries": [
    {
@@ -1046,14 +1046,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-883954188741817f3cb4",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T09:23:12.263325Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch13-verifier-3435f8d0b7d1)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-08T08:01:00.779337Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T09:23:12.263325Z",
+    "lastVerdict": "accept",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -144023,6 +144029,17 @@
      "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
      "emittedAt": "2026-11-08T09:15:24.796802Z",
      "idempotencyKey": "integrate:dispatch-883954188741817f3cb4:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "fa63bf01912451c1bd6b0f9e1b42b18841595a0c",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/trust-calibration-drift-3435f8d0b7d1",
+       "number": 2407,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2407"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -144030,7 +144047,8 @@
       "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T09:23:12.263014Z",
+     "status": "done",
      "stepId": "integrate:3435f8d0b7d1:2",
      "type": "lead.integrate"
     },
@@ -144338,7 +144356,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-08T09:23:12.263325Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-08T09:22:08.144658Z",
@@ -148642,7 +148668,16 @@
      "stepId": "build:1a2bc86f3fbb:1"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+     "head": "steward/b/trust-calibration-drift-3435f8d0b7d1",
+     "merged": true,
+     "number": 2407,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2407"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261108T075823Z-703349719c2251fe",
@@ -148820,11 +148855,11 @@
      "stepId": "verify:1a2bc86f3fbb:1"
     },
     {
-     "at": "2026-11-08T09:15:24.796802Z",
+     "at": "2026-11-08T09:23:12.263014Z",
      "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
      "idempotencyKey": "integrate:dispatch-883954188741817f3cb4:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:3435f8d0b7d1:2"
     },
     {
@@ -148915,11 +148950,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T09:16:15.894342Z"
+   "updatedAt": "2026-11-08T09:23:12.263014Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:22:33.174261Z",
+ "updatedAt": "2026-11-08T09:23:12.268301Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -149788,17 +149823,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch13-verifier-3435f8d0b7d1 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-08T09:23:12.263325Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "trust_calibration_drift",
+   "mergedSha": "fa63bf01912451c1bd6b0f9e1b42b18841595a0c",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/trust-calibration-drift-3435f8d0b7d1",
+    "number": 2407,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2407"
+   },
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
-   "state": "verified",
-   "updatedAt": "2026-11-08T09:15:24.796802Z",
+   "state": "landed",
+   "updatedAt": "2026-11-08T09:23:12.263325Z",
    "verification": {
     "agentId": "pi-herdr-batch13-verifier-3435f8d0b7d1",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - Pre-calibration inspection at the candidate parent shows 2★, TM 129.67, grade A and a 4★ target; post-calibration inspection shows 4★ with the same TM and grade. - The single-record diff changes the level and updated date and appends the expected rank_up event; the reported no-build calibration succeeded. - The recorded eligibility and the routine authorize this below-ceiling promotion as Class B; this independent verification fulfills the review item. - Class S regeneration remains a lead-owned wave-level obligation before delivery to main, not a defect in this dispatch.",
