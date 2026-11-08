@@ -437,3 +437,134 @@ class TestFrozenLocksInAdjudication:
         reg = self.registry()
         reg.named["x/live"]["trustMagnitude"] = "broken"
         assert ac.derive(reg.named["x/live"], reg)[:2] == (0.0, "ungraded")
+
+
+class TestFrozenLocksSurviveRegistryMutation:
+    """Locks are re-validated on every use: a mutation after a first derive is never missed.
+
+    Round-2 review: a cached validated lock let ``applyOps`` ``setField`` invalidate a frozen
+    lock after a first ``derive``, and ``refreshCaches`` then overwrote the malformed value.
+    Adjudication ops are hypothetical corrections on a clone; frozen records' locked stamps
+    are never rewritten, so an op may not set them, and any other path that breaks a lock
+    (direct edit, an op that freezes a record or moves it into a frozen suite) fails closed.
+    """
+
+    @staticmethod
+    def registry(**frozenExtra):
+        frozen = {"id": "x/frozen", "level": "3★", "status": "named", "frozen": True, "evidence": [],
+                  "trustMagnitude": 50.0, "overallTrustGrade": "B", "suiteComponents": ["x/member"], **frozenExtra}
+        member = {"id": "x/member", "level": "3★", "status": "named", "suiteRef": "x/frozen", "evidence": [],
+                  "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+        loose = {"id": "x/loose", "level": "3★", "status": "named", "evidence": [],
+                 "trustMagnitude": "broken", "overallTrustGrade": "B"}  # live: a bad stamp is its own business
+        return ac.Registry({}, {"x/frozen": frozen, "x/member": member, "x/loose": loose})
+
+    def warm(self, reg):
+        """The first derive/refresh that a stale cache would remember."""
+        locks = ac.frozenLocks(reg)
+        assert set(locks) == {"x/frozen", "x/member"}
+        ac.derive(reg.named["x/frozen"], reg)
+        return locks
+
+    # -- the reviewer's repro, and every other way to break a lock after a first derive ------
+    @pytest.mark.parametrize("target", ["x/frozen", "x/member"])  # self-frozen and suite-inherited
+    @pytest.mark.parametrize("field, value", [("trustMagnitude", "broken"), ("overallTrustGrade", "Z"),
+                                              ("trustMagnitude", -1.0), ("trustMagnitude", None)])
+    def test_setField_on_a_frozen_lock_is_refused_after_a_first_derive(self, target, field, value):
+        reg = self.registry()
+        self.warm(reg)
+        before = dict(reg.named[target])
+        with pytest.raises(ValueError, match=target):
+            ac.applyOps(reg, [{"op": "setField", "id": target, "field": field, "value": value}])
+        assert reg.named[target] == before, "a refused op must leave the locked stamp untouched"
+        ac.refreshCaches(reg)  # still valid, still untouched
+        assert (reg.named[target]["trustMagnitude"], reg.named[target]["overallTrustGrade"]) == (50.0, "B")
+
+    @pytest.mark.parametrize("target", ["x/frozen", "x/member"])
+    def test_a_direct_edit_after_a_first_derive_is_caught_by_every_entry_point(self, target):
+        reg = self.registry()
+        self.warm(reg)
+        reg.named[target]["trustMagnitude"] = "broken"  # bypasses applyOps entirely
+        for call in (lambda: ac.derive(reg.named[target], reg), lambda: ac.refreshCaches(reg),
+                     lambda: ac.snapshot(reg), lambda: ac.frozenLocks(reg),
+                     lambda: ac.namedState(target, reg)):
+            with pytest.raises(ValueError, match=target):
+                call()
+        assert reg.named[target]["trustMagnitude"] == "broken", "a malformed lock is never overwritten"
+
+    def test_setField_freezing_a_record_with_a_bad_stamp_fails_closed_on_the_next_use(self):
+        reg = self.registry()
+        self.warm(reg)
+        ac.applyOps(reg, [{"op": "setField", "id": "x/loose", "field": "frozen", "value": True}])
+        for call in (lambda: ac.derive(reg.named["x/loose"], reg), lambda: ac.refreshCaches(reg)):
+            with pytest.raises(ValueError, match="x/loose"):
+                call()
+        assert reg.named["x/loose"]["trustMagnitude"] == "broken"
+
+    def test_setField_moving_a_record_into_a_frozen_suite_fails_closed_on_the_next_use(self):
+        reg = self.registry()
+        self.warm(reg)
+        ac.applyOps(reg, [{"op": "setField", "id": "x/loose", "field": "suiteRef", "value": "x/frozen"}])
+        with pytest.raises(ValueError, match="x/loose"):
+            ac.snapshot(reg)
+        assert reg.named["x/loose"]["trustMagnitude"] == "broken"
+
+    # -- membership changes are never served from a stale lock -------------------------------
+    def test_unfreezing_with_setField_stops_using_the_lock(self):
+        reg = self.registry()
+        reg.named["x/frozen"]["suiteComponents"] = []
+        assert ac.derive(reg.named["x/frozen"], reg)[:2] == (50.0, "B")
+        ac.applyOps(reg, [{"op": "setField", "id": "x/frozen", "field": "frozen", "value": False}])
+        assert ac.derive(reg.named["x/frozen"], reg)[:2] == (0.0, "ungraded")  # recomputed, not the stale lock
+
+    def test_removeSuiteComponents_updates_inherited_membership(self):
+        reg = self.registry()
+        del reg.named["x/member"]["suiteRef"]  # frozen only through the suite's component list
+        assert ac.derive(reg.named["x/member"], reg)[:2] == (50.0, "B")
+        ac.applyOps(reg, [{"op": "removeSuiteComponents", "id": "x/frozen", "components": ["x/member"]}])
+        assert ac.derive(reg.named["x/member"], reg)[:2] == (0.0, "ungraded")
+
+    # -- every other op leaves the lock untouched and still in force -------------------------
+    @pytest.mark.parametrize(
+        "op",
+        [
+            {"op": "setLevel", "id": "x/frozen", "value": "4★"},
+            {"op": "setField", "id": "x/frozen", "field": "status", "value": "awakened"},
+            {"op": "removeRows", "id": "x/frozen", "match": {"sourceContains": "demo"}},
+            {"op": "setRowField", "id": "x/frozen", "match": {"sourceContains": "demo"}, "field": "stars", "value": 1},
+            {"op": "engineDropGenericNamedOnly"},
+        ],
+    )
+    def test_other_ops_keep_the_lock_in_force(self, op):
+        reg = self.registry()
+        reg.named["x/frozen"]["evidence"] = [{"type": "repo-own", "source": "https://example.org/demo"}]
+        self.warm(reg)
+        ac.applyOps(reg, [op])
+        assert ac.derive(reg.named["x/frozen"], reg)[:2] == (50.0, "B")
+        ac.refreshCaches(reg)
+        assert (reg.named["x/frozen"]["trustMagnitude"], reg.named["x/frozen"]["overallTrustGrade"]) == (50.0, "B")
+
+    def test_setGenericRef_keeps_the_lock_in_force(self):
+        reg = self.registry()
+        reg.generic["g"] = {"id": "g", "evidence": []}
+        self.warm(reg)
+        ac.applyOps(reg, [{"op": "setGenericRef", "id": "x/frozen", "value": "g"}])
+        assert ac.derive(reg.named["x/frozen"], reg)[:2] == (50.0, "B")
+
+    def test_setOrigin_is_still_retired(self):
+        with pytest.raises(ValueError, match="retired"):
+            ac.applyOps(self.registry(), [{"op": "setOrigin", "id": "x/frozen", "value": True}])
+
+    # -- frozen bytes are never rewritten, not even to round a valid lock --------------------
+    def test_refreshCaches_never_rewrites_a_frozen_record(self):
+        reg = self.registry(trustMagnitude=50.1234)
+        ac.refreshCaches(reg)
+        assert reg.named["x/frozen"]["trustMagnitude"] == 50.1234
+        assert ac.derive(reg.named["x/frozen"], reg)[0] == 50.1234  # the exact lock, never rounded
+
+    # -- the origin fallback applies the same boundary --------------------------------------
+    def test_the_origin_fallback_refuses_a_broken_frozen_lock(self):
+        pool = {"x/frozen": {"id": "x/frozen", "contributor": "x", "genericSkillRef": "g", "status": "named",
+                             "level": "3★", "frozen": True, "trustMagnitude": "broken", "overallTrustGrade": "B"}}
+        with pytest.raises(ValueError, match="x/frozen"):
+            ac._FallbackOrigin.bucketHolders("g", pool)
