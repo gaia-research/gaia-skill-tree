@@ -9,12 +9,22 @@ on non-frozen skills.
 from __future__ import annotations
 
 import json
+import shutil
+from pathlib import Path
 
 import pytest
 
 from scripts import check_trust_magnitude_consistency as gate
 
 RECOMPUTED = 49.9
+REPO = Path(__file__).resolve().parent.parent
+
+
+def writeSchema(root: Path) -> None:
+    """Give a temporary registry the real named-skill schema (the status enum is read from it)."""
+    target = root / "registry" / "schema"
+    target.mkdir(parents=True, exist_ok=True)
+    shutil.copy(REPO / "registry" / "schema" / "namedSkill.schema.json", target)
 
 
 @pytest.fixture(autouse=True)
@@ -129,11 +139,14 @@ def test_missing_index_is_skipped_only_with_the_explicit_opt_in():
 
 
 def _stageRegistry(tmp_path, monkeypatch, frozen=True):
+    writeSchema(tmp_path)
     named = tmp_path / "registry" / "named" / "demo"
     named.mkdir(parents=True)
-    lines = ["---", "id: demo/f", "status: named"]
+    lines = ["---", "id: demo/f", "status: named", "genericSkillRef: demo-generic"]
     if frozen:
         lines += ["frozen: true", "trustMagnitude: 50.0", "overallTrustGrade: B"]
+    else:
+        lines += ["trustMagnitude: 50.0", "trustMagnitudeInputHash: same-hash"]
     (named / "f.md").write_text("\n".join(lines + ["---", ""]), encoding="utf-8")
     monkeypatch.setattr(gate, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
@@ -174,6 +187,7 @@ def test_malformed_or_unreadable_inputs_fail_closed(tmp_path, monkeypatch):
         with pytest.raises(gate.InputError):
             gate._loadGeneratedIndex(str(tmp_path))
 
+    writeSchema(tmp_path)
     named = tmp_path / "registry" / "named" / "a"
     named.mkdir(parents=True)
     (named / "b.md").write_bytes(b"\xff\xfe not utf-8")
@@ -184,6 +198,7 @@ def test_malformed_or_unreadable_inputs_fail_closed(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize("content", ["corrupt content without frontmatter", "", "---\n---\n", "---\nstatus: named\n---\n"])
 def test_named_file_without_usable_frontmatter_fails_closed(tmp_path, monkeypatch, content):
+    writeSchema(tmp_path)
     named = tmp_path / "registry" / "named" / "demo"
     named.mkdir(parents=True)
     (named / "f.md").write_text(content, encoding="utf-8")
@@ -193,6 +208,7 @@ def test_named_file_without_usable_frontmatter_fails_closed(tmp_path, monkeypatc
 
 
 def test_main_exits_nonzero_when_a_named_file_is_malformed(tmp_path, monkeypatch, capsys):
+    writeSchema(tmp_path)
     named = tmp_path / "registry" / "named" / "demo"
     named.mkdir(parents=True)
     (named / "f.md").write_text("corrupt content without frontmatter", encoding="utf-8")
@@ -210,3 +226,156 @@ def test_frozen_source_lock_of_the_wrong_type_is_a_violation(bad):
     violations, _, _ = gate.findViolations([frozen], {}, published)
     assert len(violations) == 1
     assert "lacks a valid" in violations[0]
+
+
+# --------------------------------------------------------------------------
+# One complete pass over every field the gate reads from a named file.
+# Each case is (field, frontmatter override, message fragment). ``None`` removes the key.
+# --------------------------------------------------------------------------
+
+LIVE = {
+    "id": "demo/live",
+    "status": "named",
+    "genericSkillRef": "demo-generic",
+    "trustMagnitude": 50.0,
+    "trustMagnitudeInputHash": "same-hash",
+}
+
+FIELD_CASES = [
+    # id: a non-empty string
+    ("id", None, "'id'"),
+    ("id", "", "'id'"),
+    ("id", "   ", "'id'"),
+    ("id", 7, "'id'"),
+    # status: present and in the schema enum (the reviewer's repro: id but no status)
+    ("status", None, "'status'"),
+    ("status", "frozenish", "'status'"),
+    ("status", "", "'status'"),
+    ("status", True, "'status'"),
+    # frozen: a bool when present
+    ("frozen", "yes", "'frozen'"),
+    ("frozen", 1, "'frozen'"),
+    # frozenAt, installable, suiteRef, suiteComponents, timeline: typed when present
+    ("frozenAt", 20260101, "'frozenAt'"),
+    ("frozenAt", "  ", "'frozenAt'"),
+    ("installable", "false", "'installable'"),
+    ("suiteRef", 3, "'suiteRef'"),
+    ("suiteRef", "", "'suiteRef'"),
+    ("suiteComponents", "a/b", "'suiteComponents'"),
+    ("suiteComponents", ["a/b", 4], "'suiteComponents'"),
+    ("timeline", "upstream_deprecated", "'timeline'"),
+    ("timeline", ["upstream_deprecated"], "'timeline'"),
+    # genericSkillRef: required for a named record
+    ("genericSkillRef", None, "'genericSkillRef'"),
+    ("genericSkillRef", "", "'genericSkillRef'"),
+    ("genericSkillRef", 5, "'genericSkillRef'"),
+    # stamp and hash: required, finite and typed for a non-frozen named record
+    ("trustMagnitude", None, "'trustMagnitude'"),
+    ("trustMagnitude", "50.0", "'trustMagnitude'"),
+    ("trustMagnitude", True, "'trustMagnitude'"),
+    ("trustMagnitude", float("nan"), "'trustMagnitude'"),
+    ("trustMagnitude", float("inf"), "'trustMagnitude'"),
+    ("trustMagnitudeInputHash", None, "'trustMagnitudeInputHash'"),
+    ("trustMagnitudeInputHash", "", "'trustMagnitudeInputHash'"),
+    ("trustMagnitudeInputHash", 12, "'trustMagnitudeInputHash'"),
+]
+
+
+def yamlLine(key, value) -> str:
+    if isinstance(value, float) and value != value:
+        return f"{key}: .nan"
+    if isinstance(value, float) and value in (float("inf"), float("-inf")):
+        return f"{key}: .inf"
+    return f"{key}: {json.dumps(value)}"
+
+
+def stageFile(tmp_path, monkeypatch, meta: dict) -> Path:
+    writeSchema(tmp_path)
+    named = tmp_path / "registry" / "named" / "demo"
+    named.mkdir(parents=True, exist_ok=True)
+    path = named / "skill.md"
+    path.write_text("---\n" + "\n".join(yamlLine(k, v) for k, v in meta.items()) + "\n---\n", encoding="utf-8")
+    monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
+    return path
+
+
+@pytest.mark.parametrize("field, value, fragment", FIELD_CASES)
+def test_every_field_the_gate_reads_aborts_with_file_and_field(tmp_path, monkeypatch, field, value, fragment):
+    meta = dict(LIVE)
+    if value is None:
+        meta.pop(field)
+    else:
+        meta[field] = value
+    path = stageFile(tmp_path, monkeypatch, meta)
+    with pytest.raises(gate.InputError) as caught:
+        gate._loadNamedSkills(str(tmp_path))
+    assert str(path) in str(caught.value), "the message must name the file"
+    assert fragment in str(caught.value), "the message must name the field"
+
+
+def test_the_reviewers_repro_a_frozen_skill_without_status_aborts(tmp_path, monkeypatch):
+    path = stageFile(tmp_path, monkeypatch, {"id": "frozen-skill", "frozen": True, "trustMagnitude": 50, "overallTrustGrade": "A"})
+    with pytest.raises(gate.InputError, match="'status'") as caught:
+        gate._loadNamedSkills(str(tmp_path))
+    assert str(path) in str(caught.value)
+
+
+def test_allowed_statuses_come_from_the_schema_not_a_hard_coded_list(tmp_path, monkeypatch):
+    writeSchema(tmp_path)
+    assert gate._allowedStatuses(str(tmp_path)) == frozenset(
+        json.loads((REPO / "registry/schema/namedSkill.schema.json").read_text())["properties"]["status"]["enum"]
+    )
+    schema = tmp_path / "registry" / "schema" / "namedSkill.schema.json"
+    schema.write_text(json.dumps({"properties": {"status": {"enum": ["named", "retired"]}}}), encoding="utf-8")
+    assert gate._allowedStatuses(str(tmp_path)) == {"named", "retired"}
+    for broken in ("{nope", "{}", json.dumps({"properties": {"status": {"enum": ["awakened"]}}}), json.dumps({"properties": {"status": {"enum": []}}})):
+        schema.write_text(broken, encoding="utf-8")
+        with pytest.raises(gate.InputError):
+            gate._allowedStatuses(str(tmp_path))
+    schema.unlink()
+    with pytest.raises(gate.InputError):
+        gate._allowedStatuses(str(tmp_path))
+
+
+def test_non_named_status_is_excluded_explicitly_but_still_in_the_frozen_census(tmp_path, monkeypatch):
+    stageFile(tmp_path, monkeypatch, {"id": "demo/awake", "status": "awakened"})
+    records = gate._loadNamedSkills(str(tmp_path))
+    assert [r["id"] for r in records] == ["demo/awake"]
+    # No stamp or genericSkillRef is demanded of an excluded status, and no check runs on it.
+    assert gate.findViolations(records, {}, {}) == ([], 0, 0)
+    # But a frozen awakened capstone still freezes its named members.
+    capstone = {"id": "demo/cap", "status": "awakened", "frozen": True, "suiteComponents": ["demo/live"]}
+    member = {**LIVE, "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+    violations, _, _ = gate.findViolations([capstone, member], {}, {"demo/live": {"trustMagnitude": 50.0, "overallTrustGrade": "B"}})
+    assert violations == []
+
+
+def test_frozen_through_the_timeline_is_found_and_its_lock_enforced():
+    frozen = {**LIVE, "timeline": [{"action": "upstream_deprecated"}], "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+    violations, _, _ = gate.findViolations([frozen], {}, {"demo/live": {"trustMagnitude": 49.9, "overallTrustGrade": "B"}})
+    assert len(violations) == 1 and "locked stamp 50.0 (frozen)" in violations[0]
+
+
+def test_a_frozen_skill_missing_from_a_built_index_is_reported_even_with_a_valid_lock():
+    frozen = {**LIVE, "frozen": True, "overallTrustGrade": "B"}
+    violations, _, _ = gate.findViolations([frozen], {}, {})
+    assert violations and "missing from registry/named-skills.json" in violations[0]
+
+
+def test_duplicate_ids_abort(tmp_path, monkeypatch):
+    path = stageFile(tmp_path, monkeypatch, dict(LIVE))
+    (path.parent / "other.md").write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+    with pytest.raises(gate.InputError, match="'id'"):
+        gate._loadNamedSkills(str(tmp_path))
+
+
+@pytest.mark.parametrize("published", [{}, {"trustMagnitude": "x"}, {"trustMagnitude": float("nan")}, {"trustMagnitude": True}])
+def test_non_frozen_index_value_must_be_a_finite_number(published):
+    violations, _, indexChecked = gate.findViolations([dict(LIVE)], {}, {"demo/live": published})
+    assert indexChecked == 1
+    assert any("not a finite number" in item for item in violations)
+
+
+def test_a_fully_valid_non_frozen_record_loads(tmp_path, monkeypatch):
+    stageFile(tmp_path, monkeypatch, dict(LIVE))
+    assert [r["id"] for r in gate._loadNamedSkills(str(tmp_path))] == ["demo/live"]

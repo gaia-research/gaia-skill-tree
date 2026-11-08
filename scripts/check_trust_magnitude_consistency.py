@@ -78,24 +78,119 @@ class InputError(Exception):
     """An input the gate depends on is unreadable or malformed; agreement cannot be claimed."""
 
 
+NAMED_SCHEMA = Path("registry") / "schema" / "namedSkill.schema.json"
+GATED_STATUS = "named"  # every other schema status is excluded explicitly, not skipped by accident
+
+
+def _allowedStatuses(registryPath: str) -> frozenset[str]:
+    """The lifecycle statuses the named-skill schema allows (read, never hard-coded)."""
+    path = Path(registryPath) / NAMED_SCHEMA
+    try:
+        values = json.loads(path.read_text(encoding="utf-8"))["properties"]["status"]["enum"]
+        if not values or not all(isinstance(value, str) and value for value in values):
+            raise ValueError("status enum must be a non-empty list of strings")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise InputError(f"{path}: cannot read the allowed status values: {exc}") from exc
+    if GATED_STATUS not in values:
+        raise InputError(f"{path}: status enum does not contain {GATED_STATUS!r}")
+    return frozenset(values)
+
+
+def _requireString(path: Path, meta: dict, field: str) -> None:
+    value = meta.get(field)
+    if not isinstance(value, str) or not value.strip():
+        raise InputError(f"{path}: field {field!r} is missing or not a non-empty string (got {value!r})")
+
+
+def _optionalType(path: Path, meta: dict, field: str, check, expected: str) -> None:
+    value = meta.get(field)
+    if value is not None and not check(value):
+        raise InputError(f"{path}: field {field!r} must be {expected} when present (got {value!r})")
+
+
+def _validateNamedRecord(path: Path, meta, allowedStatuses: frozenset[str]) -> dict:
+    """Validate every field the gate reads from one named file, or raise ``InputError``.
+
+    Every message names the file and the field. Fields read, and why:
+      id, status                 identity and census membership (always)
+      frozen, frozenAt, timeline, installable, suiteRef, suiteComponents
+                                 read by ``gaia_cli.frozen`` to decide who is frozen
+      trustMagnitude, overallTrustGrade
+                                 the lock of a frozen skill (validated by ``frozenLock``)
+      trustMagnitude, trustMagnitudeInputHash
+                                 the stamp and its hash for a non-frozen named skill
+      genericSkillRef            required by the recomputation (generic evidence resolution)
+    """
+    if not isinstance(meta, dict) or not meta:
+        raise InputError(f"{path}: missing or malformed frontmatter")
+    _requireString(path, meta, "id")
+    status = meta.get("status")
+    if status not in allowedStatuses:
+        raise InputError(
+            f"{path}: field 'status' must be one of {sorted(allowedStatuses)} (got {status!r})"
+        )
+    # Fields that decide who is frozen apply to every record, whatever its status.
+    _optionalType(path, meta, "frozen", lambda v: isinstance(v, bool), "a bool")
+    _optionalType(path, meta, "frozenAt", lambda v: isinstance(v, str) and bool(v.strip()), "a non-empty string")
+    _optionalType(path, meta, "installable", lambda v: isinstance(v, bool), "a bool")
+    _optionalType(path, meta, "suiteRef", lambda v: isinstance(v, str) and bool(v.strip()), "a non-empty string")
+    _optionalType(
+        path, meta, "suiteComponents",
+        lambda v: isinstance(v, list) and all(isinstance(item, str) and item.strip() for item in v),
+        "a list of non-empty strings",
+    )
+    _optionalType(
+        path, meta, "timeline",
+        lambda v: isinstance(v, list) and all(isinstance(item, dict) for item in v),
+        "a list of mappings",
+    )
+    if status != GATED_STATUS:
+        return meta  # explicitly excluded from the stamp checks; still part of the frozen census
+    _requireString(path, meta, "genericSkillRef")
+    return meta
+
+
+def _validateStamps(records: list[dict], paths: dict[str, Path]) -> None:
+    """A non-frozen named skill's stamp and hash are what the cache check reads: both required.
+
+    Frozen skills are exempt here: their lock is validated by ``frozenLock`` and a bad
+    lock is reported as a violation against the skill.
+    """
+    frozen = frozenIds(records)
+    for meta in records:
+        if meta.get("status") != GATED_STATUS or meta["id"] in frozen:
+            continue
+        path = paths[meta["id"]]
+        if not _finiteNumber(meta.get("trustMagnitude")):
+            raise InputError(
+                f"{path}: field 'trustMagnitude' is missing or not a finite number (got {meta.get('trustMagnitude')!r})"
+            )
+        digest = meta.get("trustMagnitudeInputHash")
+        if not isinstance(digest, str) or not digest.strip():
+            raise InputError(f"{path}: field 'trustMagnitudeInputHash' is missing or not a non-empty string (got {digest!r})")
+
+
 def _loadNamedSkills(registryPath: str) -> list[dict]:
+    """Every validated named-skill record (all statuses), for the frozen census."""
     namedDir = Path(named_skills_dir(registryPath))
-    skills = []
+    records = []
     if not namedDir.exists():
-        return skills
+        return records
+    allowedStatuses = _allowedStatuses(registryPath)
+    paths: dict[str, Path] = {}
     for mdFile in sorted(namedDir.rglob("*.md")):
         try:
             _, fmText, _ = split_frontmatter(mdFile.read_text(encoding="utf-8"))
             fm = load_yaml_simple(fmText)
         except (OSError, ValueError) as exc:
             raise InputError(f"unreadable named skill {mdFile}: {exc}") from exc
-        # A named file that parses to nothing (no or corrupt frontmatter, no id) would
-        # silently drop out of the census, hiding a frozen skill from every check.
-        if not isinstance(fm, dict) or not fm or not fm.get("id"):
-            raise InputError(f"named skill {mdFile} has missing or malformed frontmatter (no id)")
-        if fm.get("status") == "named":
-            skills.append(fm)
-    return skills
+        record = _validateNamedRecord(mdFile, fm, allowedStatuses)
+        if record["id"] in paths:
+            raise InputError(f"{mdFile}: field 'id' {record['id']!r} duplicates {paths[record['id']]}")
+        paths[record["id"]] = mdFile
+        records.append(record)
+    _validateStamps(records, paths)
+    return records
 
 
 def _loadGeneratedIndex(registryPath: str) -> dict[str, dict] | None:
@@ -137,12 +232,14 @@ def findViolations(
     indexBuilt = generatedIndex is not None
     if generatedIndex is None:
         generatedIndex = {}
-    frozen = frozenIds(namedSkills)
+    frozen = frozenIds(namedSkills)  # census: every status, plus suite inheritance
     violations: list[str] = []
     cacheChecked = 0
     indexChecked = 0
 
     for skill in namedSkills:
+        if skill.get("status") != GATED_STATUS:
+            continue  # explicitly excluded (still part of the frozen census above)
         skillId = skill["id"]
         lock = frozenLock(skill) if skillId in frozen else None
         if skillId in frozen:
@@ -160,7 +257,12 @@ def findViolations(
 
             storedTm = skill.get("trustMagnitude")
             storedHash = skill.get("trustMagnitudeInputHash")
-            if storedTm is not None and storedHash is not None:
+            if not _finiteNumber(storedTm) or not isinstance(storedHash, str) or not storedHash.strip():
+                violations.append(
+                    f"{skillId}: frontmatter trustMagnitude={storedTm!r} / trustMagnitudeInputHash="
+                    f"{storedHash!r} must be a finite number and a non-empty string."
+                )
+            else:
                 currentHash = computeTrustMagnitudeInputHash(skill)
                 if storedHash == currentHash:
                     cacheChecked += 1
@@ -207,15 +309,19 @@ def findViolations(
             continue
         if indexEntry is not None:
             indexTm = indexEntry.get("trustMagnitude")
-            if indexTm is not None:
-                indexChecked += 1
-                if abs(float(indexTm) - expectedTm) > TOLERANCE:
-                    violations.append(
-                        f"{skillId}: registry/named-skills.json trustMagnitude={indexTm} "
-                        f"disagrees with the dry-run appraiser's {expectedTm}. The generator "
-                        f"and trust_appraise.py must feed computeTrustMagnitude the same "
-                        f"registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
-                    )
+            indexChecked += 1
+            if not _finiteNumber(indexTm):
+                violations.append(
+                    f"{skillId}: registry/named-skills.json trustMagnitude={indexTm!r} is missing "
+                    f"or not a finite number."
+                )
+            elif abs(float(indexTm) - expectedTm) > TOLERANCE:
+                violations.append(
+                    f"{skillId}: registry/named-skills.json trustMagnitude={indexTm} "
+                    f"disagrees with the dry-run appraiser's {expectedTm}. The generator "
+                    f"and trust_appraise.py must feed computeTrustMagnitude the same "
+                    f"registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
+                )
 
     return violations, cacheChecked, indexChecked
 
@@ -258,7 +364,7 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     print(
-        f"Trust Magnitude consistency: {len(namedSkills)} named skills, "
+        f"Trust Magnitude consistency: {sum(s.get('status') == GATED_STATUS for s in namedSkills)} named skills, "
         f"{cacheChecked} cache-validity checks, {indexChecked} generated-index checks."
     )
 
