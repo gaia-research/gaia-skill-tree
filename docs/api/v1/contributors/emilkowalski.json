@@ -38,15 +38,15 @@
     {
       "id": "emilkowalski/animation-performance",
       "name": "animation-performance",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "emilkowalski",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/emilkowalski/animation-performance.json"
       },

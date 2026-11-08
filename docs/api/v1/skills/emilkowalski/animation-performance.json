@@ -2,14 +2,14 @@
   "id": "emilkowalski/animation-performance",
   "name": "animation-performance",
   "contributor": "emilkowalski",
-  "level": "2★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 129.67,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/emilkowalski/animation-performance.json",
     "contributor": "/api/v1/contributors/emilkowalski.json",
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T07:17:59Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

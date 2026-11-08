@@ -64,7 +64,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — ruvnet  ·  generated 2026-11-04
+GAIA SKILL TREE — ruvnet  ·  generated 2026-11-08
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -368,6 +368,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  · ◉ emilkowalski/animation-performance  [4★]
+    ├─ ✓ ○ addy-osmani/performance-optimization  [3★]
+    └─ · ○ emilkowalski/animate  [4★]
   ✓ ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
     │  ├─ · · obra/writing-plans  [4★]

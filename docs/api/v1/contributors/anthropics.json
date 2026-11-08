@@ -21,15 +21,15 @@
     {
       "id": "anthropics/creating-financial-models",
       "name": "creating-financial-models",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 127.83,
       "overallTrustGrade": "A",
       "fusionScore": 100.0,
       "contributor": "anthropics",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/anthropics/creating-financial-models.json"
       },
