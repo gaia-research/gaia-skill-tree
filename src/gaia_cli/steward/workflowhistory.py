@@ -34,9 +34,11 @@ from __future__ import annotations
 import hashlib
 import itertools
 import json
+import os
 import re
 import shlex
 import subprocess
+import tempfile
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path, PurePosixPath
@@ -431,8 +433,16 @@ def fetch_main(args: Any, *, cwd: Path | None = None, gh: Gh = run_gh) -> int:
         return 4
     payload = render(document)
     digest = hashlib.sha256(payload).hexdigest()
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_bytes(payload)
+    # Compare in memory first: a mismatch creates, replaces and truncates nothing.
+    if args.expect_sha256 and args.expect_sha256 != digest:
+        print(f"MISMATCH: expected sha256 {args.expect_sha256}, recomputed {digest}; "
+              "the recomputed rows differ; nothing written; stop")
+        return 4
+    try:
+        _write_atomically(out, payload)
+    except OSError as exc:
+        print(f"refused: cannot write --out {out}: {exc}; nothing written")
+        return 2
     run_ids = ",".join(f"{run['id']}:{run['attempt']}" for run in document["runs"])
     print(f"workflow: {document['workflow']}")
     print(f"job-key: {document['job']['key']}")
@@ -442,12 +452,29 @@ def fetch_main(args: Any, *, cwd: Path | None = None, gh: Gh = run_gh) -> int:
     print(f"out: {out}")
     print(f"sha256: {digest}")
     print(f"run-ids: {run_ids}")
-    if args.expect_sha256 and args.expect_sha256 != digest:
-        print(f"MISMATCH: expected sha256 {args.expect_sha256}; the recomputed rows differ; stop")
-        return 4
     if args.expect_sha256:
         print("recompute: byte-identical")
     return 0
+
+
+def _write_atomically(out: Path, payload: bytes) -> None:
+    """Write ``payload`` to ``out`` through a temp file in the same directory and a rename.
+
+    A reader sees either the previous file or the complete new one, never a partial
+    write; on any failure the temp file is removed and ``out`` is untouched.
+    """
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    handle, temp = tempfile.mkstemp(prefix=f".{out.name}.", suffix=".tmp", dir=out.parent)
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp, out)
+    except BaseException:
+        Path(temp).unlink(missing_ok=True)
+        raise
 
 
 # --------------------------------------------------------------------------

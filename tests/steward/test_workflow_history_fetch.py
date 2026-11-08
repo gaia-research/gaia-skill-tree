@@ -612,3 +612,79 @@ def test_the_route_decision_quotes_ruling_4_verbatim() -> None:
     assert quoted in rulings
     assert ("**Standing authorization:** Routine, demonstrably safe Class B routes may be activated after "
             "independent acceptance without requesting another founder ruling for each category.") in quoted
+
+
+# --- r2397: no non-zero exit creates, replaces or truncates anything -----------------
+
+
+def _snapshot(directory: Path) -> dict[str, bytes]:
+    return {str(p.relative_to(directory)): p.read_bytes() for p in sorted(directory.rglob("*")) if p.is_file()} \
+        if directory.exists() else {}
+
+
+@pytest.mark.parametrize("existing", [False, True])
+def test_a_byte_mismatch_writes_nothing(checkout: Path, tmp_path: Path, capsys, existing: bool) -> None:
+    assert _fetch(checkout, tmp_path / "b.json", _renamed_gh()) == 0
+    printed = _lines(capsys.readouterr().out)
+    tampered = _renamed_gh()
+    tampered.jobs[30][0]["completed_at"] = "2026-11-01T03:00:00Z"
+    verify_dir = tmp_path / "verify"
+    out = verify_dir / "backfill.json"
+    if existing:
+        verify_dir.mkdir()
+        out.write_bytes(b"earlier verifier file\n")
+    before = _snapshot(verify_dir)
+    code = _fetch(checkout, out, tampered, "--run-ids", printed["run-ids"], "--expect-sha256", printed["sha256"])
+    assert code == 4
+    assert "nothing written" in capsys.readouterr().out
+    assert _snapshot(verify_dir) == before  # not created, not replaced, no temp file left
+    assert verify_dir.exists() is existing
+
+
+def _sample_mismatch(checkout: Path, out: Path) -> int:
+    gh = _renamed_gh()
+    gh.runs[0] = (gh.runs[0][0], 2)
+    return _fetch(checkout, out, gh, "--run-ids", "10:1,20:2,30:1")
+
+
+@pytest.mark.parametrize("case, code", [
+    ("refused-workflow", 2), ("unreadable", 3), ("malformed", 3), ("sample-mismatch", 4), ("unwritable", 2),
+])
+@pytest.mark.parametrize("existing", [False, True])
+def test_every_non_zero_fetch_exit_writes_nothing(
+    checkout: Path, tmp_path: Path, monkeypatch, case: str, code: int, existing: bool
+) -> None:
+    target_dir = tmp_path / "hist"
+    out = target_dir / "backfill.json"
+    if existing:
+        target_dir.mkdir()
+        out.write_bytes(b"earlier file\n")
+    before = _snapshot(target_dir)
+    if case == "refused-workflow":
+        args = build_parser().parse_args(["fetch", "--workflow", ".github/workflows/missing.yml", "--job", "x",
+                                          "--out", str(out)])
+        result = wh.fetch_main(args, cwd=checkout, gh=_renamed_gh())
+    elif case == "unreadable":
+        result = _fetch(checkout, out, FakeGh([], {}))
+    elif case == "malformed":
+        result = _fetch(checkout, out, FakeGh([(30, 1)], {30: [{**_VALID, "conclusion": "nonsense"}]}))
+    elif case == "sample-mismatch":
+        result = _sample_mismatch(checkout, out)
+    else:
+        def failing_replace(src, dst):
+            raise OSError("disk full")
+        monkeypatch.setattr(wh.os, "replace", failing_replace)
+        result = _fetch(checkout, out, _renamed_gh())
+    assert result == code
+    assert _snapshot(target_dir) == before
+    if not existing and case != "unwritable":
+        assert not target_dir.exists()
+
+
+def test_a_successful_fetch_replaces_atomically(checkout: Path, tmp_path: Path) -> None:
+    out = tmp_path / "hist" / "backfill.json"
+    out.parent.mkdir()
+    out.write_bytes(b"old\n")
+    assert _fetch(checkout, out, _renamed_gh()) == 0
+    assert json.loads(out.read_text(encoding="utf-8"))["schemaVersion"] == wh.SCHEMA
+    assert [p.name for p in out.parent.iterdir()] == ["backfill.json"]
