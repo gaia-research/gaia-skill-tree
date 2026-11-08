@@ -63,12 +63,19 @@ def frozenLocks(reg: Registry) -> dict:
     A frozen skill keeps the TM and grade it was frozen at; a later formula change (the
     49.9 suite cap, #2378) moves a recomputation but never the lock. Computed lazily from
     the registry as loaded: ``refreshCaches`` stamps ``derive`` output back, which is the
-    lock for a frozen skill, so the lock never changes under it.
+    lock for a frozen skill, so the lock never changes under it. Raises ``ValueError``
+    (``gaia_cli.frozen.requireFrozenLocks``) when a frozen record, including one frozen
+    through a suite, lacks a valid lock.
     """
     locks = getattr(reg, "_frozenLocks", None)
     if locks is None:
-        from gaia_cli.frozen import frozenIds, frozenLock
-        frozen = frozenIds(list(reg.named.values()))
+        from gaia_cli.frozen import frozenIds, frozenLock, requireFrozenLocks
+        records = list(reg.named.values())
+        frozen = frozenIds(records)
+        # Fail closed, exactly like the canonical read/write boundary: a frozen record with a
+        # missing or invalid lock is refused, never recomputed (a recomputation would invent a
+        # standing for a record whose historical standing cannot be read).
+        requireFrozenLocks(records, frozen)
         locks = {sid: frozenLock(reg.named[sid]) for sid in frozen if sid in reg.named}
         reg._frozenLocks = locks
     return locks
@@ -85,12 +92,12 @@ def derive(sk, reg: Registry):
         computeTrustMagnitude, computeOverallTrustGrade,
         _countDistinctEvidenceTypes, _hasEligibleIndependentWitness,
     )
+    lock = frozenLocks(reg).get(sk.get("id"))  # raises first for any invalid frozen lock
     mm = {**reg.generic, **reg.named}
     tm = computeTrustMagnitude(sk, mm, reg.named)
     types = _countDistinctEvidenceTypes(sk, mm)
     wit = _hasEligibleIndependentWitness(sk, mm)
     grade = computeOverallTrustGrade(tm, types, wit)
-    lock = frozenLocks(reg).get(sk.get("id"))
     if lock is not None:
         return round(lock[0], 2), lock[1], types, bool(wit)
     return round(tm, 2), grade, types, bool(wit)

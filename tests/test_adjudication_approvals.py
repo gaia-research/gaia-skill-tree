@@ -394,3 +394,46 @@ class TestFrozenLocksInAdjudication:
         reg.named["x/member"] = {"id": "x/member", "level": "3★", "status": "named", "suiteRef": "x/frozen",
                                  "evidence": [], "trustMagnitude": 50.0, "overallTrustGrade": "B"}
         assert ac.derive(reg.named["x/member"], reg)[:2] == (50.0, "B")
+
+    @pytest.mark.parametrize(
+        "lock",
+        [
+            {"trustMagnitude": "broken"},          # the reviewer's repro
+            {"trustMagnitude": True},
+            {"trustMagnitude": float("nan")},
+            {"trustMagnitude": -1.0},
+            {"trustMagnitude": None},
+            {"overallTrustGrade": "Z"},
+            {"overallTrustGrade": None},
+        ],
+    )
+    def test_a_frozen_skill_with_an_invalid_lock_is_refused_never_recomputed(self, lock):
+        reg = self.registry(**lock)
+        before = dict(reg.named["x/frozen"])
+        with pytest.raises(ValueError, match="x/frozen"):
+            ac.derive(reg.named["x/frozen"], reg)
+        with pytest.raises(ValueError, match="x/frozen"):
+            ac.refreshCaches(reg)
+        with pytest.raises(ValueError, match="x/frozen"):
+            ac.snapshot(reg)
+        assert reg.named["x/frozen"] == before, "a refused lock must not be overwritten in memory"
+
+    def test_a_frozen_skill_with_a_missing_lock_is_refused(self):
+        reg = self.registry()
+        del reg.named["x/frozen"]["trustMagnitude"]
+        with pytest.raises(ValueError, match="x/frozen"):
+            ac.derive(reg.named["x/frozen"], reg)
+
+    def test_a_member_of_a_frozen_suite_with_an_invalid_lock_is_refused(self):
+        reg = self.registry(suiteComponents=["x/member"])
+        reg.named["x/member"] = {"id": "x/member", "level": "3★", "status": "named", "suiteRef": "x/frozen",
+                                 "evidence": [], "trustMagnitude": "broken", "overallTrustGrade": "B"}
+        with pytest.raises(ValueError, match="x/member"):
+            ac.derive(reg.named["x/frozen"], reg)
+        with pytest.raises(ValueError, match="x/member"):
+            ac.snapshot(reg)
+
+    def test_an_invalid_lock_on_a_live_skill_is_not_a_frozen_lock_error(self):
+        reg = self.registry()
+        reg.named["x/live"]["trustMagnitude"] = "broken"
+        assert ac.derive(reg.named["x/live"], reg)[:2] == (0.0, "ungraded")
