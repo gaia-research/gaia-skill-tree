@@ -1127,3 +1127,67 @@ def test_runner_baseline_rejects_created_file_that_exists(tmp_path: Path) -> Non
     assert commit is None and "already exists" in reason
     ok, _ = authenticate_runner_baseline(root, head, "refs/heads/main", diff.replace("n.py", "m.py"))
     assert ok == head
+
+
+def _hashed_dispatch(tmp_path: Path):
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    base = _git(root, "rev-parse", "HEAD")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    policy = routing.StewardPolicy.load(root)
+    directory = root / policy.state_directory / policy.receipts_directory
+    receipt_path = directory / f"{routing._dispatch_receipt_for(directory, debt_id)['runId']}.json"
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    return root, base, controller, debt_id, receipt_path, diff_path, proof_path
+
+
+@pytest.mark.parametrize("field", ["headCommit", "gitHead"])
+@pytest.mark.parametrize("same_value", [True, False])
+def test_top_level_receipt_head_is_unauthenticated_and_refused(tmp_path: Path, field: str, same_value: bool) -> None:
+    """Top-level fields sit outside the receipt digest: their presence fails closed, never steers the base."""
+    root, base, controller, debt_id, receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    data = json.loads(receipt_path.read_text(encoding="utf-8"))
+    data[field] = base if same_value else "f" * 40
+    receipt_path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(RoutingError, match=f"top-level {field}"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+                            runner_baseline={"commit": "unknown", "branchRef": "refs/heads/nope"})
+
+
+def test_edited_artifact_head_breaks_receipt_digest(tmp_path: Path) -> None:
+    root, _base, controller, debt_id, receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    data = json.loads(receipt_path.read_text(encoding="utf-8"))
+    data["artifact"]["headCommit"] = "f" * 40
+    receipt_path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(RoutingError, match="no longer matches its own content"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+
+
+@pytest.mark.parametrize("artifact_patch", [{"gitHead": "f" * 40}, {"headCommit": "abc1234"}])
+def test_artifact_head_must_be_one_full_commit_field(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, artifact_patch: dict[str, str]
+) -> None:
+    """Even inside the hashed artifact, only a full-sha headCommit names a base."""
+    from gaia_cli.steward import routing
+
+    root, _base, controller, debt_id, _receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    original = routing._dispatch_receipt_for
+
+    def patched(*args, **kwargs):
+        receipt = dict(original(*args, **kwargs))
+        receipt["artifact"] = {**receipt["artifact"], **artifact_patch}
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", patched)
+    with pytest.raises(RoutingError, match="gitHead|not a full commit id"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)

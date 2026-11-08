@@ -1023,12 +1023,30 @@ def render_verification(
     if not isinstance(baseline_open, list):
         raise RoutingError("the scan receipt behind this dispatch records no open debt set")
 
-    receipt_base_commit = (
-        dispatch_receipt.get("headCommit")
-        or dispatch_receipt.get("gitHead")
-        or (dispatch_receipt.get("artifact", {}).get("headCommit") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
-        or (dispatch_receipt.get("artifact", {}).get("gitHead") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
-    )
+    # Only a field inside the digest-verified payload can name a baseline. The
+    # receipt id hashes action, scanReceiptId and artifact; anything else at the
+    # top level could be added after publication without breaking the digest,
+    # so its presence is treated as tampering, not as a hint.
+    for field in ("headCommit", "gitHead"):
+        if field in dispatch_receipt:
+            raise RoutingError(
+                f"dispatch receipt for debt {debt_id} carries a top-level {field}, which its "
+                "content hash does not cover; refusing an unauthenticated baseline"
+            )
+    if "gitHead" in dispatch_receipt["artifact"]:
+        raise RoutingError(
+            f"dispatch receipt for debt {debt_id} carries artifact.gitHead, which is not a "
+            "dispatch packet field; refusing an ambiguous baseline"
+        )
+    receipt_base_commit = packet.head_commit
+    if receipt_base_commit is not None and (
+        not isinstance(receipt_base_commit, str)
+        or len(receipt_base_commit) not in _FULL_SHA_LENGTHS
+        or any(c not in "0123456789abcdef" for c in receipt_base_commit)
+    ):
+        raise RoutingError(
+            f"dispatch receipt for debt {debt_id} records a headCommit that is not a full commit id"
+        )
     if base_commit and receipt_base_commit and base_commit != receipt_base_commit:
         raise RoutingError("supplied base_commit does not match authenticated dispatch receipt base")
     # A caller-supplied commit is never trusted as a baseline. The dispatch
