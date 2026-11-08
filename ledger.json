@@ -1,5 +1,5 @@
 {
- "generation": 1905,
+ "generation": 1906,
  "lane": {
   "entries": [
    {
@@ -1226,14 +1226,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-970d024eaf65af0d9f3b",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T09:24:02.101872Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch13-verifier-c7f685970a7a)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-08T08:01:00.779337Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T09:24:02.101872Z",
+    "lastVerdict": "accept",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 1,
@@ -144122,6 +144128,17 @@
      "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
      "emittedAt": "2026-11-08T09:15:47.322736Z",
      "idempotencyKey": "integrate:dispatch-970d024eaf65af0d9f3b:1",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "9a384bb8872f5d112fa37f6cd51d4e68e26e68bc",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/trust-calibration-drift-c7f685970a7a",
+       "number": 2410,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2410"
+      }
+     },
      "params": {
       "attempt": 1,
       "base": "dev/steward-campaign-2026-11-05",
@@ -144129,7 +144146,8 @@
       "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-c7f685970a7a.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T09:24:02.101633Z",
+     "status": "done",
      "stepId": "integrate:c7f685970a7a:1",
      "type": "lead.integrate"
     },
@@ -144411,6 +144429,13 @@
      "at": "2026-11-08T09:23:45.880370Z",
      "by": "lead-claude-opus-5-5 (herdr w2H)",
      "debtId": "debt:trust_calibration_drift:emilkowalski-prototype:7f264457d62619d2",
+     "decision": "integrate",
+     "type": "integrate"
+    },
+    {
+     "at": "2026-11-08T09:24:02.101872Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
      "decision": "integrate",
      "type": "integrate"
     }
@@ -148742,6 +148767,14 @@
      "merged": true,
      "number": 2409,
      "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2409"
+    },
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
+     "head": "steward/b/trust-calibration-drift-c7f685970a7a",
+     "merged": true,
+     "number": 2410,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2410"
     }
    ],
    "receipts": [
@@ -148945,11 +148978,11 @@
      "stepId": "integrate:f305491821be:1"
     },
     {
-     "at": "2026-11-08T09:15:47.322736Z",
+     "at": "2026-11-08T09:24:02.101633Z",
      "debtId": "debt:trust_calibration_drift:emilkowalski-review-animations:e9c786a455c93ee4",
      "idempotencyKey": "integrate:dispatch-970d024eaf65af0d9f3b:1",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:c7f685970a7a:1"
     },
     {
@@ -149016,11 +149049,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T09:23:45.880075Z"
+   "updatedAt": "2026-11-08T09:24:02.101633Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:23:45.883886Z",
+ "updatedAt": "2026-11-08T09:24:02.106063Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -150345,17 +150378,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch13-verifier-c7f685970a7a (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-08T09:24:02.101872Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "trust_calibration_drift",
+   "mergedSha": "9a384bb8872f5d112fa37f6cd51d4e68e26e68bc",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-c7f685970a7a.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/trust-calibration-drift-c7f685970a7a",
+    "number": 2410,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2410"
+   },
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
-   "state": "verified",
-   "updatedAt": "2026-11-08T09:15:47.322736Z",
+   "state": "landed",
+   "updatedAt": "2026-11-08T09:24:02.101872Z",
    "verification": {
     "agentId": "pi-herdr-batch13-verifier-c7f685970a7a",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The supplied baseline inspection shows 2★ and recomputed TM 129.67, grade A, with a 4★ target; the baseline commit matches the integration base. - The reported single calibration succeeded, and the actual diff changes only the subject record, promoting it to 4★ and appending the expected rank_up event. - The promotion meets the stated Class B eligibility conditions; independent review is discharged by this verification. - A local appraise attempt could not run because Gaia is not initialized; the supplied inspection and mechanically established preflight evidence support the verdict.",
