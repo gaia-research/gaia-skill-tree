@@ -5,13 +5,13 @@ contributor: emilkowalski
 origin: false
 genericSkillRef: design-review
 status: named
-level: 2★
+level: 4★
 description: Build multiple genuinely different versions of a UI piece you describe,
   rendered behind a visual picker so you can flip through them live and promote the
   one that feels right. Only runs when explicitly invoked; it does not trigger on
   its own.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Prototype
 links:
   github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md
@@ -30,6 +30,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:20:30Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md
   evaluator: mbtiongson1

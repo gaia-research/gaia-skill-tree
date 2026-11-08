@@ -5,14 +5,14 @@ contributor: garrytan
 origin: false
 genericSkillRef: postgres-best-practices
 status: named
-level: 2★
+level: 3★
 description: Detect which gbrain engine is in use (PGLite vs Postgres), prefer Postgres
   for agent-harness installs, install/provision Postgres (Supabase discovery via SUPABASE_ACCESS_TOKEN,
   local Postgres, opt-in Docker), and move an existing PGLite brain to Postgres with
   its history (plan, ask, run). Detection is one engine-free command; the install
   ladder is one flag.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Postgres Adopt
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md
@@ -35,6 +35,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 55.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:26:48Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 3★
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md

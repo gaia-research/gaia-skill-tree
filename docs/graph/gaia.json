@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-11-07T22:03:58Z",
+  "generatedAt": "2026-11-08T07:50:09Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -1146,11 +1146,15 @@
           0.0009439037490093551
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "api-call",
@@ -7517,11 +7521,15 @@
           -0.11003480952226238
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "fine-tune",

@@ -424,7 +424,7 @@
       lines.push('  an eligible independent witness (' + TM.S_WITNESS_TYPES.join(', ') + ').');
       lines.push('  Not witnesses: stars, repo-own, fusion, self-attestation, social-signal, arxiv, proxy-containment.');
       if (ns && ns.suiteRef) {
-        lines.push('SuiteRef baseline: github-stars-own + repo-own share a combined 50 TM cap per component; component-specific evidence remains fully eligible.');
+        lines.push('SuiteRef baseline: github-stars-own + repo-own share a combined 49.9 TM cap per component; component-specific evidence remains fully eligible.');
       }
       lines.push('');
       lines.push('Evidence cards show per-row artifact scores (pre-weight).');

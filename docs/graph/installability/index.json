@@ -657,7 +657,7 @@
         "entrypoint": "skills/custom_skills/creating-financial-models/SKILL.md",
         "installSubpath": "skills/custom_skills/creating-financial-models"
       },
-      "currentSkillContentSha256": "4eb1eadd0a54881925790f34af0b7a1fc7c47900b111ab43a2e7cfcc946a29e2",
+      "currentSkillContentSha256": "9c4a5753119f09fca465c29f621dcf17346d6c92c1b4bcc011126a16f4ec2545",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1057,7 +1057,7 @@
         "entrypoint": "skills/animation-performance/SKILL.md",
         "installSubpath": "skills/animation-performance"
       },
-      "currentSkillContentSha256": "decf7ad6faca869469122352faa765a235d80ef11c496582afa614d595ad254d",
+      "currentSkillContentSha256": "e3ae09f2f04ee9fbc7a96138b4f6d7a65a5fee693b7e8a06f96a3510cb6ab6ab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

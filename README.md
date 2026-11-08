@@ -88,11 +88,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+  ◉ emilkowalski/animation-performance  [4★]
+    ├─ ○ addy-osmani/performance-optimization  [3★]
+    └─ ○ emilkowalski/animate  [4★]
   ◉ cathrynlavery/diagram-design  [4★]
     ├─ ○ /data-visualize
-    ├─ ○ ayghri/i-have-adhd  [4★]
-    └─ ○ garrytan/retro  [3★]
-  ◉ mvanhorn/last30days  [4★]
 
 (311 skills total — see docs/tree.md)
 ```

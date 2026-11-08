@@ -476,3 +476,94 @@ def test_unsurfaced_entries_are_retained_until_drained(tmp_path: Path) -> None:
     assert len(log.entries) == 2
     assert [entry.path.endswith(name) for entry, name in zip(log.drain(), ("missing.json", "also-missing.json"))] == [True, True]
     assert len(log) == 0
+
+
+def test_reentrantAppendDuringReportLeavesNewDiagnosticUnsurfaced() -> None:
+    import gc
+
+    log = DiagnosticLog()
+    log(ReadDiagnostic("first.json", "missing", "optional", "first"))
+    received: list[ReadDiagnostic] = []
+
+    def sink(d: ReadDiagnostic) -> None:
+        received.append(d)
+        log(ReadDiagnostic("second.json", "missing", "optional", "second"))
+
+    reported = log.report(sink)
+    assert reported == 1
+    assert len(received) == 1
+    assert len(log) == 2
+    assert log._surfaced == 1
+    assert [d.path for d in received] == ["first.json"]
+
+    with pytest.warns(ResourceWarning, match="1 unreported read diagnostic"):
+        del log
+        gc.collect()
+
+
+def test_drainAndAppendDuringForwardingLeavesNewDiagnosticUnsurfaced() -> None:
+    import gc
+
+    log = DiagnosticLog()
+    log(ReadDiagnostic("first.json", "missing", "optional", "first"))
+    received: list[ReadDiagnostic] = []
+
+    def sink(d: ReadDiagnostic) -> None:
+        received.append(d)
+        log.drain()
+        log(ReadDiagnostic("second.json", "missing", "optional", "second"))
+
+    reported = log.report(sink)
+    assert reported == 1
+    assert len(received) == 1
+    assert len(log) == 1
+    assert log._surfaced == 0
+    assert [d.path for d in received] == ["first.json"]
+
+    with pytest.warns(ResourceWarning, match="1 unreported read diagnostic"):
+        del log
+        gc.collect()
+
+
+def test_raisingSinkMidSnapshotRetainsEntriesAndSurfacedUnchanged() -> None:
+    import gc
+
+    log = DiagnosticLog()
+    log(ReadDiagnostic("first.json", "missing", "optional", "first"))
+    log(ReadDiagnostic("second.json", "missing", "optional", "second"))
+    assert log._surfaced == 0
+
+    calls = 0
+
+    def broken(d: ReadDiagnostic) -> None:
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise RuntimeError("sink error on second item")
+
+    with pytest.raises(RuntimeError, match="sink error on second item"):
+        log.report(broken)
+
+    assert calls == 2
+    assert log._surfaced == 0
+    assert len(log) == 2  # entries are retained
+
+    with pytest.warns(ResourceWarning, match="2 unreported read diagnostic"):
+        del log
+        gc.collect()
+
+
+def test_reportOnEmptyLogReturnsZeroAndDoesNotWarn(recwarn) -> None:
+    import gc
+
+    log = DiagnosticLog()
+    calls: list[ReadDiagnostic] = []
+
+    reported = log.report(calls.append)
+    assert reported == 0
+    assert log._surfaced == 0
+    assert len(calls) == 0
+
+    del log
+    gc.collect()
+    assert not [w for w in recwarn if issubclass(w.category, ResourceWarning)]

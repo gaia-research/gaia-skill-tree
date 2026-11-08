@@ -2,14 +2,14 @@
   "id": "anthropics/creating-financial-models",
   "name": "creating-financial-models",
   "contributor": "anthropics",
-  "level": "2★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 127.83,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/anthropics/creating-financial-models.json",
     "contributor": "/api/v1/contributors/anthropics.json",
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 127.83, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T07:17:47Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {
