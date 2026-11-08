@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   label-bots:
+    timeout-minutes: 10
     name: Label Jules/Codex/Claude/Gemini PRs
     runs-on: ubuntu-latest
     # Only process PRs from the repo owner or direct members.
