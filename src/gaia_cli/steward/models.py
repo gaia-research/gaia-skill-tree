@@ -116,6 +116,7 @@ class DispatchPacket:
     proof: tuple[str, ...]
     budget: RoutingBudget
     capability: str
+    head_commit: str | None = None
 
     def __post_init__(self) -> None:
         if self.authority is not AuthorityClass.B:
@@ -159,6 +160,7 @@ class DispatchPacket:
         proof: tuple[str, ...],
         budget: RoutingBudget,
         capability: str,
+        head_commit: str | None = None,
     ) -> "DispatchPacket":
         # A packet remains the same requested work when its evidence refreshes.
         # Content is separately hashed below so receipts can still attest to the
@@ -187,10 +189,11 @@ class DispatchPacket:
             proof=proof,
             budget=budget,
             capability=capability,
+            head_commit=head_commit,
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        result = {
             "schemaVersion": DISPATCH_PACKET_SCHEMA,
             "dispatchId": self.dispatch_id,
             "debt": dict(self.debt),
@@ -209,6 +212,9 @@ class DispatchPacket:
             # or a harness. Founder ruling 2026-08-13, STEWARD.md § 9.
             "capability": self.capability,
         }
+        if self.head_commit is not None:
+            result["headCommit"] = self.head_commit
+        return result
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "DispatchPacket":
@@ -242,6 +248,7 @@ class DispatchPacket:
                 max_minutes=data["budget"]["maxMinutes"],
             ),
             capability=str(data["capability"]),
+            head_commit=data.get("headCommit"),
         )
         if packet.dispatch_id != data["dispatchId"]:
             raise ValueError("dispatch packet identity does not match its contents")

@@ -5,9 +5,11 @@ from __future__ import annotations
 import inspect
 import itertools
 import json
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 import shutil
+import subprocess
 
 import pytest
 
@@ -17,6 +19,7 @@ from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 from gaia_cli.steward.prompt import render_verifier_prompt
 from gaia_cli.steward.routing import (
     RoutingError,
+    compute_patch_attribution,
     render_dispatch,
     render_verification,
     render_verifier_prompt_for,
@@ -112,6 +115,7 @@ def _transcript(*, items: int, exit_code: int = 0) -> str:
 
 def _write(root: Path, name: str, text: str) -> Path:
     path = root / name
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     return path
 
@@ -398,6 +402,7 @@ def test_verification_runs_against_the_dispatched_envelope_not_a_re_derived_one(
     packet = dispatch.artifact
 
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(packet.proof)))
 
     # Narrow the policy's Class B envelope *after* dispatch. The builder was
@@ -510,6 +515,7 @@ def test_prompt_carries_the_envelope_the_diff_and_the_proof(tmp_path: Path) -> N
     debt_id = scan.open_debts[0].id
     dispatch = render_dispatch(root, debt_id, controller=controller)
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
 
     _result, prompt = render_verifier_prompt_for(
@@ -550,6 +556,7 @@ def test_a_harness_is_never_named_in_the_verifier_prompt(tmp_path: Path) -> None
     debt_id = scan.open_debts[0].id
     dispatch = render_dispatch(root, debt_id, controller=controller)
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
     _result, prompt = render_verifier_prompt_for(
         root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
@@ -575,3 +582,711 @@ def test_the_review_exemption_does_not_cover_any_other_proof_item() -> None:
     verdict = _evaluate(packet=packet, transcript=transcript)
     assert verdict.verdict == "reject"
     assert "no evidence: 2" in " ".join(verdict.reasons)
+
+
+# --- Ruling 1 patch attribution tests ----------------------------------------
+
+
+def test_attribution_evaluates_unrelated_debt_without_escalation() -> None:
+    """Under Ruling 1, unrelated concurrent global debt is not charged to the patch."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unrelated:1"],
+        patch_introduced_debt=(),
+    )
+    assert verdict.verdict == "pending"
+    assert verdict.new_debt == ()
+    assert verdict.unrelated_new_debt == ("unrelated:1",)
+    assert verdict.global_new_debt == ("unrelated:1",)
+    assert any("concurrent merge, not charged to patch" in r for r in verdict.reasons)
+
+
+def test_attribution_evaluates_patch_introduced_debt_with_escalation() -> None:
+    """Patch-introduced debt escalates the verdict and is charged to the repair."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "patch:debt", "unrelated:debt"],
+        patch_introduced_debt=["patch:debt"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("patch:debt",)
+    assert verdict.unrelated_new_debt == ("unrelated:debt",)
+    assert verdict.global_new_debt == ("patch:debt", "unrelated:debt")
+    assert any("patch introduced new debt: patch:debt" in r for r in verdict.reasons)
+    assert any("concurrent merge, not charged to patch" in r for r in verdict.reasons)
+
+
+def test_attribution_fails_closed_when_attribution_is_none() -> None:
+    """When attribution cannot be computed (None), evaluate fails closed."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unknown:debt"],
+        patch_introduced_debt=None,
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("unknown:debt",)
+    assert verdict.unrelated_new_debt == ()
+    assert verdict.global_new_debt == ("unknown:debt",)
+    assert any("attribution could not be computed, failing closed" in r for r in verdict.reasons)
+
+
+def test_attribution_verdict_to_dict_includes_global_and_unrelated_debt() -> None:
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unrelated:1"],
+        patch_introduced_debt=(),
+    )
+    data = verdict.to_dict()
+    assert data["newDebt"] == []
+    assert data["globalNewDebt"] == ["unrelated:1"]
+    assert data["unrelatedNewDebt"] == ["unrelated:1"]
+
+
+def test_compute_patch_attribution_clean_patch_returns_empty_tuple(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced == ()
+
+
+def test_compute_patch_attribution_fails_closed_on_unapplicable_patch(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/nonexistent.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced is None
+
+
+def test_render_verification_with_clean_patch_does_not_escalate_on_unrelated_debt(tmp_path: Path) -> None:
+    """Integration: when the base file exists, diff applies cleanly, and unrelated debt appears."""
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    # Unrelated drift appears while builder worked
+    sensor.extra = 1
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+
+    result, _diff_text, _outputs = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
+    )
+    assert result.artifact.verdict == "pending"
+    assert result.artifact.new_debt == ()
+    assert len(result.artifact.unrelated_new_debt) == 1
+    assert result.artifact.global_new_debt == result.artifact.unrelated_new_debt
+
+
+def test_attribution_evaluates_patch_introduced_debt_when_global_delta_is_empty() -> None:
+    """When global delta is empty, patch-introduced debt still escalates."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x"],
+        current_open_debt=["debt:x"],
+        patch_introduced_debt=["patch:new"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("patch:new",)
+    assert verdict.global_new_debt == ()
+    assert verdict.unrelated_new_debt == ()
+    assert any("patch introduced new debt: patch:new" in r for r in verdict.reasons)
+
+
+def test_attribution_evaluates_patch_introduced_debt_already_in_baseline() -> None:
+    """A patch introducing a debt that was in dispatch baseline is still charged to the patch."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x", "baseline:existing"],
+        current_open_debt=["debt:x", "baseline:existing"],
+        patch_introduced_debt=["baseline:existing"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("baseline:existing",)
+    assert verdict.global_new_debt == ()
+    assert verdict.unrelated_new_debt == ()
+    assert any("patch introduced new debt: baseline:existing" in r for r in verdict.reasons)
+
+
+def test_real_git_repo_with_worktrees_and_concurrent_merge(tmp_path: Path) -> None:
+    """In a real git repo, patch attribution uses git worktrees and isolates concurrent merge debt."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    # Copy policy into repo
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    # Create target file
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    # Base commit at dispatch time
+    rev_base = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    # Concurrent merge commit on main branch that introduces an unrelated debt
+    _write(root, "scripts/concurrent.py", "# concurrent change\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Concurrent merge commit"], cwd=root, check=True)
+    sensor.extra = 1  # Unrelated drift appears globally
+
+    # Candidate patch was cut against base_commit
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+
+    result, _diff_text, _outputs = render_verification(
+        root,
+        debt_id,
+        diff_path=diff_path,
+        proof_path=proof_path,
+        controller=controller,
+    )
+    assert dispatch.artifact.head_commit == rev_base
+    assert result.artifact.verdict == "pending"
+    assert result.artifact.new_debt == ()
+    assert len(result.artifact.unrelated_new_debt) == 1
+    assert result.artifact.global_new_debt == result.artifact.unrelated_new_debt
+    assert any("concurrent merge, not charged to patch" in r for r in result.artifact.reasons)
+
+
+def test_git_dispatch_without_recorded_base_fails_closed_even_with_caller_base(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import gaia_cli.steward.routing as routing
+
+    root = _repo(tmp_path)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "initial"], cwd=root, check=True)
+    base = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    original = routing._dispatch_receipt_for
+
+    def legacy_receipt(*args, **kwargs):
+        receipt = original(*args, **kwargs)
+        receipt = dict(receipt)
+        receipt["artifact"] = dict(receipt["artifact"])
+        for field in ("headCommit", "gitHead"):
+            receipt.pop(field, None)
+            receipt["artifact"].pop(field, None)
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", legacy_receipt)
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path,
+        controller=controller, base_commit=base,
+    )
+    assert result.artifact.attribution_failed is True
+    assert result.artifact.verdict == "escalate"
+
+
+def test_supplied_base_must_match_dispatch_receipt(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "initial"], cwd=root, check=True)
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    with pytest.raises(RoutingError, match="supplied base_commit does not match authenticated dispatch receipt base"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path,
+                            controller=controller, base_commit="different-base")
+
+
+def test_git_attribution_requires_explicit_baseline(tmp_path: Path) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    assert compute_patch_attribution(tmp_path, "", "debt:x", _controller(IntegritySensor())) is None
+
+
+@pytest.mark.parametrize("field", ["not_evaluated", "partial_coverage"])
+@pytest.mark.parametrize("incomplete_scan", [0, 1])
+def test_incomplete_scratch_coverage_fails_closed(
+    tmp_path: Path, field: str, incomplete_scan: int, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    controller = _controller(IntegritySensor())
+    original_scan = controller.scan
+    calls = 0
+
+    def scan(path: Path):
+        nonlocal calls
+        result = original_scan(path)
+        if calls == incomplete_scan:
+            result = replace(result, receipt=replace(result.receipt, **{field: ({"sensor": "missing"},)}))
+        calls += 1
+        return result
+
+    monkeypatch.setattr(controller, "scan", scan)
+    assert compute_patch_attribution(root, _diff("scripts/fix.py"), "debt:x", controller) is None
+    assert calls == 2
+
+
+def test_missing_specific_dispatch_never_falls_back(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    render_dispatch(root, debt_id, controller=controller)
+    render_dispatch(root, debt_id, controller=controller)
+    with pytest.raises(RoutingError, match="no dispatch receipt found for dispatch missing"):
+        render_verification(root, debt_id, diff_path=root / "none", proof_path=root / "none",
+                            controller=controller, dispatch_id="missing")
+
+
+def test_unknown_sensor_coverage_on_scratch_scan_fails_closed(tmp_path: Path) -> None:
+    """When a sensor fails during scratch scan, attribution fails closed (returns None)."""
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+
+    class FaultySensor:
+        id = "faulty-sensor"
+
+        def scan(self, path: Path, observed_at: str) -> list[Observation]:
+            raise RuntimeError("sensor failure during scratch scan")
+
+    controller = StewardController(sensors=[IntegritySensor(), FaultySensor()], clock=lambda: FROZEN)
+    diff = _diff("scripts/fix.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced is None
+
+
+def test_worktree_creation_failure_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """If git worktree creation fails, attribution does not fall back to copying; it fails closed."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+
+    base_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+    orig_run = subprocess.run
+    worktree_attempted = False
+
+    def mock_run(cmd, *args, **kwargs):
+        nonlocal worktree_attempted
+        if isinstance(cmd, list) and len(cmd) >= 3 and cmd[:3] == ["git", "worktree", "add"]:
+            worktree_attempted = True
+            return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="fatal: mock failure")
+        return orig_run(cmd, *args, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", mock_run)
+
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+        base_commit=base_commit,
+    )
+    assert worktree_attempted
+    assert introduced is None
+
+
+def test_attribution_failed_true_escalates_even_with_empty_global_new_debt() -> None:
+    """If attribution_failed is True, evaluate fails closed (escalates) even if global_new_debt is empty."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x"],
+        current_open_debt=["debt:x"],
+        attribution_failed=True,
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.attribution_failed is True
+    assert verdict.global_new_debt == ()
+    assert any("patch attribution failed; failing closed on safety gate" in r for r in verdict.reasons)
+
+
+def test_compute_patch_attribution_unresolvable_base_commit_in_git_repo_fails_closed(tmp_path: Path) -> None:
+    """In a git repo, if base commit cannot be resolved, attribution fails closed (returns None)."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+        base_commit="nonexistent_commit_hash_123456",
+    )
+    assert introduced is None
+
+
+# --- Legacy dispatch receipts: runner-recorded, authenticated baseline (#2371) ---
+
+
+def _git(root: Path, *args: str) -> str:
+    return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+
+def _blob(root: Path, text: str) -> str:
+    return subprocess.run(
+        ["git", "hash-object", "--stdin"], cwd=root, input=text, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+
+def _real_diff(root: Path, path: str = "scripts/fix.py", old: str = "old line\n", new: str = "new line\n") -> str:
+    return (
+        f"diff --git a/{path} b/{path}\n"
+        f"index {_blob(root, old)[:12]}..{_blob(root, new)[:12]} 100644\n"
+        f"--- a/{path}\n+++ b/{path}\n@@ -1 +1 @@\n-{old}+{new}"
+    )
+
+
+def _legacy_repo(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """A git repo whose dispatch receipt predates headCommit (the legacy campaign format)."""
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    base = _git(root, "rev-parse", "HEAD")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    original = routing._dispatch_receipt_for
+
+    def legacy_receipt(*args, **kwargs):
+        receipt = dict(original(*args, **kwargs))
+        receipt["artifact"] = dict(receipt["artifact"])
+        for field in ("headCommit", "gitHead"):
+            receipt.pop(field, None)
+            receipt["artifact"].pop(field, None)
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", legacy_receipt)
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    return root, base, controller, debt_id, proof_path
+
+
+def test_legacy_receipt_uses_authenticated_runner_baseline(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root, base, controller, debt_id, proof_path = _legacy_repo(tmp_path, monkeypatch)
+    # The branch moved on after dispatch: the recorded head is history, not the tip.
+    _write(root, "scripts/other.py", "later\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "later merge")
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": base, "branchRef": "refs/heads/main"},
+    )
+    verdict = result.artifact
+    assert verdict.attribution_failed is False
+    assert verdict.verdict == "pending"
+    assert any("runner-recorded integration head" in r and base in r for r in verdict.reasons)
+
+
+@pytest.mark.parametrize("case", ["not-ancestor", "preimage-mismatch", "no-index", "abbrev", "unknown", "no-branch"])
+def test_legacy_runner_baseline_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str) -> None:
+    root, base, controller, debt_id, proof_path = _legacy_repo(tmp_path, monkeypatch)
+    commit, branch_ref, diff = base, "refs/heads/main", _real_diff(root)
+    if case == "not-ancestor":
+        # Same tree and before-images, but a commit that never landed on the branch.
+        commit = _git(root, "commit-tree", f"{base}^{{tree}}", "-p", base, "-m", "off-branch")
+    elif case == "preimage-mismatch":
+        diff = _real_diff(root, old="something else\n")
+    elif case == "no-index":
+        diff = "--- a/scripts/fix.py\n+++ b/scripts/fix.py\n@@ -1 +1 @@\n-old line\n+new line\n"
+    elif case == "abbrev":
+        commit = base[:12]
+    elif case == "unknown":
+        commit = "unknown"
+    else:
+        branch_ref = "refs/remotes/origin/missing"
+    diff_path = _write(root, "candidate.diff", diff)
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": commit, "branchRef": branch_ref},
+    )
+    assert result.artifact.attribution_failed is True
+    assert result.artifact.verdict == "escalate"
+    assert any(r.startswith("runner baseline rejected: ") for r in result.artifact.reasons)
+
+
+def test_receipt_head_commit_outranks_runner_baseline(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": "0" * 40, "branchRef": "refs/heads/nope"},
+    )
+    assert result.artifact.attribution_failed is False
+    assert not any("runner baseline" in r for r in result.artifact.reasons)
+
+
+def test_diff_preimages_parsing() -> None:
+    from gaia_cli.steward.routing import _diff_preimages
+
+    new = "diff --git a/n.py b/n.py\nnew file mode 100644\nindex 0000000..abcdef1\n--- /dev/null\n+++ b/n.py\n@@ -0,0 +1 @@\n+x\n"
+    rename = (
+        "diff --git a/o.py b/p.py\nsimilarity index 90%\nrename from o.py\nrename to p.py\n"
+        "index abcdef1..1234567 100644\n--- a/o.py\n+++ b/p.py\n@@ -1 +1 @@\n-a\n+b\n"
+    )
+    assert _diff_preimages(new) == [("n.py", "0000000", True)]
+    assert _diff_preimages(rename) == [("o.py", "abcdef1", False)]
+    assert _diff_preimages("diff --git a/m b/m\nold mode 100644\nnew mode 100755\n") is None
+    assert _diff_preimages("diff --git a/s b/s\nindex abc..def 100644\n--- a/s\n+++ b/s\n") is None
+    assert _diff_preimages('diff --git "a/q x" "b/q x"\nindex abcdef1..1234567\n--- "a/q x"\n+++ "b/q x"\n') is None
+    assert _diff_preimages("diff --git a/z b/z\nindex 0000000..abcdef1\n--- a/z\n+++ b/z\n") is None
+    assert _diff_preimages("") is None
+
+
+def test_runner_baseline_rejects_created_file_that_exists(tmp_path: Path) -> None:
+    from gaia_cli.steward.routing import authenticate_runner_baseline
+
+    root = tmp_path
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "T")
+    _git(root, "config", "user.email", "t@example.com")
+    _write(root, "n.py", "x\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "i")
+    head = _git(root, "rev-parse", "HEAD")
+    diff = "diff --git a/n.py b/n.py\nnew file mode 100644\nindex 0000000..abcdef1\n--- /dev/null\n+++ b/n.py\n@@ -0,0 +1 @@\n+x\n"
+    commit, reason = authenticate_runner_baseline(root, head, "refs/heads/main", diff)
+    assert commit is None and "already exists" in reason
+    ok, _ = authenticate_runner_baseline(root, head, "refs/heads/main", diff.replace("n.py", "m.py"))
+    assert ok == head
+
+
+def _hashed_dispatch(tmp_path: Path):
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    base = _git(root, "rev-parse", "HEAD")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    policy = routing.StewardPolicy.load(root)
+    directory = root / policy.state_directory / policy.receipts_directory
+    receipt_path = directory / f"{routing._dispatch_receipt_for(directory, debt_id)['runId']}.json"
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    return root, base, controller, debt_id, receipt_path, diff_path, proof_path
+
+
+@pytest.mark.parametrize("field", ["headCommit", "gitHead"])
+@pytest.mark.parametrize("same_value", [True, False])
+def test_top_level_receipt_head_is_unauthenticated_and_refused(tmp_path: Path, field: str, same_value: bool) -> None:
+    """Top-level fields sit outside the receipt digest: their presence fails closed, never steers the base."""
+    root, base, controller, debt_id, receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    data = json.loads(receipt_path.read_text(encoding="utf-8"))
+    data[field] = base if same_value else "f" * 40
+    receipt_path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(RoutingError, match=f"top-level {field}"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+                            runner_baseline={"commit": "unknown", "branchRef": "refs/heads/nope"})
+
+
+def test_edited_artifact_head_breaks_receipt_digest(tmp_path: Path) -> None:
+    root, _base, controller, debt_id, receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    data = json.loads(receipt_path.read_text(encoding="utf-8"))
+    data["artifact"]["headCommit"] = "f" * 40
+    receipt_path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(RoutingError, match="no longer matches its own content"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+
+
+@pytest.mark.parametrize("artifact_patch", [{"gitHead": "f" * 40}, {"headCommit": "abc1234"}])
+def test_artifact_head_must_be_one_full_commit_field(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, artifact_patch: dict[str, str]
+) -> None:
+    """Even inside the hashed artifact, only a full-sha headCommit names a base."""
+    from gaia_cli.steward import routing
+
+    root, _base, controller, debt_id, _receipt_path, diff_path, proof_path = _hashed_dispatch(tmp_path)
+    original = routing._dispatch_receipt_for
+
+    def patched(*args, **kwargs):
+        receipt = dict(original(*args, **kwargs))
+        receipt["artifact"] = {**receipt["artifact"], **artifact_patch}
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", patched)
+    with pytest.raises(RoutingError, match="gitHead|not a full commit id"):
+        render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+
+
+# --- Path validation before any apply (#2371) --------------------------------------
+
+
+def _outside_layout(tmp_path: Path):
+    root = _repo(tmp_path / "root")
+    _write(root, "scripts/fix.py", "old line\n")
+    scratch = tmp_path / "scratch"
+    outside = tmp_path / "outside.txt"
+    outside.write_text("unchanged\n", encoding="utf-8")
+    return root, scratch, outside
+
+
+OUT_OF_SCOPE_DIFFS = {
+    "dotdot": "diff --git a/../../outside.txt b/../../outside.txt\n--- a/../../outside.txt\n+++ b/../../outside.txt\n"
+              "@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "unified-dotdot": "--- a/../../outside.txt\n+++ b/../../outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "absolute": "--- /tmp/outside.txt\n+++ /tmp/outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "git-dir": "diff --git a/.git/config b/.git/config\n--- a/.git/config\n+++ b/.git/config\n@@ -1 +1 @@\n-a\n+b\n",
+    "rename": "diff --git a/scripts/fix.py b/x\nsimilarity index 100%\nrename from scripts/fix.py\nrename to ../outside.txt\n",
+    "quoted": 'diff --git "a/x y" "b/x y"\n--- "a/x y"\n+++ "b/x y"\n@@ -1 +1 @@\n-a\n+b\n',
+    "backslash": "--- a/..\\outside.txt\n+++ b/..\\outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+}
+
+
+@pytest.mark.parametrize("name", sorted(OUT_OF_SCOPE_DIFFS))
+def test_out_of_scope_paths_are_refused_before_any_scratch_exists(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, name: str
+) -> None:
+    from gaia_cli.steward import routing
+
+    root, scratch, outside = _outside_layout(tmp_path)
+    created: list[str] = []
+    monkeypatch.setattr(routing.tempfile, "mkdtemp", lambda **kw: created.append("x") or str(scratch))
+    result = compute_patch_attribution(root, OUT_OF_SCOPE_DIFFS[name], "debt:x", _controller(IntegritySensor()))
+    assert result is None
+    assert created == []  # path validation ran before any filesystem action
+    assert outside.read_text(encoding="utf-8") == "unchanged\n"
+
+
+def test_apply_refuses_outside_paths_even_past_validation(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Second line: without --unsafe-paths, git apply itself keeps writes inside the scratch tree."""
+    from gaia_cli.steward import routing
+
+    root, scratch, outside = _outside_layout(tmp_path)
+    scratch.mkdir()
+    monkeypatch.setattr(routing.tempfile, "mkdtemp", lambda **kw: str(scratch))
+    monkeypatch.setattr(routing, "_diff_paths_safe", lambda text: True)
+    result = compute_patch_attribution(root, OUT_OF_SCOPE_DIFFS["dotdot"], "debt:x", _controller(IntegritySensor()))
+    assert result is None
+    assert outside.read_text(encoding="utf-8") == "unchanged\n"
+
+
+def test_removed_line_that_looks_like_a_header_is_content() -> None:
+    from gaia_cli.steward.routing import _diff_paths_safe
+
+    diff = "--- a/docs/a.sql\n+++ b/docs/a.sql\n@@ -1,2 +1 @@\n--- ../../x\n keep\n"
+    assert _diff_paths_safe(diff) is True
+    after = diff + "--- a/../../x\n+++ b/../../x\n@@ -1 +1 @@\n-a\n+b\n"
+    assert _diff_paths_safe(after) is False  # the next file's header is validated again
+
+
+def test_out_of_scope_change_set_is_never_attributed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Scope is decided first; an out-of-scope change set never reaches any apply."""
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    _write(root, "registry/nodes/a.json", "{}\n")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    def never(*args, **kwargs):
+        pytest.fail("attribution must not run on an out-of-scope change set")
+
+    monkeypatch.setattr(routing, "compute_patch_attribution", never)
+    diff_path = _write(root, "candidate.diff", _diff("registry/nodes/a.json"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    result, _, _ = render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+    assert result.artifact.verdict == "reject"
+    assert result.artifact.scope_valid is False
+    assert "patch attribution not run: the change set is out of scope" in result.artifact.reasons
+    assert (root / "registry/nodes/a.json").read_text(encoding="utf-8") == "{}\n"
+
+
+@pytest.mark.parametrize("header", [
+    "diff --git a/.git/config b/.git/config\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/scripts/fix.py b/.git/hooks/pre-commit\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/sub/.git/x b/sub/.git/x\nold mode 100644\nnew mode 100755\n",
+    "diff --git a/./x b/./x\nold mode 100644\nnew mode 100755\n",
+])
+def test_git_header_paths_follow_the_same_path_rules(header: str) -> None:
+    """A mode-only diff has no ---/+++ lines; its diff --git header alone must be validated."""
+    from gaia_cli.steward.routing import _diff_paths_safe
+
+    assert _diff_paths_safe(header) is False
+    assert _diff_paths_safe("diff --git a/scripts/x.py b/scripts/x.py\nold mode 100644\nnew mode 100755\n") is True
