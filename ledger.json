@@ -1,5 +1,5 @@
 {
- "generation": 1746,
+ "generation": 1747,
  "lane": {
   "entries": [
    {
@@ -6672,7 +6672,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T23:46:44.137840Z",
-   "expiresAt": "2026-11-08T00:45:01.569784Z",
+   "expiresAt": "2026-11-08T00:45:09.974482Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -133000,7 +133000,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-08T00:01:48.628916Z",
+    "asOf": "2026-11-08T00:15:08.013963Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -133315,6 +133315,31 @@
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+       "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+       "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+       "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-a55558e591031f88c1dc",
+      "evidence": [
+       "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0 - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f - attempts: 2; reason: verification escalated (independent verification by pi-herdr-batch11-verifier-55b938d79131 (pi,…",
+       "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977 - attempts: 2; reason: verification escalated (independent verification by pi-herdr-batch11-verifier-52236ab2419b (pi,…"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `workflow-timeout-repair` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "4 open Class C debt item(s) under lane-escalation/workflow-timeout-repair.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
       "alternative": "Rule the gap acceptable for named skills (keep the rating and stop reporting), or open a governed demotion for one of them under #2148.",
       "debtIds": [
        "debt:trust_evidence_gap:majiayu000-edge-model-compression:4ee177f8c2ff7e1c",
@@ -133424,27 +133449,7 @@
      {
       "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
       "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0"
-     },
-     {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f"
-     },
-     {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d"
-     },
-     {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
       "subject": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae"
-     },
-     {
-      "detail": "2 of 2 attempts used under workflow-timeout-repair while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977"
      },
      {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
@@ -133467,6 +133472,16 @@
       "subject": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154"
      },
      {
+      "detail": "independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict:",
+      "kind": "failed_dispatch",
+      "subject": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch11-verifier-70c6c5849b04 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingC",
+      "kind": "failed_dispatch",
+      "subject": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d"
+     },
+     {
       "detail": "last scheduled run was 141h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
@@ -133480,7 +133495,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-08T00:15:08.013963Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -133488,6 +133503,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "b9028e9a667ddb172f280bc7b20a78afdc00a586",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 224,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T22:28:30.246839Z",
@@ -133500,7 +133523,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 2 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T222830Z-f75ff7de <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T222830Z-f75ff7de`",
    "options": {
     "afk": false,
     "agents": true,
@@ -133512,7 +133535,7 @@
     "push": false,
     "routine": 13
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -136301,7 +136324,7 @@
    "sequence": 51,
    "sourceHead": "b9028e9a667ddb172f280bc7b20a78afdc00a586",
    "startedAt": "2026-11-07T22:28:30.246839Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T22:28:30.246839Z",
@@ -136500,6 +136523,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-08T00:15:08.013963Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -136513,7 +136542,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:15:01.570256Z",
+ "updatedAt": "2026-11-08T00:15:09.974718Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
