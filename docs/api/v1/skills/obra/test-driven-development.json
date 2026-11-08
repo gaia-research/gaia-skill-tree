@@ -2,13 +2,13 @@
   "id": "obra/test-driven-development",
   "name": "test-driven-development",
   "contributor": "obra",
-  "level": "2★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 59.0,
+  "trustMagnitude": 58.9,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Named",
+  "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/obra/test-driven-development.json",
@@ -103,6 +103,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 202.11 -> 59.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T08:26:54Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-11-08T18:10:06Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 59.0 -> 58.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

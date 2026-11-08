@@ -21,7 +21,7 @@ description: 'Publish the user''s own gbrain over MCP so other devices, desktop 
 
   handoff inside that client, and verify a real memory round trip.'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: remote-mcp
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/remote-mcp/SKILL.md
@@ -59,6 +59,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:18:10Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/remote-mcp/SKILL.md
   evaluator: mbtiongson1
@@ -84,8 +89,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:42Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 2e8b0347381c974d03e83722723dddac262c95023ca1a2c2d051f9ebdfb377c6
 suiteRef: garrytan/gbrain
 ---

@@ -5,7 +5,7 @@ contributor: emilkowalski
 origin: false
 genericSkillRef: code-generation
 status: named
-level: 2★
+level: 4★
 description: How to write modern Swift well — modeling with value types, Swift 6 data-race
   safety and approachable concurrency (@concurrent, main-actor-by-default, actors,
   task groups), protocols and generics (some vs any), API design, performance and
@@ -13,7 +13,7 @@ description: How to write modern Swift well — modeling with value types, Swift
   yet. Use when writing, reviewing, or migrating Swift, or when a concurrency error,
   a hang, a data race, a retain cycle, or a performance problem needs fixing.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Write Swift
 links:
   github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md
@@ -32,6 +32,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:22:32Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md
   evaluator: mbtiongson1

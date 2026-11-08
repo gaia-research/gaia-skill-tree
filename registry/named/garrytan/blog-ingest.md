@@ -21,7 +21,7 @@ description: 'Feed and whole-publication ingestion: turn an entire blog, newslet
 
   public posts only (gated content is skipped, never worked around).'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: blog-ingest
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/blog-ingest/SKILL.md
@@ -59,6 +59,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/blog-ingest/SKILL.md
   evaluator: mbtiongson1
@@ -84,8 +89,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:09Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 7afc17d847178febe6b46dffd8e2c867f4da875f6b0cf652aae39a724be2c5be
 suiteRef: garrytan/gbrain
 ---

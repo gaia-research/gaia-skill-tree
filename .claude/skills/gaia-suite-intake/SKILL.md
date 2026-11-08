@@ -38,9 +38,9 @@ Before executing any intake steps, verify understanding of these foundational in
      reported separately via **Fusion Score**, which gates no rank.
 4. **Shared Repository Evidence Cap**:
    - Sub-components inheriting repository evidence from a shared parent repo are capped at
-     `SUITE_COMPONENT_REPOSITORY_CAP = 50.0 TM` per component (`META.md` §2.1, `trustMagnitude.py`).
-   - Repository adoption alone cannot promote sub-components beyond Grade B (50 TM / 3★)
-     without independent corroboration.
+     `SUITE_COMPONENT_REPOSITORY_CAP = 49.9 TM` per component (`META.md` §2.1, `trustMagnitude.py`).
+   - Repository adoption alone grades a sub-component C (49.9 TM / 2★ ceiling). Grade B (3★)
+     needs at least one more scoring row of the component's own (founder ruling 2026-11-08).
 5. **Branch-Aware 4★ Gate (`META.md` §4 / Issue #1741)**:
    - **4★ Promotion Requirement**: Requires Overall Trust Grade A (TM ≥ 100) and live verified
      blob evidence (The Star Bar, `META.md` §2.4).
@@ -195,8 +195,8 @@ gaia dev evidence <contributor>/<suite-slug> \
 Add component-level evidence. Sub-components residing in the shared repository inherit
 adoption signals, but Yggdrasil III enforces:
 - `skillCountInRepo`: Set to the total number of components sharing the repository.
-- `SUITE_COMPONENT_REPOSITORY_CAP = 50.0 TM`: The scoring engine automatically bounds
-  shared repository evidence so that adoption alone caps at 50 TM (Grade B).
+- `SUITE_COMPONENT_REPOSITORY_CAP = 49.9 TM`: The scoring engine automatically bounds
+  shared repository evidence so that adoption alone caps at 49.9 TM (Grade C).
 
 ```bash
 gaia dev evidence <contributor>/<component-slug> \

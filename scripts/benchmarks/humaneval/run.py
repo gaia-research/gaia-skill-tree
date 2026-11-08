@@ -154,7 +154,11 @@ def _execAndCheck(problem: dict, completion: str) -> bool:
     program = (problem.get("prompt", "") or "") + completion + "\n" + (problem.get("test", "") or "")
     namespace: dict[str, Any] = {}
     try:
-        exec(compile(program, "<humaneval>", "exec"), namespace)  # noqa: S102 — sandboxed by fixture design
+        # NOT a sandbox: this runs the (possibly model-generated) completion
+        # in-process with the harness's full permissions. Founder scoped
+        # exception for benchmark use only (F6, 2026-11-08):
+        # founder/steward/decisions/steward-humaneval-exec-benchmark-exception.json
+        exec(compile(program, "<humaneval>", "exec"), namespace)  # noqa: S102 - benchmark-only scoped exception
         candidate = namespace.get(entryPoint)
         checker = namespace.get("check")
         if candidate is None or checker is None:

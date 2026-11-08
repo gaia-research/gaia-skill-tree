@@ -29,6 +29,8 @@ from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
+from gaia_cli.steward.calibrationroute import CALIBRATION_ROUTE_RULE_ID, calibrationViolations
+from gaia_cli.steward.workflowhistory import history_provenance, uses_fetch
 from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -36,7 +38,7 @@ from gaia_cli.steward.models import (
     content_hash,
     stable_json,
 )
-from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES
+from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES, WORKFLOW_ROUTE_RULE_ID
 
 
 VERDICT_SCHEMA = "steward-verification-verdict-v1"
@@ -121,6 +123,10 @@ class ChangeSet:
     # Parsed hunks of every modified (not created, not deleted) workflow file, for
     # the structural proof; see ``workflow_structure_violations``.
     workflow_patches: tuple[tuple[str, tuple[Hunk, ...]], ...] = ()
+    # Reconstructed post-diff text of every modified canonical named-skill record
+    # (``registry/named/**``), or None when it cannot be reconstructed. Only the
+    # trust-calibration route may write there; its structural proof reads these.
+    named_post_images: tuple[tuple[str, str | None], ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
@@ -198,6 +204,13 @@ class VerificationVerdict:
     reasons: tuple[str, ...]
     change_set: ChangeSet
     transcript: ProofTranscript
+    # Machine-built commands the independent verifier must rerun (workflow-timeout
+    # route only): rendered from the same fetch records mechanical verification
+    # accepted, never from builder text. Empty for every other route.
+    recompute: tuple[str, ...] = ()
+    global_new_debt: tuple[str, ...] = ()
+    unrelated_new_debt: tuple[str, ...] = ()
+    attribution_failed: bool = False
 
     def __post_init__(self) -> None:
         if self.verdict not in MECHANICAL_VERDICTS:
@@ -222,11 +235,15 @@ class VerificationVerdict:
             "authorityStillValid": self.authority_still_valid,
             "guardsWeakened": self.guards_weakened,
             "newDebt": list(self.new_debt),
+            "globalNewDebt": list(self.global_new_debt),
+            "unrelatedNewDebt": list(self.unrelated_new_debt),
+            "attributionFailed": self.attribution_failed,
             "verdict": self.verdict,
             "decidedBy": "machine" if self.decided else "pending-independent-judgment",
             "reasons": list(self.reasons),
             "changeSet": self.change_set.to_dict(),
             "proof": self.transcript.to_dict(),
+            **({"recompute": list(self.recompute)} if self.recompute else {}),
         }
 
     @property
@@ -344,6 +361,21 @@ def _applyHunks(base: list[str], hunks: list[_Hunk]) -> list[str]:
     return out
 
 
+_NAMED_SUBTREE = "registry/named/"
+
+
+def _postImageText(path: str, hunks: list[_Hunk], read: BaseReader | None) -> str | None:
+    """The post-diff text of a modified file, or None when it cannot be reconstructed."""
+
+    text = read(path) if read is not None else None
+    if text is None:
+        return None
+    try:
+        return "\n".join(_applyHunks(text.split("\n"), hunks))
+    except VerificationError:
+        return None
+
+
 def _postImageProblem(path: str, is_new: bool, hunks: list[_Hunk], read: BaseReader | None) -> str | None:
     """Why a disposition record's post-diff JSON cannot be accepted, or None when it is clean."""
 
@@ -420,6 +452,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
     hunks: list[_Hunk] = []
     workflow_violations: list[str] = []
     workflow_patches: list[tuple[str, tuple[Hunk, ...]]] = []
+    named_posts: list[tuple[str, str | None]] = []
 
     current: str | None = None
     added = removed = 0
@@ -441,6 +474,8 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
             problem = _postImageProblem(current, created_file, hunks, base)
             if problem is not None:
                 stamped[current] = problem
+        if current.startswith(_NAMED_SUBTREE) and not deleted_file and not created_file:
+            named_posts.append((current, _postImageText(current, hunks, base)))
         hunks = []
         changes.append(
             FileChange(
@@ -611,6 +646,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
         stamped_paths=tuple(sorted(stamped.items())),
         workflow_edit_violations=tuple(workflow_violations),
         workflow_patches=tuple(sorted(workflow_patches)),
+        named_post_images=tuple(sorted(named_posts, key=lambda item: item[0])),
     )
 
 
@@ -737,6 +773,51 @@ def parse_proof_transcript(raw: str, *, proof_contract_length: int) -> ProofTran
     )
 
 
+def calibration_structure_violations(root: Path, packet: DispatchPacket, change_set: ChangeSet) -> list[str] | None:
+    """The trust-calibration proof for ``change_set``, or None for any other rule.
+
+    ``root`` is the verifier's checkout at the diff's baseline: the base record
+    is read there and eligibility, Trust Magnitude and the grade target are
+    recomputed there.
+    """
+
+    if packet.rule != CALIBRATION_ROUTE_RULE_ID:
+        return None
+    posts = dict(change_set.named_post_images)
+    paths = change_set.paths
+    single = paths[0] if len(paths) == 1 else None
+    return calibrationViolations(
+        root,
+        packet_debt=packet.debt,
+        change_paths=paths,
+        created_or_deleted=tuple(
+            change.path for change in change_set.changes if change.created_file or change.deleted_file
+        ),
+        base_text=checkoutBase(root)(single) if single else None,
+        post_text=posts.get(single) if single else None,
+    )
+
+
+def workflow_history_check(packet: DispatchPacket, transcript_text: str) -> tuple[list[str], list[str]] | None:
+    """``(violations, verifier recompute commands)`` for a workflow-timeout packet, else None.
+
+    One parse of the transcript yields both, so what machinery accepts and what
+    the verifier is told to refetch can never diverge. None also for a packet
+    commissioned before ``workflowproof fetch`` existed: a packet is held to the
+    envelope it was dispatched under, never a later one.
+    """
+
+    if packet.rule != WORKFLOW_ROUTE_RULE_ID or not uses_fetch(packet.allowed_commands):
+        return None
+    subject = packet.evidence.get("subject") or packet.debt.get("subject")
+    return history_provenance(
+        evidence=packet.evidence,
+        subject=subject.get("id") if isinstance(subject, Mapping) else None,
+        transcript_text=transcript_text,
+        dispatch_id=packet.dispatch_id,
+    )
+
+
 def is_workflow_path(path: str) -> bool:
     """Whether ``path`` is a direct-child ``.github/workflows/*.yml`` file."""
 
@@ -774,6 +855,10 @@ def evaluate(
     current_open_debt: Sequence[str],
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
+    patch_introduced_debt: Sequence[str] | None = None,
+    attribution_failed: bool = False,
+    calibration_violations: Sequence[str] | None = None,
+    history_check: tuple[Sequence[str], Sequence[str]] | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -810,12 +895,22 @@ def evaluate(
     ]
     stamped = list(change_set.stamped_paths)
     structural = workflow_structure_violations(change_set, workflow_baseline)
+    # Founder ruling F1: a calibration packet must be proven to be exactly one
+    # calibrate write, re-derived live; an unproven one is a rejection.
+    calibration: list[str] = []
+    if packet.rule == CALIBRATION_ROUTE_RULE_ID:
+        calibration = (
+            list(calibration_violations)
+            if calibration_violations is not None
+            else ["no calibration proof was computed, so the edit cannot be accepted"]
+        )
     scope_valid = (
         not outside
         and not forbidden
         and not stamped
         and not change_set.workflow_edit_violations
         and not structural
+        and not calibration
     )
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
@@ -833,6 +928,11 @@ def evaluate(
             "a workflow edit must be proven to add only job-level timeout-minutes: "
             + "; ".join(structural[:_MAX_WORKFLOW_VIOLATIONS])
         )
+    if calibration:
+        reasons.append(
+            "a calibration must be proven to be exactly one eligible gaia dev calibrate write: "
+            + "; ".join(calibration[:_MAX_WORKFLOW_VIOLATIONS])
+        )
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.
@@ -841,7 +941,26 @@ def evaluate(
     )
     uncovered = sorted(required - transcript.covered())
     failed = transcript.failures()
-    proof_valid = not uncovered and not failed
+    # A workflow-timeout packet commissioned with `workflowproof fetch` must compute
+    # every flagged job's value from a fetched rows file; an unchecked one is rejected.
+    provenance: list[str] = []
+    recompute: tuple[str, ...] = ()
+    if packet.rule == WORKFLOW_ROUTE_RULE_ID and uses_fetch(packet.allowed_commands):
+        if history_check is None:
+            provenance = ["no history-provenance check was computed, so the values cannot be accepted"]
+        else:
+            provenance = list(history_check[0])
+            recompute = tuple(history_check[1])
+            if not provenance and not recompute:
+                provenance = ["the provenance check produced no verifier recompute; refusing to omit it"]
+        if provenance:
+            recompute = ()
+    proof_valid = not uncovered and not failed and not provenance
+    if provenance:
+        reasons.append(
+            "workflow history rows must come from workflowproof fetch: "
+            + "; ".join(provenance[:_MAX_WORKFLOW_VIOLATIONS])
+        )
     if uncovered:
         reasons.append(
             "proof contract items with no evidence: " + ", ".join(str(item) for item in uncovered)
@@ -875,11 +994,40 @@ def evaluate(
         )
 
     # 6. Did new debt appear?
-    new_debt = tuple(
+    global_new_debt = tuple(
         sorted(set(current_open_debt) - set(baseline_open_debt) - {packet.debt.get("id")})
     )
-    if new_debt:
-        reasons.append("new debt appeared since dispatch: " + ", ".join(new_debt))
+    if attribution_failed:
+        new_debt = global_new_debt
+        unrelated_new_debt = ()
+        reasons.append("patch attribution failed; failing closed on safety gate")
+        if global_new_debt:
+            reasons.append(
+                "new debt appeared since dispatch (attribution failed, failing closed): "
+                + ", ".join(global_new_debt)
+            )
+    elif patch_introduced_debt is not None:
+        new_debt = tuple(sorted(set(patch_introduced_debt) - {packet.debt.get("id")}))
+        if new_debt:
+            reasons.append("patch introduced new debt: " + ", ".join(new_debt))
+        if global_new_debt:
+            unrelated_new_debt = tuple(sorted(set(global_new_debt) - set(patch_introduced_debt)))
+            if unrelated_new_debt:
+                reasons.append(
+                    "unrelated debt appeared globally since dispatch (concurrent merge, not charged to patch): "
+                    + ", ".join(unrelated_new_debt)
+                )
+        else:
+            unrelated_new_debt = ()
+    else:
+        # Attribution could not be computed
+        new_debt = global_new_debt
+        unrelated_new_debt = ()
+        if global_new_debt:
+            reasons.append(
+                "new debt appeared since dispatch (attribution could not be computed, failing closed): "
+                + ", ".join(global_new_debt)
+            )
 
     verdict = _mechanical_verdict(
         finding_confirmed=finding_confirmed,
@@ -888,6 +1036,7 @@ def evaluate(
         authority_still_valid=authority_still_valid,
         guards_weakened=guards_weakened,
         new_debt=new_debt,
+        attribution_failed=attribution_failed,
     )
     if verdict == "pending":
         reasons.append(
@@ -908,6 +1057,10 @@ def evaluate(
         reasons=tuple(reasons),
         change_set=change_set,
         transcript=transcript,
+        recompute=recompute,
+        global_new_debt=global_new_debt,
+        unrelated_new_debt=unrelated_new_debt,
+        attribution_failed=attribution_failed,
     )
 
 
@@ -919,6 +1072,7 @@ def _mechanical_verdict(
     authority_still_valid: bool,
     guards_weakened: bool,
     new_debt: tuple[str, ...],
+    attribution_failed: bool = False,
 ) -> str:
     """Map mechanical facts to the only verdicts a machine may reach.
 
@@ -932,7 +1086,7 @@ def _mechanical_verdict(
 
     if not scope_valid or not proof_valid or not finding_confirmed:
         return "reject"
-    if not authority_still_valid or guards_weakened or new_debt:
+    if not authority_still_valid or guards_weakened or new_debt or attribution_failed:
         return "escalate"
     return "pending"
 

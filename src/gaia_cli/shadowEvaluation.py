@@ -12,7 +12,7 @@ import json
 import math
 from pathlib import Path
 from dataclasses import dataclass, replace
-from typing import Any
+from typing import Any, Optional
 
 from gaia_cli import trustMagnitude as tm
 from gaia_cli.grading import derive_grade, derive_row_grade

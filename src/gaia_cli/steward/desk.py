@@ -78,7 +78,9 @@ _RECORD_KEYS = frozenset({
     "schemaVersion", "id", "status", "decision", "whyItMatters", "evidence",
     "recommended", "alternative", "unblocks", "links",
 })
-_RECORD_OPTIONAL_KEYS = frozenset({"resolution", "landedIn"})
+_RECORD_OPTIONAL_KEYS = frozenset({
+    "resolution", "landedIn", "authorizedDebtIds", "authorizedWorkItems", "authorizedTargets",
+})
 
 # A decided record carrying this resolution is a founder approval whose change
 # is not yet recorded as landed: it still needs someone to implement or land it.
@@ -264,6 +266,26 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         return "resolution must be a non-empty string when present"
     if "landedIn" in body and (not isinstance(body["landedIn"], str) or not body["landedIn"].strip()):
         return "landedIn must be a non-empty string when present"
+    if "authorizedDebtIds" in body and (
+        not isinstance(body["authorizedDebtIds"], list)
+        or not all(isinstance(item, str) and item.strip() for item in body["authorizedDebtIds"])
+    ):
+        return "authorizedDebtIds must be a list of non-empty strings when present"
+    if "authorizedTargets" in body and (
+        not isinstance(body["authorizedTargets"], list)
+        or not all(
+            isinstance(item, dict)
+            and isinstance(item.get("runId"), str) and item["runId"].strip()
+            and isinstance(item.get("debtId"), str) and item["debtId"].strip()
+            for item in body["authorizedTargets"]
+        )
+    ):
+        return "authorizedTargets must be a list of mappings with non-empty runId and debtId"
+    if "authorizedWorkItems" in body and (
+        not isinstance(body["authorizedWorkItems"], list)
+        or not all(isinstance(item, str) and item.strip() for item in body["authorizedWorkItems"])
+    ):
+        return "authorizedWorkItems must be a list of non-empty strings when present"
     for key in ("decision", "whyItMatters", "recommended", "alternative", "unblocks"):
         if not isinstance(body[key], str) or not body[key].strip():
             return f"{key} must be a non-empty string"

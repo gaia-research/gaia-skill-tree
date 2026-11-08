@@ -9,6 +9,11 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.calibrationroute import (
+    CALIBRATION_ROUTE_ALLOWED as _CALIBRATION_ROUTE_ALLOWED,
+    CALIBRATION_ROUTE_DEBT_KIND as _CALIBRATION_ROUTE_DEBT_KIND,
+    CALIBRATION_ROUTE_RULE_ID as _CALIBRATION_ROUTE_RULE_ID,
+)
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, HygienePolicyError, loadHygienePolicy
 from gaia_cli.steward.prmaintenance.policy import PrMaintenancePolicy, PrPolicyError, loadPrMaintenancePolicy, prAuthorityApproved
 from gaia_cli.steward.lane import LanePolicy
@@ -140,6 +145,17 @@ _WORKFLOW_ROUTE_REQUIRED_FORBIDDEN = (
     ".github/workflows/shared/**",
     ".github/workflows/_disabled/**",
     ".github/actions/**",
+)
+# Founder ruling F1 (#2283, 2026-11-08): the trust-calibration route may write
+# canonical named-skill records, and only through `gaia dev calibrate`. Like the
+# workflow exception, it is pinned here in both directions: no other rule may
+# reach `registry/named/**`, and this rule may reach nothing else. Generated
+# Class S artifacts stay forbidden; the lead regenerates them once per wave.
+_CALIBRATION_ROUTE_REQUIRED_FORBIDDEN = (
+    "docs/**",
+    "registry/nodes/**",
+    "registry/schema/**",
+    "skill-trees/**",
 )
 _FILE_GLOB = re.compile(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*/\*(?:\.[A-Za-z0-9_-]+)+")
 # Founder desk rules: each names the one Class C debt kind it decides.
@@ -637,6 +653,31 @@ class StewardPolicy:
                         f"routing.dispatchRules.{rule_id}.allowedPaths may not reach the "
                         f"protected path {conflict}: {allowed}"
                     )
+            if (debt_kind == _CALIBRATION_ROUTE_DEBT_KIND) != (rule_id == _CALIBRATION_ROUTE_RULE_ID):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}: the registry/named write belongs to rule "
+                    f"{_CALIBRATION_ROUTE_RULE_ID} and debt kind {_CALIBRATION_ROUTE_DEBT_KIND} together; "
+                    "neither may be used without the other"
+                )
+            if debt_kind == _CALIBRATION_ROUTE_DEBT_KIND:
+                if allowed_paths != _CALIBRATION_ROUTE_ALLOWED:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.allowedPaths must be exactly "
+                        f"{list(_CALIBRATION_ROUTE_ALLOWED)} for {debt_kind}"
+                    )
+                missing = [
+                    item for item in _CALIBRATION_ROUTE_REQUIRED_FORBIDDEN
+                    if not any(_glob_covers(declared, item) for declared in forbidden_paths)
+                ]
+                if missing:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.forbiddenPaths must include {missing} for {debt_kind}"
+                    )
+            elif any(_globs_overlap(item, "registry/named/**") for item in allowed_paths):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.allowedPaths may not reach registry/named/**; "
+                    f"canonical records are written only by the {_CALIBRATION_ROUTE_RULE_ID} route"
+                )
             if set(allowed_paths) & set(forbidden_paths):
                 raise PolicyError(f"routing dispatch rule {rule_id} path scopes overlap")
             dispatch_rules[rule_id] = DispatchRulePolicy(

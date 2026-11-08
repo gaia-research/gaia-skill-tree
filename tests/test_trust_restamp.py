@@ -26,6 +26,7 @@ from gaia_cli.trustMagnitude import (
     computeTrustMagnitude,
     computeTrustMagnitudeInputHash,
 )
+from tests.authindex import writeBootstrapIndex
 from tests.steward.sensor_fixtures import commit_all, make_repo
 from gaia_cli.trustRestamp import (
     RestampVerificationError,
@@ -126,6 +127,7 @@ def registry(tmp_path, monkeypatch):
     schema = tmp_path / "registry" / "schema"
     schema.mkdir(parents=True)
     (schema / "meta.json").write_text(json.dumps(_meta()), encoding="utf-8")
+    writeBootstrapIndex(tmp_path)
     _generic(tmp_path, "parent")
     _generic(tmp_path, "other-parent")
     paths = {

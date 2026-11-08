@@ -65,6 +65,7 @@ dev = [
     "pytest>=8.0",
     "pytest-timeout>=2.1.0",
     "pytest-xdist>=3.5.0",
+    "ruff>=0.5.0",
     "scipy>=1.7.0",
     "setuptools>=77",
     "textual>=0.50.0",
@@ -114,4 +115,23 @@ markers = [
     "smoke: fast pre-push subset; covers high-value contracts (schema sync, wheel build, init, registry resolution, docs cohesion)",
     "integration: spawns subprocesses, hits network/filesystem heavily, or exercises full CLI lifecycle — skipped in fast tier",
     "slow: any single test consistently >2s wall-clock — skipped in fast tier",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "scripts", "tests"]
+extend-exclude = ["packages", "docs", "registry", "skill-trees", ".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "F821",
+    "F811",
+    "F63",
+    "F7",
+    "F401",
+    "S110",
+    "S112",
+    "E722",
+    "BLE001",
 ]

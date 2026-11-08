@@ -14,7 +14,9 @@ from gaia_cli import trustMagnitude as trust_magnitude_module
 from gaia_cli.commands.dev import calibrate as calibrate_module
 from gaia_cli.commands.dev.evidence import meta_evidence_command, meta_rm_evidence_command
 from gaia_cli.trustRestamp import RestampVerificationError, namedTrustSnapshot, restampAfterEvidenceChange
-from tests.test_trust_restamp import _evidence, _named, _read, _rm, _set, _stale, _stamp, registry  # noqa: F401 (fixture)
+from tests.test_trust_restamp import _evidence, _named, _read, _rm, _set, _stale, _stamp, registry as _registry_fixture
+
+registry = _registry_fixture  # pytest fixture alias
 from tests.test_trust_restamp_guards import _breakable, _intruder, _moved, _verb
 
 pytestmark = [pytest.mark.integration]

@@ -20,7 +20,10 @@ from gaia_cli.formatting import (  # single source of truth
 )
 from gaia_cli import taxonomy
 import textwrap
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from gaia_cli.localContext import LocalContext
 
 # Enable VT100 processing on Windows
 if sys.platform == "win32":
@@ -464,6 +467,7 @@ def render_appraise_card(
     owned: bool = False,
     canon: bool = False,
     display_name: str | None = None,
+    ctx: Optional["LocalContext"] = None,
 ) -> str:
     """
     Rich appraise card with ANSI color.
@@ -476,6 +480,7 @@ def render_appraise_card(
         owned: whether user owns this skill
         canon: if True, show slash-prefixed IDs
         display_name: optional override for skill name
+        ctx: optional LocalContext for nickname resolution
     """
     width = CARD_WIDTH
     inner = width - 4

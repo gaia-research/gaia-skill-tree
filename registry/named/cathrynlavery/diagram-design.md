@@ -5,7 +5,7 @@ contributor: cathrynlavery
 origin: false
 genericSkillRef: architecture-diagram
 status: named
-level: 2★
+level: 4★
 description: Create branded architecture, architecture delta, IT current-state, flowchart,
   sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider,
   polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer
@@ -13,7 +13,7 @@ description: Create branded architecture, architecture delta, IT current-state, 
   marimekko, heatmap, bar and dumbbell, waterfall, line (slopegraph, ridgeline, streamgraph,
   bump), Gantt and scatter charts (bubble, beeswarm, box plot), high-level, process,
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Diagram Design
 links:
   github: https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md
@@ -32,6 +32,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 132.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-07T20:27:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md
   evaluator: mbtiongson1

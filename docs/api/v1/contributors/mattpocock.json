@@ -72,7 +72,7 @@
       "id": "mattpocock/engineering",
       "name": "Engineering",
       "level": "4★",
-      "trustMagnitude": 102.5,
+      "trustMagnitude": 102.4,
       "overallTrustGrade": "A",
       "fusionScore": 326.49,
       "contributor": "mattpocock",
@@ -105,7 +105,7 @@
       "id": "mattpocock/productivity",
       "name": "Productivity",
       "level": "4★",
-      "trustMagnitude": 102.5,
+      "trustMagnitude": 102.4,
       "overallTrustGrade": "A",
       "fusionScore": 272.11,
       "contributor": "mattpocock",
@@ -178,23 +178,6 @@
       "genericSkillRef": "personal-knowledge-management"
     },
     {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      },
-      "genericSkillRef": "vertical-slice-planning"
-    },
-    {
       "id": "mattpocock/ubiquitous-language",
       "name": "Ubiquitous Language",
       "level": "3★",
@@ -210,6 +193,23 @@
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       },
       "genericSkillRef": "ubiquitous-language"
+    },
+    {
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
+      "level": "3★",
+      "trustMagnitude": 94.82,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "mattpocock/grill-me",
@@ -732,7 +732,7 @@
     "level": "5★",
     "trustMagnitude": 280.39
   },
-  "prestigeScore": 2390.43,
+  "prestigeScore": 2390.13,
   "gradeDistribution": {
     "S": 1,
     "A": 3,

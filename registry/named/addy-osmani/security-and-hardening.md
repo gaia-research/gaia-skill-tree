@@ -15,7 +15,7 @@ description: Hardens code against vulnerabilities. Use when auditing an input ha
   risk in a new package. Use when personal data or privacy compliance (GDPR, CCPA)
   is involved.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: security-and-hardening
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/security-and-hardening/SKILL.md
@@ -59,6 +59,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:27Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/security-and-hardening/SKILL.md
   evaluator: mbtiongson1
@@ -85,8 +90,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:02Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 8353e4e3777d558fcc83fc4a3617e561bdd9bb2a7efff4e0fc056c989b6643ae
 suiteRef: addy-osmani/agent-skills
 ---

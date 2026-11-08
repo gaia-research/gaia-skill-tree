@@ -444,7 +444,8 @@ class TestUnusedImport:
         assert observation.confidence == 0.8
         assert observation.observed_state["findingCount"] == 2
         assert observation.observed_state["findings"] == [
-            {"line": 1, "name": "os", "statement": "import os", "sideEffectPossible": True},
+            # #2283 S9: a standard-library module runs no project code on import.
+            {"line": 1, "name": "os", "statement": "import os", "sideEffectPossible": False},
             {"line": 3, "name": "Any", "statement": "from typing import Any", "sideEffectPossible": False},
         ]
         assert "side effects" in observation.provenance["caveat"]
@@ -984,7 +985,7 @@ class TestSwallowedException:
         "source",
         [
             pytest.param(
-                "def f():\n    try:\n        g()\n    except Exception:  # steward: best-effort\n        pass\n",
+                "def f():\n    try:\n        g()\n    except Exception:  # steward: best-effort: optional cache\n        pass\n",
                 id="marker-on-except-line",
             ),
             pytest.param(
@@ -992,7 +993,7 @@ class TestSwallowedException:
                 id="marker-on-first-body-line",
             ),
             pytest.param(
-                "def f():\n    try:\n        g()\n    except Exception:\n        # steward: best-effort\n        pass\n",
+                "def f():\n    try:\n        g()\n    except Exception:\n        # steward: best-effort - telemetry only\n        pass\n",
                 id="marker-on-comment-line-between",
             ),
         ],
@@ -1000,6 +1001,16 @@ class TestSwallowedException:
     def test_documented_best_effort_marker_is_honoured(self, tmp_path: Path, source: str) -> None:
         root = repo(tmp_path, {"src/gaia_cli/risky.py": source})
         assert ErrorHandlingSensor().scan(root, NOW) == []
+
+    @pytest.mark.parametrize(
+        "marker",
+        ["# steward: best-effort", "# steward: best-effort:", "# steward: best-effort -", "# steward: best-effort: ok"],
+    )
+    def test_marker_without_a_reason_does_not_exempt(self, tmp_path: Path, marker: str) -> None:
+        source = f"def f():\n    try:\n        g()\n    except Exception:  {marker}\n        pass\n"
+        root = repo(tmp_path, {"src/gaia_cli/risky.py": source})
+        (observation,) = ErrorHandlingSensor().scan(root, NOW)
+        assert observation.observed_state["findingCount"] == 1
 
     def test_marker_text_in_a_string_or_a_lookalike_comment_does_not_exempt(self, tmp_path: Path) -> None:
         source = (
@@ -1012,7 +1023,7 @@ class TestSwallowedException:
 
     def test_marker_only_exempts_its_own_handler(self, tmp_path: Path) -> None:
         source = (
-            "def f():\n    try:\n        g()\n    except Exception:  # steward: best-effort\n        pass\n"
+            "def f():\n    try:\n        g()\n    except Exception:  # steward: best-effort: optional cache\n        pass\n"
             "def h():\n    try:\n        g()\n    except Exception:\n        pass\n"
         )
         root = repo(tmp_path, {"src/gaia_cli/risky.py": source})

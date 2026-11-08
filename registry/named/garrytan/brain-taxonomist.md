@@ -11,7 +11,7 @@ description: Filing gate for ALL brain writes. Consulted before creating any new
   show --json` — no hardcoded directory table. Also runs periodic taxonomy drift detection
   via `gbrain schema review-orphans`.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Brain Taxonomist
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md
@@ -46,8 +51,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:57:24Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 8bc78e5a4b95fefe09dbb5ab8334573e2099bfa2dc1d9e10d3a42b70f6307a92
 ---
 

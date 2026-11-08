@@ -214,7 +214,7 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia dev validate [--intake] [--meta-sync]
+  gaia dev validate [--intake] [--meta-sync] [--allow-missing-index]
   gaia dev test <suite>
 """
 
@@ -270,6 +270,7 @@ MUTATING_DEV_COMMANDS = frozenset(
         "rm",
         "verify",
         "verify-tier",
+        "challenge",
         "build",
         "release",
     }
@@ -4089,6 +4090,11 @@ def get_parser():
         action="store_true",
         help="Verify meta.json is in sync with gaia.json",
     )
+    dev_validate.add_argument(
+        "--allow-missing-index",
+        action="store_true",
+        help="Skip the generated named-index cross-check when no index is built (default: fail closed)",
+    )
 
     dev_release = dev_sub.add_parser(
         "release", help="Bump version, commit, tag, and push to trigger GitHub Release"
@@ -4234,7 +4240,10 @@ def validate_command(args):
     # trustMagnitude with a still-valid hash must match the live recompute.
     tm_script = repo_root / "scripts" / "check_trust_magnitude_consistency.py"
     if tm_script.exists():
-        rc = subprocess.call([sys.executable, str(tm_script)]) or rc
+        tm_cmd = [sys.executable, str(tm_script)]
+        if getattr(args, "allow_missing_index", False):
+            tm_cmd.append("--allow-missing-index")
+        rc = subprocess.call(tm_cmd) or rc
 
     raise SystemExit(rc)
 

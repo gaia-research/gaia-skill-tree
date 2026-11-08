@@ -11,7 +11,7 @@ description: 'Save and load timestamped reports. Keyword routing for fast lookup
   the Actionability Gate: delivery-time link checks (Broken/Dead/Indirect/ Missing)
   for briefings, meeting digests, and research reports.'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Reports
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:14Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md
@@ -46,8 +51,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:03Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: a0549c740ef5cda734824f84861396e852034ea2e4bd04c7f13d00a9412ebb66
 ---
 

@@ -7,7 +7,7 @@ genericSkillRef: code-generation
 status: named
 title: Design to Production HTML
 catalogRef: garrytan-design-html
-level: 3★
+level: 2★
 description: Generates production-quality, Pretext-native HTML/CSS with real text
   reflow and dynamic layout from approved design mockups, CEO plans, or user descriptions
   — producing fully self-contained files with computed heights, responsive behaviour,
@@ -20,7 +20,7 @@ tags:
 - design-to-code
 - production
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -84,6 +84,15 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:25:19Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:17:28Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md
@@ -110,8 +119,8 @@ evidence:
   stars: 134645
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true

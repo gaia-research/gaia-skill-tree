@@ -13,7 +13,7 @@ description: 'Import AI-assistant chat exports (ChatGPT, Claude, Perplexity) and
   loop. Then answer archive questions: "when did I first discuss X", trace how an
   idea evolved across past conversations, pull a specific thread.'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: conversation-archive
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/conversation-archive/SKILL.md
@@ -51,6 +51,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:17:13Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/conversation-archive/SKILL.md
   evaluator: mbtiongson1
@@ -76,8 +81,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:21Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: a634955413945eb6393066e6c93ecb8ced507a6113298843c002934bb2d7ed46
 suiteRef: garrytan/gbrain
 ---

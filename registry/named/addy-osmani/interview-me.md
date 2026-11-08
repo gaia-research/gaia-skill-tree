@@ -12,7 +12,7 @@ description: Extracts what the user actually wants instead of what they think th
   "for whom" or "why now"), when the user explicitly invokes ("interview me", "grill
   me", "are we sure?", "stress-test my thinking"), or when you catch yours
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Interview Me
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:22Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: addy-osmani/agent-skills
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:55:51Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 0d9c7445995cb80fb62dfd891c9e0f1c70210a7084fe01d131405ff96f994ba1
 ---
 

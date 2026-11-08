@@ -2,14 +2,14 @@
   "id": "emilkowalski/prototype",
   "name": "prototype",
   "contributor": "emilkowalski",
-  "level": "2★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 129.67,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/emilkowalski/prototype.json",
     "contributor": "/api/v1/contributors/emilkowalski.json",
@@ -25,7 +25,7 @@
   },
   "title": "Prototype",
   "genericSkillRef": "design-review",
-  "origin": false,
+  "origin": true,
   "description": "Build multiple genuinely different versions of a UI piece you describe, rendered behind a visual picker so you can flip through them live and promote the one that feels right. Only runs when explicitly invoked; it does not trigger on its own.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T08:20:30Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

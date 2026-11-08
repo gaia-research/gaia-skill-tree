@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-11-07T18:08:30Z",
+  "generatedAt": "2026-11-08T18:19:27Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -1146,11 +1146,15 @@
           0.0009439037490093551
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "api-call",
@@ -1293,11 +1297,15 @@
           0.5101916545152683
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "audience-model",
@@ -3553,11 +3561,15 @@
           0.40644558682373305
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "code-review-pipeline",
@@ -4141,10 +4153,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "content-moderation",
@@ -4998,10 +5010,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "deprecation-and-migration",
@@ -5209,11 +5221,15 @@
           -0.023264872929643337
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "design-source-import",
@@ -5258,10 +5274,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "design-system-extraction",
@@ -5323,10 +5339,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "detect-anomaly",
@@ -5412,10 +5428,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "diff-content",
@@ -5555,10 +5571,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "distributed-consensus-coordination",
@@ -6118,10 +6134,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "edge-optimization",
@@ -6603,10 +6619,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "event-attendance-metrics",
@@ -7513,11 +7529,15 @@
           -0.11003480952226238
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "fine-tune",
@@ -7691,10 +7711,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "firecrawl",
@@ -8012,10 +8032,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "full-stack-developer",
@@ -10089,10 +10109,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "implement-with-discernment",
@@ -10374,10 +10394,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "interview-me",
@@ -10902,10 +10922,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "knowledge-query",
@@ -11138,10 +11158,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "logical-inference",
@@ -11823,10 +11843,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "memory-manage",
@@ -13748,10 +13768,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "personal",
@@ -14348,10 +14368,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
+      "rank": 3,
+      "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "2★",
+      "namedMaxLevel": "3★",
       "overallTrustGrade": "C"
     },
     {
@@ -18250,10 +18270,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "self-consistency",
@@ -19223,10 +19243,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "skill-fusion",
@@ -20944,10 +20964,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
+      "rank": 3,
+      "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "2★",
+      "namedMaxLevel": "3★",
       "overallTrustGrade": "C"
     },
     {
@@ -21370,11 +21390,15 @@
           0.0010128780882006554
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "token-observability",
@@ -22336,11 +22360,15 @@
           0.0002728499256139506
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "ui-red-teaming",
@@ -22393,11 +22421,15 @@
           0.00017393396826988802
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "using-git-worktrees",
@@ -23250,10 +23282,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "vision-qa",
@@ -23346,10 +23378,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "voice-agent",
@@ -23647,11 +23679,15 @@
           -0.3874894818115578
         ]
       },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "web-quality-audit",

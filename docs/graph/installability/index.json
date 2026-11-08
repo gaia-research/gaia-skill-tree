@@ -77,7 +77,7 @@
         "entrypoint": "skills/api-and-interface-design/SKILL.md",
         "installSubpath": "skills/api-and-interface-design"
       },
-      "currentSkillContentSha256": "14b4ab8b8a43c74cecc84cbea5332c7730e5b34a5979e503d3dacb0f7313fa0b",
+      "currentSkillContentSha256": "45547ff737d12ef2bfcabfb8e51429845f22f67be4f68899acee4c057d11d2b4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -97,7 +97,7 @@
         "entrypoint": "skills/browser-testing-with-devtools/SKILL.md",
         "installSubpath": "skills/browser-testing-with-devtools"
       },
-      "currentSkillContentSha256": "f98c3eb33f03aa0ba8f6d1e27132c7a0a57c138c2d5c714dd01aa7c5d55d471c",
+      "currentSkillContentSha256": "4c67ab09a7e3123168602b97812f4a70d9da4fbaf51503a269606bfaabb128a5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -117,7 +117,7 @@
         "entrypoint": "skills/ci-cd-and-automation/SKILL.md",
         "installSubpath": "skills/ci-cd-and-automation"
       },
-      "currentSkillContentSha256": "0bf16c5b92797c99cf438448b4a60a48350b8ca75d995782eb66ced1c767fbf1",
+      "currentSkillContentSha256": "abf5ebe5e20f392ecbfa00d5bd1093923eca7a88c88ccd6c199520a00f1f5d45",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -137,7 +137,7 @@
         "entrypoint": "skills/code-review-and-quality/SKILL.md",
         "installSubpath": "skills/code-review-and-quality"
       },
-      "currentSkillContentSha256": "71adce924803f9a6ccfed5bab9091ebc52c9d11c21e84c630d648abc580a2343",
+      "currentSkillContentSha256": "adc50bbce3cfc0e68a60432f3cad358f6cd3f78b1ecdea18f239d8cc80ac23d3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -157,7 +157,7 @@
         "entrypoint": "skills/code-simplification/SKILL.md",
         "installSubpath": "skills/code-simplification"
       },
-      "currentSkillContentSha256": "eb9e2d0892661eeb54df7202503e8a71ce5c0a08094c0832d65ab02d5787c845",
+      "currentSkillContentSha256": "f40cb1a14c55c00b95fe4b4ff66691d82e2adff22dc8de8868661591d430b29e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -177,7 +177,7 @@
         "entrypoint": "skills/constraint-driven-development/SKILL.md",
         "installSubpath": "skills/constraint-driven-development"
       },
-      "currentSkillContentSha256": "2e48313a618a29932f17f39cbfc4dc554bb4b7d7ba9324808473a03468a549fc",
+      "currentSkillContentSha256": "8c5fc76f57f1fe24262f16419a66d419a96a5963ec329cd0829f37d2e35b3bde",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -197,7 +197,7 @@
         "entrypoint": "skills/context-engineering/SKILL.md",
         "installSubpath": "skills/context-engineering"
       },
-      "currentSkillContentSha256": "7ebbf33c9db5a14240c73c6ca8909a7712c3126f7417a35c7bdfac479d66818f",
+      "currentSkillContentSha256": "e5664c6a3d40884e09b55d6dec9d52a55ec4af440c8b2ab04ca53e688082f60f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -217,7 +217,7 @@
         "entrypoint": "skills/debugging-and-error-recovery/SKILL.md",
         "installSubpath": "skills/debugging-and-error-recovery"
       },
-      "currentSkillContentSha256": "fce31e4aad7e3b2d1a5df54a1e0e39fb8ab6333a17b11d944a951b98eb656ecf",
+      "currentSkillContentSha256": "2b7656eb9200f646a76e0fc3317736376be5503328eaa61567d6adddd6a92d81",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -237,7 +237,7 @@
         "entrypoint": "skills/deprecation-and-migration/SKILL.md",
         "installSubpath": "skills/deprecation-and-migration"
       },
-      "currentSkillContentSha256": "4277e95076e7d5ef10e5336b467ed5aa9c73d9a57f15d5480050182cf287477c",
+      "currentSkillContentSha256": "11ea43ba2a09437f733ce0bdbac5de2a1879583b2d1ee8d38a9d062feeac05ce",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -257,7 +257,7 @@
         "entrypoint": "skills/documentation-and-adrs/SKILL.md",
         "installSubpath": "skills/documentation-and-adrs"
       },
-      "currentSkillContentSha256": "a9bb66993fa1bc3d062a2827ffd13b6945a2da1a81a8b7d678c926286bc3499f",
+      "currentSkillContentSha256": "06ae6ef89407ab8617114eff94597c7a2b72c5ce5bc1d46ee75f2aad1c48413d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -277,7 +277,7 @@
         "entrypoint": "skills/doubt-driven-development/SKILL.md",
         "installSubpath": "skills/doubt-driven-development"
       },
-      "currentSkillContentSha256": "c94c37a4161e31069d23b7481f364e594c2f60562e9c92025f3acd75ea97c7ed",
+      "currentSkillContentSha256": "8aa57ba0df9fdee7fce35d3add776b6d8ea0d5adebe7f52dc9aec4f7fb06299a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -297,7 +297,7 @@
         "entrypoint": "skills/frontend-ui-engineering/SKILL.md",
         "installSubpath": "skills/frontend-ui-engineering"
       },
-      "currentSkillContentSha256": "3fb61bba7026faa370206f7db0c6a32a4a14053821add2180e241af97bd41918",
+      "currentSkillContentSha256": "b19861a4bb8a5161557b61c211e4285bdf7074528acbf816b47f8fcc28dc68d3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -317,7 +317,7 @@
         "entrypoint": "skills/git-workflow-and-versioning/SKILL.md",
         "installSubpath": "skills/git-workflow-and-versioning"
       },
-      "currentSkillContentSha256": "61f4bec17e113d8ad69198cf1ffd1356c4b0f0aaab85b238f73c64c78ef6422f",
+      "currentSkillContentSha256": "815221224a0a93f5d546fc38fb49ca4658db170e2ed1295dfb51e4bef13c6973",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -337,7 +337,7 @@
         "entrypoint": "skills/idea-refine/SKILL.md",
         "installSubpath": "skills/idea-refine"
       },
-      "currentSkillContentSha256": "dbf7b84ebade81d255c92132844b28a4684382bf92f16f3f206920344aec9427",
+      "currentSkillContentSha256": "bc81de6024b5db65a950873335458f6a306f7a255e77791c7c1978590a6b0691",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -357,7 +357,7 @@
         "entrypoint": "skills/incremental-implementation/SKILL.md",
         "installSubpath": "skills/incremental-implementation"
       },
-      "currentSkillContentSha256": "cda4756b570c191e7397c22c1155847336a8a1df0f461c160981f0b7c04d4f6b",
+      "currentSkillContentSha256": "fd3ee61440ba8cedb2877ab017d9bb885a16a2a276a809f86de6cf411be2f8f3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -377,7 +377,7 @@
         "entrypoint": "skills/interview-me/SKILL.md",
         "installSubpath": "skills/interview-me"
       },
-      "currentSkillContentSha256": "b9f57d9bb5a10955d172d309e438dfc9b631c91f976910f50c93c9ab5ec87a55",
+      "currentSkillContentSha256": "abb6ab74fd3917dc338e66b4bd938d34bf6221535d8e1b8226afaff9951b03fa",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -397,7 +397,7 @@
         "entrypoint": "skills/observability-and-instrumentation/SKILL.md",
         "installSubpath": "skills/observability-and-instrumentation"
       },
-      "currentSkillContentSha256": "4ce8146650b380bbb69424868624332c8fa44e0594d07e5f421fee9451270d79",
+      "currentSkillContentSha256": "04a5b65ffb8b74b1170af3a81cffeb921bdd9f677f3721c25845d962268dc5bd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -417,7 +417,7 @@
         "entrypoint": "skills/performance-optimization/SKILL.md",
         "installSubpath": "skills/performance-optimization"
       },
-      "currentSkillContentSha256": "e8f60011cb869768a3297d7288fa4969911227cb7282eeb8ca916fe119a562c2",
+      "currentSkillContentSha256": "fed64437f6f2d5fdc8622deadb7c3e81021608d811466b254d8da21a71e703af",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -437,7 +437,7 @@
         "entrypoint": "skills/planning-and-task-breakdown/SKILL.md",
         "installSubpath": "skills/planning-and-task-breakdown"
       },
-      "currentSkillContentSha256": "7fb7bb086740d7ade07c408d459dcf75a928371086ab6033aa680ef447c9327b",
+      "currentSkillContentSha256": "6a86ac5948207a562ee3f3325f2d169bc12eee06d7c2774fc530a379b80a5885",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -457,7 +457,7 @@
         "entrypoint": "skills/security-and-hardening/SKILL.md",
         "installSubpath": "skills/security-and-hardening"
       },
-      "currentSkillContentSha256": "c1e5471555f587c796451891215e59e7e7f7dd662b5eb6abc40bcccef4e1720e",
+      "currentSkillContentSha256": "690d29d1eab7ae71cf603ee386b23dd2217f92f521ec27223302d846f5a01ff6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -477,7 +477,7 @@
         "entrypoint": "skills/shipping-and-launch/SKILL.md",
         "installSubpath": "skills/shipping-and-launch"
       },
-      "currentSkillContentSha256": "ac4f9916647cd6acbd6605ecf295c65a8f669afdd14fcb247517617bf554b24a",
+      "currentSkillContentSha256": "74d5987d351748973e841a3c3f76121c7db429d7b7245541718bc869371c6189",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -497,7 +497,7 @@
         "entrypoint": "skills/source-driven-development/SKILL.md",
         "installSubpath": "skills/source-driven-development"
       },
-      "currentSkillContentSha256": "bdf5d0d05cefb95773fbe682ba3ea4a6fa5afecd7f47fd235e91160bd3440e08",
+      "currentSkillContentSha256": "c05a190b4edd61039ebfba00cf6db26a977ff383e613da529a84778850262d7f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -517,7 +517,7 @@
         "entrypoint": "skills/spec-driven-development/SKILL.md",
         "installSubpath": "skills/spec-driven-development"
       },
-      "currentSkillContentSha256": "f5f599202f22aade9045b637b73274837bdae2022db5bd3e58f045e519a9cdc9",
+      "currentSkillContentSha256": "df0e88b81488ce1b0c4b19afedb5783fa9505baab86c923165f619550ac62843",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -657,7 +657,7 @@
         "entrypoint": "skills/custom_skills/creating-financial-models/SKILL.md",
         "installSubpath": "skills/custom_skills/creating-financial-models"
       },
-      "currentSkillContentSha256": "4eb1eadd0a54881925790f34af0b7a1fc7c47900b111ab43a2e7cfcc946a29e2",
+      "currentSkillContentSha256": "9c4a5753119f09fca465c29f621dcf17346d6c92c1b4bcc011126a16f4ec2545",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -837,7 +837,7 @@
         "entrypoint": "skills/diagram-design/SKILL.md",
         "installSubpath": "skills/diagram-design"
       },
-      "currentSkillContentSha256": "1423ad936b377985bb9127140f304b00690a235cae19bf51eb1121daf6964ef0",
+      "currentSkillContentSha256": "92d438fcb3d817895ef9971f7599dabfa94ab116937c3c42fbf6dd5a5831753d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1017,7 +1017,7 @@
         "entrypoint": "skills/animate/SKILL.md",
         "installSubpath": "skills/animate"
       },
-      "currentSkillContentSha256": "b9973fe953fa36722b025a00ae624f43e5de3c67d4c2c7469aadeca8693192cc",
+      "currentSkillContentSha256": "a2d517430a31b35ffe4480831f3aef45b1814965dd95f4390f882d98fedbf0bc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1037,7 +1037,7 @@
         "entrypoint": "skills/animate-expo/SKILL.md",
         "installSubpath": "skills/animate-expo"
       },
-      "currentSkillContentSha256": "5c6715994d4ec0e9b67964435ad0028f83c6a947aa98694c2329c0bc7a01dc0f",
+      "currentSkillContentSha256": "07e7fd866c89f4c939720f8bca6b9c689cd4652b4953d78d9e3d6f0d987d9bd4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1057,7 +1057,7 @@
         "entrypoint": "skills/animation-performance/SKILL.md",
         "installSubpath": "skills/animation-performance"
       },
-      "currentSkillContentSha256": "decf7ad6faca869469122352faa765a235d80ef11c496582afa614d595ad254d",
+      "currentSkillContentSha256": "e3ae09f2f04ee9fbc7a96138b4f6d7a65a5fee693b7e8a06f96a3510cb6ab6ab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1097,7 +1097,7 @@
         "entrypoint": "skills/break-ui/SKILL.md",
         "installSubpath": "skills/break-ui"
       },
-      "currentSkillContentSha256": "00772fcf27ea48c927a76c81accc2cb538dd81cf08b62317bd9ce3b0a9406087",
+      "currentSkillContentSha256": "8202de7445d6e1eda77be7242a3d1206cc5a9c58ec51a1bcaa4e1979a70304f4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1137,7 +1137,7 @@
         "entrypoint": "skills/find-animation-opportunities/SKILL.md",
         "installSubpath": "skills/find-animation-opportunities"
       },
-      "currentSkillContentSha256": "da74cdc77765b0c80389f1b273d437505acaf7442b4aafa44f1898a44772f5e0",
+      "currentSkillContentSha256": "5fd8ba9c248547c55cf3a1127eb9ab9f930ccbbc0100439dbe9d86bc2cd2db5c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1157,7 +1157,7 @@
         "entrypoint": "skills/improve-animations/SKILL.md",
         "installSubpath": "skills/improve-animations"
       },
-      "currentSkillContentSha256": "5a2396b3a109704f0e599431e9c3266bdc312b2e8b0986634aa0630b06bb6049",
+      "currentSkillContentSha256": "f4d203f53d1099a246a664e9db33e493d3d820765c3fbdaafa50ff751b77e9c8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1177,7 +1177,7 @@
         "entrypoint": "skills/mobile-native/SKILL.md",
         "installSubpath": "skills/mobile-native"
       },
-      "currentSkillContentSha256": "60c0cc66b646a679976fcc907ed7240c8fa81e55f566b920233e1970a5ab772c",
+      "currentSkillContentSha256": "b79e54d41c9c6d6c19892868fd073531748fd6ead1576560fe806e589c1b72bc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1197,7 +1197,7 @@
         "entrypoint": "skills/prototype/SKILL.md",
         "installSubpath": "skills/prototype"
       },
-      "currentSkillContentSha256": "c0b79840dad549865d2713c1cf8b8926afe3a7afdf6924f20543aa6f43bd7ff3",
+      "currentSkillContentSha256": "ce2004b0c5e52334ace829109f64f8ac16855c5a65b09495f0f6d858bda7ff82",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1217,7 +1217,7 @@
         "entrypoint": "skills/review-animations/SKILL.md",
         "installSubpath": "skills/review-animations"
       },
-      "currentSkillContentSha256": "e84676bb9293bf9b204fd783352bfbfbd6bb618aed58928af56cdb77540e6f99",
+      "currentSkillContentSha256": "99465666b6fc869b5eae35a490a997cbd32f1569f807a30c0ff74f38773411ca",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1237,7 +1237,7 @@
         "entrypoint": "skills/write-swift/SKILL.md",
         "installSubpath": "skills/write-swift"
       },
-      "currentSkillContentSha256": "ae97905a0e803697bdb2901e30fe1905fc4c7adaf647d28e75d0a42dff3e4781",
+      "currentSkillContentSha256": "a985cf6d455c3ae0f79e03919603228fd354ba8ab3c2acbac4cc7dbbff205e49",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1457,7 +1457,7 @@
         "entrypoint": "skills/build/firecrawl-build-interact/SKILL.md",
         "installSubpath": "skills/build/firecrawl-build-interact"
       },
-      "currentSkillContentSha256": "f53af187870f81e6635c1e5a68b9ec2d74189ae584384b7cefb9cb522f3e87e4",
+      "currentSkillContentSha256": "490557d0e7f8b9995d6ab2e0fcafa64828f4babc190bd55c65703b74085e91d7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1477,7 +1477,7 @@
         "entrypoint": "skills/build/firecrawl-build-onboarding/SKILL.md",
         "installSubpath": "skills/build/firecrawl-build-onboarding"
       },
-      "currentSkillContentSha256": "799d6fd3f8b62c882b637421cafc5235426df1fd364cf7ba0c38c5f9dd9c9d22",
+      "currentSkillContentSha256": "5885e7a769f2e58afa971e67bf87378bfb08e382fbf358bac44f6fd83e146577",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1497,7 +1497,7 @@
         "entrypoint": "skills/build/firecrawl-build-scrape/SKILL.md",
         "installSubpath": "skills/build/firecrawl-build-scrape"
       },
-      "currentSkillContentSha256": "9159cc88343ed9db3f7f718365e728f8f85b11f8b8d5fa2edec9ce33fb49e09a",
+      "currentSkillContentSha256": "25aff51da4340ef18c5b850e54a63a9789df653a93f10468065eea91cccf7736",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1517,7 +1517,7 @@
         "entrypoint": "skills/build/firecrawl-build-search/SKILL.md",
         "installSubpath": "skills/build/firecrawl-build-search"
       },
-      "currentSkillContentSha256": "e5f458384ec3db17900fa4b5d908b1f504525371bf7b4f76383f72780566e2da",
+      "currentSkillContentSha256": "8b02fef01455dc271cbc05a95c330d00eb01f464b6245874404ee0b26876a87f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1537,7 +1537,7 @@
         "entrypoint": "skills/core/firecrawl-research-index/SKILL.md",
         "installSubpath": "skills/core/firecrawl-research-index"
       },
-      "currentSkillContentSha256": "4553015a752f1c45ee7ac34861bc3a9ee47837d78b4eee8162cbcf88dd730ffe",
+      "currentSkillContentSha256": "37e5e0c62c3886d6dd610fd80d74df09ca96cce476d7bd847fd8a9517a8c2c02",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1657,7 +1657,7 @@
         "entrypoint": "plugin/skills/academic-verify/SKILL.md",
         "installSubpath": "plugin/skills/academic-verify"
       },
-      "currentSkillContentSha256": "1d46391d40542d2ab7645f94060b356545a4bf2a3c26268545038facc0cbb270",
+      "currentSkillContentSha256": "8e4cccddc3e19bd531729c75355c26c2e7f7154431c3eb452176f84a1466b90c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1677,7 +1677,7 @@
         "entrypoint": "plugin/skills/archive-crawler/SKILL.md",
         "installSubpath": "plugin/skills/archive-crawler"
       },
-      "currentSkillContentSha256": "d7cebd35584c283a89600a176be3c123079f221077409d7e707cb3876011ed53",
+      "currentSkillContentSha256": "e3c33caf9ae057bbe21ac2022050cf7e04f50044607475fc1352401198d1e948",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1697,7 +1697,7 @@
         "entrypoint": "skills/article-enrichment/SKILL.md",
         "installSubpath": "skills/article-enrichment"
       },
-      "currentSkillContentSha256": "df8eda06a44fe5bd02b5f8dc1c68d27ebdea09f48d84749d997e1853a4b6d4a8",
+      "currentSkillContentSha256": "9a066b6d7615f5a7f21b4ffa3c248f14c8244e212c4993a3ebb39617f1a70e94",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1717,7 +1717,7 @@
         "entrypoint": "skills/ask-user/SKILL.md",
         "installSubpath": "skills/ask-user"
       },
-      "currentSkillContentSha256": "93923e26edf6599b2e8fda3fec8704a7b1cee54e5edfc2c9d71d2beaf905343b",
+      "currentSkillContentSha256": "57f655c4fe076ce7074be339df935880a12007901da6f847aa82328451a9a2f6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1737,7 +1737,7 @@
         "entrypoint": "benchmark/SKILL.md",
         "installSubpath": "benchmark"
       },
-      "currentSkillContentSha256": "70944e3a18d95b41f57d6afc3ad8136b570dbed56f52637d39c0c4eabbff5ac3",
+      "currentSkillContentSha256": "d543a61d1b934057d6a347ad0b3f416fec15ee357ef2bb52e2fb3e0999c25ff1",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1777,7 +1777,7 @@
         "entrypoint": "plugin/skills/blog-ingest/SKILL.md",
         "installSubpath": "plugin/skills/blog-ingest"
       },
-      "currentSkillContentSha256": "be2fb668cd76bb477469e2b2288cc73bf1d23747c79aab13045d869c1fefee08",
+      "currentSkillContentSha256": "35054f53892e7104bbbea428bbe05ea8dc397b7e83ad11bb1ce8ffe592a6375e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1797,7 +1797,7 @@
         "entrypoint": "plugin/skills/book-mirror/SKILL.md",
         "installSubpath": "plugin/skills/book-mirror"
       },
-      "currentSkillContentSha256": "de1c365c9bc2f9b07fac03e19e61bfcb7efb0ece434f12cec8134e79b964e59d",
+      "currentSkillContentSha256": "cc18cef7be8e0840ebda67938ef0ce5aeefa6cf79d03e6dc5a3f59e0a11a99e7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1817,7 +1817,7 @@
         "entrypoint": "skills/brain-ingest-gate/SKILL.md",
         "installSubpath": "skills/brain-ingest-gate"
       },
-      "currentSkillContentSha256": "c5b35a3feed4980ea8191b5c7670e12b117da98c5f1cc38a3636d15cbaa4ac85",
+      "currentSkillContentSha256": "7eb520c813caf48044a139c15134a2aedbdbbe05621435bcbd263342d67eb912",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1837,7 +1837,7 @@
         "entrypoint": "skills/brain-link-discipline/SKILL.md",
         "installSubpath": "skills/brain-link-discipline"
       },
-      "currentSkillContentSha256": "20e334b3df8a2e7ca7c33bdb6b89e4809071b41514b891b6ac927a310b84a285",
+      "currentSkillContentSha256": "67cc9bffbbba9ebea8acdb395d50fa8213e43c8c4f6bc00f6820561a7273fcfd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1857,7 +1857,7 @@
         "entrypoint": "skills/brain-ops/SKILL.md",
         "installSubpath": "skills/brain-ops"
       },
-      "currentSkillContentSha256": "c225972cd997e861b6f31f5659257c42accf68a4e7e3b2647394bbbae676faed",
+      "currentSkillContentSha256": "ec30c57121e0a2f20a4fdabd56308e5fefd856a9d8566640da66bb44c2a5972a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1877,7 +1877,7 @@
         "entrypoint": "skills/brain-pdf/SKILL.md",
         "installSubpath": "skills/brain-pdf"
       },
-      "currentSkillContentSha256": "64951660f32005f9905b9b8d759e8a9d1fd448d746f29c428e3998ec87138be1",
+      "currentSkillContentSha256": "cddc3c94b9c7fe9470b743826a07b410a00c10b3fc60881af182ed660787208f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1897,7 +1897,7 @@
         "entrypoint": "skills/brain-taxonomist/SKILL.md",
         "installSubpath": "skills/brain-taxonomist"
       },
-      "currentSkillContentSha256": "c6c888c3567ba2ab300699b818fcd01d3662b7517acdd5b59d2a782d6c8148ae",
+      "currentSkillContentSha256": "dbf35bbd167f907e8e3f68fec450c9c3bb184ade006120179ae9989dd97cd900",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1917,7 +1917,7 @@
         "entrypoint": "skills/briefing/SKILL.md",
         "installSubpath": "skills/briefing"
       },
-      "currentSkillContentSha256": "34c56f7d9d5bf315a16630cb4638609bdec48de378efbb52c774fb7c968984ea",
+      "currentSkillContentSha256": "0a2ff7cb337dbed7cfdf8016ac2b4d3cdc09a3b48c9da6f5ca00a4f4c1f9bdd7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1957,7 +1957,7 @@
         "entrypoint": "plugin/skills/bulk-ingestion/SKILL.md",
         "installSubpath": "plugin/skills/bulk-ingestion"
       },
-      "currentSkillContentSha256": "de180553cac460e4454c82c2157f9e1b1069b7a4e41c5fb21520928a4b26babc",
+      "currentSkillContentSha256": "d20a6e2c5cf153d60978fb1b1a6f94568ab37d9cc341c226f2f874b197d91e10",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1977,7 +1977,7 @@
         "entrypoint": "canary/SKILL.md",
         "installSubpath": "canary"
       },
-      "currentSkillContentSha256": "1d2ed959c188aecdbb529c573eca6d02c0b603665e5eae014839358bba6687e3",
+      "currentSkillContentSha256": "00fd470f7feb89553b3b60e2d8a944d99f85b7b760322986df23e76b6548df05",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1997,7 +1997,7 @@
         "entrypoint": "skills/capture/SKILL.md",
         "installSubpath": "skills/capture"
       },
-      "currentSkillContentSha256": "10fdbc058092106552b5626bedcc668dcde241890e337c3471df7067e788cf48",
+      "currentSkillContentSha256": "c4bbcce1c0987eeebe7656ed9ad2e828abfa4cfd2472ac7f38fb01abc1addcd8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2037,7 +2037,7 @@
         "entrypoint": "skills/chat-connectors/SKILL.md",
         "installSubpath": "skills/chat-connectors"
       },
-      "currentSkillContentSha256": "f14898d3ee50e5a995ba3941447005bb5f0a066692393ce3a7465622cda9cb55",
+      "currentSkillContentSha256": "d379c434d81125eb00308d697e4b22e04195498de934d3b61617119c07e2a299",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2057,7 +2057,7 @@
         "entrypoint": "skills/citation-fixer/SKILL.md",
         "installSubpath": "skills/citation-fixer"
       },
-      "currentSkillContentSha256": "1358a40cc0f6576b4042bf4c4a13934412fa777eaf4f9ebb07035ededd909c5a",
+      "currentSkillContentSha256": "4bd4c998d79294bea92901f92874054b6a67496f1e141d93ec8300bf7c4327f0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2077,7 +2077,7 @@
         "entrypoint": "plugin/skills/citation-graph-ingest/SKILL.md",
         "installSubpath": "plugin/skills/citation-graph-ingest"
       },
-      "currentSkillContentSha256": "b4cb229f8e9cfd38de24e8cdefde5e3878ae5468ca11c6af0066aa946eefc4b1",
+      "currentSkillContentSha256": "04cdd58ed90142adac7713599a1f10725970a9a9a3d5d2d093268b09d287abf4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2117,7 +2117,7 @@
         "entrypoint": "skills/cold-start/SKILL.md",
         "installSubpath": "skills/cold-start"
       },
-      "currentSkillContentSha256": "f62673946654beeeabcfb31ed148bd91ec707b913fd4d646a3bfec8151e9a387",
+      "currentSkillContentSha256": "a29c081f72ed85a17de1824c30463d21df885a43867a7d1bb2f7db1f902fe09b",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2137,7 +2137,7 @@
         "entrypoint": "skills/company-brainify/SKILL.md",
         "installSubpath": "skills/company-brainify"
       },
-      "currentSkillContentSha256": "51b81dca793b7201437570257cdd399827eeeddb04eb7748d9008e1534054ac6",
+      "currentSkillContentSha256": "71dd43896c789f6aa849ed82887780b495cdeeb827bb4d17f7e217142fbb093a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2157,7 +2157,7 @@
         "entrypoint": "skills/concept-synthesis/SKILL.md",
         "installSubpath": "skills/concept-synthesis"
       },
-      "currentSkillContentSha256": "bfeed20114f7662bdf762b937fd383269a51b8c394a510137b8ad3ae52488b29",
+      "currentSkillContentSha256": "de10b76923714c243530848b7e515105254bc8f49ede9a7e3de70accd470ecdc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2177,7 +2177,7 @@
         "entrypoint": "plugin/skills/context-audit/SKILL.md",
         "installSubpath": "plugin/skills/context-audit"
       },
-      "currentSkillContentSha256": "330314fe3b7a7d091f34bb5a01106c94e42b44f213541772218545cd08544681",
+      "currentSkillContentSha256": "fa7304afd575be739e4be10a13295e7961a734c4553f7076f03a6132ab2f2275",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2237,7 +2237,7 @@
         "entrypoint": "plugin/skills/conversation-archive/SKILL.md",
         "installSubpath": "plugin/skills/conversation-archive"
       },
-      "currentSkillContentSha256": "0e1ec5ef09ba221571f78433c9a0dd1c219002f8a7b6875da14b16df32b71a74",
+      "currentSkillContentSha256": "0f921d70cfbaddeefb67ceaa91c021e399641147407f327ac3f1bbaa9d2c42ab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2257,7 +2257,7 @@
         "entrypoint": "skills/correction-pipeline/SKILL.md",
         "installSubpath": "skills/correction-pipeline"
       },
-      "currentSkillContentSha256": "79d611a4500851e11274f27b0c708aa73d3d74be1c91bc1310894d832d90c9a7",
+      "currentSkillContentSha256": "c7bb538abd32483d070a5e14b48ad4be587eab0e8f7534d1cd00cdd96ac13d3f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2277,7 +2277,7 @@
         "entrypoint": "skills/cron-scheduler/SKILL.md",
         "installSubpath": "skills/cron-scheduler"
       },
-      "currentSkillContentSha256": "87cd93f1d5538a71c855e305cc8df042e608ce36b863e3be48fd2340e2b230ca",
+      "currentSkillContentSha256": "4123609cd861670faebe98df9bf1c82288783ac38476a6f887b8ee457f58cc67",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2297,7 +2297,7 @@
         "entrypoint": "skills/cross-modal-review/SKILL.md",
         "installSubpath": "skills/cross-modal-review"
       },
-      "currentSkillContentSha256": "df1108b2d665bb2019461a1bd1ba565e562539235d0d78e81e10490d30180712",
+      "currentSkillContentSha256": "ff5dbe9dd66ffa74451256cdffa20acb5579a76029af86d871da885d6d28a5ad",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2317,7 +2317,7 @@
         "entrypoint": "cso/SKILL.md",
         "installSubpath": "cso"
       },
-      "currentSkillContentSha256": "7e8d426e0548f0ba82f1beeabcc9e45ea851c216774ab08903e9b55067025b89",
+      "currentSkillContentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2337,7 +2337,7 @@
         "entrypoint": "skills/daily-task-manager/SKILL.md",
         "installSubpath": "skills/daily-task-manager"
       },
-      "currentSkillContentSha256": "9267eb9d003edfeab831974dfa600345ce92d4db204b0d7ee2e6155523757342",
+      "currentSkillContentSha256": "b34dcad152e86cd66a43bec68ea90affb86dcb01549fcf630c7ffa48e3f20edd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2357,7 +2357,7 @@
         "entrypoint": "skills/daily-task-prep/SKILL.md",
         "installSubpath": "skills/daily-task-prep"
       },
-      "currentSkillContentSha256": "521439ef65262563f98015f3cae1c49112282360e59de9deb5b80c38546c3a11",
+      "currentSkillContentSha256": "2eeb5e94221925302be326e6ab4b9aa1c3dc7fd6237a8b5ea295ad04b1c3f3dd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2377,7 +2377,7 @@
         "entrypoint": "skills/data-loss-gate/SKILL.md",
         "installSubpath": "skills/data-loss-gate"
       },
-      "currentSkillContentSha256": "1150393ce3b5efd6051fc76fa61ba22e1f025fcc1aa02ace6bea5399bd30916a",
+      "currentSkillContentSha256": "274f97d76b4bf1c5c1f17eef2e235a38fd2ef30a596e5b7bc38f42f014b631a2",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2397,7 +2397,7 @@
         "entrypoint": "plugin/skills/data-research/SKILL.md",
         "installSubpath": "plugin/skills/data-research"
       },
-      "currentSkillContentSha256": "eeb00c4b62dd5b008b82c4844ebc8d0af195737c4adeffe44f38fd1e29cb674f",
+      "currentSkillContentSha256": "4078c7e9701fcf329ed0fb5c632b4956cbebb9eb9ed3a20fa84d447888e364f0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2417,7 +2417,7 @@
         "entrypoint": "skills/db-repair/SKILL.md",
         "installSubpath": "skills/db-repair"
       },
-      "currentSkillContentSha256": "108b63274c0e3df8e19755913b9f6837b5fe6263a2cd5a56272b989aa1d852be",
+      "currentSkillContentSha256": "434bebd0676245f887af449b3491a70b2473a5437cf212c57a105cb994b2b62d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2437,7 +2437,7 @@
         "entrypoint": "design-consultation/SKILL.md",
         "installSubpath": "design-consultation"
       },
-      "currentSkillContentSha256": "6b1ec2c0f5cf7656f99093e628821677615aef4b90854fa4574776daee5c91e4",
+      "currentSkillContentSha256": "d3cdfbace61745e385e036e8486401cccff1c06dd9494bdfd9b00e7f20bc4092",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2457,7 +2457,7 @@
         "entrypoint": "design-html/SKILL.md",
         "installSubpath": "design-html"
       },
-      "currentSkillContentSha256": "07fcc6a880532e8334d46c5746bf272bad88492219ef98251dc8b79eb99a4068",
+      "currentSkillContentSha256": "bbf14b04d249dbadb2d5acf68d899cfd93d81300294e69589aad1f614992b1fd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2497,7 +2497,7 @@
         "entrypoint": "design-shotgun/SKILL.md",
         "installSubpath": "design-shotgun"
       },
-      "currentSkillContentSha256": "9c27f2cfd2978fad6b4a724f9307011e0b5bbcaad6d55ac19a86d5422a790adc",
+      "currentSkillContentSha256": "47c47b40a3d7f60c4db6dd83d3e5684c9555c3ff1761431d94f70517e71dd23f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2537,7 +2537,7 @@
         "entrypoint": "document-generate/SKILL.md",
         "installSubpath": "document-generate"
       },
-      "currentSkillContentSha256": "5a97cb004b87d0008d47c049ec4af7bd1c5a8d354314c0a92b547a1b6041bc3f",
+      "currentSkillContentSha256": "5d01c243a94080ba4ba7019ed25874abc8603dac33fec1ca31d5296897fd97dd",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2577,7 +2577,7 @@
         "entrypoint": "plugin/skills/draft-in-voice/SKILL.md",
         "installSubpath": "plugin/skills/draft-in-voice"
       },
-      "currentSkillContentSha256": "8e825eb173067f99820b7545c163c5a0dd446cb3290bed268c2bd0822bbb2750",
+      "currentSkillContentSha256": "3af8fe213487efce4dbb61c98a0ad54430db5324560cb06ec24e584b65a83006",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2597,7 +2597,7 @@
         "entrypoint": "skills/eiirp/SKILL.md",
         "installSubpath": "skills/eiirp"
       },
-      "currentSkillContentSha256": "deca8f1f5112e3ff6be873f98b51ab87bf22da51280145b052f40f0765c6ce6b",
+      "currentSkillContentSha256": "2234f2e3e109931ad64ae6fbdc4a1c27c6c13fd868604531828e07c83e71825c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2617,7 +2617,7 @@
         "entrypoint": "skills/enrich/SKILL.md",
         "installSubpath": "skills/enrich"
       },
-      "currentSkillContentSha256": "a3bbdaaa37c3f88cb2f271c627b761d5bf2faa9ea5aa9920f46cb45a00b53411",
+      "currentSkillContentSha256": "891d37a157fc8d69cf0ec14ab671d4628a33b315468429b1246937bc10d025bc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2637,7 +2637,7 @@
         "entrypoint": "plugin/skills/fact-check/SKILL.md",
         "installSubpath": "plugin/skills/fact-check"
       },
-      "currentSkillContentSha256": "56cbbcb94e95aa15c626b530b09266ecd0ff0cad090a200dbe5bf9ad19cee5c0",
+      "currentSkillContentSha256": "b67f4e8ae83729f233290189f44a740e7ffeb6ca0fc36d95ead5c831e7272dd4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2677,7 +2677,7 @@
         "entrypoint": "skills/frontmatter-guard/SKILL.md",
         "installSubpath": "skills/frontmatter-guard"
       },
-      "currentSkillContentSha256": "90bbe39a1d5902838fe20e0c07d93c96d702cd6349192b24f4602e0c8ec5b096",
+      "currentSkillContentSha256": "45e6e658cfe8998b29a3214a034ecbc39adbbfa6f09cba5174767344bc9b9d71",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2697,7 +2697,7 @@
         "entrypoint": "plugin/skills/functional-area-resolver/SKILL.md",
         "installSubpath": "plugin/skills/functional-area-resolver"
       },
-      "currentSkillContentSha256": "ebaa6669e5a73e174a37db1236e2f531b9a3c310b9f7c2776d9bdf24f0bb8dc3",
+      "currentSkillContentSha256": "e837e3c80a9ef7b18d6696c3bbc5ddd16cc321bb0c46d407f5167d72a1d6d4b9",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2757,7 +2757,7 @@
         "entrypoint": "skills/gbrain-upgrade/SKILL.md",
         "installSubpath": "skills/gbrain-upgrade"
       },
-      "currentSkillContentSha256": "4ce4d2f37850b57904636198ff7b5995b9eced9bc11fdfb8f868ea1b904eab2b",
+      "currentSkillContentSha256": "68c3af4692d2d418d140b8b7ffde1b79cba85ca34a3e11b34aa83dc970a0c5e2",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2777,7 +2777,7 @@
         "entrypoint": "skills/google-loops/SKILL.md",
         "installSubpath": "skills/google-loops"
       },
-      "currentSkillContentSha256": "735db61016d4413bd8f80716db79e5ab1f22e2b7323b76085f3b9a3ca48397ec",
+      "currentSkillContentSha256": "c49604e0bc19b9b18f0b3f41bfa16ffc0eb07c44b72685663f4a235f89505243",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2877,7 +2877,7 @@
         "entrypoint": "skills/idea-ingest/SKILL.md",
         "installSubpath": "skills/idea-ingest"
       },
-      "currentSkillContentSha256": "a3ad4617df3fe1f7a19415aa1c7c4b2c2d59cd4823076bf9763676356985f3fc",
+      "currentSkillContentSha256": "afa5d68ea3168555cf7c2ab826b4f21d24758eff97dd1e94927cbf82f58d1a45",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2897,7 +2897,7 @@
         "entrypoint": "plugin/skills/idea-lineage/SKILL.md",
         "installSubpath": "plugin/skills/idea-lineage"
       },
-      "currentSkillContentSha256": "0796d43bd75d1051a13e734f5db6e8f189db9d6b306bb5b76ef6c355010f82f3",
+      "currentSkillContentSha256": "5388647b5097ac12e7c0a905f0fabe3c1a622c5e2a5052620da71af3815491c0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2917,7 +2917,7 @@
         "entrypoint": "skills/ingest/SKILL.md",
         "installSubpath": "skills/ingest"
       },
-      "currentSkillContentSha256": "879cce5854bc7ee6a898cc75c9d5a445ffc34b837727fb274b213b1e5a4ff817",
+      "currentSkillContentSha256": "312f49ac115ed750af23ee70a9b1f688a71bc9e44853d1554404cef37974d308",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2957,7 +2957,7 @@
         "entrypoint": "land-and-deploy/SKILL.md",
         "installSubpath": "land-and-deploy"
       },
-      "currentSkillContentSha256": "24306c571772c85f1bddf9299c3ff0c5f64dfd30456f1a15bad5638d924f0c1c",
+      "currentSkillContentSha256": "3e4638a7937f1bd8ffcb8985ee09988d0910ed2626402cdf24993d1b03652d16",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3037,7 +3037,7 @@
         "entrypoint": "skills/mcp-access/SKILL.md",
         "installSubpath": "skills/mcp-access"
       },
-      "currentSkillContentSha256": "91a6aa583c49a406cfdf494a5114978aed319addd87065cb1eb08ba1e390f612",
+      "currentSkillContentSha256": "17fb37717df6abd974cd1bd74447f731d7b67981b97e6d4470152a26a7586eb1",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3057,7 +3057,7 @@
         "entrypoint": "plugin/skills/measure-before-you-fix/SKILL.md",
         "installSubpath": "plugin/skills/measure-before-you-fix"
       },
-      "currentSkillContentSha256": "051ea7946d3113ed04212287c5f987a1cd4cd30737ac8d7cdfdf3fcf80ff0b09",
+      "currentSkillContentSha256": "f2314e2018724d88029d4661c6a2c621896ab7f12cdcef6892459656a37c2461",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3077,7 +3077,7 @@
         "entrypoint": "skills/media-ingest/SKILL.md",
         "installSubpath": "skills/media-ingest"
       },
-      "currentSkillContentSha256": "8d1a176342a0179beb7f2b912365b7867f794b06ede090c62d244a6973da61d1",
+      "currentSkillContentSha256": "dbb519ed6041c311a3862e51f3480f233e3fdf15fb0d7ab9f011588d4dd53e56",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3097,7 +3097,7 @@
         "entrypoint": "plugin/skills/meeting-ingestion/SKILL.md",
         "installSubpath": "plugin/skills/meeting-ingestion"
       },
-      "currentSkillContentSha256": "77a840d820fb9bdea046c9c40b36196e29c76999441212fa4f149e7a743cad16",
+      "currentSkillContentSha256": "306ea040761113a3085489a6c8a7ba837705382bcaed020bd9fea2351a2dfba3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3117,7 +3117,7 @@
         "entrypoint": "plugin/skills/minion-orchestrator/SKILL.md",
         "installSubpath": "plugin/skills/minion-orchestrator"
       },
-      "currentSkillContentSha256": "20f78828309966fe144be23f59a349a4a4d9b209b9b44a3744916e32e4825602",
+      "currentSkillContentSha256": "f95dc666dc6b995411a4235032b50bd25a7844fb9215196c27b8f12703870885",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3197,7 +3197,7 @@
         "entrypoint": "skills/perplexity-research/SKILL.md",
         "installSubpath": "skills/perplexity-research"
       },
-      "currentSkillContentSha256": "fda046e91a624b2bc63e8dc49a5cb4eadb2214d5d7a5a0e2939fc5692991ccef",
+      "currentSkillContentSha256": "ed81f16f274e0890478db250e938bdf92fa8bedf9bcceb0534ce985aa42469da",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3217,7 +3217,7 @@
         "entrypoint": "plan-ceo-review/SKILL.md",
         "installSubpath": "plan-ceo-review"
       },
-      "currentSkillContentSha256": "60ab22d0b5929757d9566669c9af5dacdf6869010ea44a002cc07c7dc038f251",
+      "currentSkillContentSha256": "0ca4c5e5f54545cf3811b04d0c1a3826aa2cf9501e20389de28dd715f56b2734",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3237,7 +3237,7 @@
         "entrypoint": "plan-design-review/SKILL.md",
         "installSubpath": "plan-design-review"
       },
-      "currentSkillContentSha256": "d2bccc782f0cc431c98ec44c01fe253f4fff9f647fda95fc3b9c429f7c1f83e4",
+      "currentSkillContentSha256": "8335f18d050e4f61c603f6f3aeb1d9bff89b9849cc3bac97b484d8b9e2da487a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3257,7 +3257,7 @@
         "entrypoint": "plan-devex-review/SKILL.md",
         "installSubpath": "plan-devex-review"
       },
-      "currentSkillContentSha256": "b3dec64e32f5000c971e7d2075ddb6f7dd41c21e2144da248a3d1282900a30b1",
+      "currentSkillContentSha256": "b549aae5c997f6d88a17b8c11234e23a4f0866a71e36df04acb01353b053467a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3317,7 +3317,7 @@
         "entrypoint": "skills/postgres-adopt/SKILL.md",
         "installSubpath": "skills/postgres-adopt"
       },
-      "currentSkillContentSha256": "6affc06f844e77d0594125b81c9dba35507fe43d56f9b6172d36d67b7af2b0c1",
+      "currentSkillContentSha256": "38d7f3b46c5f29db7450b39455b0f79d3477b365a95b34024e1257ad1ce16444",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3337,7 +3337,7 @@
         "entrypoint": "skills/publish/SKILL.md",
         "installSubpath": "skills/publish"
       },
-      "currentSkillContentSha256": "7e94f4d87f7fd231c40e488931a26dd9292581be071a97d8616192d938fb178d",
+      "currentSkillContentSha256": "d2f90803a42faeddd4e91965ac4eff9dceb010b5759d3990df2c48b28db1fe8e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3357,7 +3357,7 @@
         "entrypoint": "qa/SKILL.md",
         "installSubpath": "qa"
       },
-      "currentSkillContentSha256": "60a7ccca71517eaed202f99478cc99a1a473afe25dea62fe576a93943e45056f",
+      "currentSkillContentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3397,7 +3397,7 @@
         "entrypoint": "skills/query/SKILL.md",
         "installSubpath": "skills/query"
       },
-      "currentSkillContentSha256": "30ae61bc108cc3f7903d59748a1101b7a1ae1e8d7639ec083bd70c8709d31f62",
+      "currentSkillContentSha256": "358995f4d4d6bca00d16c654ec02480e8d0870c805d1e538cf4fbee7a5d28940",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3417,7 +3417,7 @@
         "entrypoint": "plugin/skills/remote-mcp/SKILL.md",
         "installSubpath": "plugin/skills/remote-mcp"
       },
-      "currentSkillContentSha256": "aea89eadebe2ea53d75a6d8d4325102b0ad38b810db942d2415bd0a9535e0738",
+      "currentSkillContentSha256": "a78b42e2e2e5a412514ddebd62540bdbdfa9de1f6714512b5058b026458b94c0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3437,7 +3437,7 @@
         "entrypoint": "skills/repo-architecture/SKILL.md",
         "installSubpath": "skills/repo-architecture"
       },
-      "currentSkillContentSha256": "3a3beed0e38910b4feb98b0bea863c9667d3d6a7a675c5827d0eaf9204329cee",
+      "currentSkillContentSha256": "c7fbe6a734de0961d0413a5066bebbd8621e19baf924ba4fd8d16a0fb87f7a80",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3457,7 +3457,7 @@
         "entrypoint": "skills/reports/SKILL.md",
         "installSubpath": "skills/reports"
       },
-      "currentSkillContentSha256": "2b87b518304b95e9993a9a08acdcb99ab7aa0e373ab29c66fa608a6ea9661c14",
+      "currentSkillContentSha256": "f1d4bdec3baeed94ea4d71f5268fa9c08a50c2b60582ab02bdef336c00c767cb",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3477,7 +3477,7 @@
         "entrypoint": "plugin/skills/research-compendium/SKILL.md",
         "installSubpath": "plugin/skills/research-compendium"
       },
-      "currentSkillContentSha256": "26e657c974406b17896ebe374047c3d35ba33d699e91f7a4ced096383b0a4cfb",
+      "currentSkillContentSha256": "dec42da751f9ad75fdb132065a9674078f4f9323a5b67dbb9b74477206737880",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3497,7 +3497,7 @@
         "entrypoint": "skills/resolve-before-asking/SKILL.md",
         "installSubpath": "skills/resolve-before-asking"
       },
-      "currentSkillContentSha256": "2ed080d2d622bf870e61bc71145bcc8cceff5a0bf89cf4919ba7539207e54dd7",
+      "currentSkillContentSha256": "e6453ba36e455bca303c21d1f83bac7bffccc9df89b186beb79a4e7daff536f3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3537,7 +3537,7 @@
         "entrypoint": "review/SKILL.md",
         "installSubpath": "review"
       },
-      "currentSkillContentSha256": "bf31b6e135a6a783e9addac74d43c682b14fddb86b63242e1cdffae201284159",
+      "currentSkillContentSha256": "3644807d30fecc15dd8faa18320d8bc1b058dba05026a100d6fdc01b8162197e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3557,7 +3557,7 @@
         "entrypoint": "skills/schema-author/SKILL.md",
         "installSubpath": "skills/schema-author"
       },
-      "currentSkillContentSha256": "4c9e35642e1074f1ce4e7863bed57116c02c3f9b905ad51d7ea3c73a5a30e8b7",
+      "currentSkillContentSha256": "fa7ffcbfbb56a0f3c7806ce1fcd209741e120fe2770d2d673b671f36fbc6545a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3577,7 +3577,7 @@
         "entrypoint": "skills/schema-unify/SKILL.md",
         "installSubpath": "skills/schema-unify"
       },
-      "currentSkillContentSha256": "e295e65bfad05644d3755140b7672dbf750a7c3fd28d5e6bd28f653be654e427",
+      "currentSkillContentSha256": "c8c8c546c7d6635af0e73266160b1e4130cce2476955cd020d0121dfdcbbdc47",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3677,7 +3677,7 @@
         "entrypoint": "ship/SKILL.md",
         "installSubpath": "ship"
       },
-      "currentSkillContentSha256": "3c19ebdc7bc3d0eba675d719be008870ec2a80182bf8ebc71ce503264c2ebe50",
+      "currentSkillContentSha256": "834e21ede4a2f45205b23edb7f26080e599587f9710062250f62663d186ad765",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3697,7 +3697,7 @@
         "entrypoint": "plugin/skills/signal-detector/SKILL.md",
         "installSubpath": "plugin/skills/signal-detector"
       },
-      "currentSkillContentSha256": "65fecd16b431cbfcf7d5d35b848cd355f61f1a40ecca586451dd11b8548bc158",
+      "currentSkillContentSha256": "67a320491e7235b5721e19d4f9f42daceaf2a567dacacf7e2db39c2715860c08",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3717,7 +3717,7 @@
         "entrypoint": "skills/skill-autobench/SKILL.md",
         "installSubpath": "skills/skill-autobench"
       },
-      "currentSkillContentSha256": "30a65e707e42e75caec19dccf86191ab5c5dbca68b413acd8b04f714eed1acdd",
+      "currentSkillContentSha256": "9e21211a798adbaa8d2eb361067af63870340586bf49e432b3140fe5fe1465fe",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3737,7 +3737,7 @@
         "entrypoint": "skills/skill-creator/SKILL.md",
         "installSubpath": "skills/skill-creator"
       },
-      "currentSkillContentSha256": "e99a0568f22bbdb344b7d486f93620c7aea7659b1c437e5e82ddf45d033f5ee1",
+      "currentSkillContentSha256": "fdc49537855821479d1762d3403a8ab31f75b4817047a3188482c1dda8b93b85",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3757,7 +3757,7 @@
         "entrypoint": "plugin/skills/skill-optimizer/SKILL.md",
         "installSubpath": "plugin/skills/skill-optimizer"
       },
-      "currentSkillContentSha256": "8b29f7c3ab8a360a1101ae8ff92e2126023ad85f88a3eec3bddea9b2f962de0b",
+      "currentSkillContentSha256": "43599f34dfbc39a12e191227c31ae2579aa6a739177c1a5a4d11359704ac780f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3777,7 +3777,7 @@
         "entrypoint": "skillify/SKILL.md",
         "installSubpath": "skillify"
       },
-      "currentSkillContentSha256": "751f0c8e8b2c178f19f46f27a573c6bfba9d5e1d2fe7ed1a15cd3c3aa0559708",
+      "currentSkillContentSha256": "007796525462c04f97aeb2fdacd73d271acfc30885fd4a7b53ccc11356098aba",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3797,7 +3797,7 @@
         "entrypoint": "skills/skillpack-harvest/SKILL.md",
         "installSubpath": "skills/skillpack-harvest"
       },
-      "currentSkillContentSha256": "4b7bbfabc2dca3ec7022894804550f0dca69972e85d143080544498066cc85fd",
+      "currentSkillContentSha256": "84957cfdc415fa6eb781aaff663b9698ead7751c0f7c24f95e8ea1862f99a605",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3817,7 +3817,7 @@
         "entrypoint": "skills/smoke-test/SKILL.md",
         "installSubpath": "skills/smoke-test"
       },
-      "currentSkillContentSha256": "d69700b676b9b4f7c9f576e9494322f85ff831eac3873d1439d6acf65afe680e",
+      "currentSkillContentSha256": "b4edd5c935f9a449e1aa94690ebf9570fcb3d6776be5468dd55d2aa286886972",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3837,7 +3837,7 @@
         "entrypoint": "skills/soul-audit/SKILL.md",
         "installSubpath": "skills/soul-audit"
       },
-      "currentSkillContentSha256": "9b816e77810a5c90f98636ea3db891f6c1f8242866b9c328fb36aeab9b3de774",
+      "currentSkillContentSha256": "9a4cf9801c213d7c80c83eaf66cdd0a08d9d931d5f8e813b578760fa1cc49649",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3857,7 +3857,7 @@
         "entrypoint": "plugin/skills/strategic-reading/SKILL.md",
         "installSubpath": "plugin/skills/strategic-reading"
       },
-      "currentSkillContentSha256": "8ad246408b6048ce51dc1fd31da0250d296af788c23ef1875dae0b87cb10935f",
+      "currentSkillContentSha256": "c7fdb0606fb0a37f279535702084261a4fdd92e3bb9c4447ee1ada45a176a956",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3897,7 +3897,7 @@
         "entrypoint": "skills/testing/SKILL.md",
         "installSubpath": "skills/testing"
       },
-      "currentSkillContentSha256": "2684cb7112304d5f53b747d5fc825009fabeb0966426cb8b0eb8d0e416714310",
+      "currentSkillContentSha256": "d4247d63947ab970a2fc34dceebd4947c13fa93b279399426ff649dbe79c6214",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3917,7 +3917,7 @@
         "entrypoint": "plugin/skills/two-tier-extraction/SKILL.md",
         "installSubpath": "plugin/skills/two-tier-extraction"
       },
-      "currentSkillContentSha256": "b9cef637b237b51f942e397fd4a56b73bb53f29d02d3c3c4cebc6d6be9c9e03f",
+      "currentSkillContentSha256": "524afa97f6a6a5f4ef1323b7b7a1481ba8433969415713445d43d23ce3f0fdab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3957,7 +3957,7 @@
         "entrypoint": "skills/voice-note-ingest/SKILL.md",
         "installSubpath": "skills/voice-note-ingest"
       },
-      "currentSkillContentSha256": "c8da1681c16a19a054255cd65b5868f39d0d1e3d6a2a6687614543d3e3c59ff2",
+      "currentSkillContentSha256": "ee591511a773de2147f332349b224462809cb9f19c7f2ee481c6bfab800e666c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3977,7 +3977,7 @@
         "entrypoint": "skills/webhook-transforms/SKILL.md",
         "installSubpath": "skills/webhook-transforms"
       },
-      "currentSkillContentSha256": "e5d55d636cead67980b94e05ce31c1277252d657f545b1b5147f233daa5528ab",
+      "currentSkillContentSha256": "557b060d00390e0df435c9c82a23583c8927d7ebdd9f951d5d07022f597418c3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4769,7 +4769,7 @@
         "entrypoint": "skills/gsd-discuss-phase/SKILL.md",
         "installSubpath": "skills/gsd-discuss-phase"
       },
-      "currentSkillContentSha256": "3417deade0395519db640d66261d34d0d8efd5687c401192deddc3276a1dd495",
+      "currentSkillContentSha256": "df5649b60302cd71c596b826304c46a903db7d702099bae52a04cc468a606c21",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4789,7 +4789,7 @@
         "entrypoint": "skills/gsd-execute-phase/SKILL.md",
         "installSubpath": "skills/gsd-execute-phase"
       },
-      "currentSkillContentSha256": "dd7a170f95ba4fead031ce4c98229d676df1fa433efe2227ead6c58911036a1a",
+      "currentSkillContentSha256": "c096c891ecc9081fe6fe16d71cd33d368cc7764b9c820ce316824fc2fd051055",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4809,7 +4809,7 @@
         "entrypoint": "skills/gsd-plan-phase/SKILL.md",
         "installSubpath": "skills/gsd-plan-phase"
       },
-      "currentSkillContentSha256": "5348c3821fba5d6736c6cccc2a77702a0f6d90988fe7fb12438a27b1b53ad3a7",
+      "currentSkillContentSha256": "3c0834ed09229ad1f2d950344c8c1528a2bcc742f8fe10b8007021e271855180",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4829,7 +4829,7 @@
         "entrypoint": "skills/gsd-ship/SKILL.md",
         "installSubpath": "skills/gsd-ship"
       },
-      "currentSkillContentSha256": "dc744afdba1686cfcce13b771a9862ad3f2471f1ae31e5dadfb6484f112c44db",
+      "currentSkillContentSha256": "29c94c10d8bee5c32d9637fad9bb50b0a1ee874ce3d7a213b13990e6c7bf6be8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4849,7 +4849,7 @@
         "entrypoint": "skills/gsd-verify-work/SKILL.md",
         "installSubpath": "skills/gsd-verify-work"
       },
-      "currentSkillContentSha256": "f82cfeeaecf0f71dc0fe1d64893bd39c70e965462a8ecb2db956f0f0e7b614d9",
+      "currentSkillContentSha256": "7766dfabc5bde8d1c27e7b6dc23e712c6c071c28b51b0fd38f97464d9e9fbb77",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4909,7 +4909,7 @@
         "entrypoint": "skills/figma/SKILL.md",
         "installSubpath": "skills/figma"
       },
-      "currentSkillContentSha256": "ca16b1960f48e3b7f1a92e6c5df9c85c21fff58f94453d2af50025629728539c",
+      "currentSkillContentSha256": "11dc4b380b698e1e3a2567abf7c183f02a1c098cf0c75d17e5039b8e59ad4020",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5009,7 +5009,7 @@
         "entrypoint": "skills/hyperframes-cli/SKILL.md",
         "installSubpath": "skills/hyperframes-cli"
       },
-      "currentSkillContentSha256": "d64656d6c452ac11ca10e25f0d82500aac6c4e96e479c70846d6d35ad00c0520",
+      "currentSkillContentSha256": "ace9912fd076e7ac8cf70c2364a9d8b51141fb21c67fcc83645790ed30f702c7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5089,7 +5089,7 @@
         "entrypoint": "skills/hyperframes-registry/SKILL.md",
         "installSubpath": "skills/hyperframes-registry"
       },
-      "currentSkillContentSha256": "1fae6d1e490b14ce4dadf436eedaffabb80d7701fe9df5bf0e51e9708db1fb2a",
+      "currentSkillContentSha256": "c2a233fc6a7b27bd135a50e09e652bb2d662ea39befae11e4abfe7e51f2550ed",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5109,7 +5109,7 @@
         "entrypoint": "skills/media-use/SKILL.md",
         "installSubpath": "skills/media-use"
       },
-      "currentSkillContentSha256": "c3f724534ad75aa38e821400f0bbef0144aa1621d373bb309f2099f6238c5dd3",
+      "currentSkillContentSha256": "490c5f40416cc5473165eb513d9fd4a8af4f3db68e9c5d2c8244705102f4e52e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5209,7 +5209,7 @@
         "entrypoint": "skills/remotion-to-hyperframes/SKILL.md",
         "installSubpath": "skills/remotion-to-hyperframes"
       },
-      "currentSkillContentSha256": "0915bbe10b4e0c230c2a5389533a9111906c266079acc326b00944d360a8578e",
+      "currentSkillContentSha256": "c02c6342dd3b8dd7bad8eb8ac7576c10b1c530e5c1ee13148cf580e5fcb52db5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5229,7 +5229,7 @@
         "entrypoint": "skills/slideshow/SKILL.md",
         "installSubpath": "skills/slideshow"
       },
-      "currentSkillContentSha256": "d0d82fddc5d9c1845d29a1c15adb16ea04fa29f63d54f2157400cd5e8d87a8c8",
+      "currentSkillContentSha256": "d30c06a9e561d55b47cde8523b555ca55d55da73ef0ed2beda399c6a5f033dfb",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5981,7 +5981,7 @@
         "entrypoint": "skills/brandkit/SKILL.md",
         "installSubpath": "skills/brandkit"
       },
-      "currentSkillContentSha256": "4778ab333635263bce2d6c46f8ffb9d5012594174ace680a791b948df5623214",
+      "currentSkillContentSha256": "c44f9182b30f576e55d11c24f5751b61f7ef5f5535e9c46675a5496185f368f0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6001,7 +6001,7 @@
         "entrypoint": "skills/brutalist-skill/SKILL.md",
         "installSubpath": "skills/brutalist-skill"
       },
-      "currentSkillContentSha256": "8be61641a191aa7183582d5dd991decb44c181ca254730cc37dc0d3ace70d090",
+      "currentSkillContentSha256": "fec0f568d6cd16c0b1e66fbd49caf7037aa9e04141d375118521ffb4c0f62968",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6021,7 +6021,7 @@
         "entrypoint": "skills/gpt-tasteskill/SKILL.md",
         "installSubpath": "skills/gpt-tasteskill"
       },
-      "currentSkillContentSha256": "ade04d7601538b872cbb55dde6c3e788400b478e91980e58ea135475809ec37e",
+      "currentSkillContentSha256": "f8220e93e6e2574445f1252c900156e1b43efa7b86b11b1f31271b39544f7080",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6041,7 +6041,7 @@
         "entrypoint": "skills/image-to-code/SKILL.md",
         "installSubpath": "skills/image-to-code"
       },
-      "currentSkillContentSha256": "0624b08514b15f9116620f91272a9f731cb8351106cfa1eb8056b38125fda7a1",
+      "currentSkillContentSha256": "946a0a6713d5cb96ae2e6afaf67f0317fac4c798121f2f2dcd2c1af189cef609",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6061,7 +6061,7 @@
         "entrypoint": "skills/imagegen-frontend-mobile/SKILL.md",
         "installSubpath": "skills/imagegen-frontend-mobile"
       },
-      "currentSkillContentSha256": "4f9886a712668a0c506fd81566f33176c7a9d71f17e28515e770a4fdeab7f46d",
+      "currentSkillContentSha256": "81958a82544e0efe47eba4a3af93befe6050831e4bf461b31be560488cc3e28b",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6081,7 +6081,7 @@
         "entrypoint": "skills/imagegen-frontend-web/SKILL.md",
         "installSubpath": "skills/imagegen-frontend-web"
       },
-      "currentSkillContentSha256": "6ccc1eb55333b80c9de65f99cc826d302d9389333d07990e60fd5d37c5702f5a",
+      "currentSkillContentSha256": "6a9b2407af53441d52d46c5fa0d4979713f3e6bacb23ddbe12d44909ddea04ef",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6101,7 +6101,7 @@
         "entrypoint": "skills/minimalist-skill/SKILL.md",
         "installSubpath": "skills/minimalist-skill"
       },
-      "currentSkillContentSha256": "7eb833b4a21146e972c8aeeb5c970713b01ebee4bae9656f69ce0c1fefa5bffe",
+      "currentSkillContentSha256": "8202de7939924a9763d7cc3d506f6f09680cde424747dd66c2330d261bf42ff4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6141,7 +6141,7 @@
         "entrypoint": "skills/taste-skill/SKILL.md",
         "installSubpath": "skills/taste-skill"
       },
-      "currentSkillContentSha256": "56860cdbe478aed4ad9349fea2aed7c8091c98c7fadcb97a1a459befbb11f3c4",
+      "currentSkillContentSha256": "17156829a700a2e9c20941e5e92d6dac2dfad9cf095b2357f65b1b06221f3ad0",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6161,7 +6161,7 @@
         "entrypoint": "skills/soft-skill/SKILL.md",
         "installSubpath": "skills/soft-skill"
       },
-      "currentSkillContentSha256": "1df9b2e5123ce92a55e63ff7684fefa14d9fdec8a415567bc63be804faf432c8",
+      "currentSkillContentSha256": "61df7356213054259ebbb055475e5a69d7c41e04e0ccc14823bf9159992886f3",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6181,7 +6181,7 @@
         "entrypoint": "skills/stitch-skill/SKILL.md",
         "installSubpath": "skills/stitch-skill"
       },
-      "currentSkillContentSha256": "47e4a7ee03ccc7826d9e1dd88ba55a2d3d3beccd73f34220eb3bc88be3a973a1",
+      "currentSkillContentSha256": "73dbdda48a6c562f7de93914ad67d78a38349b116491b6504d4112e2090db9dc",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6413,7 +6413,7 @@
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": null,
-      "currentSkillContentSha256": "3c85984d191fa990bf5b1aae056595c6d5b172b93bfc01540ecd0d98502b556c",
+      "currentSkillContentSha256": "8ed755eb133d35feba2645254e3de3f6a2727207d8c669bd4b3ec93d6489d774",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6629,7 +6629,7 @@
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": null,
-      "currentSkillContentSha256": "ec05f42023ee9ead73fdee296737f8a8c2fd45c75426ec818e91cbfee8d0a3fc",
+      "currentSkillContentSha256": "efc1ce723ffc5b62eb0fccd36735506ddb4d4de14af62e0737696b5d08ab3369",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6869,7 +6869,7 @@
         "entrypoint": "skills/engineering/to-tickets/SKILL.md",
         "installSubpath": "skills/engineering/to-tickets"
       },
-      "currentSkillContentSha256": "ae75fae104079b7e1f11bd06ad343995ef85f997d35fe090c6f9e56b88e7ea68",
+      "currentSkillContentSha256": "0afa793964e7e70e8bd6f509e01e8112dc23ff35c3e291cb302c241fa0034c13",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7441,7 +7441,7 @@
         "entrypoint": "skills/dispatching-parallel-agents/SKILL.md",
         "installSubpath": "skills/dispatching-parallel-agents"
       },
-      "currentSkillContentSha256": "6aa2fa51c8621cfba6ae31e288678a6af3d07f1f8ffab6c93a384c8ea346f46e",
+      "currentSkillContentSha256": "c93113fb981c5fa968a950394370945e250c121cb8c8e0df5b8c6154f988331d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7601,7 +7601,7 @@
         "entrypoint": "skills/test-driven-development/SKILL.md",
         "installSubpath": "skills/test-driven-development"
       },
-      "currentSkillContentSha256": "fa2f66c20777318ea8cd6e54b31e20e178a769fa973b747139da43cda57c7a1b",
+      "currentSkillContentSha256": "11387aa5ebc27abceeb52895a705142f55f754ccf45b2af1eb0fdd8d002ba3d9",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7681,7 +7681,7 @@
         "entrypoint": "skills/writing-skills/SKILL.md",
         "installSubpath": "skills/writing-skills"
       },
-      "currentSkillContentSha256": "46ff052da960e5affb82ba73fa9fe1f6337e89eeb76e5c3c925ade6015ff2671",
+      "currentSkillContentSha256": "fa0d589e4d35f91a9379f909a575798de45f3e861d0281c814bf9016af690e0b",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -8389,7 +8389,7 @@
         "entrypoint": ".agents/skills/hive-mind/SKILL.md",
         "installSubpath": ".agents/skills/hive-mind"
       },
-      "currentSkillContentSha256": "1a47b21a77ba89975f7bf11f7b8cc3727e0ad348bdefb1efb8c7e440c110be3c",
+      "currentSkillContentSha256": "9ba1c4a102d48b5a30cb365208645afeadb5a6f856f3fea120b11d924ab3d416",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

@@ -12,7 +12,7 @@ description: 'Pre-write quality gate for content entering the brain. No raw copi
   things), then run the read-the-top-hit dedup decision tree (clear-dup / plausible-dup
   / clear). Owns dedup; delegates enrichment to the shipped ingestion skills.'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Brain Ingest Gate
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:57:01Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 66867d326626c54064b93a20dc50668af1d579a8bd4fc373707d6df2cb159697
 ---
 

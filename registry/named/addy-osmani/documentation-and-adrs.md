@@ -11,7 +11,7 @@ description: Records decisions and documentation. Use when you need to document 
   public APIs, shipping features, or when you need to record context that future engineers
   and agents will need to understand the codebase.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: documentation-and-adrs
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/documentation-and-adrs/SKILL.md
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:14Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/documentation-and-adrs/SKILL.md
   evaluator: mbtiongson1
@@ -81,8 +86,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:54:59Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 911e5372736aaef27345be0495f276c0ff185851bcec5d91392effe3a31e2b35
 suiteRef: addy-osmani/agent-skills
 ---

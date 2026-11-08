@@ -89,7 +89,11 @@ INDEPENDENT_S_WITNESS_TYPES = frozenset({
 
 # A suite component may inherit repository evidence from its suite root, but
 # that shared repository baseline cannot by itself promote every component.
-SUITE_COMPONENT_REPOSITORY_CAP = 50.0
+# Founder ruling 2026-11-08 (RFC #2148, #2283 F2): the cap sits just below the
+# inclusive Grade B floor (50.0), so the inherited baseline alone grades C (2★
+# ceiling). A component needs at least one more scoring row of its own to reach
+# Grade B and become eligible for 3★.
+SUITE_COMPONENT_REPOSITORY_CAP = 49.9
 
 # Apex predicate thresholds (delta §B)
 APEX_AGRADED_ORIGINS_MIN = 5
@@ -306,7 +310,7 @@ CANONICAL_ROOT_SUITES: dict[str, str] = {
 def _isSuiteRootRepositoryEvidence(row: dict, skill: dict) -> bool:
     """Whether a component row is shared own-repository evidence from suiteRef.
 
-    Sub-suites and intermediate categories cannot evade the 50.0 TM component
+    Sub-suites and intermediate categories cannot evade the 49.9 TM component
     cap: if a row is from the suite repository or if the repository owner
     matches the suiteRef owner (or canonical root suite), it is properly capped.
     A component's own specific repository evidence (matching skill.id) remains
@@ -1229,17 +1233,21 @@ def computeOverallTrustGradeFromSkill(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> str:
     """Convenience: compute TM and grade together from a skill dict."""
-    tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
-    distinctTypes = _countDistinctEvidenceTypes(skill, genericSkillMap)
-    hasIndependentWitness = _hasEligibleIndependentWitness(skill, genericSkillMap)
+    tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap, benchmarkCatalog=benchmarkCatalog)
+    distinctTypes = _countDistinctEvidenceTypes(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
+    hasIndependentWitness = _hasEligibleIndependentWitness(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
     return computeOverallTrustGrade(tm, distinctTypes, hasIndependentWitness)
 
 
 def computeRowArtifactScores(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> list:
     """Return [(row_dict, artifact_score), ...] for every on-disk evidence row.
 
@@ -1248,16 +1256,18 @@ def computeRowArtifactScores(
     Auto-derived rows (_autoDerived: True) are flagged so callers can skip them
     during write-back. Null-on-derank verifier rows are included with score=0.0.
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
     return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
 
 
 def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None, *,
-                                evaluationAtUTC: Optional[datetime.datetime] = None) -> int:
+                                evaluationAtUTC: Optional[datetime.datetime] = None,
+                                benchmarkCatalog: Optional[dict] = None) -> int:
     """Count positive scoring evidence types; fusion remains structural only."""
     return len({
         rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                                              benchmarkCatalog=benchmarkCatalog)
         if (rowType := _typeOf(row))
         and rowType != "fusion-recipe"
         and score is not None
@@ -1293,11 +1303,13 @@ def _hasEligibleIndependentWitness(
     genericSkillMap: Optional[dict] = None,
     *,
     evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
         _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                                              benchmarkCatalog=benchmarkCatalog)
     )
 
 

@@ -10,7 +10,7 @@ description: Transform raw article text dumps in the brain into structured pages
   executive summary, verbatim quotes, key insights, why-it-matters, and cross-references.
   Replaces walls-of-text with quotable, actionable brain pages.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Article Enrichment
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md
@@ -33,6 +33,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:40Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md
@@ -45,8 +50,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:56:46Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 5622ebe2b6e17fc4f309c31497e1760f83a0bed05a381f8b2076c0c00e71b755
 ---
 

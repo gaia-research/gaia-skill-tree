@@ -22,6 +22,7 @@ from gaia_cli.origin import (  # noqa: E402
     bucketHolders,
     contributorHoldsOriginIn,
     deriveBucketOrigins,
+    STAMP_TM_DECIMALS,
     meritKey,
     publishedLevelNumber,
 )
@@ -38,8 +39,53 @@ def test_merit_is_level_then_tm():
     assert deriveBucketOrigins([c("a", 3, 60.0), c("b", 3, 95.0), c("z", 2, 400.0)]) == {"b"}
 
 
-def test_tm_compares_at_canonical_precision_not_display_rounding():
-    assert deriveBucketOrigins([c("a", 3, 50.001), c("b", 3, 50.004)]) == {"b"}
+def test_tm_compares_at_the_published_stamp_precision():
+    # Origin merit uses the two-decimal precision the stamps and the public index carry.
+    assert deriveBucketOrigins([c("a", 3, 50.001), c("b", 3, 50.002)]) == {"a", "b"}
+    assert deriveBucketOrigins([c("a", 3, 50.00), c("b", 3, 50.01)]) == {"b"}
+    assert STAMP_TM_DECIMALS == 2
+
+
+def test_suite_cap_float_noise_is_a_tie():
+    # The 49.9 suite cap can sum to one ulp below 49.9 for one contender and exactly
+    # 49.9 for another with identical capped evidence: the same real number.
+    noisy = 49.89999999999999
+    assert noisy != 49.9
+    assert deriveBucketOrigins([c("a", 2, noisy), c("b", 2, 49.9)]) == {"a", "b"}
+    assert meritKey(2, noisy) == meritKey(2, 49.9)
+
+
+@pytest.mark.parametrize(
+    "low, high, holders",
+    [(50.001, 50.002, {"a", "b"}), (50.00, 50.01, {"b"}), (49.89999999999999, 49.9, {"a", "b"})],
+)
+def test_every_origin_consumer_agrees_on_the_same_inputs(monkeypatch, low, high, holders):
+    """Live derivation, the index generator and the shared rule give one answer.
+
+    Live recomputation yields the raw TM; the generator publishes it rounded to the
+    stamp precision first. Both must resolve the same holders.
+    """
+    from gaia_cli import trustMagnitude
+    from gaia_cli.origin import registryOrigins
+    from scripts.generateNamedIndex import apply_derived_origins
+
+    raw = {"a/s": low, "b/s": high}
+    monkeypatch.setattr(trustMagnitude, "computeTrustMagnitude", lambda entry, mergedMap=None, *a, **k: raw[entry["id"]])
+    monkeypatch.setattr(trustMagnitude, "computeOverallTrustGradeFromSkill", lambda entry, mergedMap=None, *a, **k: "B")
+    pool = {
+        "a/s": _named("a/s", "bucket", "2★", 0.0, "B"),
+        "b/s": _named("b/s", "bucket", "2★", 0.0, "B"),
+    }
+    live = {sid.replace("a/s", "a").replace("b/s", "b") for sid in registryOrigins(pool)["bucket"]}
+
+    buckets = {"bucket": [
+        {"id": sid, "level": "2★", "overallTrustGrade": "B", "trustMagnitude": round(tm, STAMP_TM_DECIMALS)}
+        for sid, tm in raw.items()
+    ]}
+    apply_derived_origins(buckets, [])
+    generated = {e["id"].split("/")[0] for e in buckets["bucket"] if e["origin"]}
+
+    assert live == generated == holders
 
 
 def test_ties_all_hold_origin_and_there_is_no_vacancy():
@@ -149,6 +195,18 @@ def test_frozen_definition_self_and_through_suite():
 def test_frozen_lock_reads_cached_values():
     assert frozenLock({"trustMagnitude": 94.92, "overallTrustGrade": "B"}) == (94.92, "B")
     assert frozenLock({"trustMagnitude": 1.0}) is None
+
+
+@pytest.mark.parametrize(
+    "tm",
+    [True, False, "94.92", "NaN", float("nan"), float("inf"), float("-inf"), None, [94.92]],
+)
+def test_frozen_lock_rejects_malformed_tm_types(tm):
+    assert frozenLock({"trustMagnitude": tm, "overallTrustGrade": "B"}) is None
+
+
+def test_frozen_lock_accepts_int_and_float_tm():
+    assert frozenLock({"trustMagnitude": 50, "overallTrustGrade": "B"}) == (50.0, "B")
 
 
 # ------------------------------------------------------------- named index (build)

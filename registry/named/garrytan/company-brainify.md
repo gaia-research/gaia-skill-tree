@@ -12,7 +12,7 @@ description: Extract a sanitized shared team/company brain from a personal brain
   meetings, dailies, cross-references — not just people/), verifies with grep + retrieval
   passes, and purges sensitive git history behind the data-loss-gate con
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Company Brainify
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:08Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:58:02Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 9dc3c320e3d475d2a32c147f87b3a09ddcfe0d04ae0539f3571f8b8e2e7ebd20
 ---
 

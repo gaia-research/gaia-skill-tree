@@ -12,7 +12,7 @@ description: Refines raw ideas into sharp, actionable concepts through structure
   options before converging on one. Triggers on "ideate", "refine this idea", or "stress-test
   my plan".
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Idea Refine
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:16:21Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: addy-osmani/agent-skills
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:55:46Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: d6d33a3e458a29c1288f922c1f14922bcd2bae693a2cd01f158036ccc44a99c1
 ---
 
