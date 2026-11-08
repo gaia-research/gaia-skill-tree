@@ -2730,13 +2730,13 @@
     ]
   },
   "version": "9.3.0",
-  "generatedAt": "2026-11-08T12:44:48Z",
+  "generatedAt": "2026-11-08T14:19:13Z",
   "summary": {
     "total": 342,
     "S": 3,
     "A": 45,
-    "B": 51,
-    "C": 236,
+    "B": 52,
+    "C": 235,
     "ungraded": 7,
     "floor": 0,
     "up": 7
@@ -4204,7 +4204,7 @@
       "tm": 59.65,
       "grade": "B",
       "currentStars": "3★",
-      "storedStars": "4★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -4216,7 +4216,7 @@
         "peer-review": 30.0
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "obra/test-driven-development",
@@ -4324,6 +4324,24 @@
         "github-stars-own": 39.29,
         "repo-own": 10.61,
         "arxiv": 2.66
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/investigate",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 9.95,
+        "github-stars-own": 39.95
       },
       "origin": false,
       "branch": "standard"
@@ -5790,24 +5808,6 @@
         "github-stars-own": 49.9
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/investigate",
-      "tm": 49.9,
-      "grade": "C",
-      "currentStars": "2★",
-      "storedStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 9.95,
-        "github-stars-own": 39.95
-      },
-      "origin": false,
       "branch": "standard"
     },
     {

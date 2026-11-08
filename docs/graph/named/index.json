@@ -8827,6 +8827,7 @@
         "description": "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes.",
         "title": "Gstack Investigate",
         "catalogRef": "garrytan-investigate",
+        "installable": false,
         "tags": [
           "debugging",
           "root-cause",
@@ -8950,6 +8951,14 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-07T17:17:10Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream: garrytan/gstack retired /investigate in ef99eb5a55 (GST-1717, PR #4110, 2026-11-07); no successor path. Founder ruling 2026-11-08: deleted upstream => freeze."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -36771,7 +36780,7 @@
           }
         ],
         "createdAt": "2026-05-23",
-        "updatedAt": "2026-10-30",
+        "updatedAt": "2026-11-07",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:40Z",
@@ -36925,6 +36934,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 100.82 -> 59.65, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-06T22:41:33Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "trustMagnitude": 59.65,
@@ -56598,107 +56613,6 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "gaiabot/repo-docs-before-pr",
-      "name": "Repo Docs Before PR",
-      "contributor": "gaiabot",
-      "origin": false,
-      "genericSkillRef": "write-report",
-      "status": "awakened",
-      "level": "1★",
-      "description": "Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.",
-      "installable": false,
-      "tags": [
-        "documentation",
-        "ci",
-        "pre-pr",
-        "quality-gate",
-        "repo-maintenance"
-      ],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-research/gaia-skill-tree",
-          "evaluator": "mbtiongson1",
-          "date": "2026-06-10",
-          "notes": "Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-          "type": "repo",
-          "commits": 90,
-          "contributors": 10,
-          "trustNumber": 70.0,
-          "grade": "B"
-        }
-      ],
-      "createdAt": "2026-05-01",
-      "updatedAt": "2026-08-06",
-      "timeline": [
-        {
-          "timestamp": "2026-06-10T05:38:16Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree"
-        },
-        {
-          "timestamp": "2026-06-14T12:32:18Z",
-          "action": "evidence_graded",
-          "contributor": "unknown",
-          "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree as B (trustNumber: 70.0)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-18T11:27:14Z",
-          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T10:36:26Z",
-          "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:19:37Z",
-          "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:26:36Z",
-          "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-        },
-        {
-          "timestamp": "2026-08-06T04:54:21Z",
-          "action": "note",
-          "contributor": "unknown",
-          "details": "Set installable to false"
-        },
-        {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "2★",
-          "newValue": "1★"
-        }
-      ],
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trustMagnitudeInputHash": "73a9df9acba590a4a8bb7d99df1e6f4827ffc7ed045571ac6d7c39f3ed1797ef",
-      "apexGateStatus": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": false,
-        "depth2OnlyReachableGte1": false,
-        "overallGradeS": false,
-        "apexPromotionPrSigned": false,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "type": "basic",
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "contractVersion": "gaia-public-v1"
-    },
-    {
       "id": "google-deepmind/alphafold-database-fetch-and-analyze",
       "name": "Alphafold-Database-Fetch-And-Analyze",
       "contributor": "google-deepmind",
@@ -62335,8 +62249,7 @@
       "gaia-research/fuse"
     ],
     "gaiabot": [
-      "gaiabot/gaia-triage",
-      "gaiabot/repo-docs-before-pr"
+      "gaiabot/gaia-triage"
     ],
     "garrytan": [
       "garrytan/academic-verify",
