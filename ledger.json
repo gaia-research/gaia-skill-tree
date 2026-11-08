@@ -1,5 +1,5 @@
 {
- "generation": 1925,
+ "generation": 1926,
  "lane": {
   "entries": [
    {
@@ -6810,7 +6810,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T12:48:50.843365Z",
-   "expiresAt": "2026-11-08T13:18:58.019734Z",
+   "expiresAt": "2026-11-08T13:19:07.809355Z",
    "holder": "run-20261108T124850Z-16c12217"
   }
  },
@@ -151168,6 +151168,11 @@
    "costUsd": 0.0,
    "decisions": [],
    "finishedAt": null,
+   "floor": {
+    "branch": "dev/steward-campaign-2026-11-05",
+    "ok": true,
+    "reason": null
+   },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": null,
    "leases": [
@@ -151218,7 +151223,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T12:48:58.019864Z",
+ "updatedAt": "2026-11-08T12:49:07.809495Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
