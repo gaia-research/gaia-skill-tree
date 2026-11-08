@@ -48,7 +48,7 @@ class Registry:
         self.named = named
 
     def clone(self):
-        return Registry(copy.deepcopy(self.generic), copy.deepcopy(self.named))
+        return Registry(copy.deepcopy(self.generic), copy.deepcopy(self.named))  # locks recompute per registry
 
 
 def loadRegistry(root: Path) -> Registry:
@@ -57,8 +57,30 @@ def loadRegistry(root: Path) -> Registry:
     return Registry(gm, nm)
 
 
+def frozenLocks(reg: Registry) -> dict:
+    """Locked ``(TM, grade)`` of every frozen named skill (``gaia_cli.frozen``), once per registry.
+
+    A frozen skill keeps the TM and grade it was frozen at; a later formula change (the
+    49.9 suite cap, #2378) moves a recomputation but never the lock. Computed lazily from
+    the registry as loaded: ``refreshCaches`` stamps ``derive`` output back, which is the
+    lock for a frozen skill, so the lock never changes under it.
+    """
+    locks = getattr(reg, "_frozenLocks", None)
+    if locks is None:
+        from gaia_cli.frozen import frozenIds, frozenLock
+        frozen = frozenIds(list(reg.named.values()))
+        locks = {sid: frozenLock(reg.named[sid]) for sid in frozen if sid in reg.named}
+        reg._frozenLocks = locks
+    return locks
+
+
 def derive(sk, reg: Registry):
-    """TM / grade for one skill dict, exactly as scripts/trust_appraise.appraise_skill."""
+    """TM / grade for one skill dict, exactly as scripts/trust_appraise.appraise_skill.
+
+    A frozen skill reports its locked TM and grade (as the index generator, Origin and
+    ``trust_appraise`` do), never a recomputation; its evidence-type facts are still read
+    from the evidence.
+    """
     from gaia_cli.trustMagnitude import (
         computeTrustMagnitude, computeOverallTrustGrade,
         _countDistinctEvidenceTypes, _hasEligibleIndependentWitness,
@@ -68,6 +90,9 @@ def derive(sk, reg: Registry):
     types = _countDistinctEvidenceTypes(sk, mm)
     wit = _hasEligibleIndependentWitness(sk, mm)
     grade = computeOverallTrustGrade(tm, types, wit)
+    lock = frozenLocks(reg).get(sk.get("id"))
+    if lock is not None:
+        return round(lock[0], 2), lock[1], types, bool(wit)
     return round(tm, 2), grade, types, bool(wit)
 
 

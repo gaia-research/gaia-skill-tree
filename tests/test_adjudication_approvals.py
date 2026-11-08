@@ -357,3 +357,40 @@ class TestTempdirBuildAndCheck:
         )
         assert res_check.returncode == 0, f"Check failed: {res_check.stderr}"
         assert "byte-identical rebuild" in res_check.stdout
+
+
+class TestFrozenLocksInAdjudication:
+    """A frozen skill's standing is its locked TM/grade, never a recomputation.
+
+    The 49.9 suite cap (#2378) moved the recomputed grade of 12 frozen heygen-com skills
+    (locked B -> recomputed C), which put them in the D6 ceiling-clamp set and added 12
+    candidates for records nobody may touch. The adjudication tools must derive state the
+    way the index generator and Origin do.
+    """
+
+    @staticmethod
+    def registry(**extra):
+        frozen = {"id": "x/frozen", "level": "3★", "status": "named", "frozen": True,
+                  "trustMagnitude": 50.0, "overallTrustGrade": "B", "evidence": [], **extra}
+        live = {"id": "x/live", "level": "3★", "status": "named", "evidence": [],
+                "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+        return ac.Registry({}, {"x/frozen": frozen, "x/live": live})
+
+    def test_a_frozen_skill_derives_its_lock_and_a_live_one_recomputes(self):
+        reg = self.registry()
+        assert ac.derive(reg.named["x/frozen"], reg)[:2] == (50.0, "B")
+        # Same stamp, no evidence: the live skill is recomputed (0 TM, ungraded), not trusted.
+        assert ac.derive(reg.named["x/live"], reg)[:2] == (0.0, "ungraded")
+
+    def test_a_frozen_skill_is_not_in_the_ceiling_clamp_set_after_a_refresh(self):
+        reg = self.registry()
+        state = ac.snapshot(reg)["named"]
+        assert state["x/frozen"]["grade"] == "B" and state["x/frozen"]["ceilingN"] == 3
+        assert state["x/frozen"]["storedN"] <= state["x/frozen"]["ceilingN"]
+        assert state["x/live"]["ceilingN"] == 1 and state["x/live"]["storedN"] > state["x/live"]["ceilingN"]
+
+    def test_a_skill_in_a_frozen_suite_derives_its_lock(self):
+        reg = self.registry(suiteComponents=["x/member"])
+        reg.named["x/member"] = {"id": "x/member", "level": "3★", "status": "named", "suiteRef": "x/frozen",
+                                 "evidence": [], "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+        assert ac.derive(reg.named["x/member"], reg)[:2] == (50.0, "B")

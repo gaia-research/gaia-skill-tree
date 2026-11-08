@@ -214,7 +214,7 @@ def test_main_exits_nonzero_when_a_named_file_is_malformed(tmp_path, monkeypatch
     (named / "f.md").write_text("corrupt content without frontmatter", encoding="utf-8")
     monkeypatch.setattr(gate, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
-    assert gate.main() == 1
+    assert gate.main([]) == 1
     assert "cannot be established" in capsys.readouterr().out
 
 

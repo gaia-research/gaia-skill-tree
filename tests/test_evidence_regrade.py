@@ -14,6 +14,7 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev import meta_evidence_command
+from tests.authindex import writeBootstrapIndex
 
 
 def _build_registry(tmp_path, evidence):
@@ -41,12 +42,7 @@ def _build_registry(tmp_path, evidence):
         "timeline": [],
     }
     (nodes / "demo-skill.json").write_text(json.dumps(node, indent=2))
-    # Authorization fails closed on a missing index (founder ruling 2026-11-08,
-    # steward-authz-fail-closed-2283); a readable index with zero Verifiers is the
-    # genuine empty-registry bootstrap state these tests exercise.
-    (tmp_path / "registry" / "named-skills.json").write_text(
-        json.dumps({"buckets": {}, "byContributor": {}, "awaitingClassification": []})
-    )
+    writeBootstrapIndex(tmp_path)  # fail-closed authorization needs a readable empty index
     return str(tmp_path)
 
 
