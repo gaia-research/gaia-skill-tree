@@ -25,7 +25,9 @@ from gaia_cli.trustRestamp import (
     restampAfterEvidenceChange,
     verifyRestamp,
 )
-from tests.test_trust_restamp import _evidence, _named, _read, _set, _stale, _stamp, registry  # noqa: F401 (fixture)
+from tests.test_trust_restamp import _evidence, _named, _read, _set, _stale, _stamp, registry as _registry_fixture
+
+registry = _registry_fixture  # pytest fixture alias
 
 pytestmark = [pytest.mark.integration]
 

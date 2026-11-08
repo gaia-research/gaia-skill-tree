@@ -1,0 +1,2888 @@
+{
+  "counts_by_code": {
+    "E722": 1,
+    "F401": 255,
+    "S110": 71,
+    "S112": 14
+  },
+  "file_counts": {
+    ".agents/skills/pi-cost/scripts/pi_cost.py": {
+      "S110": 1
+    },
+    ".claude/skills/pi-cost/scripts/pi_cost.py": {
+      "S110": 1
+    },
+    "evidence/frontier-challenges/c1-graphify-vs-graft/runner/run-c1.py": {
+      "F401": 2
+    },
+    "evidence/scripts/generate_source_dump.py": {
+      "S110": 1
+    },
+    "founder/reports/2026-10-15-issue-resolver-evidence/review2089_adversarial.py": {
+      "F401": 1
+    },
+    "founder/reports/yggdrasil-iv-evidence/publication-93/verify-publication-93.py": {
+      "F401": 1
+    },
+    "founder/reports/yggdrasil-iv-evidence/publication-b81/verify-publication-b81.py": {
+      "F401": 1
+    },
+    "founder/reports/yggdrasil-iv-october-2026/adjudication/tools/adjcore.py": {
+      "F401": 2
+    },
+    "founder/reports/yggdrasil-iv-october-2026/adjudication/tools/build_adjudication.py": {
+      "F401": 1
+    },
+    "founder/reports/yggdrasil-iv-october-2026/sweep/tools/prepass.py": {
+      "F401": 1
+    },
+    "founder/reports/yggdrasil-iv-october-2026/sweep/tools/rebuild_from_journal.py": {
+      "F401": 1
+    },
+    "founder/scanner.py": {
+      "S110": 1
+    },
+    "scripts/add_post.py": {
+      "S110": 1
+    },
+    "scripts/archive/add_hermes_batch.py": {
+      "F401": 2
+    },
+    "scripts/archive/migrateTrustMagnitude.py": {
+      "S112": 2
+    },
+    "scripts/auditApexAtG7.py": {
+      "S110": 1,
+      "S112": 1
+    },
+    "scripts/backfill_timeline.py": {
+      "S110": 1
+    },
+    "scripts/build_docs.py": {
+      "S110": 4
+    },
+    "scripts/check_rank_vocabulary.py": {
+      "F401": 2
+    },
+    "scripts/check_verifier_signoffs.py": {
+      "S110": 1
+    },
+    "scripts/collectStampReportData.py": {
+      "F401": 4
+    },
+    "scripts/contentEngine/synthesizer.py": {
+      "S110": 2
+    },
+    "scripts/crawlers/npm/crawler.py": {
+      "S110": 1
+    },
+    "scripts/environment/doctor.py": {
+      "S110": 5,
+      "S112": 1
+    },
+    "scripts/environment/smoke.py": {
+      "S110": 1
+    },
+    "scripts/generateLeaderboardData.py": {
+      "S112": 1
+    },
+    "scripts/generateNamedIndex.py": {
+      "F401": 1
+    },
+    "scripts/jev_advisory.py": {
+      "F401": 1
+    },
+    "scripts/lib/tests/test_heartbeat_regression.py": {
+      "F401": 1
+    },
+    "scripts/lib/tests/test_lib.py": {
+      "F401": 1
+    },
+    "scripts/merge_gate_check.py": {
+      "F401": 3
+    },
+    "scripts/migrate_taxonomy_v6.py": {
+      "S112": 3
+    },
+    "scripts/publication_parity.py": {
+      "F401": 1
+    },
+    "scripts/quick_validate_skill.py": {
+      "F401": 1
+    },
+    "scripts/render_tui_preview.py": {
+      "F401": 1
+    },
+    "scripts/review_meta_close.py": {
+      "S110": 1
+    },
+    "scripts/run_meta_sweep.py": {
+      "F401": 3
+    },
+    "scripts/syncDocsGraphAssets.py": {
+      "S110": 1
+    },
+    "scripts/trust_appraise.py": {
+      "F401": 1,
+      "S110": 2
+    },
+    "scripts/upstream_watcher/batch.py": {
+      "F401": 2
+    },
+    "scripts/upstream_watcher/challenge_watch.py": {
+      "S112": 1
+    },
+    "scripts/upstream_watcher/records.py": {
+      "F401": 1
+    },
+    "scripts/validate.py": {
+      "S110": 1
+    },
+    "scripts/validate_skills.py": {
+      "S110": 1
+    },
+    "scripts/verify_review_findings.py": {
+      "F401": 1
+    },
+    "src/gaia_cli/auth.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/commands/dev/__init__.py": {
+      "F401": 37
+    },
+    "src/gaia_cli/commands/dev/calibrate.py": {
+      "S110": 1,
+      "S112": 3
+    },
+    "src/gaia_cli/commands/dev/helpers.py": {
+      "S110": 3
+    },
+    "src/gaia_cli/commands/dev/timeline.py": {
+      "S112": 1
+    },
+    "src/gaia_cli/commands/progression.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/curation/evaluation.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/curation/retrieval.py": {
+      "S110": 3
+    },
+    "src/gaia_cli/embeddings.py": {
+      "F401": 9
+    },
+    "src/gaia_cli/graph.py": {
+      "S110": 4
+    },
+    "src/gaia_cli/impl.py": {
+      "E722": 1,
+      "F401": 1,
+      "S110": 8
+    },
+    "src/gaia_cli/install.py": {
+      "S110": 2
+    },
+    "src/gaia_cli/jev.py": {
+      "S110": 2
+    },
+    "src/gaia_cli/jevAdvisory.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/localContext.py": {
+      "S110": 4
+    },
+    "src/gaia_cli/main.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/push.py": {
+      "F401": 1,
+      "S110": 1
+    },
+    "src/gaia_cli/resolver.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/scanner.py": {
+      "S110": 1
+    },
+    "src/gaia_cli/selector.py": {
+      "F401": 1
+    },
+    "src/gaia_cli/semantic_search.py": {
+      "F401": 10
+    },
+    "src/gaia_cli/steward/prmaintenance/cli.py": {
+      "F401": 1
+    },
+    "src/gaia_cli/treeManager.py": {
+      "F401": 2,
+      "S110": 2
+    },
+    "src/gaia_cli/trustFreshness.py": {
+      "S110": 3,
+      "S112": 1
+    },
+    "src/gaia_cli/tui/screens/agent.py": {
+      "S110": 2
+    },
+    "tests/benchmarks/test_mmlu_ingest.py": {
+      "F401": 3
+    },
+    "tests/contentEngine/test_generate.py": {
+      "F401": 2
+    },
+    "tests/contentEngine/test_synthesizer.py": {
+      "F401": 1
+    },
+    "tests/steward/issuehygiene/test_b5_closure_guard.py": {
+      "F401": 2
+    },
+    "tests/steward/issuehygiene/test_b7_executor.py": {
+      "F401": 7
+    },
+    "tests/steward/issuehygiene/test_b7_lock.py": {
+      "F401": 1
+    },
+    "tests/steward/issuehygiene/test_b7_runner.py": {
+      "F401": 1
+    },
+    "tests/steward/issuehygiene/test_b_closure.py": {
+      "F401": 4
+    },
+    "tests/steward/issuehygiene/test_closed_baseline.py": {
+      "F401": 3
+    },
+    "tests/steward/issuehygiene/test_closed_umbrella_disposition.py": {
+      "F401": 1
+    },
+    "tests/steward/issuehygiene/test_closure_receipt_attribution.py": {
+      "F401": 1
+    },
+    "tests/steward/issuehygiene/test_d1_sensor.py": {
+      "F401": 3
+    },
+    "tests/steward/issuehygiene/test_e_steward_full_e2e.py": {
+      "F401": 2
+    },
+    "tests/steward/issuehygiene/test_mission_safety.py": {
+      "F401": 2
+    },
+    "tests/steward/prmaintenance/test_advice.py": {
+      "F401": 1
+    },
+    "tests/steward/prmaintenance/test_coordination_processes.py": {
+      "F401": 1
+    },
+    "tests/steward/prmaintenance/test_r19_review_regressions.py": {
+      "F401": 1
+    },
+    "tests/steward/test_browser_policy.py": {
+      "F401": 1
+    },
+    "tests/steward/test_calibration_route.py": {
+      "F401": 1
+    },
+    "tests/steward/test_challenge_receipt_issuer.py": {
+      "F401": 1
+    },
+    "tests/steward/test_cli_contract.py": {
+      "F401": 3
+    },
+    "tests/steward/test_credential_dispositions.py": {
+      "F401": 2
+    },
+    "tests/steward/test_ordinary_shared_ledger.py": {
+      "F401": 1
+    },
+    "tests/steward/test_sensors.py": {
+      "F401": 1
+    },
+    "tests/test_audit_disentanglement.py": {
+      "F401": 1
+    },
+    "tests/test_auth.py": {
+      "F401": 2
+    },
+    "tests/test_benchmark_projection.py": {
+      "F401": 1
+    },
+    "tests/test_calibrate_evidence_grades.py": {
+      "F401": 1
+    },
+    "tests/test_calibrate_trust_magnitude.py": {
+      "F401": 1
+    },
+    "tests/test_canonical_review_repairs.py": {
+      "F401": 1
+    },
+    "tests/test_card_renderer.py": {
+      "F401": 2
+    },
+    "tests/test_cli_command_migration.py": {
+      "F401": 3
+    },
+    "tests/test_cli_core.py": {
+      "F401": 6,
+      "S110": 2
+    },
+    "tests/test_curation_assessment.py": {
+      "F401": 3
+    },
+    "tests/test_curation_audit_regressions.py": {
+      "F401": 1
+    },
+    "tests/test_curation_authority_map.py": {
+      "F401": 1
+    },
+    "tests/test_curation_cli.py": {
+      "F401": 3
+    },
+    "tests/test_curation_environment.py": {
+      "F401": 2
+    },
+    "tests/test_curation_reconciliation.py": {
+      "F401": 1
+    },
+    "tests/test_curation_retrieval.py": {
+      "F401": 6
+    },
+    "tests/test_dev_audit.py": {
+      "F401": 1
+    },
+    "tests/test_dev_calibrate.py": {
+      "F401": 1
+    },
+    "tests/test_dev_helpers.py": {
+      "F401": 1
+    },
+    "tests/test_dev_merge.py": {
+      "F401": 1
+    },
+    "tests/test_dev_prefill.py": {
+      "F401": 1
+    },
+    "tests/test_dev_upstream_verbs.py": {
+      "F401": 2
+    },
+    "tests/test_docs_site.py": {
+      "F401": 1
+    },
+    "tests/test_embeddings.py": {
+      "F401": 2
+    },
+    "tests/test_evidence_lifecycle.py": {
+      "F401": 2
+    },
+    "tests/test_frontier_match.py": {
+      "F401": 1
+    },
+    "tests/test_frontier_verify_fixes.py": {
+      "F401": 2
+    },
+    "tests/test_fusion_score.py": {
+      "F401": 1
+    },
+    "tests/test_grading.py": {
+      "F401": 2
+    },
+    "tests/test_graph_schema.py": {
+      "F401": 1
+    },
+    "tests/test_intake_fromfile.py": {
+      "F401": 1
+    },
+    "tests/test_intake_multi_packet_2088.py": {
+      "F401": 1
+    },
+    "tests/test_interactive.py": {
+      "F401": 2
+    },
+    "tests/test_jev.py": {
+      "F401": 4
+    },
+    "tests/test_jev_advisory.py": {
+      "F401": 3
+    },
+    "tests/test_jev_ci_budget.py": {
+      "F401": 1
+    },
+    "tests/test_meta_guard.py": {
+      "F401": 2
+    },
+    "tests/test_meta_ops.py": {
+      "F401": 1
+    },
+    "tests/test_mobile_responsive_2104.py": {
+      "F401": 1
+    },
+    "tests/test_path_engine.py": {
+      "F401": 1
+    },
+    "tests/test_plan_badge_provisioning.py": {
+      "F401": 2
+    },
+    "tests/test_playbook_fixtures.py": {
+      "F401": 1
+    },
+    "tests/test_row_grading.py": {
+      "F401": 1
+    },
+    "tests/test_scan_dir_flag.py": {
+      "F401": 1
+    },
+    "tests/test_scan_state.py": {
+      "F401": 2
+    },
+    "tests/test_selector.py": {
+      "F401": 2
+    },
+    "tests/test_seo.py": {
+      "F401": 1
+    },
+    "tests/test_shadow_corpus.py": {
+      "F401": 1
+    },
+    "tests/test_suiteref_guard.py": {
+      "F401": 1
+    },
+    "tests/test_support_components.py": {
+      "F401": 1
+    },
+    "tests/test_timeline_routing.py": {
+      "F401": 3
+    },
+    "tests/test_tm_calculator_parity.py": {
+      "F401": 1
+    },
+    "tests/test_treeManager.py": {
+      "F401": 1
+    },
+    "tests/test_trending_script.py": {
+      "F401": 1
+    },
+    "tests/test_trust_freshness.py": {
+      "F401": 2
+    },
+    "tests/test_trust_magnitude.py": {
+      "F401": 2
+    },
+    "tests/test_trust_restamp.py": {
+      "F401": 4
+    },
+    "tests/test_update_command.py": {
+      "F401": 2
+    },
+    "tests/test_windowsLinks.py": {
+      "F401": 1
+    },
+    "tests/test_workspace_mode.py": {
+      "F401": 1
+    },
+    "tests/upstream_watcher/test_c6_approval_reset.py": {
+      "F401": 1
+    },
+    "tests/upstream_watcher/test_c7_payload_digest.py": {
+      "F401": 3
+    },
+    "tests/upstream_watcher/test_c7_records_generations.py": {
+      "F401": 1
+    },
+    "tests/upstream_watcher/test_c8_h2_unavailable.py": {
+      "F401": 2
+    },
+    "tests/upstream_watcher/test_e_watcher_adversarial.py": {
+      "F401": 2
+    }
+  },
+  "total_ratchet_violations": 341,
+  "version": 1,
+  "violations": [
+    {
+      "code": "S110",
+      "column": 13,
+      "file": ".agents/skills/pi-cost/scripts/pi_cost.py",
+      "line": 241,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": ".claude/skills/pi-cost/scripts/pi_cost.py",
+      "line": 241,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "evidence/frontier-challenges/c1-graphify-vs-graft/runner/run-c1.py",
+      "line": 8,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 61,
+      "file": "evidence/frontier-challenges/c1-graphify-vs-graft/runner/run-c1.py",
+      "line": 8,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "evidence/scripts/generate_source_dump.py",
+      "line": 59,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 54,
+      "file": "founder/reports/2026-10-15-issue-resolver-evidence/review2089_adversarial.py",
+      "line": 11,
+      "message": "`gaia_cli.intakeAdapter.buildIntakeYaml` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 12,
+      "file": "founder/reports/yggdrasil-iv-evidence/publication-93/verify-publication-93.py",
+      "line": 49,
+      "message": "`cairosvg` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 12,
+      "file": "founder/reports/yggdrasil-iv-evidence/publication-b81/verify-publication-b81.py",
+      "line": 49,
+      "message": "`cairosvg` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "founder/reports/yggdrasil-iv-october-2026/adjudication/tools/adjcore.py",
+      "line": 10,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "founder/reports/yggdrasil-iv-october-2026/adjudication/tools/adjcore.py",
+      "line": 11,
+      "message": "`re` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 41,
+      "file": "founder/reports/yggdrasil-iv-october-2026/adjudication/tools/build_adjudication.py",
+      "line": 305,
+      "message": "`gaia_cli.trustMagnitude.passesSuiteApexGate` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 19,
+      "file": "founder/reports/yggdrasil-iv-october-2026/sweep/tools/prepass.py",
+      "line": 2,
+      "message": "`re` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 38,
+      "file": "founder/reports/yggdrasil-iv-october-2026/sweep/tools/rebuild_from_journal.py",
+      "line": 6,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "founder/scanner.py",
+      "line": 80,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/add_post.py",
+      "line": 439,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/archive/add_hermes_batch.py",
+      "line": 2,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "scripts/archive/add_hermes_batch.py",
+      "line": 3,
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/archive/migrateTrustMagnitude.py",
+      "line": 71,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/archive/migrateTrustMagnitude.py",
+      "line": 91,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/auditApexAtG7.py",
+      "line": 112,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "scripts/auditApexAtG7.py",
+      "line": 157,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/backfill_timeline.py",
+      "line": 59,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/build_docs.py",
+      "line": 1094,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/build_docs.py",
+      "line": 1143,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/build_docs.py",
+      "line": 1225,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/build_docs.py",
+      "line": 1325,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/check_rank_vocabulary.py",
+      "line": 78,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 31,
+      "file": "scripts/check_rank_vocabulary.py",
+      "line": 425,
+      "message": "`itertools.groupby` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "scripts/check_verifier_signoffs.py",
+      "line": 254,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 27,
+      "file": "scripts/collectStampReportData.py",
+      "line": 21,
+      "message": "`migrateTrustMagnitude.hasMissingSourceStartedAt` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "scripts/collectStampReportData.py",
+      "line": 24,
+      "message": "`gaia_cli.trustMagnitude.computeOverallTrustGradeFromSkill` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "scripts/collectStampReportData.py",
+      "line": 25,
+      "message": "`gaia_cli.trustMagnitude.computeTrustMagnitude` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "scripts/collectStampReportData.py",
+      "line": 26,
+      "message": "`gaia_cli.trustMagnitude.passesSuiteApexGate` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "scripts/contentEngine/synthesizer.py",
+      "line": 110,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "scripts/contentEngine/synthesizer.py",
+      "line": 119,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/crawlers/npm/crawler.py",
+      "line": 60,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/environment/doctor.py",
+      "line": 46,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 17,
+      "file": "scripts/environment/doctor.py",
+      "line": 53,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "scripts/environment/doctor.py",
+      "line": 231,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 13,
+      "file": "scripts/environment/doctor.py",
+      "line": 246,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "scripts/environment/doctor.py",
+      "line": 516,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/environment/doctor.py",
+      "line": 630,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "scripts/environment/smoke.py",
+      "line": 86,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/generateLeaderboardData.py",
+      "line": 80,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 32,
+      "file": "scripts/generateNamedIndex.py",
+      "line": 31,
+      "message": "`gaia_cli.redaction.is_redacted` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/jev_advisory.py",
+      "line": 15,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/lib/tests/test_heartbeat_regression.py",
+      "line": 43,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/lib/tests/test_lib.py",
+      "line": 27,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/merge_gate_check.py",
+      "line": 9,
+      "message": "`hashlib` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "scripts/merge_gate_check.py",
+      "line": 27,
+      "message": "`gaia_cli.curation.reconciliation.canonicalJson` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "scripts/merge_gate_check.py",
+      "line": 33,
+      "message": "`gaia_cli.curation.errors.CATEGORY_AUTHORIZATION` imported but unused"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/migrate_taxonomy_v6.py",
+      "line": 209,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/migrate_taxonomy_v6.py",
+      "line": 222,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "scripts/migrate_taxonomy_v6.py",
+      "line": 714,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 30,
+      "file": "scripts/publication_parity.py",
+      "line": 63,
+      "message": "`generateBadges` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/quick_validate_skill.py",
+      "line": 16,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 39,
+      "file": "scripts/render_tui_preview.py",
+      "line": 32,
+      "message": "`gaia_cli.tui.screens.tree._node_label` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 1,
+      "file": "scripts/review_meta_close.py",
+      "line": 56,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/run_meta_sweep.py",
+      "line": 27,
+      "message": "`argparse` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/run_meta_sweep.py",
+      "line": 30,
+      "message": "`datetime` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/run_meta_sweep.py",
+      "line": 34,
+      "message": "`re` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "scripts/syncDocsGraphAssets.py",
+      "line": 126,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 35,
+      "file": "scripts/trust_appraise.py",
+      "line": 37,
+      "message": "`gaia_cli.registryMaps.buildMergedSkillMap` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/trust_appraise.py",
+      "line": 235,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "scripts/trust_appraise.py",
+      "line": 249,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "scripts/upstream_watcher/batch.py",
+      "line": 28,
+      "message": "`re` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 38,
+      "file": "scripts/upstream_watcher/batch.py",
+      "line": 34,
+      "message": "`scripts.upstream_watcher.approval` imported but unused"
+    },
+    {
+      "code": "S112",
+      "column": 17,
+      "file": "scripts/upstream_watcher/challenge_watch.py",
+      "line": 1224,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 46,
+      "file": "scripts/upstream_watcher/records.py",
+      "line": 42,
+      "message": "`scripts.upstream_watcher.markers.PAYLOAD_RE` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "scripts/validate.py",
+      "line": 699,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 21,
+      "file": "scripts/validate_skills.py",
+      "line": 138,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 57,
+      "file": "scripts/verify_review_findings.py",
+      "line": 273,
+      "message": "`gaia_cli.curation.authorization._proposalPacket` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/auth.py",
+      "line": 453,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 1,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 6,
+      "message": "`gaia_cli.commands.dev.helpers._run_docs_build` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 9,
+      "message": "`gaia_cli.commands.dev.helpers._confirm_destructive` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 10,
+      "message": "`gaia_cli.commands.dev.helpers._replace_section` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 11,
+      "message": "`gaia_cli.commands.dev.helpers._GENERATED_PREFIXES` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 12,
+      "message": "`gaia_cli.commands.dev.helpers._GENERATED_SUFFIXES` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 13,
+      "message": "`gaia_cli.commands.dev.helpers._GENERATED_EXACT` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 14,
+      "message": "`gaia_cli.commands.dev.helpers._VERSION_FILES` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 15,
+      "message": "`gaia_cli.commands.dev.helpers._get_contributor` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 16,
+      "message": "`gaia_cli.commands.dev.helpers._is_verifier` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 17,
+      "message": "`gaia_cli.commands.dev.helpers._parse_md` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 18,
+      "message": "`gaia_cli.commands.dev.helpers._write_md` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 19,
+      "message": "`gaia_cli.commands.dev.helpers._find_named_file` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 20,
+      "message": "`gaia_cli.commands.dev.helpers._update_named_skill_ref` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 21,
+      "message": "`gaia_cli.commands.dev.helpers._is_generated` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 22,
+      "message": "`gaia_cli.commands.dev.helpers._parse_named_frontmatter` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 40,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 24,
+      "message": "`gaia_cli.commands.dev.list.meta_list_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 26,
+      "message": "`gaia_cli.commands.dev.verify.meta_verify_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 27,
+      "message": "`gaia_cli.commands.dev.verify._loadSkillForVerification` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 28,
+      "message": "`gaia_cli.commands.dev.verify.meta_verify_tier_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 31,
+      "message": "`gaia_cli.commands.dev.merge.meta_merge_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 32,
+      "message": "`gaia_cli.commands.dev.merge.meta_split_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 42,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 34,
+      "message": "`gaia_cli.commands.dev.rename.meta_rename_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 36,
+      "message": "`gaia_cli.commands.dev.calibrate.meta_calibrate_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 37,
+      "message": "`gaia_cli.commands.dev.calibrate.calibrate_evidence_grades_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 38,
+      "message": "`gaia_cli.commands.dev.calibrate.calibrate_trust_magnitude_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 41,
+      "message": "`gaia_cli.commands.dev.audit.meta_audit_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 42,
+      "message": "`gaia_cli.commands.dev.audit.meta_diff_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 44,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 44,
+      "message": "`gaia_cli.commands.dev.timeline.meta_timeline_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 41,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 45,
+      "message": "`gaia_cli.commands.dev.named.meta_update_named_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 47,
+      "message": "`gaia_cli.commands.dev.evidence.meta_evidence_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 48,
+      "message": "`gaia_cli.commands.dev.evidence.meta_rm_evidence_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 51,
+      "message": "`gaia_cli.commands.dev.build.meta_build_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 52,
+      "message": "`gaia_cli.commands.dev.build.meta_add_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 53,
+      "message": "`gaia_cli.commands.dev.build.meta_remove_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 54,
+      "message": "`gaia_cli.commands.dev.build.meta_link_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/__init__.py",
+      "line": 55,
+      "message": "`gaia_cli.commands.dev.build.meta_reclassify_command` imported but unused; consider removing, adding to `__all__`, or using a redundant alias"
+    },
+    {
+      "code": "S112",
+      "column": 13,
+      "file": "src/gaia_cli/commands/dev/calibrate.py",
+      "line": 114,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 17,
+      "file": "src/gaia_cli/commands/dev/calibrate.py",
+      "line": 123,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/commands/dev/calibrate.py",
+      "line": 162,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 13,
+      "file": "src/gaia_cli/commands/dev/calibrate.py",
+      "line": 174,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/helpers.py",
+      "line": 721,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/commands/dev/helpers.py",
+      "line": 740,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 21,
+      "file": "src/gaia_cli/commands/dev/helpers.py",
+      "line": 1445,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "src/gaia_cli/commands/dev/timeline.py",
+      "line": 21,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/commands/progression.py",
+      "line": 41,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/curation/evaluation.py",
+      "line": 80,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 17,
+      "file": "src/gaia_cli/curation/retrieval.py",
+      "line": 96,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 17,
+      "file": "src/gaia_cli/curation/retrieval.py",
+      "line": 117,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/curation/retrieval.py",
+      "line": 241,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 14,
+      "message": "`datetime.date` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 18,
+      "message": "`gaia_cli.curation.retrieval.clearModelCache` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 19,
+      "message": "`gaia_cli.curation.retrieval.clear_model_cache` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 21,
+      "message": "`gaia_cli.curation.retrieval.embedding_status` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 23,
+      "message": "`gaia_cli.curation.retrieval.get_sentence_transformer` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 25,
+      "message": "`gaia_cli.curation.retrieval.load_retrieval_config` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 27,
+      "message": "`gaia_cli.curation.retrieval.save_embeddings_atomic` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 29,
+      "message": "`gaia_cli.curation.retrieval.semantic_fingerprint` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/embeddings.py",
+      "line": 31,
+      "message": "`gaia_cli.curation.retrieval.validate_vector` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/graph.py",
+      "line": 402,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/graph.py",
+      "line": 564,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/graph.py",
+      "line": 575,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/graph.py",
+      "line": 613,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "src/gaia_cli/impl.py",
+      "line": 28,
+      "message": "`gaia_cli.embeddings.generate_embeddings` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/impl.py",
+      "line": 314,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/impl.py",
+      "line": 327,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/impl.py",
+      "line": 340,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "E722",
+      "column": 13,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1024,
+      "message": "Do not use bare `except`"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1024,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1672,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1690,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 21,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1815,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 21,
+      "file": "src/gaia_cli/impl.py",
+      "line": 1856,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/install.py",
+      "line": 68,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/install.py",
+      "line": 649,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/jev.py",
+      "line": 584,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/jev.py",
+      "line": 838,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/jevAdvisory.py",
+      "line": 92,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/localContext.py",
+      "line": 105,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/localContext.py",
+      "line": 159,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/localContext.py",
+      "line": 206,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/localContext.py",
+      "line": 483,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "src/gaia_cli/main.py",
+      "line": 14,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 35,
+      "file": "src/gaia_cli/push.py",
+      "line": 12,
+      "message": "`gaia_cli.resolver.load_canonical_skills` imported but unused; consider using `importlib.util.find_spec` to test for availability"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/push.py",
+      "line": 277,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/resolver.py",
+      "line": 19,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/scanner.py",
+      "line": 81,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 43,
+      "file": "src/gaia_cli/selector.py",
+      "line": 391,
+      "message": "`prompt_toolkit.buffer.Buffer` imported but unused; consider using `importlib.util.find_spec` to test for availability"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 17,
+      "message": "`gaia_cli.curation.retrieval.canonicalizeModelId` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 18,
+      "message": "`gaia_cli.curation.retrieval.clearModelCache` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 19,
+      "message": "`gaia_cli.curation.retrieval.clear_model_cache` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 20,
+      "message": "`gaia_cli.curation.retrieval.embeddingStatus` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 21,
+      "message": "`gaia_cli.curation.retrieval.embedding_status` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 23,
+      "message": "`gaia_cli.curation.retrieval.get_sentence_transformer` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 25,
+      "message": "`gaia_cli.curation.retrieval.load_retrieval_config` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 27,
+      "message": "`gaia_cli.curation.retrieval.semanticFingerprint` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 28,
+      "message": "`gaia_cli.curation.retrieval.semantic_fingerprint` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "src/gaia_cli/semantic_search.py",
+      "line": 31,
+      "message": "`gaia_cli.curation.retrieval.validate_vector` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "src/gaia_cli/steward/prmaintenance/cli.py",
+      "line": 12,
+      "message": "`subprocess` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/treeManager.py",
+      "line": 170,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 68,
+      "file": "src/gaia_cli/treeManager.py",
+      "line": 232,
+      "message": "`gaia_cli.cardRenderer.TIER_COLORS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 118,
+      "file": "src/gaia_cli/treeManager.py",
+      "line": 291,
+      "message": "`gaia_cli.cardRenderer.TIER_COLORS` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/treeManager.py",
+      "line": 616,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/trustFreshness.py",
+      "line": 233,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S112",
+      "column": 9,
+      "file": "src/gaia_cli/trustFreshness.py",
+      "line": 259,
+      "message": "`try`-`except`-`continue` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 17,
+      "file": "src/gaia_cli/trustFreshness.py",
+      "line": 389,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "src/gaia_cli/trustFreshness.py",
+      "line": 416,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/tui/screens/agent.py",
+      "line": 52,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 5,
+      "file": "src/gaia_cli/tui/screens/agent.py",
+      "line": 77,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/benchmarks/test_mmlu_ingest.py",
+      "line": 13,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 27,
+      "file": "tests/benchmarks/test_mmlu_ingest.py",
+      "line": 16,
+      "message": "`unittest.mock.MagicMock` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 38,
+      "file": "tests/benchmarks/test_mmlu_ingest.py",
+      "line": 16,
+      "message": "`unittest.mock.call` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/contentEngine/test_generate.py",
+      "line": 7,
+      "message": "`tempfile` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 25,
+      "file": "tests/contentEngine/test_generate.py",
+      "line": 21,
+      "message": "`synthesizer.synthesize` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/contentEngine/test_synthesizer.py",
+      "line": 5,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b5_closure_guard.py",
+      "line": 21,
+      "message": "`gaia_cli.steward.issuehygiene.closure.ForgeBlockedError` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b5_closure_guard.py",
+      "line": 41,
+      "message": "`tests.steward.issuehygiene.test_b_reconcile.BOT` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 20,
+      "message": "`gaia_cli.steward.issuehygiene.closure.ForgeItemError` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 30,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 23,
+      "message": "`gaia_cli.steward.issuehygiene.closure._executeProvenClosure` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 57,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 32,
+      "message": "`gaia_cli.steward.issuehygiene.hygienepolicy.HygienePolicy` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 52,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 315,
+      "message": "`tests.steward.issuehygiene.e_fakes.censusOf` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 61,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 316,
+      "message": "`tests.steward.issuehygiene.test_b_reconcile.NOW` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 57,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 317,
+      "message": "`gaia_cli.steward.issuehygiene.reconcile.reconcile` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 61,
+      "file": "tests/steward/issuehygiene/test_b7_executor.py",
+      "line": 318,
+      "message": "`gaia_cli.steward.issuehygiene.registryindex.buildRegistryIndex` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 51,
+      "file": "tests/steward/issuehygiene/test_b7_lock.py",
+      "line": 18,
+      "message": "`gaia_cli.steward.issuehygiene.closure.closureLock` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b7_runner.py",
+      "line": 22,
+      "message": "`tests.steward.issuehygiene.test_d1_runner.settle` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b_closure.py",
+      "line": 15,
+      "message": "`gaia_cli.steward.issuehygiene.closure.closureCommentFor` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b_closure.py",
+      "line": 16,
+      "message": "`gaia_cli.steward.issuehygiene.closure.closureProven` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/issuehygiene/test_b_closure.py",
+      "line": 17,
+      "message": "`gaia_cli.steward.issuehygiene.closure.commentIdFromUrl` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 50,
+      "file": "tests/steward/issuehygiene/test_b_closure.py",
+      "line": 24,
+      "message": "`gaia_cli.steward.issuehygiene.census.bodySha256` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 26,
+      "file": "tests/steward/issuehygiene/test_closed_baseline.py",
+      "line": 15,
+      "message": "`urllib.parse.parse_qs` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 41,
+      "file": "tests/steward/issuehygiene/test_closed_baseline.py",
+      "line": 22,
+      "message": "`gaia_cli.steward.primitives.SensorNotEvaluated` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 61,
+      "file": "tests/steward/issuehygiene/test_closed_baseline.py",
+      "line": 850,
+      "message": "`scripts.steward_issue_census.writeAtomic` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 12,
+      "file": "tests/steward/issuehygiene/test_closed_umbrella_disposition.py",
+      "line": 25,
+      "message": "`tests.steward.issuehygiene.test_b_reconcile.run` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 70,
+      "file": "tests/steward/issuehygiene/test_closure_receipt_attribution.py",
+      "line": 25,
+      "message": "`tests.steward.issuehygiene.test_d2_close_script.REPO_NAME` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "tests/steward/issuehygiene/test_d1_sensor.py",
+      "line": 13,
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 32,
+      "file": "tests/steward/issuehygiene/test_d1_sensor.py",
+      "line": 13,
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 51,
+      "file": "tests/steward/issuehygiene/test_d1_sensor.py",
+      "line": 20,
+      "message": "`gaia_cli.steward.issuehygiene.closure.closureCommentFor` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "tests/steward/issuehygiene/test_e_steward_full_e2e.py",
+      "line": 23,
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 32,
+      "file": "tests/steward/issuehygiene/test_e_steward_full_e2e.py",
+      "line": 23,
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/steward/issuehygiene/test_mission_safety.py",
+      "line": 9,
+      "message": "`pathlib.Path` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 61,
+      "file": "tests/steward/issuehygiene/test_mission_safety.py",
+      "line": 30,
+      "message": "`tests.steward.issuehygiene.test_b7_executor.RECEIPTDIR` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 51,
+      "file": "tests/steward/prmaintenance/test_advice.py",
+      "line": 16,
+      "message": "`gaia_cli.steward.prmaintenance.sensor.PrMaintenanceSensor` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 69,
+      "file": "tests/steward/prmaintenance/test_coordination_processes.py",
+      "line": 18,
+      "message": "`.coordination_helpers.git` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 49,
+      "file": "tests/steward/prmaintenance/test_r19_review_regressions.py",
+      "line": 20,
+      "message": "`.coordination_helpers.NAMESPACE` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 25,
+      "file": "tests/steward/test_browser_policy.py",
+      "line": 17,
+      "message": "`dataclasses.replace` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 100,
+      "file": "tests/steward/test_calibration_route.py",
+      "line": 27,
+      "message": "`gaia_cli.steward.models.Subject` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/steward/test_challenge_receipt_issuer.py",
+      "line": 20,
+      "message": "`shutil` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "tests/steward/test_cli_contract.py",
+      "line": 5,
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 32,
+      "file": "tests/steward/test_cli_contract.py",
+      "line": 5,
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/steward/test_cli_contract.py",
+      "line": 7,
+      "message": "`shutil` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 74,
+      "file": "tests/steward/test_credential_dispositions.py",
+      "line": 32,
+      "message": "`tests.steward.test_sensors_security._private_key_header` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 95,
+      "file": "tests/steward/test_credential_dispositions.py",
+      "line": 32,
+      "message": "`tests.steward.test_sensors_security._seeded` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/steward/test_ordinary_shared_ledger.py",
+      "line": 12,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/steward/test_sensors.py",
+      "line": 15,
+      "message": "`gaia_cli.steward.sensors.CliContractSensor` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_audit_disentanglement.py",
+      "line": 3,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_auth.py",
+      "line": 46,
+      "message": "`gaia_cli.auth.resolve_client_id` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_auth.py",
+      "line": 47,
+      "message": "`gaia_cli.auth.is_configured` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_benchmark_projection.py",
+      "line": 11,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/test_calibrate_evidence_grades.py",
+      "line": 16,
+      "message": "`pathlib.Path` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_calibrate_trust_magnitude.py",
+      "line": 11,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_canonical_review_repairs.py",
+      "line": 5,
+      "message": "`base64` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_card_renderer.py",
+      "line": 4,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_card_renderer.py",
+      "line": 11,
+      "message": "`gaia_cli.cardRenderer.LEVEL_LABELS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/test_cli_command_migration.py",
+      "line": 19,
+      "message": "`helpers.strip_ansi` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "tests/test_cli_command_migration.py",
+      "line": 20,
+      "message": "`gaia_cli.main.PUBLIC_COMMANDS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 50,
+      "file": "tests/test_cli_command_migration.py",
+      "line": 20,
+      "message": "`gaia_cli.main.get_parser` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 34,
+      "file": "tests/test_cli_core.py",
+      "line": 18,
+      "message": "`unittest.mock.MagicMock` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 42,
+      "file": "tests/test_cli_core.py",
+      "line": 244,
+      "message": "`gaia_cli.interactive._has_interactive` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "tests/test_cli_core.py",
+      "line": 463,
+      "message": "`gaia_cli.main` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "tests/test_cli_core.py",
+      "line": 526,
+      "message": "`gaia_cli.main` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 33,
+      "file": "tests/test_cli_core.py",
+      "line": 537,
+      "message": "`gaia_cli.main` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 12,
+      "file": "tests/test_cli_core.py",
+      "line": 645,
+      "message": "`io` imported but unused"
+    },
+    {
+      "code": "S110",
+      "column": 9,
+      "file": "tests/test_cli_core.py",
+      "line": 1081,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "S110",
+      "column": 13,
+      "file": "tests/test_cli_core.py",
+      "line": 1092,
+      "message": "`try`-`except`-`pass` detected, consider logging the exception"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_assessment.py",
+      "line": 6,
+      "message": "`tempfile` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_assessment.py",
+      "line": 9,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_assessment.py",
+      "line": 25,
+      "message": "`gaia_cli.curation.assessment.extractSemanticInputs` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_audit_regressions.py",
+      "line": 6,
+      "message": "`copy` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 50,
+      "file": "tests/test_curation_authority_map.py",
+      "line": 18,
+      "message": "`gaia_cli.steward.knowledge_contracts.BANNED_PATTERNS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_cli.py",
+      "line": 9,
+      "message": "`hashlib` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_cli.py",
+      "line": 12,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 57,
+      "file": "tests/test_curation_cli.py",
+      "line": 19,
+      "message": "`gaia_cli.curation.assessment.buildAssessment` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_environment.py",
+      "line": 13,
+      "message": "`platform` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_environment.py",
+      "line": 19,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_reconciliation.py",
+      "line": 2,
+      "message": "`hashlib` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 10,
+      "message": "`math` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 39,
+      "message": "`gaia_cli.curation.retrieval.clear_model_cache` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 41,
+      "message": "`gaia_cli.curation.retrieval.embedding_status` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 43,
+      "message": "`gaia_cli.curation.retrieval.getModelCacheDir` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 49,
+      "message": "`gaia_cli.curation.retrieval.semantic_fingerprint` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_curation_retrieval.py",
+      "line": 50,
+      "message": "`gaia_cli.curation.retrieval.validateEmbeddingsData` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 16,
+      "file": "tests/test_dev_audit.py",
+      "line": 6,
+      "message": "`io.StringIO` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_dev_calibrate.py",
+      "line": 8,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_dev_helpers.py",
+      "line": 3,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_dev_merge.py",
+      "line": 4,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 16,
+      "file": "tests/test_dev_prefill.py",
+      "line": 71,
+      "message": "`math` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 27,
+      "file": "tests/test_dev_upstream_verbs.py",
+      "line": 16,
+      "message": "`unittest.mock.MagicMock` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 16,
+      "file": "tests/test_dev_upstream_verbs.py",
+      "line": 651,
+      "message": "`shutil` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_docs_site.py",
+      "line": 2,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_embeddings.py",
+      "line": 5,
+      "message": "`math` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_embeddings.py",
+      "line": 6,
+      "message": "`importlib` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_evidence_lifecycle.py",
+      "line": 19,
+      "message": "`math` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_evidence_lifecycle.py",
+      "line": 30,
+      "message": "`gaia_cli.evidenceLifecycle.METRIC_REPORTED` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_frontier_match.py",
+      "line": 1,
+      "message": "`copy` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/test_frontier_verify_fixes.py",
+      "line": 9,
+      "message": "`pathlib.Path` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 90,
+      "file": "tests/test_frontier_verify_fixes.py",
+      "line": 15,
+      "message": "`gaia_cli.frontier.receipt_digest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_fusion_score.py",
+      "line": 11,
+      "message": "`math` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_grading.py",
+      "line": 14,
+      "message": "`gaia_cli.grading.load_grade_thresholds` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_grading.py",
+      "line": 15,
+      "message": "`gaia_cli.grading.load_ultimate_gate` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_graph_schema.py",
+      "line": 5,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_intake_fromfile.py",
+      "line": 4,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 50,
+      "file": "tests/test_intake_multi_packet_2088.py",
+      "line": 159,
+      "message": "`gaia_cli.curation.reconciliation.canonicalJson` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_interactive.py",
+      "line": 7,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 20,
+      "file": "tests/test_interactive.py",
+      "line": 48,
+      "message": "`importlib` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_jev.py",
+      "line": 5,
+      "message": "`datetime` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "tests/test_jev.py",
+      "line": 6,
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_jev.py",
+      "line": 9,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_jev.py",
+      "line": 18,
+      "message": "`gaia_cli.jev.MAX_QUESTIONS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_jev_advisory.py",
+      "line": 34,
+      "message": "`gaia_cli.jevAdvisory.CONFIDENCE_THRESHOLD` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_jev_advisory.py",
+      "line": 44,
+      "message": "`gaia_cli.jevAdvisory.handle_evaluation_result` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_jev_advisory.py",
+      "line": 47,
+      "message": "`gaia_cli.jevAdvisory.load_generic_nodes` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_jev_ci_budget.py",
+      "line": 14,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_meta_guard.py",
+      "line": 15,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 20,
+      "file": "tests/test_meta_guard.py",
+      "line": 17,
+      "message": "`typing.Optional` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_meta_ops.py",
+      "line": 3,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_mobile_responsive_2104.py",
+      "line": 2,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_path_engine.py",
+      "line": 14,
+      "message": "`gaia_cli.pathEngine.PATHS_FILE` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_plan_badge_provisioning.py",
+      "line": 12,
+      "message": "`scripts.plan_badge_provisioning.DEFAULT_MANIFEST` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_plan_badge_provisioning.py",
+      "line": 14,
+      "message": "`scripts.plan_badge_provisioning.PRESENTATION_TIERS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_playbook_fixtures.py",
+      "line": 7,
+      "message": "`yaml` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_row_grading.py",
+      "line": 3,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_scan_dir_flag.py",
+      "line": 1,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 20,
+      "file": "tests/test_scan_state.py",
+      "line": 12,
+      "message": "`typing.Any` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/test_scan_state.py",
+      "line": 21,
+      "message": "`helpers.strip_ansi` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_selector.py",
+      "line": 12,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_selector.py",
+      "line": 15,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 36,
+      "file": "tests/test_seo.py",
+      "line": 94,
+      "message": "`types` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 40,
+      "file": "tests/test_shadow_corpus.py",
+      "line": 16,
+      "message": "`gaia_cli.trustMagnitude` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_suiteref_guard.py",
+      "line": 2,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 46,
+      "file": "tests/test_support_components.py",
+      "line": 15,
+      "message": "`gaia_cli.install.load_manifest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_timeline_routing.py",
+      "line": 13,
+      "message": "`types` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 38,
+      "file": "tests/test_timeline_routing.py",
+      "line": 15,
+      "message": "`unittest.mock.patch` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_timeline_routing.py",
+      "line": 17,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_tm_calculator_parity.py",
+      "line": 13,
+      "message": "`gaia_cli.trustMagnitude.TYPE_CAPS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_treeManager.py",
+      "line": 4,
+      "message": "`os` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_trending_script.py",
+      "line": 10,
+      "message": "`sys` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_trust_freshness.py",
+      "line": 8,
+      "message": "`tempfile` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_freshness.py",
+      "line": 13,
+      "message": "`gaia_cli.trustFreshness.DEFAULT_MAX_ROUTINE_TM_DRIFT` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_magnitude.py",
+      "line": 23,
+      "message": "`gaia_cli.trustMagnitude.checkDirectNestedSuiteGte1` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_magnitude.py",
+      "line": 24,
+      "message": "`gaia_cli.trustMagnitude.checkOverallGradeS` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_restamp.py",
+      "line": 31,
+      "message": "`gaia_cli.trustRestamp.RestampVerificationError` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_restamp.py",
+      "line": 37,
+      "message": "`gaia_cli.trustRestamp.protectedState` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_restamp.py",
+      "line": 38,
+      "message": "`gaia_cli.trustRestamp.restampAfterEvidenceChange` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 5,
+      "file": "tests/test_trust_restamp.py",
+      "line": 39,
+      "message": "`gaia_cli.trustRestamp.verifyRestamp` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_update_command.py",
+      "line": 10,
+      "message": "`subprocess` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/test_update_command.py",
+      "line": 15,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 22,
+      "file": "tests/test_windowsLinks.py",
+      "line": 17,
+      "message": "`gaia_cli.windowsLinks` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 21,
+      "file": "tests/test_workspace_mode.py",
+      "line": 4,
+      "message": "`pathlib.Path` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/upstream_watcher/test_c6_approval_reset.py",
+      "line": 12,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/upstream_watcher/test_c7_payload_digest.py",
+      "line": 14,
+      "message": "`re` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/upstream_watcher/test_c7_payload_digest.py",
+      "line": 16,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 38,
+      "file": "tests/upstream_watcher/test_c7_payload_digest.py",
+      "line": 18,
+      "message": "`scripts.upstream_watcher.batch` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/upstream_watcher/test_c7_records_generations.py",
+      "line": 17,
+      "message": "`json` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 44,
+      "file": "tests/upstream_watcher/test_c8_h2_unavailable.py",
+      "line": 28,
+      "message": "`scripts.upstream_watcher.batch.layout` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 64,
+      "file": "tests/upstream_watcher/test_c8_h2_unavailable.py",
+      "line": 28,
+      "message": "`scripts.upstream_watcher.batch.run_batch` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 8,
+      "file": "tests/upstream_watcher/test_e_watcher_adversarial.py",
+      "line": 11,
+      "message": "`pytest` imported but unused"
+    },
+    {
+      "code": "F401",
+      "column": 60,
+      "file": "tests/upstream_watcher/test_e_watcher_adversarial.py",
+      "line": 14,
+      "message": "`scripts.upstream_watcher.live.read_live` imported but unused"
+    }
+  ]
+}

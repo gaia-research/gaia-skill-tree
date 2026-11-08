@@ -422,11 +422,6 @@ def determine_badge_presentation(
         "html": html_text,
     }
 
-    return None, "AMBIGUOUS", (
-        f"Multiple skills ({len(skills_in_repo)}) and contributor topSkill {top_skill_id} "
-        f"belongs to another repo (suites found: {suites})"
-    )
-
 
 def plan_campaign(
     registry_data: dict[str, Any],

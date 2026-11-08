@@ -1,0 +1,63 @@
+name: Ruff Guard
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+      - 'pyproject.toml'
+      - 'scripts/check_ruff.py'
+      - 'scripts/lint/ruff-baseline.json'
+      - '.github/workflows/ruff-guard.yml'
+  push:
+    branches:
+      - main
+      - 'dev/**'
+    paths:
+      - '**/*.py'
+      - 'pyproject.toml'
+      - 'scripts/check_ruff.py'
+      - 'scripts/lint/ruff-baseline.json'
+      - '.github/workflows/ruff-guard.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ruff-guard:
+    name: Ruff Multi-Tier Lint Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Ruff
+        run: |
+          python3 -m pip install "ruff==0.17.4"
+
+      - name: Run Ruff Multi-Tier Gate
+        run: |
+          # Multi-tier gate: blocking (zero tolerance), ratchet (shrink-only),
+          # and baseline monotonicity against one exact base ref: the PR base
+          # (GITHUB_BASE_REF), the push's before commit, or for a manual run the
+          # default branch. An unresolvable base fails closed (exit 2).
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            python3 scripts/check_ruff.py --base "origin/$DEFAULT_BRANCH"
+          else
+            python3 scripts/check_ruff.py
+          fi
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
