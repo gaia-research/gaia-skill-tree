@@ -828,8 +828,9 @@ routing:
         - python -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" <workflow-file>
         - gh run list --workflow <workflow-file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt
         - gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'
-        - python -m gaia_cli.steward.workflowproof history --history <job-history.json>
-        - python -m gaia_cli.steward.workflowproof no-history --class <class> --declared-wait-seconds <seconds> --history <job-history.json>
+        - python -m gaia_cli.steward.workflowproof fetch --workflow <workflow-file> --job <job-key> --out <history-dir>/<job-key>.json
+        - python -m gaia_cli.steward.workflowproof history --history <history-dir>/<job-key>.json
+        - python -m gaia_cli.steward.workflowproof no-history --class <class> --declared-wait-seconds <seconds> --history <history-dir>/<job-key>.json
       forbiddenPaths:
         - .agents/skills/**
         - .claude/skills/**
@@ -857,7 +858,7 @@ routing:
         - validation, coverage, or independent proof is incomplete
       proof:
         - reproduce every missing-timeout finding for the subject workflow on the current head
-        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied, with the job's raw history rows file and the matching python -m gaia_cli.steward.workflowproof history or no-history --history command and its exact output (selection and value; no-history jobs also state class and resolved declared waits)
+        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied; under this item record the job's python -m gaia_cli.steward.workflowproof fetch command with its exact output (job-key, sha256 and run-ids lines), which writes the raw history rows file to <history-dir>/<job-key>.json, where <history-dir> is ${TMPDIR:-/tmp}/gaia-steward-history/<dispatch-id>/build, outside the repository checkout (fetch refuses a path inside it, and the rows file is never committed or hand-assembled); then the matching python -m gaia_cli.steward.workflowproof history or no-history --history <history-dir>/<job-key>.json command and its exact output (selection and value; no-history jobs also state class and resolved declared waits). The verifier refetches the same pinned runs, requires a byte-identical rows file and recomputes the value
         - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
         - parse the edited workflow as YAML and report exact results
         - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results

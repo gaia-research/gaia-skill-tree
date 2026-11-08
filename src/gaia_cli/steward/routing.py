@@ -55,6 +55,7 @@ from gaia_cli.steward.verification import (
     VerificationError,
     VerificationVerdict,
     calibration_structure_violations,
+    workflow_history_check,
     evaluate,
     is_workflow_path,
     parse_proof_transcript,
@@ -1176,6 +1177,7 @@ def render_verification(
             "authority_still_class_b": still_class_b,
             "workflow_baseline": workflow_baseline,
             "calibration_violations": calibration_structure_violations(root, packet, change_set),
+            "history_check": workflow_history_check(packet, transcript_text),
         }
         # Scope is a pure function of the diff and the envelope, so it is decided
         # before anything is applied. An out-of-scope change set is never handed to
