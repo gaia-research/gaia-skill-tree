@@ -5,7 +5,7 @@ contributor: emilkowalski
 origin: false
 genericSkillRef: web-best-practices
 status: named
-level: 2★
+level: 4★
 description: Make a web app feel native on a phone — the small CSS and meta-tag fixes
   that separate "a website in a browser" from something that feels installed. Covers
   sticky hover states, tap highlight flashes, the 100vh bug, inputs that zoom the
@@ -14,7 +14,7 @@ description: Make a web app feel native on a phone — the small CSS and meta-ta
   and the rule that you test on real hardware. Use when a web app is being built for
   or review
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-08'
 title: Mobile Native
 links:
   github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/mobile-native/SKILL.md
@@ -33,6 +33,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T08:20:23Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/mobile-native/SKILL.md
   evaluator: mbtiongson1
