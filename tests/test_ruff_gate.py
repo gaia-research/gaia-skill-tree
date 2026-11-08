@@ -20,6 +20,17 @@ from scripts.check_ruff import (
 )
 
 
+@pytest.fixture(autouse=True)
+def _hermetic_ci_environment(monkeypatch):
+    """The gate refuses ``--update-baseline`` when CI/GITHUB_ACTIONS is set.
+
+    The tests that legitimately update a temp baseline must not inherit that from
+    the runner. ``test_update_baseline_in_ci_fails_closed`` sets ``CI`` itself.
+    """
+    monkeypatch.delenv("CI", raising=False)
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+
+
 def test_classify_code_tiers():
     """Verify classification of rules into blocking, ratchet, and advisory tiers."""
     # Blocking rules
