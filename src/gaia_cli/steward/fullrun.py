@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import inspect
 import json
 import os
 import re
@@ -463,8 +464,23 @@ class FullRunner:
         )
         return result
 
-    def _load(self) -> dict[str, Any]:
-        document, _ = self.config.store.load()
+    def _load(self, runId: str | None = None) -> dict[str, Any]:
+        load_fn = self.config.store.load
+        try:
+            sig = inspect.signature(load_fn)
+            params = sig.parameters
+            has_var_kw = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+            if has_var_kw or "runId" in params:
+                document, _ = load_fn(runId=runId)
+            elif "run_id" in params:
+                document, _ = load_fn(run_id=runId)
+            else:
+                document, _ = load_fn()
+        except (ValueError, TypeError):
+            try:
+                document, _ = load_fn(runId=runId)
+            except TypeError:
+                document, _ = load_fn()
         return document
 
     def _ledgerInfo(self, version: str | None = None) -> dict[str, Any]:
@@ -521,7 +537,7 @@ class FullRunner:
         return self._update(mutate, message=message, runId=runId)
 
     def _loadRun(self, runId: str) -> dict[str, Any]:
-        run = self._load()["runs"].get(runId)
+        run = self._load(runId=runId)["runs"].get(runId)
         if run is None:
             raise UnknownRun(f"unknown run {runId}")
         return run

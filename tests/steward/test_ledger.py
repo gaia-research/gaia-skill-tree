@@ -92,6 +92,13 @@ def snapshot(clone: Path) -> dict[str, str]:
     }
 
 
+@pytest.fixture(autouse=True)
+def isolate_ledger_telemetry(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    target = tmp_path / "test-telemetry.jsonl"
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_TELEMETRY_PATH", str(target))
+    return target
+
+
 @pytest.fixture
 def machines(tmp_path: Path):
     remote = tmp_path / "remote.git"
@@ -1125,99 +1132,74 @@ def test_lease_ttl_boundary_and_expiry_overflow():
         acquire_lease(doc, "other", "a", datetime(9999, 12, 31, 23, 59, 59, tzinfo=timezone.utc), 3600)
 
 
-def test_read_duration_is_measured_and_emitted_in_ledger_monitor(caplog, tmp_path, machines):
-    caplog.set_level("INFO", logger="gaia_cli.steward.ledger")
+def test_read_duration_is_measured_and_emitted_in_ledger_monitor(tmp_path, machines):
+    telem_path = tmp_path / "test-telemetry.jsonl"
 
     # 1. FileLedgerStore: empty and populated reads
     file_store = FileLedgerStore(tmp_path / "ledger.json")
 
     # Empty file read
-    caplog.clear()
     doc, ver = file_store.load()
     assert ver is None
-    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
-    assert len(read_msgs) == 1
-    m = re.search(
-        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        read_msgs[0],
-    )
-    assert m is not None
-    assert int(m.group(1)) == 0
-    assert float(m.group(3)) >= 0.0
-    assert int(m.group(4)) == 0
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rec = lines[-1]
+    assert rec["op"] == "read"
+    assert rec["bytes"] == 0
+    assert rec["duration_ms"] is not None and rec["duration_ms"] >= 0.0
+    assert rec["cas_retries"] == 0
 
     # Populate file store
     update(file_store, appendMarker("file-seed"))
 
     # Populated file read
-    caplog.clear()
     doc, ver = file_store.load()
     assert ver is not None
-    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
-    assert len(read_msgs) == 1
-    m = re.search(
-        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        read_msgs[0],
-    )
-    assert m is not None
-    assert int(m.group(1)) > 0
-    assert float(m.group(3)) >= 0.0
-    assert int(m.group(4)) == 0
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rec = lines[-1]
+    assert rec["op"] == "read"
+    assert rec["bytes"] > 0
+    assert rec["duration_ms"] is not None and rec["duration_ms"] >= 0.0
+    assert rec["cas_retries"] == 0
 
     # 2. GitRefLedgerStore: empty and populated reads
     _, git_store_a, _ = machines
 
     # Empty git read
-    caplog.clear()
     doc, ver = git_store_a.load()
     assert ver is None
-    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
-    assert len(read_msgs) == 1
-    m = re.search(
-        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        read_msgs[0],
-    )
-    assert m is not None
-    assert int(m.group(1)) == 0
-    assert float(m.group(3)) >= 0.0
-    assert int(m.group(4)) == 0
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rec = lines[-1]
+    assert rec["op"] == "read"
+    assert rec["bytes"] == 0
+    assert rec["duration_ms"] is not None and rec["duration_ms"] >= 0.0
+    assert rec["cas_retries"] == 0
 
     # Populate git store
     update(git_store_a, appendMarker("git-seed"))
 
     # Populated git read
-    caplog.clear()
     doc, ver = git_store_a.load()
     assert ver is not None
-    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
-    assert len(read_msgs) == 1
-    m = re.search(
-        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        read_msgs[0],
-    )
-    assert m is not None
-    assert int(m.group(1)) > 0
-    assert float(m.group(3)) >= 0.0
-    assert int(m.group(4)) == 0
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rec = lines[-1]
+    assert rec["op"] == "read"
+    assert rec["bytes"] > 0
+    assert rec["duration_ms"] is not None and rec["duration_ms"] >= 0.0
+    assert rec["cas_retries"] == 0
 
 
-def test_write_duration_and_cas_retries_emitted_during_update(caplog, tmp_path, machines):
-    caplog.set_level("INFO", logger="gaia_cli.steward.ledger")
+def test_write_duration_and_cas_retries_emitted_during_update(tmp_path, machines):
+    telem_path = tmp_path / "test-telemetry.jsonl"
 
     # Clean write (first attempt: cas_retries == 0)
     file_store = FileLedgerStore(tmp_path / "ledger.json")
-    caplog.clear()
     update(file_store, appendMarker("clean-write"))
-    write_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=write" in r.getMessage()]
-    assert len(write_msgs) == 1
-    m = re.search(
-        r"Steward ledger monitor: direction=write bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        write_msgs[0],
-    )
-    assert m is not None
-    assert int(m.group(1)) > 0
-    assert float(m.group(3)) >= 0.0
-    assert int(m.group(4)) == 0
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    write_recs = [r for r in lines if r["op"] == "write"]
+    assert len(write_recs) == 1
+    assert write_recs[0]["bytes"] > 0
+    assert write_recs[0]["duration_ms"] is not None and write_recs[0]["duration_ms"] >= 0.0
+    assert write_recs[0]["cas_retries"] == 0
 
     # Conflict retry: cas_retries > 0
     _, store_a, store_b = machines
@@ -1230,20 +1212,15 @@ def test_write_duration_and_cas_retries_emitted_during_update(caplog, tmp_path, 
             update(store_a, appendMarker("sneak-in"))
         doc["runs"]["b"] = {"runId": "b"}
 
-    caplog.clear()
     update(store_b, sneaky_mutate, sleep=noSleep)
-    write_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=write" in r.getMessage()]
-    assert len(write_msgs) >= 2
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    write_recs = [r for r in lines if r["op"] == "write"]
+    assert len(write_recs) >= 3
     # The last write message is store_b's successful CAS after 1 retry
-    last_msg = write_msgs[-1]
-    m_conflict = re.search(
-        r"Steward ledger monitor: direction=write bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
-        last_msg,
-    )
-    assert m_conflict is not None
-    assert int(m_conflict.group(1)) > 0
-    assert float(m_conflict.group(3)) >= 0.0
-    assert int(m_conflict.group(4)) == 1
+    last_rec = write_recs[-1]
+    assert last_rec["bytes"] > 0
+    assert last_rec["duration_ms"] is not None and last_rec["duration_ms"] >= 0.0
+    assert last_rec["cas_retries"] == 1
 
 
 def test_ledger_monitor_and_telemetry_logs_are_metadata_only(caplog, tmp_path):
@@ -1698,3 +1675,67 @@ def test_fullrun_mutate_run_propagates_run_id(tmp_path):
     write_records = [r for r in run_records if r["op"] == "write"]
     assert len(write_records) >= 1
     assert write_records[-1]["runId"] == "test-run-abc"
+
+
+def test_telemetry_mixed_failure_emits_at_most_one_warning_per_operation(tmp_path, capsys):
+    """Mixed failure types (e.g. unwritable path + oversized record) emit at most one stderr warning per operation."""
+    blocking_file = tmp_path / "not_a_dir"
+    blocking_file.write_text("block")
+    unwritable_path = blocking_file / "sub" / "telemetry.jsonl"
+
+    capsys.readouterr()
+    with ledgerModule._TelemetryDeduplicator():
+        # 1. Unwritable path failure
+        ledgerModule.write_ledger_telemetry({"op": "read"}, unwritable_path, 1000)
+        # 2. Oversized record failure on another path
+        valid_path = tmp_path / "valid.jsonl"
+        oversized = {"op": "write", "data": "x" * 2000}
+        ledgerModule.write_ledger_telemetry(oversized, valid_path, 500)
+
+    captured = capsys.readouterr()
+    warning_lines = [
+        line for line in captured.err.splitlines()
+        if "warning: failed to write steward ledger telemetry:" in line
+    ]
+    assert len(warning_lines) == 1
+    assert "not_a_dir" in warning_lines[0]
+
+    # Also verify through update() where load and write telemetry both fail on unwritable path
+    store = FileLedgerStore(tmp_path / "ledger.json", telemetry_path=unwritable_path)
+    capsys.readouterr()
+    res, ver = update(store, appendMarker("multi-fail-op"))
+    assert res == "multi-fail-op"
+    captured = capsys.readouterr()
+    warning_lines = [
+        line for line in captured.err.splitlines()
+        if "warning: failed to write steward ledger telemetry:" in line
+    ]
+    assert len(warning_lines) == 1
+
+
+def test_fullrun_load_run_propagates_run_id_to_read_telemetry(tmp_path):
+    """FullRunner._loadRun propagates runId to read telemetry records."""
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+
+    telem_path = tmp_path / "load-run-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "fullrun-ledger.json", telemetry_path=telem_path)
+    config = FullRunConfig(repo_root=tmp_path, store=store)
+    runner = FullRunner(config)
+
+    # Seed run in ledger
+    def seed(doc: dict):
+        doc["runs"]["test-run-xyz"] = {"runId": "test-run-xyz", "phase": "observe"}
+        return "seeded"
+
+    update(store, seed, telemetry_path=telem_path)
+
+    # Call _loadRun
+    run = runner._loadRun("test-run-xyz")
+    assert run["runId"] == "test-run-xyz"
+
+    # Check telemetry file has a read record with runId="test-run-xyz"
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    read_records = [r for r in lines if r["op"] == "read" and r.get("runId") == "test-run-xyz"]
+    assert len(read_records) >= 1
+    assert read_records[-1]["runId"] == "test-run-xyz"

@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import inspect
 import json
 import logging
 import math
@@ -129,7 +130,9 @@ class LedgerStore(Protocol):
     transport: str
     shared: bool
 
-    def load(self) -> tuple[dict[str, Any], str | None]: ...
+    def load(
+        self, runId: str | None = None, **kwargs: Any
+    ) -> tuple[dict[str, Any], str | None]: ...
 
     def compare_and_swap(
         self, expected: str | None, document: dict[str, Any], message: str
@@ -304,6 +307,7 @@ class _TelemetryDeduplicator:
 
     def __init__(self) -> None:
         self.seen: set[str] = set()
+        self.warned: bool = False
 
     def __enter__(self) -> "_TelemetryDeduplicator":
         self._prev = getattr(_local_telemetry, "deduplicator", None)
@@ -317,15 +321,29 @@ class _TelemetryDeduplicator:
 def _warn_telemetry(message: str, key: str | None = None) -> None:
     dedup = getattr(_local_telemetry, "deduplicator", None)
     if dedup is not None:
-        dedup_key = key if key is not None else message
-        if dedup_key in dedup.seen:
+        if dedup.warned:
             return
-        dedup.seen.add(dedup_key)
+        dedup.warned = True
+        if key is not None:
+            dedup.seen.add(key)
+        else:
+            dedup.seen.add(message)
     try:
         sys.stderr.write(f"warning: {message}\n")
         sys.stderr.flush()
     except Exception:
         pass
+
+
+def _inspect_accepts_param(fn: Any, param_name: str) -> bool:
+    try:
+        sig = inspect.signature(fn)
+    except (ValueError, TypeError):
+        return False
+    for param in sig.parameters.values():
+        if param.kind == inspect.Parameter.VAR_KEYWORD or param.name == param_name:
+            return True
+    return False
 
 
 def write_ledger_telemetry(
@@ -517,13 +535,21 @@ def deserialize(
 ) -> dict[str, Any]:
     limit = ledgerByteLimit()
     if record_telemetry:
+        effective_run_id = (
+            runId
+            if runId is not None
+            else (run_id if run_id is not None else os.environ.get("GAIA_STEWARD_RUN_ID"))
+        )
+        if effective_run_id == "":
+            effective_run_id = None
         reportLedgerSize(
             len(data),
             limit,
             "read",
             duration_ms=duration_ms,
             cas_retries=cas_retries,
-            run_id=run_id or runId,
+            run_id=effective_run_id,
+            runId=effective_run_id,
             telemetry_path=telemetry_path,
             max_telemetry_bytes=max_telemetry_bytes,
         )
@@ -804,10 +830,10 @@ class GitRefLedgerStore:
 
     def load(
         self,
+        runId: str | None = None,
         *,
         telemetry_path: Path | str | None = None,
         run_id: str | None = None,
-        runId: str | None = None,
         max_telemetry_bytes: int | None = None,
     ) -> tuple[dict[str, Any], str | None]:
         t0 = time.perf_counter()
@@ -826,7 +852,13 @@ class GitRefLedgerStore:
             if max_telemetry_bytes is not None
             else getattr(self, "max_telemetry_bytes", None)
         )
-        effective_run_id = run_id or runId or os.environ.get("GAIA_STEWARD_RUN_ID")
+        effective_run_id = (
+            runId
+            if runId is not None
+            else (run_id if run_id is not None else os.environ.get("GAIA_STEWARD_RUN_ID"))
+        )
+        if effective_run_id == "":
+            effective_run_id = None
         commit = self.fetchRemote()
         if commit is None:
             duration_ms = (time.perf_counter() - t0) * 1000.0
@@ -838,6 +870,7 @@ class GitRefLedgerStore:
                 duration_ms=duration_ms,
                 cas_retries=0,
                 run_id=effective_run_id,
+                runId=effective_run_id,
                 telemetry_path=target_telemetry,
                 max_telemetry_bytes=target_max_bytes,
             )
@@ -855,6 +888,7 @@ class GitRefLedgerStore:
                     duration_ms=duration_ms,
                     cas_retries=0,
                     run_id=effective_run_id,
+                    runId=effective_run_id,
                     telemetry_path=target_telemetry,
                     max_telemetry_bytes=target_max_bytes,
                 )
@@ -874,6 +908,7 @@ class GitRefLedgerStore:
                 duration_ms=duration_ms,
                 cas_retries=0,
                 run_id=effective_run_id,
+                runId=effective_run_id,
                 telemetry_path=target_telemetry,
                 max_telemetry_bytes=target_max_bytes,
             ),
@@ -1047,10 +1082,10 @@ class FileLedgerStore:
 
     def load(
         self,
+        runId: str | None = None,
         *,
         telemetry_path: Path | str | None = None,
         run_id: str | None = None,
-        runId: str | None = None,
         max_telemetry_bytes: int | None = None,
     ) -> tuple[dict[str, Any], str | None]:
         t0 = time.perf_counter()
@@ -1069,7 +1104,13 @@ class FileLedgerStore:
             if max_telemetry_bytes is not None
             else getattr(self, "max_telemetry_bytes", None)
         )
-        effective_run_id = run_id or runId or os.environ.get("GAIA_STEWARD_RUN_ID")
+        effective_run_id = (
+            runId
+            if runId is not None
+            else (run_id if run_id is not None else os.environ.get("GAIA_STEWARD_RUN_ID"))
+        )
+        if effective_run_id == "":
+            effective_run_id = None
         try:
             data = self.path.read_bytes()
         except FileNotFoundError:
@@ -1082,6 +1123,7 @@ class FileLedgerStore:
                 duration_ms=duration_ms,
                 cas_retries=0,
                 run_id=effective_run_id,
+                runId=effective_run_id,
                 telemetry_path=target_telemetry,
                 max_telemetry_bytes=target_max_bytes,
             )
@@ -1095,6 +1137,7 @@ class FileLedgerStore:
             duration_ms=duration_ms,
             cas_retries=0,
             run_id=effective_run_id,
+            runId=effective_run_id,
             telemetry_path=target_telemetry,
             max_telemetry_bytes=target_max_bytes,
         )
@@ -1217,26 +1260,29 @@ def update(
 
     with _TelemetryDeduplicator():
         for attempt in range(retries + 1):
-            try:
-                document, version = store.load(
-                    telemetry_path=target_telemetry_path,
-                    run_id=effective_run_id,
-                    max_telemetry_bytes=target_max_bytes,
-                )
-            except TypeError:
-                document, version = store.load()
+            load_kwargs: dict[str, Any] = {}
+            if _inspect_accepts_param(store.load, "telemetry_path"):
+                load_kwargs["telemetry_path"] = target_telemetry_path
+            if _inspect_accepts_param(store.load, "run_id"):
+                load_kwargs["run_id"] = effective_run_id
+            if _inspect_accepts_param(store.load, "runId"):
+                load_kwargs["runId"] = effective_run_id
+            if _inspect_accepts_param(store.load, "max_telemetry_bytes"):
+                load_kwargs["max_telemetry_bytes"] = target_max_bytes
+
+            document, version = store.load(**load_kwargs)
             working = safeCopy(document)
             result = mutate(working)
             if working == document and version is not None:
                 return result, version
             working["updatedAt"] = formatTime(clock())
             try:
-                try:
-                    new_version = store.compare_and_swap(
-                        version, working, message, _record_telemetry=False
-                    )
-                except TypeError:
-                    new_version = store.compare_and_swap(version, working, message)
+                cas_kwargs: dict[str, Any] = {}
+                if _inspect_accepts_param(store.compare_and_swap, "_record_telemetry"):
+                    cas_kwargs["_record_telemetry"] = False
+                new_version = store.compare_and_swap(
+                    version, working, message, **cas_kwargs
+                )
                 duration_ms = (time.perf_counter() - t_start) * 1000.0
                 limit = ledgerByteLimit()
                 size = getattr(store, "last_write_bytes", None)
