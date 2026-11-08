@@ -11,7 +11,7 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ obra/brainstorming | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/dispatching-parallel-agents | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/dispatching-parallel-agents | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/executing-plans | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/finishing-a-development-branch | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/receiving-code-review | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |

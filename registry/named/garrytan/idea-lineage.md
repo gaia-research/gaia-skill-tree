@@ -14,7 +14,7 @@ description: 'Trace one idea''s evolution through the brain: first mention, best
 
   lineage, not broad concept-map synthesis or structured entity metrics.'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: idea-lineage
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/idea-lineage/SKILL.md
@@ -52,6 +52,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:17:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/idea-lineage/SKILL.md
   evaluator: mbtiongson1
@@ -77,8 +82,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:33Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: dec9724f49200a12c5717410935c563550c39b2837ea35a12a4f3a74880d93b5
 suiteRef: garrytan/gbrain
 ---

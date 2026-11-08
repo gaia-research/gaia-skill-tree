@@ -15,7 +15,7 @@ description: Take any book (EPUB/PDF), produce a personalized chapter-by-chapter
   (pipe tables center-misalign uneven columns). Output is a single brain page at media/books/<slug>-personalized.md
   plus an optional PDF via brain-pdf.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: book-mirror
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/book-mirror/SKILL.md
@@ -53,6 +53,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/book-mirror/SKILL.md
   evaluator: mbtiongson1
@@ -78,8 +83,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:11Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: ab52fe436bcc29340d619f92809d526d1d0e042c64e336e6d48df18c5a03bf95
 suiteRef: garrytan/gbrain
 ---

@@ -11,7 +11,7 @@ description: Grounds every implementation decision in official documentation. Us
   it, or when you want authoritative, source-cited code free from outdated patterns.
   Use when building with any framework or library where correctness matters.
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: source-driven-development
 links:
   github: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/source-driven-development/SKILL.md
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:16:30Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/source-driven-development/SKILL.md
   evaluator: mbtiongson1
@@ -81,8 +86,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:02Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 613561d837e5fab4fa33855424a147e4cbbbf68700a6087c086b74d65a7925aa
 suiteRef: addy-osmani/agent-skills
 ---

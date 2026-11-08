@@ -9,7 +9,7 @@ level: 2★
 description: Project initialization, template scaffolding, skill lifecycle management,
   and CI render runner for HyperFrames video projects.
 createdAt: '2026-09-07'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: The Project Scaffolder
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md
@@ -57,6 +57,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:53Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md
   updatedAt: '2026-10-01'
@@ -79,8 +84,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T16:21:02Z'
 suiteRef: heygen-com/hyperframes
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: a78270c53be33e94fa5a3f9caf74fc30335f72e9621c3b3501f4651bdab9ac62
 ---
 

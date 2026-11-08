@@ -12,7 +12,7 @@ description: Import Figma content into a HyperFrames composition — rendered as
   shaders from a connector or native export. Use when the user pastes a figma.com
   link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.
 createdAt: '2026-09-07'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: The Design Importer
 timeline:
 - timestamp: '2026-09-06T17:23:13Z'
@@ -62,6 +62,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md
 evidence:
@@ -88,8 +93,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T17:23:53Z'
 suiteRef: heygen-com/hyperframes
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 91725fad8b22a670eda00148979c057dd918b295e07111cc42193f68ad7f6816
 ---
 

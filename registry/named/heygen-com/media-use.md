@@ -15,7 +15,7 @@ description: Agent Media OS, the single skill for every media need in a HyperFra
   Also use for vague feedback that real footage looks dark, flat, boring, should feel
   retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.
 createdAt: '2026-09-07'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 title: The Media Steward
 timeline:
 - timestamp: '2026-09-06T17:23:02Z'
@@ -65,6 +65,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md
 evidence:
@@ -91,8 +96,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T17:23:37Z'
 suiteRef: heygen-com/hyperframes
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: de79fdc4e2313bc73556bcc2f2ad8025925318055d5ec499b7e901bfc82b7bba
 ---
 

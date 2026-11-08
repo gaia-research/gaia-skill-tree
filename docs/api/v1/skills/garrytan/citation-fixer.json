@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 50.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 49.9,
+  "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -72,6 +72,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T18:17:03Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

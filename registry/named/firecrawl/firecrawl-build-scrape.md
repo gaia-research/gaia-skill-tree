@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl page extraction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: Firecrawl Scrape
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-scrape/SKILL.md
@@ -78,6 +78,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 110.02 -> 110.02, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:09:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 110.02 -> 109.92, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -119,7 +124,7 @@ verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
 catalogRef: firecrawl-firecrawl-build-scrape
 suiteRef: firecrawl/firecrawl-skills
-trustMagnitude: 110.02
+trustMagnitude: 109.92
 overallTrustGrade: A
 trustMagnitudeInputHash: 360b2de8e2c9870b41c72c7c7ec9fcb7e11416ed114cdcf4c8c48f8f7bbf8934
 ---

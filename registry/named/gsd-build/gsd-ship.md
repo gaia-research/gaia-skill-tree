@@ -9,7 +9,7 @@ level: 2★
 description: Creates the pull request, runs review, archives the completed phase,
   and prepares the next iteration.
 createdAt: '2026-07-03'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 timeline:
 - timestamp: '2026-07-02T18:04:52Z'
   action: add
@@ -95,6 +95,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:18:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md
   updatedAt: '2026-10-01'
@@ -115,8 +120,8 @@ verification:
 title: GSD Ship Phase
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

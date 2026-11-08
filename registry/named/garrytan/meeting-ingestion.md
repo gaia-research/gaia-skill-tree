@@ -25,7 +25,7 @@ description: 'Ingest meeting transcripts from ANY meeting recorder into brain pa
 
   passes, including the sequence verify (PASS or explicit user waive).'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: meeting-ingestion
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/meeting-ingestion/SKILL.md
@@ -63,6 +63,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:17:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/meeting-ingestion/SKILL.md
   evaluator: mbtiongson1
@@ -88,8 +93,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:38Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 2ae72c0f6ed9bab7940701e7fae19de6a349bf25204161d74d057c7b6a900cbd
 suiteRef: garrytan/gbrain
 ---

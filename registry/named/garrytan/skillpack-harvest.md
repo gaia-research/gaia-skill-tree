@@ -11,7 +11,7 @@ description: 'Lift a proven skill from a host repo (e.g. your OpenClaw fork) bac
   CLI does the file copy + privacy lint; this skill drives the judgment-heavy genericization
   (scrub real names, generalize triggers, lift fork-specific conventions to references).'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Skillpack Harvest
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-harvest/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-harvest/SKILL.md
@@ -46,8 +51,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:42Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 798fc4e00d0cdececf39289ebaf265a65ffa3798b197d0031da38e7810f406c1
 ---
 

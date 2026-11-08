@@ -19,7 +19,7 @@ tags:
 - core-web-vitals
 - regression
 createdAt: '2026-05-18'
-updatedAt: '2026-11-08'
+updatedAt: '2026-11-09'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -109,8 +109,13 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
-trustMagnitude: 50.0
-overallTrustGrade: B
+- timestamp: '2026-11-08T18:16:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 49.9
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
