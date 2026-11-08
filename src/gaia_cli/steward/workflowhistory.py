@@ -19,7 +19,9 @@ write inside the repository. ``fetch`` closes that gap:
   an ``--out`` path that must lie outside the repository checkout, and prints its
   sha256 and the pinned ``--run-ids``;
 * ``--run-ids`` plus ``--expect-sha256`` let the independent verifier refetch the
-  same runs and prove byte-identical input before recomputing the value.
+  same runs and prove byte-identical input before recomputing the value. The pins
+  are first proven to be exactly the current latest completed sample (an independent
+  run list); a builder may not pin runs at all.
 
 It fails closed: an API failure, a truncated jobs page, no completed runs, or no
 row for the job is "history cannot be read" (exit 3, nothing written), exactly the
@@ -36,6 +38,7 @@ import re
 import shlex
 import subprocess
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
@@ -45,6 +48,10 @@ SCHEMA = "steward-workflow-job-history-v1"
 DEFAULT_REPOSITORY = "gaia-research/gaia-skill-tree"
 RUN_SAMPLE = 50
 JOBS_PAGE = 100
+# GitHub's workflow-job conclusion enum (null while a job has no conclusion).
+JOB_CONCLUSIONS = frozenset({
+    "success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required", "stale",
+})
 HISTORY_DIR_HINT = "${TMPDIR:-/tmp}/gaia-steward-history"
 _MATRIX_EXPRESSION = re.compile(r"\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}")
 _FLAGGED = re.compile(r"^job (?P<job>.+) has no timeout-minutes$")
@@ -65,6 +72,10 @@ class HistoryRefused(ValueError):
 
 class HistoryUnavailable(RuntimeError):
     """History cannot be read for this job: the route stops (exit 3)."""
+
+
+class SampleMismatch(RuntimeError):
+    """Pinned runs are not provably the latest completed sample (exit 4, nothing written)."""
 
 
 # --------------------------------------------------------------------------
@@ -198,13 +209,13 @@ def parse_run_ids(value: str) -> list[tuple[int, int]]:
     return pins
 
 
-def sample_runs(workflow: str, repository: str, gh: Gh) -> list[tuple[int, int]]:
-    """The latest completed runs of the workflow, as (run id, attempt), in API order."""
+def sample_runs(workflow: str, repository: str, gh: Gh, limit: int = RUN_SAMPLE) -> list[tuple[int, int]]:
+    """The latest completed runs of the workflow, as (run id, attempt), in API order (newest first)."""
 
     raw = _json(
         gh([
             "run", "list", "--repo", repository, "--workflow", PurePosixPath(workflow).name,
-            "--status", "completed", "--limit", str(RUN_SAMPLE), "--json", "databaseId,attempt",
+            "--status", "completed", "--limit", str(limit), "--json", "databaseId,attempt",
         ]),
         "gh run list output",
     )
@@ -217,7 +228,31 @@ def sample_runs(workflow: str, repository: str, gh: Gh) -> list[tuple[int, int]]
         if isinstance(run_id, bool) or not isinstance(run_id, int) or isinstance(attempt, bool) or not isinstance(attempt, int):
             raise HistoryUnavailable(f"gh run list returned an unusable row: {item!r}"[:200])
         pins.append((run_id, attempt))
+    if len(pins) > limit or len({run_id for run_id, _ in pins}) != len(pins):
+        raise HistoryUnavailable("gh run list returned more rows than requested or a repeated run")
     return pins
+
+
+def verify_latest_sample(pins: Sequence[tuple[int, int]], workflow: str, repository: str, gh: Gh) -> None:
+    """Prove that the pinned runs are exactly the latest completed sample, now.
+
+    The pins are never trusted as a sample. The current latest RUN_SAMPLE completed
+    runs are listed independently, and the pins must equal that set at the attempts
+    the list reports. Any difference (an older, skipped or foreign run, a re-run
+    attempt, or a newer run that completed after the build sampled) raises
+    SampleMismatch: the recompute stops rather than accept a sample it cannot prove
+    is the latest, and a fresh build takes a fresh sample.
+    """
+
+    latest = sample_runs(workflow, repository, gh, limit=RUN_SAMPLE)
+    if not latest:
+        raise HistoryUnavailable("the workflow has no completed runs; history cannot be read")
+    if set(latest) != set(pins) or len(pins) != len(latest):
+        newer = [run_id for run_id, _attempt in latest if run_id not in {r for r, _a in pins}]
+        raise SampleMismatch(
+            f"pinned runs are not the latest {RUN_SAMPLE} completed runs "
+            f"({len(newer)} listed run(s) absent from the pins, e.g. {newer[:3]})"
+        )
 
 
 def run_jobs(run_id: int, attempt: int, repository: str, gh: Gh) -> list[dict[str, Any]]:
@@ -257,7 +292,22 @@ def _job_row_problem(job: Any) -> str | None:
             return f"missing {field}"
         if job[field] is not None and not isinstance(job[field], str):
             return f"{field} is neither a string nor null"
+    if job["conclusion"] is not None and job["conclusion"] not in JOB_CONCLUSIONS:
+        return f"conclusion {job['conclusion']!r} is not a GitHub job conclusion"
+    for field in ("started_at", "completed_at"):
+        if job[field] is not None and not _iso_timestamp(job[field]):
+            return f"{field} {job[field]!r} is not an ISO 8601 timestamp with a timezone"
     return None
+
+
+def _iso_timestamp(value: str) -> bool:
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})", value):
+        return False
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return parsed.tzinfo is not None
 
 
 # --------------------------------------------------------------------------
@@ -365,6 +415,8 @@ def fetch_main(args: Any, *, cwd: Path | None = None, gh: Gh = run_gh) -> int:
             raise HistoryRefused(f"{workflow} does not exist in this checkout")
         out = check_out_path(Path(args.out), checkout)
         pins = parse_run_ids(args.run_ids) if args.run_ids else None
+        if pins is not None:
+            verify_latest_sample(pins, workflow, args.repo, gh)
         document = build_document(
             workflow, path.read_text(encoding="utf-8"), args.job, repository=args.repo, pins=pins, gh=gh
         )
@@ -374,6 +426,9 @@ def fetch_main(args: Any, *, cwd: Path | None = None, gh: Gh = run_gh) -> int:
     except HistoryUnavailable as exc:
         print(f"history unreadable: {exc}; stop")
         return 3
+    except SampleMismatch as exc:
+        print(f"MISMATCH: {exc}; stop")
+        return 4
     payload = render(document)
     digest = hashlib.sha256(payload).hexdigest()
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -498,6 +553,14 @@ def parse_provenance(transcript_text: str) -> tuple[list[FetchRecord], list[tupl
         rule, args = parsed
         if rule != "fetch":
             rules.append((rule, args))
+            continue
+        if args.run_ids or args.expect_sha256:
+            # --run-ids / --expect-sha256 are the verifier's recompute flags. A builder
+            # must sample the latest completed runs, never choose which runs count.
+            problems.append(
+                f"fetch entry for {str(args.job)[:60]!r} pins --run-ids/--expect-sha256; the builder "
+                "must sample the latest completed runs"
+            )
             continue
         output = str(entry.get("output", ""))
         fields = {

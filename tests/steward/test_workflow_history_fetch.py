@@ -62,8 +62,10 @@ class FakeGh:
     def __call__(self, args: Sequence[str]) -> str:
         self.calls.append(list(args))
         if args[0] == "run":
-            assert "--status" in args and "completed" in args and "--limit" in args and "50" in args
-            return json.dumps([{"databaseId": r, "attempt": a} for r, a in self.runs])
+            assert "--status" in args and "completed" in args and "--limit" in args
+            limit = int(args[args.index("--limit") + 1])
+            assert limit == wh.RUN_SAMPLE
+            return json.dumps([{"databaseId": r, "attempt": a} for r, a in self.runs[:limit]])
         assert args[0] == "api"
         run_id = int(args[1].split("/runs/")[1].split("/")[0])
         listed = self.jobs.get(run_id, [])
@@ -231,6 +233,14 @@ _VALID = _row(CURRENT, "success", "2026-11-01T00:00:00Z", "2026-11-01T00:00:40Z"
     pytest.param([_VALID], False, id="bool-false-total"),
     pytest.param([_VALID, _VALID], 1, id="total-below-rows"),
     pytest.param([_VALID], "1", id="string-total"),
+    pytest.param([{**_VALID, "conclusion": "nonsense"}], None, id="unknown-conclusion"),
+    pytest.param([{**_VALID, "conclusion": "SUCCESS"}], None, id="wrong-case-conclusion"),
+    pytest.param([{**_VALID, "started_at": "bad"}], None, id="bad-started-at"),
+    pytest.param([{**_VALID, "completed_at": "2026-13-01T00:00:00Z"}], None, id="impossible-date"),
+    pytest.param([{**_VALID, "started_at": "2026-11-01T00:00:00"}], None, id="naive-timestamp"),
+    pytest.param([{**_VALID, "started_at": "2026-11-01"}], None, id="date-only"),
+    pytest.param([_VALID, {**_row("plain", "nonsense", "2026-11-01T00:00:00Z", "2026-11-01T00:00:05Z")}],
+                 None, id="unrelated-row-bad-conclusion"),
 ])
 def test_malformed_jobs_response_stops_and_writes_nothing(
     checkout: Path, tmp_path: Path, capsys, rows: list[Any], total: Any
@@ -264,18 +274,73 @@ def test_only_direct_child_hand_written_workflows_are_fetched(checkout: Path, tm
 # --- verifier recompute parity --------------------------------------------------------
 
 
-def test_pinned_refetch_is_byte_identical_even_after_new_runs(checkout: Path, tmp_path: Path, capsys) -> None:
+def test_pinned_refetch_is_byte_identical_and_proves_the_latest_sample(checkout: Path, tmp_path: Path, capsys) -> None:
     built = tmp_path / "build" / "backfill.json"
     assert _fetch(checkout, built, _renamed_gh()) == 0
     printed = _lines(capsys.readouterr().out)
-    later = _renamed_gh()
-    later.runs.insert(0, (40, 1))  # a newer completed run lands between build and verify
-    later.jobs[40] = [_row(CURRENT, "success", "2026-11-07T00:00:00Z", "2026-11-07T02:00:00Z")]
+    same = _renamed_gh()
+    same.runs.reverse()  # API order never matters
     verified = tmp_path / "verify" / "backfill.json"
-    code = _fetch(checkout, verified, later, "--run-ids", printed["run-ids"], "--expect-sha256", printed["sha256"])
+    code = _fetch(checkout, verified, same, "--run-ids", printed["run-ids"], "--expect-sha256", printed["sha256"])
     assert code == 0, capsys.readouterr().out
     assert verified.read_bytes() == built.read_bytes()
-    assert not any(call[0] == "run" for call in later.calls)  # pinned: no run sampling
+    # r2397 P1-2: the pins are checked against an independent latest-sample run list.
+    assert sum(1 for call in same.calls if call[0] == "run") == 1
+
+
+def test_a_newer_run_after_the_build_stops_the_recompute(checkout: Path, tmp_path: Path, capsys) -> None:
+    """The pinned sample is no longer the latest one: stop and resample, never accept a stale set."""
+    assert _fetch(checkout, tmp_path / "b.json", _renamed_gh()) == 0
+    printed = _lines(capsys.readouterr().out)
+    later = _renamed_gh()
+    later.runs.insert(0, (40, 1))
+    later.jobs[40] = [_row(CURRENT, "success", "2026-11-07T00:00:00Z", "2026-11-07T02:00:00Z")]
+    out = tmp_path / "v.json"
+    assert _fetch(checkout, out, later, "--run-ids", printed["run-ids"], "--expect-sha256", printed["sha256"]) == 4
+    assert "MISMATCH" in capsys.readouterr().out
+    assert not out.exists()
+
+
+def _many(count: int) -> FakeGh:
+    runs = [(1000 - i, 1) for i in range(count)]  # newest first
+    return FakeGh(runs, {r: [_row(CURRENT, "success", "2026-11-01T00:00:00Z", "2026-11-01T00:00:40Z")] for r, _ in runs})
+
+
+def _pins(runs) -> str:
+    return ",".join(f"{r}:{a}" for r, a in runs)
+
+
+@pytest.mark.parametrize("case", [
+    "skip-one", "older-block", "skipped-run", "short-sample", "rerun-attempt", "foreign-run",
+])
+def test_pinned_runs_must_be_the_latest_sample(checkout: Path, tmp_path: Path, capsys, case: str) -> None:
+    """r2397 P1-2: a builder-chosen run set never passes as the latest completed sample."""
+    gh = _many(120)
+    latest = gh.runs[:wh.RUN_SAMPLE]
+    if case == "skip-one":
+        pins = gh.runs[0:1] + gh.runs[2:wh.RUN_SAMPLE + 1]
+    elif case == "older-block":
+        pins = gh.runs[5:5 + wh.RUN_SAMPLE]
+    elif case == "skipped-run":
+        pins = latest[:-1] + [gh.runs[wh.RUN_SAMPLE]]
+    elif case == "short-sample":
+        pins = latest[:5]
+    elif case == "rerun-attempt":
+        pins = latest
+        gh.runs[3] = (gh.runs[3][0], 2)
+    else:
+        pins = latest[:-1] + [(7, 1)]
+    out = tmp_path / "v.json"
+    assert _fetch(checkout, out, gh, "--run-ids", _pins(pins)) == 4
+    assert "MISMATCH" in capsys.readouterr().out
+    assert not out.exists()
+
+
+def test_the_exact_latest_sample_and_a_short_history_pass(checkout: Path, tmp_path: Path) -> None:
+    gh = _many(120)
+    assert _fetch(checkout, tmp_path / "a.json", gh, "--run-ids", _pins(reversed(gh.runs[:wh.RUN_SAMPLE]))) == 0
+    few = _many(7)
+    assert _fetch(checkout, tmp_path / "b.json", few, "--run-ids", _pins(few.runs)) == 0
 
 
 def test_changed_rows_fail_the_recompute(checkout: Path, tmp_path: Path, capsys) -> None:
@@ -359,7 +424,6 @@ def test_verifier_recompute_reproduces_the_builders_bytes_and_value(checkout: Pa
     monkeypatch.setenv("TMPDIR", str(tmp_path / "vt"))
     expanded = [c.replace("${TMPDIR:-/tmp}", str(tmp_path / "vt")) for c in commands]
     later = _renamed_gh()
-    later.runs.insert(0, (99, 1))
     args = build_parser().parse_args(shlex.split(expanded[0])[3:])
     assert wh.fetch_main(args, cwd=checkout, gh=later) == 0
     assert "recompute: byte-identical" in capsys.readouterr().out
@@ -428,6 +492,10 @@ def _drop_line(prefix):
         (lambda e: e[-2].update(output=e[-2]["output"] + "run-ids: invalid\n"), "lacks exactly one run-ids"),
         (lambda e: e[-2].update(output=e[-2]["output"] + "job-key: \n"), "lacks exactly one job-key"),
         # Review r2397 note 4: records cover exactly the flagged jobs.
+        # Review r2397 P1-2: the builder samples the latest runs; it never pins them.
+        (lambda e: e[-2].update(command=e[-2]["command"] + " --run-ids 1:1"), "must sample the latest completed runs"),
+        (lambda e: e[-2].update(command=e[-2]["command"] + " --expect-sha256 " + "a" * 64),
+         "must sample the latest completed runs"),
         (lambda e: e.insert(-1, {**e[-2], "command": e[-2]["command"].replace("--job backfill", "--job plain"),
                                  "output": e[-2]["output"].replace("job-key: backfill", "job-key: plain")}),
          "fetch entry for unflagged job 'plain'"),
@@ -531,3 +599,16 @@ def test_the_route_decision_stays_open_until_independent_acceptance() -> None:
     awaiting: list[Any] = []
     pending, invalid = _records_to_desk([record], awaiting)
     assert [d.decision_id for d in pending] == [name] and awaiting == [] and invalid == []
+
+
+def test_the_route_decision_quotes_ruling_4_verbatim() -> None:
+    """r2397 P1-3: claimed standing authority is quoted from the ruling file, not paraphrased."""
+    name = "steward-workflow-timeout-history-fetch-2283"
+    record = json.loads((REPO_ROOT / "founder/steward/decisions" / f"{name}.json").read_text(encoding="utf-8"))
+    rulings = (REPO_ROOT / "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md").read_text(
+        encoding="utf-8")
+    quoted = record["evidence"][0].split("\n", 1)[1]
+    assert quoted.startswith("## Ruling 4: Standing Class B repair-route authority")
+    assert quoted in rulings
+    assert ("**Standing authorization:** Routine, demonstrably safe Class B routes may be activated after "
+            "independent acceptance without requesting another founder ruling for each category.") in quoted

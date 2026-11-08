@@ -81,8 +81,13 @@ the same as none.
    contributes no rows under its old name), and prints the rows file's `sha256` and the
    pinned `run-ids`. Rows and runs are written in canonical order, so the bytes never
    depend on the order the API listed them. It exits 3 and writes nothing when history cannot be read (API
-   failure, a truncated jobs page, no completed runs, no row for the job). Never
-   assemble the rows file by hand; `gh run list` and `gh api` stay allowed for reading.
+   failure, a truncated jobs page, no completed runs, no row for the job, or any
+   malformed jobs response: a non-object or nameless row, an unknown conclusion, a
+   timestamp that is not ISO 8601 with a timezone, or a `total_count` that is not a
+   nonnegative integer equal to the rows returned). Never pass `--run-ids` or
+   `--expect-sha256` as the builder: those are the verifier's flags, and a build whose
+   fetch entry pins runs is rejected. Never assemble the rows file by hand; `gh run list`
+   and `gh api` stay allowed for reading.
 3. **Apply the rule.** `timeout = ceil to 5 minutes of max(2 x p95, 1.5 x max)`
    of the **successful** durations (a cancelled or timed-out run says nothing about how
    long healthy work takes), never below 5. State the sample size, p95, max and the
@@ -154,15 +159,19 @@ The no-history default, in order:
 ### How the verifier recomputes
 
 Mechanical verification parses the item-2 `fetch` entries once and rejects the build
-unless every flagged job has exactly one successful `fetch` entry whose captured output
-carries exactly one each of `workflow`, `job-key`, `sha256` and `run-ids`, matching
-its own `--workflow` / `--job`, and a `history` or `no-history` entry reading exactly
-that fetch's `--out`. Metadata is never read from any other entry. The recompute
+unless every flagged job, and no other job, has exactly one successful `fetch` entry
+that pins no runs and whose captured output carries exactly one line each labelled
+`workflow`, `job-key`, `sha256` and `run-ids`, matching its own `--workflow` / `--job`,
+and a `history` or `no-history` entry reading exactly that fetch's `--out`. Metadata is never read from any other entry. The recompute
 commands are built from those same records and recorded on the machine verdict;
 the verifier prompt refuses to render without them. The
 verifier prompt then lists, per job,
 `workflowproof fetch --run-ids <pinned> --expect-sha256 <digest> --out ${TMPDIR:-/tmp}/gaia-steward-history/<dispatch-id>/verify/<job-key>.json`
-(exit 4 on any byte difference), then `history` on that file; for a job with no
+which first lists the latest 50 completed runs independently and requires the pins to
+be exactly that set (an older, skipped or foreign run, a re-run attempt, or a run that
+completed after the build sampled all stop it), then requires byte identity; either
+difference exits 4 and writes nothing, and the work is rebuilt on a fresh sample. Then
+`history` runs on that file; for a job with no
 successful run the verifier runs `no-history` with the class and declared waits it
 derives itself from the job's YAML. The verifier compares the selection and value with
 the builder's item-2 output and the diff. These commands are built from the packet
