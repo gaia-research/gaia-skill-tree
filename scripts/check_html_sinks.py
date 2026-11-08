@@ -374,8 +374,8 @@ def scan(repoRoot: Path):
     findings = []  # (rel, lineno, snippet, label, rationale)
     for filePath, rel in collectFiles(repoRoot):
         try:
-            text = filePath.read_text(encoding="utf-8", errors="replace")
-        except OSError as exc:
+            text = filePath.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as exc:
             raise RuntimeError(f"Scan aborted: unreadable target '{rel}': {exc}") from exc
         isHtml = rel.lower().endswith(".html")
         for lineno, snippet, label, rationale in scanText(text, isHtml):
@@ -424,6 +424,15 @@ def selftest():
     return 0
 
 
+def _unique_json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key!r}")
+        result[key] = value
+    return result
+
+
 def validateBaseline(payload, repoRoot: Path):
     """Reject malformed budgets instead of silently ignoring their contents."""
     if not isinstance(payload, dict):
@@ -440,9 +449,11 @@ def validateBaseline(payload, repoRoot: Path):
         raise ValueError("findings must be an object")
     validLabels = {label for _pattern, label, _rationale in SINK_PATTERNS}
     for path, labels in budget.items():
-        if not isinstance(path, str) or not path or path.startswith("/") or path.startswith("../") or not (repoRoot / path).is_file():
-            raise ValueError(f"findings path must name an existing file: {path!r}")
-        if not isinstance(labels, dict):
+        if (not isinstance(path, str) or not path or "\\" in path
+                or any(part in ("", ".", "..") for part in path.split("/"))
+                or not (repoRoot / path).is_file()):
+            raise ValueError(f"findings path must name an existing canonical file: {path!r}")
+        if not isinstance(labels, dict) or not labels:
             raise ValueError(f"labels for {path!r} must be an object")
         for label, count in labels.items():
             if not isinstance(label, str) or label not in validLabels:
@@ -627,7 +638,8 @@ def main(argv=None):
     try:
         if args.baseline.exists():
             budget = validateBaseline(
-                json.loads(args.baseline.read_text(encoding="utf-8")), repoRoot
+                json.loads(args.baseline.read_text(encoding="utf-8"),
+                           object_pairs_hook=_unique_json_object), repoRoot
             )
     except (OSError, ValueError) as exc:
         print(f"[FAIL] Malformed baseline schema: {exc}", file=sys.stderr)

@@ -756,6 +756,36 @@ def test_malformed_baseline_schema_fails_closed(scanner, payload):
     assert "RESULT: PASS" not in result.stdout
 
 
+def test_undecodable_target_fails_closed(scanner):
+    (scanner.parents[1] / "docs/bad.js").write_bytes(b"\xff")
+    result = run_scan(scanner, "")
+    assert result.returncode == 1
+    assert "Scan aborted: unreadable target 'docs/bad.js'" in result.stderr
+    assert "RESULT: PASS" not in result.stdout
+
+
+@pytest.mark.parametrize("path", ["docs/../docs/example.js", "./docs/example.js", "docs//example.js", "docs\\\\example.js", "/docs/example.js"])
+def test_noncanonical_baseline_path_fails(scanner, path):
+    result = run_scan(scanner, "", {path: {"innerhtml-template": 1}})
+    assert result.returncode == 1
+    assert "Malformed baseline schema" in result.stderr
+
+
+def test_empty_baseline_labels_fail(scanner):
+    result = run_scan(scanner, "", {"docs/example.js": {}})
+    assert result.returncode == 1
+    assert "Malformed baseline schema" in result.stderr
+
+
+def test_duplicate_baseline_paths_fail(scanner):
+    scanner.with_name("html_sinks_baseline.json").write_text(
+        '{"findings":{"docs/example.js":{"innerhtml-template":1},'
+        '"docs/example.js":{"innerhtml-template":1}}}', encoding="utf-8")
+    result = run_scan(scanner, "")
+    assert result.returncode == 1
+    assert "duplicate JSON key" in result.stderr
+
+
 def test_invalid_baseline_json_fails_closed(scanner):
     scanner.with_name("html_sinks_baseline.json").write_text("{invalid", encoding="utf-8")
     result = run_scan(scanner, "")
