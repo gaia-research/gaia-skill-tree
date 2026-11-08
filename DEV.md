@@ -366,6 +366,37 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
 * **If you DO see it on a newer Windows runner**: the helper raised `OSError` because all three mechanisms (symlink, junction, hardlink) failed. Check the surrounding message for `mklink` stderr; common causes are an antivirus blocking `cmd.exe` invocation or the target being on a network mount that doesn't support junctions. Workaround: install to a local NTFS path, then sync.
 * **Caveat:** `os.readlink()` does **not** work on NTFS junctions. If your code introspects the link target, use `os.path.realpath()` or the project helper `windowsLinks.readLinkTarget()`. The two tests that hit this were updated in PR #804.
 
+### G. Workflow Hygiene Guard fails (`missing-timeout`)
+`.github/workflows/workflow-hygiene-guard.yml` blocks any new GitHub Actions job without
+`timeout-minutes`. Detection is the Steward `ci-workflow` sensor's own rule, so the gate and the
+Steward census always agree; the gate only compares it with
+`scripts/lint/workflow-timeout-baseline.json`, the open set when the gate landed.
+```bash
+python3 scripts/check_workflow_hygiene.py                   # same check as CI
+python3 scripts/check_workflow_hygiene.py --base-ref origin/main   # also refuse baseline growth
+python3 scripts/check_workflow_hygiene.py --prune-baseline  # drop entries whose job now has a timeout
+```
+* **`[BLOCKING]`**: a new job (or a new workflow) has no `timeout-minutes`. Add one sized to the
+  job's real waits. Do not add it to the baseline: an entry the base ref does not justify fails as
+  `[GROWN]`. When the base has no baseline yet, "justified" means it is already a sensor finding at
+  the base commit.
+* **`[STALE]`**: a baselined job now has a timeout or no longer exists. Run `--prune-baseline` and
+  commit the result. The baseline only shrinks. CI only warns (`[STALE-WARN]`) on PRs into and
+  pushes to `dev/*`, so one-file Steward repair lanes stay green, and fails everywhere else,
+  including the `main` gate; prune once per integration.
+* **`[EXCLUDED]`**: jobs in the gh-aw lock files pinned by name in the baseline
+  (`excluded.generated-lock-files.files`), and only while each still carries the gh-aw banner and
+  has its `.md` source beside it. gh-aw v0.92.6 refuses per-job timeouts on compiled jobs and a hand
+  edit is overwritten by the next compile, so they are reported, never blocking, and stay open in the
+  Steward census. Never hand-edit a lock file to silence them.
+* **`[UNPINNED]`**: a workflow that looks generated (banner or `.lock.yml` name) but is not pinned.
+  Its jobs are blocking. A real new gh-aw lock is pinned deliberately in the baseline, and a pin the
+  base ref does not justify fails as `[GROWN]`.
+* **Exit 2**: the gate could not evaluate (unparseable workflow, malformed baseline, unresolvable
+  base ref). It fails closed.
+* The same job runs **zizmor** (`--min-severity high --min-confidence high`) as advisory output
+  only. Its measured precision and the proposed ratchet criteria are in `scripts/lint/zizmor-triage.md`.
+
 ## 5. Safe Merging & Conflict Resolution
 
 * **Class P vs Class S generated artifacts** (codified in PR #800): two distinct classes of generated files live in this repo, and confusing them caused a 12-hour site outage in June 2026 (see `founder/handovers/EPIC780_OPTION_A_DECISION.md`).
