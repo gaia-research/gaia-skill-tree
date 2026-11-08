@@ -123,7 +123,6 @@ def reconcile_debt(
     *,
     exhaustive_sources: Collection[str] = (),
     observed_at: str | None = None,
-    repair_linkages: Mapping[str, Mapping[str, Any] | str] | None = None,
 ) -> Reconciliation:
     """Fold one run's observations into the debt ledger.
 
@@ -259,22 +258,11 @@ def reconcile_debt(
                 or debt_id in reobserved
             ):
                 continue
-            resolution_val = "condition_not_reobserved"
-            res_receipt: str | None = None
-            if repair_linkages and debt_id in repair_linkages:
-                link = repair_linkages[debt_id]
-                if isinstance(link, str):
-                    resolution_val = link
-                    res_receipt = link
-                elif isinstance(link, Mapping):
-                    res_receipt = str(link.get("receipt") or link.get("runId") or "")
-                    resolution_val = str(link.get("resolution") or f"lane_repair:{res_receipt}")
             debts[debt_id] = replace(
                 previous,
                 status="resolved",
                 last_observed_at=observed_at,
-                resolution=resolution_val,
-                resolution_receipt=res_receipt,
+                resolution="condition_not_reobserved",
             )
             resolved.append(debt_id)
 

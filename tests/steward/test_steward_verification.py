@@ -976,6 +976,3 @@ def test_compute_patch_attribution_unresolvable_base_commit_in_git_repo_fails_cl
         base_commit="nonexistent_commit_hash_123456",
     )
     assert introduced is None
-
-
-
