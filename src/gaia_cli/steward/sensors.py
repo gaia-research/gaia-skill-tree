@@ -1689,7 +1689,7 @@ class TrustCalibrationDriftSensor:
     _STAMP_TOLERANCE = sensorStampTolerance
 
     @staticmethod
-    def _evidenceGap(skill: dict, context: dict) -> dict[str, Any] | None:
+    def _evidenceGap(skill: dict, context: dict, catalog: dict | None = None) -> dict[str, Any] | None:
         """Describe an effective evidence pool that cannot support any rating.
 
         Returns None when at least one effective row contributes to Trust
@@ -1701,7 +1701,7 @@ class TrustCalibrationDriftSensor:
 
         rows = [
             (row, score)
-            for row, score in computeRowArtifactScores(skill, context)
+            for row, score in computeRowArtifactScores(skill, context, benchmarkCatalog=catalog)
             if not row.get("_autoDerived")
         ]
         if any(score > 0 for _, score in rows):
@@ -1715,7 +1715,7 @@ class TrustCalibrationDriftSensor:
         }
 
     @staticmethod
-    def _capOnlySuiteComponent(skill: dict, context: dict) -> bool:
+    def _capOnlySuiteComponent(skill: dict, context: dict, catalog: dict | None = None) -> bool:
         """True when every scoring row is inherited suite-root repository evidence.
 
         Such a component's Trust Magnitude is the suite-repository cap and nothing
@@ -1728,7 +1728,7 @@ class TrustCalibrationDriftSensor:
             return False
         scoring = [
             row
-            for row, score in computeRowArtifactScores(skill, context)
+            for row, score in computeRowArtifactScores(skill, context, benchmarkCatalog=catalog)
             if not row.get("_autoDerived") and score > 0
         ]
         return bool(scoring) and all(_isSuiteRootRepositoryEvidence(row, skill) for row in scoring)
@@ -1744,6 +1744,7 @@ class TrustCalibrationDriftSensor:
         timeline: Any,
         gates: "_CalibrationGateProbe",
         context: dict,
+        catalog: dict | None = None,
     ) -> dict[str, Any]:
         """The observed state of one ``trust_calibration_drift`` finding."""
 
@@ -1773,7 +1774,7 @@ class TrustCalibrationDriftSensor:
             ),
             "priorGovernedDemotion": _lastGovernedDemotion(timeline),
             "frozen": gates.frozen(skill_id),
-            "capOnlySuiteComponent": self._capOnlySuiteComponent(skill, context),
+            "capOnlySuiteComponent": self._capOnlySuiteComponent(skill, context, catalog),
         }
         # Founder ruling F1 makes below-ceiling promotions an executable route;
         # every finding that route may never carry is marked here, stays open
@@ -1808,9 +1809,12 @@ class TrustCalibrationDriftSensor:
         parent = skill.get("genericSkillRef")
         if parent and parent not in context:
             raise ValueError("unresolvable genericSkillRef")
+        from gaia_cli.benchmarkCatalog import loadBenchmarkCatalog
+
+        catalog = loadBenchmarkCatalog(repo_root)
         sensor = cls()
-        tm = computeTrustMagnitude(skill, context)
-        grade = computeOverallTrustGradeFromSkill(skill, context)
+        tm = computeTrustMagnitude(skill, context, benchmarkCatalog=catalog)
+        grade = computeOverallTrustGradeFromSkill(skill, context, benchmarkCatalog=catalog)
         current_level = skill.get("level")
         timeline = skill.get("timeline", [])
         if isinstance(timeline, list) and any(
@@ -1822,18 +1826,18 @@ class TrustCalibrationDriftSensor:
         target_level = cls._TARGET_LEVEL[grade]
         if current_level == target_level:
             return current_level, None
-        gap = cls._evidenceGap(skill, context)
+        gap = cls._evidenceGap(skill, context, catalog)
         if gap is not None and cls._LEVEL_ORDER[target_level] < cls._LEVEL_ORDER[current_level]:
             return current_level, None
         gates = _CalibrationGateProbe(repo_root, context, None)
         return current_level, sensor._driftState(
-            skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context
+            skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context, catalog
         )
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
 
-    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+    def scan_detailed(self, repo_root: Path, observed_at: str, *, requireSourceCatalog: bool = False) -> SensorScan:
         import yaml
 
         observations: list[Observation] = []
@@ -1842,10 +1846,13 @@ class TrustCalibrationDriftSensor:
         # exhaustive, so an empty result would sweep every open trust debt.
         named_root = _require_named_records(repo_root, self._NAMED_ROOT)
         try:
+            from gaia_cli.benchmarkCatalog import loadBenchmarkCatalog
+
             context = buildMergedSkillMap(repo_root)
+            catalog = loadBenchmarkCatalog(repo_root, requireSource=requireSourceCatalog)
         except Exception as exc:
             raise SensorUnavailable(
-                f"effective-evidence context could not be built: {type(exc).__name__}: {exc}"
+                f"effective-evidence context or benchmark catalog could not be built: {type(exc).__name__}: {exc}"
             ) from exc
 
         unreadable: list[str] = []
@@ -1876,8 +1883,8 @@ class TrustCalibrationDriftSensor:
                 unresolved.append(f"{skill_id} -> {parent}")
                 continue
             try:
-                tm = computeTrustMagnitude(skill, context)
-                grade = computeOverallTrustGradeFromSkill(skill, context)
+                tm = computeTrustMagnitude(skill, context, benchmarkCatalog=catalog)
+                grade = computeOverallTrustGradeFromSkill(skill, context, benchmarkCatalog=catalog)
             except (ValueError, TypeError, KeyError, AttributeError):
                 unreadable.append(relative)
                 continue
@@ -1973,7 +1980,7 @@ class TrustCalibrationDriftSensor:
             target_level = self._TARGET_LEVEL[grade]
             if current_level == target_level:
                 continue
-            gap = self._evidenceGap(skill, context)
+            gap = self._evidenceGap(skill, context, catalog)
             if gap is not None and self._LEVEL_ORDER[target_level] < self._LEVEL_ORDER[current_level]:
                 # Founder rulings 2026-10-28 and 2026-11-06 (#2201, 11A): missing
                 # evidence is not evidence of degradation. An empty effective
@@ -2008,7 +2015,7 @@ class TrustCalibrationDriftSensor:
                 status="drift",
                 current_state={"level": current_level},
                 observed_state=self._driftState(
-                    skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context
+                    skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context, catalog
                 ),
                 confidence=1.0,
                 provenance={"path": relative},

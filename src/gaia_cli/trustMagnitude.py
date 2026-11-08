@@ -1233,17 +1233,21 @@ def computeOverallTrustGradeFromSkill(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> str:
     """Convenience: compute TM and grade together from a skill dict."""
-    tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
-    distinctTypes = _countDistinctEvidenceTypes(skill, genericSkillMap)
-    hasIndependentWitness = _hasEligibleIndependentWitness(skill, genericSkillMap)
+    tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap, benchmarkCatalog=benchmarkCatalog)
+    distinctTypes = _countDistinctEvidenceTypes(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
+    hasIndependentWitness = _hasEligibleIndependentWitness(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
     return computeOverallTrustGrade(tm, distinctTypes, hasIndependentWitness)
 
 
 def computeRowArtifactScores(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> list:
     """Return [(row_dict, artifact_score), ...] for every on-disk evidence row.
 
@@ -1252,16 +1256,18 @@ def computeRowArtifactScores(
     Auto-derived rows (_autoDerived: True) are flagged so callers can skip them
     during write-back. Null-on-derank verifier rows are included with score=0.0.
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap, benchmarkCatalog=benchmarkCatalog)
     return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
 
 
 def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None, *,
-                                evaluationAtUTC: Optional[datetime.datetime] = None) -> int:
+                                evaluationAtUTC: Optional[datetime.datetime] = None,
+                                benchmarkCatalog: Optional[dict] = None) -> int:
     """Count positive scoring evidence types; fusion remains structural only."""
     return len({
         rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                                              benchmarkCatalog=benchmarkCatalog)
         if (rowType := _typeOf(row))
         and rowType != "fusion-recipe"
         and score is not None
@@ -1297,11 +1303,13 @@ def _hasEligibleIndependentWitness(
     genericSkillMap: Optional[dict] = None,
     *,
     evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
         _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                                              benchmarkCatalog=benchmarkCatalog)
     )
 
 
