@@ -1,5 +1,5 @@
 {
- "generation": 1734,
+ "generation": 1735,
  "lane": {
   "entries": [
    {
@@ -6178,14 +6178,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-31cae5acdc5144c46b5a",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:08:14.760179Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:08:14.760179Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -132698,6 +132704,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
      "emittedAt": "2026-11-07T23:59:58.667635Z",
      "idempotencyKey": "verify:dispatch-31cae5acdc5144c46b5a:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-7e42a9299170",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces: running _workflow_findings on .github/workflows/challenge-receipt-issuer.yml reports missing-timeout for issue, prepare, and show. The candidate is unchanged against the specified base. Independently running gh run list --workflow challenge-receipt-issuer.yml --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt returned [], matching the prefetched runs.json; there are no runs to inspect. Thus the absence of history is real, but it does not establish the packet's claimed no-reproduction. The workflow also documents that edits require re-pinning its verifier blob SHA. No timeout was committed to verify.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132713,7 +132726,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-7e42a9299170.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:08:14.759882Z",
+     "status": "done",
      "stepId": "verify:7e42a9299170:1",
      "type": "agent.verify"
     },
@@ -132938,6 +132952,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:52236ab2419b:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-7e42a9299170",
+     "at": "2026-11-08T00:08:14.760179Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:7e42a9299170:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134719,11 +134745,11 @@
      "stepId": "verify:52236ab2419b:2"
     },
     {
-     "at": "2026-11-07T23:59:58.667635Z",
+     "at": "2026-11-08T00:08:14.759882Z",
      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
      "idempotencyKey": "verify:dispatch-31cae5acdc5144c46b5a:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:7e42a9299170:1"
     },
     {
@@ -134758,11 +134784,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:08:07.910479Z"
+   "updatedAt": "2026-11-08T00:08:14.759882Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:08:07.914430Z",
+ "updatedAt": "2026-11-08T00:08:14.763665Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140734,22 +140760,25 @@
      "stepId": "build:7e42a9299170:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-7e42a9299170",
+     "at": "2026-11-08T00:08:14.760179Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:7e42a9299170:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict:",
    "branch": "steward/b/workflow-hygiene-7e42a9299170",
-   "build": {
-    "agentId": "pi-herdr-batch11-builder-7e42a9299170",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-31cae5acdc5144c46b5a",
-    "noChange": true,
-    "proofPath": null,
-    "recordedAt": "2026-11-07T23:49:18.691351Z",
-    "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: stop condition 4: gh run list returns 0 completed runs for challenge-receipt-issuer.yml, so no history rows exist and the no-history default does not apply to an empty sample"
-   },
+   "build": null,
    "createdAt": "2026-11-07T22:34:17.166999Z",
    "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
    "dispatchId": "dispatch-31cae5acdc5144c46b5a",
@@ -140760,6 +140789,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-31cae5acdc5144c46b5a (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:08:14.760179Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-7e42a9299170 (pi, effort medium): rejected - Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict:",
+     "to": "blocked"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140769,13 +140804,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:49:18.691351Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-08T00:08:14.760179Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-7e42a9299170.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-7e42a9299170",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces: running _workflow_findings on .github/workflows/challenge-receipt-issuer.yml reports missing-timeout for issue, prepare, and show. The candidate is unchanged against the specified base. Independently running gh run list --workflow challenge-receipt-issuer.yml --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt returned [], matching the prefetched runs.json; there are no runs to inspect. Thus the absence of history is real, but it does not establish the packet's claimed no-reproduction. The workflow also documents that edits require re-pinning its verifier blob SHA. No timeout was committed to verify.",
+    "recordedAt": "2026-11-08T00:08:14.760179Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d": {
