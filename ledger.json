@@ -1,5 +1,5 @@
 {
- "generation": 1733,
+ "generation": 1734,
  "lane": {
   "entries": [
    {
@@ -6147,14 +6147,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-19b449f11c49ce659a79",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:08:07.910764Z",
+      "from": "dispatched",
+      "reason": "verification escalated (independent verification by pi-herdr-batch11-verifier-52236ab2419b (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:08:07.910764Z",
+    "lastVerdict": "escalate",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 1,
@@ -132660,6 +132666,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "emittedAt": "2026-11-07T23:59:52.921901Z",
      "idempotencyKey": "verify:dispatch-19b449f11c49ce659a79:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-52236ab2419b",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: false guardsWeakened: false newDebt: [] verdict: escalate reasons: - \"The base deploy job lacked a job-level timeout; the diff adds only timeout-minutes: 5.\" - \"The job invokes cloudflare/wrangler-action@v3 to deploy; the routine explicitly stops for waits on a deploy or third-party actions whose waits cannot be read and bounded. The proof does not establish bounded action waits or address this stop condition.\" - \"The newest five live job rows match the supplied history and the deploy display name; workflowproof recomputes 5 minutes from 50 successful rows, but the arithmetic does not override the authority stop.\" - \"Coverage check passed and the focused CI sensor tests passed (46); neither proves that the deployment is eligible for this repair route.\"",
+      "verdict": "escalate"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132676,7 +132689,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-52236ab2419b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:08:07.910479Z",
+     "status": "done",
      "stepId": "verify:52236ab2419b:2",
      "type": "agent.verify"
     },
@@ -132912,6 +132926,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:79f5e518ae90:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-52236ab2419b",
+     "at": "2026-11-08T00:08:07.910764Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:52236ab2419b:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134685,11 +134711,11 @@
      "stepId": "verify:79f5e518ae90:2"
     },
     {
-     "at": "2026-11-07T23:59:52.921901Z",
+     "at": "2026-11-08T00:08:07.910479Z",
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "idempotencyKey": "verify:dispatch-19b449f11c49ce659a79:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:52236ab2419b:2"
     },
     {
@@ -134732,11 +134758,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:07:59.993288Z"
+   "updatedAt": "2026-11-08T00:08:07.910479Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:07:59.995434Z",
+ "updatedAt": "2026-11-08T00:08:07.914430Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140622,6 +140648,17 @@
      "stepId": "build:52236ab2419b:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-52236ab2419b",
+     "at": "2026-11-08T00:08:07.910764Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:52236ab2419b:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -140660,6 +140697,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-19b449f11c49ce659a79 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:08:07.910764Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-52236ab2419b (pi, effort medium): escalate",
+     "to": "escalated"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140669,13 +140712,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:44:55.569218Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-08T00:08:07.910764Z",
    "verification": {
-    "receipt": "steward-20261107T235823Z-511a05d6f60be460",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-52236ab2419b.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-52236ab2419b",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: false guardsWeakened: false newDebt: [] verdict: escalate reasons: - \"The base deploy job lacked a job-level timeout; the diff adds only timeout-minutes: 5.\" - \"The job invokes cloudflare/wrangler-action@v3 to deploy; the routine explicitly stops for waits on a deploy or third-party actions whose waits cannot be read and bounded. The proof does not establish bounded action waits or address this stop condition.\" - \"The newest five live job rows match the supplied history and the deploy display name; workflowproof recomputes 5 minutes from 50 successful rows, but the arithmetic does not override the authority stop.\" - \"Coverage check passed and the focused CI sensor tests passed (46); neither proves that the deployment is eligible for this repair route.\"",
+    "recordedAt": "2026-11-08T00:08:07.910764Z",
+    "stage": "judged",
+    "verdict": "escalate"
    }
   },
   "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7": {
