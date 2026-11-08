@@ -39,7 +39,7 @@ Current `main` at `af57c7f6d6b796364d485688d35c1f5c871f1b04` (which landed Stewa
    - Without `--json`, empty result emits human-readable `No skills found.`.
    - `--description` flag correctly includes description text from node files.
 3. **Automated tests**:
-   - `python3 -m pytest tests/test_dev_list_fresh_checkout.py`: 2 passed (100%).
+   - `python3 -m pytest tests/test_dev_list_fresh_checkout.py`: 3 passed (100%) covering node reading, priority, fallback, empty JSON (`[]`), and empty non-JSON (`No skills found.`).
 4. **Repository guards**:
    - `python3 scripts/pr_guards.py --all`:
      - HTML sink guard: PASS (warn-only, 0 new)

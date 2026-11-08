@@ -40,3 +40,11 @@ def test_source_nodes_take_precedence_and_legacy_graph_fallback(tmp_path):
     assert run_list(tmp_path, '--generic', '--json')[0]['id'] == 'old'
     (registry / 'nodes').mkdir()
     assert run_list(tmp_path, '--generic', '--json') == []
+
+
+def test_empty_non_json_output(tmp_path):
+    res = subprocess.run(
+        [sys.executable, '-m', 'gaia_cli', '--registry', str(tmp_path), 'dev', 'list', '--generic'],
+        text=True, capture_output=True, check=True,
+    )
+    assert res.stdout.strip() == "No skills found."
