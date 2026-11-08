@@ -867,7 +867,12 @@ def _mirror_sensor_inputs(repo_root: Path, tree: Path) -> bool:
             return True
         target = _safe_directory(tree, SENSOR_INPUTS_RELATIVE, create=True)
         assert target is not None
-        for current, directories, files in os.walk(source, followlinks=False):
+        def unreadable(error: OSError) -> None:
+            # os.walk drops unreadable directories silently by default; an input
+            # that cannot be read must fail closed, not vanish from both trees.
+            raise error
+
+        for current, directories, files in os.walk(source, onerror=unreadable, followlinks=False):
             here = Path(current)
             relative = here.relative_to(source)
             for name in directories:

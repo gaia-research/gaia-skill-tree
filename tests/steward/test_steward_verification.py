@@ -1436,3 +1436,36 @@ def test_asymmetric_not_evaluated_fails_closed(tmp_path: Path) -> None:
     sensor = InputSensor(absent_on_call=2)
     controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
     assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+
+
+@pytest.mark.parametrize("where", ["inputs-root", "nested-dir", "file"])
+def test_unreadable_input_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, where: str) -> None:
+    """r2423 round 2: an input that cannot be read never silently drops out of both trees."""
+    import os as real_os
+
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    _write(root, ".gaia/steward/inputs/nested/more.json", "[]\n")
+    inputs = (root / ".gaia/steward/inputs").resolve()
+    blocked = {"inputs-root": inputs, "nested-dir": inputs / "nested", "file": inputs / "input.json"}[where]
+    original_scandir, original_open = real_os.scandir, real_os.open
+
+    def is_blocked(path) -> bool:
+        return isinstance(path, (str, real_os.PathLike)) and Path(path).resolve() == blocked
+
+    def scandir(path="."):
+        if is_blocked(path):
+            raise PermissionError(13, "Permission denied", str(path))
+        return original_scandir(path)
+
+    def opener(path, flags, *args, **kwargs):
+        if is_blocked(path):
+            raise PermissionError(13, "Permission denied", str(path))
+        return original_open(path, flags, *args, **kwargs)
+
+    monkeypatch.setattr(real_os, "scandir", scandir)
+    monkeypatch.setattr(real_os, "open", opener)
+    sensor = InputSensor()
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None
+    assert sensor.seen == []  # refused before any scan
