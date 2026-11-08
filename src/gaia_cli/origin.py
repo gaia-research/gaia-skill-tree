@@ -54,9 +54,19 @@ def publishedLevelNumber(level, grade: Optional[str], frozen: bool = False) -> i
     return min(level_num(level), GRADE_MAX_STARS.get(grade or "ungraded", 1))
 
 
+# Trust Magnitude is compared at canonical computation precision, which is far
+# finer than the two-decimal stamp: display rounding never creates a tie. It is
+# NOT finer than float arithmetic noise, though. The suite repository cap sums
+# scaled rows to 49.9, and the sum can land one ulp away (49.89999999999999) for
+# one contender and exactly 49.9 for another with identical capped evidence. Those
+# are the same real number, so they are a tie ("origin ties mean two are origin").
+# Nine decimals removes ulp noise (~1e-14) while keeping any real difference.
+MERIT_TM_DECIMALS = 9
+
+
 def meritKey(levelNumber: int, tm: float) -> tuple[int, float]:
     """Merit order: published level, then canonical Trust Magnitude precision."""
-    return (int(levelNumber), float(tm or 0.0))
+    return (int(levelNumber), round(float(tm or 0.0), MERIT_TM_DECIMALS))
 
 
 def deriveBucketOrigins(contenders: Iterable[dict]) -> frozenset[str]:

@@ -42,6 +42,17 @@ def test_tm_compares_at_canonical_precision_not_display_rounding():
     assert deriveBucketOrigins([c("a", 3, 50.001), c("b", 3, 50.004)]) == {"b"}
 
 
+def test_float_noise_is_a_tie_but_a_real_sub_display_difference_is_not():
+    # The 49.9 suite cap can sum to one ulp below 49.9 for one contender and exactly
+    # 49.9 for another with identical capped evidence: the same real number.
+    noisy = 49.89999999999999
+    assert noisy != 49.9
+    assert deriveBucketOrigins([c("a", 2, noisy), c("b", 2, 49.9)]) == {"a", "b"}
+    assert meritKey(2, noisy) == meritKey(2, 49.9)
+    # Differences far below the two-decimal display are still real and still rank.
+    assert deriveBucketOrigins([c("a", 2, 49.9), c("b", 2, 49.9000001)]) == {"b"}
+
+
 def test_ties_all_hold_origin_and_there_is_no_vacancy():
     assert deriveBucketOrigins([c("a", 3, 50.0), c("b", 3, 50.0), c("c", 2, 70.0)]) == {"a", "b"}
     # The rule never consults a stored/incumbent flag.

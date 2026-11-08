@@ -44,6 +44,7 @@ Exit code 0 = all named skills agree across surfaces; 1 = drift (each printed).
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -64,6 +65,10 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
 TOLERANCE = 0.02
 
 
+class InputError(Exception):
+    """An input the gate depends on is unreadable or malformed; agreement cannot be claimed."""
+
+
 def _loadNamedSkills(registryPath: str) -> list[dict]:
     namedDir = Path(named_skills_dir(registryPath))
     skills = []
@@ -73,34 +78,49 @@ def _loadNamedSkills(registryPath: str) -> list[dict]:
         try:
             _, fmText, _ = split_frontmatter(mdFile.read_text(encoding="utf-8"))
             fm = load_yaml_simple(fmText)
-        except OSError:
-            continue
+        except (OSError, ValueError) as exc:
+            raise InputError(f"unreadable named skill {mdFile}: {exc}") from exc
         if fm.get("status") == "named" and fm.get("id"):
             skills.append(fm)
     return skills
 
 
-def _loadGeneratedIndex(registryPath: str) -> dict[str, dict]:
+def _loadGeneratedIndex(registryPath: str) -> dict[str, dict] | None:
+    """The generated index by id; ``None`` only when it was never built, else fail closed."""
     indexPath = Path(named_skills_index_path(registryPath))
     if not indexPath.exists():
-        return {}
+        return None
     try:
         data = json.loads(indexPath.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return {}
-    byId: dict[str, dict] = {}
-    for entries in data.get("buckets", {}).values():
-        for entry in entries:
-            entryId = entry.get("id")
-            if entryId:
-                byId[entryId] = entry
+        buckets = data["buckets"].values()
+        byId: dict[str, dict] = {}
+        for entries in buckets:
+            for entry in entries:
+                entryId = entry.get("id")
+                if entryId:
+                    byId[entryId] = entry
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise InputError(f"unreadable or malformed {indexPath}: {exc}") from exc
     return byId
 
 
+def _finiteNumber(value) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
 def findViolations(
-    namedSkills: list[dict], mergedMap: dict, generatedIndex: dict[str, dict]
+    namedSkills: list[dict], mergedMap: dict, generatedIndex: dict[str, dict] | None
 ) -> tuple[list[str], int, int]:
-    """Return ``(violations, cacheChecked, indexChecked)`` for the named skills."""
+    """Return ``(violations, cacheChecked, indexChecked)`` for the named skills.
+
+    ``generatedIndex`` is ``None`` when the index was never built (cross-check skipped);
+    a built index, even an empty one, must contain every frozen skill.
+    """
+    if generatedIndex is None:
+        generatedIndex = {}
+        indexBuilt = False
+    else:
+        indexBuilt = True
     frozen = frozenIds(namedSkills)
     violations: list[str] = []
     cacheChecked = 0
@@ -136,42 +156,61 @@ def findViolations(
                         )
 
         indexEntry = generatedIndex.get(skillId)
+        if lock is not None:
+            # A frozen skill must be published, and published as exactly its lock:
+            # a missing entry, missing or non-finite values, or any inequality
+            # (however small) is a violation; there is no tolerance on a lock.
+            if indexEntry is None:
+                if indexBuilt:
+                    violations.append(
+                        f"{skillId}: frozen skill is missing from registry/named-skills.json; "
+                        f"the generator must publish the frozen lock ({lock[0]} / {lock[1]})."
+                    )
+                continue
+            indexChecked += 1
+            indexTm = indexEntry.get("trustMagnitude")
+            indexGrade = indexEntry.get("overallTrustGrade")
+            if not _finiteNumber(indexTm) or float(indexTm) != lock[0]:
+                violations.append(
+                    f"{skillId}: registry/named-skills.json trustMagnitude={indexTm!r} is not "
+                    f"its locked stamp {lock[0]} (frozen). The generator must publish the "
+                    f"frozen lock unchanged (gaia_cli.frozen.frozenLock)."
+                )
+            if indexGrade != lock[1]:
+                violations.append(
+                    f"{skillId}: registry/named-skills.json overallTrustGrade={indexGrade!r} is "
+                    f"not its locked grade {lock[1]} (frozen). The generator must publish the "
+                    f"frozen lock unchanged (gaia_cli.frozen.frozenLock)."
+                )
+            continue
         if indexEntry is not None:
             indexTm = indexEntry.get("trustMagnitude")
             if indexTm is not None:
                 indexChecked += 1
                 if abs(float(indexTm) - expectedTm) > TOLERANCE:
-                    source = "its locked stamp (frozen)" if lock else "the dry-run appraiser's"
-                    fix = (
-                        "The generator must publish the frozen lock unchanged "
-                        "(gaia_cli.frozen.frozenLock)."
-                        if lock
-                        else "The generator and trust_appraise.py must feed computeTrustMagnitude "
-                        "the same registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
-                    )
                     violations.append(
                         f"{skillId}: registry/named-skills.json trustMagnitude={indexTm} "
-                        f"disagrees with {source} {expectedTm}. {fix}"
+                        f"disagrees with the dry-run appraiser's {expectedTm}. The generator "
+                        f"and trust_appraise.py must feed computeTrustMagnitude the same "
+                        f"registry map (gaia_cli.registryMaps.buildMergedSkillMap)."
                     )
-            if lock is not None and indexEntry.get("overallTrustGrade") not in (None, lock[1]):
-                violations.append(
-                    f"{skillId}: registry/named-skills.json overallTrustGrade="
-                    f"{indexEntry.get('overallTrustGrade')} disagrees with its locked grade "
-                    f"{lock[1]} (frozen). The generator must publish the frozen lock unchanged."
-                )
 
     return violations, cacheChecked, indexChecked
 
 
 def main() -> int:
     registryPath = str(REPO_ROOT)
-    namedSkills = _loadNamedSkills(registryPath)
+    try:
+        namedSkills = _loadNamedSkills(registryPath)
+        generatedIndex = _loadGeneratedIndex(registryPath)
+    except InputError as exc:
+        print(f"❌ Trust Magnitude consistency cannot be established: {exc}")
+        return 1
     mergedMap = buildMergedSkillMap(registryPath)
-    generatedIndex = _loadGeneratedIndex(registryPath)
 
     violations, cacheChecked, indexChecked = findViolations(namedSkills, mergedMap, generatedIndex)
 
-    if not generatedIndex:
+    if generatedIndex is None:
         print(
             "Note: registry/named-skills.json not found — skipping generated-index "
             "cross-check (run `python scripts/assemble_gaia.py && "

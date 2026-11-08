@@ -66,7 +66,7 @@ def test_index_that_drifts_from_the_lock_is_a_violation():
     skills = [skill("a/frozen", frozen=True)]
     violations, _, _ = gate.findViolations(skills, {}, index("a/frozen", tm=49.9))
     assert len(violations) == 1
-    assert "locked stamp (frozen)" in violations[0]
+    assert "locked stamp 50.0 (frozen)" in violations[0]
     assert "50.0" in violations[0]
 
 
@@ -83,3 +83,51 @@ def test_frozen_skill_without_a_valid_lock_is_a_violation(broken):
     violations, _, _ = gate.findViolations(skills, {}, index("a/frozen"))
     assert len(violations) == 1
     assert "lacks a valid" in violations[0]
+
+
+FROZEN = {"id": "x/f", "status": "named", "frozen": True, "trustMagnitude": 50.0, "overallTrustGrade": "B"}
+
+
+@pytest.mark.parametrize(
+    "published, fragment",
+    [
+        ({}, "missing from registry/named-skills.json"),
+        ({"x/f": {}}, "trustMagnitude=None"),
+        ({"x/f": {"trustMagnitude": "NaN", "overallTrustGrade": "B"}}, "trustMagnitude='NaN'"),
+        ({"x/f": {"trustMagnitude": float("nan"), "overallTrustGrade": "B"}}, "is not its locked stamp"),
+        ({"x/f": {"trustMagnitude": float("inf"), "overallTrustGrade": "B"}}, "is not its locked stamp"),
+        ({"x/f": {"trustMagnitude": True, "overallTrustGrade": "B"}}, "is not its locked stamp"),
+        ({"x/f": {"trustMagnitude": 49.99, "overallTrustGrade": "B"}}, "trustMagnitude=49.99"),
+        ({"x/f": {"trustMagnitude": 50.0}}, "overallTrustGrade=None"),
+    ],
+)
+def test_frozen_index_must_publish_exactly_the_lock(published, fragment):
+    violations, _, _ = gate.findViolations([dict(FROZEN)], {}, published)
+    assert violations, "a bad published value for a frozen skill must be a violation"
+    assert any(fragment in item for item in violations), violations
+
+
+def test_frozen_index_exactly_equal_to_the_lock_passes():
+    published = {"x/f": {"trustMagnitude": 50.0, "overallTrustGrade": "B"}}
+    assert gate.findViolations([dict(FROZEN)], {}, published) == ([], 0, 1)
+
+
+def test_unbuilt_index_skips_the_cross_check_but_an_empty_built_one_does_not():
+    assert gate.findViolations([dict(FROZEN)], {}, None)[0] == []
+    assert gate.findViolations([dict(FROZEN)], {}, {})[0]
+
+
+def test_malformed_or_unreadable_inputs_fail_closed(tmp_path, monkeypatch):
+    monkeypatch.setattr(gate, "named_skills_index_path", lambda registry: str(tmp_path / "named-skills.json"))
+    assert gate._loadGeneratedIndex(str(tmp_path)) is None
+    for broken in ("{not json", "[]", '{"buckets": []}', '{"buckets": {"a": [1]}}'):
+        (tmp_path / "named-skills.json").write_text(broken, encoding="utf-8")
+        with pytest.raises(gate.InputError):
+            gate._loadGeneratedIndex(str(tmp_path))
+
+    named = tmp_path / "registry" / "named" / "a"
+    named.mkdir(parents=True)
+    (named / "b.md").write_bytes(b"\xff\xfe not utf-8")
+    monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
+    with pytest.raises(gate.InputError):
+        gate._loadNamedSkills(str(tmp_path))

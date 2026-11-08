@@ -387,6 +387,21 @@ def defaultTargets() -> list[AppraisalTarget]:
     ]
 
 
+def standingLines(result: dict[str, Any]) -> list[str]:
+    """Text lines for an appraisal's standing; a frozen skill's lock is labelled as a lock.
+
+    The score rows printed after these lines are always the current recomputation,
+    so a frozen skill states both numbers rather than presenting the lock as fresh.
+    """
+    if not result.get("frozen"):
+        return [f"  TM: {result['tm']:.1f}  Grade: {result['grade']}"]
+    return [
+        f"  FROZEN - locked TM {result['tm']:.2f} / {result['grade']} (never rewritten); "
+        f"current recomputation {result['recomputedTm']:.2f} / {result['recomputedGrade']}",
+        "  The rows below are the current recomputation, not the locked standing.",
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Dry-run TM appraisal for Gaia skills or suites")
     parser.add_argument("--skill", action="append", metavar="CONTRIBUTOR/SKILL-ID",
@@ -411,7 +426,8 @@ def main() -> int:
                 f"  Scope: {r['scope']}  Generic: {r['genericResolution']}"
                 f"  Total: {r['totalStatus']}  Registry rev: {r['registryRevision']}"
             )
-            print(f"  TM: {r['tm']:.1f}  Grade: {r['grade']}")
+            for line in standingLines(r):
+                print(line)
             fb = r.get("fusionBreakdown") or {}
             print(
                 f"  Fusion Score: {r.get('fusionScore', 0):.2f}"

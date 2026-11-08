@@ -248,3 +248,29 @@ def test_frozen_named_appraisal_without_a_valid_lock_fails_closed(tmp_path, monk
     result = appraiser.appraise_skill("example/tool", generic_map=dict(GENERIC_MAP), named_map={})
     assert "lacks a valid" in result["error"]
     assert "tm" not in result
+
+
+def test_text_standing_labels_a_frozen_lock_and_shows_the_recomputation():
+    appraiser = loadAppraiser()
+    frozen = appraiser.standingLines(
+        {"tm": 50.0, "grade": "B", "frozen": True, "recomputedTm": 49.9, "recomputedGrade": "C"}
+    )
+    text = "\n".join(frozen)
+    assert "FROZEN" in text and "locked TM 50.00 / B" in text
+    assert "current recomputation 49.90 / C" in text
+    assert "not the locked standing" in text
+    assert appraiser.standingLines({"tm": 21.25, "grade": "C"}) == ["  TM: 21.2  Grade: C"]
+
+
+def test_cli_text_output_for_a_frozen_skill_is_labelled(tmp_path, monkeypatch, capsys):
+    appraiser = loadAppraiser()
+    _stampedFixture(tmp_path, frozen=True)
+    monkeypatch.setattr(appraiser, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(
+        appraiser, "appraiseNode", lambda ref: appraiser.appraise_skill(ref, generic_map=dict(GENERIC_MAP), named_map={})
+    )
+    monkeypatch.setattr(sys, "argv", ["trust_appraise.py", "--skill", "example/tool"])
+    assert appraiser.main() == 0
+    out = capsys.readouterr().out
+    assert "FROZEN - locked TM 50.00 / B" in out
+    assert "current recomputation 21.25" in out
