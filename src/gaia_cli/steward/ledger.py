@@ -64,7 +64,7 @@ LOCAL_TRACKING_PREFIX = "refs/steward/remote-ledger"
 # Uniform ledger load/write ceiling. Override with GAIA_STEWARD_LEDGER_MAX_BYTES
 # (1 KiB–64 MiB); invalid configuration fails closed. MAX_LEDGER_BYTES remains
 # the compatibility override for tests/callers that monkeypatch this constant.
-DEFAULT_MAX_LEDGER_BYTES = 8 * 1024 * 1024
+DEFAULT_MAX_LEDGER_BYTES = 64 * 1024 * 1024
 MAX_LEDGER_BYTES = DEFAULT_MAX_LEDGER_BYTES
 MIN_CONFIGURED_LEDGER_BYTES = 1024
 MAX_CONFIGURED_LEDGER_BYTES = 64 * 1024 * 1024

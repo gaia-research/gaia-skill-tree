@@ -531,6 +531,25 @@ def test_legacy_and_configured_capacity_boundaries(monkeypatch):
         ledgerModule.serialize(document)
 
 
+def test_ledger_byte_limit_defaults_to_64_mib_and_fails_closed(monkeypatch):
+    monkeypatch.delenv("GAIA_STEWARD_LEDGER_MAX_BYTES", raising=False)
+    assert ledgerModule.DEFAULT_MAX_LEDGER_BYTES == 64 * 1024 * 1024
+    assert ledgerModule.MAX_LEDGER_BYTES == 64 * 1024 * 1024
+    assert ledgerModule.ledgerByteLimit() == 67108864
+
+    # Valid overrides
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", "1024")
+    assert ledgerModule.ledgerByteLimit() == 1024
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", "67108864")
+    assert ledgerModule.ledgerByteLimit() == 67108864
+
+    # Invalid values fail closed
+    for invalid in ("0", "-1", "1023", "67108865", "not-a-number", ""):
+        monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", invalid)
+        with pytest.raises(LedgerUnavailable):
+            ledgerModule.ledgerByteLimit()
+
+
 def test_oversized_write_is_refused_not_pruned(machines, monkeypatch):
     remote, storeA, _ = machines
     _, tip = update(storeA, appendMarker("one"))
@@ -1324,4 +1343,3 @@ def test_classify_push_failure_strips_git_hint_lines_preserving_error(tmp_path):
     assert completed.returncode == 0
     assert "-c" in completed.args
     assert "advice.graftFileDeprecated=false" in completed.args
-
