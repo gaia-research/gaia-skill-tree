@@ -14,6 +14,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from tests.authindex import writeBootstrapIndex
 from gaia_cli.commands.dev.calibrate import calibrate_trust_magnitude_command
 from gaia_cli.trustMagnitude import computeTrustMagnitude, computeTrustMagnitudeInputHash
 
@@ -59,6 +60,7 @@ def _make_registry(tmp_path: Path) -> str:
         trustMagnitude=999.0, overallTrustGrade="S",
         trustMagnitudeInputHash="deliberately-wrong-hash",
     )
+    writeBootstrapIndex(tmp_path)
     return str(tmp_path)
 
 

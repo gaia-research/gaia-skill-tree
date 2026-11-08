@@ -48,7 +48,7 @@ class Registry:
         self.named = named
 
     def clone(self):
-        return Registry(copy.deepcopy(self.generic), copy.deepcopy(self.named))
+        return Registry(copy.deepcopy(self.generic), copy.deepcopy(self.named))  # locks recompute per registry
 
 
 def loadRegistry(root: Path) -> Registry:
@@ -57,26 +57,65 @@ def loadRegistry(root: Path) -> Registry:
     return Registry(gm, nm)
 
 
-def derive(sk, reg: Registry):
-    """TM / grade for one skill dict, exactly as scripts/trust_appraise.appraise_skill."""
+LOCK_FIELDS = ("trustMagnitude", "overallTrustGrade")
+
+
+def frozenLocks(reg: Registry) -> dict:
+    """Locked ``(TM, grade)`` of every frozen named skill (``gaia_cli.frozen``), validated NOW.
+
+    A frozen skill keeps the TM and grade it was frozen at; a later formula change (the
+    49.9 suite cap, #2378) moves a recomputation but never the lock. This is deliberately
+    not cached: the registry is mutable (``applyOps``, direct edits), so freezing
+    membership and every lock are re-read and re-validated on each call. Raises
+    ``ValueError`` (``gaia_cli.frozen.requireFrozenLocks``, the canonical fail-closed
+    boundary) when a frozen record, including one frozen through a suite, lacks a valid
+    lock: such a record is refused, never recomputed. Callers that derive many records
+    take this once and pass it as ``locks`` (cheap: ~0.5 ms for the whole registry).
+    """
+    from gaia_cli.frozen import frozenIds, frozenLock, requireFrozenLocks
+    records = list(reg.named.values())
+    frozen = frozenIds(records)
+    requireFrozenLocks(records, frozen)
+    return {sid: frozenLock(reg.named[sid]) for sid in frozen if sid in reg.named}
+
+
+def derive(sk, reg: Registry, locks: dict | None = None):
+    """TM / grade for one skill dict, exactly as scripts/trust_appraise.appraise_skill.
+
+    A frozen skill reports its locked TM and grade (as the index generator, Origin and
+    ``trust_appraise`` do), never a recomputation; its evidence-type facts are still read
+    from the evidence. ``locks`` (from :func:`frozenLocks`) may be passed by a caller that
+    derives many records against an unchanged registry; otherwise locks are re-validated here.
+    """
     from gaia_cli.trustMagnitude import (
         computeTrustMagnitude, computeOverallTrustGrade,
         _countDistinctEvidenceTypes, _hasEligibleIndependentWitness,
     )
+    lock = (frozenLocks(reg) if locks is None else locks).get(sk.get("id"))  # raises for any invalid lock
     mm = {**reg.generic, **reg.named}
     tm = computeTrustMagnitude(sk, mm, reg.named)
     types = _countDistinctEvidenceTypes(sk, mm)
     wit = _hasEligibleIndependentWitness(sk, mm)
     grade = computeOverallTrustGrade(tm, types, wit)
+    if lock is not None:
+        return lock[0], lock[1], types, bool(wit)  # the exact lock, never rounded
     return round(tm, 2), grade, types, bool(wit)
 
 
 def refreshCaches(reg: Registry):
     """Mirror generateNamedIndex: stamp computed TM/grade onto the in-memory maps so
-    apex predicates (which read cached overallTrustGrade) see fresh values."""
+    apex predicates (which read cached overallTrustGrade) see fresh values.
+
+    Frozen records are never stamped: they already hold their lock and nothing rewrites a
+    frozen record. The locks are validated first, so an invalid one aborts before any
+    record is touched.
+    """
+    locks = frozenLocks(reg)
     for d in (reg.generic, reg.named):
         for k, sk in d.items():
-            tm, g, _t, _w = derive(sk, reg)
+            if d is reg.named and k in locks:
+                continue
+            tm, g, _t, _w = derive(sk, reg, locks)
             sk["trustMagnitude"] = tm
             sk["overallTrustGrade"] = g
 
@@ -97,6 +136,11 @@ class _FallbackOrigin:
     @staticmethod
     def bucketHolders(bucketRef: str, pool: dict, overrides: dict | None = None, frozen: set[str] | None = None) -> frozenset[str]:
         overrides = overrides or {}
+        # Fail closed like gaia_cli.origin: a frozen contender with a missing or invalid lock
+        # is refused, never ranked on whatever its stamp happens to say.
+        from gaia_cli.frozen import frozenIds, requireFrozenLocks
+        values = [e for e in pool.values() if isinstance(e, dict) and e.get("id")]
+        requireFrozenLocks(values, frozenIds(values))
         contenders = []
         for sid, entry in pool.items():
             if not isinstance(entry, dict):
@@ -173,13 +217,13 @@ def holdsSuiteOrigin(sk, reg: Registry):
     return _originModule().contributorHoldsOriginIn(sk.get("contributor"), sk.get("suiteComponents") or [], _pool(reg))
 
 
-def namedState(sid, reg: Registry, withApex=True):
+def namedState(sid, reg: Registry, withApex=True, locks: dict | None = None):
     """Full derived state of one named skill: TM, grade, ceiling, gates."""
     from gaia_cli.promotion import checkUniqueBranchGate
     from gaia_cli.trustMagnitude import passesSuiteApexGate
     from gaia_cli.taxonomy import branchFor
     sk = reg.named[sid]
-    tm, grade, types, wit = derive(sk, reg)
+    tm, grade, types, wit = derive(sk, reg, locks)
     n = lvl(sk.get("level"))
     ceil = GRADE_MAX_STARS.get(grade, 1)
     st = {
@@ -213,20 +257,21 @@ def namedState(sid, reg: Registry, withApex=True):
     return st
 
 
-def genericState(gid, reg: Registry):
+def genericState(gid, reg: Registry, locks: dict | None = None):
     sk = reg.generic[gid]
-    tm, grade, types, wit = derive(sk, reg)
+    tm, grade, types, wit = derive(sk, reg, locks)
     return {"id": gid, "tm": tm, "grade": grade, "type": sk.get("type")}
 
 
 def snapshot(reg: Registry):
     """Derived state for every record (cheap: whole registry recomputes in <1s)."""
     refreshCaches(reg)
+    locks = frozenLocks(reg)  # re-validated after the refresh, once for the whole snapshot
     out = {"named": {}, "generic": {}}
     for sid in sorted(reg.named):
-        out["named"][sid] = namedState(sid, reg)
+        out["named"][sid] = namedState(sid, reg, locks=locks)
     for gid in sorted(reg.generic):
-        out["generic"][gid] = genericState(gid, reg)
+        out["generic"][gid] = genericState(gid, reg, locks=locks)
     return out
 
 
@@ -299,6 +344,11 @@ def applyOps(reg: Registry, ops):
             )
         elif kind == "setField":
             pool = reg.generic if op.get("layer") == "generic" else reg.named
+            if pool is reg.named and op["field"] in LOCK_FIELDS and op["id"] in frozenLocks(reg):
+                raise ValueError(
+                    f"{op['id']} is frozen: its {op['field']} is a locked stamp and is never rewritten "
+                    f"(gaia_cli.frozen); a hypothetical correction may not set it"
+                )
             pool[op["id"]][op["field"]] = op["value"]
             log.append(f"{op['field']} of {op['id']} -> {op['value']}")
         elif kind == "setLevel":

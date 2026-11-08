@@ -11,6 +11,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from tests.authindex import writeBootstrapIndex
 from gaia_cli.commands.dev.evidence import meta_evidence_command, _preflight_benchmark_percentile
 pytestmark = [pytest.mark.integration]
 
@@ -52,6 +53,7 @@ def _make_registry(tmp_path: Path, evidence: list | None = None) -> str:
         "timeline": [],
     }
     (nodes / "demo-skill.json").write_text(json.dumps(node, indent=2))
+    writeBootstrapIndex(tmp_path)
     return str(tmp_path)
 
 
