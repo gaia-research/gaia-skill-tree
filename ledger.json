@@ -1,5 +1,5 @@
 {
- "generation": 1730,
+ "generation": 1731,
  "lane": {
   "entries": [
    {
@@ -6024,14 +6024,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-d30fe56e2dcc6693dd92",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:07:46.063971Z",
+      "from": "dispatched",
+      "reason": "verification escalated (independent verification by pi-herdr-batch11-verifier-55b938d79131 (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:07:46.063971Z",
+    "lastVerdict": "escalate",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 2,
@@ -132552,6 +132558,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "emittedAt": "2026-11-07T23:55:09.524410Z",
      "idempotencyKey": "verify:dispatch-d30fe56e2dcc6693dd92:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-55b938d79131",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: uncertain guardsWeakened: false newDebt: [] verdict: escalate reasons: - \"The no-history policy prohibits waiting on another workflow, but auto-merge polls PR checks, which can include other workflows; the same policy explicitly cites this exact job and its 30-minute timeout as a permitted example. The authority conflict needs clarification before integration.\" - \"The submitted proof ran tests/test_workflows.py instead of the required tests/steward/test_sensors_ci.py; independent execution of the required sensor tests passed 46 tests, and the coverage check passed.\" - \"Live GitHub responses matched the first five history rows for all four jobs; workflowproof recomputed the committed values as 5, 30, 5, and 5 minutes.\"",
+      "verdict": "escalate"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132568,7 +132581,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-55b938d79131.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:07:46.063674Z",
+     "status": "done",
      "stepId": "verify:55b938d79131:2",
      "type": "agent.verify"
     },
@@ -132825,6 +132839,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:5d98e47e79c0:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-55b938d79131",
+     "at": "2026-11-08T00:07:46.063971Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:55b938d79131:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134574,11 +134600,11 @@
      "stepId": "verify:5d98e47e79c0:2"
     },
     {
-     "at": "2026-11-07T23:55:09.524410Z",
+     "at": "2026-11-08T00:07:46.063674Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
      "idempotencyKey": "verify:dispatch-d30fe56e2dcc6693dd92:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:55b938d79131:2"
     },
     {
@@ -134637,11 +134663,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:07:39.273918Z"
+   "updatedAt": "2026-11-08T00:07:46.063674Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:07:39.277688Z",
+ "updatedAt": "2026-11-08T00:07:46.067434Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140203,6 +140229,17 @@
      "stepId": "build:55b938d79131:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-55b938d79131",
+     "at": "2026-11-08T00:07:46.063971Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:55b938d79131:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -140241,6 +140278,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-d30fe56e2dcc6693dd92 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:07:46.063971Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-55b938d79131 (pi, effort medium): escalate",
+     "to": "escalated"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140250,13 +140293,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:44:27.426385Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-08T00:07:46.063971Z",
    "verification": {
-    "receipt": "steward-20261107T235340Z-900d3cd0ecef280c",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-55b938d79131.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-55b938d79131",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: uncertain guardsWeakened: false newDebt: [] verdict: escalate reasons: - \"The no-history policy prohibits waiting on another workflow, but auto-merge polls PR checks, which can include other workflows; the same policy explicitly cites this exact job and its 30-minute timeout as a permitted example. The authority conflict needs clarification before integration.\" - \"The submitted proof ran tests/test_workflows.py instead of the required tests/steward/test_sensors_ci.py; independent execution of the required sensor tests passed 46 tests, and the coverage check passed.\" - \"Live GitHub responses matched the first five history rows for all four jobs; workflowproof recomputed the committed values as 5, 30, 5, and 5 minutes.\"",
+    "recordedAt": "2026-11-08T00:07:46.063971Z",
+    "stage": "judged",
+    "verdict": "escalate"
    }
   },
   "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d": {
