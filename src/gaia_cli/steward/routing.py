@@ -12,6 +12,7 @@ from dataclasses import dataclass
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -740,6 +741,71 @@ def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[
     return _dispatch_receipt_for(receipts_directory, debt_id)
 
 
+_HUNK_HEADER = re.compile(r"^@@ -\d+(?:,(\d+))? \+\d+(?:,(\d+))? @@")
+_PATH_LINE_PREFIXES = ("--- ", "+++ ", "rename from ", "rename to ", "copy from ", "copy to ")
+
+
+def _path_safe(path: str) -> bool:
+    """A repository-relative path with no traversal, absolute root, .git entry or escape characters."""
+
+    if not path or path.startswith(("/", '"')) or any(c in path for c in ("\\", "\0", "\t", "\r")):
+        return False
+    parts = path.split("/")
+    return all(part not in ("", ".", "..") for part in parts) and ".git" not in parts
+
+
+def _diff_paths_safe(diff_text: str) -> bool:
+    """Path validation for a candidate diff, before anything is applied.
+
+    Every path a header names must be a safe repository-relative path. Unified
+    headers may carry the ``a/`` / ``b/`` prefix or name ``/dev/null``; ``diff --git``
+    headers must not be quoted, and none of their tokens may traverse or be absolute.
+    """
+
+    old_left = new_left = 0
+    for line in diff_text.splitlines():
+        if old_left > 0 or new_left > 0:
+            # Inside a hunk: content lines, never headers (a removed "-- x" line reads "--- x").
+            marker = line[:1]
+            if marker == " ":
+                old_left, new_left = old_left - 1, new_left - 1
+            elif marker == "-":
+                old_left -= 1
+            elif marker == "+":
+                new_left -= 1
+            elif marker != "\\":
+                return False
+            if old_left < 0 or new_left < 0:
+                return False
+            continue
+        hunk = _HUNK_HEADER.match(line)
+        if hunk:
+            old_left = int(hunk.group(1)) if hunk.group(1) is not None else 1
+            new_left = int(hunk.group(2)) if hunk.group(2) is not None else 1
+            continue
+        if line.startswith("diff --git "):
+            rest = line[len("diff --git "):]
+            if '"' in rest or "\\" in rest:
+                return False
+            for token in rest.split(" "):
+                if token.startswith("/") or ".." in token.split("/"):
+                    return False
+            continue
+        for prefix in _PATH_LINE_PREFIXES:
+            if not line.startswith(prefix):
+                continue
+            path = line[len(prefix):].split("\t", 1)[0]
+            if prefix in ("--- ", "+++ "):
+                if path == "/dev/null":
+                    break
+                if path.startswith(("a/", "b/")):
+                    path = path[2:]
+            if not _path_safe(path):
+                return False
+            break
+    return True
+
+
 def compute_patch_attribution(
     repo_root: Path,
     diff_text: str,
@@ -755,8 +821,13 @@ def compute_patch_attribution(
     the target debt being repaired).
 
     Fails closed (returns None) if the patch fails to apply cleanly or if any
-    error occurs during evaluation.
+    error occurs during evaluation. Path validation runs first, before any
+    scratch directory exists: a diff naming an absolute, ``..``, ``.git`` or
+    otherwise unsafe path is refused without touching the filesystem, and the
+    apply never uses ``--unsafe-paths``.
     """
+    if not _diff_paths_safe(diff_text):
+        return None
     scratch_dir = Path(tempfile.mkdtemp(prefix="gaia-steward-attrib-")).resolve()
     base_dir = scratch_dir / "base"
     patched_dir = scratch_dir / "patched"
@@ -810,7 +881,7 @@ def compute_patch_attribution(
         diff_file = scratch_dir / "patch.diff"
         diff_file.write_text(diff_text, encoding="utf-8")
         apply_proc = subprocess.run(
-            ["git", "apply", "--unsafe-paths", "--whitespace=nowarn", str(diff_file)],
+            ["git", "apply", "--whitespace=nowarn", str(diff_file)],
             cwd=patched_dir,
             capture_output=True,
             check=False,
@@ -1089,6 +1160,28 @@ def render_verification(
             and rule is not None
             and rule.id == packet.rule
         )
+        common: dict[str, Any] = {
+            "packet": packet,
+            "change_set": change_set,
+            "transcript": transcript,
+            "debt_source": str(packet.debt.get("source")),
+            "sensor_sources": sensor_sources,
+            "baseline_open_debt": [str(item) for item in baseline_open],
+            "current_open_debt": [debt.id for debt in scan.open_debts],
+            "authority_still_class_b": still_class_b,
+            "workflow_baseline": workflow_baseline,
+            "calibration_violations": calibration_structure_violations(root, packet, change_set),
+        }
+        # Scope is a pure function of the diff and the envelope, so it is decided
+        # before anything is applied. An out-of-scope change set is never handed to
+        # attribution: nothing from it is written anywhere, even in scratch.
+        unattributed = evaluate(**common, patch_introduced_debt=None, attribution_failed=False)
+        if not unattributed.scope_valid:
+            return dataclasses.replace(
+                unattributed,
+                reasons=unattributed.reasons
+                + ("patch attribution not run: the change set is out of scope",),
+            )
         patch_introduced_debt = compute_patch_attribution(
             repo_root=root,
             diff_text=diff_text,
@@ -1098,18 +1191,7 @@ def render_verification(
         )
         attribution_failed = patch_introduced_debt is None
         verdict = evaluate(
-            packet=packet,
-            change_set=change_set,
-            transcript=transcript,
-            debt_source=str(packet.debt.get("source")),
-            sensor_sources=sensor_sources,
-            baseline_open_debt=[str(item) for item in baseline_open],
-            current_open_debt=[debt.id for debt in scan.open_debts],
-            authority_still_class_b=still_class_b,
-            workflow_baseline=workflow_baseline,
-            patch_introduced_debt=patch_introduced_debt,
-            attribution_failed=attribution_failed,
-            calibration_violations=calibration_structure_violations(root, packet, change_set),
+            **common, patch_introduced_debt=patch_introduced_debt, attribution_failed=attribution_failed
         )
         if baseline_note:
             verdict = dataclasses.replace(verdict, reasons=verdict.reasons + (baseline_note,))

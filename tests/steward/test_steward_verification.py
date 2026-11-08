@@ -1191,3 +1191,88 @@ def test_artifact_head_must_be_one_full_commit_field(
     monkeypatch.setattr(routing, "_dispatch_receipt_for", patched)
     with pytest.raises(RoutingError, match="gitHead|not a full commit id"):
         render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+
+
+# --- Path validation before any apply (#2371) --------------------------------------
+
+
+def _outside_layout(tmp_path: Path):
+    root = _repo(tmp_path / "root")
+    _write(root, "scripts/fix.py", "old line\n")
+    scratch = tmp_path / "scratch"
+    outside = tmp_path / "outside.txt"
+    outside.write_text("unchanged\n", encoding="utf-8")
+    return root, scratch, outside
+
+
+OUT_OF_SCOPE_DIFFS = {
+    "dotdot": "diff --git a/../../outside.txt b/../../outside.txt\n--- a/../../outside.txt\n+++ b/../../outside.txt\n"
+              "@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "unified-dotdot": "--- a/../../outside.txt\n+++ b/../../outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "absolute": "--- /tmp/outside.txt\n+++ /tmp/outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+    "git-dir": "diff --git a/.git/config b/.git/config\n--- a/.git/config\n+++ b/.git/config\n@@ -1 +1 @@\n-a\n+b\n",
+    "rename": "diff --git a/scripts/fix.py b/x\nsimilarity index 100%\nrename from scripts/fix.py\nrename to ../outside.txt\n",
+    "quoted": 'diff --git "a/x y" "b/x y"\n--- "a/x y"\n+++ "b/x y"\n@@ -1 +1 @@\n-a\n+b\n',
+    "backslash": "--- a/..\\outside.txt\n+++ b/..\\outside.txt\n@@ -1 +1 @@\n-unchanged\n+changed\n",
+}
+
+
+@pytest.mark.parametrize("name", sorted(OUT_OF_SCOPE_DIFFS))
+def test_out_of_scope_paths_are_refused_before_any_scratch_exists(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, name: str
+) -> None:
+    from gaia_cli.steward import routing
+
+    root, scratch, outside = _outside_layout(tmp_path)
+    created: list[str] = []
+    monkeypatch.setattr(routing.tempfile, "mkdtemp", lambda **kw: created.append("x") or str(scratch))
+    result = compute_patch_attribution(root, OUT_OF_SCOPE_DIFFS[name], "debt:x", _controller(IntegritySensor()))
+    assert result is None
+    assert created == []  # path validation ran before any filesystem action
+    assert outside.read_text(encoding="utf-8") == "unchanged\n"
+
+
+def test_apply_refuses_outside_paths_even_past_validation(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Second line: without --unsafe-paths, git apply itself keeps writes inside the scratch tree."""
+    from gaia_cli.steward import routing
+
+    root, scratch, outside = _outside_layout(tmp_path)
+    scratch.mkdir()
+    monkeypatch.setattr(routing.tempfile, "mkdtemp", lambda **kw: str(scratch))
+    monkeypatch.setattr(routing, "_diff_paths_safe", lambda text: True)
+    result = compute_patch_attribution(root, OUT_OF_SCOPE_DIFFS["dotdot"], "debt:x", _controller(IntegritySensor()))
+    assert result is None
+    assert outside.read_text(encoding="utf-8") == "unchanged\n"
+
+
+def test_removed_line_that_looks_like_a_header_is_content() -> None:
+    from gaia_cli.steward.routing import _diff_paths_safe
+
+    diff = "--- a/docs/a.sql\n+++ b/docs/a.sql\n@@ -1,2 +1 @@\n--- ../../x\n keep\n"
+    assert _diff_paths_safe(diff) is True
+    after = diff + "--- a/../../x\n+++ b/../../x\n@@ -1 +1 @@\n-a\n+b\n"
+    assert _diff_paths_safe(after) is False  # the next file's header is validated again
+
+
+def test_out_of_scope_change_set_is_never_attributed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Scope is decided first; an out-of-scope change set never reaches any apply."""
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    _write(root, "registry/nodes/a.json", "{}\n")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    def never(*args, **kwargs):
+        pytest.fail("attribution must not run on an out-of-scope change set")
+
+    monkeypatch.setattr(routing, "compute_patch_attribution", never)
+    diff_path = _write(root, "candidate.diff", _diff("registry/nodes/a.json"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    result, _, _ = render_verification(root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller)
+    assert result.artifact.verdict == "reject"
+    assert result.artifact.scope_valid is False
+    assert "patch attribution not run: the change set is out of scope" in result.artifact.reasons
+    assert (root / "registry/nodes/a.json").read_text(encoding="utf-8") == "{}\n"
