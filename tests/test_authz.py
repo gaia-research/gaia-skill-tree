@@ -226,6 +226,27 @@ def test_dispatch_gates_mutating_dev_as_non_verifier(monkeypatch, registry_with_
     assert "Verifier" in err
 
 
+def test_embed_check_is_read_only_and_not_gated_without_authorization_index(monkeypatch, tmp_path, capsys):
+    """`dev embed --check` only reports freshness; it must not need the (Class P,
+    possibly absent) authorization index, while a generating `dev embed` stays gated."""
+    (tmp_path / "registry").mkdir()
+    monkeypatch.delenv(OPERATOR_OVERRIDE_ENV, raising=False)
+    monkeypatch.setattr("gaia_cli.authz._gaia_user", lambda: "bob")
+
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "embed", "--check"])
+    try:
+        main()
+    except SystemExit:
+        pass  # a missing embeddings artifact is a nonzero freshness result, not a denial
+    assert "requires Verifier authorization" not in capsys.readouterr().err
+
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "embed"])
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 1
+    assert "requires Verifier authorization" in capsys.readouterr().err
+
+
 def test_dispatch_allows_readonly_dev_for_non_verifier(monkeypatch, registry_with_verifier):
     """gaia dev list does NOT require Verifier authorization."""
     monkeypatch.setattr("gaia_cli.authz._gaia_user", lambda: "bob")

@@ -1180,8 +1180,12 @@ class DevCommand(Command):
             "provenance",
             "evidence-seed",
         }
-        if dev_cmd in MUTATING_DEV_COMMANDS or (
-            dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
+        # `embed --check` only reads the embeddings artifact and reports freshness: it
+        # writes nothing, so it is never gated and takes no canonical writer lock.
+        readOnlyCheck = dev_cmd == "embed" and bool(getattr(args, "check", False))
+        if not readOnlyCheck and (
+            dev_cmd in MUTATING_DEV_COMMANDS
+            or (dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"})
         ):
             from gaia_cli.authz import require_operator
             operation = (
