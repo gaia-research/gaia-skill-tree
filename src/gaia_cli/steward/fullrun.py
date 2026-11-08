@@ -50,6 +50,7 @@ from gaia_cli.steward.controller import ScanResult, StewardController
 from gaia_cli.steward.ledger import (
     LedgerConflict,
     LedgerUnavailable,
+    _dispatch_param,
     _inspect_accepts_param,
     acquire_lease,
     formatTime,
@@ -466,10 +467,9 @@ class FullRunner:
 
     def _load(self, runId: str | None = None) -> dict[str, Any]:
         load_fn = self.config.store.load
-        if _inspect_accepts_param(load_fn, "runId"):
-            document, _ = load_fn(runId=runId)
-        elif _inspect_accepts_param(load_fn, "run_id"):
-            document, _ = load_fn(run_id=runId)
+        param_name = _dispatch_param(load_fn, "runId", "run_id")
+        if param_name is not None:
+            document, _ = load_fn(**{param_name: runId})
         else:
             document, _ = load_fn()
         return document

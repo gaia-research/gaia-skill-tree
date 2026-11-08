@@ -335,15 +335,42 @@ def _warn_telemetry(message: str, key: str | None = None) -> None:
         pass
 
 
-def _inspect_accepts_param(fn: Any, param_name: str) -> bool:
+def _dispatch_param(fn: Any, *candidate_names: str) -> str | None:
+    """Resolve which candidate parameter name `fn` accepts for keyword dispatch.
+
+    Explicitly declared keyword-capable parameters (`POSITIONAL_OR_KEYWORD` or
+    `KEYWORD_ONLY`) are checked FIRST across all candidates. Positional-only
+    parameters (`POSITIONAL_ONLY`) are NOT keyword-capable and are excluded.
+    If no candidate matches an explicit parameter, but `fn` accepts `**kwargs`
+    (`VAR_KEYWORD`), the first candidate is chosen as the fallback.
+    Returns None if no candidate can be passed by keyword.
+    """
     try:
         sig = inspect.signature(fn)
     except (ValueError, TypeError):
-        return False
-    for param in sig.parameters.values():
-        if param.kind == inspect.Parameter.VAR_KEYWORD or param.name == param_name:
-            return True
-    return False
+        return None
+
+    explicit_kw = {
+        name
+        for name, param in sig.parameters.items()
+        if param.kind in (inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.KEYWORD_ONLY)
+    }
+    for candidate in candidate_names:
+        if candidate in explicit_kw:
+            return candidate
+
+    has_var_kw = any(
+        param.kind == inspect.Parameter.VAR_KEYWORD
+        for param in sig.parameters.values()
+    )
+    if has_var_kw and candidate_names:
+        return candidate_names[0]
+
+    return None
+
+
+def _inspect_accepts_param(fn: Any, param_name: str) -> bool:
+    return _dispatch_param(fn, param_name) == param_name
 
 
 def write_ledger_telemetry(
@@ -1261,13 +1288,17 @@ def update(
     with _TelemetryDeduplicator():
         for attempt in range(retries + 1):
             load_kwargs: dict[str, Any] = {}
-            if _inspect_accepts_param(store.load, "telemetry_path"):
+            if _dispatch_param(store.load, "telemetry_path"):
                 load_kwargs["telemetry_path"] = target_telemetry_path
-            if _inspect_accepts_param(store.load, "run_id"):
-                load_kwargs["run_id"] = effective_run_id
-            if _inspect_accepts_param(store.load, "runId"):
-                load_kwargs["runId"] = effective_run_id
-            if _inspect_accepts_param(store.load, "max_telemetry_bytes"):
+            run_candidates = (
+                ("run_id", "runId")
+                if run_id is not None and runId is None
+                else ("runId", "run_id")
+            )
+            run_param = _dispatch_param(store.load, *run_candidates)
+            if run_param is not None:
+                load_kwargs[run_param] = effective_run_id
+            if _dispatch_param(store.load, "max_telemetry_bytes"):
                 load_kwargs["max_telemetry_bytes"] = target_max_bytes
 
             document, version = store.load(**load_kwargs)
@@ -1278,8 +1309,9 @@ def update(
             working["updatedAt"] = formatTime(clock())
             try:
                 cas_kwargs: dict[str, Any] = {}
-                if _inspect_accepts_param(store.compare_and_swap, "_record_telemetry"):
-                    cas_kwargs["_record_telemetry"] = False
+                cas_param = _dispatch_param(store.compare_and_swap, "_record_telemetry")
+                if cas_param is not None:
+                    cas_kwargs[cas_param] = False
                 new_version = store.compare_and_swap(
                     version, working, message, **cas_kwargs
                 )

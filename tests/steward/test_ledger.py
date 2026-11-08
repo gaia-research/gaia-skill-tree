@@ -1855,3 +1855,174 @@ def test_fullrun_load_propagates_run_id_and_store_type_error_no_retry(tmp_path):
     with pytest.raises(TypeError, match="snake store type error"):
         snake_runner._load(runId="test-run-snake")
     assert snake_store.calls == 1
+
+
+def test_load_dispatch_prioritizes_explicit_param_over_kwargs(tmp_path):
+    """Store with signature load(run_id=None, **kwargs) receives identifier in run_id, not kwargs['runId']."""
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+    from gaia_cli.steward.ledger import _dispatch_param
+
+    class KwargsStore:
+        def __init__(self):
+            self.transport = "custom"
+            self.shared = False
+            self.last_run_id = None
+            self.last_kwargs = {}
+            self.last_write_bytes = 0
+            self.repoRoot = tmp_path
+
+        def load(self, run_id: str | None = None, **kwargs: Any) -> tuple[dict[str, Any], str | None]:
+            self.last_run_id = run_id
+            self.last_kwargs = kwargs
+            return empty_ledger(), "v1"
+
+        def compare_and_swap(self, expected: str | None, document: dict[str, Any], message: str, **kwargs: Any) -> str:
+            return "v2"
+
+    store = KwargsStore()
+    config = FullRunConfig(repo_root=tmp_path, store=store)
+    runner = FullRunner(config)
+
+    # 1. FullRunner._load with runId passes identifier to explicit run_id, not kwargs['runId']
+    runner._load(runId="test-run-explicit-snake")
+    assert store.last_run_id == "test-run-explicit-snake"
+    assert "runId" not in store.last_kwargs
+
+    # 2. update() with runId passes identifier to explicit run_id, not kwargs['runId']
+    update(store, lambda doc: doc, runId="test-run-update-explicit")
+    assert store.last_run_id == "test-run-update-explicit"
+    assert "runId" not in store.last_kwargs
+
+    # 3. Verify positional-only parameter is NOT treated as keyword-capable
+    class PosOnlyStore:
+        def __init__(self):
+            self.transport = "custom"
+            self.shared = False
+            self.last_pos = None
+            self.last_kwargs = {}
+            self.last_write_bytes = 0
+            self.repoRoot = tmp_path
+
+        def load(self, run_id="pos_default", /, **kwargs: Any) -> tuple[dict[str, Any], str | None]:
+            self.last_pos = run_id
+            self.last_kwargs = kwargs
+            return empty_ledger(), "v1"
+
+        def compare_and_swap(self, expected: str | None, document: dict[str, Any], message: str, **kwargs: Any) -> str:
+            return "v2"
+
+    pos_store = PosOnlyStore()
+    pos_runner = FullRunner(FullRunConfig(repo_root=tmp_path, store=pos_store))
+    pos_runner._load(runId="test-run-pos")
+    assert pos_store.last_pos == "pos_default"
+    assert pos_store.last_kwargs.get("runId") == "test-run-pos"
+
+    def no_kwargs_pos_only(run_id, /):
+        return run_id
+
+    assert _dispatch_param(no_kwargs_pos_only, "runId", "run_id") is None
+
+
+def test_fullrun_resume_abandon_and_phase_handler_propagate_run_id_to_telemetry(tmp_path):
+    """FullRunner resume(), abandon(), and phase handler propagate runId to ledger telemetry."""
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+
+    telem_path = tmp_path / "resume-abandon-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "ops-ledger.json", telemetry_path=telem_path)
+    config = FullRunConfig(repo_root=tmp_path, store=store)
+    runner = FullRunner(config)
+
+    # 1. Exercise resume() and verify runId propagation
+    res_run_id = "test-run-resume"
+
+    def seed_resume(doc: dict):
+        doc["runs"][res_run_id] = {
+            "runId": res_run_id,
+            "mode": "full",
+            "sequence": 1,
+            "status": "awaiting-action",
+            "phase": "done",
+            "startedAt": "2026-11-08T00:00:00Z",
+            "steps": [],
+            "actions": [],
+            "leases": [],
+            "phases": {},
+            "unresolvedWork": [],
+            "integrationBranch": "integration",
+        }
+        return "seeded"
+
+    update(store, seed_resume, telemetry_path=telem_path)
+    if telem_path.is_file():
+        telem_path.unlink()
+
+    runner.resume(res_run_id)
+
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 1
+    assert all(r.get("runId") == res_run_id for r in lines)
+
+    # 2. Exercise abandon() and verify runId propagation
+    aban_run_id = "test-run-abandon"
+
+    def seed_abandon(doc: dict):
+        doc["runs"][aban_run_id] = {
+            "runId": aban_run_id,
+            "mode": "full",
+            "sequence": 2,
+            "status": "awaiting-action",
+            "phase": "class_b",
+            "startedAt": "2026-11-08T00:00:00Z",
+            "steps": [],
+            "actions": [],
+            "leases": [],
+            "phases": {},
+            "unresolvedWork": [],
+        }
+        return "seeded"
+
+    update(store, seed_abandon, telemetry_path=telem_path)
+    telem_path.unlink()
+
+    runner.abandon(aban_run_id, "testing operator cancellation")
+
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 1
+    assert all(r.get("runId") == aban_run_id for r in lines)
+
+    # 3. Exercise a runner phase handler and verify runId propagation
+    phase_run_id = "test-run-phase"
+
+    def seed_phase(doc: dict):
+        doc["runs"][phase_run_id] = {
+            "runId": phase_run_id,
+            "mode": "full",
+            "sequence": 3,
+            "status": "active",
+            "phase": "reconcile",
+            "startedAt": "2026-11-08T00:00:00Z",
+            "steps": [],
+            "actions": [],
+            "leases": [],
+            "phases": {},
+            "unresolvedWork": [],
+            "integrationBranch": "integration",
+        }
+        doc["leases"]["run"] = {
+            "holder": phase_run_id,
+            "acquiredAt": "2026-11-08T00:00:00Z",
+            "expiresAt": "2026-11-09T00:00:00Z",
+        }
+        return "seeded"
+
+    update(store, seed_phase, telemetry_path=telem_path)
+    telem_path.unlink()
+
+    runner._handlers["reconcile"](phase_run_id)
+
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 1
+    assert all(r.get("runId") == phase_run_id for r in lines)
