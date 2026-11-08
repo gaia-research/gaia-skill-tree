@@ -1923,6 +1923,31 @@ def test_load_dispatch_prioritizes_explicit_param_over_kwargs(tmp_path):
     assert _dispatch_param(no_kwargs_pos_only, "runId", "run_id") is None
 
 
+def test_dispatch_param_skips_positional_only_in_kwargs_fallback():
+    """_dispatch_param skips positional-only parameter names when falling back to **kwargs."""
+    from gaia_cli.steward.ledger import _dispatch_param
+
+    def load(runId=None, /, **kwargs):
+        return runId, kwargs
+
+    assert _dispatch_param(load, "runId", "run_id") == "run_id"
+
+
+def test_dispatch_param_single_candidate_positional_only_returns_none():
+    """_dispatch_param returns None for single positional-only candidate with or without **kwargs."""
+    from gaia_cli.steward.ledger import _dispatch_param
+
+    def load(runId=None, /):
+        return runId
+
+    assert _dispatch_param(load, "runId") is None
+
+    def load(runId=None, /, **kwargs):
+        return runId, kwargs
+
+    assert _dispatch_param(load, "runId") is None
+
+
 def test_fullrun_resume_abandon_and_phase_handler_propagate_run_id_to_telemetry(tmp_path):
     """FullRunner resume(), abandon(), and phase handler propagate runId to ledger telemetry."""
     from gaia_cli.steward.fullrun import FullRunConfig, FullRunner

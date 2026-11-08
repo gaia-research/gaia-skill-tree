@@ -342,7 +342,8 @@ def _dispatch_param(fn: Any, *candidate_names: str) -> str | None:
     `KEYWORD_ONLY`) are checked FIRST across all candidates. Positional-only
     parameters (`POSITIONAL_ONLY`) are NOT keyword-capable and are excluded.
     If no candidate matches an explicit parameter, but `fn` accepts `**kwargs`
-    (`VAR_KEYWORD`), the first candidate is chosen as the fallback.
+    (`VAR_KEYWORD`), the first candidate that is not positional-only is chosen
+    as the fallback.
     Returns None if no candidate can be passed by keyword.
     """
     try:
@@ -359,12 +360,20 @@ def _dispatch_param(fn: Any, *candidate_names: str) -> str | None:
         if candidate in explicit_kw:
             return candidate
 
+    positional_only = {
+        name
+        for name, param in sig.parameters.items()
+        if param.kind == inspect.Parameter.POSITIONAL_ONLY
+    }
+
     has_var_kw = any(
         param.kind == inspect.Parameter.VAR_KEYWORD
         for param in sig.parameters.values()
     )
-    if has_var_kw and candidate_names:
-        return candidate_names[0]
+    if has_var_kw:
+        for candidate in candidate_names:
+            if candidate not in positional_only:
+                return candidate
 
     return None
 
