@@ -9,7 +9,7 @@ from datetime import timedelta
 import pytest
 
 from gaia_cli.steward.policy import StewardPolicy
-from gaia_cli.steward.prmaintenance import coordination as core, gate, receipts, state
+from gaia_cli.steward.prmaintenance import coordination as core, gate, proofs, receipts, state
 from .test_executor import world as sharedWorld, prepare as sharedPrepare
 from gaia_cli.steward.prmaintenance.evaluate import KIND_MERGE
 from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401  (the sensor this gate is the executor of)
@@ -17,6 +17,21 @@ from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F
 from tests.steward.prmaintenance import helpers as h
 
 RUN = "run-1"
+
+
+@pytest.fixture(autouse=True)
+def fastContentEngineProofs(monkeypatch):
+    """Bypass redundant Python Jinja rendering subprocesses during gate/authorization tests."""
+
+    def mockContentEngineProofs(root, baseSha, headSha, label):
+        if not proofs.LABEL.match(label):
+            return [proofs.Proof("rendered-html", proofs.FAIL, "label is not an ISO week")]
+        return [
+            proofs.Proof("rendered-html", proofs.PASS, "HTML equals the base-template render of its canonical JSON and uses only the published attribute and host set"),
+            proofs.Proof("index-rebuild", proofs.PASS, "both indexes equal a rebuild from base history plus this report; descending, no duplicates"),
+        ]
+
+    monkeypatch.setattr(proofs, "contentEngineProofs", mockContentEngineProofs)
 
 
 @pytest.fixture(autouse=True)
@@ -306,6 +321,13 @@ def test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop(tmp_path, m
     verification(fx, second, number=2271, runId="stable-run")
     nextSnap = snapshot(fx, second, "2026-45", number=2271, prId="2271", repositoryId="42")
     forge.snap = nextSnap
+    forge.fact = {
+        "id": nextSnap.row["number"],
+        "state": "open",
+        "merged": False,
+        "head": {"sha": nextSnap.row["headSha"]},
+        "base": {"ref": nextSnap.row["baseRef"], "repo": {"id": 42}},
+    }
     for run in ("stable-run", "different-run"):
         with pytest.raises(core.Refused, match="ceiling"):
             gate.gateMerge(fx.root, request(second, number=2271), nextSnap, h.utc(), run)

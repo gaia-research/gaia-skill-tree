@@ -68,7 +68,7 @@ def test_bounded_read_kills_a_stalled_child_at_the_deadline(tmp_path, monkeypatc
 
     monkeypatch.setattr(proofs.subprocess, "Popen", stalled)
     started = time.monotonic()
-    assert proofs.boundedObjectRead(tmp_path, ["cat-file", "blob", "0" * 40], 1024, started + 0.5) is None
+    assert proofs.boundedObjectRead(tmp_path, ["cat-file", "blob", "0" * 40], 1024, started + 0.05) is None
     assert time.monotonic() - started < 15
     assert len(spawned) == 1 and spawned[0].poll() is not None  # reaped, not left running
 
@@ -91,7 +91,8 @@ def test_export_listing_is_capped_at_exactly_four_mebibytes_and_two_minutes(tmp_
 def test_oversized_real_listing_is_refused_before_any_blob_is_read(tmp_path, monkeypatch):
     root, _ = repoWith(tmp_path, {"seed": b"x"})
     blob = h.run(root, "rev-parse", "HEAD:seed")
-    rows = "".join(f"100644 {blob} 0\td/{index:05d}-{'n' * 240}\n" for index in range(15000))
+    prefix = "/".join(["p" * 240] * 4)
+    rows = "".join(f"100644 {blob} 0\td/{prefix}/{index:04d}-{'n' * 240}\n" for index in range(3500))
     subprocess.run(["git", "-C", str(root), "update-index", "--add", "--index-info"], input=rows.encode(),
                    check=True, capture_output=True, timeout=60)
     h.run(root, "commit", "-qm", "wide tree")
@@ -178,9 +179,10 @@ def reply(status: str, body: bytes, extra: str = "") -> bytes:
             "Connection: close\r\n\r\n").encode() + body
 
 
-@pytest.fixture()
-def certificate(tmp_path):
-    cert, key = tmp_path / "loopback.pem", tmp_path / "loopback.key"
+@pytest.fixture(scope="module")
+def certificate(tmp_path_factory):
+    work = tmp_path_factory.mktemp("cert")
+    cert, key = work / "loopback.pem", work / "loopback.key"
     subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
                     "-keyout", str(key), "-out", str(cert), "-days", "1", "-subj", "/CN=127.0.0.1",
                     "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)

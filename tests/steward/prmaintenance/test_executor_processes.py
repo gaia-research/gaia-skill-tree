@@ -17,7 +17,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import pytest
 
 from gaia_cli.steward import ledger
-from gaia_cli.steward.prmaintenance import coordination as core, executor as ex, gate
+from gaia_cli.steward.prmaintenance import coordination as core, executor as ex, gate, proofs
 from . import helpers as h
 from .coordination_helpers import assertIndependent
 from .test_executor import Clock, world, prepare
@@ -37,6 +37,14 @@ class FixtureHttp:
             connection.close()
 
 
+@pytest.fixture(autouse=True)
+def fastContentEngineProofs(monkeypatch):
+    monkeypatch.setattr(proofs, "contentEngineProofs", lambda root, baseSha, headSha, label: [
+        proofs.Proof("rendered-html", proofs.PASS, "ok"),
+        proofs.Proof("index-rebuild", proofs.PASS, "ok"),
+    ])
+
+
 def concrete(root, storeRoot, binding, configured, port):
     transport = FixtureHttp(port)
     service = ex.ProductionServices(root, configured, transport, Clock(),
@@ -46,13 +54,17 @@ def concrete(root, storeRoot, binding, configured, port):
 
 
 def actor(root, storeRoot, binding, configured, port, operationId, barrier, output):
+    proofs.contentEngineProofs = lambda root, baseSha, headSha, label: [
+        proofs.Proof("rendered-html", proofs.PASS, "ok"),
+        proofs.Proof("index-rebuild", proofs.PASS, "ok"),
+    ]
     executor = concrete(root, storeRoot, binding, configured, port)
     original, waited = executor.coordinator.store.compare_and_swap, False
     def contend(expected, document, message):
         nonlocal waited
         if message.split()[1] == "claim" and not waited:
             waited = True
-            barrier.wait(15)
+            barrier.wait(10)
         try:
             return original(expected, document, message)
         except ledger.LedgerConflict:
@@ -65,15 +77,25 @@ def actor(root, storeRoot, binding, configured, port, operationId, barrier, outp
         # Fork exactly while the concrete adapter's one-shot entry is live.
         child = os.fork()
         if child == 0:
+            statusFile = root / f"child-{os.getpid()}.status"
             try:
                 enter(service, request, invocationId)
             except core.Refused:
+                statusFile.write_text("0")
                 os._exit(0)
             except BaseException:
+                statusFile.write_text("32")
                 os._exit(32)
+            statusFile.write_text("31")
             os._exit(31)
-        waited, status = os.waitpid(child, 0)
-        assert waited == child and os.waitstatus_to_exitcode(status) == 0
+        statusFile = root / f"child-{child}.status"
+        try:
+            waited, status = os.waitpid(child, 0)
+            assert waited == child and os.waitstatus_to_exitcode(status) == 0
+        except ChildProcessError:
+            pass
+        if not statusFile.is_file() or statusFile.read_text().strip() != "0":
+            raise RuntimeError(f"Child process {child} did not exit with code 0 (status: {statusFile.read_text() if statusFile.is_file() else 'missing'})")
         return enter(service, request, invocationId)
     executor.coordinator._consumeAdapter = forkEntry
     result = executor.execute(operationId)

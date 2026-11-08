@@ -32,7 +32,7 @@ def raceActor(path, binding, beforeCas, afterReserve, output, candidate, runId, 
         nonlocal rendezvoused
         if message.split()[1] == "reserve" and not rendezvoused:
             rendezvoused = True
-            beforeCas.wait(15)
+            beforeCas.wait(10)
         try:
             return original(expected, document, message)
         except ledger.LedgerConflict:
@@ -48,7 +48,7 @@ def raceActor(path, binding, beforeCas, afterReserve, output, candidate, runId, 
     except core.Refused as exc:
         output.put(("refused", str(exc)))
     # Keep the winner's preparation active until the loser has reloaded.
-    afterReserve.wait(15)
+    afterReserve.wait(10)
     if token is not None:
         coord.recordIntent(token, core.exactRequest(NAMESPACE, candidate), f"intent-{path.name}")
         result = coord.invoke(token, f"claim-{path.name}")
@@ -61,7 +61,7 @@ def collectActors(processes, output):
     done = 0
     try:
         while done < len(processes):
-            message = output.get(timeout=25)
+            message = output.get(timeout=15)
             messages.append(message)
             done += message[0] == "done"
         for process in processes:
@@ -155,7 +155,7 @@ def pausedClaimActor(path, binding, output, resume, authoritativeTime, counts):
 
     def pausedConsume(grant, operation):
         output.put(("paused", token))
-        assert resume.wait(20)
+        assert resume.wait(10)
         consume(grant, operation)
 
     coord._consume = pausedConsume
@@ -173,7 +173,7 @@ def test_paused_claim_restart_and_cold_recovery_never_grant_again(tmp_path, monk
     process = context.Process(target=pausedClaimActor, args=(first, binding, output, resume, authoritativeTime, counts))
     process.start()
     try:
-        kind, token = output.get(timeout=20)
+        kind, token = output.get(timeout=15)
         assert kind == "paused"
         services = FakeServices(now=999999)
         authoritativeTime.value = 999999
@@ -226,22 +226,33 @@ def forkActor(path, binding, output):
     def forkConsume(grant, operation):
         child = os.fork()
         if child == 0:
+            statusFile = path / f"child-{os.getpid()}.status"
             try:
                 try:
                     consume(grant, operation)
                 except core.Refused:
                     pass
                 else:
+                    statusFile.write_text("21")
                     os._exit(21)
                 try:
                     coord.invoke(token, "forked-replay")
                 except core.Refused:
+                    statusFile.write_text("0")
                     os._exit(0)
+                statusFile.write_text("22")
                 os._exit(22)
             except BaseException:
+                statusFile.write_text("23")
                 os._exit(23)
-        waited, status = os.waitpid(child, 0)
-        assert waited == child and os.waitstatus_to_exitcode(status) == 0
+        statusFile = path / f"child-{child}.status"
+        try:
+            waited, status = os.waitpid(child, 0)
+            assert waited == child and os.waitstatus_to_exitcode(status) == 0
+        except ChildProcessError:
+            pass
+        if not statusFile.is_file() or statusFile.read_text().strip() != "0":
+            raise RuntimeError(f"Child process {child} did not exit with code 0 (status: {statusFile.read_text() if statusFile.is_file() else 'missing'})")
         checked.append(True)
         consume(grant, operation)
 
@@ -273,7 +284,7 @@ def takeoverActor(path, binding, token, barrier, output, takeover):
         nonlocal rendezvoused
         if not rendezvoused:
             rendezvoused = True
-            barrier.wait(15)
+            barrier.wait(10)
         return original(expected, document, message)
 
     coord.store.compare_and_swap = raceCas

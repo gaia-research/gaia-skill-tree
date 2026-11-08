@@ -5,11 +5,14 @@ shared Steward ledger; coordination state lives in disposable bare remotes under
 """
 from __future__ import annotations
 
+import atexit
 import json
+import shutil
 import socket
 import ssl
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -568,8 +571,26 @@ def test_invalid_route_is_reported_as_not_sent(monkeypatch):
         ex.HttpsTransport("https://forge.invalid", "synthetic").request("PUT", "//escape", {})
 
 
+_DRIP_CERT_DIR: Path | None = None
+_DRIP_CERT: tuple[Path, Path] | None = None
+
+
+def getDripCertificate() -> tuple[Path, Path]:
+    global _DRIP_CERT_DIR, _DRIP_CERT
+    if _DRIP_CERT is not None and _DRIP_CERT[0].is_file() and _DRIP_CERT[1].is_file():
+        return _DRIP_CERT
+    _DRIP_CERT_DIR = Path(tempfile.mkdtemp(prefix="gaia-drip-cert-"))
+    atexit.register(shutil.rmtree, _DRIP_CERT_DIR, ignore_errors=True)
+    cert, key = _DRIP_CERT_DIR / "c.pem", _DRIP_CERT_DIR / "c.key"
+    subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
+                    "-keyout", str(key), "-out", str(cert), "-days", "1", "-subj", "/CN=127.0.0.1",
+                    "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)
+    _DRIP_CERT = (cert, key)
+    return _DRIP_CERT
+
+
 DRIP_PROBE = r"""
-import socket, ssl, subprocess, sys, tempfile, threading, time
+import atexit, shutil, socket, ssl, subprocess, sys, tempfile, threading, time
 from pathlib import Path
 sys.path.insert(0, sys.argv[1])
 # http.client drops connection.sock on Connection: close and HTTP/1.0 while the body still reads the live descriptor.
@@ -579,11 +600,17 @@ HEADERS = {
     "http10": b"HTTP/1.0 200 OK\r\nContent-Length: 50\r\n\r\n",
 }
 from gaia_cli.steward.prmaintenance import coordination as core, executor as ex
-work = Path(tempfile.mkdtemp())
-cert, key = work / "c.pem", work / "c.key"
-subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
-                "-keyout", str(key), "-out", str(cert), "-days", "1", "-subj", "/CN=127.0.0.1",
-                "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)
+def getDripCertificate():
+    if len(sys.argv) >= 5:
+        return Path(sys.argv[3]), Path(sys.argv[4])
+    work = Path(tempfile.mkdtemp(prefix="gaia-drip-cert-"))
+    atexit.register(shutil.rmtree, work, ignore_errors=True)
+    c, k = work / "c.pem", work / "c.key"
+    subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
+                    "-keyout", str(k), "-out", str(c), "-days", "1", "-subj", "/CN=127.0.0.1",
+                    "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)
+    return c, k
+cert, key = getDripCertificate()
 server = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 server.load_cert_chain(str(cert), str(key))
 listener = socket.socket()
@@ -604,13 +631,13 @@ def drip():
                     return
                 tls.sendall(b"x")
                 wrote.append(1)
-                time.sleep(0.4)
+                time.sleep(0.05)
     except (OSError, ssl.SSLError):
         pass
 thread = threading.Thread(target=drip, daemon=True)
 thread.start()
 context = ssl.create_default_context(cafile=str(cert))
-transport = ex.HttpsTransport(f"https://127.0.0.1:{listener.getsockname()[1]}", "synthetic", context=context, deadline=1.0)
+transport = ex.HttpsTransport(f"https://127.0.0.1:{listener.getsockname()[1]}", "synthetic", context=context, deadline=0.2)
 started = time.monotonic()
 kind = "returned"
 try:
@@ -622,6 +649,7 @@ except core.CoordinationError:
 elapsed = time.monotonic() - started
 stop.set()
 thread.join(10)
+assert len(wrote) > 0, "drip did not start"
 print(kind, round(elapsed, 2), len(wrote))
 """
 
@@ -629,14 +657,16 @@ print(kind, round(elapsed, 2), len(wrote))
 @pytest.mark.parametrize("mode", ["persistent", "close", "http10"])
 def test_total_deadline_aborts_a_slow_drip_response_and_is_not_not_sent(tmp_path, mode):
     """Real TLS, separate interpreter. The closing modes used to defeat the watchdog (reviewer B1)."""
+    cert, key = getDripCertificate()
     script = tmp_path / "drip_probe.py"
     script.write_text(DRIP_PROBE)
     src = Path(__file__).resolve().parents[3] / "src"
-    done = subprocess.run([sys.executable, "-I", str(script), str(src), mode], capture_output=True, text=True, timeout=45)
+    done = subprocess.run([sys.executable, "-I", str(script), str(src), mode, str(cert), str(key)], capture_output=True, text=True, timeout=45)
     assert done.returncode == 0, f"probe exit {done.returncode}: {done.stderr[-400:]}"
     kind, elapsed, wrote = done.stdout.split()
     assert kind == "CoordinationError", done.stdout  # bytes were written: never a provable no-send, and it did fail
-    assert float(elapsed) < 6, f"deadline did not bound the {mode} exchange ({elapsed}s)"
+    assert float(elapsed) < 3.0, f"deadline did not bound the {mode} exchange ({elapsed}s)"
+    assert int(wrote) > 0, f"drip did not start ({wrote})"
     assert int(wrote) < 50
 
 

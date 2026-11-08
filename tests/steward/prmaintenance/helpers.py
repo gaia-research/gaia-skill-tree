@@ -6,13 +6,16 @@ so the content proofs (regenerate from base templates, rebuild the shared indexe
 
 from __future__ import annotations
 
+import atexit
 import copy
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -42,9 +45,10 @@ GAIAVERSION = re.compile(r'GAIA_VERSION = "[0-9.]+"')
 
 
 def run(cwd: Path, *args: str) -> str:
+    path = os.environ.get("PATH", "/usr/bin:/bin:/usr/local/bin")
     done = subprocess.run(["git", "-C", str(cwd), *args], capture_output=True, text=True, check=True,
                           env={"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@example.com", "GIT_COMMITTER_NAME": "t",
-                               "GIT_COMMITTER_EMAIL": "t@example.com", "PATH": "/usr/bin:/bin:/usr/local/bin", "HOME": str(cwd)})
+                               "GIT_COMMITTER_EMAIL": "t@example.com", "PATH": path, "HOME": str(cwd)})
     return done.stdout.strip()
 
 
@@ -134,24 +138,48 @@ class Fixture:
         return self.commit(f"feat(content-engine): weekly report {label}")
 
 
-def makeRepo(tmp: Path, labels: tuple[str, ...] = ("2026-42", "2026-43"), version: str = VERSION) -> Fixture:
-    root = tmp / "repo"
-    root.mkdir(parents=True)
-    run(root, "init", "-q", "-b", "main")
-    shutil.copytree(SOURCE / "scripts/contentEngine", root / "scripts/contentEngine", ignore=shutil.ignore_patterns("__pycache__"))
-    shutil.copy(SOURCE / "scripts/publication_context.py", root / "scripts/publication_context.py")
-    (root / ".gitignore").write_text(".gaia/\n", encoding="utf-8")
-    (root / "pyproject.toml").write_text(f'[project]\nname = "x"\nversion = "{version}"\n', encoding="utf-8")
+_REPO_CACHE: dict[tuple[tuple[str, ...], str], tuple[Path, str]] = {}
+
+
+def _initRepoTemplate(labels: tuple[str, ...], version: str) -> tuple[Path, str]:
+    template = Path(tempfile.mkdtemp(prefix=f"gaia-repo-template-{os.getpid()}-")) / "repo"
+    template.mkdir(parents=True)
+    run(template, "init", "-q", "-b", "main")
+    shutil.copytree(SOURCE / "scripts/contentEngine", template / "scripts/contentEngine", ignore=shutil.ignore_patterns("__pycache__"))
+    shutil.copy(SOURCE / "scripts/publication_context.py", template / "scripts/publication_context.py")
+    (template / ".gitignore").write_text(".gaia/\n", encoding="utf-8")
+    (template / "pyproject.toml").write_text(f'[project]\nname = "x"\nversion = "{version}"\n', encoding="utf-8")
     for relative in ("founder/steward/POLICY.yaml", "founder/steward/pr-producers.json",
                      "founder/steward/decisions/steward-pr-maintenance-authority.json"):
-        (root / relative).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(SOURCE / relative, root / relative)
-    fx = Fixture(root, "", labels)
+        (template / relative).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(SOURCE / relative, template / relative)
+    fx = Fixture(template, "", labels)
     for label in labels:
         fx.writeReport(label, version=version)
     fx.rebuildIndexes(version=version)
-    fx.base = fx.commit("base")
-    return fx
+    base = fx.commit("base")
+    return template, base
+
+
+def makeRepo(tmp: Path, labels: tuple[str, ...] = ("2026-42", "2026-43"), version: str = VERSION) -> Fixture:
+    key = (tuple(labels), version)
+    if key not in _REPO_CACHE:
+        _REPO_CACHE[key] = _initRepoTemplate(key[0], key[1])
+    template, base = _REPO_CACHE[key]
+    root = tmp / "repo"
+    if root.exists():
+        shutil.rmtree(root)
+    root.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(template, root, symlinks=True)
+    return Fixture(root, base, labels)
+
+
+def _cleanupRepoTemplates() -> None:
+    for template, _ in _REPO_CACHE.values():
+        shutil.rmtree(template.parent, ignore_errors=True)
+
+
+atexit.register(_cleanupRepoTemplates)
 
 
 def filesOf(fx: Fixture, head: str) -> list[dict]:

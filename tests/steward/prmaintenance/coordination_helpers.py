@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import atexit
 import copy
 import os
+import shutil
 import subprocess
+import tempfile
 from dataclasses import asdict
 from pathlib import Path
 
@@ -107,24 +110,49 @@ class FakeServices:
         return evidence(operation, self.observed[0], self.observed[1])
 
 
-def seed(root: Path, monkeypatch, namespace: Namespace = NAMESPACE):
-    isolate(monkeypatch, root)
-    remote = root / "remote.git"
-    bootstrap = root / "administrative-fixture"
-    subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True, timeout=30)
+_GENESIS_CACHE: dict[Namespace, tuple[Path, str]] = {}
+
+
+def _genesisRemote(namespace: Namespace) -> tuple[Path, str]:
+    if namespace in _GENESIS_CACHE:
+        return _GENESIS_CACHE[namespace]
+    cache_dir = Path(tempfile.mkdtemp(prefix=f"gaia-genesis-bare-{os.getpid()}-"))
+    template_remote = cache_dir / "remote.git"
+    bootstrap = cache_dir / "administrative-fixture"
+    subprocess.run(["git", "init", "--bare", "--quiet", str(template_remote)], check=True, timeout=30)
     subprocess.run(["git", "init", "--quiet", str(bootstrap)], check=True, timeout=30)
-    git(bootstrap, "remote", "add", "origin", str(remote))
+    git(bootstrap, "remote", "add", "origin", str(template_remote))
     store = ledger.GitRefLedgerStore(bootstrap, ref=REF)
     document = ledger.empty_ledger()
     document["operations"] = {KEY: {"schemaVersion": SCHEMA, "namespace": asdict(namespace), "events": []}}
     # Administrative fixture provisioning, never a production coordinator path.
     genesis = store.compare_and_swap(None, document, "disposable administrative genesis")
-    git(remote, "symbolic-ref", "HEAD", f"refs/heads/{REF}")
+    git(template_remote, "symbolic-ref", "HEAD", f"refs/heads/{REF}")
+    shutil.rmtree(bootstrap, ignore_errors=True)
+    _GENESIS_CACHE[namespace] = (template_remote, genesis)
+    return template_remote, genesis
+
+
+def seed(root: Path, monkeypatch, namespace: Namespace = NAMESPACE):
+    isolate(monkeypatch, root)
+    template_remote, genesis = _genesisRemote(namespace)
+    remote = root / "remote.git"
+    if remote.exists():
+        shutil.rmtree(remote)
+    shutil.copytree(template_remote, remote, symlinks=True)
     binding = Binding(namespace, genesis, genesis, str(remote))
     first = clone(root, remote, "first")
     second = clone(root, remote, "second")
     assertIndependent(first, second)
     return remote, binding, first, second
+
+
+def _cleanupGenesis() -> None:
+    for template_remote, _ in _GENESIS_CACHE.values():
+        shutil.rmtree(template_remote.parent, ignore_errors=True)
+
+
+atexit.register(_cleanupGenesis)
 
 
 def clone(root: Path, remote: Path, name: str) -> Path:

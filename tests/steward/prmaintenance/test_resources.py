@@ -12,13 +12,26 @@ from gaia_cli.steward.prmaintenance import coordination as core
 from .coordination_helpers import NAMESPACE, FakeServices, evidence, proof, seed, subject
 
 
+_REAL_PROOF_SOURCES: dict[str, str] | None = None
+
+
 def realProof(candidate):
+    global _REAL_PROOF_SOURCES
+    if _REAL_PROOF_SOURCES is None:
+        root = Path(__file__).resolve().parents[3]
+        _REAL_PROOF_SOURCES = {
+            key: (root / path).read_bytes().decode("utf-8")
+            for key, path in zip(
+                ("policy", "producerRegistry", "authority"),
+                (
+                    "founder/steward/POLICY.yaml",
+                    "founder/steward/pr-producers.json",
+                    "founder/steward/decisions/steward-pr-maintenance-authority.json",
+                ),
+            )
+        }
     value = proof(candidate)
-    root = Path(__file__).resolve().parents[3]
-    for key, path in zip(("policy", "producerRegistry", "authority"), (
-        "founder/steward/POLICY.yaml", "founder/steward/pr-producers.json",
-        "founder/steward/decisions/steward-pr-maintenance-authority.json")):
-        value[key] = (root / path).read_bytes().decode("utf-8")
+    value.update(_REAL_PROOF_SOURCES)
     return value
 
 
