@@ -34,7 +34,6 @@ from __future__ import annotations
 
 import copy
 import hashlib
-import inspect
 import json
 import os
 import re
@@ -51,6 +50,7 @@ from gaia_cli.steward.controller import ScanResult, StewardController
 from gaia_cli.steward.ledger import (
     LedgerConflict,
     LedgerUnavailable,
+    _inspect_accepts_param,
     acquire_lease,
     formatTime,
     leaseHolder,
@@ -466,21 +466,12 @@ class FullRunner:
 
     def _load(self, runId: str | None = None) -> dict[str, Any]:
         load_fn = self.config.store.load
-        try:
-            sig = inspect.signature(load_fn)
-            params = sig.parameters
-            has_var_kw = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
-            if has_var_kw or "runId" in params:
-                document, _ = load_fn(runId=runId)
-            elif "run_id" in params:
-                document, _ = load_fn(run_id=runId)
-            else:
-                document, _ = load_fn()
-        except (ValueError, TypeError):
-            try:
-                document, _ = load_fn(runId=runId)
-            except TypeError:
-                document, _ = load_fn()
+        if _inspect_accepts_param(load_fn, "runId"):
+            document, _ = load_fn(runId=runId)
+        elif _inspect_accepts_param(load_fn, "run_id"):
+            document, _ = load_fn(run_id=runId)
+        else:
+            document, _ = load_fn()
         return document
 
     def _ledgerInfo(self, version: str | None = None) -> dict[str, Any]:
@@ -659,7 +650,7 @@ class FullRunner:
                 nextAction=f"run {outcome['holder']} holds the run lease; {runId} cannot be resumed until it ends",
                 ledger=self._ledgerInfo(),
             )
-        return self._view(self._load(), runId)
+        return self._view(self._load(runId=runId), runId)
 
     def advance(self, runId: str) -> RunView:
         """Run phases from the recorded phase until done or a driver is needed."""
@@ -687,7 +678,7 @@ class FullRunner:
                     self._markAwaiting(runId)
                     break
         except LeaseLost as exc:
-            doc = self._load()
+            doc = self._load(runId=runId)
             view = self._view(doc, runId)
             view.status = "abandoned"
             view.error = str(exc)
@@ -697,7 +688,7 @@ class FullRunner:
             raise
         except Exception as exc:  # noqa: BLE001 - a failing phase fails the run, loudly
             self._failRun(runId, f"{type(exc).__name__}: {exc}")
-        return self._view(self._load(), runId)
+        return self._view(self._load(runId=runId), runId)
 
     def _recoverLostPackets(self, runId: str) -> None:
         """Give every pending build a task packet that exists on disk.
@@ -786,7 +777,7 @@ class FullRunner:
                 release_lease(doc, RUNLEASE, runId)
 
         self._mutateRun(runId, apply, holdsLease=False, message="steward full abandon")
-        return self._view(self._load(), runId)
+        return self._view(self._load(runId=runId), runId)
 
     def _supersede(self, runId: str) -> None:
         """Retire pending actions whose work moved on without them.
@@ -841,7 +832,7 @@ class FullRunner:
         desk = None
         if current["status"] == "awaiting-action" and not self._pending(current):
             # The driver's outcomes changed what the founder should see (an escalation, a landing).
-            desk = self._buildDesk(runId, self._load(), current, now)
+            desk = self._buildDesk(runId, self._load(runId=runId), current, now)
 
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
             if run["status"] != "awaiting-action" or self._pending(run):
@@ -881,7 +872,7 @@ class FullRunner:
         # The run stops before `report`, but the person still deserves the desk as of now.
         desk = None
         if runId in self._scans:
-            desk = self._buildDesk(runId, self._load(), run, self._now())
+            desk = self._buildDesk(runId, self._load(runId=runId), run, self._now())
 
         def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
             if record["status"] in OPENRUNSTATES:
@@ -974,9 +965,7 @@ class FullRunner:
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
-        run = self._load()["runs"].get(runId)
-        if run is None:
-            raise UnknownRun(f"unknown run {runId}")
+        run = self._loadRun(runId)
         action = next((a for a in run["actions"] if a["stepId"] == stepId), None)
         if action is None:
             raise RecordRefused(f"run {runId} has no action with step id {stepId!r}")
@@ -1028,7 +1017,7 @@ class FullRunner:
         # Recording is data from a driver, not a phase of ours: it does not need
         # (and must not fight over) the run lease.
         self._mutateRun(runId, apply, holdsLease=False, message=f"steward full record {stepId}")
-        view = self._view(self._load(), runId)
+        view = self._view(self._load(runId=runId), runId)
         if view.status in OPENRUNSTATES or view.status == "awaiting-action":
             view.nextAction = f"outcome recorded; resume with `gaia steward full run --resume {runId}`"
         return view
@@ -1429,8 +1418,8 @@ class FullRunner:
                     integration = head.stdout.strip()
                 else:
                     reason = f"{self.config.remote}/{branch} did not resolve after fetch"
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         followUp = [e for e in run["unresolvedWork"] if doc["work"].get(e["debtId"], {}).get("state") in ACTIVEWORK]
         summary = {
             "sourceHead": source, "integrationHead": integration, "integrationBranch": branch,
@@ -1527,7 +1516,7 @@ class FullRunner:
         browser = self._collectBrowser()
         scan = self._controllerInstance().scan(self.root)
         self._scans[runId] = scan
-        summary = self._observationSummary(scan, self._load()["work"])
+        summary = self._observationSummary(scan, self._load(runId=runId)["work"])
         if browser is not None:
             summary["browserCollection"] = browser
         receiptId = summary["scanReceiptId"]
@@ -1618,8 +1607,9 @@ class FullRunner:
 
     def _phaseTriage(self, runId: str) -> bool:
         scan = self._scanFor(runId)
-        doc = self._load()
-        sets = self._triageSets(scan, doc["runs"][runId], doc["work"])
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
+        sets = self._triageSets(scan, run, doc["work"])
         summary = {key: value for key, value in sets.items() if key != "debts"}
         summary["counts"] = {
             "A": len(sets["classA"]), "B": len(sets["classB"]),
@@ -1650,15 +1640,15 @@ class FullRunner:
         # Forge-executed closures first. While any closure awaits its driver outcome the
         # phase waits, so nothing is repeated or lost on resume.
         self._cancelClosuresWhenDisabled(runId)
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         if self._pending(run, CLOSEACTION):
             return False
         closures = self._emitIssueClosures(runId, scan, policy)
         if closures["emitted"]:
             return False
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         sets = self._triageSets(scan, run, doc["work"])
         branch = run["integrationBranch"]
         floor = self._floorStatus(runId)
@@ -1732,8 +1722,8 @@ class FullRunner:
             # Re-checked at emission: with writes off, proven closures stay debt and no action is recorded.
             summary["reason"] = "issueHygiene.writesEnabled is false; no closure is emitted"
             return summary
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         sets = self._triageSets(scan, run, doc["work"])
         ready = sorted((sets["debts"][debtId] for debtId in sets["issueClosure"]), key=lambda d: d.subject.id)
         if not ready:
@@ -1947,8 +1937,8 @@ class FullRunner:
         if policy.pr_maintenance_error or not pol.writesEnabled or pol.killSwitch or prstate.killSwitchActive(self.root, pol.killSwitch):
             summary["reason"] = "PR maintenance writes are disabled or revoked; nothing is emitted"
             return summary
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         fresh = scan.fresh_open_debt_ids
         ready = sorted((d for d in scan.open_debts if d.id in fresh and d.kind in (KIND_MERGE, KIND_CLOSURE)),
                        key=lambda d: (str(d.observed_state.get("label") or ""), int(d.observed_state.get("number") or 0)))
@@ -2305,7 +2295,7 @@ class FullRunner:
                 "coverageUnknown": unknown}, refuse)
         floor = self._floorStatus(runId)
         if not floor["ok"]:
-            doc = self._load()
+            doc = self._load(runId=runId)
             sets = self._triageSets(scan, run, doc["work"])
             if sets["classB"] or any(i.get("authority") == "B" and i["state"] in {"building", "verified"}
                                      for i in doc["work"].values()):
@@ -2325,7 +2315,7 @@ class FullRunner:
                 "reason": f"this run already dispatched {builds} (maxDispatchesPerRun {policy.max_dispatches_per_run})"})
         remaining = policy.max_dispatches_per_run - builds
 
-        doc = self._load()
+        doc = self._load(runId=runId)
         sets = self._triageSets(scan, run, doc["work"])
         eligible = set(sets["classB"])
         now = self._now()
@@ -2344,7 +2334,7 @@ class FullRunner:
         handed: list[dict[str, Any]] = []
         stop = ""
         while len(handed) < remaining:
-            doc = self._load()
+            doc = self._load(runId=runId)
             lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
             if candidate is None:
                 stop = reason
@@ -2526,14 +2516,14 @@ class FullRunner:
         floor = self._floorStatus(runId)
         if not floor["ok"]:
             if any(i.get("authority") == "B" and i["state"] in {"building", "verified"}
-                   for i in self._load()["work"].values()):
+                   for i in self._load(runId=runId)["work"].values()):
                 self._refusedByFloor(runId, floor)
             return self._finish(runId, "verify", {
                 "status": "blocked", "reason": floor["reason"], "floor": False,
                 "detail": "no verification or integration action is emitted without a valid integration branch"})
         expired = self._expireStuck(runId)
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         policy = self._policyLoaded()
         deferred: list[dict[str, Any]] = []
         results: list[dict[str, Any]] = []
@@ -2678,7 +2668,7 @@ class FullRunner:
         else:
             scan = self._controllerInstance().scan(self.root)
             self._scans[runId] = scan
-            summary = self._observationSummary(scan, self._load()["work"])
+            summary = self._observationSummary(scan, self._load(runId=runId)["work"])
         openIds = set(summary["openDebtIds"])
         debtStatus = summary["debtStatus"]
         known = not summary["coverageUnknown"]
@@ -2836,8 +2826,8 @@ class FullRunner:
 
     def _phaseReport(self, runId: str) -> bool:
         now = self._now()
-        doc = self._load()
-        run = doc["runs"][runId]
+        doc = self._load(runId=runId)
+        run = self._loadRun(runId)
         desk = self._buildDesk(runId, doc, run, now)
         backlog = self._issueBacklog(runId, doc, run)
 

@@ -1739,3 +1739,119 @@ def test_fullrun_load_run_propagates_run_id_to_read_telemetry(tmp_path):
     read_records = [r for r in lines if r["op"] == "read" and r.get("runId") == "test-run-xyz"]
     assert len(read_records) >= 1
     assert read_records[-1]["runId"] == "test-run-xyz"
+
+
+def test_fullrun_load_propagates_run_id_and_store_type_error_no_retry(tmp_path):
+    """FullRunner._load propagates runId on runner operations and store TypeErrors propagate without retry."""
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+
+    telem_path = tmp_path / "runner-ops-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "ops-ledger.json", telemetry_path=telem_path)
+    config = FullRunConfig(repo_root=tmp_path, store=store)
+    runner = FullRunner(config)
+
+    # 1. Verify runner.record() propagates runId to read telemetry
+    rec_run_id = "test-run-rec"
+    step_id = "pr-step-1"
+    debt_id = "debt-item-1"
+
+    def seed_record(doc: dict):
+        doc["runs"][rec_run_id] = {
+            "runId": rec_run_id,
+            "mode": "full",
+            "sequence": 1,
+            "status": "awaiting-action",
+            "phase": "class_a",
+            "startedAt": "2026-11-08T00:00:00Z",
+            "steps": [{"stepId": step_id, "kind": "forge.open_pr", "status": "pending"}],
+            "actions": [{
+                "stepId": step_id,
+                "type": "forge.open_pr",
+                "debtId": debt_id,
+                "status": "pending",
+                "params": {"debtId": debt_id},
+            }],
+            "pullRequests": [],
+            "phases": {},
+            "unresolvedWork": [],
+        }
+        doc["work"][debt_id] = {
+            "debtId": debt_id,
+            "state": "proposed",
+            "authority": "A",
+        }
+        return "seeded"
+
+    update(store, seed_record, telemetry_path=telem_path)
+    if telem_path.is_file():
+        telem_path.unlink()
+
+    runner.record(rec_run_id, step_id, {"pullRequest": {"number": 101, "url": "https://example.invalid/pr/101"}})
+
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rec_read_records = [r for r in lines if r["op"] == "read"]
+    assert len(rec_read_records) >= 1
+    assert all(r.get("runId") == rec_run_id for r in rec_read_records)
+
+    # 2. Verify runner.advance() propagates runId to read telemetry
+    adv_run_id = "test-run-adv"
+
+    def seed_advance(doc: dict):
+        doc["runs"][adv_run_id] = {
+            "runId": adv_run_id,
+            "mode": "full",
+            "sequence": 2,
+            "status": "active",
+            "phase": "done",
+            "startedAt": "2026-11-08T00:00:00Z",
+            "steps": [],
+            "actions": [],
+            "leases": [],
+            "phases": {},
+            "unresolvedWork": [],
+        }
+        return "seeded"
+
+    update(store, seed_advance, telemetry_path=telem_path)
+    telem_path.unlink()
+
+    runner.advance(adv_run_id)
+
+    assert telem_path.is_file()
+    lines = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    adv_read_records = [r for r in lines if r["op"] == "read"]
+    assert len(adv_read_records) >= 1
+    assert all(r.get("runId") == adv_run_id for r in adv_read_records)
+
+    # 3. Verify store-raised TypeError propagates cleanly without retry
+    class FailingStore:
+        def __init__(self):
+            self.calls = 0
+
+        def load(self, runId: str | None = None, **kwargs):
+            self.calls += 1
+            raise TypeError("store internal failure")
+
+    failing_store = FailingStore()
+    fail_runner = FullRunner(FullRunConfig(repo_root=tmp_path, store=failing_store))
+
+    with pytest.raises(TypeError, match="store internal failure"):
+        fail_runner._load(runId="test-run-fail")
+    assert failing_store.calls == 1
+
+    # Also verify store with run_id parameter
+    class SnakeFailingStore:
+        def __init__(self):
+            self.calls = 0
+
+        def load(self, run_id: str | None = None):
+            self.calls += 1
+            raise TypeError("snake store type error")
+
+    snake_store = SnakeFailingStore()
+    snake_runner = FullRunner(FullRunConfig(repo_root=tmp_path, store=snake_store))
+
+    with pytest.raises(TypeError, match="snake store type error"):
+        snake_runner._load(runId="test-run-snake")
+    assert snake_store.calls == 1
