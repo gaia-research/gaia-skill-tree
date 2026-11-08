@@ -823,5 +823,3 @@ def test_determine_badge_presentation_ast_no_dead_code():
     assert res["tier"] == "CURATED_COLLECTION"
     assert res["eligible_count"] == 10
     assert res["displayed_count"] == 1
-
-

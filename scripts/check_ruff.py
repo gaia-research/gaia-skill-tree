@@ -219,22 +219,27 @@ def save_baseline(
     return data
 
 
+def validate_baseline(data: Any) -> dict[str, Any]:
+    """Validate baseline content from either the working tree or a git ref."""
+    if not isinstance(data, dict) or data.get("version") != 1:
+        raise ValueError("unsupported baseline format")
+    entries = data.get("violations")
+    if not isinstance(entries, list):
+        raise ValueError("violations must be a list")
+    for entry in entries:
+        if (not isinstance(entry, dict) or
+            any(not isinstance(entry.get(k), str) or not entry[k] for k in ("file", "code", "message")) or
+            entry["code"] not in RATCHET_CODES):
+            raise ValueError("invalid baseline violation")
+    return data
+
+
 def load_baseline(baseline_path: Path) -> dict[str, Any] | None:
     """Load and validate the committed baseline, refusing malformed input."""
     try:
         with open(baseline_path, encoding="utf-8") as f:
             data = json.load(f)
-        if not isinstance(data, dict) or data.get("version") != 1:
-            raise ValueError("unsupported baseline format")
-        entries = data.get("violations")
-        if not isinstance(entries, list):
-            raise ValueError("violations must be a list")
-        for entry in entries:
-            if (not isinstance(entry, dict) or
-                any(not isinstance(entry.get(k), str) or not entry[k] for k in ("file", "code", "message")) or
-                entry["code"] not in RATCHET_CODES):
-                raise ValueError("invalid baseline violation")
-        return data
+        return validate_baseline(data)
     except (OSError, ValueError, TypeError) as exc:
         print(f"Error loading baseline {baseline_path}: {exc}", file=sys.stderr)
         return None
@@ -368,11 +373,9 @@ def load_baseline_from_git(
 
     try:
         data = json.loads(res.stdout)
-        if not isinstance(data, dict) or "violations" not in data:
-            return None, f"Invalid baseline format at git ref '{base_ref}'"
-        return data, None
-    except json.JSONDecodeError as exc:
-        return None, f"Failed to parse baseline JSON at git ref '{base_ref}': {exc}"
+        return validate_baseline(data), None
+    except (ValueError, TypeError) as exc:
+        return None, f"Invalid baseline at git ref '{base_ref}': {exc}"
 
 
 def resolve_base_ref(repo_root: Path, base_arg: str | None = None) -> tuple[str | None, str]:

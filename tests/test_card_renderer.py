@@ -634,5 +634,3 @@ def test_render_appraise_card_with_ctx_nickname():
         ctx=DummyContext(),
     )
     assert "CustomNick(custom-skill)" in output
-
-

@@ -556,4 +556,3 @@ def test_graph_command_non_public_repo_error_handles_cleanly(tmp_path, monkeypat
     assert captured_user_ctx[0]["username"] == "testuser"
     assert len(captured_is_workspace) == 1
     assert captured_is_workspace[0] is True
-

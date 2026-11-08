@@ -843,6 +843,26 @@ def test_committed_base_baseline_is_used_once_it_exists(tmp_path, merge_topology
     assert "first adoption" not in out.out
 
 
+@pytest.mark.parametrize("bad_baseline", [
+    {"version": 999, "violations": [{"file": "old.py", "code": "F401", "message": "`os` imported but unused"}]},
+    {"version": 1, "violations": [None]},
+    {"version": 1, "violations": {"file": "old.py"}},
+    {"version": 1, "violations": [{"file": "old.py", "code": 401, "message": "unused"}]},
+])
+def test_malformed_committed_base_fails_closed(tmp_path, merge_topology, capsys, bad_baseline):
+    git, pr = merge_topology
+    pr(new_violation=False)
+    baseline = tmp_path / "baseline.json"
+    valid = baseline.read_text()
+    baseline.write_text(json.dumps(bad_baseline))
+    git("add", "baseline.json")
+    git("commit", "-qm", "malformed base")
+    git("update-ref", "refs/remotes/origin/dev/campaign", git("rev-parse", "HEAD"))
+    baseline.write_text(valid)
+    assert check_ruff_main(["--baseline", str(baseline)]) == 2
+    assert "Invalid baseline at git ref" in capsys.readouterr().err
+
+
 @pytest.mark.parametrize("context", ["unresolvable-base", "no-base-context", "push-without-payload"])
 def test_unresolvable_base_fails_closed(tmp_path, merge_topology, monkeypatch, capsys, context):
     """No search across other refs: when the exact base cannot be resolved the gate exits 2."""
