@@ -1,5 +1,5 @@
 {
- "generation": 1812,
+ "generation": 1813,
  "lane": {
   "entries": [
    {
@@ -792,14 +792,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-d216c83b661079e59258",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T07:40:22.368726Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch12-verifier-4e35681dda17)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-08T00:37:23.141992Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T07:40:22.368726Z",
+    "lastVerdict": "accept",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -138262,6 +138268,17 @@
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "emittedAt": "2026-11-08T07:34:46.623111Z",
      "idempotencyKey": "integrate:dispatch-d216c83b661079e59258:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "225e0c4f53dc7a2c7b4651e1df665b8ca8e917cd",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/trust-calibration-drift-4e35681dda17",
+       "number": 2400,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2400"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -138269,7 +138286,8 @@
       "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T07:40:22.368426Z",
+     "status": "done",
      "stepId": "integrate:4e35681dda17:2",
      "type": "lead.integrate"
     },
@@ -138343,7 +138361,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-08T07:40:22.368726Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-08T07:39:35.129846Z",
@@ -141727,7 +141753,16 @@
      "stepId": "build:94b4c68a20c6:2"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "head": "steward/b/trust-calibration-drift-4e35681dda17",
+     "merged": true,
+     "number": 2400,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2400"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261108T003144Z-800b4c8377062e8a",
@@ -141809,11 +141844,11 @@
      "stepId": "verify:94b4c68a20c6:2"
     },
     {
-     "at": "2026-11-08T07:34:46.623111Z",
+     "at": "2026-11-08T07:40:22.368426Z",
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "idempotencyKey": "integrate:dispatch-d216c83b661079e59258:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:4e35681dda17:2"
     },
     {
@@ -141856,11 +141891,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T07:34:53.535143Z"
+   "updatedAt": "2026-11-08T07:40:22.368426Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T07:39:55.020267Z",
+ "updatedAt": "2026-11-08T07:40:22.372287Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -142134,17 +142169,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch12-verifier-4e35681dda17 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-08T07:40:22.368726Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "trust_calibration_drift",
+   "mergedSha": "225e0c4f53dc7a2c7b4651e1df665b8ca8e917cd",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/build-4e35681dda17.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/trust-calibration-drift-4e35681dda17",
+    "number": 2400,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2400"
+   },
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T003105Z-3faf1f97",
    "source": "trust-calibration-drift",
-   "state": "verified",
-   "updatedAt": "2026-11-08T07:34:46.623111Z",
+   "state": "landed",
+   "updatedAt": "2026-11-08T07:40:22.368726Z",
    "verification": {
     "agentId": "pi-herdr-batch12-verifier-4e35681dda17",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - \"Pre-calibration inspection reports 2★, TM 127.83, grade A, and a 4★ target; post-calibration inspection reports 4★ at the same TM and grade.\" - \"The candidate diff changes only the subject record's level and update date and appends the expected rank_up event.\" - \"The reported single no-build calibration succeeded; the independent review is supplied by this verification, as the packet directs.\" - \"The promotion is within the established Class B eligibility and no guards were weakened; Class S regeneration remains the lead's wave-level responsibility.\"",
