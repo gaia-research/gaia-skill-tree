@@ -1643,18 +1643,6 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gaiabot/repo-docs-before-pr": {
-      "state": "unknown",
-      "reason": "not-observed",
-      "observationDigest": null,
-      "observedAt": null,
-      "currentSourceRoute": null,
-      "currentSkillContentSha256": "6be9968fb44c8f1a2f80ece7f7233fa88bad68c426dd5f473a241fd20e9e4500",
-      "observedSourceRoute": null,
-      "observedSkillContentSha256": null,
-      "resolvedRevision": null,
-      "deliveredContentSha256": null
-    },
     "garrytan/academic-verify": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2949,7 +2937,7 @@
         "entrypoint": "investigate/SKILL.md",
         "installSubpath": "investigate"
       },
-      "currentSkillContentSha256": "a123847c7cb069a24f3751a3fbf9aa838be8588da83aa055630ed6a83b242160",
+      "currentSkillContentSha256": "e81441b272074876d2c95fa2265347ae28621ffbb6d7a74b1036ad160c6ce0b6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4729,7 +4717,7 @@
         "entrypoint": "skills/workflow_skill_creator/SKILL.md",
         "installSubpath": "skills/workflow_skill_creator"
       },
-      "currentSkillContentSha256": "43a2aa28977ecf593a933d870a449d72e049c6efa5fadb74003fbbb4fdafca28",
+      "currentSkillContentSha256": "f6f9574cea3519b6660623e679c95e3d7123b401783155d099d7eddaa99fbe75",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

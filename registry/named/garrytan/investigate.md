@@ -84,6 +84,14 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-07T17:17:10Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'Removed upstream: garrytan/gstack retired /investigate in ef99eb5a55 (GST-1717,
+    PR #4110, 2026-11-07); no successor path. Founder ruling 2026-11-08: deleted upstream
+    => freeze.'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
@@ -124,6 +132,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
 trustMagnitudeInputHash: ad343249f30b4c249067642993c0d7625a5c8fa20b6be8c6298d1bded86276a0
+installable: false
 ---
 
 ## Overview
