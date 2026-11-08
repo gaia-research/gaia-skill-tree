@@ -23,7 +23,9 @@ Five things changed since the [September 9 Rank Calibration](2026-09-10-septembe
 4. **Upstream skill suites are current again.** Six suites — spanning 14 named skills — were synchronized to their authors' latest published releases.
 5. **The Four-Tier Audit Taxonomy is now permanent policy.** Every future skill evaluation, demotion, or removal follows a clear, published four-tier framework with mandatory safeguards against collateral damage.
 
-<img src="2026-09-13-mid-cycle-architecture-map.svg" alt="Four pillars of the September mid-cycle update: Upstream Sync, Frozen Rank Protection, New Admissions, and the Four-Tier Audit." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-13-mid-cycle-architecture-map.svg" alt="Four pillars of the September mid-cycle update: Upstream Sync, Frozen Rank Protection, New Admissions, and the Four-Tier Audit." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 ## New Skills Admitted
 
@@ -100,7 +102,9 @@ These demotions followed the evidence — skills with thin or stale evidence lak
 
 Every skill in the registry will eventually be evaluated. Until now, the rules governing evaluation, demotion, and removal were scattered across internal playbooks. Starting with this release, a single, permanent framework governs all audit outcomes.
 
-<img src="2026-09-13-four-tier-governance-flow.svg" alt="The Four-Tier Audit Taxonomy: Tier 1 Expungement, Tier 2 Packaging Gap, Tier 3 Early-Stage, Tier 4 Attribution." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-13-four-tier-governance-flow.svg" alt="The Four-Tier Audit Taxonomy: Tier 1 Expungement, Tier 2 Packaging Gap, Tier 3 Early-Stage, Tier 4 Attribution." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 ### The Four Tiers
 

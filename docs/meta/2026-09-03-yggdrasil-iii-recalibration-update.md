@@ -28,7 +28,9 @@ Over late August and early September 2026, Gaia Research executed the **Yggdrasi
 
 By separating structural provenance from earned trust, expunging fraudulent aggregators, replacing linear star formulas with a logarithmic adoption model, and enforcing an inviolable Grade S witness gate, Yggdrasil III has reclaimed the leaderboard for genuine creators.
 
-<img src="2026-09-03-yggdrasil-iii-architecture-lifecycle.svg" alt="Yggdrasil III Architecture Lifecycle — four milestones from structural separation to logarithmic curve and authentic leaderboard restoration." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-03-yggdrasil-iii-architecture-lifecycle.svg" alt="Yggdrasil III Architecture Lifecycle — four milestones from structural separation to logarithmic curve and authentic leaderboard restoration." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 1. The four milestones of Yggdrasil III, spanning the August 29 structural separation ruling through the September 5 logarithmic adoption ratification.*
 
@@ -101,7 +103,9 @@ Trust Magnitude was never meant to mirror GitHub star charts. If a 100,000-star 
 
 To eradicate these distortions while preserving the legitimate value of curated tool suites, Gaia Research instituted four coordinated policy milestones between August 25 and September 5, 2026.
 
-<img src="2026-08-29-yggdrasil-iii-before-after-tm-evidence-flow.svg" alt="Before and after evidence flow: before Yggdrasil III, shared repository evidence and fusion structure inflated Trust Magnitude. After Yggdrasil III, shared suite evidence is capped at 50 TM, fusion structure contributes zero TM, and unique evidence remains eligible." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-08-29-yggdrasil-iii-before-after-tm-evidence-flow.svg" alt="Before and after evidence flow: before Yggdrasil III, shared repository evidence and fusion structure inflated Trust Magnitude. After Yggdrasil III, shared suite evidence is capped at 50 TM, fusion structure contributes zero TM, and unique evidence remains eligible." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 2. Structural provenance vs. verified trust: suite structure remains fully navigable, but only validated, eligible evidence generates Trust Magnitude.*
 
@@ -118,7 +122,9 @@ The foundational ruling of Yggdrasil III decoupled structural provenance from ev
 
 Adoption alone—regardless of how many tens of thousands of stars a repository has gathered—can never unlock Grade S.
 
-<img src="2026-08-29-yggdrasil-iii-suite-unique-balance.svg" alt="Suite and unique-skill balance diagram: suite repository provides a shared baseline capped at 50 TM; unique skills score entirely from their own evidence." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-08-29-yggdrasil-iii-suite-unique-balance.svg" alt="Suite and unique-skill balance diagram: suite repository provides a shared baseline capped at 50 TM; unique skills score entirely from their own evidence." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 3. Balancing suites and unique skills: shared repository standing provides a bounded baseline, while distinct own-layer evidence performs the evaluation.*
 
@@ -142,7 +148,9 @@ On September 3, Gaia Research ratified the **Fusion Score** as an independent st
   - **Unique Skills**: Feature clean, quiet evidentiary ledgers celebrating focused, single-purpose craftsmanship.
 - **Hover Transparency**: Every public badge displays interactive contextual explanations clarifying that Fusion Score measures structural depth, whereas Trust Magnitude measures verified reliability.
 
-<img src="2026-09-03-yggdrasil-iii-suite-vs-unique-rebalance.svg" alt="Suite vs. Unique rebalancing under Yggdrasil III: suites receive capped adoption baseline and headline Fusion Score, uniques rely on own-layer evidence and quiet ledger line." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-03-yggdrasil-iii-suite-vs-unique-rebalance.svg" alt="Suite vs. Unique rebalancing under Yggdrasil III: suites receive capped adoption baseline and headline Fusion Score, uniques rely on own-layer evidence and quiet ledger line." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 4. The rebalanced presentation: structural Fusion Score complements rather than inflates evidentiary Trust Magnitude.*
 
@@ -152,7 +160,9 @@ On September 3, Gaia Research ratified the **Fusion Score** as an independent st
 
 On September 4, Gaia Research conducted an exhaustive forensic audit across all 339 named skills in the registry. The audit scrubbed false attributions, stripped hijacked academic citations, and purged non-skill entries.
 
-<img src="2026-09-03-yggdrasil-iii-imposter-purge-flow.svg" alt="Forensic audit and remediation flow: monorepo stubs demoted, non-skill entities expunged, contaminated citations decontaminated, grounded evidence ingested." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-03-yggdrasil-iii-imposter-purge-flow.svg" alt="Forensic audit and remediation flow: monorepo stubs demoted, non-skill entities expunged, contaminated citations decontaminated, grounded evidence ingested." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 5. Remediation lifecycle: purging non-skills, stripping hijacked citations, and anchoring authentic tools with verifiable evidence.*
 
@@ -173,7 +183,9 @@ The final milestone resolved the core mathematical flaw of the legacy system by 
 
 $$\text{adoptionScore} = \min\left(175.0,\; 35.0 \times \log_{10}\left(\max\left(1.0,\; \frac{\text{stars}}{10.0}\right)\right)\right)$$
 
-<img src="2026-09-03-yggdrasil-iii-logarithmic-curve.svg" alt="Logarithmic adoption curve plotting stars from 10 to 1M against TM score, contrasting old linear vs new 175 TM capped logarithmic curve." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-09-03-yggdrasil-iii-logarithmic-curve.svg" alt="Logarithmic adoption curve plotting stars from 10 to 1M against TM score, contrasting old linear vs new 175 TM capped logarithmic curve." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 6. The Logarithmic Adoption Curve: replacing unbounded linear growth with a strictly bounded 175 TM ceiling, ensuring Grade S requires independent validation.*
 

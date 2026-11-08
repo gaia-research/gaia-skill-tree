@@ -17,10 +17,12 @@ That success created a different question. When a release advertises dozens of p
 
 In this batch, the answer was emphatically not “add all 95.” The reviewed outcomes were 38 accepted, 40 mapped to capabilities Gaia already represented, 17 omitted, and zero deferred. These are measured counts from the [integration record](https://github.com/gaia-research/gaia-skill-tree/pull/1915), not a benchmark of the watcher or a general estimate of curation accuracy.
 
+<!-- trusted-html -->
 <figure id="decision-funnel">
   <img src="assets/discovery-is-not-admission.svg" alt="Of 95 candidate skills, 38 were accepted, 40 mapped to existing capabilities, 17 omitted, and zero deferred; only the accepted 38 were additions." style="display:block;max-width:100%;height:auto;margin:auto" />
   <figcaption><strong>Figure 1.</strong> Discovery produced 95 candidates, not 95 additions. Mapping is a useful outcome: it preserves the connection to a distinct upstream implementation without creating a duplicate capability.</figcaption>
 </figure>
+<!-- /trusted-html -->
 
 ## A name is not a capability boundary
 
@@ -38,10 +40,12 @@ A dependable process has at least two different kinds of work. Mechanical tasks�
 
 In this integration, 31 cases were explicitly routed through a stronger review pass. The final record says all 31 ended with dispositions and reports zero unresolved escalations. That is different from saying the first pass was right, or that every hard case can be resolved automatically. The [final integration record](https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/upstream-integration-2026-09-23.md) says eight of the 31 dispositions differed from the initial proposals after deeper review and maintainer rulings. Escalation was useful precisely because it preserved the chance to revise an earlier interpretation rather than disguising uncertainty as a confident label.
 
+<!-- trusted-html -->
 <figure id="review-pipeline">
   <img src="assets/review-architecture.svg" alt="Seven stages: automated discovery, mechanical consolidation, semantic review, stronger review for ambiguity, one combined integration, validation, and merge to main." style="display:block;max-width:100%;height:auto;margin:auto" />
   <figcaption><strong>Figure 2.</strong> Discovery and consolidation can scale; semantic decisions need a review path that makes uncertainty visible and resolvable.</figcaption>
 </figure>
+<!-- /trusted-html -->
 
 This separation is an engineering choice, not a claim that one model or one human is infallible. A practical design pattern is to use cheaper, predictable processing for organizing evidence, then reserve deeper reasoning and human attention for disputed boundaries. Every layer should leave enough provenance for the next reviewer to check what the candidate actually contained and why it was accepted, mapped, omitted, or escalated.
 
@@ -53,10 +57,12 @@ That sequence matters because generated files are projections, not independent d
 
 GitHub’s documentation describes [pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests) as a place to propose and review changes before merging, and [GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions) as a way to automate repository workflows. Those platform mechanics do not guarantee good curation. They do make it possible to keep many incoming changes reviewable while giving the combined result one explicit merge boundary.
 
+<!-- trusted-html -->
 <figure id="integration-boundary">
   <img src="assets/many-signals-one-boundary.svg" alt="Five upstream projects feed candidate packets into shared semantic review; decisions converge into one reviewed integration, then validation, then main." style="display:block;max-width:100%;height:auto;margin:auto" />
   <figcaption><strong>Figure 3.</strong> Multiple sources can produce independent evidence packets without creating multiple unreviewed paths into the shared registry.</figcaption>
 </figure>
+<!-- /trusted-html -->
 
 ## A lesson, not a reliability claim
 

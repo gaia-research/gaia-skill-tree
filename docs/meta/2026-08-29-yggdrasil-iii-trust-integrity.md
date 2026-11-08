@@ -40,7 +40,9 @@ Previously, a `fusion-recipe` row could add a large number to TM. That row descr
 | Does it add a scoring Evidence Type? | It could | No |
 | Does the suite disappear from the graph? | No | No |
 
-<img src="2026-08-29-yggdrasil-iii-before-after-tm-evidence-flow.svg" alt="Before and after evidence flow. Before Yggdrasil III, shared repository evidence and fusion structure could both increase component Trust Magnitude. After the change, shared suite evidence is capped at 50 TM per component, fusion structure contributes zero TM, and unique evidence remains eligible." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-08-29-yggdrasil-iii-before-after-tm-evidence-flow.svg" alt="Before and after evidence flow. Before Yggdrasil III, shared repository evidence and fusion structure could both increase component Trust Magnitude. After the change, shared suite evidence is capped at 50 TM per component, fusion structure contributes zero TM, and unique evidence remains eligible." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 1. Structure remains visible, but only eligible evidence contributes to Trust Magnitude.*
 
@@ -56,7 +58,9 @@ Yggdrasil III applies three simple rules:
 
 This bounds repeated shared or structural evidence while preserving component-specific evidence. Unique skills receive no bonus, and suites receive no blanket penalty: eligible evidence follows the same scoring rules, with only a suite component's repeated shared-repository baseline capped.
 
-<img src="2026-08-29-yggdrasil-iii-suite-unique-balance.svg" alt="Suite and unique-skill balance diagram. One suite repository provides each component with at most a 50 TM shared baseline. Component-specific evidence can add normally. Fusion-recipe links remain visible as structure but add zero TM. A unique skill is scored from its own eligible evidence." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
+<!-- trusted-html -->
+<p><img src="2026-08-29-yggdrasil-iii-suite-unique-balance.svg" alt="Suite and unique-skill balance diagram. One suite repository provides each component with at most a 50 TM shared baseline. Component-specific evidence can add normally. Fusion-recipe links remain visible as structure but add zero TM. A unique skill is scored from its own eligible evidence." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy"></p>
+<!-- /trusted-html -->
 
 *Figure 2. Shared suite standing is a bounded baseline; specific evidence does the differentiating work.*
 

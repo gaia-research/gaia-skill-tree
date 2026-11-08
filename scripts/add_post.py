@@ -45,14 +45,31 @@ DEFAULT_LABELS = {"announcement": "New", "link": "Link", "report": "Audit"}
 # Helpers
 # ---------------------------------------------------------------------------
 
+def _is_safe_url(url: str) -> bool:
+    if not url:
+        return False
+    # Strip whitespace and ASCII control characters before inspecting
+    cleaned = re.sub(r"[\s\x00-\x1f\x7f]", "", url)
+    if not cleaned:
+        return False
+    # Scheme allowlist: http, https, mailto, relative paths, anchor
+    if cleaned.startswith("#"):
+        return True
+    if cleaned.startswith("//"):
+        return False  # protocol-relative disallowed
+    if cleaned.startswith(("/", "./", "../")):
+        return True
+    scheme_match = re.match(r"^([A-Za-z][A-Za-z0-9+.-]*):", cleaned)
+    if scheme_match:
+        return scheme_match.group(1).lower() in {"http", "https", "mailto"}
+    # No scheme colon -> relative path
+    return ":" not in cleaned
+
+
 def _safe_url(url: str, default: str = "#") -> str:
     if not url:
         return default
-    # Strip whitespace and ASCII control characters (0x00-0x1F, 0x7F) before checking scheme
-    cleaned = re.sub(r"[\s\x00-\x1f\x7f]", "", url).lower()
-    if cleaned.startswith(("javascript:", "data:", "vbscript:")):
-        return default
-    return url
+    return url if _is_safe_url(url) else default
 
 
 def slugify(text: str) -> str:
@@ -224,14 +241,39 @@ def _esc(text: str) -> str:
 
 
 def _inline(text: str) -> str:
-    """Inline markdown: code, bold, italic, links."""
-    text = re.sub(r"`([^`]+)`", lambda m: f"<code>{_esc(m.group(1))}</code>", text)
+    """Render inline markdown while treating all source text as untrusted."""
+    # First protect markdown links so URLs containing underscores/asterisks
+    # do not have emphasis formatting mistakenly applied inside their targets.
+    links: list[tuple[str, str]] = []
+
+    def save_link(m: re.Match) -> str:
+        label, raw_href = m.group(1), m.group(2)
+        links.append((label, raw_href))
+        return f"\x00GAIALINK{len(links) - 1}END\x00"
+
+    # Match [label](href) with optional nested parens before inline emphasis
+    text = re.sub(r"\[([^\]]+)\]\(([^)]*?(?:\([^)]*\)[^)]*?)*)\)", save_link, text)
+
+    # Escape plain text so HTML tags in markdown body do not execute
+    text = _esc(text)
+    text = re.sub(r"`([^`]+)`", lambda m: f"<code>{m.group(1)}</code>", text)
     text = re.sub(r"\*\*(.+?)\*\*|__(.+?)__",
                   lambda m: f"<strong>{m.group(1) or m.group(2)}</strong>", text)
     text = re.sub(r"\*(.+?)\*|_(.+?)_",
                   lambda m: f"<em>{m.group(1) or m.group(2)}</em>", text)
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)",
-                  lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', text)
+
+    # Restore links with scheme validation, label formatting, and attribute escaping
+    def restore_link(m: re.Match) -> str:
+        idx = int(m.group(1))
+        label, raw_href = links[idx]
+        href = html.unescape(raw_href)
+        safe_href = href if _is_safe_url(href) else "#"
+        esc_href = html.escape(safe_href, quote=True)
+        # Label undergoes inline formatting recursively
+        esc_label = _inline(label)
+        return f'<a href="{esc_href}">{esc_label}</a>'
+
+    text = re.sub(r"\x00GAIALINK(\d+)END\x00", restore_link, text)
     return text
 
 
@@ -257,10 +299,34 @@ def md_to_html(md: str) -> str:
     while i < len(lines):
         line = lines[i]
 
+        # Explicit opt-in boundary for trusted HTML fragments. Boundary lines
+        # are omitted; content is emitted verbatim until the matching closer.
+        if line.strip() == "<!-- trusted-html -->":
+            flush_list()
+            i += 1
+            trusted_lines: list[str] = []
+            while i < len(lines) and lines[i].strip() != "<!-- /trusted-html -->":
+                trusted_lines.append(lines[i])
+                i += 1
+            if i >= len(lines):
+                raise ValueError("unclosed trusted-html fragment")
+            out.append("\n".join(trusted_lines))
+            i += 1
+            continue
+
+        # Ignore stray closing marker to prevent infinite loops
+        if line.strip() == "<!-- /trusted-html -->":
+            flush_list()
+            out.append(_esc(line))
+            i += 1
+            continue
+
         # Fenced code block
         if line.strip().startswith("```"):
             flush_list()
             lang = line.strip()[3:].strip()
+            lang = re.sub(r"[^A-Za-z0-9_+-]", "", lang)
+            lang = html.escape(lang, quote=True)
             code_lines: list[str] = []
             i += 1
             while i < len(lines) and not lines[i].strip().startswith("```"):
@@ -292,22 +358,24 @@ def md_to_html(md: str) -> str:
             i += 1
             continue
 
-        # H2 — section heading
-        m = re.match(r"^## (.+)$", line)
+        # H1-H6 headings. Match the complete level range so unsupported
+        # or empty levels are consumed instead of leaving the paragraph parser stuck.
+        m = re.match(r"^(#{1,6})(?:\s+(.*))?$", line)
         if m:
             flush_list()
-            title = m.group(1).strip()
+            level = len(m.group(1))
+            title = (m.group(2) or "").strip()
             lower = title.lower()
-            if lower == "abstract":
+            if level == 2 and lower == "abstract":
                 # Abstract section is injected from frontmatter; skip body abstract heading
                 i += 1
                 continue
-            if lower in ("references", "references & contributions"):
+            if level == 2 and lower in ("references", "references & contributions"):
                 # References get the .references / .ref-item treatment
                 out.append('<div class="references">')
                 out.append(
                     f'  <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">'
-                    f"{title}</div>"
+                    f"{_inline(title)}</div>"
                 )
                 i += 1
                 while i < len(lines):
@@ -315,21 +383,13 @@ def md_to_html(md: str) -> str:
                     i += 1
                     if not ref:
                         continue
-                    if re.match(r"^#", ref):
+                    if re.match(r"^#{1,6}(?:\s|$)", ref):
                         i -= 1  # rewind so outer loop handles it
                         break
                     out.append(f'  <div class="ref-item">{_inline(ref)}</div>')
                 out.append("</div>")
                 continue
-            out.append(f"<h2>{_inline(title)}</h2>")
-            i += 1
-            continue
-
-        # H3 — subsection
-        m = re.match(r"^### (.+)$", line)
-        if m:
-            flush_list()
-            out.append(f"<h3>{_inline(m.group(1).strip())}</h3>")
+            out.append(f"<h{level}>{_inline(title)}</h{level}>")
             i += 1
             continue
 
@@ -408,20 +468,6 @@ def md_to_html(md: str) -> str:
             i += 1
             continue
 
-        # Raw figure blocks let reports embed accessible, responsive SVG assets.
-        if line.strip().startswith("<figure"):
-            flush_list()
-            figure_lines = [line]
-            i += 1
-            while i < len(lines):
-                figure_lines.append(lines[i])
-                if lines[i].strip() == "</figure>":
-                    i += 1
-                    break
-                i += 1
-            out.append("\n".join(figure_lines))
-            continue
-
         # Blank line — ends a list or paragraph
         if not line.strip():
             flush_list()
@@ -435,9 +481,11 @@ def md_to_html(md: str) -> str:
             l = lines[i]
             if not l.strip():
                 break
-            if re.match(r"^#{1,6} ", l) or re.match(r"^[-*] ", l):
+            if re.match(r"^#{1,6}(?:\s|$)", l) or re.match(r"^[-*] ", l):
                 break
             if l.strip().startswith("```") or l.strip().startswith("|") or l.strip().startswith(">"):
+                break
+            if l.strip() in ("<!-- trusted-html -->", "<!-- /trusted-html -->"):
                 break
             if re.match(r"^-{3,}$", l.strip()):
                 break

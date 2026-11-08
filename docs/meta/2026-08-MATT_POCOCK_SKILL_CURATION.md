@@ -28,7 +28,9 @@ Matt Pocock's curated Skill Tree is useful because it meets those moments direct
 
 The sequence below is an editorial reading path, not a required dependency graph. It shows what the curation feels like when read from the user's point of view: start with meaning, make the work concrete, build, check, and leave a trail.
 
-<img src="2026-08-matt-pocock-work-loop.svg" alt="Five-stage editorial route through Matt Pocock's curated skills: shape it, make it visible, build with feedback, check the change, and leave a trail." style="display:block; width:100%; height:auto; margin:2.5rem 0; border:1px solid #eee;"> <em>Figure 2. An editorial route through the Skill Tree—not a dependency graph or required sequence.</em>
+<!-- trusted-html -->
+<p><img src="2026-08-matt-pocock-work-loop.svg" alt="Five-stage editorial route through Matt Pocock's curated skills: shape it, make it visible, build with feedback, check the change, and leave a trail." style="display:block; width:100%; height:auto; margin:2.5rem 0; border:1px solid #eee;"> <em>Figure 2. An editorial route through the Skill Tree—not a dependency graph or required sequence.</em></p>
+<!-- /trusted-html -->
 
 | Stage | Representative skills | Reader-facing question |
 |---|---|---|

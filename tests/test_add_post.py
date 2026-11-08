@@ -21,18 +21,20 @@ def _load_add_post():
 
 
 def test_md_to_html_preserves_accessible_figure_as_block():
-    """A report's SVG figure must not be wrapped in a paragraph."""
+    """A report's SVG figure inside a trusted-html boundary must not be wrapped in a paragraph."""
     figure = (
+        '<!-- trusted-html -->\n'
         '<figure id="decision-funnel">\n'
         '  <img src="assets/chart.svg" alt="Decision outcomes" />\n'
         '  <figcaption>Figure 1. Outcomes.</figcaption>\n'
-        "</figure>"
+        '</figure>\n'
+        '<!-- /trusted-html -->'
     )
 
     rendered = _load_add_post().md_to_html(f"Before the figure.\n\n{figure}\n\nAfter it.")
 
     assert "<p>Before the figure.</p>" in rendered
-    assert figure in rendered
+    assert '<figure id="decision-funnel">' in rendered
     assert "<p><figure" not in rendered
     assert "<p>After it.</p>" in rendered
 
@@ -109,6 +111,109 @@ def test_fig_directive_emits_a_mount_and_ignores_unsafe_names():
 
     unsafe = module.md_to_html('{{fig: bad"name}}')
     assert "ygg-fig" not in unsafe
+
+
+def test_md_to_html_escapes_untrusted_html_in_markdown_blocks():
+    module = _load_add_post()
+
+    assert module.md_to_html("<img src=x onerror=alert(1)>") == (
+        "<p>&lt;img src=x onerror=alert(1)&gt;</p>"
+    )
+    assert "<li>&lt;img src=x onerror=alert(1)&gt;</li>" in module.md_to_html(
+        "- <img src=x onerror=alert(1)>"
+    )
+    assert "<td>&lt;img src=x onerror=alert(1)&gt;</td>" in module.md_to_html(
+        "| value |\n|---|\n| <img src=x onerror=alert(1)> |"
+    )
+    assert "<blockquote><p>&lt;img src=x onerror=alert(1)&gt;</p></blockquote>" in (
+        module.md_to_html("> <img src=x onerror=alert(1)>")
+    )
+
+
+def test_md_to_html_neutralizes_and_escapes_link_payloads():
+    module = _load_add_post()
+
+    dangerous = module.md_to_html("[click](javascript:alert(1))")
+    assert '<a href="#">click</a>' in dangerous
+    assert "javascript:" not in dangerous
+
+    allowed = module.md_to_html(
+        "[web](https://example.com) [mail](mailto:a@example.com) "
+        "[relative](foo/bar) [anchor](#section)"
+    )
+    assert '<a href="https://example.com">web</a>' in allowed
+    assert '<a href="mailto:a@example.com">mail</a>' in allowed
+    assert '<a href="foo/bar">relative</a>' in allowed
+    assert '<a href="#section">anchor</a>' in allowed
+
+    injected = module.md_to_html('[x](\"><script>alert(1)</script>)')
+    assert '<a href="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">x</a>' in injected
+    assert "<script>" not in injected
+    assert "</script>" not in injected
+
+
+def test_md_to_html_restricts_code_fence_language_attribute():
+    rendered = _load_add_post().md_to_html('```" onmouseover="alert(1)\ncode\n```')
+
+    assert '<code class="language-onmouseoveralert1">code</code>' in rendered
+    assert "onmouseover=\"" not in rendered
+
+
+def test_md_to_html_supports_all_heading_levels_without_hanging():
+    rendered = _load_add_post().md_to_html("#### Fourth\n\n###### Sixth\n\n#### \n\n### ")
+
+    assert "<h4>Fourth</h4>" in rendered
+    assert "<h6>Sixth</h6>" in rendered
+    assert "<h4></h4>" in rendered
+    assert "<h3></h3>" in rendered
+
+
+def test_md_to_html_links_preserve_underscores_in_destination():
+    module = _load_add_post()
+    rendered = module.md_to_html("[label](https://example.com/foo_bar_baz)")
+    assert '<a href="https://example.com/foo_bar_baz">label</a>' in rendered
+    assert "<em>" not in rendered
+
+
+def test_md_to_html_unmatched_trusted_closer_does_not_hang():
+    module = _load_add_post()
+    rendered = module.md_to_html("Some text\n<!-- /trusted-html -->\nMore text")
+    assert "<p>Some text</p>" in rendered
+    assert "<p>More text</p>" in rendered
+
+
+def test_safe_url_allowlist_enforcement():
+    module = _load_add_post()
+    assert module._safe_url("https://example.com") == "https://example.com"
+    assert module._safe_url("http://example.com") == "http://example.com"
+    assert module._safe_url("mailto:dev@example.com") == "mailto:dev@example.com"
+    assert module._safe_url("/path/to/page") == "/path/to/page"
+    assert module._safe_url("./local/path") == "./local/path"
+    assert module._safe_url("../parent/path") == "../parent/path"
+    assert module._safe_url("#section-1") == "#section-1"
+
+    # Disallowed schemes and protocol-relative URLs
+    assert module._safe_url("javascript:alert(1)") == "#"
+    assert module._safe_url("data:text/html,bad") == "#"
+    assert module._safe_url("vbscript:bad") == "#"
+    assert module._safe_url("file:///etc/passwd") == "#"
+    assert module._safe_url("ftp://example.com") == "#"
+    assert module._safe_url("//evil.com/path") == "#"
+
+
+def test_md_to_html_trusted_fragment_boundary_passes_html_verbatim():
+    fragment = '<img src="safe.svg" alt="A chart"><em>Caption</em>'
+    rendered = _load_add_post().md_to_html(
+        "Before.\n\n<!-- trusted-html -->\n"
+        + fragment
+        + "\n<!-- /trusted-html -->\n\nAfter."
+    )
+
+    assert fragment in rendered
+    assert "<!-- trusted-html -->" not in rendered
+    assert "<!-- /trusted-html -->" not in rendered
+    assert "<p>Before.</p>" in rendered
+    assert "<p>After.</p>" in rendered
 
 
 def test_post_and_report_escaping_markup(tmp_path):

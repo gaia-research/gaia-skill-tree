@@ -1,11 +1,13 @@
 """CLI regressions for the counted HTML-sink debt ratchet."""
 
+import importlib.util
 import json
 import runpy
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -41,6 +43,7 @@ def run_scan(scanner, source, findings=None, *args):
 
 
 def test_new_sink_fails(scanner):
+    (scanner.parents[1] / "docs/other.js").write_text("", encoding="utf-8")
     result = run_scan(scanner, SINK, {"docs/other.js": {"innerhtml-template": 1}})
     assert result.returncode == 1
     assert "[FAIL] docs/example.js" in result.stdout
@@ -281,7 +284,8 @@ def baseline_repo(scanner):
     baseline.write_text(json.dumps({"findings": {
         "docs/example.js": {"innerhtml-template": 1}
     }}), encoding="utf-8")
-    git(scanner, "add", "scripts")
+    (scanner.parents[1] / "docs/example.js").write_text("", encoding="utf-8")
+    git(scanner, "add", "scripts", "docs")
     git(scanner, "commit", "-m", "Initial baseline")
     git(scanner, "update-ref", "refs/remotes/origin/main", "HEAD")
     return scanner
@@ -293,6 +297,7 @@ def baseline_repo(scanner):
     {"docs/new.js": {"innerhtml-template": 1}},
 ])
 def test_baseline_growth_rejected(baseline_repo, findings):
+    (baseline_repo.parents[1] / "docs/new.js").write_text("", encoding="utf-8")
     result = run_scan(baseline_repo, "el.textContent = name;", findings,
                       "--check-baseline-growth")
     assert result.returncode == 1
@@ -301,8 +306,8 @@ def test_baseline_growth_rejected(baseline_repo, findings):
 
 @pytest.mark.parametrize("count", [0, 1])
 def test_baseline_same_or_smaller_passes(baseline_repo, count):
-    result = run_scan(baseline_repo, "el.textContent = name;",
-                      {"docs/example.js": {"innerhtml-template": count}},
+    findings = {"docs/example.js": {"innerhtml-template": count}} if count else {}
+    result = run_scan(baseline_repo, "el.textContent = name;", findings,
                       "--check-baseline-growth", "--base-ref", "HEAD")
     assert result.returncode == 0, result.stderr
 
@@ -319,7 +324,7 @@ def test_baseline_growth_explicit_previous_revision(baseline_repo):
     assert "1 -> 2" in result.stdout
 
 
-def test_missing_base_baseline_is_zero_budget(baseline_repo):
+def test_missing_base_baseline_without_sinks_is_zero_budget(baseline_repo):
     scanner = baseline_repo
     git(scanner, "rm", "scripts/html_sinks_baseline.json")
     git(scanner, "commit", "-m", "Remove baseline")
@@ -450,7 +455,7 @@ def test_depth_two_merge_uses_first_parent(baseline_repo, tmp_path, monkeypatch)
     git(scanner, "clone", "--depth=2", "--single-branch", "--branch", "pr-merge",
         scanner.parents[1].as_uri(), str(checkout))
     shallowScanner = checkout / "scripts/check_html_sinks.py"
-    (checkout / "docs").mkdir()
+    (checkout / "docs").mkdir(exist_ok=True)
     assert git(shallowScanner, "rev-parse", "--is-shallow-repository") == "true"
     assert git(shallowScanner, "rev-parse", "--verify", "HEAD^1^{commit}")
     assert git(shallowScanner, "rev-parse", "--verify", "HEAD^2^{commit}")
@@ -697,6 +702,133 @@ def test_ci_push_requires_valid_before(baseline_repo, monkeypatch, tmp_path, pay
     assert result.returncode == 1
     assert message in result.stderr
     assert "Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("error", [OSError("read failed"), PermissionError("denied")])
+def test_unreadable_target_fails_closed(scanner, monkeypatch, capsys, error):
+    spec = importlib.util.spec_from_file_location("sinkScanner", scanner)
+    api = importlib.util.module_from_spec(spec)
+    monkeypatch.setitem(sys.modules, spec.name, api)
+    spec.loader.exec_module(api)
+    target = Mock(spec=Path)
+    target.read_text.side_effect = error
+    with patch.object(api, "collectFiles", return_value=[(target, "docs/unreadable.js")]):
+        with pytest.raises(RuntimeError, match="Scan aborted: unreadable target 'docs/unreadable.js'"):
+            api.scan(scanner.parents[1])
+        assert api.main([]) == 1
+        assert api.main(["--dump-baseline"]) == 1
+    captured = capsys.readouterr()
+    assert "[FAIL] Scan aborted: unreadable target 'docs/unreadable.js'" in captured.err
+    assert "[SKIP]" not in captured.err
+    assert "RESULT: PASS" not in captured.out
+
+
+@pytest.mark.parametrize("payload", [
+    [], None, "baseline", 1,
+    {}, {"findings": {}, "unexpected": True},
+    {"findings": {}, "about": []}, {"findings": {}, "about": 123},
+    {"findings": {}, "generated": []}, {"findings": {}, "generated": 42},
+    {"findings": []}, {"findings": None},
+    {"findings": {"docs/missing.js": {"innerhtml-template": 1}}},
+    {"findings": {"docs": {"innerhtml-template": 1}}},
+    {"findings": {"docs/example.js": []}},
+    {"findings": {"docs/example.js": None}},
+    {"findings": {"docs/example.js": {"unknown-label": 1}}},
+    *({"findings": {"docs/example.js": {"innerhtml-template": count}}}
+      for count in [0, -1, True, False, 1.5, "1", None, [], {}]),
+], ids=[
+    "array-root", "null-root", "string-root", "integer-root",
+    "missing-findings", "unknown-top-level-key",
+    "array-about", "int-about", "array-generated", "int-generated",
+    "array-findings", "null-findings",
+    "missing-file", "directory-path", "array-labels", "null-labels", "unknown-label",
+    "zero", "negative", "true", "false", "float", "string-count", "null-count",
+    "array-count", "object-count",
+])
+def test_malformed_baseline_schema_fails_closed(scanner, payload):
+    scanner.with_name("html_sinks_baseline.json").write_text(
+        json.dumps(payload), encoding="utf-8"
+    )
+    result = run_scan(scanner, "el.textContent = name;")
+    assert result.returncode == 1
+    assert "[FAIL] Malformed baseline schema" in result.stderr
+    assert "Traceback" not in result.stderr
+    assert "RESULT: PASS" not in result.stdout
+
+
+def test_invalid_baseline_json_fails_closed(scanner):
+    scanner.with_name("html_sinks_baseline.json").write_text("{invalid", encoding="utf-8")
+    result = run_scan(scanner, "")
+    assert result.returncode == 1
+    assert "[FAIL] Malformed baseline schema" in result.stderr
+    assert "Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("change, expected", [
+    ("same", 0), ("smaller", 0), ("larger", 1), ("new-label", 1),
+    ("new-file", 1), ("excluded-assets", 1), ("excluded-vendor", 1),
+    ("excluded-minified", 1), ("html-prose", 1),
+])
+def test_initial_baseline_uses_dynamic_base_scan(baseline_repo, change, expected):
+    scanner = baseline_repo
+    root = scanner.parents[1]
+    git(scanner, "rm", "scripts/html_sinks_baseline.json")
+    sources = {
+        "docs/example.js": SINK + "\n" + SINK,
+        "docs/nested/page.html": SINK + "\n<script>" + SINK + "</script>",
+        "docs/removed.js": SINK,
+        "docs/assets/ignored.js": SINK,
+        "docs/nested/vendor/ignored.js": SINK,
+        "docs/nested/ignored.min.js": SINK,
+        "docs/prose.html": SINK,
+    }
+    for path, content in sources.items():
+        target = root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
+    git(scanner, "add", "docs")
+    git(scanner, "commit", "-m", "Base sinks without a baseline")
+    findings = {
+        "docs/example.js": {"innerhtml-template": 2},
+        "docs/nested/page.html": {"innerhtml-template": 1},
+    }
+    if change == "smaller":
+        findings["docs/example.js"]["innerhtml-template"] = 1
+    elif change == "larger":
+        findings["docs/example.js"]["innerhtml-template"] = 3
+    elif change == "new-label":
+        findings["docs/example.js"]["innerhtml-concat"] = 1
+    elif change != "same":
+        path = {
+            "new-file": "docs/new.js", "excluded-assets": "docs/assets/ignored.js",
+            "excluded-vendor": "docs/nested/vendor/ignored.js",
+            "excluded-minified": "docs/nested/ignored.min.js", "html-prose": "docs/prose.html",
+        }[change]
+        findings[path] = {"innerhtml-template": 1}
+        (root / path).write_text(SINK, encoding="utf-8")
+    # The comparison must read the base tree even when HEAD and the worktree
+    # have no sinks, or a previously scanned file has been deleted.
+    for path in sources:
+        (root / path).write_text("", encoding="utf-8")
+    (root / "docs/removed.js").unlink()
+    run_scan(scanner, "", findings)
+    git(scanner, "add", "docs", "scripts/html_sinks_baseline.json")
+    git(scanner, "commit", "-m", "Introduce baseline and clean current sources")
+    result = run_scan(scanner, "", None, "--check-baseline-growth", "--base-ref", "HEAD~1")
+    assert result.returncode == expected, result.stdout + result.stderr
+    assert ("[FAIL] Baseline grew" in result.stdout) == bool(expected)
+    if change == "larger":
+        assert "2 -> 3" in result.stdout
+    assert "Cannot check baseline growth" not in result.stderr
+
+
+def test_pr_guard_enables_baseline_growth():
+    api = runpy.run_path(str(ROOT / "scripts/pr_guards.py"))
+    guard = next(guard for guard in api["GUARDS"] if guard.name == "html-sink")
+    assert guard.steps == [
+        [api["PY"], "scripts/check_html_sinks.py", "--check-baseline-growth"],
+        [api["PY"], "scripts/check_html_sinks.py", "--selftest"],
+    ]
 
 
 def test_selftest(scanner):

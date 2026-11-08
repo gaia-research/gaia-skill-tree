@@ -23,8 +23,9 @@ Use --baseline <path> to select a baseline, or --dump-baseline to inspect the
 current findings as JSON (review only; do not grow the committed baseline).
 Use --check-baseline-growth to also reject budget increases against the Git
 merge-base with GITHUB_BASE_REF or origin/main (override with --base-ref, e.g.
-HEAD~1). A missing baseline at that revision means zero budget; unavailable Git
-history fails in GitHub Actions, or warns and skips the growth comparison locally.
+HEAD~1). A missing baseline at that revision uses a dynamic scan of the base
+commit as its budget; unavailable Git history fails in GitHub Actions, or warns
+and skips the growth comparison locally.
 ==============================================================================
 
 WHAT IT FLAGS  (the unambiguously-dangerous sink patterns)
@@ -374,9 +375,8 @@ def scan(repoRoot: Path):
     for filePath, rel in collectFiles(repoRoot):
         try:
             text = filePath.read_text(encoding="utf-8", errors="replace")
-        except (OSError, PermissionError) as exc:
-            print(f"  [SKIP] {rel}: {exc}", file=sys.stderr)
-            continue
+        except OSError as exc:
+            raise RuntimeError(f"Scan aborted: unreadable target '{rel}': {exc}") from exc
         isHtml = rel.lower().endswith(".html")
         for lineno, snippet, label, rationale in scanText(text, isHtml):
             findings.append((rel, lineno, snippet, label, rationale))
@@ -424,6 +424,34 @@ def selftest():
     return 0
 
 
+def validateBaseline(payload, repoRoot: Path):
+    """Reject malformed budgets instead of silently ignoring their contents."""
+    if not isinstance(payload, dict):
+        raise ValueError("root must be an object")
+    unknown = payload.keys() - {"about", "generated", "findings"}
+    if unknown:
+        raise ValueError(f"unknown top-level keys: {', '.join(sorted(unknown))}")
+    if "about" in payload and not isinstance(payload["about"], str):
+        raise ValueError("'about' must be a string")
+    if "generated" in payload and not isinstance(payload["generated"], str):
+        raise ValueError("'generated' must be a string")
+    budget = payload.get("findings")
+    if not isinstance(budget, dict):
+        raise ValueError("findings must be an object")
+    validLabels = {label for _pattern, label, _rationale in SINK_PATTERNS}
+    for path, labels in budget.items():
+        if not isinstance(path, str) or not path or path.startswith("/") or path.startswith("../") or not (repoRoot / path).is_file():
+            raise ValueError(f"findings path must name an existing file: {path!r}")
+        if not isinstance(labels, dict):
+            raise ValueError(f"labels for {path!r} must be an object")
+        for label, count in labels.items():
+            if not isinstance(label, str) or label not in validLabels:
+                raise ValueError(f"unknown sink label for {path!r}: {label!r}")
+            if type(count) is not int or count <= 0:
+                raise ValueError(f"count for {path!r} [{label}] must be a positive integer")
+    return budget
+
+
 def checkBaselineGrowth(repoRoot: Path, baseline: Path, budget: dict, baseRef: str | None):
     """Compare budgets to the PR base; unavailable history is fatal in CI.
 
@@ -431,13 +459,14 @@ def checkBaselineGrowth(repoRoot: Path, baseline: Path, budget: dict, baseRef: s
     substitutes. Push events require a valid before SHA; initial pushes use
     a zero baseline, and unavailable nonzero SHAs fail closed.
     Outside CI an explicit base overrides discovery. A missing baseline file
-    at a resolved revision is zero debt.
+    at a resolved revision uses that revision's scanned sinks as its budget.
     """
-    def git(*args):
-        return subprocess.run(
+    def git(*args, strip=True):
+        output = subprocess.run(
             ["git", *args], cwd=repoRoot, check=True,
-            capture_output=True, text=True,
-        ).stdout.strip()
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        ).stdout
+        return output.strip() if strip else output
 
     try:
         relative = baseline.resolve().relative_to(repoRoot.resolve()).as_posix()
@@ -526,8 +555,28 @@ def checkBaselineGrowth(repoRoot: Path, baseline: Path, budget: dict, baseRef: s
         print(f"[WARN] {message}; continuing sink scan", file=sys.stderr)
         return False
     baseBudget = {}
-    if revision is not None and git("ls-tree", "--name-only", revision, "--", relative):
-        baseBudget = json.loads(git("show", f"{revision}:{relative}")).get("findings", {})
+    if revision is not None:
+        if git("ls-tree", "--name-only", revision, "--", relative):
+            baseBudget = json.loads(git("show", f"{revision}:{relative}")).get("findings", {})
+        else:
+            # First baseline introduction may carry existing debt, but cannot
+            # hide sinks added by this change. Read the base tree, not HEAD or
+            # the worktree (where files may have changed or been deleted).
+            paths = git("ls-tree", "-r", "--name-only", "-z", revision, "--", "docs",
+                        strip=False).split("\0")
+            for path in paths:
+                if not path or isExcluded(path) or not any(
+                    fnmatch.fnmatch(path, pattern) or
+                    fnmatch.fnmatch(path, pattern.replace("**/", ""))
+                    for pattern in SCAN_GLOBS
+                ):
+                    continue
+                content = git("show", f"{revision}:{path}", strip=False)
+                for _lineno, _snippet, label, _rationale in scanText(
+                    content, path.lower().endswith(".html")
+                ):
+                    labels = baseBudget.setdefault(path, {})
+                    labels[label] = labels.get(label, 0) + 1
     grew = False
     for path, labels in sorted(budget.items()):
         if path not in baseBudget:
@@ -560,7 +609,11 @@ def main(argv=None):
     if args.selftest:
         return selftest()
 
-    findings = scan(repoRoot)
+    try:
+        findings = scan(repoRoot)
+    except RuntimeError as exc:
+        print(f"[FAIL] {exc}", file=sys.stderr)
+        return 1
     if args.dump_baseline:
         counts = {}
         for rel, _lineno, _snippet, label, _rationale in findings:
@@ -571,8 +624,14 @@ def main(argv=None):
         return 0
 
     budget = {}
-    if args.baseline.exists():
-        budget = json.loads(args.baseline.read_text(encoding="utf-8")).get("findings", {})
+    try:
+        if args.baseline.exists():
+            budget = validateBaseline(
+                json.loads(args.baseline.read_text(encoding="utf-8")), repoRoot
+            )
+    except (OSError, ValueError) as exc:
+        print(f"[FAIL] Malformed baseline schema: {exc}", file=sys.stderr)
+        return 1
     if args.check_baseline_growth:
         try:
             if checkBaselineGrowth(repoRoot, args.baseline, budget, args.base_ref):
