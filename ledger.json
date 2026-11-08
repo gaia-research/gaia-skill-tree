@@ -1,5 +1,5 @@
 {
- "generation": 1731,
+ "generation": 1732,
  "lane": {
   "entries": [
    {
@@ -6067,14 +6067,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-a4a9f6b7551b39c56ecb",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T00:07:53.041406Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent verification by pi-herdr-batch11-verifier-1e13396e7fe5 (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T00:07:53.041406Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 2,
@@ -132590,6 +132596,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "emittedAt": "2026-11-07T23:56:43.443471Z",
      "idempotencyKey": "verify:dispatch-a4a9f6b7551b39c56ecb:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-verifier-1e13396e7fe5",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The supplied proof does not state the job semantics or justify network and variable-workload headroom, as proof item 2 requires; the job checks every semver tag and may create releases via GitHub API.\" - \"The two matching successful job rows were independently confirmed against the newest five runs; workflowproof recomputed 5 minutes, but the arithmetic alone does not discharge the required semantic assessment.\" - \"Coverage check passed and the focused CI sensor tests passed (46 tests); independent review is provided by this verification.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -132606,7 +132619,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-1e13396e7fe5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T00:07:53.041072Z",
+     "status": "done",
      "stepId": "verify:1e13396e7fe5:2",
      "type": "agent.verify"
     },
@@ -132851,6 +132865,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:55b938d79131:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-1e13396e7fe5",
+     "at": "2026-11-08T00:07:53.041406Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1e13396e7fe5:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134608,11 +134634,11 @@
      "stepId": "verify:55b938d79131:2"
     },
     {
-     "at": "2026-11-07T23:56:43.443471Z",
+     "at": "2026-11-08T00:07:53.041072Z",
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "idempotencyKey": "verify:dispatch-a4a9f6b7551b39c56ecb:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:1e13396e7fe5:2"
     },
     {
@@ -134663,11 +134689,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T00:07:46.063674Z"
+   "updatedAt": "2026-11-08T00:07:53.041072Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T00:07:46.067434Z",
+ "updatedAt": "2026-11-08T00:07:53.044906Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140337,6 +140363,17 @@
      "stepId": "build:1e13396e7fe5:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-verifier-1e13396e7fe5",
+     "at": "2026-11-08T00:07:53.041406Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1e13396e7fe5:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -140375,6 +140412,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-a4a9f6b7551b39c56ecb (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T00:07:53.041406Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch11-verifier-1e13396e7fe5 (pi, effort medium): reject",
+     "to": "escalated"
     }
    ],
    "kind": "workflow_hygiene",
@@ -140384,13 +140427,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T23:44:34.281742Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-08T00:07:53.041406Z",
    "verification": {
-    "receipt": "steward-20261107T235515Z-a47f3a00067f093d",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-1e13396e7fe5.prompt.md"
+    "agentId": "pi-herdr-batch11-verifier-1e13396e7fe5",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The supplied proof does not state the job semantics or justify network and variable-workload headroom, as proof item 2 requires; the job checks every semver tag and may create releases via GitHub API.\" - \"The two matching successful job rows were independently confirmed against the newest five runs; workflowproof recomputed 5 minutes, but the arithmetic alone does not discharge the required semantic assessment.\" - \"Coverage check passed and the focused CI sensor tests passed (46 tests); independent review is provided by this verification.\"",
+    "recordedAt": "2026-11-08T00:07:53.041406Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae": {
