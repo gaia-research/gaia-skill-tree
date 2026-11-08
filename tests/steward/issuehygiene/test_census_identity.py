@@ -261,6 +261,9 @@ def fakeListing(pages: list[list[dict]], failPage: int | None = None, status: in
     def fetch(url: str) -> Response:
         if "actions/workflows" in url:
             return Response(200, {}, json.dumps({"total_count": 0, "workflows": []}))
+        if urlparse(url).path == "/search/issues":
+            # The collector cross-checks the closed history against GitHub's own total; this repository has none.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         number = servedPage(parse_qs(urlparse(url).query))

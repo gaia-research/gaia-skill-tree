@@ -40,6 +40,7 @@ authority:
   unsafe_execution: B
   browser_sink_risk: B
   credential_leak: C
+  credential_review: B
   workflow_hygiene: B
   ci_failure: B
   version_lockstep_drift: B
@@ -50,6 +51,9 @@ authority:
   timeline_causality_drift: B
   frontend_contract_drift: B
   trust_stamp_stale: C
+  # Founder ruling 2026-11-06 (#2201, option 11A): an empty effective evidence pool is a
+  # Class C evidence gap, never drift and never a demotion.
+  trust_evidence_gap: C
   issue_closure_ready: A
   issue_suite_review: B
   issue_founder_decision: C
@@ -237,6 +241,14 @@ priority:
     exposure: 1.0
     freshnessNeed: 1.0
     expectedCost: 0.3
+  # Credential-shaped strings with no evidence of being live. Lower than a live
+  # credential on purpose: the work is a disposition record, not a rotation.
+  credential_review:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.6
+    freshnessNeed: 0.5
+    expectedCost: 0.2
   workflow_hygiene:
     importance: 0.6
     decisionImpact: 0.6
@@ -297,6 +309,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.6
     expectedCost: 0.3
+  trust_evidence_gap:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 0.5
+    expectedCost: 0.4
   issue_closure_ready:
     importance: 0.6
     decisionImpact: 0.6
@@ -397,14 +415,19 @@ repairs:
         - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
 
 routing:
-  maxDispatchesPerRun: 1
+  # Builds one run may hand out in parallel. Code requires 1 <= this <= lane.maxInFlight.
+  # Raised from 1 to 8 by founder decision steward-class-b-throughput-2026-11-06: the run
+  # lease serializes runs, so a lane maxInFlight of 2 alone never produced parallel dispatch.
+  maxDispatchesPerRun: 8
   # The bounded Class B rolling lane. These three numbers are the whole of what
   # makes it a lane rather than a loop, and code caps each of them independently
   # so editing this file can never grant unbounded autonomy.
   lane:
     # Never more outstanding work than a human can actually review. Raised from
-    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput).
-    maxInFlight: 2
+    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput), then
+    # from 2 to 8 (the finite code ceiling: the most one pi subagent call takes) by
+    # founder decision steward-class-b-throughput-2026-11-06.
+    maxInFlight: 8
     # A debt that fails bounded repair this many times is not asking for another
     # attempt; it is evidence the envelope is wrong, which is a founder question.
     maxAttempts: 2
@@ -468,36 +491,51 @@ routing:
       authority: B
       routine: gaia-trust-calibration-steward
       promptGuide: founder/steward/routines/trust-calibration-drift.md
+      # Founder ruling F1 (2026-11-08, decision steward-class-b-route-trust-calibration-2283):
+      # below-ceiling promotions are executable Class B. policy.py pins registry/named/**
+      # to this rule and debt kind in both directions; the packet's eligibility (promotion
+      # only, never frozen, never over a recorded demotion, never cap-only suite to 3★+,
+      # never a refused preflight) is enforced in code by calibrationroute.py at the
+      # sensor, at dispatch and at verification. Class S artifacts are never written by
+      # a packet: the lead regenerates them once per integrated wave.
       capability: >-
-        Compare computed Trust Magnitude grades with stored named-skill levels
-        and express approved corrections as gaia dev calibrate commands without
-        mutating registry data automatically.
+        Confirm that one named skill's stored level sits below the level its recomputed Trust
+        Magnitude grade allows, that the canonical calibrate preflights accept the promotion, and
+        perform exactly that one governed calibration with the canonical verb, refusing rather than
+        working around any gate.
       objective: >-
-        Reproduce each stale rank, verify the G7 target, and return a bounded
-        calibration command sequence for human approval.
+        For the one subject skill, reproduce the below-ceiling finding on the current head, run
+        exactly one `gaia dev calibrate <skill_id> <target_level> --no-build` to the packet's grade
+        target, and return the diff the verb wrote (that skill's registry record only, with its
+        timeline event). A refused preflight is a stop with no change. Never edit the record by
+        hand, never regenerate docs, never touch another skill.
       allowedPaths:
-        - src/gaia_cli/steward/**
-        - tests/steward/**
+        - registry/named/**
       allowedCommands:
-        - python -m pytest tests/steward/test_sensors.py
-        - gaia steward scan
+        - gaia dev calibrate <skill_id> <target_level> --no-build
         - python scripts/inspectTrustMagnitude.py --skill <skill_id>
+        - gaia steward scan
+        - python -m pytest tests/steward/test_calibration_route.py
       forbiddenPaths:
         - .agents/skills/**
+        - .claude/skills/**
         - .gaia/steward/**
         - .github/**
-        - founder/**
-        - registry/**
-        - skill-trees/**
         - docs/**
+        - founder/**
+        - registry/nodes/**
+        - registry/schema/**
+        - skill-trees/**
       stopConditions:
-        - computed grade or target level cannot be reproduced locally
-        - correction requires automatic registry mutation
-        - validation or focused coverage is incomplete
+        - the finding does not reproduce on the current head, or its stored level or target differs from the packet
+        - the finding is lane-ineligible (ceiling-exceeded, frozen, last rank event a recorded demotion, cap-only suite component to 3★ or higher, or a refused or unevaluable preflight)
+        - gaia dev calibrate exits non-zero (a refused preflight); report no_change and do not retry another way
+        - the diff touches any path other than the subject skill's registry/named record
+        - the verb would need --no-build removed, a docs regeneration, or a hand edit
       proof:
-        - reproduce every reported stale level from local registry state
-        - show the exact gaia dev calibrate command for each approved correction
-        - run focused sensor tests and Steward validation
+        - reproduce the below-ceiling finding for the subject skill on the current head, with stored level, recomputed Trust Magnitude, grade and target
+        - run exactly one gaia dev calibrate <skill_id> <target_level> --no-build and report its exact output and exit code
+        - show a diff confined to the subject skill's registry/named record, with the appended rank_up timeline event
         - obtain independent review before integration
     cli-contract-drift:
       debtKind: cli_contract_drift
@@ -629,6 +667,57 @@ routing:
         - show a diff confined to the subject file
         - run python -m pytest on the importing package and python -m compileall on the file
         - obtain independent review before integration
+    credential-review-disposition:
+      debtKind: credential_review
+      authority: B
+      routine: credential-review
+      promptGuide: founder/steward/routines/credential-review.md
+      capability: >-
+        Read one flagged line and its callers, decide from the evidence whether the matched value is a
+        live credential, a synthetic fixture, a mirror of a reviewed source, a harmless pattern or runtime
+        header construction, and state that evidence precisely enough for an independent reviewer to
+        reproduce it. Never guess: anything that could be live is escalated, not dispositioned.
+      objective: >-
+        For the one subject file, draft one disposition record per undecided finding with
+        scripts/steward_credential_disposition.py, fill in the policy, disposition, evidence and author, and
+        leave verifiedBy, verifiedAt and verificationReceipt empty. An independent verifier reproduces the
+        evidence; the lead's integrate step records that verification as a receipt and stamps the record.
+        Edit no source file, rotate nothing, and do not touch the policy, decisions or receipts.
+      allowedPaths:
+        - founder/steward/security-dispositions/**
+      allowedCommands:
+        - python scripts/steward_credential_disposition.py draft <debt id> --write
+        - python scripts/check_security_dispositions.py
+        - python -m pytest tests/steward/test_credential_dispositions.py
+        - gaia steward scan
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - founder/**
+        # Verification receipts are written only by the lead's integrate step. This
+        # nested ban overrides the allowed parent, so a builder cannot self-verify.
+        - founder/steward/security-dispositions/receipts/**
+        - registry/**
+        - skill-trees/**
+        - docs/**
+        - scripts/**
+        - src/**
+        - tests/**
+      stopConditions:
+        - the finding looks like a live credential, or its provenance is ambiguous or unknown
+        - the diff touches any path outside founder/steward/security-dispositions/
+        - any source, test, workflow, policy or decision file would need to change
+        - a record would carry verifiedBy, verifiedAt or verificationReceipt, or any receipt would be written
+        - the matched line or token changed since the debt was observed
+        - the finding does not reproduce on the current head
+      proof:
+        - reproduce every undecided finding for the subject file from the current head
+        - show a diff confined to founder/steward/security-dispositions/
+        - cite specific evidence for each record (the line, the callers, the source of the value)
+        - show that verifiedBy, verifiedAt and verificationReceipt are empty so an independent verifier must sign
+        - obtain independent review before integration
     knowledge-contradiction:
       debtKind: knowledge_contradiction
       authority: B
@@ -712,6 +801,68 @@ routing:
         - show a diff confined to docs/agents/issue-hygiene and tests/steward
         - run the focused issue-hygiene tests and report exact results
         - obtain independent review before integration
+    workflow-timeout-repair:
+      debtKind: workflow_hygiene
+      authority: B
+      routine: ci-architecture-steward
+      promptGuide: founder/steward/routines/workflow-timeout.md
+      capability: >-
+        Read a GitHub Actions job to understand what it does and where it can legitimately wait,
+        weigh that against observed historical run durations, and choose a per-job timeout that
+        kills a hung job without killing a healthy slow one. Express the repair as the addition of
+        timeout-minutes lines and nothing else, in a security-relevant file.
+      objective: >-
+        For one workflow file with missing-timeout findings, add a job-level timeout-minutes to each
+        flagged job, with the value chosen from the job's semantics and its historical durations, and
+        return the smallest diff with the reasoning for every value. Founder ruling #14 (decision
+        steward-workflow-timeout-route, #2283) grants exactly this and no other workflow write. A
+        missing timeout is a configuration finding, not evidence that the job ever timed out.
+      # The ONE exception to the .github/** floor. policy.py pins the allowed path
+      # exactly and refuses it for any other debt kind; the exclusions below are
+      # required, not advisory. gh-aw generated lock files are compiled output.
+      allowedPaths:
+        - .github/workflows/*.yml
+      allowedCommands:
+        - python scripts/check_steward_coverage.py --check
+        - python -m pytest tests/steward/test_sensors_ci.py
+        - python -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" <workflow-file>
+        - gh run list --workflow <workflow-file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt
+        - gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'
+        - python -m gaia_cli.steward.workflowproof fetch --workflow <workflow-file> --job <job-key> --out <history-dir>/<job-key>.json
+        - python -m gaia_cli.steward.workflowproof history --history <history-dir>/<job-key>.json
+        - python -m gaia_cli.steward.workflowproof no-history --class <class> --declared-wait-seconds <seconds> --history <history-dir>/<job-key>.json
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/actions/**
+        - .github/workflows/*.lock.yml
+        - .github/workflows/_disabled/**
+        - .github/workflows/shared/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+        - src/**
+        - tests/**
+      stopConditions:
+        - the finding does not reproduce on the current head
+        - the subject is a gh-aw generated lock file or has a gh-aw source beside it; fix the source and recompile is a founder-gated step
+        - any change other than adding a job-level timeout-minutes line would be needed, or the debt carries any finding other than missing-timeout
+        - completed-run duration history cannot be read for a flagged job; or it was read, shows no successful run, and the no-history default (decision steward-workflow-timeout-no-history-2283) does not apply
+        - the no-history default would exceed 60 minutes, the job has an unbounded wait, or its steps fit none of the three classes
+        - the job legitimately waits on a human, an environment approval or an external deploy and no bound is justifiable
+        - a wait runs gh run watch or gh workflow run, is unbounded, depends on a value not written in this job's YAML (env and matrix bounds resolve to their worst case or stop), or sits in a composite or third-party action whose waits cannot be read and bounded
+        - a flagged job is a reusable-workflow call, which cannot declare timeout-minutes
+        - the workflow file does not parse as YAML after the edit
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every missing-timeout finding for the subject workflow on the current head
+        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied; under this item record the job's python -m gaia_cli.steward.workflowproof fetch command with its exact output (job-key, sha256 and run-ids lines), which writes the raw history rows file to <history-dir>/<job-key>.json, where <history-dir> is ${TMPDIR:-/tmp}/gaia-steward-history/<dispatch-id>/build, outside the repository checkout (fetch refuses a path inside it, and the rows file is never committed or hand-assembled); then the matching python -m gaia_cli.steward.workflowproof history or no-history --history <history-dir>/<job-key>.json command and its exact output (selection and value; no-history jobs also state class and resolved declared waits). The verifier refetches the same pinned runs, requires a byte-identical rows file and recomputes the value
+        - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
+        - parse the edited workflow as YAML and report exact results
+        - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results
+        - obtain independent review before integration
   founderRules:
     issue-founder-decision:
       debtKind: issue_founder_decision
@@ -739,10 +890,14 @@ issueHygiene:
   maxClosuresPerRun: 10
   maxCensusAgeSeconds: 21600
   closedWindowDays: 30
-  # UNRATIFIED implementation proposal, not Class A issue-write authority.
-  # Effective rules are empty while steward-issue-closure-authority.json is open.
-  # A switch edit alone never authorizes closures; an explicit decided record
-  # with resolution: approved is required too (decided may mean rejected). No live closure dry run or pilot is authorized in this mission.
+  # The A1-A5 allowlist below is FOUNDER-RATIFIED policy (ruling #10, 2026-11-06, recorded verbatim in
+  # founder/steward/decisions/steward-issue-closure-authority.json, resolution: approved). Ratification is the authority;
+  # it is not an operational rollout. Closures need an attributable Steward owner and worker on every receipt, exact
+  # proof and before/after state; a reopened issue is respected and never re-closed; ambiguous, contested or
+  # unsupported cases are excluded.
+  # writesEnabled stays false: rollout waits for independent verification with the existing write switches and gates
+  # explicitly satisfied. A switch edit alone never authorizes closures (the approved record is required too), and the
+  # approved record alone never turns writes on. No live closure dry run or pilot is authorized by this ratification.
   writesEnabled: false
   enabledRules:
     - A1-child-curated
@@ -755,8 +910,8 @@ issueHygiene:
   a5Disabled: []
 
 # Routine pull-request stewardship (routine 19). Producer registry: founder/steward/pr-producers.json.
-# UNLIKE issue hygiene this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
-# is decided and approved. A switch edit alone never grants it, and the record alone never exceeds these ceilings.
+# Like issue hygiene, this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
+# is decided and approved (and its writes are already on, unlike issueHygiene.writesEnabled). A switch edit alone never grants it, and the record alone never exceeds these ceilings.
 # Squash is not representable. Merges go through forge.merge_pr only: exact head SHA, independent verification,
 # GitHub's own branch protection. Steward never pushes to a protected branch.
 prMaintenance:
@@ -777,3 +932,9 @@ prMaintenance:
     - main
   mergeMethods:
     - merge
+
+# Browser access for rendered-frontend observation (routine 15; founder ruling steward-browser-render-driver).
+# Headless Chromium is free and on by default for scheduled and founder runs. A real, interactive browser is
+# never a persistent setting: only `gaia steward full run --interactive-browser` authorizes it, for that run.
+browser:
+  headless: true

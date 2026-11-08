@@ -1,67 +1,186 @@
 {
   "skills": [
     {
-      "id": "heygen-com/hyperframes-core",
-      "name": "HyperFrames Core",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
+      "id": "garrytan/testing",
+      "name": "testing",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
+        "self": "/api/v1/skills/garrytan/testing.json"
       },
-      "genericSkillRef": "video-rendering"
+      "genericSkillRef": "automated-testing"
     },
     {
-      "id": "heygen-com/hyperframes-creative",
-      "name": "Hyperframes Creative",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
+      "id": "garrytan/two-tier-extraction",
+      "name": "two-tier-extraction",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
+        "self": "/api/v1/skills/garrytan/two-tier-extraction.json"
       },
-      "genericSkillRef": "creative-direction"
+      "genericSkillRef": "knowledge-harvest"
     },
     {
-      "id": "heygen-com/hyperframes-keyframes",
-      "name": "Hyperframes Keyframes",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "id": "garrytan/voice-note-ingest",
+      "name": "voice-note-ingest",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 200.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/voice-note-ingest.json"
+      },
+      "genericSkillRef": "voice-knowledge-ingestion"
+    },
+    {
+      "id": "garrytan/webhook-transforms",
+      "name": "webhook-transforms",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/webhook-transforms.json"
+      },
+      "genericSkillRef": "workflow-automation"
+    },
+    {
+      "id": "gsd-build/gsd-discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
+      },
+      "genericSkillRef": "brainstorming"
+    },
+    {
+      "id": "gsd-build/gsd-execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 220.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
+      },
+      "genericSkillRef": "subagent-driven-development"
+    },
+    {
+      "id": "gsd-build/gsd-plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
+      },
+      "genericSkillRef": "writing-plans"
+    },
+    {
+      "id": "gsd-build/gsd-ship",
+      "name": "GSD Ship",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
+      },
+      "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "heygen-com/figma",
+      "name": "Figma",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
+        "self": "/api/v1/skills/heygen-com/figma.json"
       },
-      "genericSkillRef": "timeline-animation"
+      "genericSkillRef": "design-source-import"
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "name": "HyperFrames CLI",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
+      },
+      "genericSkillRef": "video-scaffolding"
     },
     {
       "id": "heygen-com/hyperframes-registry",
       "name": "Hyperframes Registry",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
@@ -71,14 +190,14 @@
     {
       "id": "heygen-com/media-use",
       "name": "Media Use",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/media-use.json"
@@ -86,84 +205,16 @@
       "genericSkillRef": "media-asset-orchestration"
     },
     {
-      "id": "heygen-com/motion-graphics",
-      "name": "Motion Graphics",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/music-to-video",
-      "name": "Music To Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/music-to-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/pr-to-video",
-      "name": "Pr To Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/product-launch-video",
-      "name": "Product Launch Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
       "id": "heygen-com/remotion-to-hyperframes",
       "name": "Remotion To Hyperframes",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
@@ -173,14 +224,14 @@
     {
       "id": "heygen-com/slideshow",
       "name": "Slideshow",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/slideshow.json"
@@ -188,33 +239,16 @@
       "genericSkillRef": "interactive-presentation-authoring"
     },
     {
-      "id": "heygen-com/talking-head-recut",
-      "name": "Talking Head Recut",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
       "id": "leonxlnx/brandkit",
       "name": "brandkit",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brandkit.json"
@@ -224,14 +258,14 @@
     {
       "id": "leonxlnx/brutalist-skill",
       "name": "brutalist-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
@@ -241,14 +275,14 @@
     {
       "id": "leonxlnx/gpt-tasteskill",
       "name": "gpt-tasteskill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
@@ -258,14 +292,14 @@
     {
       "id": "leonxlnx/image-to-code-skill",
       "name": "image-to-code-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
@@ -275,14 +309,14 @@
     {
       "id": "leonxlnx/imagegen-frontend-mobile",
       "name": "imagegen-frontend-mobile",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
@@ -292,14 +326,14 @@
     {
       "id": "leonxlnx/imagegen-frontend-web",
       "name": "imagegen-frontend-web",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
@@ -309,14 +343,14 @@
     {
       "id": "leonxlnx/minimalist-skill",
       "name": "minimalist-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
@@ -324,33 +358,16 @@
       "genericSkillRef": "design-generation"
     },
     {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "genericSkillRef": "format-output"
-    },
-    {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
@@ -360,14 +377,14 @@
     {
       "id": "leonxlnx/soft-skill",
       "name": "soft-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/soft-skill.json"
@@ -377,14 +394,14 @@
     {
       "id": "leonxlnx/stitch-skill",
       "name": "stitch-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 80.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
@@ -392,33 +409,16 @@
       "genericSkillRef": "design-system-extraction"
     },
     {
-      "id": "mattpocock/tdd",
-      "name": "TDD",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/tdd.json"
-      },
-      "genericSkillRef": "test-driven-development"
-    },
-    {
       "id": "obra/dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
@@ -429,8 +429,8 @@
       "id": "obra/writing-skills",
       "name": "writing-skills",
       "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
       "fusionScore": 60.0,
       "contributor": "obra",
       "type": "fusion",

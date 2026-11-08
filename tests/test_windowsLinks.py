@@ -120,6 +120,33 @@ class TestMakeLinkFallbacks:
         with pytest.raises(OSError, match="simulated denial"):
             makeLink(src, dst)
 
+    def testWindowsJunctionFailureFormatsPrimaryError(self, tmp_path, monkeypatch):
+        """Regression test: when symlink fails and junction fails on Windows,
+        primary_error is formatted into OSError without UnboundLocalError/NameError."""
+        import subprocess
+
+        monkeypatch.setattr(sys, "platform", "win32")
+
+        def boom_symlink(*args, **kwargs):
+            raise OSError("simulated primary symlink denial")
+
+        def boom_junction(*args, **kwargs):
+            raise FileNotFoundError("cmd/mklink not found")
+
+        monkeypatch.setattr(os, "symlink", boom_symlink)
+        monkeypatch.setattr(subprocess, "run", boom_junction)
+
+        src = tmp_path / "source"
+        src.mkdir()
+        dst = tmp_path / "linked"
+
+        with pytest.raises(OSError) as exc_info:
+            makeLink(src, dst)
+
+        msg = str(exc_info.value)
+        assert "symlink denied (simulated primary symlink denial)" in msg
+        assert "junction failed" in msg
+
 
 class TestIsLinkOrJunction:
     def testRegularDirectoryReturnsFalse(self, tmp_path):

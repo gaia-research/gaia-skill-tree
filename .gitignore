@@ -122,3 +122,6 @@ campaigns/badge-provisioning/*.lock
 
 # graft's local repository settings — not committed.
 /.graft/
+
+# Steward browser collector dependency (installed in CI with npm ci --ignore-scripts)
+scripts/steward-browser/node_modules/

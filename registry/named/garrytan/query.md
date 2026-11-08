@@ -10,7 +10,7 @@ description: Answer questions using the brain's knowledge with 3-layer search, s
   and citation propagation. Use when the user asks a question, wants a lookup, or
   needs information from the brain.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Query
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md
@@ -33,6 +33,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md
@@ -45,8 +50,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:00:45Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 9708b947931ffcd24a76ecf1fbb7ab19843753f4e5b443d306327087ac956488
 ---
 

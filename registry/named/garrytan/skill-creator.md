@@ -10,7 +10,7 @@ description: Create new skills following the GBrain conformance standard. Genera
   SKILL.md with frontmatter, Contract, Phases, Output Format, and Anti-Patterns. Checks
   MECE against existing skills. Updates manifest and resolver.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Skill Creator
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md
@@ -33,6 +33,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:18:28Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md
@@ -45,8 +50,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:01:34Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 8571f0ee9154cdb9b8bc764ff5bde1c1be0ef38b16350e5727a3ebd739e6d300
 ---
 

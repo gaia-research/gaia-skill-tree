@@ -12,7 +12,7 @@ description: When the user corrects a factual error, root-cause it immediately. 
   file, bad rendered SOUL/USER identity, bad facts row) or a hallucination (LLM confabulated
   from partial signals).
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Correction Pipeline
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:14Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:58:09Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: c8d1495a2263b36aa1368b627a8cc80ea18d820ea7b282ac4e11c87821c8777b
 ---
 

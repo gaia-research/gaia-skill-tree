@@ -584,7 +584,6 @@ These **non-suite** skills are intentionally kept in the registry without a sour
 | `laravel/upgrade-laravel-v13` | Prior link was a GitHub issue thread, never a file; `laravel/boost` has no matching skill dir |
 | `nousresearch/feed-monitoring` | `NousResearch/hermes-agent` publishes 184 skills, none feed-monitoring shaped |
 | `upsonic/unittest-generator` | `Upsonic/Upsonic` publishes 17 skills, none test-generation shaped |
-| `gaiabot/repo-docs-before-pr` | Self-hosted in this repo; `registry/named/` is a markdown catalog, not an installable skill tree |
 | `rico-favor/implement-with-discernment` | Self-hosted; prior link pointed into an unrelated fork of this repo |
 
 ---

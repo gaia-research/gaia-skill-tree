@@ -12,6 +12,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
+from urllib.parse import urlsplit
 
 DECISION_ID = "steward-pr-maintenance-authority"
 DECISION_PATH = Path("founder/steward/decisions") / f"{DECISION_ID}.json"
@@ -32,6 +33,66 @@ class PrPolicyError(ValueError):
 
 
 @dataclass(frozen=True)
+class WriteCoordination:
+    """Separately provisioned deployment binding; presence is not activation proof."""
+
+    protocol: str
+    forgeHost: str
+    repositoryId: str
+    repositoryName: str
+    epoch: str
+    genesis: str
+    historyPin: str
+    canonicalUrl: str
+    authorityBranch: str
+    clock: Mapping[str, Any]
+    remote: str = "origin"
+    ref: str = "refs/heads/steward/pr-write-coordination-v1"
+    protectionsVerified: bool = True
+    bypassingWritersDrained: bool = True
+
+
+def coordinationBinding(value: Any) -> WriteCoordination | None:
+    if value is None:
+        return None
+    from gaia_cli.steward.prmaintenance import coordination as core
+
+    if not isinstance(value, dict) or set(value) != set(WriteCoordination.__dataclass_fields__):
+        raise PrPolicyError("writeCoordination requires the complete strict deployment binding")
+    try:
+        binding = WriteCoordination(**value)
+        core.Namespace(binding.forgeHost, binding.repositoryId, binding.repositoryName, binding.epoch, binding.protocol).validate()
+        core.sha(binding.genesis, git=True)
+        core.sha(binding.historyPin, git=True)
+        if binding.remote != "origin" or binding.ref != f"refs/heads/{core.REF}":
+            raise ValueError("canonical origin/ref required")
+        if binding.canonicalUrl != f"https://{binding.forgeHost}/{binding.repositoryName}.git":
+            raise ValueError("canonical HTTPS repository URL required")
+        if binding.protectionsVerified is not True or binding.bypassingWritersDrained is not True:
+            raise ValueError("separate namespace protection/drain verification required")
+        # Current ratified scope is the GitHub tree repository's canonical main,
+        # never a branch a stale/staged checkout can nominate to approve itself.
+        if binding.authorityBranch != "main":
+            raise ValueError("canonical main authority branch required")
+        if not isinstance(binding.clock, dict) or set(binding.clock) != {"url", "maxSkewSeconds", "precisionSeconds", "maxRoundTripSeconds"}:
+            raise ValueError("complete trusted clock contract required")
+        core.text(binding.clock["url"], 2048)
+        if any(char.isspace() for char in binding.clock["url"]):
+            raise ValueError("clock endpoint must be a plain HTTPS URL")
+        url = urlsplit(binding.clock["url"])
+        if url.scheme != "https" or not url.hostname or url.username or url.password or url.query or url.fragment:
+            raise ValueError("trusted clock requires an HTTPS endpoint without credentials/query/fragment")
+        if url.port is not None:
+            core.integer(url.port, 1, 65535)
+        integer(binding.clock["maxSkewSeconds"], "clock.maxSkewSeconds", 0, 5)
+        integer(binding.clock["precisionSeconds"], "clock.precisionSeconds", 1, 1)
+        integer(binding.clock["maxRoundTripSeconds"], "clock.maxRoundTripSeconds", 1, 5)
+        return binding
+    except (ValueError, TypeError, KeyError, core.CoordinationError) as exc:
+        raise PrPolicyError("invalid writeCoordination deployment/clock binding") from exc
+
+
+@dataclass(frozen=True)
 class PrMaintenancePolicy:
     writesEnabled: bool = False
     killSwitch: bool = False
@@ -45,6 +106,7 @@ class PrMaintenancePolicy:
     enabledActions: tuple[str, ...] = ()
     destinations: tuple[str, ...] = ("main",)
     mergeMethods: tuple[str, ...] = ("merge",)
+    writeCoordination: WriteCoordination | None = None
 
     def actionEnabled(self, action: str) -> bool:
         return self.writesEnabled and not self.killSwitch and action in self.enabledActions
@@ -63,7 +125,7 @@ def loadPrMaintenancePolicy(section: Any) -> PrMaintenancePolicy:
         return PrMaintenancePolicy()
     if not isinstance(section, Mapping):
         raise PrPolicyError("prMaintenance must be a mapping")
-    unknown, missing = set(section) - KEYS, KEYS - set(section)
+    unknown, missing = set(section) - KEYS - {"writeCoordination"}, KEYS - set(section)
     if unknown or missing:
         raise PrPolicyError(f"prMaintenance keys invalid; missing={sorted(missing)}, unknown={sorted(unknown)}")
     for flag in ("writesEnabled", "killSwitch"):
@@ -90,6 +152,7 @@ def loadPrMaintenancePolicy(section: Any) -> PrMaintenancePolicy:
         maxReplacementsPerRun=integer(section["maxReplacementsPerRun"], "maxReplacementsPerRun", 0, CEILINGS["maxReplacementsPerRun"]),
         enabledActions=tuple(action for action in ACTIONS if action in actions),
         destinations=tuple(destinations), mergeMethods=tuple(method for method in METHODS if method in methods),
+        writeCoordination=coordinationBinding(section.get("writeCoordination")),
     )
 
 

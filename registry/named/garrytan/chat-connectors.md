@@ -12,7 +12,7 @@ description: Connect a ChatGPT or Claude account and sync its conversation histo
   or host cron. Distinct from the export-file lane (that lives in conversation-archive)
   — this is the LIVE, account-connected, auto-scraping path.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Chat Connectors
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:02Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:57:40Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 81ed21d4a4cf16ca91ab4425dd865a240ccac4c2c41cdf9a3c317fda9315a3ae
 ---
 

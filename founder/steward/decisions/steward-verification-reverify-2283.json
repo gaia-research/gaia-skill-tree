@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-verification-reverify-2283",
+  "status": "decided",
+  "decision": "Reverify the six batch-4 escalations and the scripts/upstream_watcher/batch.py import case against an attributable, stable baseline?",
+  "whyItMatters": "Six independently built repairs were escalated by the repo-wide new-debt check after unrelated concurrent merges; batch.py was escalated on module-attribute compatibility.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**APPROVED** for six batch-4 escalations and the `batch.py` import case.\n\n- Reverify the six repairs against an attributable, stable baseline.\n- Distinguish patch-introduced debt from unrelated debt created by concurrent merges.\n- Preserve global debt detection and all original attempts, verdicts, and receipts.\n- Do not reject an otherwise valid repair solely because another agent changed unrelated files.\n- For `scripts/upstream_watcher/batch.py`, independently verify whether removing `re` breaks a genuine module API or consumer contract. Retain it if compatibility requires it; otherwise permit the bounded repair.\n- No blanket bypass of new-debt or compatibility checks.\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Reverification of 6 escalated repairs and the batch.py case.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved",
+  "authorizedDebtIds": [
+    "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+    "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+    "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+    "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+    "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+    "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+    "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe"
+  ],
+  "authorizedWorkItems": [
+    "288be108ed47",
+    "568e4a413656",
+    "bea677b92540",
+    "5ded3e5c5e18",
+    "c5823bb41629",
+    "d19aa39af12c",
+    "01bdcf8a1d9c"
+  ],
+  "authorizedTargets": [
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+      "workItem": "288be108ed47"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+      "workItem": "568e4a413656"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+      "workItem": "bea677b92540"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+      "workItem": "5ded3e5c5e18"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+      "workItem": "c5823bb41629"
+    },
+    {
+      "runId": "run-20261107T032809Z-31f4a5be",
+      "debtId": "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+      "workItem": "d19aa39af12c"
+    },
+    {
+      "runId": "run-20261107T115111Z-802da939",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+      "workItem": "01bdcf8a1d9c"
+    }
+  ]
+}

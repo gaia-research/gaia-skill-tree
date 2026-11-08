@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "rule": "missing-timeout",
+  "source": "gaia_cli.steward.sensors_ci._workflow_findings (Steward ci-workflow sensor rule)",
+  "policy": "shrink-only: stale entries fail; entries or pins not justified by the base ref fail",
+  "excluded": {
+    "generated-lock-files": {
+      "reason": "gh-aw generated lock file: gh-aw v0.92.6 refuses per-job timeout-minutes on compiled jobs and a hand edit is overwritten by the next compile; the repair is in the .md source plus a founder-gated recompile. Reported, never blocking; the Steward finding stays open. Only the files listed here are excluded, and only while each is still a gh-aw lock with its .md source beside it.",
+      "files": [
+        ".github/workflows/steward-build-claude.lock.yml",
+        ".github/workflows/steward-build-codex.lock.yml",
+        ".github/workflows/steward-build-copilot.lock.yml",
+        ".github/workflows/steward-build-pi.lock.yml",
+        ".github/workflows/steward-verify-claude.lock.yml",
+        ".github/workflows/steward-verify-codex.lock.yml",
+        ".github/workflows/steward-verify-copilot.lock.yml",
+        ".github/workflows/steward-verify-pi.lock.yml"
+      ]
+    }
+  },
+  "entries": [
+    {
+      "workflow": ".github/workflows/auto-merge-small-prs.yml",
+      "job": "auto-merge"
+    },
+    {
+      "workflow": ".github/workflows/auto-triage.yml",
+      "job": "auto-merge"
+    },
+    {
+      "workflow": ".github/workflows/auto-triage.yml",
+      "job": "check-named-skills"
+    },
+    {
+      "workflow": ".github/workflows/auto-triage.yml",
+      "job": "classify"
+    },
+    {
+      "workflow": ".github/workflows/auto-triage.yml",
+      "job": "route-review"
+    },
+    {
+      "workflow": ".github/workflows/backfill-releases.yml",
+      "job": "backfill"
+    },
+    {
+      "workflow": ".github/workflows/cf-pr-preview.yml",
+      "job": "deploy"
+    },
+    {
+      "workflow": ".github/workflows/challenge-receipt-issuer.yml",
+      "job": "issue"
+    },
+    {
+      "workflow": ".github/workflows/challenge-receipt-issuer.yml",
+      "job": "prepare"
+    },
+    {
+      "workflow": ".github/workflows/challenge-receipt-issuer.yml",
+      "job": "show"
+    },
+    {
+      "workflow": ".github/workflows/cli-wrapper.yml",
+      "job": "test"
+    },
+    {
+      "workflow": ".github/workflows/docs-cohesion.yml",
+      "job": "cohesion"
+    },
+    {
+      "workflow": ".github/workflows/fast-track-ci.yml",
+      "job": "fast-track"
+    },
+    {
+      "workflow": ".github/workflows/intake-approval.yml",
+      "job": "evidence-approved"
+    },
+    {
+      "workflow": ".github/workflows/intake-approval.yml",
+      "job": "topology-approved"
+    },
+    {
+      "workflow": ".github/workflows/labels-sync.yml",
+      "job": "labels"
+    },
+    {
+      "workflow": ".github/workflows/meta-guard.yml",
+      "job": "apex-gate"
+    },
+    {
+      "workflow": ".github/workflows/meta-guard.yml",
+      "job": "meta-guard"
+    },
+    {
+      "workflow": ".github/workflows/meta-guard.yml",
+      "job": "system-wide-cap"
+    },
+    {
+      "workflow": ".github/workflows/og-png-regen.yml",
+      "job": "regen"
+    },
+    {
+      "workflow": ".github/workflows/pr-author-identity.yml",
+      "job": "verify-author-identity"
+    },
+    {
+      "workflow": ".github/workflows/pr-first-time-contributor.yml",
+      "job": "advisory"
+    },
+    {
+      "workflow": ".github/workflows/pr-guards.yml",
+      "job": "guards"
+    },
+    {
+      "workflow": ".github/workflows/publish-pypi.yml",
+      "job": "publish"
+    },
+    {
+      "workflow": ".github/workflows/python-package.yml",
+      "job": "package"
+    },
+    {
+      "workflow": ".github/workflows/release.yml",
+      "job": "release"
+    },
+    {
+      "workflow": ".github/workflows/release.yml",
+      "job": "test-python"
+    },
+    {
+      "workflow": ".github/workflows/release.yml",
+      "job": "validate-graph"
+    },
+    {
+      "workflow": ".github/workflows/sdk-tests.yml",
+      "job": "python"
+    },
+    {
+      "workflow": ".github/workflows/sdk-tests.yml",
+      "job": "typescript"
+    },
+    {
+      "workflow": ".github/workflows/stale-bot.yml",
+      "job": "stale"
+    },
+    {
+      "workflow": ".github/workflows/stargazer-heartbeat.yml",
+      "job": "heartbeat"
+    },
+    {
+      "workflow": ".github/workflows/sync-artifacts.yml",
+      "job": "sync"
+    },
+    {
+      "workflow": ".github/workflows/upstream-approve.yml",
+      "job": "approve"
+    },
+    {
+      "workflow": ".github/workflows/upstream-approve.yml",
+      "job": "legacy-approve"
+    },
+    {
+      "workflow": ".github/workflows/upstream-approve.yml",
+      "job": "skip-child-gate-guard"
+    },
+    {
+      "workflow": ".github/workflows/upstream-close-children.yml",
+      "job": "close-children"
+    },
+    {
+      "workflow": ".github/workflows/upstream-close-children.yml",
+      "job": "legacy-close-children"
+    },
+    {
+      "workflow": ".github/workflows/upstream-reject.yml",
+      "job": "legacy-reject"
+    },
+    {
+      "workflow": ".github/workflows/upstream-reject.yml",
+      "job": "reject"
+    },
+    {
+      "workflow": ".github/workflows/upstream-watcher.yml",
+      "job": "challenge-watch"
+    },
+    {
+      "workflow": ".github/workflows/upstream-watcher.yml",
+      "job": "watcher"
+    },
+    {
+      "workflow": ".github/workflows/validate.yml",
+      "job": "skill-quality"
+    },
+    {
+      "workflow": ".github/workflows/validate.yml",
+      "job": "validate"
+    },
+    {
+      "workflow": ".github/workflows/verify-evidence.yml",
+      "job": "verify"
+    },
+    {
+      "workflow": ".github/workflows/weekly-content-engine.yml",
+      "job": "generate"
+    }
+  ]
+}

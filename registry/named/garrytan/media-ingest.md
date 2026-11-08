@@ -10,7 +10,7 @@ description: Ingest video, audio, PDF, book, screenshot, and GitHub repo content
   the brain. Multi-format handling with entity extraction and backlink propagation.
   Covers video-ingest, youtube-ingest, and book-ingest subtypes.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Media Ingest
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md
@@ -33,6 +33,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md
@@ -45,8 +50,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T22:00:13Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 8df29e2c86d4ee3cfa2d45294500f263dcdc1c18ef262d6cfc4b8ffa3a0758db
 ---
 

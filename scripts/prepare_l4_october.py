@@ -21,7 +21,6 @@ import shutil
 import stat
 import subprocess
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -434,7 +433,7 @@ def generate_command_spine(inv: dict) -> Path:
 
     lines.extend([
         "",
-        "echo \"=== Step 4: Stage-1 Evidence Ingestion (50.0 TM Sibling Cap Respected) ===\"",
+        "echo \"=== Step 4: Stage-1 Evidence Ingestion (49.9 TM Sibling Cap Respected) ===\"",
         "# Only real repo-own / github-stars-own evidence rows from verified discovery signals.",
         "# Strictly no fake peer-review or benchmark rows.",
         "# For suite siblings (garrytan/* under gbrain, addy-osmani/* under agent-skills), sibling cap applies.",
@@ -451,7 +450,7 @@ def generate_command_spine(inv: dict) -> Path:
 
         # Note sibling cap for suite members
         is_suite_sibling = skill_id.startswith("garrytan/") or skill_id.startswith("addy-osmani/")
-        cap_note = " (subject to 50.0 TM suite sibling cap per META §2.1a)" if is_suite_sibling else ""
+        cap_note = " (subject to 49.9 TM suite sibling cap per META §2.1a)" if is_suite_sibling else ""
         note = f"Stage-1 github-stars-own evidence: verified repository stars at tag{cap_note}"
 
         if skill_id.startswith("addy-osmani/"):

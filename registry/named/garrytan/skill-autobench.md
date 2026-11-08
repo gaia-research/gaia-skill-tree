@@ -27,7 +27,7 @@ description: 'Author an eval for an existing skill from its REAL usage history, 
 
   cases convert to deterministic code over time).'
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: skill-autobench
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md
@@ -65,6 +65,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:18:26Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md
   evaluator: mbtiongson1
@@ -90,8 +95,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:50Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 931fe60a498c683fa6114ad34ece444ab53630027da4fd1326228b9128e1d3f7
 suiteRef: garrytan/gbrain
 ---

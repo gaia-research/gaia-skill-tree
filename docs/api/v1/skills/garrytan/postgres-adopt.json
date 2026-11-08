@@ -2,13 +2,13 @@
   "id": "garrytan/postgres-adopt",
   "name": "postgres-adopt",
   "contributor": "garrytan",
-  "level": "2★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 55.0,
+  "trustMagnitude": 54.9,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Named",
+  "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/garrytan/postgres-adopt.json",
@@ -72,6 +72,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 55.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T08:26:48Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-11-08T18:09:59Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 55.0 -> 54.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

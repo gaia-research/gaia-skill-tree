@@ -48,7 +48,6 @@ NAMED_DIR = os.path.join(REPO_ROOT, "registry", "named")
 # Known exempt self-hosted and prototype skills that are protected under Tier 2/3
 KNOWN_EXEMPT_SKILLS = {
     "rico-favor/implement-with-discernment",
-    "gaiabot/repo-docs-before-pr",
 }
 
 # Known core contributors / maintainers / team members subject to mandatory Contributor Check

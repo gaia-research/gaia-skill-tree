@@ -28,25 +28,12 @@ on:
       - '.github/workflows/validate.yml'
       - 'docs/badges/_assets/**'
       - 'docs/badges/registry.json'
+  # Unfiltered on purpose: "Schema + DAG + Integrity Checks" is a required
+  # status check, and a workflow skipped by a `paths:` filter never reports it,
+  # so a docs-only PR could never merge. The `changes` job below applies the
+  # push path list to the PR diff instead, so heavy validation still only runs
+  # on PRs that touch those paths.
   pull_request:
-    paths:
-      - 'registry/**'
-      - 'registry/schema/**'
-      - 'skill-trees/**'
-      - 'src/gaia_cli/**'
-      - '.agents/skills/**'
-      - '.claude/skills/**'
-      - 'founder/steward/PLAYBOOKS.md'
-      - 'founder/steward/playbook.schema.json'
-      # - 'registry-for-review/**'
-      - 'scripts/**'
-      - 'packages/cli-npm/**'
-      - 'tests/**'
-      - 'docs/api/v1/reports/**'
-      - 'docs/reports/**'
-      - '.github/workflows/validate.yml'
-      - 'docs/badges/_assets/**'
-      - 'docs/badges/registry.json'
   workflow_dispatch: {}
 
 permissions:
@@ -58,30 +45,102 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  changes:
+    # Cheap scope gate. The single source of truth for "which paths need heavy
+    # validation" is the `on.push.paths` list at the top of this file;
+    # scripts/validate_scope.py parses it and matches it against the PR diff
+    # (immutable base/head SHAs, NUL-delimited raw paths). It FAILS CLOSED:
+    # any detection error means relevant=true. If this whole job fails, the
+    # downstream jobs still run full validation (see `heavy` below). Push and
+    # workflow_dispatch runs are always relevant (push is already filtered by
+    # GitHub).
+    name: Detect validation-relevant changes
+    runs-on: ubuntu-latest
+    # Sparse blobless checkout plus one stdlib script: seconds of work, so a
+    # short cap bounds a hung fetch instead of burning the 6h default.
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      relevant: ${{ steps.scope.outputs.relevant }}
+    steps:
+      # Reads commit metadata and tree paths only, never file contents.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            .github/workflows/validate.yml
+            scripts/validate_scope.py
+          sparse-checkout-cone-mode: false
+
+      - name: Compute relevance
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          result="relevant=true"
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            python3 -c 'import yaml' 2>/dev/null || python3 -m pip install --quiet pyyaml || true
+            result="$(python3 scripts/validate_scope.py --base "$BASE_SHA" --head "$HEAD_SHA")" || result="relevant=true"
+            # Only an explicit relevant=false may skip validation.
+            [ "$result" = "relevant=false" ] || result="relevant=true"
+          fi
+          echo "$result"
+          echo "$result" >> "$GITHUB_OUTPUT"
+
   validate:
     name: Schema + DAG + Integrity Checks
+    needs: changes
+    # Run even when `changes` failed or was skipped (fail closed); only a
+    # cancellation (e.g. superseded PR push) stops it, as before.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
+      # Always-reporting required check. Heavy steps are skipped ONLY when
+      # `changes` succeeded with an explicit relevant=false.
+      - name: Scope gate
+        id: gate
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          CHANGES_RELEVANT: ${{ needs.changes.outputs.relevant }}
+        run: |
+          if [ "$CHANGES_RESULT" = "success" ] && [ "$CHANGES_RELEVANT" = "false" ]; then
+            echo "heavy=false" >> "$GITHUB_OUTPUT"
+            echo "No validation-relevant paths changed; skipping heavy validation."
+          else
+            echo "heavy=true" >> "$GITHUB_OUTPUT"
+            echo "Running full validation (changes result: $CHANGES_RESULT, relevant: $CHANGES_RELEVANT)."
+          fi
+
       - name: Checkout
+        if: steps.gate.outputs.heavy == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
+        if: steps.gate.outputs.heavy == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Set up uv
+        if: steps.gate.outputs.heavy == 'true'
         uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
           cache-dependency-glob: pyproject.toml
 
       - name: Install dependencies
+        if: steps.gate.outputs.heavy == 'true'
         run: uv pip install --system -e ".[dev]"
 
       - name: Build intermediate registry artifacts
+        if: steps.gate.outputs.heavy == 'true'
         run: |
           python scripts/assemble_gaia.py
           python scripts/generateNamedIndex.py
@@ -89,15 +148,19 @@ jobs:
           cp registry/named-skills.json docs/graph/named/index.json
 
       - name: Verify Version Lockstep
+        if: steps.gate.outputs.heavy == 'true'
         run: python scripts/verify_lockstep.py
 
       - name: Run validation
+        if: steps.gate.outputs.heavy == 'true'
         run: gaia dev validate
 
       - name: Run intake validation
+        if: steps.gate.outputs.heavy == 'true'
         run: gaia dev validate --intake
 
       - name: Check generated docs
+        if: steps.gate.outputs.heavy == 'true'
         # NOTE: `gaia dev docs --check` is NOT read-only. It regenerates the
         # Class P (gitignored) + Class S (tracked docs/graph/*) artifacts, then
         # fails (exit 1) if the tracked Class S output drifts from what's
@@ -119,17 +182,22 @@ jobs:
         #   review/gaia-push/ — intake layer only; committed registry is unchanged
         # All other prefixes (cli/, review/meta/, schema/, dev/, cross-cutting) still run.
         if: |
-          github.event_name == 'push' ||
-          (
-            !startsWith(github.head_ref, 'docs/') &&
-            !startsWith(github.head_ref, 'design/') &&
-            !startsWith(github.head_ref, 'infra/') &&
-            !startsWith(github.head_ref, 'review/gaia-push/')
+          steps.gate.outputs.heavy == 'true' && (
+            github.event_name == 'push' ||
+            (
+              !startsWith(github.head_ref, 'docs/') &&
+              !startsWith(github.head_ref, 'design/') &&
+              !startsWith(github.head_ref, 'infra/') &&
+              !startsWith(github.head_ref, 'review/gaia-push/')
+            )
           )
         run: gaia dev validate --meta-sync
 
   skill-quality:
     name: Agent Skill Quality Gates
+    needs: changes
+    # Fail closed: skipped only on an explicit, successful relevant=false.
+    if: ${{ !cancelled() && !(needs.changes.result == 'success' && needs.changes.outputs.relevant == 'false') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

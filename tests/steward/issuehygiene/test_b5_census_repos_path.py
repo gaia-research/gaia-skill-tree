@@ -43,6 +43,9 @@ class ProxyLikeGitHub:
         parts = urlparse(url)
         if parts.path.startswith("/repositories/"):
             return Response(403, {}, '{"message":"Numeric-ID repository paths are not supported through this proxy."}')
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own closed-issue total, which the collector cross-checks; these fakes hold no closed issues.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         page = servedPage(parse_qs(parts.query))
@@ -98,6 +101,9 @@ def test_a_numeric_id_next_link_for_another_state_still_fails_closed() -> None:
              "&after=abc&page=2>; rel=\"next\"")
 
     def fetch(url: str) -> Response:
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own closed-issue total, which the collector cross-checks; these fakes hold no closed issues.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         return Response(200, {"link": first}, json.dumps(rows(100)))

@@ -19,8 +19,10 @@ from gaia_cli import canonicalWorkflow as workflow
 
 sys.path.insert(0, str(Path(__file__).parent))
 from test_canonical_cli import (  # noqa: E402,F401
-    REPO, cli, dump, fixtureRepo, installUnadoptedSchemas, makePlan, sources,
+    REPO, cli, dump, fixtureRepo as _fixtureRepo, installUnadoptedSchemas, makePlan, sources,
 )
+
+fixtureRepo = _fixtureRepo  # Re-export the pytest fixture.
 
 
 class Issuer:

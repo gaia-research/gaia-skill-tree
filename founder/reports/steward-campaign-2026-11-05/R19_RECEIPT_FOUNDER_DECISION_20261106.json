@@ -1,0 +1,27 @@
+{
+  "status": "decided",
+  "resolution": "approved_best_effort_comment_writes",
+  "operatorReplyVerbatim": "git is best effort, not preconditions",
+  "context": "Answer to F3 question: must posted GitHub receipt/comments remain preconditions, or may comment writes be best effort while durable independent verification, pre-close justification and authentic effect evidence remain mandatory?",
+  "scope": "GitHub posted pickup, verification, pre-close and final receipt/comment WRITES for Routine19 only",
+  "commentWritesArePreconditions": false,
+  "commentWritesBestEffort": true,
+  "unchangedMandatory": [
+    "durable independent verification",
+    "pre-close justification",
+    "authentic API and effect evidence",
+    "required hold/comment reads and fail-closed checks",
+    "shared Git/CAS/history and source-authority guarantees",
+    "all existing scope, protections, budgets and human gates"
+  ],
+  "notAuthorized": [
+    "best-effort shared coordination durability",
+    "F4 quota or epoch changes",
+    "live activation, namespace or clock provisioning",
+    "writer drain or historical Git migration",
+    "CLI output approval",
+    "CI-churn import-edit exception",
+    "merge, release or deployment bypass"
+  ],
+  "beforeEffect": "Commit this verbatim decision before updating the ratified authority clarification. No live operation follows from this record."
+}

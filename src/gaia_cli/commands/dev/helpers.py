@@ -151,7 +151,15 @@ def _starNumber(level) -> int:
     return 0
 
 
-def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_path) -> None:
+def _preflight_star_gate(
+    skill_id: str,
+    skill_data: dict,
+    level: str,
+    registry_path,
+    *,
+    mergedMap: dict | None = None,
+    originPool=None,
+) -> None:
     """Refuse to set a level (4★+) whose Trust Magnitude / branch gate fails.
 
     A strict raise to a gated level is checked against live Trust Magnitude (never
@@ -165,6 +173,10 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     Origin is required. Unique 4★/5★ need only to be their bucket's derived Origin. Scope: 4★/5★ are fully gated; a 6★ target only
     enforces the Grade S floor -- `checkUniqueImpossibleGate` / `passesSuiteApexGate`
     are NOT enforced here.
+
+    ``mergedMap`` / ``originPool`` let a read-only caller that already built the
+    same ``buildMergedSkillMap(registry_path)`` context (the Steward trust sensor)
+    reuse it; when omitted they are built here exactly as before.
     """
     target = _starNumber(level)
     current = _starNumber(skill_data.get("level"))
@@ -175,7 +187,8 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     from gaia_cli.registryMaps import buildMergedSkillMap
     from gaia_cli.trustMagnitude import computeTrustMagnitude, computeOverallTrustGradeFromSkill
 
-    mergedMap = buildMergedSkillMap(registry_path)
+    if mergedMap is None:
+        mergedMap = buildMergedSkillMap(registry_path)
     tm = round(float(computeTrustMagnitude(skill_data, mergedMap)), 2)
     grade = computeOverallTrustGradeFromSkill(skill_data, mergedMap) or "ungraded"
     required = "A" if target == 4 else "S"
@@ -183,8 +196,9 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     if _STAR_GRADE_ORDER.get(grade, 0) < _STAR_GRADE_ORDER[required]:
         problems.append(f"Overall Trust Grade {grade} (TM {tm}) is below the required Grade {required}")
 
-    from gaia_cli.origin import contenderPool
-    originPool = contenderPool(registry_path, mergedMap)
+    if originPool is None:
+        from gaia_cli.origin import contenderPool
+        originPool = contenderPool(registry_path, mergedMap)
 
     components = skill_data.get("suiteComponents") or []
     if components:
@@ -635,6 +649,23 @@ def _run_docs_build(registry_path) -> None:
     subprocess.run(cmd, check=True)
 
 
+def _add_restamp_flag(parser) -> None:
+    """Attach the opt-out for the event-driven Trust Magnitude restamp (#1642).
+
+    An evidence mutation restamps only the derived trust stamp of the skills it
+    affected, and only when that is a pure recomputation (the computed grade
+    still agrees with the stored star level). ``--no-restamp`` leaves the stamps
+    stale for the periodic reconciliation to report; it never weakens a gate.
+    """
+    parser.add_argument(
+        "--no-restamp",
+        dest="no_restamp",
+        action="store_true",
+        help="Do not restamp the derived trustMagnitude stamps of the skills this evidence change affects "
+             "(default: restamp them when the refresh is recomputation-only; the star level is never written)",
+    )
+
+
 def _add_build_flags(parser, verb: str) -> None:
     """Attach the standard docs-rebuild opt-in/opt-out flags to a mutating dev parser.
 
@@ -755,13 +786,8 @@ def _find_named_file(named_dir, skill_id):
     return None
 
 
-def preflightNamedSkillMutable(registry_path, skill_id: str) -> None:
-    """Refuse a named-record mutation when the target is frozen.
-
-    The lookup uses the one suite-aware frozen definition. Command handlers run
-    this before writing either a record or its timeline so frozen canonical
-    bytes remain exact historical bytes.
-    """
+def namedFrozenIds(registry_path) -> frozenset[str]:
+    """Every frozen named skill id, by the one suite-aware frozen definition."""
     from gaia_cli.frozen import frozenIds
 
     named_dir = Path(named_skills_dir(registry_path))
@@ -773,7 +799,19 @@ def preflightNamedSkillMutable(registry_path, skill_id: str) -> None:
             continue
         if isinstance(meta, dict) and meta.get("id"):
             metas.append(meta)
-    if skill_id in frozenIds(metas):
+    return frozenset(frozenIds(metas))
+
+
+def preflightNamedSkillMutable(registry_path, skill_id: str, *, knownFrozen: frozenset[str] | None = None) -> None:
+    """Refuse a named-record mutation when the target is frozen.
+
+    The lookup uses the one suite-aware frozen definition. Command handlers run
+    this before writing either a record or its timeline so frozen canonical
+    bytes remain exact historical bytes. A read-only caller checking many skills
+    may pass ``knownFrozen`` (from :func:`namedFrozenIds`) to avoid rescanning.
+    """
+    frozen = knownFrozen if knownFrozen is not None else namedFrozenIds(registry_path)
+    if skill_id in frozen:
         _fail_dev_preflight(
             f"Named skill '{skill_id}' is frozen (directly or through a frozen suite). Nothing was written.",
             fix="Frozen records preserve their historical bytes and cannot be changed by this command.",

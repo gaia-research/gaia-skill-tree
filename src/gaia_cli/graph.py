@@ -548,7 +548,7 @@ def graph_command(args: Any) -> None:
     try:
         from gaia_cli import scanner
         from gaia_cli.localContext import LocalContext
-        from gaia_cli.push import detect_source_repo
+        from gaia_cli.push import NonPublicRepoError, detect_source_repo
 
         config = scanner.load_config()
         username = (config or {}).get("gaiaUser") or (config or {}).get("username") or ""

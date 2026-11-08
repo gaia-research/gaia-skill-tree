@@ -1,6 +1,5 @@
 """Crawls npm registry for AI/agent-related packages."""
 
-import json
 import sys
 import os
 

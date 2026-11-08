@@ -51,6 +51,7 @@ def makeCensus(rows: list[dict], fetchedAt: str = "2026-10-21T19:00:00Z") -> dic
         },
         "issues": rows,
         "recentlyClosed": [],
+        "closedUmbrellas": {"complete": True, "labels": ["upstream:release", "upstream:bootstrap"], "pagesFetched": 1, "items": []},
     }
 
 

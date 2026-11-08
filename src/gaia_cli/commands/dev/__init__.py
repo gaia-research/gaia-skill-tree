@@ -5,6 +5,7 @@ from gaia_cli.commands.base import Command
 from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
     _add_build_flags,
+    _add_restamp_flag,
     _confirm_destructive,
     _replace_section,
     _GENERATED_PREFIXES,
@@ -93,7 +94,7 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia dev validate [--intake] [--meta-sync]
+  gaia dev validate [--intake] [--meta-sync] [--allow-missing-index]
   gaia dev arbor check [record.json]
   gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
   gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
@@ -579,6 +580,13 @@ class DevCommand(Command):
             help="Also recompute and write the cached apexGateStatus frontmatter "
                  "(same predicate logic as the named-index generator); logged to the timeline",
         )
+        dev_calibrate_tm.add_argument(
+            "--recomputation-only", action="store_true", dest="recomputation_only",
+            help="Refresh only stamps that already exist and only where the computed grade still "
+                 "agrees with the stored star level (a pure recomputation, #1642). Skills whose grade "
+                 "disagrees with their level are HELD and left unchanged; no star level is ever written. "
+                 "Use with --all as the periodic backstop for stale stamps.",
+        )
         _add_build_flags(dev_calibrate_tm, "recalibrating")
         dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
@@ -935,6 +943,7 @@ class DevCommand(Command):
             help="ISO date the source content first existed",
         )
         _add_build_flags(dev_evidence, "adding evidence")
+        _add_restamp_flag(dev_evidence)
 
         dev_rm_evidence = dev_sub.add_parser(
             "rm-evidence",
@@ -952,6 +961,7 @@ class DevCommand(Command):
             help="Remove all evidence entries whose source URL matches this exactly",
         )
         _add_build_flags(dev_rm_evidence, "removing evidence")
+        _add_restamp_flag(dev_rm_evidence)
         dev_rm_evidence.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )
@@ -990,6 +1000,11 @@ class DevCommand(Command):
             "--meta-sync",
             action="store_true",
             help="Verify meta.json is in sync with gaia.json",
+        )
+        dev_validate.add_argument(
+            "--allow-missing-index",
+            action="store_true",
+            help="Skip the generated named-index cross-check when no index is built (default: fail closed)",
         )
 
         dev_release = dev_sub.add_parser(
@@ -1170,8 +1185,12 @@ class DevCommand(Command):
             "provenance",
             "evidence-seed",
         }
-        if dev_cmd in MUTATING_DEV_COMMANDS or (
-            dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
+        # `embed --check` only reads the embeddings artifact and reports freshness: it
+        # writes nothing, so it is never gated and takes no canonical writer lock.
+        readOnlyCheck = dev_cmd == "embed" and bool(getattr(args, "check", False))
+        if not readOnlyCheck and (
+            dev_cmd in MUTATING_DEV_COMMANDS
+            or (dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"})
         ):
             from gaia_cli.authz import require_operator
             operation = (

@@ -28,7 +28,7 @@
     },
     {
       "skillId": "obra/dispatching-parallel-agents",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -41,6 +41,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-11-08T09:29:24Z",
           "source": "demote"
         }
       ]
@@ -436,6 +441,14 @@
       "newValue": "4★",
       "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "obra/superpowers"
+    },
+    {
+      "timestamp": "2026-11-08T09:29:24Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "obra/dispatching-parallel-agents"
     }
   ],
   "stats": {

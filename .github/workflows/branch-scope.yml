@@ -14,6 +14,7 @@ concurrency:
 jobs:
   scope-check:
     name: Verify branch scope matches changed files
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     if: >-
       !contains(github.event.pull_request.labels.*.name, 'skip-scope-check') &&
@@ -70,6 +71,8 @@ jobs:
             steward/a/*)        PREFIX="steward-a" ;;
             steward/b/unused-import-????????????)
               if [[ "$BRANCH" =~ ^steward/b/unused-import-[0-9a-f]{12}$ ]]; then PREFIX="steward-b-unused-import"; else PREFIX="other"; fi ;;
+            steward/b/workflow-hygiene-????????????)
+              if [[ "$BRANCH" =~ ^steward/b/workflow-hygiene-[0-9a-f]{12}$ ]]; then PREFIX="steward-b-workflow-hygiene"; else PREFIX="other"; fi ;;
             *)                  PREFIX="other" ;;
           esac
 
@@ -104,9 +107,13 @@ jobs:
           if [ "$IS_FORK" = "true" ] && [ "$PREFIX" = "unrestricted" ]; then
             echo "::warning::Fork PR with unrestricted branch prefix '$BRANCH'; downgrading classification to 'other' per fork-origin policy (issue #986). Fork contributors must use scope-appropriate prefixes (docs/, schema/, design/, etc.) or a maintainer must apply the 'skip-scope-check' label."
             PREFIX="other"
-          elif [ "$IS_FORK" = "true" ] && [ "$PREFIX" = "steward-b-unused-import" ]; then
-            echo "::warning::Fork PR with automation-specific branch prefix '$BRANCH'; downgrading classification to 'other'."
-            PREFIX="other"
+          elif [ "$IS_FORK" = "true" ] && case "$PREFIX" in steward-a|steward-b-unused-import|steward-b-workflow-hygiene) true ;; *) false ;; esac; then
+            # Automation prefixes are never legitimate from a fork. Reject here, before
+            # the human-commit filter below can turn a bot-authored fork PR into an
+            # empty "nothing to check" success.
+            echo "::error::Fork PR with automation-specific branch prefix '$BRANCH' is rejected."
+            echo "  ❌ $BRANCH (unrecognized branch prefix for a fork PR; automation branches are same-repository only)"
+            exit 1
           fi
 
           # unrestricted branches (dev/*, integration/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction
@@ -122,6 +129,24 @@ jobs:
           MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
           echo "Merge base: $MERGE_BASE"
           echo ""
+
+          # The workflow-timeout route is the only Steward write into .github/, so its
+          # scope is the full merge-base-to-head tree delta, whoever authored the commits:
+          # an author email is not authenticated provenance, so no bot or merge filtering.
+          # Renames are split into delete + add, and only modifications of existing files
+          # are acceptable (creation, deletion and type changes are violations).
+          if [ "$PREFIX" = "steward-b-workflow-hygiene" ]; then
+            FILES=$(git diff --no-renames --name-only "$MERGE_BASE" HEAD | sort -u)
+            NON_MODIFY=$(git diff --no-renames --diff-filter=ACDRTUXB --name-only "$MERGE_BASE" HEAD | sort -u)
+            while IFS= read -r file; do
+              [ -z "$file" ] && continue
+              VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b workflow-hygiene branches may only modify existing files; creating, deleting or retyping a file is not allowed)"
+            done <<< "$NON_MODIFY"
+            if [ -z "$FILES" ]; then
+              echo "No changed files detected."
+              exit 0
+            fi
+          else
 
           # Collect files only from human, non-merge commits.
           # Merge commits and github-actions[bot] commits (auto-regen, sync) are
@@ -156,6 +181,8 @@ jobs:
           if [ -z "$FILES" ]; then
             echo "No changed files detected."
             exit 0
+          fi
+
           fi
 
           # Forward check: verify files match allowed scope
@@ -229,6 +256,18 @@ jobs:
                 case "$file" in
                   src/gaia_cli/*|scripts/*|tests/*) ;; # allowed
                   *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b unused-import branches may only touch src/gaia_cli/, scripts/, or tests/)" ;;
+                esac
+                ;;
+              steward-b-workflow-hygiene)
+                # Founder ruling #14 (steward-workflow-timeout-route): the one Class B
+                # route allowed to write .github/. Direct-child workflow files only;
+                # `case` globs let * cross `/`, so the lock-file and nested-path arms
+                # must come first. gh-aw *.lock.yml is compiled output.
+                case "$file" in
+                  .github/workflows/*.lock.yml) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b workflow-hygiene branches may not touch gh-aw generated *.lock.yml files)" ;;
+                  .github/workflows/*/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b workflow-hygiene branches may only touch direct-child .github/workflows/*.yml files)" ;;
+                  .github/workflows/*.yml) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b workflow-hygiene branches may only touch .github/workflows/*.yml)" ;;
                 esac
                 ;;
               steward-a)

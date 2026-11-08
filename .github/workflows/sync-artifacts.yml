@@ -8,15 +8,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Trigger Cloudflare deployment after sync'
-        type: boolean
-        default: false
 
 permissions:
   contents: write
-  actions: write   # dispatch publish-pypi.yml and cloudflare-deploy.yml (workflow_dispatch)
+  actions: write   # dispatch publish-pypi.yml (workflow_dispatch)
 
 # Serialize runs on the same ref. With the broadened trigger, several merges can
 # land close together; without this they would race on the version bump + push.
@@ -59,6 +54,10 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Auto-Versioning and Regeneration
+        env:
+          # Fresh runners have no gitignored Class P named index; this step's
+          # gated release must bootstrap the artifact regeneration pipeline.
+          GAIA_OPERATOR_OVERRIDE: "1"
         run: |
           # 1. Classify bump type from commit message → release channel.
           #    See CONTEXT.md § Release Channels for the full contract:
@@ -254,15 +253,3 @@ jobs:
           gh workflow run publish-pypi.yml --ref "${GITHUB_REF_NAME}" \
             && echo "Dispatched publish-pypi.yml (production) for ${GITHUB_REF_NAME}." \
             || echo "::warning::Could not dispatch publish-pypi.yml — publish PyPI manually if needed."
-
-      - name: Trigger Cloudflare Deploy
-        # Now that the job grants `actions: write`, this dispatch succeeds (it
-        # previously 403'd and reddened every run). Kept continue-on-error as a
-        # belt-and-suspenders guard so a transient dispatch hiccup never fails an
-        # otherwise-successful release run.
-        if: github.event_name == 'push' || github.event.inputs.deploy == 'true'
-        continue-on-error: true
-        run: |
-          gh workflow run cloudflare-deploy.yml --ref ${{ github.ref_name }} -f branch=${{ github.ref_name }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -25,7 +25,7 @@
   },
   "title": "Reverse Skill Router",
   "genericSkillRef": "security-audit",
-  "origin": false,
+  "origin": true,
   "description": "Routes reverse engineering, exploitation, penetration testing, malware, mobile, firmware, browser automation, documentation, and security tasks to the appropriate specialist skill.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

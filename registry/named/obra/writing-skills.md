@@ -9,7 +9,7 @@ level: 2★
 description: Use when creating new skills, editing existing skills, or verifying skills
   work before deployment
 createdAt: '2026-09-23'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: writing-skills
 links:
   github: https://github.com/obra/superpowers/blob/v6.4.1/skills/writing-skills/SKILL.md
@@ -47,6 +47,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 193.11 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T18:19:18Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/obra/superpowers/blob/v6.4.1/skills/writing-skills/SKILL.md
   evaluator: mbtiongson1
@@ -72,8 +77,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:56:01Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: abc9d72968bdc3f5ad8325b489dc01b1f6690c9ce6c04a218a37f27feb3ab372
 suiteRef: obra/superpowers
 ---

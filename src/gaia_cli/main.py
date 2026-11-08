@@ -18,8 +18,14 @@ if __name__ != "__main__":
     sys.modules[__name__].__class__ = MainModule
 
 from gaia_cli.commands import discover_commands
-from gaia_cli.commands.base import Command
 import gaia_cli.impl as _impl
+from gaia_cli.impl import (
+    COMMAND_USAGE,
+    ColoredHelpFormatter,
+    PUBLIC_COMMANDS,
+    resolve_registry_path,
+    require_explicit_writable_registry,
+)
 for _name in dir(_impl):
     if not _name.startswith("__") and _name not in ("get_parser", "main"):
         globals()[_name] = getattr(_impl, _name)

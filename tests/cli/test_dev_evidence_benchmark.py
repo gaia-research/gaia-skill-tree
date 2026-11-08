@@ -24,6 +24,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from tests.authindex import writeBootstrapIndex
 from gaia_cli.commands.dev.evidence import meta_evidence_command
 from gaia_cli.commands.dev.helpers import DevPreflightError, _preflight_benchmark_row
 
@@ -67,6 +68,7 @@ def _make_registry(tmp_path: Path) -> str:
         "timeline": [],
     }
     (nodes / "demo-skill.json").write_text(json.dumps(node, indent=2))
+    writeBootstrapIndex(tmp_path)
     return str(tmp_path)
 
 

@@ -2,8 +2,8 @@
 name: gaia-steward-full
 description: >-
   Run Gaia Steward end to end: observe every routine's detectors, triage debt by
-  authority, land Class A repairs on the integration branch, drive one bounded
-  Class B dispatch through an independent verifier, re-observe, and leave a
+  authority, land Class A repairs on the integration branch, drive a bounded batch of
+  Class B dispatches through independent verifiers, re-observe, and leave a
   quiet founder desk or a precise list of decisions. Use for "/gaia-steward-full",
   "run the steward", "full maintenance pass", "what does the repo need",
   "resume the steward run", or a scheduled maintenance wake. Thin entrypoint:
@@ -42,9 +42,10 @@ Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 the runner refuses `main`, `master` and the remote default branch.
 
 `--routine` takes 1 to 19. Routine 18 is GitHub issue hygiene (`issue-hygiene`); routine 19 is routine pull-request maintenance (`pr-maintenance`, skill `gaia-steward-pr-maintenance`).
-Issue-write authority remains an OPEN Class C proposal: no live closure dry run,
-pilot or burn-down. The effective policy emits no closure actions until explicit
-ratification AND write opt-in; changing the kill switch alone grants no authority.
+Issue-write authority is founder-ratified policy (ruling #10, A1-A5) but not rolled out:
+`issueHygiene.writesEnabled` is false, so no closure actions are emitted, and there is no live closure
+dry run, pilot or burn-down. Closures need ratification AND write opt-in AND an attributable Steward
+owner and worker on every receipt; changing the kill switch alone grants no authority.
 
 ## Step 0: refresh the censuses
 
@@ -77,7 +78,7 @@ as a pending action. Drive it like this, and nothing else:
    | `agent.verify` | a different, fresh agent following `gaia-steward-verify` |
    | `forge.open_pr` | `gaia-steward-land` (draft PR to the integration branch) |
    | `forge.close_issue` | `gaia-steward-issue-hygiene` (one proven closure, performed by `scripts/steward_issue_close.py`) |
-| `forge.merge_pr`, `forge.close_pr` | `gaia-steward-pr-maintenance` (one gated write, authorized by `scripts/steward_pr.py gate-merge` or `gate-close`) |
+| `forge.merge_pr`, `forge.close_pr` | `gaia-steward-pr-maintenance` (shared preparation, then explicit `execute --operation-id`; unattended driver refuses) |
    | `lead.integrate` | the orchestrator, merging into the integration branch only |
 
 3. Record each outcome: `gaia steward full record RUN STEP --input outcome.json`.
@@ -87,7 +88,17 @@ as a pending action. Drive it like this, and nothing else:
 
 The runner tracks every step in a durable ledger (`refs/heads/steward/ledger`, or a
 local file when no remote answers). Resuming never repeats a recorded step, and a
-second concurrent invocation loses the lease and refuses cleanly.
+second concurrent invocation loses the lease and refuses cleanly. Only the Lead
+writes the shared ledger; `--ledger git` is unchanged and is never replaced by local
+state to get a green run.
+
+Only Routine 19 critical operation identity, immutable proof, global slot/accounting
+and outcomes use its separately provisioned canonical coordination ref; ordinary run
+state never moves there. Local run
+expiry/action supersession cannot refund or cancel that shared sender. Every
+success-shaped PR report (including already-*) binds shared head/evidence; unknown
+stays recoverable. Missing coordination/current authority/clock config refuses
+execution. Full-run completion does not settle an outstanding critical operation.
 
 ## Agents, models and effort
 
@@ -97,13 +108,13 @@ second concurrent invocation loses the lease and refuses cleanly.
   `maxInFlight` and `maxDispatchesPerRun` still cap them.
 - Every agent invocation names an explicit thinking effort. `default` and
   `inherit` are refused by `record`.
-- Subagents do not fan out without the orchestrator's approval.
+- Parallel `agent.build` actions from one run may be handed to builder subagents in one batch (founder decision `steward-class-b-throughput-2026-11-06`). Each builder gets only its own `params.promptPath`; any other fan-out needs the orchestrator's approval.
 - No other models are authorized.
 
 ## Hard limits (enforced in code, repeated here)
 
 - Never merge into `main`, push to `main`, force-push, tag, release or publish. The one exception is the ratified, narrowly scoped route `forge.merge_pr` (routine 19): a registered producer's pull request, one exact head SHA, an independent verification, GitHub's own branch protection, a merge commit, never a squash. It is never a general permission and is revoked by the kill switch.
-- Class B: maxInFlight 2 (the policy value; the code accepts 1 to 4), maxAttempts 2, cooldown 3600 s, one dispatch per run.
+- Class B: maxInFlight 8 (the policy value; the code accepts 1 to 8), maxDispatchesPerRun 8 (1 up to maxInFlight; one run emits up to the lesser of it and the free lane slots, as parallel `agent.build` actions over distinct debts), maxAttempts 2, cooldown 3600 s. Founder decision `steward-class-b-throughput-2026-11-06`.
 - Closures (`forge.close_issue`) need `GH_TOKEN` or `GITHUB_TOKEN`. Without one they are reported under the driver's
   `unperformed` list with the reason, and nothing is written. A closure the executor refuses (exit 2) is recorded as a
   `refused` outcome with its reason code (B8 H-3a): the step settles, the pair is emitted again against a later census,

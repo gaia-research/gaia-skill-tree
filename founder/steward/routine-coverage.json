@@ -415,23 +415,35 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "trust-calibration-drift",
+          "debtKind": "trust_evidence_gap",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
-      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route.",
+      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; below-ceiling trust calibration is an executable Class B route (founder ruling F1; demotions, frozen skills, prior-demotion proposals, cap-only suite 3★+ and refused preflights stay proposal-only); an empty evidence pool is a Class C trust_evidence_gap with a read-only discovery routine.",
       "remainingGaps": [
         "Hooks 1922, 1445 and 2063 remain unknown/not-evaluated until fresh independent verification.",
-        "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval."
+        "Calibration packets commit only the verb-written registry record; the lead regenerates Class S once per integrated wave before integration-to-main.",
+        "Evidence discovery is read-only: it records searches and admissibility (scripts/steward_evidence_discovery.py) and never admits evidence or changes a rating; admission and any demotion keep their governed authority."
       ],
       "owners": [
         1445,
         1642,
         1922,
         2063,
-        2114
+        2114,
+        2201
       ],
       "tests": [
         "tests/steward/test_sensors.py",
-        "tests/steward/test_trust_calibration_regression.py"
+        "tests/steward/test_trust_calibration_regression.py",
+        "tests/steward/test_trust_evidence_gap.py"
       ]
     },
     {
@@ -587,10 +599,10 @@
           "sensorId": "ci-workflow",
           "debtKind": "workflow_hygiene",
           "authority": "B",
-          "dispatchRule": null,
+          "dispatchRule": "workflow-timeout-repair",
           "repairExecutor": null,
           "founderRule": null,
-          "bindingStatus": "unrouted"
+          "bindingStatus": "route-bound"
         },
         {
           "sensorId": "ci-health",
@@ -604,6 +616,7 @@
       ],
       "predicate": "A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.",
       "remainingGaps": [
+        "workflow_hygiene is routed only for missing job timeouts in direct-child .github/workflows/*.yml; every other workflow finding rule and every gh-aw generated lock file stays unrepaired by Steward.",
         "CI health depends on a driver-supplied run history; without it ci-health is not evaluated, never healthy.",
         "CI cost and cache efficiency are not measured."
       ],
@@ -642,6 +655,15 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_review",
+          "authority": "B",
+          "dispatchRule": "credential-review-disposition",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
         },
         {
           "sensorId": "supply-chain",
@@ -773,6 +795,15 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_review",
+          "authority": "B",
+          "dispatchRule": "credential-review-disposition",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
         }
       ],
       "predicate": "A change with an external data flow or browser sink receives an explicit security/privacy review.",
@@ -1524,7 +1555,8 @@
       ],
       "debtKinds": [
         "trust_calibration_drift",
-        "trust_stamp_stale"
+        "trust_stamp_stale",
+        "trust_evidence_gap"
       ],
       "trigger": "every-scan",
       "inputs": [
@@ -1538,7 +1570,7 @@
         }
       ],
       "sourceOfTruth": "src/gaia_cli/trustMagnitude.py scored over buildMergedSkillMap (effective, inherited evidence)",
-      "evidence": "stored level versus computed grade per skill; stale trustMagnitude stamps against tolerance 0.02",
+      "evidence": "stored level versus computed grade per skill; stale stamps (trustMagnitude beyond tolerance 0.02, stored grade differing from computed, or input hash mismatch; recomputationOnly when the computed grade agrees with the stored level and the stored grade); an empty or non-scoring effective evidence pool as a trust_evidence_gap with the current rating preserved",
       "freshness": "checkout-head",
       "coverageStatus": {
         "static": [
@@ -1550,18 +1582,21 @@
       },
       "authority": {
         "trust_calibration_drift": "B",
-        "trust_stamp_stale": "C"
+        "trust_stamp_stale": "C",
+        "trust_evidence_gap": "C"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
         "trust_calibration_drift": "gaia-steward-lane",
-        "trust_stamp_stale": "gaia-steward-desk"
+        "trust_stamp_stale": "gaia-steward-desk",
+        "trust_evidence_gap": "gaia-steward-desk"
       },
       "proof": [
+        "tests/steward/test_sensors.py",
         "tests/steward/test_trust_calibration_regression.py",
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_trust_evidence_gap.py"
       ],
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
@@ -2039,7 +2074,8 @@
         14
       ],
       "debtKinds": [
-        "credential_leak"
+        "credential_leak",
+        "credential_review"
       ],
       "trigger": "every-scan",
       "inputs": [
@@ -2049,7 +2085,7 @@
         }
       ],
       "sourceOfTruth": "every Git-tracked file",
-      "evidence": "credential-shaped strings stored only as a fingerprint, path and line",
+      "evidence": "credential-shaped strings stored only as a fingerprint, path, line and the sha256 of the normalized line",
       "freshness": "checkout-head",
       "coverageStatus": {
         "static": [
@@ -2060,13 +2096,15 @@
         "live": "requires-receipt"
       },
       "authority": {
-        "credential_leak": "C"
+        "credential_leak": "C",
+        "credential_review": "B"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
-        "credential_leak": "gaia-steward-desk"
+        "credential_leak": "gaia-steward-desk",
+        "credential_review": "gaia-steward-lane"
       },
       "proof": [
         "tests/steward/test_sensors_security.py"
@@ -2494,7 +2532,7 @@
         }
       ],
       "sourceOfTruth": "driver-written census of open pull requests (steward-pr-census-v1) judged against founder/steward/pr-producers.json, local git objects of each head, and GitHub's branch protection",
-      "evidence": "per-pull-request gate results (provenance, scope, holds, approvals, CI at head, currency, conflicts, content proofs) and one disposition",
+      "evidence": "checkout-local per-PR gate results and disposition; explicit critical execution additionally requires configured canonical shared proof/slot/accounting and authenticated outcome evidence; source is not activation",
       "freshness": "driver-input",
       "coverageStatus": {
         "static": [

@@ -5,11 +5,11 @@ contributor: garrytan
 origin: false
 genericSkillRef: concept-synthesis
 status: named
-level: 3★
+level: 2★
 description: Synthesizes and curates raw knowledge concepts into a grounded, tiered
   intellectual map.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-09'
 title: GBrain Concept Synthesis
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md
@@ -42,6 +42,15 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T09:24:56Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
+- timestamp: '2026-11-08T18:17:10Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md
   updatedAt: '2026-10-01'
@@ -58,8 +67,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T16:54:29Z'
 suiteRef: garrytan/gbrain
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 3b9dc55d459397624635608a6f81e7c32c19b5282bc81232cf95eed81d007ab4
 ---
 
