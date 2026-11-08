@@ -135,8 +135,3 @@ select = [
     "E722",
     "BLE001",
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/test_trust_restamp_guards.py" = ["F811"]
-"tests/test_trust_restamp_round3.py" = ["F811"]
-"tests/test_frontier_verify_fixes.py" = ["F811"]

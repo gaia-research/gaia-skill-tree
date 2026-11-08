@@ -31,6 +31,13 @@ RATCHET_CODES = {"F401", "S110", "S112", "E722"}
 ADVISORY_CODES = {"BLE001"}
 
 
+def normalize_message(msg: str | None) -> str:
+    """Normalize a violation message by collapsing whitespace."""
+    if not msg:
+        return ""
+    return " ".join(str(msg).strip().split())
+
+
 def classify_code(code: str) -> str:
     """Classify a ruff rule code into tier: 'blocking', 'ratchet', 'advisory', or 'other'."""
     if code in BLOCKING_EXACT or any(code.startswith(prefix) for prefix in BLOCKING_PREFIXES):
@@ -143,17 +150,29 @@ def get_changed_files(repo_root: Path, base_ref: str | None = None) -> set[str] 
 
 def normalize_violation(v: dict[str, Any], repo_root: Path) -> dict[str, Any]:
     """Normalize a ruff violation record with repo-relative posix path."""
-    filename = v.get("filename", "")
-    try:
-        rel_path = Path(filename).resolve().relative_to(repo_root.resolve()).as_posix()
-    except Exception:
-        rel_path = filename.replace("\\", "/")
+    filename = v.get("filename") or v.get("file", "")
+    if not filename:
+        rel_path = ""
+    else:
+        try:
+            p = Path(filename)
+            if not p.is_absolute():
+                p = (repo_root / p).resolve()
+            else:
+                p = p.resolve()
+            rel_path = p.relative_to(repo_root.resolve()).as_posix()
+        except Exception:
+            rel_path = str(filename).replace("\\", "/")
 
-    loc = v.get("location") or {}
-    row = loc.get("row", v.get("line", 0))
-    col = loc.get("column", v.get("column", 0))
+    loc = v.get("location")
+    if isinstance(loc, dict):
+        row = loc.get("row", v.get("line", 0))
+        col = loc.get("column", v.get("column", 0))
+    else:
+        row = v.get("line", 0)
+        col = v.get("column", 0)
     code = v.get("code", "")
-    msg = v.get("message", "")
+    msg = normalize_message(v.get("message", ""))
     return {
         "file": rel_path,
         "line": row,
@@ -247,43 +266,78 @@ def evaluate_violations(
         elif tier == "ratchet":
             ratchet_candidates.append(v)
 
-    # Build baseline tracker (multiset of (file, code, message) and fallback (file, code))
+    # Build baseline tracker (multiset of (file, code, normalized_message))
     baseline_pool: dict[tuple[str, str, str], int] = {}
-    baseline_file_code_pool: dict[tuple[str, str], int] = {}
     if baseline_data and "violations" in baseline_data:
         for b in baseline_data["violations"]:
-            key_exact = (b["file"], b["code"], b.get("message", ""))
+            nb = normalize_violation(b, repo_root)
+            key_exact = (nb["file"], nb["code"], normalize_message(nb.get("message", "")))
             baseline_pool[key_exact] = baseline_pool.get(key_exact, 0) + 1
-            key_fc = (b["file"], b["code"])
-            baseline_file_code_pool[key_fc] = baseline_file_code_pool.get(key_fc, 0) + 1
 
     ratchet_failures: list[dict[str, Any]] = []
     pre_existing_count = 0
 
-    unmatched = []
-    # Reserve exact matches first so an earlier new finding cannot steal them.
     for v in ratchet_candidates:
         if changed_files is not None and v["file"] not in changed_files:
             pre_existing_count += 1
             continue
-        exact = (v["file"], v["code"], v["message"])
-        fc = (v["file"], v["code"])
-        if baseline_pool.get(exact, 0):
+        exact = (v["file"], v["code"], normalize_message(v.get("message", "")))
+        if baseline_pool.get(exact, 0) > 0:
             baseline_pool[exact] -= 1
-            baseline_file_code_pool[fc] -= 1
-            pre_existing_count += 1
-        else:
-            unmatched.append(v)
-
-    for v in unmatched:
-        fc = (v["file"], v["code"])
-        if baseline_file_code_pool.get(fc, 0):
-            baseline_file_code_pool[fc] -= 1
             pre_existing_count += 1
         else:
             ratchet_failures.append(v)
 
     return blocking_failures, ratchet_failures, advisory_warnings, pre_existing_count
+
+
+def find_stale_entries(
+    violations: list[dict[str, Any]],
+    baseline_data: dict[str, Any] | None,
+    changed_files: set[str] | None = None,
+    repo_root: Path | None = None,
+    checked_paths: Sequence[str | Path] | None = None,
+) -> list[dict[str, Any]]:
+    """Identify baseline entries that are no longer present.
+
+    If changed_files is provided, only inspects baseline entries belonging
+    to those changed files. If checked_paths is provided, only inspects entries
+    belonging to files that were actually checked.
+    """
+    if not baseline_data or "violations" not in baseline_data:
+        return []
+    if repo_root is None:
+        repo_root = REPO_ROOT
+
+    resolved_checked = [
+        (Path(p) if Path(p).is_absolute() else (repo_root / p)).resolve()
+        for p in checked_paths
+    ] if checked_paths else None
+
+    # Index current ratchet violations by fingerprint
+    current_pool: dict[tuple[str, str, str], int] = {}
+    for v in violations:
+        if classify_code(v.get("code", "")) == "ratchet":
+            nv = normalize_violation(v, repo_root)
+            fp = (nv["file"], nv["code"], normalize_message(nv["message"]))
+            current_pool[fp] = current_pool.get(fp, 0) + 1
+
+    stale: list[dict[str, Any]] = []
+    for b in baseline_data["violations"]:
+        nb = normalize_violation(b, repo_root)
+        if changed_files is not None and nb["file"] not in changed_files:
+            continue
+        if resolved_checked is not None:
+            b_path = (repo_root / nb["file"]).resolve()
+            if not any(b_path == cp or cp in b_path.parents for cp in resolved_checked):
+                continue
+        fp = (nb["file"], nb["code"], normalize_message(nb["message"]))
+        if current_pool.get(fp, 0) > 0:
+            current_pool[fp] -= 1
+        else:
+            stale.append(nb)
+
+    return stale
 
 
 def run_ruff(
@@ -305,34 +359,115 @@ def run_ruff(
             cwd=repo_root,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             check=False,
         )
-    except FileNotFoundError:
-        print("Error: 'ruff' command not found. Please install ruff>=0.5.0.", file=sys.stderr)
+    except OSError as exc:
+        print(f"Error: failed to execute '{cmd[0]}': {exc}", file=sys.stderr)
         sys.exit(2)
 
     # Ruff exits 1 when violations are found; that is normal
     if res.returncode not in (0, 1):
         print(f"Error executing ruff (exit code {res.returncode}):\n{res.stderr}", file=sys.stderr)
-        sys.exit(res.returncode)
+        exit_code = res.returncode if 1 <= res.returncode <= 255 else 2
+        sys.exit(exit_code)
 
     stdout = res.stdout.strip()
-    if not stdout:
+    if res.returncode == 1 and not stdout:
+        print(
+            "Error: ruff exited 1 with empty output. Expected JSON report of violations.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+    if res.returncode == 0 and not stdout:
         return []
 
     try:
-        return json.loads(stdout)
+        parsed = json.loads(stdout)
     except json.JSONDecodeError as exc:
         print(f"Failed to parse ruff JSON output: {exc}\nRaw: {stdout[:500]}", file=sys.stderr)
         sys.exit(2)
 
+    if not isinstance(parsed, list):
+        print(
+            f"Error: ruff JSON output must be a list, got {type(parsed).__name__}",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+    if res.returncode == 1 and not parsed:
+        print(
+            "Error: ruff exited 1 with empty JSON list ([]). Expected violations.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+    for item in parsed:
+        if not isinstance(item, dict):
+            print(
+                f"Error: ruff JSON output record must be a dict, got {type(item).__name__}: {item}",
+                file=sys.stderr,
+            )
+            sys.exit(2)
+        code = item.get("code")
+        fn = item.get("filename") or item.get("file")
+        msg = item.get("message")
+        if not isinstance(code, str) or not code.strip():
+            print(
+                f"Error: ruff record missing valid string 'code': {item}",
+                file=sys.stderr,
+            )
+            sys.exit(2)
+        if not isinstance(fn, str) or not fn.strip():
+            print(
+                f"Error: ruff record missing valid string filename/file: {item}",
+                file=sys.stderr,
+            )
+            sys.exit(2)
+        if not isinstance(msg, str) or not msg.strip():
+            print(
+                f"Error: ruff record missing valid string 'message': {item}",
+                file=sys.stderr,
+            )
+            sys.exit(2)
+        loc = item.get("location")
+        if loc is not None:
+            if not isinstance(loc, dict):
+                print(
+                    f"Error: ruff record 'location' must be a dict: {item}",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+            if "row" in loc and not isinstance(loc["row"], int):
+                print(
+                    f"Error: ruff record location 'row' must be an int: {item}",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+            if "column" in loc and not isinstance(loc["column"], int):
+                print(
+                    f"Error: ruff record location 'column' must be an int: {item}",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+
+    return parsed
+
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Multi-tier Ruff lint gate for Gaia.")
-    parser.add_argument(
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument(
         "--update-baseline",
         action="store_true",
         help="Record current ratchet violations into baseline JSON and exit.",
+    )
+    mode_group.add_argument(
+        "--prune-baseline",
+        action="store_true",
+        help="Prune stale entries from baseline JSON and exit.",
     )
     parser.add_argument(
         "--baseline",
@@ -353,6 +488,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Custom path to ruff executable.",
     )
     parser.add_argument(
+        "--stale",
+        choices=["warn", "fail", "ignore"],
+        default="warn",
+        help="Action on stale baseline entries in changed files (warn, fail, ignore).",
+    )
+    parser.add_argument(
         "paths",
         nargs="*",
         help="Specific files or directories to check (default: whole repo config).",
@@ -360,19 +501,84 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     args = parser.parse_args(argv)
     repo_root = REPO_ROOT
-    baseline_path = args.baseline.resolve()
+    baseline_path = (
+        Path(args.baseline) if Path(args.baseline).is_absolute() else (repo_root / args.baseline)
+    ).resolve()
 
     violations = run_ruff(paths=args.paths, repo_root=repo_root, ruff_bin=args.ruff_bin)
 
     if args.update_baseline:
         ratchet_only = [v for v in violations if classify_code(v.get("code", "")) == "ratchet"]
+        target_paths = [
+            (Path(p) if Path(p).is_absolute() else (repo_root / p)).resolve()
+            for p in args.paths
+        ] if args.paths else None
+
+        if target_paths is not None and baseline_path.is_file():
+            existing = load_baseline(baseline_path)
+            if existing is None:
+                return 2
+            if "violations" in existing:
+                kept_outside = []
+                for b in existing["violations"]:
+                    nb = normalize_violation(b, repo_root)
+                    b_path = (repo_root / nb["file"]).resolve()
+                    if not any(b_path == tp or tp in b_path.parents for tp in target_paths):
+                        kept_outside.append(nb)
+                ratchet_only.extend(kept_outside)
+
         saved = save_baseline(ratchet_only, baseline_path, repo_root)
         print(
             f"Baseline written to {baseline_path} "
             f"({saved['total_ratchet_violations']} ratchet violations recorded)."
         )
-        if args.update_baseline:
-            return 0
+        return 0
+
+    if args.prune_baseline:
+        baseline_data = load_baseline(baseline_path)
+        if baseline_data is None:
+            return 2
+
+        current_ratchet = [
+            v for v in violations if classify_code(v.get("code", "")) == "ratchet"
+        ]
+        current_pool: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+        for v in current_ratchet:
+            nv = normalize_violation(v, repo_root)
+            fp = (nv["file"], nv["code"], normalize_message(nv["message"]))
+            current_pool.setdefault(fp, []).append(nv)
+
+        target_paths = [
+            (Path(p) if Path(p).is_absolute() else (repo_root / p)).resolve()
+            for p in args.paths
+        ] if args.paths else None
+
+        kept_entries: list[dict[str, Any]] = []
+        pruned_count = 0
+        for b in baseline_data.get("violations", []):
+            nb = normalize_violation(b, repo_root)
+            b_path = (repo_root / nb["file"]).resolve()
+            if target_paths is not None:
+                is_targeted = any(
+                    b_path == tp or tp in b_path.parents
+                    for tp in target_paths
+                )
+                if not is_targeted:
+                    kept_entries.append(nb)
+                    continue
+
+            fp = (nb["file"], nb["code"], normalize_message(nb["message"]))
+            if current_pool.get(fp):
+                matched = current_pool[fp].pop(0)
+                kept_entries.append(matched)
+            else:
+                pruned_count += 1
+
+        saved = save_baseline(kept_entries, baseline_path, repo_root)
+        remaining = saved["total_ratchet_violations"]
+        entry_str = "entry" if pruned_count == 1 else "entries"
+        print(f"Pruned {pruned_count} stale {entry_str}; {remaining} entries remain.")
+        return 0
 
     baseline_data = load_baseline(baseline_path)
     if baseline_data is None:
@@ -388,9 +594,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         repo_root=repo_root,
     )
 
+    stale_entries: list[dict[str, Any]] = []
+    if args.stale != "ignore":
+        stale_entries = find_stale_entries(
+            violations=violations,
+            baseline_data=baseline_data,
+            changed_files=changed_files,
+            repo_root=repo_root,
+            checked_paths=args.paths,
+        )
+
     # Print advisory warnings
     for a in advisory:
         print(f"[ADVISORY] {a['file']}:{a['line']}:{a['column']}: {a['code']} {a['message']}")
+
+    # Print stale warnings
+    for s in stale_entries:
+        stream = sys.stderr if args.stale == "fail" else sys.stdout
+        print(
+            f"[STALE] {s['file']}:{s['line']}:{s['column']}: {s['code']} {s['message']}",
+            file=stream,
+        )
 
     # Print ratchet failures
     for r in ratchet:
@@ -411,9 +635,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Blocking violations:  {len(blocking)} (fails if > 0)")
     print(f"Ratchet violations:   {len(ratchet)} new ({pre_existing_count} pre-existing allowed)")
     print(f"Advisory warnings:    {len(advisory)} (BLE001 - non-blocking)")
+    if args.stale != "ignore":
+        print(f"Stale baseline entries: {len(stale_entries)}")
     print("=============================================================")
 
+    has_error = False
     if blocking or ratchet:
+        has_error = True
+
+    if args.stale == "fail" and stale_entries:
+        print(
+            f"FAILED: Found {len(stale_entries)} stale baseline entries in changed files with --stale fail.",
+            file=sys.stderr,
+        )
+        has_error = True
+
+    if has_error:
         print("FAILED: Ruff multi-tier gate failed.", file=sys.stderr)
         return 1
 

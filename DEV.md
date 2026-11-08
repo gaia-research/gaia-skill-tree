@@ -210,13 +210,20 @@ You can run ruff linting locally using either the raw ruff CLI or the multi-tier
 python3 scripts/check_ruff.py                    # Run the multi-tier gate (blocking + ratchet + advisory)
 ruff check                                       # Run raw ruff check directly against pyproject.toml
 python3 scripts/check_ruff.py --update-baseline  # Update scripts/lint/ruff-baseline.json with current counts
+python3 scripts/check_ruff.py --prune-baseline   # Prune stale baseline entries after paying down tech debt
+python3 scripts/check_ruff.py --stale fail       # Fail gate if changed files resolve debt without pruning baseline
 ```
 
 #### Why Ratchet vs. Blocking Rules
 The Ruff lint gate enforces three distinct tiers:
 - **Blocking (`F821`, `F811`, `F63`, `F7`)**: Correctness rules block at zero across the entire codebase to prevent syntax and runtime errors. Any introduced violation fails immediately.
-- **Ratchet (`F401`, `S110`, `S112`, `E722`)**: Git diff identifies changed files; the committed `scripts/lint/ruff-baseline.json` sets the allowed per-file, per-rule ceiling. New violations exceeding that ceiling in changed files fail; untouched files pass. Unlike blocking rules, existing debt is permitted.
+- **Ratchet (`F401`, `S110`, `S112`, `E722`)**: Git diff identifies changed files; the committed `scripts/lint/ruff-baseline.json` sets the allowed baseline violations. Untouched files pass. Unlike blocking rules, existing debt is permitted.
 - **Advisory (`BLE001`)**: Blind exception handling (`except Exception:`) outputs an advisory warning but does not fail the gate (exit code 0).
+
+#### Monotonic Ratchet and Baseline Maintenance
+- **Monotonic Ratchet Behavior**: Ratchet violations match on an exact, stable fingerprint `(file, code, normalized_message)` rather than a loose per-file count. Resolving an existing baseline violation never frees up capacity or leaves room for a different new violation in that file. Any unbaselined violation in a changed file immediately fails the ratchet gate.
+- **Pruning the Baseline (`--prune-baseline`)**: When technical debt is paid down (e.g. unused imports removed or exception handling cleaned up), run `python3 scripts/check_ruff.py --prune-baseline` to prune entries from `scripts/lint/ruff-baseline.json` that are no longer present. Unlike `--update-baseline` which records all current violations and can grow the baseline, `--prune-baseline` only shrinks the baseline monotonically and never adds new violations.
+- **Stale Entry Handling (`--stale {warn,fail,ignore}`)**: When files modified in a PR resolve baseline violations, those baseline entries become stale. By default (`--stale warn`), the gate prints `[STALE]` notices indicating which entries have been resolved and can be pruned. With `--stale fail`, the gate fails with exit code 1 if stale entries remain in changed files, enforcing that PRs which clean up debt also prune the baseline. With `--stale ignore`, stale checking is skipped.
 
 ### Test-suite conventions
 
