@@ -1290,3 +1290,80 @@ def test_git_header_paths_follow_the_same_path_rules(header: str) -> None:
 
     assert _diff_paths_safe(header) is False
     assert _diff_paths_safe("diff --git a/scripts/x.py b/scripts/x.py\nold mode 100644\nnew mode 100755\n") is True
+
+
+# --- Attribution with optional sensor inputs (#2371 follow-up) ----------------------
+
+
+class InputSensor:
+    """Evaluated only when its optional input exists; otherwise input-absent, like ci-health."""
+
+    id = "input-sensor"
+
+    def __init__(self, *, absent_on_call: int | None = None) -> None:
+        self.calls = 0
+        self.absent_on_call = absent_on_call
+        self.seen: list[bool] = []
+
+    def scan(self, root: Path, observed_at: str) -> list[Observation]:
+        from gaia_cli.steward.primitives.files import SensorNotEvaluated
+
+        self.calls += 1
+        present = (root / ".gaia/steward/inputs/input.json").is_file()
+        self.seen.append(present)
+        if not present or self.calls == self.absent_on_call:
+            raise SensorNotEvaluated("no input supplied", input_absent=True)
+        return []
+
+
+def _attribution_repo(tmp_path: Path) -> tuple[Path, str, str]:
+    root = _repo(tmp_path / "root")
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, ".gitignore", ".gaia/\n")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    return root, _git(root, "rev-parse", "HEAD"), _real_diff(root)
+
+
+def test_symmetric_input_absent_sensor_still_attributes(tmp_path: Path) -> None:
+    """Both scratch trees lack the same optional input: a symmetric blind spot, not a failure."""
+    root, base, diff = _attribution_repo(tmp_path)
+    sensor = InputSensor()
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) == ()
+    assert sensor.seen == [False, False]
+
+
+def test_ignored_inputs_are_mirrored_read_only_into_both_trees(tmp_path: Path) -> None:
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    outside = tmp_path / "outside.json"
+    outside.write_text("{}\n", encoding="utf-8")
+    (root / ".gaia/steward/inputs/linked.json").symlink_to(outside)
+    sensor = InputSensor()
+    copies: list[tuple[bool, bool, int]] = []
+    original = sensor.scan
+
+    def scan(tree: Path, observed_at: str):
+        inputs = tree / ".gaia/steward/inputs"
+        copies.append(((inputs / "input.json").is_file(), (inputs / "linked.json").exists(),
+                       (inputs / "input.json").stat().st_mode & 0o777))
+        return original(tree, observed_at)
+
+    sensor.scan = scan
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) == ()
+    assert sensor.seen == [True, True]
+    assert copies == [(True, False, 0o444), (True, False, 0o444)]  # symlink never followed
+
+
+def test_asymmetric_not_evaluated_fails_closed(tmp_path: Path) -> None:
+    """Blind in only one of the two scans: the difference cannot be attributed, so None."""
+    root, base, diff = _attribution_repo(tmp_path)
+    _write(root, ".gaia/steward/inputs/input.json", "{}\n")
+    sensor = InputSensor(absent_on_call=2)
+    controller = StewardController(sensors=[IntegritySensor(), sensor], clock=lambda: FROZEN)
+    assert compute_patch_attribution(root, diff, "debt:x", controller, base_commit=base) is None

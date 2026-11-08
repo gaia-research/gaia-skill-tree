@@ -812,6 +812,46 @@ def _diff_paths_safe(diff_text: str) -> bool:
     return True
 
 
+SENSOR_INPUTS_RELATIVE = Path(".gaia/steward/inputs")
+
+
+def _mirror_sensor_inputs(repo_root: Path, tree: Path) -> None:
+    """Copy the checkout's ignored sensor inputs into ``tree``, read-only.
+
+    Only regular files inside ``.gaia/steward/inputs`` are copied. Symbolic links
+    (the directory itself or any entry) are skipped rather than followed, so
+    nothing outside the inputs directory can be read into the scratch tree.
+    Both scratch trees receive the same files, so any input that is skipped is
+    absent from both.
+    """
+
+    source = repo_root / SENSOR_INPUTS_RELATIVE
+    if source.is_symlink() or not source.is_dir():
+        return
+    target = tree / SENSOR_INPUTS_RELATIVE
+    for current, directories, files in os.walk(source, followlinks=False):
+        here = Path(current)
+        directories[:] = [name for name in directories if not (here / name).is_symlink()]
+        destination = target / here.relative_to(source)
+        destination.mkdir(parents=True, exist_ok=True)
+        for name in files:
+            entry = here / name
+            if entry.is_symlink() or not entry.is_file():
+                continue
+            copied = destination / name
+            shutil.copyfile(entry, copied, follow_symlinks=False)
+            copied.chmod(0o444)
+
+
+def _not_evaluated_key(receipt: Any) -> frozenset[tuple[str, bool]]:
+    """The set of (sensor, input absent) pairs a scan could not evaluate."""
+
+    return frozenset(
+        (str(item.get("sensor")), bool(item.get("inputAbsent")))
+        for item in (receipt.not_evaluated or ())
+    )
+
+
 def compute_patch_attribution(
     repo_root: Path,
     diff_text: str,
@@ -875,6 +915,11 @@ def compute_patch_attribution(
             if wt_patch.returncode != 0:
                 return None
             worktrees_to_cleanup.append(patched_dir)
+            # Detached worktrees lack the ignored sensor inputs, so give both
+            # trees the same read-only copy: base and patched then see identical
+            # inputs, and their coverage matches the main scan's.
+            for tree in (base_dir, patched_dir):
+                _mirror_sensor_inputs(repo_root, tree)
         else:
             # NOT a git repo (e.g. mock test tmp_path)
             def _ignore_patterns(path: str, names: list[str]) -> set[str]:
@@ -900,10 +945,16 @@ def compute_patch_attribution(
         # Scan patched directory with controller
         patched_scan = controller.scan(patched_dir)
 
+        # Fail closed on unknown or partial coverage, or when the two scans were
+        # blind in different places. A sensor that is not evaluated in BOTH scans
+        # (identically, e.g. an optional input that is absent) is a symmetric blind
+        # spot: it can neither add nor hide a difference between base and patch.
         if any(
-            receipt.coverage_unknown or receipt.not_evaluated or receipt.partial_coverage
+            receipt.coverage_unknown or receipt.partial_coverage
             for receipt in (base_scan.receipt, patched_scan.receipt)
         ):
+            return None
+        if _not_evaluated_key(base_scan.receipt) != _not_evaluated_key(patched_scan.receipt):
             return None
 
         base_debts = {debt.id for debt in base_scan.open_debts}
