@@ -40,6 +40,7 @@ import math
 import os
 import random
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -68,6 +69,9 @@ DEFAULT_MAX_LEDGER_BYTES = 64 * 1024 * 1024
 MAX_LEDGER_BYTES = DEFAULT_MAX_LEDGER_BYTES
 MIN_CONFIGURED_LEDGER_BYTES = 1024
 MAX_CONFIGURED_LEDGER_BYTES = 64 * 1024 * 1024
+
+DEFAULT_TELEMETRY_PATH = Path(".gaia/steward/ledger-telemetry.jsonl")
+DEFAULT_TELEMETRY_MAX_BYTES = 1024 * 1024  # 1 MiB
 
 
 WORK_STATES = (
@@ -264,6 +268,81 @@ def ledgerByteLimit() -> int:
     return value
 
 
+def telemetryByteLimit(override: int | None = None) -> int:
+    if override is not None:
+        return override
+    configured = os.environ.get("GAIA_STEWARD_LEDGER_TELEMETRY_MAX_BYTES")
+    if configured:
+        try:
+            val = int(configured, 10)
+            if val > 0:
+                return val
+        except (TypeError, ValueError):
+            pass
+    return DEFAULT_TELEMETRY_MAX_BYTES
+
+
+def resolveTelemetryPath(
+    path: Path | str | None = None,
+) -> Path:
+    if path is not None:
+        return Path(path)
+    env_path = os.environ.get("GAIA_STEWARD_LEDGER_TELEMETRY_PATH")
+    if env_path:
+        return Path(env_path)
+    return DEFAULT_TELEMETRY_PATH
+
+
+def write_ledger_telemetry(
+    record: dict[str, Any],
+    path: Path,
+    max_bytes: int,
+) -> None:
+    try:
+        line = json.dumps(record, ensure_ascii=False) + "\n"
+        encoded = line.encode("utf-8")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        current_size = path.stat().st_size if path.is_file() else 0
+        if current_size + len(encoded) <= max_bytes:
+            with open(path, "ab") as handle:
+                handle.write(encoded)
+            return
+
+        raw = path.read_bytes() if path.is_file() else b""
+        lines = [line_bytes for line_bytes in raw.splitlines(keepends=True) if line_bytes.strip()]
+        lines.append(encoded)
+        kept: list[bytes] = []
+        total = 0
+        for item in reversed(lines):
+            if not item.endswith(b"\n"):
+                item = item + b"\n"
+            if total + len(item) <= max_bytes:
+                kept.append(item)
+                total += len(item)
+            else:
+                break
+        kept.reverse()
+        tmp_fd, tmp_name = tempfile.mkstemp(
+            dir=path.parent, prefix=path.name + ".", suffix=".tmp"
+        )
+        try:
+            with os.fdopen(tmp_fd, "wb") as handle:
+                for item in kept:
+                    handle.write(item)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(tmp_name, path)
+        except Exception:
+            try:
+                os.unlink(tmp_name)
+            except OSError:
+                pass
+            raise
+    except Exception as exc:
+        sys.stderr.write(f"warning: failed to write steward ledger telemetry: {exc}\n")
+        sys.stderr.flush()
+
+
 def reportLedgerSize(
     size: int,
     limit: int,
@@ -271,6 +350,11 @@ def reportLedgerSize(
     *,
     duration_ms: float | None = None,
     cas_retries: int | None = None,
+    run_id: str | None = None,
+    runId: str | None = None,
+    telemetry_path: Path | str | None = None,
+    max_telemetry_bytes: int | None = None,
+    record_telemetry: bool = True,
 ) -> None:
     percent = size * 100 / limit
     logger = logging.getLogger(__name__)
@@ -324,9 +408,29 @@ def reportLedgerSize(
                 percent,
                 "90%" if percent >= 90 else "70%",
             )
+    if record_telemetry:
+        effective_run_id = (
+            run_id
+            if run_id is not None
+            else (runId if runId is not None else os.environ.get("GAIA_STEWARD_RUN_ID"))
+        )
+        if effective_run_id == "":
+            effective_run_id = None
+        target_path = resolveTelemetryPath(telemetry_path)
+        bound = telemetryByteLimit(max_telemetry_bytes)
+        record = {
+            "op": direction,
+            "bytes": size,
+            "limit": limit,
+            "duration_ms": round(float(duration_ms), 3) if duration_ms is not None else None,
+            "cas_retries": cas_retries if cas_retries is not None else 0,
+            "timestamp": formatTime(datetime.now(timezone.utc)),
+            "runId": effective_run_id,
+        }
+        write_ledger_telemetry(record, target_path, bound)
 
 
-def serialize(document: Mapping[str, Any]) -> bytes:
+def serialize(document: Mapping[str, Any], *, record_telemetry: bool = False) -> bytes:
     """Deterministic, diffable bytes. Raises LedgerUnavailable if oversized."""
 
     try:
@@ -338,7 +442,8 @@ def serialize(document: Mapping[str, Any]) -> bytes:
         raise LedgerUnavailable(f"ledger is not JSON-serializable: {exc}") from exc
     data = text.encode("utf-8")
     limit = ledgerByteLimit()
-    reportLedgerSize(len(data), limit, "write")
+    if record_telemetry:
+        reportLedgerSize(len(data), limit, "write")
     if len(data) > limit:
         raise LedgerUnavailable(
             f"ledger would be {len(data)} bytes, over the {limit} byte bound; "
@@ -347,9 +452,29 @@ def serialize(document: Mapping[str, Any]) -> bytes:
     return data
 
 
-def deserialize(data: bytes, *, duration_ms: float | None = None) -> dict[str, Any]:
+def deserialize(
+    data: bytes,
+    *,
+    duration_ms: float | None = None,
+    cas_retries: int | None = None,
+    run_id: str | None = None,
+    runId: str | None = None,
+    telemetry_path: Path | str | None = None,
+    max_telemetry_bytes: int | None = None,
+    record_telemetry: bool = True,
+) -> dict[str, Any]:
     limit = ledgerByteLimit()
-    reportLedgerSize(len(data), limit, "read", duration_ms=duration_ms)
+    if record_telemetry:
+        reportLedgerSize(
+            len(data),
+            limit,
+            "read",
+            duration_ms=duration_ms,
+            cas_retries=cas_retries,
+            run_id=run_id or runId,
+            telemetry_path=telemetry_path,
+            max_telemetry_bytes=max_telemetry_bytes,
+        )
     if len(data) > limit:
         raise LedgerUnavailable(
             f"ledger is {len(data)} bytes, over the {limit} byte bound"
@@ -435,6 +560,8 @@ class GitRefLedgerStore:
         *,
         localTimeout: float = LOCAL_GIT_TIMEOUT,
         remoteTimeout: float = REMOTE_GIT_TIMEOUT,
+        telemetry_path: Path | str | None = None,
+        max_telemetry_bytes: int | None = None,
     ) -> None:
         self.repo_root = Path(repo_root)
         self.remote = validateRemote(remote)
@@ -450,6 +577,8 @@ class GitRefLedgerStore:
         self.urls: tuple[str, str] | None = None
         self.last_write_bytes: int = 0
         self.last_read_bytes: int = 0
+        self.telemetry_path = resolveTelemetryPath(telemetry_path)
+        self.max_telemetry_bytes = max_telemetry_bytes
 
     # -- subprocess plumbing ------------------------------------------------
 
@@ -620,21 +749,54 @@ class GitRefLedgerStore:
                 raise LedgerUnavailable(f"ledger fetch failed: {text.strip()[:400]}")
             return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
-    def load(self) -> tuple[dict[str, Any], str | None]:
+    def load(
+        self,
+        *,
+        telemetry_path: Path | str | None = None,
+        run_id: str | None = None,
+        runId: str | None = None,
+        max_telemetry_bytes: int | None = None,
+    ) -> tuple[dict[str, Any], str | None]:
         t0 = time.perf_counter()
         limit = ledgerByteLimit()
+        target_telemetry = (
+            Path(telemetry_path)
+            if telemetry_path is not None
+            else getattr(self, "telemetry_path", None)
+        )
+        target_max_bytes = (
+            max_telemetry_bytes
+            if max_telemetry_bytes is not None
+            else getattr(self, "max_telemetry_bytes", None)
+        )
+        effective_run_id = run_id or runId or os.environ.get("GAIA_STEWARD_RUN_ID")
         commit = self.fetchRemote()
         if commit is None:
             duration_ms = (time.perf_counter() - t0) * 1000.0
             self.last_read_bytes = 0
-            reportLedgerSize(0, limit, "read", duration_ms=duration_ms)
+            reportLedgerSize(
+                0,
+                limit,
+                "read",
+                duration_ms=duration_ms,
+                cas_retries=0,
+                run_id=effective_run_id,
+                telemetry_path=target_telemetry,
+                max_telemetry_bytes=target_max_bytes,
+            )
             return empty_ledger(), None
         spec = f"{commit}:{LEDGER_FILENAME}"
         size = self.plumb(["cat-file", "-s", spec])
         try:
             int_size = int(size)
             if int_size > limit:
-                reportLedgerSize(int_size, limit, "read")
+                reportLedgerSize(
+                    int_size,
+                    limit,
+                    "read",
+                    telemetry_path=target_telemetry,
+                    max_telemetry_bytes=target_max_bytes,
+                )
                 raise LedgerUnavailable(
                     f"ledger is {size} bytes, over the {limit} byte bound"
                 )
@@ -645,7 +807,17 @@ class GitRefLedgerStore:
             raise LedgerUnavailable(f"ledger read failed: {self.outputText(result).strip()[:400]}")
         duration_ms = (time.perf_counter() - t0) * 1000.0
         self.last_read_bytes = len(result.stdout)
-        return deserialize(result.stdout, duration_ms=duration_ms), commit
+        return (
+            deserialize(
+                result.stdout,
+                duration_ms=duration_ms,
+                cas_retries=0,
+                run_id=effective_run_id,
+                telemetry_path=target_telemetry,
+                max_telemetry_bytes=target_max_bytes,
+            ),
+            commit,
+        )
 
     # -- compare-and-swap ---------------------------------------------------
 
@@ -753,11 +925,19 @@ class FileLedgerStore:
     transport = "local-file"
     shared = False
 
-    def __init__(self, path: Path | str) -> None:
+    def __init__(
+        self,
+        path: Path | str,
+        *,
+        telemetry_path: Path | str | None = None,
+        max_telemetry_bytes: int | None = None,
+    ) -> None:
         self.path = Path(path)
         self.lockPath = self.path.with_name(self.path.name + ".lock")
         self.last_write_bytes: int = 0
         self.last_read_bytes: int = 0
+        self.telemetry_path = resolveTelemetryPath(telemetry_path)
+        self.max_telemetry_bytes = max_telemetry_bytes
 
     @staticmethod
     def versionOf(document: Mapping[str, Any], data: bytes) -> str:
@@ -770,24 +950,58 @@ class FileLedgerStore:
             return empty_ledger(), None
         except OSError as exc:
             raise LedgerUnavailable(f"ledger read failed: {exc}") from exc
-        document = deserialize(data)
+        document = deserialize(data, record_telemetry=False)
         return document, self.versionOf(document, data)
 
-    def load(self) -> tuple[dict[str, Any], str | None]:
+    def load(
+        self,
+        *,
+        telemetry_path: Path | str | None = None,
+        run_id: str | None = None,
+        runId: str | None = None,
+        max_telemetry_bytes: int | None = None,
+    ) -> tuple[dict[str, Any], str | None]:
         t0 = time.perf_counter()
         limit = ledgerByteLimit()
+        target_telemetry = (
+            Path(telemetry_path)
+            if telemetry_path is not None
+            else getattr(self, "telemetry_path", None)
+        )
+        target_max_bytes = (
+            max_telemetry_bytes
+            if max_telemetry_bytes is not None
+            else getattr(self, "max_telemetry_bytes", None)
+        )
+        effective_run_id = run_id or runId or os.environ.get("GAIA_STEWARD_RUN_ID")
         try:
             data = self.path.read_bytes()
         except FileNotFoundError:
             duration_ms = (time.perf_counter() - t0) * 1000.0
             self.last_read_bytes = 0
-            reportLedgerSize(0, limit, "read", duration_ms=duration_ms)
+            reportLedgerSize(
+                0,
+                limit,
+                "read",
+                duration_ms=duration_ms,
+                cas_retries=0,
+                run_id=effective_run_id,
+                telemetry_path=target_telemetry,
+                max_telemetry_bytes=target_max_bytes,
+            )
             return empty_ledger(), None
         except OSError as exc:
             raise LedgerUnavailable(f"ledger read failed: {exc}") from exc
         duration_ms = (time.perf_counter() - t0) * 1000.0
         self.last_read_bytes = len(data)
-        document = deserialize(data, duration_ms=duration_ms)
+        document = deserialize(
+            data,
+            duration_ms=duration_ms,
+            cas_retries=0,
+            run_id=effective_run_id,
+            telemetry_path=target_telemetry,
+            max_telemetry_bytes=target_max_bytes,
+        )
         return document, self.versionOf(document, data)
 
     def compare_and_swap(
@@ -845,6 +1059,10 @@ def update(
     clock: Callable[[], datetime] = utcNow,
     sleep: Callable[[float], None] = time.sleep,
     message: str = "steward ledger update",
+    run_id: str | None = None,
+    runId: str | None = None,
+    telemetry_path: Path | str | None = None,
+    max_telemetry_bytes: int | None = None,
 ) -> tuple[T, str]:
     """Load, mutate a deep copy, compare-and-swap; on conflict re-apply.
 
@@ -860,8 +1078,33 @@ def update(
         raise ValueError(f"retries must be a non-negative integer, got {retries!r}")
     t_start = time.perf_counter()
     lastConflict: LedgerConflict | None = None
+    target_telemetry_path = (
+        Path(telemetry_path)
+        if telemetry_path is not None
+        else getattr(store, "telemetry_path", None)
+    )
+    target_max_bytes = (
+        max_telemetry_bytes
+        if max_telemetry_bytes is not None
+        else getattr(store, "max_telemetry_bytes", None)
+    )
+    effective_run_id = (
+        run_id
+        if run_id is not None
+        else (runId if runId is not None else os.environ.get("GAIA_STEWARD_RUN_ID"))
+    )
+    if effective_run_id == "":
+        effective_run_id = None
+
     for attempt in range(retries + 1):
-        document, version = store.load()
+        try:
+            document, version = store.load(
+                telemetry_path=target_telemetry_path,
+                run_id=effective_run_id,
+                max_telemetry_bytes=target_max_bytes,
+            )
+        except TypeError:
+            document, version = store.load()
         working = safeCopy(document)
         result = mutate(working)
         if working == document and version is not None:
@@ -877,7 +1120,16 @@ def update(
                     size = len(serialize(nextGeneration(working)))
                 except Exception:
                     size = 0
-            reportLedgerSize(size, limit, "write", duration_ms=duration_ms, cas_retries=attempt)
+            reportLedgerSize(
+                size,
+                limit,
+                "write",
+                duration_ms=duration_ms,
+                cas_retries=attempt,
+                run_id=effective_run_id,
+                telemetry_path=target_telemetry_path,
+                max_telemetry_bytes=target_max_bytes,
+            )
             return result, new_version
         except LedgerConflict as exc:
             lastConflict = exc

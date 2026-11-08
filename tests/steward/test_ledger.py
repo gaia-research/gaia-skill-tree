@@ -1343,3 +1343,182 @@ def test_classify_push_failure_strips_git_hint_lines_preserving_error(tmp_path):
     assert completed.returncode == 0
     assert "-c" in completed.args
     assert "advice.graftFileDeprecated=false" in completed.args
+
+
+def test_telemetry_normal_read_write_operations_fields(tmp_path, monkeypatch):
+    """Verify telemetry file is written with all required fields without caplog."""
+    telem_path = tmp_path / "custom-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "ledger.json", telemetry_path=telem_path)
+
+    # 1. Update with explicit run_id
+    res, ver = update(store, appendMarker("first-op"), run_id="run-step-1")
+    assert res == "first-op"
+
+    # 2. Direct load
+    doc, ver_loaded = store.load()
+    assert ver_loaded == ver
+
+    assert telem_path.is_file()
+    lines = [line.strip() for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 2  # At least 1 write (from update) and 1 read (from load)
+
+    required_fields = {"op", "bytes", "limit", "duration_ms", "cas_retries", "timestamp", "runId"}
+    records = []
+    for line in lines:
+        record = json.loads(line)
+        assert set(record.keys()) == required_fields
+        assert record["op"] in {"read", "write"}
+        assert isinstance(record["bytes"], int) and record["bytes"] >= 0
+        assert isinstance(record["limit"], int) and record["limit"] > 0
+        assert isinstance(record["duration_ms"], (int, float)) and record["duration_ms"] >= 0.0
+        assert isinstance(record["cas_retries"], int) and record["cas_retries"] >= 0
+        parsed_dt = ledgerModule.parseTime(record["timestamp"])
+        assert parsed_dt.tzinfo == timezone.utc
+        records.append(record)
+
+    write_records = [r for r in records if r["op"] == "write"]
+    assert len(write_records) == 1
+    assert write_records[0]["runId"] == "run-step-1"
+    assert write_records[0]["cas_retries"] == 0
+
+    # 3. Test GAIA_STEWARD_RUN_ID env var
+    monkeypatch.setenv("GAIA_STEWARD_RUN_ID", "env-run-step-2")
+    update(store, appendMarker("second-op"))
+    lines_after = [line.strip() for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    new_records = [json.loads(line) for line in lines_after]
+    new_writes = [r for r in new_records if r["op"] == "write"]
+    assert len(new_writes) == 2
+    assert new_writes[1]["runId"] == "env-run-step-2"
+
+    # 4. Test default path under .gaia/steward/ when unconfigured
+    default_telem = Path(".gaia/steward/ledger-telemetry.jsonl")
+    if default_telem.is_file():
+        default_telem.unlink()
+    try:
+        ledgerModule.reportLedgerSize(2048, 67108864, "write", duration_ms=8.5, cas_retries=0, run_id="default-run")
+        assert default_telem.is_file()
+        last_line = default_telem.read_text(encoding="utf-8").strip().splitlines()[-1]
+        rec = json.loads(last_line)
+        assert set(rec.keys()) == required_fields
+        assert rec["op"] == "write"
+        assert rec["bytes"] == 2048
+        assert rec["limit"] == 67108864
+        assert rec["duration_ms"] == 8.5
+        assert rec["cas_retries"] == 0
+        assert rec["runId"] == "default-run"
+    finally:
+        if default_telem.is_file():
+            default_telem.unlink()
+
+
+def test_telemetry_file_size_bounding_rotation(tmp_path, monkeypatch):
+    """File size bounding enforces max bytes and rotates/truncates oldest records."""
+    telem_path = tmp_path / "bounded-telemetry.jsonl"
+    max_bytes = 350
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_TELEMETRY_PATH", str(telem_path))
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_TELEMETRY_MAX_BYTES", str(max_bytes))
+
+    # Write 6 records with distinctive runId tags
+    for i in range(6):
+        ledgerModule.reportLedgerSize(
+            1000 + i,
+            67108864,
+            "write",
+            duration_ms=10.0 + i,
+            cas_retries=i,
+            run_id=f"seq-run-{i}",
+        )
+
+    assert telem_path.is_file()
+    file_bytes = telem_path.read_bytes()
+    assert len(file_bytes) <= max_bytes
+
+    lines = [line.strip() for line in file_bytes.decode("utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 2
+    records = [json.loads(line) for line in lines]
+
+    # Verify chronological order and newest records kept
+    run_ids = [r["runId"] for r in records]
+    assert "seq-run-0" not in run_ids  # oldest was rotated out
+    assert "seq-run-5" in run_ids      # newest is present
+    assert run_ids == sorted(run_ids)  # records remain in chronological order
+
+
+def test_telemetry_write_failure_does_not_fail_operation_and_warns_stderr(tmp_path, capsys):
+    """A telemetry failure must not fail the ledger operation and must emit one warning to sys.stderr."""
+    # Create a non-writable path: a file acting as parent directory
+    blocking_file = tmp_path / "not_a_dir"
+    blocking_file.write_text("block")
+    unwritable_path = blocking_file / "sub" / "telemetry.jsonl"
+
+    store = FileLedgerStore(tmp_path / "ledger.json", telemetry_path=unwritable_path)
+
+    # Perform normal update; operation must succeed without raising
+    capsys.readouterr()  # clear any prior output
+    res, ver = update(store, appendMarker("robust-op"))
+    assert res == "robust-op"
+    assert ver is not None
+
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "warning: failed to write steward ledger telemetry:" in captured.err
+    # Count warnings in stderr: exactly one for this write attempt
+    warning_lines = [line for line in captured.err.splitlines() if "warning: failed to write steward ledger telemetry:" in line]
+    assert len(warning_lines) >= 1
+
+
+def test_telemetry_never_committed_or_pushed_to_ledger_ref(tmp_path):
+    """Telemetry is written to .gaia/steward/ and never committed into the git ledger ref."""
+    remote = tmp_path / "remote.git"
+    subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True)
+    clone = makeClone(tmp_path, remote, "clone-telemetry")
+
+    # Set telemetry path under clone's .gaia/steward/
+    telem_dir = clone / ".gaia" / "steward"
+    telem_path = telem_dir / "ledger-telemetry.jsonl"
+
+    store = GitRefLedgerStore(clone, telemetry_path=telem_path)
+
+    # Perform an update
+    res, ver = update(store, appendMarker("check-git-ref"), run_id="git-test-run")
+    assert res == "check-git-ref"
+
+    # 1. Telemetry file exists on disk
+    assert telem_path.is_file()
+    telem_content = telem_path.read_text(encoding="utf-8")
+    assert "git-test-run" in telem_content
+
+    # 2. Fetch the commit from the ledger ref on remote
+    commit = store.fetchRemote()
+    assert commit is not None
+
+    # 3. Check commit tree: MUST contain ONLY ledger.json, never .gaia or telemetry
+    tree_output = store.plumb(["ls-tree", "-r", "--name-only", commit])
+    tree_files = tree_output.splitlines()
+    assert tree_files == ["ledger.json"]
+    assert ".gaia" not in tree_output
+    assert "telemetry" not in tree_output
+
+    # 4. Verify git log on the ledger branch touches only ledger.json
+    log_output = store.plumb(["log", "-n", "1", "--stat", commit])
+    assert "ledger.json" in log_output
+    assert ".gaia" not in log_output
+    assert "telemetry" not in log_output
+
+
+def test_serialize_does_not_emit_duplicate_write_telemetry(tmp_path):
+    """serialize() does not emit duplicate write telemetry unless record_telemetry=True."""
+    telem_path = tmp_path / "serialize-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "ledger.json", telemetry_path=telem_path)
+
+    # Calling serialize() directly must not emit write telemetry by default
+    doc = empty_ledger()
+    ledgerModule.serialize(doc)
+    assert not telem_path.is_file() or telem_path.stat().st_size == 0
+
+    # Calling update() must emit exactly one write telemetry record
+    update(store, appendMarker("single-write-entry"), telemetry_path=telem_path)
+    lines = [line.strip() for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    records = [json.loads(line) for line in lines]
+    write_records = [r for r in records if r["op"] == "write"]
+    assert len(write_records) == 1
