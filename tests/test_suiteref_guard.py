@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
 import generateNamedIndex as gni  # noqa: E402
-from gaia_cli.trustMagnitude import computeTrustMagnitude  # noqa: E402
+from gaia_cli.trustMagnitude import SUITE_COMPONENT_REPOSITORY_CAP, computeTrustMagnitude  # noqa: E402
 
 
 def _write(tmp_path, name, suiteRef=None):
@@ -63,5 +63,5 @@ def test_tm_cap_treats_direct_link_like_manifest_component():
         }
 
     # The cap reads only the skill's own suiteRef value; manifest membership is not consulted.
-    assert computeTrustMagnitude(comp("taste/taste")) == pytest.approx(50.0)
-    assert computeTrustMagnitude(comp(None)) > 50.0
+    assert computeTrustMagnitude(comp("taste/taste")) == pytest.approx(SUITE_COMPONENT_REPOSITORY_CAP)
+    assert computeTrustMagnitude(comp(None)) > SUITE_COMPONENT_REPOSITORY_CAP

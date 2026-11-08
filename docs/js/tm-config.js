@@ -38,14 +38,16 @@
   // Structural/self-produced types do not count toward S diversity.
   var SELF_PRODUCIBLE = ['fusion-recipe', 'self-attestation', 'repo-own'];
   var S_WITNESS_TYPES = ['benchmark-result', 'verifier-attestation', 'peer-review'];
+  // Mirrors trustMagnitude.SUITE_COMPONENT_REPOSITORY_CAP (founder ruling
+  // 2026-11-08: just below the inclusive Grade B floor of 50).
+  var SUITE_COMPONENT_REPOSITORY_CAP = 49.9;
   var YGGDRASIL_III = {
-    suiteRepositoryBaselineCap: 50,
+    suiteRepositoryBaselineCap: SUITE_COMPONENT_REPOSITORY_CAP,
     suiteRepositoryBaselineTypes: ['github-stars-own', 'repo-own'],
     benchmarkVerifiedLanes: ['verified', 'ci-reproduced', 'verifier-attested'],
     benchmarkReportedLanes: ['reported', 'mirrored'],
     benchmarkRejectedLanes: ['rejected', 'pending', 'candidate', 'retired', 'unknown'],
   };
-  var SUITE_COMPONENT_REPOSITORY_CAP = 50;
 
   function isInvalidEvidence(row) {
     if (!row || row._phantom === true || row.phantom === true) return true;

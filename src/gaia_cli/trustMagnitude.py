@@ -89,7 +89,11 @@ INDEPENDENT_S_WITNESS_TYPES = frozenset({
 
 # A suite component may inherit repository evidence from its suite root, but
 # that shared repository baseline cannot by itself promote every component.
-SUITE_COMPONENT_REPOSITORY_CAP = 50.0
+# Founder ruling 2026-11-08 (RFC #2148, #2283 F2): the cap sits just below the
+# inclusive Grade B floor (50.0), so the inherited baseline alone grades C (2★
+# ceiling). A component needs at least one more scoring row of its own to reach
+# Grade B and become eligible for 3★.
+SUITE_COMPONENT_REPOSITORY_CAP = 49.9
 
 # Apex predicate thresholds (delta §B)
 APEX_AGRADED_ORIGINS_MIN = 5
@@ -306,7 +310,7 @@ CANONICAL_ROOT_SUITES: dict[str, str] = {
 def _isSuiteRootRepositoryEvidence(row: dict, skill: dict) -> bool:
     """Whether a component row is shared own-repository evidence from suiteRef.
 
-    Sub-suites and intermediate categories cannot evade the 50.0 TM component
+    Sub-suites and intermediate categories cannot evade the 49.9 TM component
     cap: if a row is from the suite repository or if the repository owner
     matches the suiteRef owner (or canonical root suite), it is properly capped.
     A component's own specific repository evidence (matching skill.id) remains
