@@ -15,6 +15,19 @@ Existing named-skill scanner, HTML/model-format guards, 39-row credential-dispos
 - Optional asset-tool Pillow minimum aligned to `>=13.0.0`, including scripts/README.md. This reduces an old allowed version floor; it does not assert which version every existing environment has installed.
 - This self-contained handoff. No workflow, native CodeQL configuration, lockfile, historical credential disposition or Steward lock changed.
 
+### Complete Diff Against Latest `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`)
+`git diff --stat main..HEAD`:
+```
+SECURITY.md                                   | 21 ++++++++++
+docs/agents/security/GAIA_SECURITY_HANDOFF.md | 55 +++++++++++++++++++++++++++
+scripts/README.md                             |  2 +-
+scripts/compress-assets.requirements.txt      |  2 +-
+tests/test_security_scanner.py                | 11 +++++-
+5 files changed, 88 insertions(+), 3 deletions(-)
+```
+Strictly 5 files in scope. Zero Steward files from PR #2427 (Class B 323 -> 191, 48 canonical repairs, 45 demotions) or earlier Steward work were touched or reverted.
+Code files (`SECURITY.md`, `scripts/README.md`, `scripts/compress-assets.requirements.txt`, `tests/test_security_scanner.py`) are byte-identical between PR head `a916456be` and reconciled commit `d7b417132`.
+
 ## 4. Validation evidence
 - `PYTHONPATH=src python3 -m pytest tests/test_security_scanner.py -q`: **24 passed**, 0.18s on Termux/Python 3.14.6.
 - `python3 scripts/check_security_dispositions.py`: **39 rows passed** count/shape/reviewed-source-byte checks. The check explicitly does not authenticate reviewer identity/scanner authority.
