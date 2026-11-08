@@ -7,7 +7,7 @@ genericSkillRef: security-audit
 status: named
 title: Chief Security Officer Mode
 catalogRef: garrytan-cso
-level: 3★
+level: 2★
 description: Infrastructure-first security audit focusing on secrets archaeology,
   dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE threat
   modeling, and active verification with daily (zero-noise) and monthly (comprehensive)
@@ -21,7 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/cso/SKILL.md
@@ -114,6 +114,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:25:04Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

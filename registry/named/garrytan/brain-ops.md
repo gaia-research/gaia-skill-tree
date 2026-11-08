@@ -5,11 +5,11 @@ contributor: garrytan
 origin: false
 genericSkillRef: knowledge-management
 status: named
-level: 3★
+level: 2★
 description: Performs the brain-first read, enrich, write, attribution, and backlink
   cycle for a persistent knowledge base.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: GBrain Brain Operations
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
@@ -45,6 +45,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T09:24:32Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
   updatedAt: '2026-10-01'

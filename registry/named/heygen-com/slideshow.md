@@ -5,14 +5,14 @@ contributor: heygen-com
 origin: true
 genericSkillRef: interactive-presentation-authoring
 status: named
-level: 3★
+level: 2★
 description: Author a HyperFrames slideshow — a presentation, pitch deck, or interactive
   deck with discrete slides, fragment reveals, branching, hotspot navigation, and
   built-in presenter mode with speaker notes; also converts an existing page into
   a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly
   ask for a slideshow, confirm before authoring. Unclear → /hyperframes.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: The Deck Architect
 timeline:
 - timestamp: '2026-09-06T17:23:09Z'
@@ -58,6 +58,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:28:04Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md
 evidence:

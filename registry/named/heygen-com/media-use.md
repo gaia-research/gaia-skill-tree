@@ -5,7 +5,7 @@ contributor: heygen-com
 origin: true
 genericSkillRef: media-asset-orchestration
 status: named
-level: 3★
+level: 2★
 description: Agent Media OS, the single skill for every media need in a HyperFrames
   project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into
   a frozen local file or paste-ready block + ledger record (one verb, `resolve`);
@@ -15,7 +15,7 @@ description: Agent Media OS, the single skill for every media need in a HyperFra
   Also use for vague feedback that real footage looks dark, flat, boring, should feel
   retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: The Media Steward
 timeline:
 - timestamp: '2026-09-06T17:23:02Z'
@@ -61,6 +61,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:27:46Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md
 evidence:

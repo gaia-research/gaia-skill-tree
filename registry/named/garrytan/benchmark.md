@@ -7,7 +7,7 @@ genericSkillRef: evaluate-output
 status: named
 title: Gstack Benchmark
 catalogRef: garrytan-benchmark
-level: 3★
+level: 2★
 description: Web performance benchmarking that captures baseline metrics, compares
   current performance against those baselines, and identifies regressions in load
   times, Core Web Vitals, and bundle sizes across specified pages.
@@ -19,7 +19,7 @@ tags:
 - core-web-vitals
 - regression
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -105,6 +105,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:24:25Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

@@ -7,7 +7,7 @@ genericSkillRef: detect-anomaly
 status: named
 title: Gstack Canary
 catalogRef: garrytan-canary
-level: 3★
+level: 2★
 description: Post-deployment monitoring that captures pre-release baseline screenshots,
   then continuously watches pages for console errors, performance regressions, and
   broken links — designed to surface failures within the first 10 minutes so problems
@@ -20,7 +20,7 @@ tags:
 - canary
 - anomaly-detection
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -106,6 +106,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:24:40Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

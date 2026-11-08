@@ -5,11 +5,11 @@ contributor: gsd-build
 origin: false
 genericSkillRef: writing-plans
 status: named
-level: 3★
+level: 2★
 description: Researches, decomposes, and verifies an implementation plan against a
   fresh context window before execution.
 createdAt: '2026-07-03'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 timeline:
 - timestamp: '2026-07-02T18:04:48Z'
   action: add
@@ -91,6 +91,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:27:00Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
   updatedAt: '2026-10-01'

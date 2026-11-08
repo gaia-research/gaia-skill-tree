@@ -7,7 +7,7 @@ genericSkillRef: design-review
 status: named
 title: Design Shotgun
 catalogRef: garrytan-design-shotgun
-level: 3★
+level: 2★
 description: Rapid design exploration that generates multiple AI design variants,
   opens a comparison board for the user, collects structured feedback, and iterates
   until a preferred visual direction is reached.
@@ -19,7 +19,7 @@ tags:
 - prototyping
 - visual-qa
 createdAt: '2026-05-12'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -105,6 +105,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:25:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
