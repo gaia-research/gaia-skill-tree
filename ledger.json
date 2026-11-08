@@ -1,5 +1,5 @@
 {
- "generation": 1875,
+ "generation": 1876,
  "lane": {
   "entries": [
    {
@@ -6762,7 +6762,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:57:55.837618Z",
-   "expiresAt": "2026-11-08T09:30:50.842405Z",
+   "expiresAt": "2026-11-08T09:33:11.173072Z",
    "holder": "run-20261108T075755Z-3d4cd7b6"
   }
  },
@@ -143885,6 +143885,29 @@
      "status": "pending",
      "stepId": "verify:808541080ee9:1",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "emittedAt": "2026-11-08T09:03:10.263374Z",
+     "idempotencyKey": "verify:dispatch-0f3635f7e2d72b8024db:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch13-builder-2db0f48e182c"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/verify-2db0f48e182c.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:2db0f48e182c:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -146490,6 +146513,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:808541080ee9:1"
+    },
+    {
+     "at": "2026-11-08T09:03:10.263374Z",
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "idempotencyKey": "verify:dispatch-0f3635f7e2d72b8024db:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:2db0f48e182c:1"
     }
    ],
    "thinkingEfforts": [
@@ -146503,7 +146534,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:00:50.842599Z",
+ "updatedAt": "2026-11-08T09:03:11.173279Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -147886,7 +147917,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-11-08T08:42:37.252495Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261108T090055Z-2f1342dfd57638a3",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/verify-2db0f48e182c.prompt.md"
+   }
   },
   "debt:trust_calibration_drift:garrytan-postgres-adopt:559577353ee00cff": {
    "assignments": [
