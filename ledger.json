@@ -1,5 +1,5 @@
 {
- "generation": 1969,
+ "generation": 1970,
  "lane": {
   "entries": [
    {
@@ -6843,13 +6843,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-08T12:53:33.171297Z",
-   "expiresAt": "2026-11-08T13:54:51.427675Z",
-   "holder": "run-20261108T125333Z-2c528d60"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -153310,7 +153304,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-08T13:01:33.570918Z",
+    "asOf": "2026-11-08T13:24:57.651728Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -153622,6 +153616,29 @@
       "recommended": "Bounded repair under `unused-import-cleanup` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
       "source": "escalated-lane",
       "unblocks": "11 open Class C debt item(s) under lane-escalation/unused-import-cleanup.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+       "debt:trust_calibration_drift:theqtcompanyrnd-qt-qml-review:f0c0f2ad2e2c6ee5",
+       "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-8e5aa9337484cb863d96",
+      "evidence": [
+       "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a - attempts: 1; reason: verification escalated (mechanical verification (steward-20261108T130850Z-a4faaa25f548a39f))",
+       "debt:trust_calibration_drift:theqtcompanyrnd-qt-qml-review:f0c0f2ad2e2c6ee5 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261108T131329Z-d309e5543452c2d2))",
+       "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd - attempts: 1; reason: verification escalated (mechanical verification (steward-20261108T131807Z-69290d9cf22f935c))"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `trust-calibration-drift` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "3 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
@@ -154085,7 +154102,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-08T13:24:57.651728Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -154093,6 +154110,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "75954c9be7a6636b1fe905386da811e857811128",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 232,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-08T12:53:33.171297Z",
@@ -154105,7 +154130,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -154117,7 +154142,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -157298,7 +157323,7 @@
    "sequence": 58,
    "sourceHead": "75954c9be7a6636b1fe905386da811e857811128",
    "startedAt": "2026-11-08T12:53:33.171297Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-08T12:53:33.171297Z",
@@ -157377,6 +157402,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-08T13:24:57.651728Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -157390,7 +157421,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T13:24:51.427818Z",
+ "updatedAt": "2026-11-08T13:24:59.517289Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
