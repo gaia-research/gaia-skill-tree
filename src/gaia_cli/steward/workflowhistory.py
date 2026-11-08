@@ -227,11 +227,37 @@ def run_jobs(run_id: int, attempt: int, repository: str, gh: Gh) -> list[dict[st
     )
     jobs = data.get("jobs") if isinstance(data, dict) else None
     total = data.get("total_count") if isinstance(data, dict) else None
-    if not isinstance(jobs, list) or not isinstance(total, int):
-        raise HistoryUnavailable(f"jobs of run {run_id} have no jobs list / total_count")
+    if not isinstance(jobs, list) or isinstance(total, bool) or not isinstance(total, int):
+        raise HistoryUnavailable(f"jobs of run {run_id} have no jobs list / integer total_count")
+    if total < 0:
+        raise HistoryUnavailable(f"jobs of run {run_id} report a negative total_count {total}")
     if total > len(jobs):
         raise HistoryUnavailable(f"run {run_id} has {total} jobs but one page returned {len(jobs)}; refusing a partial sample")
-    return [job for job in jobs if isinstance(job, dict)]
+    if total != len(jobs):
+        raise HistoryUnavailable(
+            f"run {run_id} reports total_count {total} but returned {len(jobs)} jobs; refusing an inconsistent sample"
+        )
+    # Every row is validated before any is filtered by name: a row that cannot be
+    # attributed to a job could be the flagged job, so it is never silently dropped.
+    for index, job in enumerate(jobs):
+        problem = _job_row_problem(job)
+        if problem:
+            raise HistoryUnavailable(f"run {run_id} job row {index} is unusable ({problem}): {job!r}"[:240])
+    return list(jobs)
+
+
+def _job_row_problem(job: Any) -> str | None:
+    if not isinstance(job, dict):
+        return "not an object"
+    name = job.get("name")
+    if not isinstance(name, str) or not name.strip():
+        return "no usable name"
+    for field in ("conclusion", "started_at", "completed_at"):
+        if field not in job:
+            return f"missing {field}"
+        if job[field] is not None and not isinstance(job[field], str):
+            return f"{field} is neither a string nor null"
+    return None
 
 
 # --------------------------------------------------------------------------
@@ -436,8 +462,18 @@ class FetchRecord:
     run_ids: str
 
 
-def _single(pattern: re.Pattern[str], output: str) -> str | None:
-    found = pattern.findall(output)
+def _single(label: str, pattern: re.Pattern[str], output: str) -> str | None:
+    """The field's value when exactly one line carries its label and that line is valid.
+
+    Labels are counted before values are validated, so a valid line next to a
+    malformed duplicate (``sha256: ABC...``, ``run-ids: invalid``) is refused
+    rather than silently resolved to the valid one.
+    """
+
+    labelled = [line for line in output.splitlines() if line.startswith(f"{label}:")]
+    if len(labelled) != 1:
+        return None
+    found = pattern.findall(labelled[0])
     return found[0].strip() if len(found) == 1 else None
 
 
@@ -465,10 +501,10 @@ def parse_provenance(transcript_text: str) -> tuple[list[FetchRecord], list[tupl
             continue
         output = str(entry.get("output", ""))
         fields = {
-            "workflow": _single(_WORKFLOW_LINE, output),
-            "job-key": _single(_JOB_KEY, output),
-            "sha256": _single(_SHA, output),
-            "run-ids": _single(_RUN_IDS, output),
+            "workflow": _single("workflow", _WORKFLOW_LINE, output),
+            "job-key": _single("job-key", _JOB_KEY, output),
+            "sha256": _single("sha256", _SHA, output),
+            "run-ids": _single("run-ids", _RUN_IDS, output),
         }
         missing = sorted(name for name, value in fields.items() if value is None)
         if missing:
@@ -510,6 +546,8 @@ def history_provenance(
     for rule, args in rules:
         if args.history not in outs:
             problems.append(f"{rule} --history {args.history} was not produced by a workflowproof fetch entry")
+    for job in sorted(set(by_job) - set(flagged)):
+        problems.append(f"fetch entry for unflagged job {job[:60]!r}; records must cover exactly the flagged jobs")
     chosen: dict[str, FetchRecord] = {}
     for job in flagged:
         found = by_job.get(job, [])

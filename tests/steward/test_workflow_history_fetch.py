@@ -215,6 +215,36 @@ def test_a_truncated_jobs_page_is_not_a_sample(checkout: Path, tmp_path: Path) -
     assert _fetch(checkout, tmp_path / "h.json", gh) == 3
 
 
+_VALID = _row(CURRENT, "success", "2026-11-01T00:00:00Z", "2026-11-01T00:00:40Z")
+
+
+@pytest.mark.parametrize("rows, total", [
+    pytest.param([_VALID, None], None, id="null-row"),
+    pytest.param([_VALID, "job"], None, id="string-row"),
+    pytest.param([_VALID, {k: v for k, v in _VALID.items() if k != "name"}], None, id="nameless-row"),
+    pytest.param([_VALID, {**_VALID, "name": "  "}], None, id="blank-name"),
+    pytest.param([_VALID, {**_VALID, "name": 7}], None, id="non-string-name"),
+    pytest.param([{k: v for k, v in _VALID.items() if k != "conclusion"}], None, id="missing-conclusion"),
+    pytest.param([{**_VALID, "started_at": 1700000000}], None, id="numeric-timestamp"),
+    pytest.param([_VALID], -1, id="negative-total"),
+    pytest.param([_VALID], True, id="bool-total"),
+    pytest.param([_VALID], False, id="bool-false-total"),
+    pytest.param([_VALID, _VALID], 1, id="total-below-rows"),
+    pytest.param([_VALID], "1", id="string-total"),
+])
+def test_malformed_jobs_response_stops_and_writes_nothing(
+    checkout: Path, tmp_path: Path, capsys, rows: list[Any], total: Any
+) -> None:
+    """One valid matching row never makes a sample out of a response with an unusable part."""
+    gh = FakeGh([(30, 1)], {30: rows})
+    if total is not None:
+        gh.total[30] = total
+    out = tmp_path / "h.json"
+    assert _fetch(checkout, out, gh) == 3
+    assert "history unreadable" in capsys.readouterr().out
+    assert not out.exists()
+
+
 def test_non_json_api_output_stops(checkout: Path, tmp_path: Path) -> None:
     assert _fetch(checkout, tmp_path / "h.json", lambda args: "<html>") == 3
 
@@ -392,6 +422,15 @@ def _drop_line(prefix):
         (_drop_line("run-ids: "), "lacks exactly one run-ids"),
         (lambda e: e[-2].update(output=e[-2]["output"] + "sha256: " + "b" * 64 + "\n"), "lacks exactly one sha256"),
         (lambda e: e.insert(-1, dict(e[-2])), "2 fetch entries; exactly one is allowed"),
+        # Review r2397 note 3: labels are counted before values are validated.
+        (lambda e: e[-2].update(output=e[-2]["output"] + "sha256: " + "B" * 64 + "\n"), "lacks exactly one sha256"),
+        (lambda e: e[-2].update(output=e[-2]["output"] + "sha256: " + "b" * 63 + "\n"), "lacks exactly one sha256"),
+        (lambda e: e[-2].update(output=e[-2]["output"] + "run-ids: invalid\n"), "lacks exactly one run-ids"),
+        (lambda e: e[-2].update(output=e[-2]["output"] + "job-key: \n"), "lacks exactly one job-key"),
+        # Review r2397 note 4: records cover exactly the flagged jobs.
+        (lambda e: e.insert(-1, {**e[-2], "command": e[-2]["command"].replace("--job backfill", "--job plain"),
+                                 "output": e[-2]["output"].replace("job-key: backfill", "job-key: plain")}),
+         "fetch entry for unflagged job 'plain'"),
     ],
 )
 def test_history_not_from_fetch_is_rejected(checkout: Path, tmp_path: Path, capsys, change, why) -> None:
@@ -478,3 +517,17 @@ def test_a_freshly_rendered_packet_grants_fetch_and_names_the_location() -> None
     # The write envelope is unchanged: still exactly the direct-child workflow files.
     assert packet.allowed_paths == (".github/workflows/*.yml",)
     assert ".gaia/steward/**" in packet.forbidden_paths
+
+
+def test_the_route_decision_stays_open_until_independent_acceptance() -> None:
+    """r2397 P1-2: R4 is standing authority, not acceptance; the record must not close itself."""
+    from gaia_cli.steward.desk import _check_record, _records_to_desk
+
+    name = "steward-workflow-timeout-history-fetch-2283"
+    record = json.loads((REPO_ROOT / "founder/steward/decisions" / f"{name}.json").read_text(encoding="utf-8"))
+    record["_source"] = f"founder/steward/decisions/{name}.json"
+    assert _check_record(record) is None
+    assert record["status"] == "open" and "resolution" not in record
+    awaiting: list[Any] = []
+    pending, invalid = _records_to_desk([record], awaiting)
+    assert [d.decision_id for d in pending] == [name] and awaiting == [] and invalid == []
