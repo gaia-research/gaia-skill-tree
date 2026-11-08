@@ -45,14 +45,14 @@
     {
       "id": "gsd-build/gsd-discuss-phase",
       "name": "GSD Discuss Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
@@ -62,14 +62,14 @@
     {
       "id": "gsd-build/gsd-execute-phase",
       "name": "GSD Execute Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 220.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
@@ -79,14 +79,14 @@
     {
       "id": "gsd-build/gsd-plan-phase",
       "name": "GSD Plan Phase",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
@@ -96,14 +96,14 @@
     {
       "id": "gsd-build/gsd-ship",
       "name": "GSD Ship",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-ship.json"

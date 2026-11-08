@@ -153,14 +153,14 @@
     {
       "id": "obra/test-driven-development",
       "name": "test-driven-development",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 59.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "obra",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/test-driven-development.json"
@@ -170,14 +170,14 @@
     {
       "id": "obra/dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"

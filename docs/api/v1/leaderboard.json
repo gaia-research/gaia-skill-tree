@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T07:50:28Z",
+  "generatedAt": "2026-11-08T12:44:48Z",
   "distribution": {
     "total": 342,
     "S": 3,
@@ -8,7 +8,7 @@
     "C": 236,
     "ungraded": 7,
     "floor": 0,
-    "up": 15
+    "up": 7
   },
   "rows": [
     {
@@ -409,13 +409,13 @@
       "id": "emilkowalski/break-ui",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/emil-design-eng",
@@ -457,49 +457,49 @@
       "id": "emilkowalski/mobile-native",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/prototype",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/review-animations",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "emilkowalski/write-swift",
       "trustMagnitude": 129.67,
       "grade": "A",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 129.67
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "anthropics/creating-financial-models",
@@ -1069,8 +1069,8 @@
       "id": "obra/test-driven-development",
       "trustMagnitude": 58.9,
       "grade": "B",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 40.6,
         "repo-own": 9.3,
@@ -1109,8 +1109,8 @@
       "id": "garrytan/db-repair",
       "trustMagnitude": 54.9,
       "grade": "B",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 49.9,
         "self-attestation": 5.0
@@ -1122,8 +1122,8 @@
       "id": "garrytan/postgres-adopt",
       "trustMagnitude": 54.9,
       "grade": "B",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 49.9,
         "self-attestation": 5.0
@@ -1372,7 +1372,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.2
@@ -1524,7 +1524,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.2,
         "github-stars-own": 39.7
@@ -1550,7 +1550,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.2
@@ -1576,7 +1576,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 24.66,
         "github-stars-own": 25.24
@@ -1589,7 +1589,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 24.66,
         "github-stars-own": 25.24
@@ -1602,7 +1602,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 24.66,
         "github-stars-own": 25.24
@@ -1665,7 +1665,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -1728,7 +1728,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 49.9
       },
@@ -1789,7 +1789,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -1802,7 +1802,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 49.9
       },
@@ -1875,7 +1875,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 49.9
       },
@@ -1949,7 +1949,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2011,7 +2011,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2024,7 +2024,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2037,7 +2037,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2050,7 +2050,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2212,7 +2212,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2300,7 +2300,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2313,7 +2313,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2326,7 +2326,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2351,7 +2351,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2438,7 +2438,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2475,7 +2475,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2539,7 +2539,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.95,
         "github-stars-own": 39.95
@@ -2650,7 +2650,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.29,
         "repo-own": 10.61
@@ -2663,7 +2663,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.29,
         "repo-own": 10.61
@@ -2676,7 +2676,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.29,
         "repo-own": 10.61
@@ -2689,7 +2689,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.29,
         "repo-own": 10.61
@@ -2702,7 +2702,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2715,7 +2715,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2728,7 +2728,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2741,7 +2741,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2754,7 +2754,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2767,7 +2767,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "github-stars-own": 39.14,
         "repo-own": 10.76
@@ -2780,7 +2780,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2793,7 +2793,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2806,7 +2806,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2819,7 +2819,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2832,7 +2832,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2845,7 +2845,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2858,7 +2858,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2871,7 +2871,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2884,7 +2884,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2897,7 +2897,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 10.16,
         "github-stars-own": 39.74
@@ -2910,7 +2910,7 @@
       "trustMagnitude": 49.9,
       "grade": "C",
       "level": "2★",
-      "storedStars": "3★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 9.34,
         "github-stars-own": 40.56
@@ -4709,11 +4709,11 @@
     "code-generation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/design-html",
-        "contributor": "garrytan"
+        "id": "emilkowalski/write-swift",
+        "contributor": "emilkowalski"
       }
     ],
     "code-review-pipeline": [
@@ -4777,10 +4777,18 @@
     "concept-synthesis": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/concept-synthesis",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/idea-lineage",
         "contributor": "garrytan"
       }
     ],
@@ -4853,7 +4861,15 @@
     "deployment-automation": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/ci-cd-and-automation",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/land-and-deploy",
@@ -4883,17 +4899,17 @@
     "design-review": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/design-shotgun",
-        "contributor": "garrytan"
+        "id": "emilkowalski/prototype",
+        "contributor": "emilkowalski"
       }
     ],
     "design-source-import": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/figma",
@@ -4903,7 +4919,7 @@
     "design-system-extraction": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/design-consultation",
@@ -4911,7 +4927,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/stitch-skill",
@@ -4921,7 +4937,7 @@
     "detect-anomaly": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/canary",
@@ -4931,7 +4947,7 @@
     "dispatching-parallel-agents": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "obra/dispatching-parallel-agents",
@@ -5027,7 +5043,7 @@
     "e2e-testing": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/qa",
@@ -5065,7 +5081,7 @@
     "evaluate-output": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/benchmark",
@@ -5073,7 +5089,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/plan-ceo-review",
@@ -5167,7 +5183,7 @@
     "finishing-a-development-branch": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "addy-osmani/shipping-and-launch",
@@ -5175,7 +5191,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/ship",
@@ -5183,7 +5199,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "gsd-build/gsd-ship",
@@ -5223,7 +5239,15 @@
     "framework-upgrade": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gbrain-upgrade",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/remotion-to-hyperframes",
@@ -5497,7 +5521,7 @@
     "image-generate": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/imagegen-frontend-mobile",
@@ -5505,7 +5529,7 @@
       },
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/imagegen-frontend-web",
@@ -5535,7 +5559,7 @@
     "interactive-presentation-authoring": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/slideshow",
@@ -5653,10 +5677,50 @@
     "knowledge-management": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-ingest-gate",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-link-discipline",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/brain-ops",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-taxonomist",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/eiirp",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/repo-architecture",
         "contributor": "garrytan"
       }
     ],
@@ -5681,7 +5745,7 @@
     "literature-search": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "firecrawl/firecrawl-research-index",
@@ -5745,7 +5809,7 @@
     "media-asset-orchestration": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/media-use",
@@ -5927,7 +5991,7 @@
     "performance-tuning": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "addy-osmani/performance-optimization",
@@ -5987,7 +6051,7 @@
     "postgres-best-practices": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/db-repair",
@@ -5995,7 +6059,7 @@
       },
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "garrytan/postgres-adopt",
@@ -6431,11 +6495,11 @@
     "security-audit": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/cso",
-        "contributor": "garrytan"
+        "id": "zhaoxuya520/reverse-skill",
+        "contributor": "zhaoxuya520"
       }
     ],
     "sentiment-analysis": [
@@ -6495,7 +6559,7 @@
     "skill-discovery": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/hyperframes-registry",
@@ -6641,7 +6705,7 @@
     "test-driven-development": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
         "id": "obra/test-driven-development",
@@ -6726,12 +6790,20 @@
         "redacted": false,
         "id": "emilkowalski/improve-animations",
         "contributor": "emilkowalski"
+      },
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/review-animations",
+        "contributor": "emilkowalski"
       }
     ],
     "ui-red-teaming": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "emilkowalski/break-ui",
@@ -6865,7 +6937,7 @@
     "video-scaffolding": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "heygen-com/hyperframes-cli",
@@ -6875,7 +6947,7 @@
     "vision-qa": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "2★",
         "status": "named",
         "redacted": false,
         "id": "leonxlnx/image-to-code-skill",
@@ -6895,7 +6967,7 @@
     "web-best-practices": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "emilkowalski/mobile-native",

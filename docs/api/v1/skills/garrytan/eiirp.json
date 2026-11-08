@@ -25,7 +25,7 @@
   },
   "title": "Eiirp",
   "genericSkillRef": "knowledge-management",
-  "origin": false,
+  "origin": true,
   "description": "Everything In Its Right Place. The universal post-work organizer. After any significant work session, EIIRP runs a 7-phase audit: (1) inventory every output, (2) walk taxonomy to decide where each lands, (3) check schema-pack consistency against the brain's actual shape, (4) file enriched brain pages, (5) audit the skill graph for DRY+MECE, (6) verify resolvability, (7) report. Named after the Rad",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

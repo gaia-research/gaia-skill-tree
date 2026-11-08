@@ -2,13 +2,13 @@
   "id": "garrytan/concept-synthesis",
   "name": "Concept Synthesis",
   "contributor": "garrytan",
-  "level": "3★",
+  "level": "2★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Evolved",
+  "rankWord": "Named",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/garrytan/concept-synthesis.json",
@@ -87,6 +87,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-08T09:24:56Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
     }
   ],
   "links": {

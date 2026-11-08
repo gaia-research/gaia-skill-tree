@@ -25,7 +25,7 @@
   },
   "title": "idea-lineage",
   "genericSkillRef": "concept-synthesis",
-  "origin": false,
+  "origin": true,
   "description": "Trace one idea's evolution through the brain: first mention, best\narticulation, related concepts, reversals, contradictions, abandoned\nbranches, and the current live version. Use for single-idea conceptual\nlineage, not broad concept-map synthesis or structured entity metrics.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

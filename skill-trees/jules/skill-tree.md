@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — jules  ·  generated 2026-11-04
+GAIA SKILL TREE — jules  ·  generated 2026-11-08
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -35,15 +35,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ mattpocock/edit-article  [3★]
   │  │  └─ · ○ /tool-use
   │  ├─ ✓ · mattpocock/diagnose  [3★]
-  │  │  ├─ · ○ garrytan/design-html  [3★]
+  │  │  ├─ · ○ emilkowalski/write-swift  [4★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ garrytan/correction-pipeline  [2★]
   │  ├─ · ○ ████████/zoom-out
   │  ├─ · ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-with-docs  [3★]
   │  │  ├─ · · mattpocock/grill-me  [3★]
-  │  │  │  ├─ · · garrytan/design-shotgun  [3★]
-  │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
+  │  │  │  ├─ · · emilkowalski/prototype  [4★]
+  │  │  │  │  ├─ · ○ garrytan/benchmark  [2★]
   │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
   │  │  ├─ · · mattpocock/ubiquitous-language  [3★]
@@ -55,7 +55,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · · mattpocock/prototype  [2★]
-  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │  │  ├─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
   │  ├─ · ○ addy-osmani/code-simplification  [4★]
   │  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
@@ -63,10 +63,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ garrytan/functional-area-resolver  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
   │  │  ├─ · · garrytan/plan-eng-review  [3★]
-  │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │  │  │  ├─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   │  │  │  ├─ · ○ /diff-content
-  │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  │  │  └─ · · obra/dispatching-parallel-agents  [3★]
+  │  │  │  └─ · ○ garrytan/benchmark  [2★]  (↑ see above)
+  │  │  └─ · · obra/dispatching-parallel-agents  [2★]
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
   │  ├─ · · garrytan/data-research  [2★]
@@ -77,14 +77,14 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ mattpocock/wizard  [2★]
   ├─ · · mattpocock/misc  [4★]
   │  ├─ · · garrytan/careful  [3★]
-  │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
   │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
   │  └─ · · google-deepmind/workflow-skill-creator  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
-  │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │     └─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   ├─ · · mattpocock/productivity  [4★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
@@ -93,9 +93,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/context-audit  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
   │  ├─ · · mattpocock/write-a-skill  [2★]
-  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │  │  ├─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
-  │  ├─ · · garrytan/brain-ops  [3★]
+  │  ├─ · · garrytan/brain-ingest-gate  [2★]
   │  │  ├─ · ○ ████████/hf-cli
   │  │  └─ · ○ arcmira/find-quotes  [2★]
   │  ├─ · ○ garrytan/ask-user  [2★]
@@ -131,11 +131,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
   ├─ · · addy-osmani/git-workflow-and-versioning  [2★]
   │  ├─ · · garrytan/plan-eng-review  [3★]
-  │  │  ├─ · ○ garrytan/design-html  [3★]
+  │  │  ├─ · ○ emilkowalski/write-swift  [4★]
   │  │  ├─ · ○ /diff-content
-  │  │  └─ · ○ garrytan/benchmark  [3★]
+  │  │  └─ · ○ garrytan/benchmark  [2★]
   │  ├─ · ○ ruvnet/github-multi-repo  [2★]
-  │  ├─ · · garrytan/land-and-deploy  [3★]
+  │  ├─ · · addy-osmani/ci-cd-and-automation  [2★]
   │  │  ├─ · · garrytan/cron-scheduler  [2★]
   │  │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
@@ -152,12 +152,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ · ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ · ○ ruvnet/v3-integration-deep  [2★]
-  │  ├─ · ○ addy-osmani/performance-optimization  [3★]
+  │  ├─ · ○ addy-osmani/performance-optimization  [2★]
   │  └─ · · ruvnet/swarm-advanced  [2★]
   │     ├─ · ○ ruvnet/swarm-orchestration  [2★]
   │     └─ · · garrytan/codex  [2★]
   │        ├─ · ○ /self-critique
-  │        ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
+  │        ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
   │        └─ · ○ /chain-of-thought
   └─ · · ruvnet/dual-mode  [2★]
      ├─ · ○ ruvnet/dual-spawn  [2★]

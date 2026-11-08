@@ -75,14 +75,14 @@
     {
       "id": "heygen-com/figma",
       "name": "Figma",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/figma.json"
@@ -126,14 +126,14 @@
     {
       "id": "heygen-com/hyperframes-cli",
       "name": "HyperFrames CLI",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
@@ -194,14 +194,14 @@
     {
       "id": "heygen-com/hyperframes-registry",
       "name": "Hyperframes Registry",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
@@ -211,14 +211,14 @@
     {
       "id": "heygen-com/media-use",
       "name": "Media Use",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/media-use.json"
@@ -296,14 +296,14 @@
     {
       "id": "heygen-com/remotion-to-hyperframes",
       "name": "Remotion To Hyperframes",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
@@ -313,14 +313,14 @@
     {
       "id": "heygen-com/slideshow",
       "name": "Slideshow",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "heygen-com",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/heygen-com/slideshow.json"
