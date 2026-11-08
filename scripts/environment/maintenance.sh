@@ -83,7 +83,9 @@ fi
 
 # Step 3: Registry & Schema Validation
 echo "--> Step 3: Registry validation (gaia dev validate)..."
-if ! "${PY}" -m gaia_cli dev validate; then
+# The named index (registry/named-skills.json) is gitignored generated data and is not
+# built here; opt in explicitly so the TM consistency gate skips only its index cross-check.
+if ! "${PY}" -m gaia_cli dev validate --allow-missing-index; then
   echo "[ERROR] gaia dev validate failed!" >&2
   ERRORS=$((ERRORS + 1))
 fi

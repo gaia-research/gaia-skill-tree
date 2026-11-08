@@ -88,7 +88,8 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 scripts/inspectTrustMagnitude.py
 
 Or run `scripts/trust_appraise.py --skill <contributor/skill>` (which reads the
 named `.md` frontmatter, loads generic and named maps, and computes live Trust
-Magnitude and Grade).
+Magnitude and Grade). For a **frozen** skill the output labels `FROZEN - locked TM ...`: the lock
+is its standing and the recomputation beside it is information only (never restamp a frozen skill).
 
 ### 4. GATE — calibration (TM band, branch rules, **and** Origin)
 
