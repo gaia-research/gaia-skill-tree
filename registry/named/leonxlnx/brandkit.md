@@ -5,11 +5,11 @@ contributor: leonxlnx
 origin: false
 genericSkillRef: brand-guideline-application
 status: named
-level: 3★
+level: 2★
 description: Visual identity director generating comprehensive brand guidelines, color
   palettes, typography moodboards, and logo systems from briefs.
 createdAt: '2026-08-22'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: Brandkit
 links:
   github: https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/brandkit/SKILL.md
@@ -82,6 +82,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:28:11Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1

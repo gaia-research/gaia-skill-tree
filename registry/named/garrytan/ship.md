@@ -7,7 +7,7 @@ genericSkillRef: finishing-a-development-branch
 status: named
 title: Gstack Ship
 catalogRef: garrytan-ship
-level: 3★
+level: 2★
 description: Automated end-to-end deployment workflow that merges the base branch,
   runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG, commits,
   pushes to the remote, and creates a pull request in a single command.
@@ -19,7 +19,7 @@ tags:
 - pr-automation
 - release
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -83,6 +83,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:26:29Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/ship/SKILL.md

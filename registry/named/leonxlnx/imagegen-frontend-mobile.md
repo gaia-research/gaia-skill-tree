@@ -5,11 +5,11 @@ contributor: leonxlnx
 origin: false
 genericSkillRef: image-generate
 status: named
-level: 3★
+level: 2★
 description: Mobile app mockup prompt engineering generating realistic iOS and Android
   UI screen concept art for diffusion models.
 createdAt: '2026-08-22'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: Imagegen Frontend Mobile
 links:
   github: https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md
@@ -78,6 +78,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:28:41Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1

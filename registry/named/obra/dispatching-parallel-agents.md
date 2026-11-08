@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: dispatching-parallel-agents
 status: named
 title: The Parallel Dispatch
-level: 3★
+level: 2★
 description: Delegates independent tasks to specialized agents with isolated context
   to work concurrently, dramatically reducing wall-clock time on multi-part problems.
 links:
@@ -18,7 +18,7 @@ tags:
 - multi-agent
 - subagent
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -94,6 +94,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:29:24Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

@@ -5,11 +5,11 @@ contributor: gsd-build
 origin: false
 genericSkillRef: subagent-driven-development
 status: named
-level: 3★
+level: 2★
 description: Runs implementation plans in parallel executor waves where each executor
   starts from a clean context.
 createdAt: '2026-07-03'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 timeline:
 - timestamp: '2026-07-02T18:04:49Z'
   action: add
@@ -91,6 +91,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:26:51Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
   updatedAt: '2026-10-01'

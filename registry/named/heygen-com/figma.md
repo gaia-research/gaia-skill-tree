@@ -5,14 +5,14 @@ contributor: heygen-com
 origin: true
 genericSkillRef: design-source-import
 status: named
-level: 3★
+level: 2★
 description: Import Figma content into a HyperFrames composition — rendered assets,
   brand tokens, components, storyboard sections → reconstructed motion (frames read
   as states, not slides) (REST/CLI), connector-assisted motion when available, and
   shaders from a connector or native export. Use when the user pastes a figma.com
   link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.
 createdAt: '2026-09-07'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: The Design Importer
 timeline:
 - timestamp: '2026-09-06T17:23:13Z'
@@ -58,6 +58,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:27:19Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md
 evidence:

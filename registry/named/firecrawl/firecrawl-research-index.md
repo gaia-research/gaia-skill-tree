@@ -5,10 +5,10 @@ contributor: firecrawl
 origin: false
 genericSkillRef: literature-search
 status: named
-level: 3★
+level: 2★
 description: Retrieve and query academic literature through Firecrawl Research.
 createdAt: '2026-07-13'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 title: Firecrawl Research Index
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md
@@ -74,6 +74,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:24:17Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl

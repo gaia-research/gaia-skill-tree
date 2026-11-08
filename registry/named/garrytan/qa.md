@@ -7,7 +7,7 @@ genericSkillRef: e2e-testing
 status: named
 title: Gstack QA
 catalogRef: garrytan-qa
-level: 3★
+level: 2★
 description: Browser-driven web application testing that explores pages as a real
   user, documents bugs with annotated screenshots, fixes issues with atomic commits
   and re-verification, and produces structured reports with before/after evidence
@@ -20,7 +20,7 @@ tags:
 - bug-fixing
 - e2e
 createdAt: '2026-05-18'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-08'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -106,6 +106,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-11-08T09:26:14Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
