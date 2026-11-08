@@ -1,5 +1,5 @@
 {
- "generation": 1960,
+ "generation": 1961,
  "lane": {
   "entries": [
    {
@@ -3885,14 +3885,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-87d01fb2d06c8655f9cc",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-08T13:13:24.028733Z",
+      "from": "dispatched",
+      "reason": "verification escalated (mechanical verification (steward-20261108T130850Z-a4faaa25f548a39f))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-08T12:56:38.562810Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-08T13:13:24.028733Z",
+    "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 0,
@@ -6828,7 +6834,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T12:53:33.171297Z",
-   "expiresAt": "2026-11-08T13:38:45.046490Z",
+   "expiresAt": "2026-11-08T13:43:25.353237Z",
    "holder": "run-20261108T125333Z-2c528d60"
   }
  },
@@ -155481,7 +155487,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T13:08:45.047659Z",
+ "updatedAt": "2026-11-08T13:13:25.356977Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -157621,6 +157627,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-87d01fb2d06c8655f9cc (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-08T13:13:24.028733Z",
+     "from": "building",
+     "reason": "mechanical verification (steward-20261108T130850Z-a4faaa25f548a39f): patch attribution failed; failing closed on safety gate",
+     "to": "escalated"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -157630,9 +157642,16 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261108T125333Z-2c528d60",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-08T13:05:25.920796Z",
-   "verification": null
+   "state": "escalated",
+   "updatedAt": "2026-11-08T13:13:24.028733Z",
+   "verification": {
+    "reasons": [
+     "patch attribution failed; failing closed on safety gate"
+    ],
+    "recordedAt": "2026-11-08T13:13:24.028733Z",
+    "stage": "mechanical",
+    "verdict": "escalate"
+   }
   },
   "debt:trust_calibration_drift:theqtcompanyrnd-qt-qml-review:f0c0f2ad2e2c6ee5": {
    "assignments": [
