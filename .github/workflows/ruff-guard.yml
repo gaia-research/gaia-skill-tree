@@ -50,7 +50,14 @@ jobs:
       - name: Run Ruff Multi-Tier Gate
         run: |
           # Multi-tier gate: blocking (zero tolerance), ratchet (shrink-only),
-          # and baseline monotonicity against the base branch ref.
-          python3 scripts/check_ruff.py
+          # and baseline monotonicity against one exact base ref: the PR base
+          # (GITHUB_BASE_REF), the push's before commit, or for a manual run the
+          # default branch. An unresolvable base fails closed (exit 2).
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            python3 scripts/check_ruff.py --base "origin/$DEFAULT_BRANCH"
+          else
+            python3 scripts/check_ruff.py
+          fi
         env:
           GITHUB_BASE_REF: ${{ github.base_ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}

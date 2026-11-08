@@ -217,6 +217,8 @@ def test_cli_execution_with_temp_files(tmp_path: Path, capsys: pytest.CaptureFix
     code = check_ruff_main([
         "--baseline",
         str(baseline_path),
+        "--base-baseline",
+        str(baseline_path),
         str(test_file),
     ])
     assert code == 0
@@ -225,6 +227,8 @@ def test_cli_execution_with_temp_files(tmp_path: Path, capsys: pytest.CaptureFix
     test_file.write_text("import sys\n\nprint(undefined_variable)\n", encoding="utf-8")
     code = check_ruff_main([
         "--baseline",
+        str(baseline_path),
+        "--base-baseline",
         str(baseline_path),
         str(test_file),
     ])
@@ -307,7 +311,7 @@ def test_advisory_cli_warning_exit_zero(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr("scripts.check_ruff.run_ruff", lambda **kwargs: [
         {"filename": "sample.py", "code": "BLE001", "message": "blind exception"}
     ])
-    assert check_ruff_main(["--baseline", str(baseline)]) == 0
+    assert check_ruff_main(["--baseline", str(baseline), "--base-baseline", str(baseline)]) == 0
     assert "[ADVISORY]" in capsys.readouterr().out
 
 
@@ -635,6 +639,8 @@ def test_stale_flag_behavior(tmp_path: Path, monkeypatch, capsys: pytest.Capture
     code = check_ruff_main([
         "--baseline",
         str(baseline_path),
+        "--base-baseline",
+        str(baseline_path),
         "--stale",
         stale_mode,
         str(file_a),
@@ -747,3 +753,108 @@ def test_baseline_monotonicity_shrunk_baseline_passes_gate(monkeypatch, capsys, 
     captured = capsys.readouterr()
     assert "Baseline additions:   0" in captured.out
     assert "PASSED: Ruff multi-tier gate passed." in captured.out
+
+
+# --- r2391: first adoption is judged against the exact base ref, never skipped -------
+
+_RUFF_CONFIG = """[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["F821", "F811", "F63", "F7", "F401", "S110", "S112", "E722", "BLE001"]
+"""
+
+
+@pytest.fixture
+def merge_topology(tmp_path, monkeypatch):
+    """A base with no ruff config and no baseline, a PR on top, and GitHub's synthetic merge."""
+    for name in ("GITHUB_EVENT_NAME", "GITHUB_BASE_REF", "GITHUB_EVENT_PATH", "CI", "GITHUB_ACTIONS"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setattr("scripts.check_ruff.REPO_ROOT", tmp_path)
+
+    def git(*args):
+        return subprocess.run(
+            ["git", *args], cwd=tmp_path, check=True, capture_output=True, text=True
+        ).stdout.strip()
+
+    git("init", "-q", "-b", "dev/campaign")
+    git("config", "user.email", "test@example.com")
+    git("config", "user.name", "Test")
+    git("config", "commit.gpgsign", "false")
+    (tmp_path / "old.py").write_text("import os\n")  # debt that already exists at the base
+    (tmp_path / "pyproject.toml").write_text("[project]\nname = 'x'\n")
+    git("add", ".")
+    git("commit", "-qm", "base: no ruff config, no baseline")
+    base = git("rev-parse", "HEAD")
+    git("update-ref", "refs/remotes/origin/dev/campaign", base)
+
+    def pr(new_violation: bool) -> str:
+        git("checkout", "-q", "-B", "pr", base)
+        (tmp_path / "pyproject.toml").write_text("[project]\nname = 'x'\n\n" + _RUFF_CONFIG)
+        entries = [{"file": "old.py", "code": "F401", "line": 1, "column": 8,
+                    "message": "`os` imported but unused"}]
+        if new_violation:
+            (tmp_path / "old.py").write_text("import os\nimport fractions\n")
+            entries.append({"file": "old.py", "code": "F401", "line": 2, "column": 8,
+                            "message": "`fractions` imported but unused"})
+        (tmp_path / "baseline.json").write_text(json.dumps({"version": 1, "violations": entries}))
+        git("add", ".")
+        git("commit", "-qm", "pr")
+        head = git("rev-parse", "HEAD")
+        merge = git("commit-tree", git("write-tree"), "-p", base, "-p", head, "-m", "synthetic PR merge")
+        git("reset", "-q", "--hard", merge)
+        monkeypatch.setenv("GITHUB_BASE_REF", "dev/campaign")
+        monkeypatch.setenv("GITHUB_EVENT_NAME", "pull_request")
+        return merge
+
+    return git, pr
+
+
+def test_first_adoption_grown_entry_fails_in_synthetic_merge(tmp_path, merge_topology, capsys):
+    """The reviewer topology: a new violation plus its own baseline entry must not pass."""
+    _git, pr = merge_topology
+    pr(new_violation=True)
+    code = check_ruff_main(["--baseline", str(tmp_path / "baseline.json")])
+    out = capsys.readouterr()
+    assert code == 1
+    assert "first adoption judged against ruff findings" in out.out
+    assert "fractions" in out.err and "[BASELINE]" in out.err
+    assert "`os` imported but unused (added to baseline" not in out.err
+    assert "Baseline additions:   1" in out.out
+
+
+def test_first_adoption_of_existing_debt_passes(tmp_path, merge_topology, capsys):
+    _git, pr = merge_topology
+    pr(new_violation=False)
+    code = check_ruff_main(["--baseline", str(tmp_path / "baseline.json")])
+    out = capsys.readouterr()
+    assert code == 0, out.err
+    assert "Baseline additions:   0" in out.out
+
+
+def test_committed_base_baseline_is_used_once_it_exists(tmp_path, merge_topology, capsys):
+    git, pr = merge_topology
+    pr(new_violation=False)
+    adopted = git("rev-parse", "HEAD")
+    git("update-ref", "refs/remotes/origin/dev/campaign", adopted)
+    code = check_ruff_main(["--baseline", str(tmp_path / "baseline.json")])
+    out = capsys.readouterr()
+    assert code == 0, out.err
+    assert "first adoption" not in out.out
+
+
+@pytest.mark.parametrize("context", ["unresolvable-base", "no-base-context", "push-without-payload"])
+def test_unresolvable_base_fails_closed(tmp_path, merge_topology, monkeypatch, capsys, context):
+    """No search across other refs: when the exact base cannot be resolved the gate exits 2."""
+    _git, pr = merge_topology
+    pr(new_violation=False)
+    if context == "unresolvable-base":
+        monkeypatch.setenv("GITHUB_BASE_REF", "no-such-branch")
+    elif context == "no-base-context":
+        monkeypatch.delenv("GITHUB_BASE_REF")
+        monkeypatch.delenv("GITHUB_EVENT_NAME")
+    else:
+        monkeypatch.delenv("GITHUB_BASE_REF")
+        monkeypatch.setenv("GITHUB_EVENT_NAME", "push")
+    assert check_ruff_main(["--baseline", str(tmp_path / "baseline.json")]) == 2
+    assert "could not resolve the base baseline" in capsys.readouterr().err

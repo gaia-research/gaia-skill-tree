@@ -20,6 +20,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
+import tempfile
 from typing import Any, Sequence
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -67,8 +69,8 @@ def find_ruff_cmd(ruff_bin: str | None = None) -> list[str]:
         )
         if res.returncode == 0:
             return [sys.executable, "-m", "ruff"]
-    except Exception:
-        pass
+    except OSError as exc:  # interpreter not launchable: fall through to plain `ruff`
+        print(f"Note: cannot probe '{sys.executable} -m ruff': {exc}", file=sys.stderr)
     return ["ruff"]
 
 
@@ -94,10 +96,11 @@ def get_merge_base(repo_root: Path, base_target: str | None = None) -> str | Non
                 text=True,
                 check=False,
             )
-            if res.returncode == 0 and res.stdout.strip():
-                return res.stdout.strip()
-        except Exception:
-            continue
+        except OSError as exc:
+            print(f"Error: cannot run git merge-base: {exc}", file=sys.stderr)
+            return None
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
     return None
 
 
@@ -372,15 +375,98 @@ def load_baseline_from_git(
         return None, f"Failed to parse baseline JSON at git ref '{base_ref}': {exc}"
 
 
+def resolve_base_ref(repo_root: Path, base_arg: str | None = None) -> tuple[str | None, str]:
+    """The one exact base commit to judge the baseline against: (commit, label) or (None, error).
+
+    No search across other refs: an explicit ``--base``; else, in a pull request,
+    ``origin/$GITHUB_BASE_REF``; else, on a push, the event's ``before`` commit (its
+    parent for a new branch). Anything else, or a ref that does not resolve, is an
+    error, and the gate fails closed rather than skip the monotonicity check.
+    """
+    if base_arg:
+        candidate, source = base_arg, f"--base {base_arg}"
+    elif os.environ.get("GITHUB_BASE_REF"):
+        candidate = f"origin/{os.environ['GITHUB_BASE_REF']}"
+        source = f"GITHUB_BASE_REF ({candidate})"
+    elif os.environ.get("GITHUB_EVENT_NAME") == "push":
+        event_path = os.environ.get("GITHUB_EVENT_PATH")
+        if not event_path:
+            return None, "push event payload is unavailable; cannot determine the base ref"
+        try:
+            with open(event_path, encoding="utf-8") as f:
+                before = json.load(f).get("before")
+        except (OSError, json.JSONDecodeError) as exc:
+            return None, f"cannot read the push event payload: {exc}"
+        if not isinstance(before, str) or not before:
+            return None, "push event has no valid before SHA"
+        candidate = before if before.strip("0") else "HEAD~1"
+        source = f"push before {candidate}"
+    else:
+        return None, (
+            "cannot determine the base ref; pass --base <ref> (the branch this change targets) "
+            "or --base-baseline <ref_or_file>"
+        )
+    res = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", f"{candidate}^{{commit}}"],
+        cwd=repo_root, capture_output=True, text=True, check=False,
+    )
+    if res.returncode != 0 or not res.stdout.strip():
+        return None, f"base ref {candidate} ({source}) does not resolve to a commit"
+    return res.stdout.strip(), source
+
+
+def scan_ref_findings(
+    repo_root: Path, ref: str, ruff_bin: str | None = None
+) -> list[dict[str, Any]]:
+    """Ratchet-tier findings of ref's own sources, under this checkout's lint config.
+
+    The base tree is exported from git (no worktree, nothing written in the
+    checkout) and scanned with the head's ``pyproject.toml``, so a ref that predates
+    the ruff config is judged by the same rules the baseline records.
+    """
+    scratch = Path(tempfile.mkdtemp(prefix="gaia-ruff-base-"))
+    try:
+        archive = scratch / "base.tar"
+        with archive.open("wb") as out:
+            done = subprocess.run(
+                ["git", "archive", "--format=tar", ref], cwd=repo_root, stdout=out,
+                stderr=subprocess.PIPE, check=False,
+            )
+        if done.returncode != 0:
+            raise RuntimeError(f"git archive {ref} failed: {done.stderr.decode(errors='replace')[:200]}")
+        tree = scratch / "tree"
+        tree.mkdir()
+        with tarfile.open(archive) as bundle:
+            if hasattr(tarfile, "data_filter"):
+                bundle.extractall(tree, filter="data")
+            else:  # pragma: no cover - Python < 3.10.12
+                bundle.extractall(tree)
+        shutil.copyfile(repo_root / "pyproject.toml", tree / "pyproject.toml")
+        findings = run_ruff(paths=None, repo_root=tree, ruff_bin=ruff_bin)
+        return [
+            normalize_violation(item, tree)
+            for item in findings
+            if classify_code(item.get("code", "")) == "ratchet"
+        ]
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
 def resolve_base_baseline(
     repo_root: Path,
     baseline_path: Path,
     base_baseline_arg: str | None = None,
     base_arg: str | None = None,
+    ruff_bin: str | None = None,
 ) -> tuple[dict[str, Any] | None, str | None, str | None]:
-    """Resolve base baseline for monotonicity checks.
+    """Resolve the trusted base baseline for the shrink-only check, failing closed.
 
-    Returns: (base_baseline_data, base_ref_label, error_message)
+    Returns (base_baseline_data, base_ref_label, error_message). With an explicit
+    ``--base-baseline`` that file or ref is used. Otherwise the single base ref from
+    resolve_base_ref() is used: its committed baseline when it has one; when it has
+    none (first adoption), a baseline made of the ratchet findings ruff reports at
+    that ref, so an entry is allowed only if the base itself already had that
+    finding. Any error returns no data, and the caller fails closed.
     """
     if base_baseline_arg:
         p = Path(base_baseline_arg)
@@ -396,28 +482,25 @@ def resolve_base_baseline(
             return data, base_baseline_arg, None
         return None, base_baseline_arg, err
 
-    candidates: list[str] = []
-    if base_arg:
-        candidates.append(base_arg)
-    env_base = os.environ.get("GITHUB_BASE_REF")
-    if env_base:
-        candidates.append(f"origin/{env_base}")
-        candidates.append(env_base)
-    mb = get_merge_base(repo_root, base_target=base_arg)
-    if mb:
-        candidates.append(mb)
-    candidates.extend(["origin/main", "main", "HEAD~1"])
-
-    seen: set[str] = set()
-    for cand in candidates:
-        if not cand or cand in seen:
-            continue
-        seen.add(cand)
-        data, _ = load_baseline_from_git(repo_root, cand, baseline_path)
-        if data is not None:
-            return data, cand, None
-
-    return None, None, None
+    ref, source = resolve_base_ref(repo_root, base_arg)
+    if ref is None:
+        return None, None, source
+    try:
+        rel_path = baseline_path.resolve().relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return None, ref, f"Baseline path {baseline_path} is outside repository root {repo_root}"
+    present = subprocess.run(
+        ["git", "cat-file", "-e", f"{ref}:{rel_path}"], cwd=repo_root, capture_output=True, check=False
+    ).returncode == 0
+    if present:
+        data, err = load_baseline_from_git(repo_root, ref, baseline_path)
+        return (data, f"{source} @ {ref[:12]}", None) if data is not None else (None, ref, err)
+    try:
+        findings = scan_ref_findings(repo_root, ref, ruff_bin)
+    except (OSError, RuntimeError, tarfile.TarError) as exc:
+        return None, ref, f"cannot scan base ref {ref} for first adoption: {exc}"
+    label = f"{source} @ {ref[:12]} (no baseline there; first adoption judged against ruff findings at that ref)"
+    return {"version": 1, "violations": findings}, label, None
 
 
 def find_added_baseline_entries(
@@ -653,6 +736,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             baseline_path=baseline_path,
             base_baseline_arg=args.base_baseline,
             base_arg=args.base,
+            ruff_bin=args.ruff_bin,
         )
         if base_baseline is not None:
             added = find_added_baseline_entries(saved, base_baseline, repo_root)
@@ -720,25 +804,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         baseline_path=baseline_path,
         base_baseline_arg=args.base_baseline,
         base_arg=args.base,
+        ruff_bin=args.ruff_bin,
     )
-    if args.base_baseline and base_baseline is None:
-        print(f"Error: could not resolve base baseline '{args.base_baseline}': {base_err}", file=sys.stderr)
+    if base_baseline is None:
+        # Never skip the shrink-only check: an unresolvable base is a failure, not a pass.
+        print(f"Error: could not resolve the base baseline: {base_err}", file=sys.stderr)
         return 2
+    if base_ref_label and "first adoption" in base_ref_label:
+        print(f"[INFO] baseline growth is judged against {base_ref_label}.")
 
-    added_baseline_entries: list[dict[str, Any]] = []
-    if base_baseline is not None:
-        added_baseline_entries = find_added_baseline_entries(
-            current_baseline=baseline_data,
-            base_baseline=base_baseline,
-            repo_root=repo_root,
-        )
+    added_baseline_entries = find_added_baseline_entries(
+        current_baseline=baseline_data,
+        base_baseline=base_baseline,
+        repo_root=repo_root,
+    )
 
     changed_files = get_changed_files(repo_root, base_ref=args.base)
     if changed_files is None:
         return 2
 
     effective_baseline = baseline_data
-    if added_baseline_entries and base_baseline is not None:
+    if added_baseline_entries:
         effective_baseline = base_baseline
 
     blocking, ratchet, advisory, pre_existing_count = evaluate_violations(
@@ -797,8 +883,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Blocking violations:  {len(blocking)} (fails if > 0)")
     print(f"Ratchet violations:   {len(ratchet)} new ({pre_existing_count} pre-existing allowed)")
     print(f"Advisory warnings:    {len(advisory)} (BLE001 - non-blocking)")
-    if base_baseline is not None:
-        print(f"Baseline additions:   {len(added_baseline_entries)} (fails if > 0; shrink-only vs {base_ref_label})")
+    print(f"Baseline additions:   {len(added_baseline_entries)} (fails if > 0; shrink-only vs {base_ref_label})")
     if args.stale != "ignore":
         print(f"Stale baseline entries: {len(stale_entries)}")
     print("=============================================================")

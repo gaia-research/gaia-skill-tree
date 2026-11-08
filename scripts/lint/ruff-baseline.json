@@ -1,9 +1,9 @@
 {
   "counts_by_code": {
     "E722": 1,
-    "F401": 256,
-    "S110": 72,
-    "S112": 15
+    "F401": 255,
+    "S110": 71,
+    "S112": 14
   },
   "file_counts": {
     ".agents/skills/pi-cost/scripts/pi_cost.py": {
@@ -63,10 +63,6 @@
     },
     "scripts/check_rank_vocabulary.py": {
       "F401": 2
-    },
-    "scripts/check_ruff.py": {
-      "S110": 1,
-      "S112": 1
     },
     "scripts/check_verifier_signoffs.py": {
       "S110": 1
@@ -272,7 +268,7 @@
       "F401": 2
     },
     "tests/steward/prmaintenance/test_advice.py": {
-      "F401": 2
+      "F401": 1
     },
     "tests/steward/prmaintenance/test_coordination_processes.py": {
       "F401": 1
@@ -498,7 +494,7 @@
       "F401": 2
     }
   },
-  "total_ratchet_violations": 344,
+  "total_ratchet_violations": 341,
   "version": 1,
   "violations": [
     {
@@ -696,20 +692,6 @@
       "file": "scripts/check_rank_vocabulary.py",
       "line": 425,
       "message": "`itertools.groupby` imported but unused"
-    },
-    {
-      "code": "S110",
-      "column": 5,
-      "file": "scripts/check_ruff.py",
-      "line": 63,
-      "message": "`try`-`except`-`pass` detected, consider logging the exception"
-    },
-    {
-      "code": "S112",
-      "column": 9,
-      "file": "scripts/check_ruff.py",
-      "line": 92,
-      "message": "`try`-`except`-`continue` detected, consider logging the exception"
     },
     {
       "code": "S110",
@@ -2026,13 +2008,6 @@
       "file": "tests/steward/prmaintenance/test_advice.py",
       "line": 16,
       "message": "`gaia_cli.steward.prmaintenance.sensor.PrMaintenanceSensor` imported but unused"
-    },
-    {
-      "code": "F401",
-      "column": 53,
-      "file": "tests/steward/prmaintenance/test_advice.py",
-      "line": 19,
-      "message": "`tests.steward.prmaintenance.test_sensor.NOW` imported but unused"
     },
     {
       "code": "F401",
