@@ -878,3 +878,49 @@ def test_unresolvable_base_fails_closed(tmp_path, merge_topology, monkeypatch, c
         monkeypatch.setenv("GITHUB_EVENT_NAME", "push")
     assert check_ruff_main(["--baseline", str(tmp_path / "baseline.json")]) == 2
     assert "could not resolve the base baseline" in capsys.readouterr().err
+
+
+_GOOD_ENTRY = {"file": "old.py", "code": "F401", "line": 1, "column": 8, "message": "`os` imported but unused"}
+
+
+@pytest.mark.parametrize("change", [
+    {"line": {"bad": 1}},
+    {"column": False},
+    {"line": True},
+    {"line": -1},
+    {"column": 1.5},
+    {"line": "1"},
+    {"file": ""},
+    {"message": 7},
+    {"code": "E501"},
+    {"extra": "key"},
+    {"line": None},
+])
+def test_baseline_entry_schema_is_exact(change):
+    """r2391: every entry field is validated with its exact type; unknown keys are refused."""
+    from scripts.check_ruff import validate_baseline
+
+    entry = {**_GOOD_ENTRY, **change}
+    if change == {"line": None}:
+        del entry["line"]
+    with pytest.raises(ValueError, match="invalid baseline violation 0"):
+        validate_baseline({"version": 1, "violations": [entry]})
+    assert validate_baseline({"version": 1, "violations": [dict(_GOOD_ENTRY)]})
+
+
+def test_malformed_location_in_committed_and_working_baseline_fails_closed(tmp_path, git_repo, capsys):
+    """The r2391 repro: line as an object and column as a boolean must exit 2, not pass."""
+    bad = {"version": 1, "violations": [
+        {"file": "x.py", "code": "F401", "message": "unused", "line": {"bad": 1}, "column": False}
+    ]}
+    baseline = tmp_path / "baseline.json"
+    baseline.write_text(json.dumps(bad))
+    git_repo("add", "baseline.json")
+    git_repo("commit", "-qm", "malformed baseline")
+    fake_ruff = tmp_path / "ruff"
+    fake_ruff.write_text('#!/bin/sh\nprintf "[]\\n"\n')
+    fake_ruff.chmod(0o755)
+    code = check_ruff_main(["--baseline", str(baseline), "--ruff-bin", str(fake_ruff), "--base", "HEAD",
+                            "--stale", "ignore"])
+    assert code == 2
+    assert "line must be a non-negative integer" in capsys.readouterr().err

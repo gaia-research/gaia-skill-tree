@@ -226,12 +226,41 @@ def validate_baseline(data: Any) -> dict[str, Any]:
     entries = data.get("violations")
     if not isinstance(entries, list):
         raise ValueError("violations must be a list")
-    for entry in entries:
-        if (not isinstance(entry, dict) or
-            any(not isinstance(entry.get(k), str) or not entry[k] for k in ("file", "code", "message")) or
-            entry["code"] not in RATCHET_CODES):
-            raise ValueError("invalid baseline violation")
+    for index, entry in enumerate(entries):
+        problem = _baseline_entry_problem(entry)
+        if problem:
+            raise ValueError(f"invalid baseline violation {index}: {problem}")
     return data
+
+
+_ENTRY_STRINGS = ("file", "code", "message")
+_ENTRY_INTS = ("line", "column")
+
+
+def _baseline_entry_problem(entry: Any) -> str | None:
+    """Why one baseline entry breaks the entry schema, or None when it is valid.
+
+    The schema is exactly the five keys save_baseline writes: non-empty strings
+    file, code (a ratchet code) and message; non-negative int line and column
+    (bool is refused even though it subclasses int). Unknown keys are refused.
+    """
+    if not isinstance(entry, dict):
+        return "not an object"
+    keys = set(entry)
+    expected = set(_ENTRY_STRINGS) | set(_ENTRY_INTS)
+    if keys != expected:
+        missing, extra = sorted(expected - keys), sorted(keys - expected)
+        return f"keys must be exactly {sorted(expected)} (missing {missing}, unknown {extra})"
+    for key in _ENTRY_STRINGS:
+        if not isinstance(entry[key], str) or not entry[key]:
+            return f"{key} must be a non-empty string"
+    for key in _ENTRY_INTS:
+        value = entry[key]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            return f"{key} must be a non-negative integer"
+    if entry["code"] not in RATCHET_CODES:
+        return f"code {entry['code']!r} is not a ratchet code"
+    return None
 
 
 def load_baseline(baseline_path: Path) -> dict[str, Any] | None:
