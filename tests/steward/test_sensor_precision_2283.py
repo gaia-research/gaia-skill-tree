@@ -777,3 +777,54 @@ class TestF6QualifiedScope:
         item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
         assert item.status == "drift"
         assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_nestedControlFlowRedefinitionFailsClosed(self, tmp_path: Path) -> None:
+        source = (
+            EXEC_IN_HARNESS + "\n"
+            "if True:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_ifElseNestedDefinitionsFailClosed(self, tmp_path: Path) -> None:
+        source = (
+            "if condition:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+            "else:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_tryExceptNestedDefinitionsFailClosed(self, tmp_path: Path) -> None:
+        source = (
+            "try:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+            "except Exception:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_singleDefinitionNestedInControlFlowIsAcknowledged(self, tmp_path: Path) -> None:
+        source = (
+            "if True:\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        namespace = {}\n"
+            "        exec(compile(completion, '<humaneval>', 'exec'), namespace)\n"
+            "        return True\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "healthy"
+        assert item.observed_state["acknowledgedCount"] == 1
+        (finding,) = item.observed_state["findings"]
+        assert finding["acknowledged"] is True
