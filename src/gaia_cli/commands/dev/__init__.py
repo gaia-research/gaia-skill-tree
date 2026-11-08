@@ -85,6 +85,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev timeline-resort <contributor/skill_id> [--dry-run]
   gaia dev fuse <generic_id> [--name ...] [--prereqs a,b,c] \\
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
+  gaia dev relink <skill_id> --new-url <url>
   gaia dev build
   gaia dev verify <skill_id>
   gaia dev arbor import <record.json>
@@ -1150,6 +1151,33 @@ class DevCommand(Command):
             help="Contributor handle attributed to the timeline event (defaults to whoami actor)",
         )
 
+        dev_relink = dev_sub.add_parser(
+            "relink",
+            help="Relink a named skill's links.github to a new URL and log relinked timeline event",
+        )
+        dev_relink.add_argument(
+            "skill_id",
+            help="Named skill ID to relink (e.g. mattpocock/old-skill)",
+        )
+        dev_relink.add_argument(
+            "--new-url",
+            required=True,
+            dest="new_url",
+            help="New GitHub blob URL for the named skill",
+        )
+        dev_relink.add_argument(
+            "--dry-run",
+            action="store_true",
+            default=False,
+            dest="dry_run",
+            help="Print intended changes without writing",
+        )
+        dev_relink.add_argument(
+            "--user",
+            default=None,
+            help="Contributor handle attributed to the timeline event (defaults to whoami actor)",
+        )
+
     def execute(self, args: argparse.Namespace) -> int | None:
         dev_cmd = getattr(args, "dev_command", None)
         MUTATING_DEV_COMMANDS = {
@@ -1175,6 +1203,7 @@ class DevCommand(Command):
             "fuse",
             "sync-upstream",
             "freeze",
+            "relink",
             "ratify",
             "embed",
             "provenance",
@@ -1310,6 +1339,9 @@ class DevCommand(Command):
         elif dev_cmd == "freeze":
             from gaia_cli.commands.dev.freeze import freeze_command
             freeze_command(args)
+        elif dev_cmd == "relink":
+            from gaia_cli.commands.dev.relink import relink_command
+            relink_command(args)
         elif dev_cmd == "assess":
             from gaia_cli.curation.assessment import assessCommand
             return assessCommand(args)

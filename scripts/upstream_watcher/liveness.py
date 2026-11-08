@@ -12,9 +12,12 @@ Public API
 blob_to_raw(url)
     Convert a ``github.com/.../blob/…`` URL to ``raw.githubusercontent.com``.
 
-check_component_liveness(components, registry_map)
+classify_upstream_404(gh_url, skill_id, fetch_json_fn=None)
+    Classify an upstream 404/410 as DELETED, RENAMED, or UNKNOWN from git evidence.
+
+check_component_liveness(components, registry_map, fetch_json_fn=None)
     HEAD-check each component's ``links.github`` URL.  Return list of dicts
-    with ``{skillId, url, status}``.
+    with ``{skillId, url, status}``. If status in (404, 410), classifies it.
 
 fetch_component_diff(owner, repo, tag, component_root, current_components)
     Compare the upstream release tree against the current component list.
@@ -23,8 +26,9 @@ fetch_component_diff(owner, repo, tag, component_root, current_components)
 
 from __future__ import annotations
 
+import shlex
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, unquote, urlparse
 
 from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check, is_permanent_unavailable
 from scripts.upstream_watcher.live import SuiteUnavailable, UnknownEvidenceError, retry_transient, unknown_read_detail
@@ -54,6 +58,112 @@ def blob_to_raw(url: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Upstream 404 git evidence classification
+# ---------------------------------------------------------------------------
+
+
+def parse_github_file_url(url: str) -> tuple[str, str, str, str] | None:
+    """Parse (owner, repo, ref, path) from a GitHub blob or raw URL."""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return None
+
+    host = (parsed.hostname or "").lower()
+    path_parts = [p for p in parsed.path.split("/") if p]
+
+    if host in ("github.com", "www.github.com"):
+        if len(path_parts) >= 5 and path_parts[2] in ("blob", "raw"):
+            owner = path_parts[0]
+            repo = path_parts[1][:-4] if path_parts[1].endswith(".git") else path_parts[1]
+            ref = path_parts[3]
+            path = unquote("/".join(path_parts[4:]))
+            return owner, repo, ref, path
+    elif host == "raw.githubusercontent.com":
+        if len(path_parts) >= 4:
+            owner = path_parts[0]
+            repo = path_parts[1][:-4] if path_parts[1].endswith(".git") else path_parts[1]
+            ref = path_parts[2]
+            path = unquote("/".join(path_parts[3:]))
+            return owner, repo, ref, path
+
+    return None
+
+
+def classify_upstream_404(
+    gh_url: str,
+    skill_id: str,
+    fetch_json_fn: Any = None,
+) -> dict[str, Any]:
+    """Classify an upstream 404/410 as DELETED, RENAMED, or UNKNOWN based on git evidence.
+
+    Inspects recent commits touching the broken path to identify if the file was
+    renamed or removed upstream, producing an actionable gaia dev proposal.
+    """
+    if fetch_json_fn is None:
+        fetch_json_fn = fetch_json
+
+    parsed = parse_github_file_url(gh_url)
+    if not parsed:
+        return {"classification": "UNKNOWN", "reason": f"unsupported or unparseable GitHub URL: {gh_url}"}
+
+    owner, repo, ref, path = parsed
+
+    try:
+        commits = fetch_json_fn(f"/repos/{owner}/{repo}/commits?path={quote(path)}&sha={quote(ref)}&per_page=1")
+    except Exception as exc:
+        return {"classification": "UNKNOWN", "reason": f"failed to fetch commits: {exc}"}
+
+    if not isinstance(commits, list) or not commits:
+        return {"classification": "UNKNOWN", "reason": "no commits found touching path"}
+
+    latest_commit = commits[0]
+    if not isinstance(latest_commit, dict) or not latest_commit.get("sha"):
+        return {"classification": "UNKNOWN", "reason": "latest commit missing sha"}
+
+    sha = latest_commit["sha"]
+    commit_sha = sha
+
+    try:
+        commit_details = fetch_json_fn(f"/repos/{owner}/{repo}/commits/{sha}")
+    except Exception as exc:
+        return {"classification": "UNKNOWN", "reason": f"failed to fetch commit details: {exc}"}
+
+    if not isinstance(commit_details, dict):
+        return {"classification": "UNKNOWN", "reason": "invalid commit details response"}
+
+    files = commit_details.get("files")
+    if isinstance(files, list):
+        for f in files:
+            if not isinstance(f, dict):
+                continue
+            status = f.get("status")
+            filename = f.get("filename")
+            prev_filename = f.get("previous_filename", "")
+
+            if status == "renamed" and prev_filename == path:
+                if not isinstance(filename, str) or not filename.strip():
+                    return {"classification": "UNKNOWN", "reason": "missing or invalid new path for renamed file"}
+                new_path = filename
+                new_url = f"https://github.com/{owner}/{repo}/blob/{ref}/{quote(new_path, safe='/')}"
+                return {
+                    "classification": "RENAMED",
+                    "commitSha": sha,
+                    "newPath": new_path,
+                    "newUrl": new_url,
+                    "proposal": f"gaia dev relink {shlex.quote(skill_id)} --new-url {shlex.quote(new_url)}",
+                }
+            if status == "removed" and filename == path:
+                return {
+                    "classification": "DELETED",
+                    "commitSha": sha,
+                    "proposal": f"gaia dev freeze {shlex.quote(skill_id)} --reason {shlex.quote(f'upstream file removed in commit {commit_sha[:10]} ({path})')}",
+                }
+
+    return {"classification": "UNKNOWN", "reason": "no matching file change found in commit"}
+
+
+# ---------------------------------------------------------------------------
 # Link liveness
 # ---------------------------------------------------------------------------
 
@@ -61,6 +171,7 @@ def blob_to_raw(url: str) -> str:
 def check_component_liveness(
     components: list[str],
     registry_map: dict[str, dict],
+    fetch_json_fn: Any = None,
 ) -> list[dict[str, Any]]:
     """HEAD-check each component's ``links.github`` URL.
 
@@ -92,14 +203,18 @@ def check_component_liveness(
                 }
             )
         elif status < 200 or status >= 300:
-            broken.append(
-                {
-                    "skillId": comp_id,
-                    "url": gh_url,
-                    "rawUrl": raw_url,
-                    "status": status,
-                }
-            )
+            rec: dict[str, Any] = {
+                "skillId": comp_id,
+                "url": gh_url,
+                "rawUrl": raw_url,
+                "status": status,
+            }
+            if status in (404, 410):
+                classification_info = classify_upstream_404(gh_url, comp_id, fetch_json_fn=fetch_json_fn)
+                for key in ("classification", "proposal", "commitSha", "newPath", "newUrl"):
+                    if key in classification_info and classification_info[key] is not None:
+                        rec[key] = classification_info[key]
+            broken.append(rec)
 
     return broken
 

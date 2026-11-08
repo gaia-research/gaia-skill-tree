@@ -155,13 +155,25 @@ def render_umbrella_body(
 
     liveness_section = ""
     if link_liveness:
-        rows = [f"| `{r['skillId']}` | `{r['url']}` | `{r['status']}` |"
-                for r in link_liveness]
-        liveness_section = (
-            "| Skill | URL | Status |\n"
-            "|---|---|---|\n"
-            + "\n".join(rows)
-        )
+        has_proposal = any(r.get("proposal") for r in link_liveness)
+        if has_proposal:
+            rows = []
+            for r in link_liveness:
+                prop = f"`{r['proposal'].replace('|', r'\|')}`" if r.get("proposal") else "—"
+                rows.append(f"| `{r['skillId']}` | `{r['url']}` | `{r['status']}` | {prop} |")
+            liveness_section = (
+                "| Skill | URL | Status | Proposal |\n"
+                "|---|---|---|---|\n"
+                + "\n".join(rows)
+            )
+        else:
+            rows = [f"| `{r['skillId']}` | `{r['url']}` | `{r['status']}` |"
+                    for r in link_liveness]
+            liveness_section = (
+                "| Skill | URL | Status |\n"
+                "|---|---|---|\n"
+                + "\n".join(rows)
+            )
     else:
         liveness_section = "_All component links are healthy._"
 

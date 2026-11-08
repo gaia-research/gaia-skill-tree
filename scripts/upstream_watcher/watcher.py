@@ -188,7 +188,8 @@ def _render_report(
             if liveness:
                 lines.append(f"- **Broken links:** {len(liveness)}")
                 for row in liveness:
-                    lines.append(f"  - `{row['skillId']}` → `{row['url']}` ({row['status']})")
+                    proposal_text = f" — proposal: `{row['proposal']}`" if row.get("proposal") else ""
+                    lines.append(f"  - `{row['skillId']}` → `{row['url']}` ({row['status']}){proposal_text}")
             if name_drift:
                 lines.append(f"- **Name drift:** {len(name_drift)}")
                 for row in name_drift:
