@@ -94,7 +94,7 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia dev validate [--intake] [--meta-sync]
+  gaia dev validate [--intake] [--meta-sync] [--allow-missing-index]
   gaia dev arbor check [record.json]
   gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
   gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
@@ -1001,6 +1001,11 @@ class DevCommand(Command):
             action="store_true",
             help="Verify meta.json is in sync with gaia.json",
         )
+        dev_validate.add_argument(
+            "--allow-missing-index",
+            action="store_true",
+            help="Skip the generated named-index cross-check when no index is built (default: fail closed)",
+        )
 
         dev_release = dev_sub.add_parser(
             "release", help="Bump version, commit, tag, and push to trigger GitHub Release"
@@ -1180,8 +1185,12 @@ class DevCommand(Command):
             "provenance",
             "evidence-seed",
         }
-        if dev_cmd in MUTATING_DEV_COMMANDS or (
-            dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
+        # `embed --check` only reads the embeddings artifact and reports freshness: it
+        # writes nothing, so it is never gated and takes no canonical writer lock.
+        readOnlyCheck = dev_cmd == "embed" and bool(getattr(args, "check", False))
+        if not readOnlyCheck and (
+            dev_cmd in MUTATING_DEV_COMMANDS
+            or (dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"})
         ):
             from gaia_cli.authz import require_operator
             operation = (

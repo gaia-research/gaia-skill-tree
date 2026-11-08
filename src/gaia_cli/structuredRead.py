@@ -48,7 +48,6 @@ from __future__ import annotations
 import copy
 import json
 import logging
-import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -176,8 +175,9 @@ class DiagnosticLog:
                     ResourceWarning,
                     stacklevel=2,
                 )
-            except Exception:
-                pass
+            except Exception as exc:  # noqa: BLE001 - __del__ must never raise (interpreter shutdown)
+                # A failed warning must not raise out of __del__, but it is recorded.
+                LOGGER.debug("DiagnosticLog could not emit its unreported-diagnostics warning: %r", exc)
 
 
 def logDiagnostic(diagnostic: ReadDiagnostic) -> None:

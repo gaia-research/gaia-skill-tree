@@ -1131,7 +1131,9 @@ _ESCAPER = re.compile(r"escape|esc[A-Z_]|\besc\s*\(|sanitize|DOMPurify")
 # (scripts/check_html_sinks.py SUPPRESS). A reason is required. A marked sink
 # is still reported: the marker only annotates it as acknowledged.
 _SINK_ACK = re.compile(r"gaia-html-sink-ok:\s*(\S.*)")
-_SINK_ACK_TRAILER = re.compile(r"\*/|-->")
+# An HTML comment may also end with the browser-tolerated ``--!>``, so the reason
+# must stop at either ``-->`` or ``--!>`` (CodeQL: bad HTML filtering regexp).
+_SINK_ACK_TRAILER = re.compile(r"\*/|--!?>")
 _HTML_ASSIGN = re.compile(r"\.(innerHTML|outerHTML)\s*\+?=(?!=)\s*")
 _INSERT_ADJACENT = re.compile(r"\.insertAdjacentHTML\s*\(\s*[^,()]+,\s*")
 _DOCUMENT_WRITE = re.compile(r"\bdocument\.write(?:ln)?\s*\(")

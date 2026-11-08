@@ -44,6 +44,11 @@ PYTHONPATH=src python3 scripts/trust_appraise.py
 PYTHONPATH=src python3 scripts/trust_appraise.py --skill foo/bar --json
 ```
 
+**Frozen skills:** a frozen skill's standing is its locked TM/grade (`gaia_cli.frozen`), never
+the recomputation. The text output prints `FROZEN - locked TM ... / ...; current recomputation
+... / ...` and the JSON carries `frozen`, `recomputedTm`, `recomputedGrade`. Report the lock as
+the standing and the recomputation only as information; the rows below it are the recomputation.
+
 ## Scope labels: always report them
 
 Every result carries `scope`, `genericResolution` and `totalStatus` (authority map §2):

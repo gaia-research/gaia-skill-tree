@@ -484,10 +484,15 @@ def test_reentrantAppendDuringReportLeavesNewDiagnosticUnsurfaced() -> None:
     log = DiagnosticLog()
     log(ReadDiagnostic("first.json", "missing", "optional", "first"))
     received: list[ReadDiagnostic] = []
+    # The sink reaches the log through this holder rather than closing over
+    # `log`: the test later `del`s `log`, and a closure over a deleted name is an
+    # undefined-name (F821) to the linter. Clearing the holder before the `del`
+    # keeps the log collectable so the ResourceWarning assertion stays meaningful.
+    holder = [log]
 
     def sink(d: ReadDiagnostic) -> None:
         received.append(d)
-        log(ReadDiagnostic("second.json", "missing", "optional", "second"))
+        holder[0](ReadDiagnostic("second.json", "missing", "optional", "second"))
 
     reported = log.report(sink)
     assert reported == 1
@@ -496,6 +501,7 @@ def test_reentrantAppendDuringReportLeavesNewDiagnosticUnsurfaced() -> None:
     assert log._surfaced == 1
     assert [d.path for d in received] == ["first.json"]
 
+    holder.clear()
     with pytest.warns(ResourceWarning, match="1 unreported read diagnostic"):
         del log
         gc.collect()
@@ -507,11 +513,13 @@ def test_drainAndAppendDuringForwardingLeavesNewDiagnosticUnsurfaced() -> None:
     log = DiagnosticLog()
     log(ReadDiagnostic("first.json", "missing", "optional", "first"))
     received: list[ReadDiagnostic] = []
+    # See the reentrant-append test: holder avoids a closure over the later-`del`ed `log`.
+    holder = [log]
 
     def sink(d: ReadDiagnostic) -> None:
         received.append(d)
-        log.drain()
-        log(ReadDiagnostic("second.json", "missing", "optional", "second"))
+        holder[0].drain()
+        holder[0](ReadDiagnostic("second.json", "missing", "optional", "second"))
 
     reported = log.report(sink)
     assert reported == 1
@@ -520,6 +528,7 @@ def test_drainAndAppendDuringForwardingLeavesNewDiagnosticUnsurfaced() -> None:
     assert log._surfaced == 0
     assert [d.path for d in received] == ["first.json"]
 
+    holder.clear()
     with pytest.warns(ResourceWarning, match="1 unreported read diagnostic"):
         del log
         gc.collect()
