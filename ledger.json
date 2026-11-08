@@ -1,5 +1,5 @@
 {
- "generation": 1914,
+ "generation": 1915,
  "lane": {
   "entries": [
    {
@@ -6807,7 +6807,13 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {},
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-11-08T09:29:21.338571Z",
+   "expiresAt": "2026-11-08T09:59:21.338571Z",
+   "holder": "run-20261108T092921Z-3a98c528"
+  }
+ },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -149171,10 +149177,67 @@
    "trigger": "manual",
    "unresolvedWork": [],
    "updatedAt": "2026-11-08T09:25:12.272063Z"
+  },
+  "run-20261108T092921Z-3a98c528": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-campaign-2026-11-05",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-11-08T09:29:21.338571Z",
+     "holder": "run-20261108T092921Z-3a98c528",
+     "key": "run"
+    }
+   ],
+   "mode": "verify",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "browser": {
+     "headless": true,
+     "interactive": false
+    },
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "verify",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261108T092921Z-3a98c528",
+   "sequence": 56,
+   "sourceHead": null,
+   "startedAt": "2026-11-08T09:29:21.338571Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-11-08T09:29:21.338571Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T09:29:15.222541Z",
+ "updatedAt": "2026-11-08T09:29:22.358157Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
