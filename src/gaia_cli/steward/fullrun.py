@@ -1053,6 +1053,38 @@ class FullRunner:
                     f"no escalated work items authorized by {ruling} found in run {runId}"
                 )
 
+        def runner_baseline(item: dict[str, Any]) -> dict[str, str | None]:
+            """The integration head the runner recorded for the run that dispatched this work.
+
+            Only Steward's own ledger is consulted: the one run whose agent.build action carries
+            this dispatch id at the attempt the stored build was recorded for (a dispatch id is
+            stable across re-dispatch, so the attempt disambiguates). Its recorded
+            integrationHead and integrationBranch go to routing, which authenticates them
+            (ancestry and before-image hashes) or fails closed.
+            """
+            build = item.get("build") or {}
+            dispatch = item.get("dispatchId") or build.get("dispatchId")
+            attempt = build.get("attempt", item.get("attempt"))
+            owners = [
+                other for other in doc["runs"].values()
+                if any(
+                    a.get("type") == "agent.build"
+                    and (a.get("params") or {}).get("dispatchId") == dispatch
+                    and (a.get("params") or {}).get("attempt") == attempt
+                    for a in other.get("actions", [])
+                )
+            ]
+            if len(owners) != 1:
+                return {"commit": None, "branchRef": None}
+            owner = owners[0]
+            branch = owner.get("integrationBranch")
+            if item.get("baseBranch") and item.get("baseBranch") != branch:
+                return {"commit": None, "branchRef": None}
+            return {
+                "commit": owner.get("integrationHead"),
+                "branchRef": f"refs/remotes/{self.config.remote}/{branch}" if branch else None,
+            }
+
         def ruling_consumed(work: dict[str, Any]) -> bool:
             existing = {Path(str(r)).stem for r in (work.get("consumedRulings") or []) if r}
             current = (work.get("verification") or {}).get("ruling")
@@ -1110,7 +1142,7 @@ class FullRunner:
                     proof_path=proof_path,
                     controller=controller,
                     dispatch_id=item.get("dispatchId") or item.get("build", {}).get("dispatchId"),
-                    base_commit=item.get("baseCommit") or item.get("build", {}).get("baseCommit"),
+                    runner_baseline=runner_baseline(item),
                 )
             except Exception as exc:
                 raise FullRunError(f"verification failed for {debt_id}: {exc}") from exc
@@ -1189,7 +1221,10 @@ class FullRunner:
                 if "verification" in work and work["verification"]:
                     prior_verifications.append(work["verification"])
                 work["priorVerifications"] = prior_verifications
-                work["consumedRulings"] = sorted(set(list(work.get("consumedRulings") or []) + [ruling]))
+                # Only a decided outcome consumes the ruling: a mechanical reject here, or the
+                # independent verifier's judgment recorded later. A release to the verifier
+                # reserves it (verification.ruling) so it cannot be released twice; a mechanical
+                # escalation decides nothing and leaves the ruling available for a retry.
 
                 if v["status"] == "awaiting-verifier":
                     builders = sorted({
@@ -1272,8 +1307,13 @@ class FullRunner:
                         "verdict": verdict.verdict,
                         "reasons": reasons_list,
                         "recordedAt": now,
-                        "ruling": ruling,
                     }
+                    if verdict.verdict == "escalate":
+                        work["verification"]["rulingAttempt"] = ruling
+                        work["verification"]["rulingConsumed"] = False
+                    else:
+                        work["verification"]["ruling"] = ruling
+                        work["consumedRulings"] = sorted(set(list(work.get("consumedRulings") or []) + [ruling]))
                     if escalated:
                         self._setState(doc, debt_id, "escalated", now, f"{note}: {'; '.join(reasons_list)[:200]}")
                     else:
@@ -1494,6 +1534,11 @@ class FullRunner:
                 "stage": "judged", "verdict": verdict, "rationale": rationale,
                 "agentId": outcome["agentId"], "recordedAt": now,
             }
+            ruling = action["params"].get("ruling")
+            if ruling and action["params"].get("reverification"):
+                # The independent judgment is the decided outcome a founder ruling buys.
+                item["verification"]["ruling"] = ruling
+                item["consumedRulings"] = sorted(set(list(item.get("consumedRulings") or []) + [ruling]))
             escalated = lane.by_id(debtId).state == "escalated"
             if verdict == "accept":
                 if noChange:

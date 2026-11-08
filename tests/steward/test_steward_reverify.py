@@ -651,3 +651,120 @@ def test_batch_compatibility_mandate_in_prompt(tmp_path: Path, monkeypatch: pyte
     content = prompt.read_text(encoding="utf-8")
     assert "Founder Ruling 1 Mandate: Module API & Consumer Contract Compatibility Check" in content
     assert "batch.re" in content and "Stop on any remaining uncertainty" in content
+
+
+# --- Legacy receipts: authenticated runner baseline; only decided outcomes consume ---
+
+
+def _make_legacy(runner: FullRunner, run_id: str, debt_id: str, diff_path: Path,
+                 monkeypatch: pytest.MonkeyPatch, *, record_baseline: bool = True) -> str:
+    """Strip headCommit from the dispatch receipt and record the runner's own integration head."""
+    from gaia_cli.steward import routing
+
+    repo = runner.root
+    git = lambda *a: subprocess.run(["git", *a], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
+    head = git("rev-parse", "HEAD")
+    git("update-ref", "refs/remotes/origin/main", head)
+    old_blob = subprocess.run(["git", "hash-object", "--stdin"], cwd=repo, input="import os\n",
+                              check=True, capture_output=True, text=True).stdout.strip()
+    diff_path.write_text(
+        "diff --git a/scripts/jev_advisory.py b/scripts/jev_advisory.py\n"
+        f"index {old_blob[:12]}..e69de29bb2d1 100644\n"
+        "--- a/scripts/jev_advisory.py\n+++ b/scripts/jev_advisory.py\n@@ -1 +0,0 @@\n-import os\n",
+        encoding="utf-8",
+    )
+    original = routing._dispatch_receipt_for
+
+    def legacy_receipt(*args: Any, **kwargs: Any) -> Any:
+        receipt = dict(original(*args, **kwargs))
+        receipt["artifact"] = dict(receipt["artifact"])
+        for field in ("headCommit", "gitHead"):
+            receipt.pop(field, None)
+            receipt["artifact"].pop(field, None)
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", legacy_receipt)
+
+    def mutate(doc: dict[str, Any]) -> None:
+        run = doc["runs"][run_id]
+        dispatch_id = doc["work"][debt_id]["dispatchId"]
+        run["integrationBranch"] = "main"
+        run["integrationHead"] = head if record_baseline else "unknown"
+        run["actions"].append({
+            "stepId": "build:x:2", "type": "agent.build", "debtId": debt_id, "status": "done",
+            "params": {"debtId": debt_id, "dispatchId": dispatch_id, "attempt": 2},
+        })
+        doc["work"][debt_id]["baseBranch"] = "main"
+
+    update(runner.config.store, mutate, message="legacy dispatch")
+    return head
+
+
+def test_legacy_receipt_reverifies_from_runner_recorded_head(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    runner, run_id, debt_id, diff_path, _ = _setup_runner_and_escalated_item(tmp_path)
+    head = _make_legacy(runner, run_id, debt_id, diff_path, monkeypatch)
+    res = runner.reverify_escalated(run_id, [debt_id])
+    assert res["results"][0]["result"] == "awaiting-verifier"
+    doc, _ = runner.config.store.load()
+    work = doc["work"][debt_id]
+    assert work["verification"]["ruling"] == "steward-verification-reverify-2283"
+    assert not work.get("consumedRulings")  # reserved, not yet decided
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id])
+    action = next(a for a in doc["runs"][run_id]["actions"] if a["type"] == "agent.verify")
+    runner.record(run_id, action["stepId"], {
+        "agentId": "independent-verifier", "model": "pi", "effort": "high",
+        "verdict": "accept", "rationale": "Independent check passed.",
+    })
+    doc, _ = runner.config.store.load()
+    assert doc["work"][debt_id]["consumedRulings"] == ["steward-verification-reverify-2283"]
+    assert head
+
+
+def test_mechanical_escalation_does_not_consume_ruling(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    runner, run_id, debt_id, diff_path, _ = _setup_runner_and_escalated_item(tmp_path)
+    _make_legacy(runner, run_id, debt_id, diff_path, monkeypatch, record_baseline=False)
+    for attempt in (1, 2):
+        res = runner.reverify_escalated(run_id, [debt_id])
+        assert res["results"][0]["result"] == "mechanical-escalate"
+        assert any("runner baseline rejected" in r for r in res["results"][0]["reasons"])
+        doc, _ = runner.config.store.load()
+        work = doc["work"][debt_id]
+        assert work["state"] == "escalated"
+        assert not work.get("consumedRulings")
+        assert work["verification"]["rulingAttempt"] == "steward-verification-reverify-2283"
+        assert work["verification"]["rulingConsumed"] is False
+        assert "ruling" not in work["verification"]
+        assert len(work["priorVerifications"]) == attempt
+
+
+def test_mechanical_reject_consumes_ruling(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    runner, run_id, debt_id, diff_path, proof_path = _setup_runner_and_escalated_item(tmp_path)
+    _make_legacy(runner, run_id, debt_id, diff_path, monkeypatch)
+    data = json.loads(proof_path.read_text(encoding="utf-8"))
+    data["entries"][0]["exitCode"] = 1
+    proof_path.write_text(json.dumps(data), encoding="utf-8")
+    res = runner.reverify_escalated(run_id, [debt_id])
+    assert res["results"][0]["result"] == "mechanical-reject"
+    doc, _ = runner.config.store.load()
+    assert doc["work"][debt_id]["consumedRulings"] == ["steward-verification-reverify-2283"]
+    with pytest.raises(FullRunError, match="consumable once"):
+        runner.reverify_escalated(run_id, [debt_id])
+
+
+def test_redispatched_item_uses_run_of_recorded_attempt(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A dispatch id survives re-dispatch; the build's attempt picks the run whose head is used."""
+    runner, run_id, debt_id, diff_path, _ = _setup_runner_and_escalated_item(tmp_path)
+    _make_legacy(runner, run_id, debt_id, diff_path, monkeypatch)
+
+    def mutate(doc: dict[str, Any]) -> None:
+        dispatch_id = doc["work"][debt_id]["dispatchId"]
+        doc["runs"]["run-earlier"] = {
+            "runId": "run-earlier", "integrationBranch": "main", "integrationHead": "f" * 40,
+            "actions": [{"stepId": "build:x:1", "type": "agent.build", "debtId": debt_id, "status": "done",
+                         "params": {"debtId": debt_id, "dispatchId": dispatch_id, "attempt": 1}}],
+        }
+
+    update(runner.config.store, mutate, message="earlier attempt")
+    res = runner.reverify_escalated(run_id, [debt_id])
+    assert res["results"][0]["result"] == "awaiting-verifier"

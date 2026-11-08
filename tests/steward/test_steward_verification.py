@@ -976,3 +976,154 @@ def test_compute_patch_attribution_unresolvable_base_commit_in_git_repo_fails_cl
         base_commit="nonexistent_commit_hash_123456",
     )
     assert introduced is None
+
+
+# --- Legacy dispatch receipts: runner-recorded, authenticated baseline (#2371) ---
+
+
+def _git(root: Path, *args: str) -> str:
+    return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+
+def _blob(root: Path, text: str) -> str:
+    return subprocess.run(
+        ["git", "hash-object", "--stdin"], cwd=root, input=text, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+
+def _real_diff(root: Path, path: str = "scripts/fix.py", old: str = "old line\n", new: str = "new line\n") -> str:
+    return (
+        f"diff --git a/{path} b/{path}\n"
+        f"index {_blob(root, old)[:12]}..{_blob(root, new)[:12]} 100644\n"
+        f"--- a/{path}\n+++ b/{path}\n@@ -1 +1 @@\n-{old}+{new}"
+    )
+
+
+def _legacy_repo(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """A git repo whose dispatch receipt predates headCommit (the legacy campaign format)."""
+    from gaia_cli.steward import routing
+
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    base = _git(root, "rev-parse", "HEAD")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    original = routing._dispatch_receipt_for
+
+    def legacy_receipt(*args, **kwargs):
+        receipt = dict(original(*args, **kwargs))
+        receipt["artifact"] = dict(receipt["artifact"])
+        for field in ("headCommit", "gitHead"):
+            receipt.pop(field, None)
+            receipt["artifact"].pop(field, None)
+        return receipt
+
+    monkeypatch.setattr(routing, "_dispatch_receipt_for", legacy_receipt)
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    return root, base, controller, debt_id, proof_path
+
+
+def test_legacy_receipt_uses_authenticated_runner_baseline(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root, base, controller, debt_id, proof_path = _legacy_repo(tmp_path, monkeypatch)
+    # The branch moved on after dispatch: the recorded head is history, not the tip.
+    _write(root, "scripts/other.py", "later\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "later merge")
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": base, "branchRef": "refs/heads/main"},
+    )
+    verdict = result.artifact
+    assert verdict.attribution_failed is False
+    assert verdict.verdict == "pending"
+    assert any("runner-recorded integration head" in r and base in r for r in verdict.reasons)
+
+
+@pytest.mark.parametrize("case", ["not-ancestor", "preimage-mismatch", "no-index", "abbrev", "unknown", "no-branch"])
+def test_legacy_runner_baseline_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str) -> None:
+    root, base, controller, debt_id, proof_path = _legacy_repo(tmp_path, monkeypatch)
+    commit, branch_ref, diff = base, "refs/heads/main", _real_diff(root)
+    if case == "not-ancestor":
+        # Same tree and before-images, but a commit that never landed on the branch.
+        commit = _git(root, "commit-tree", f"{base}^{{tree}}", "-p", base, "-m", "off-branch")
+    elif case == "preimage-mismatch":
+        diff = _real_diff(root, old="something else\n")
+    elif case == "no-index":
+        diff = "--- a/scripts/fix.py\n+++ b/scripts/fix.py\n@@ -1 +1 @@\n-old line\n+new line\n"
+    elif case == "abbrev":
+        commit = base[:12]
+    elif case == "unknown":
+        commit = "unknown"
+    else:
+        branch_ref = "refs/remotes/origin/missing"
+    diff_path = _write(root, "candidate.diff", diff)
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": commit, "branchRef": branch_ref},
+    )
+    assert result.artifact.attribution_failed is True
+    assert result.artifact.verdict == "escalate"
+    assert any(r.startswith("runner baseline rejected: ") for r in result.artifact.reasons)
+
+
+def test_receipt_head_commit_outranks_runner_baseline(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "Test Steward")
+    _git(root, "config", "user.email", "steward@example.com")
+    _write(root, "scripts/fix.py", "old line\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "initial")
+    controller = _controller(IntegritySensor())
+    debt_id = controller.scan(root).open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+    diff_path = _write(root, "candidate.diff", _real_diff(root))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+    result, _, _ = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller,
+        runner_baseline={"commit": "0" * 40, "branchRef": "refs/heads/nope"},
+    )
+    assert result.artifact.attribution_failed is False
+    assert not any("runner baseline" in r for r in result.artifact.reasons)
+
+
+def test_diff_preimages_parsing() -> None:
+    from gaia_cli.steward.routing import _diff_preimages
+
+    new = "diff --git a/n.py b/n.py\nnew file mode 100644\nindex 0000000..abcdef1\n--- /dev/null\n+++ b/n.py\n@@ -0,0 +1 @@\n+x\n"
+    rename = (
+        "diff --git a/o.py b/p.py\nsimilarity index 90%\nrename from o.py\nrename to p.py\n"
+        "index abcdef1..1234567 100644\n--- a/o.py\n+++ b/p.py\n@@ -1 +1 @@\n-a\n+b\n"
+    )
+    assert _diff_preimages(new) == [("n.py", "0000000", True)]
+    assert _diff_preimages(rename) == [("o.py", "abcdef1", False)]
+    assert _diff_preimages("diff --git a/m b/m\nold mode 100644\nnew mode 100755\n") is None
+    assert _diff_preimages("diff --git a/s b/s\nindex abc..def 100644\n--- a/s\n+++ b/s\n") is None
+    assert _diff_preimages('diff --git "a/q x" "b/q x"\nindex abcdef1..1234567\n--- "a/q x"\n+++ "b/q x"\n') is None
+    assert _diff_preimages("diff --git a/z b/z\nindex 0000000..abcdef1\n--- a/z\n+++ b/z\n") is None
+    assert _diff_preimages("") is None
+
+
+def test_runner_baseline_rejects_created_file_that_exists(tmp_path: Path) -> None:
+    from gaia_cli.steward.routing import authenticate_runner_baseline
+
+    root = tmp_path
+    _git(root, "init", "-q", "-b", "main")
+    _git(root, "config", "user.name", "T")
+    _git(root, "config", "user.email", "t@example.com")
+    _write(root, "n.py", "x\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "i")
+    head = _git(root, "rev-parse", "HEAD")
+    diff = "diff --git a/n.py b/n.py\nnew file mode 100644\nindex 0000000..abcdef1\n--- /dev/null\n+++ b/n.py\n@@ -0,0 +1 @@\n+x\n"
+    commit, reason = authenticate_runner_baseline(root, head, "refs/heads/main", diff)
+    assert commit is None and "already exists" in reason
+    ok, _ = authenticate_runner_baseline(root, head, "refs/heads/main", diff.replace("n.py", "m.py"))
+    assert ok == head

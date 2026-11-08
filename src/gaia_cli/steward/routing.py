@@ -7,6 +7,7 @@ state.
 
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import dataclass
 import json
 import os
@@ -862,6 +863,126 @@ def compute_patch_attribution(
         shutil.rmtree(scratch_dir, ignore_errors=True)
 
 
+_FULL_SHA_LENGTHS = (40, 64)
+_MIN_ABBREV = 7
+
+
+def _diff_preimages(diff_text: str) -> list[tuple[str, str, bool]] | None:
+    """Return (path, abbreviated pre-image blob, is_new) for every file in a git diff.
+
+    Returns None when any file block cannot be authenticated: no `diff --git`
+    header, no `index` line (mode-only or pure-rename blocks), a quoted or
+    missing path, or an abbreviated hash too short to bind a blob.
+    """
+
+    blocks: list[list[str]] = []
+    for line in diff_text.splitlines():
+        if line.startswith("diff --git "):
+            blocks.append([line])
+        elif blocks:
+            blocks[-1].append(line)
+        elif line.startswith(("--- ", "+++ ", "@@")):
+            return None  # hunks without a git header carry no before-image hash
+    if not blocks:
+        return None
+    result: list[tuple[str, str, bool]] = []
+    for block in blocks:
+        index = old_path = new_path = rename_from = None
+        new_file = False
+        for line in block[1:]:
+            if line.startswith(("@@", "Binary files ")):
+                break
+            if line.startswith("index "):
+                index = line[len("index "):].split(" ")[0]
+            elif line.startswith("new file mode"):
+                new_file = True
+            elif line.startswith("rename from "):
+                rename_from = line[len("rename from "):]
+            elif line.startswith("--- "):
+                old_path = line[len("--- "):]
+            elif line.startswith("+++ "):
+                new_path = line[len("+++ "):]
+        if index is None or ".." not in index:
+            return None
+        pre = index.split("..", 1)[0]
+        if len(pre) < _MIN_ABBREV or any(c not in "0123456789abcdef" for c in pre):
+            return None
+        absent = set(pre) == {"0"}
+        if absent != new_file:
+            return None
+        if new_file:
+            if new_path is None or not new_path.startswith("b/"):
+                return None
+            path = new_path[2:]
+        elif rename_from is not None:
+            path = rename_from
+        else:
+            if old_path is None or not old_path.startswith("a/"):
+                return None
+            path = old_path[2:]
+        if not path or path.startswith('"') or "\t" in path:
+            return None
+        result.append((path, pre, new_file))
+    return result
+
+
+def authenticate_runner_baseline(
+    repo_root: Path, commit: str | None, branch_ref: str | None, diff_text: str
+) -> tuple[str | None, str]:
+    """Authenticate a runner-recorded integration head as a patch attribution base.
+
+    Legacy dispatch receipts predate `headCommit`, so the only historical base
+    is the integration head the Steward runner itself recorded for the run that
+    dispatched the work. It is accepted only when all of these hold, else the
+    caller fails closed:
+
+    1. it is a full commit id that resolves to itself in this repository;
+    2. it is an ancestor of (or equal to) the recorded integration branch ref,
+       so it is real branch history rather than an arbitrary commit;
+    3. every file in the stored candidate diff names its before-image blob,
+       and that blob is exactly the file at this commit (a created file must
+       be absent there).
+
+    Returns (commit, note) on success and (None, reason) on failure.
+    """
+
+    if not commit or len(commit) not in _FULL_SHA_LENGTHS or any(
+        c not in "0123456789abcdef" for c in commit
+    ):
+        return None, f"runner-recorded integration head is not a full commit id: {commit!r}"
+    if not branch_ref:
+        return None, "no recorded integration branch to authenticate the runner baseline against"
+
+    def git(*args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["git", *args], cwd=repo_root, capture_output=True, text=True, check=False
+        )
+
+    resolved = git("rev-parse", "--verify", "--quiet", f"{commit}^{{commit}}")
+    if resolved.returncode != 0 or resolved.stdout.strip() != commit:
+        return None, f"runner-recorded integration head {commit} does not resolve in this repository"
+    branch = git("rev-parse", "--verify", "--quiet", f"{branch_ref}^{{commit}}")
+    if branch.returncode != 0 or not branch.stdout.strip():
+        return None, f"recorded integration branch {branch_ref} does not resolve"
+    if git("merge-base", "--is-ancestor", commit, branch.stdout.strip()).returncode != 0:
+        return None, f"runner-recorded integration head {commit} is not an ancestor of {branch_ref}"
+    preimages = _diff_preimages(diff_text)
+    if preimages is None:
+        return None, "stored diff does not name a before-image blob for every file"
+    for path, pre, is_new in preimages:
+        if is_new:
+            if git("cat-file", "-e", f"{commit}:{path}").returncode == 0:
+                return None, f"stored diff creates {path}, which already exists at {commit}"
+            continue
+        blob = git("rev-parse", "--verify", "--quiet", f"{commit}:{path}")
+        if blob.returncode != 0 or not blob.stdout.strip().startswith(pre):
+            return None, f"before-image of {path} in the stored diff does not match {commit}"
+    return commit, (
+        f"attribution base {commit}: runner-recorded integration head, ancestor of "
+        f"{branch_ref}, before-images match the stored diff"
+    )
+
+
 def render_verification(
     repo_root: Path,
     debt_id: str,
@@ -871,6 +992,7 @@ def render_verification(
     controller: StewardController | None = None,
     base_commit: str | None = None,
     dispatch_id: str | None = None,
+    runner_baseline: Mapping[str, str | None] | None = None,
 ) -> tuple[RoutingResult, str, Mapping[int, tuple[str, ...]]]:
     """Verify one dispatched Class B patch against the envelope that authorized it.
 
@@ -909,11 +1031,25 @@ def render_verification(
     )
     if base_commit and receipt_base_commit and base_commit != receipt_base_commit:
         raise RoutingError("supplied base_commit does not match authenticated dispatch receipt base")
-    # Only the authenticated receipt can supply a git attribution baseline.
-    # With no receipt base, compute_patch_attribution fails closed in git repos.
+    # A caller-supplied commit is never trusted as a baseline. The dispatch
+    # receipt's own headCommit is authoritative (it is inside the hashed
+    # payload). A legacy receipt without one may use only the runner-recorded
+    # integration head, and only once authenticate_runner_baseline() proves it
+    # is branch history whose before-images match the stored diff. Anything
+    # else leaves no base, so compute_patch_attribution fails closed.
     resolved_base_commit = receipt_base_commit
 
     diff_text = read_text_input(diff_path, label="candidate diff", limit=MAX_DIFF_BYTES)
+    baseline_note: str | None = None
+    if resolved_base_commit is None and runner_baseline is not None:
+        resolved_base_commit, baseline_note = authenticate_runner_baseline(
+            root,
+            runner_baseline.get("commit"),
+            runner_baseline.get("branchRef"),
+            diff_text,
+        )
+        if resolved_base_commit is None:
+            baseline_note = "runner baseline rejected: " + baseline_note
     transcript_text = read_text_input(
         proof_path, label="proof transcript", limit=MAX_TRANSCRIPT_BYTES
     )
@@ -943,7 +1079,7 @@ def render_verification(
             base_commit=resolved_base_commit,
         )
         attribution_failed = patch_introduced_debt is None
-        return evaluate(
+        verdict = evaluate(
             packet=packet,
             change_set=change_set,
             transcript=transcript,
@@ -957,6 +1093,9 @@ def render_verification(
             attribution_failed=attribution_failed,
             calibration_violations=calibration_structure_violations(root, packet, change_set),
         )
+        if baseline_note:
+            verdict = dataclasses.replace(verdict, reasons=verdict.reasons + (baseline_note,))
+        return verdict
 
     def commit(scan: ScanResult, artifact: object) -> None:
         # The lane rolls forward off real verification outcomes, not off manual
