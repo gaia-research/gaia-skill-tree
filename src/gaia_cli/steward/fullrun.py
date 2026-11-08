@@ -447,10 +447,19 @@ class FullRunner:
             self._controller = factory()
         return self._controller
 
-    def _update(self, mutate: Callable[[dict[str, Any]], Any], message: str = "steward full") -> Any:
+    def _update(
+        self,
+        mutate: Callable[[dict[str, Any]], Any],
+        message: str = "steward full",
+        runId: str | None = None,
+    ) -> Any:
         result, _version = update(
-            self.config.store, mutate, retries=CONTENDEDRETRIES,
-            clock=self.config.clock, message=message,
+            self.config.store,
+            mutate,
+            retries=CONTENDEDRETRIES,
+            clock=self.config.clock,
+            message=message,
+            runId=runId,
         )
         return result
 
@@ -509,7 +518,7 @@ class FullRunner:
                 acquire_lease(doc, RUNLEASE, runId, now, self.config.lease_ttl_seconds)
             return apply(doc, run)
 
-        return self._update(mutate, message)
+        return self._update(mutate, message=message, runId=runId)
 
     def _loadRun(self, runId: str) -> dict[str, Any]:
         run = self._load()["runs"].get(runId)
@@ -586,7 +595,7 @@ class FullRunner:
             acquire_lease(doc, RUNLEASE, runId, now, self.config.lease_ttl_seconds)
             return {"existing": False, "unresolved": len(unresolved)}
 
-        outcome = self._update(mutate, "steward full start")
+        outcome = self._update(mutate, "steward full start", runId=runId)
         if outcome["existing"]:
             return RunView(
                 runId=None, mode=mode, status="observing-existing", phase=None,
@@ -624,7 +633,7 @@ class FullRunner:
             acquire_lease(doc, RUNLEASE, runId, now, self.config.lease_ttl_seconds)
             return {"state": "acquired"}
 
-        outcome = self._update(mutate, "steward full resume")
+        outcome = self._update(mutate, "steward full resume", runId=runId)
         if outcome["state"] == "acquired":
             return self.advance(runId)
         if outcome["state"] == "other":

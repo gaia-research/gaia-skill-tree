@@ -284,13 +284,48 @@ def telemetryByteLimit(override: int | None = None) -> int:
 
 def resolveTelemetryPath(
     path: Path | str | None = None,
+    root: Path | str | None = None,
 ) -> Path:
     if path is not None:
         return Path(path)
     env_path = os.environ.get("GAIA_STEWARD_LEDGER_TELEMETRY_PATH")
     if env_path:
         return Path(env_path)
+    if root is not None:
+        return Path(root) / DEFAULT_TELEMETRY_PATH
     return DEFAULT_TELEMETRY_PATH
+
+
+_local_telemetry = threading.local()
+
+
+class _TelemetryDeduplicator:
+    """Deduplicates telemetry write failure warnings within an operation."""
+
+    def __init__(self) -> None:
+        self.seen: set[str] = set()
+
+    def __enter__(self) -> "_TelemetryDeduplicator":
+        self._prev = getattr(_local_telemetry, "deduplicator", None)
+        _local_telemetry.deduplicator = self
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        _local_telemetry.deduplicator = self._prev
+
+
+def _warn_telemetry(message: str, key: str | None = None) -> None:
+    dedup = getattr(_local_telemetry, "deduplicator", None)
+    if dedup is not None:
+        dedup_key = key if key is not None else message
+        if dedup_key in dedup.seen:
+            return
+        dedup.seen.add(dedup_key)
+    try:
+        sys.stderr.write(f"warning: {message}\n")
+        sys.stderr.flush()
+    except Exception:
+        pass
 
 
 def write_ledger_telemetry(
@@ -301,46 +336,63 @@ def write_ledger_telemetry(
     try:
         line = json.dumps(record, ensure_ascii=False) + "\n"
         encoded = line.encode("utf-8")
-        path.parent.mkdir(parents=True, exist_ok=True)
-        current_size = path.stat().st_size if path.is_file() else 0
-        if current_size + len(encoded) <= max_bytes:
-            with open(path, "ab") as handle:
-                handle.write(encoded)
+        if len(encoded) > max_bytes:
+            _warn_telemetry(
+                f"failed to write steward ledger telemetry: record size ({len(encoded)} bytes) exceeds limit ({max_bytes} bytes)",
+                key=f"{path}:oversized",
+            )
             return
 
-        raw = path.read_bytes() if path.is_file() else b""
-        lines = [line_bytes for line_bytes in raw.splitlines(keepends=True) if line_bytes.strip()]
-        lines.append(encoded)
-        kept: list[bytes] = []
-        total = 0
-        for item in reversed(lines):
-            if not item.endswith(b"\n"):
-                item = item + b"\n"
-            if total + len(item) <= max_bytes:
-                kept.append(item)
-                total += len(item)
-            else:
-                break
-        kept.reverse()
-        tmp_fd, tmp_name = tempfile.mkstemp(
-            dir=path.parent, prefix=path.name + ".", suffix=".tmp"
-        )
+        path.parent.mkdir(parents=True, exist_ok=True)
+        lock_path = path.with_name(path.name + ".lock")
+        lock_fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
         try:
-            with os.fdopen(tmp_fd, "wb") as handle:
-                for item in kept:
-                    handle.write(item)
-                handle.flush()
-                os.fsync(handle.fileno())
-            os.replace(tmp_name, path)
-        except Exception:
+            if fcntl is not None:
+                fcntl.flock(lock_fd, fcntl.LOCK_EX)
+
+            current_size = path.stat().st_size if path.is_file() else 0
+            if current_size + len(encoded) <= max_bytes:
+                with open(path, "ab") as handle:
+                    handle.write(encoded)
+                return
+
+            raw = path.read_bytes() if path.is_file() else b""
+            lines = [line_bytes for line_bytes in raw.splitlines(keepends=True) if line_bytes.strip()]
+            lines.append(encoded)
+            kept: list[bytes] = []
+            total = 0
+            for item in reversed(lines):
+                if not item.endswith(b"\n"):
+                    item = item + b"\n"
+                if total + len(item) <= max_bytes:
+                    kept.append(item)
+                    total += len(item)
+                else:
+                    break
+            kept.reverse()
+            tmp_fd, tmp_name = tempfile.mkstemp(
+                dir=path.parent, prefix=path.name + ".", suffix=".tmp"
+            )
             try:
-                os.unlink(tmp_name)
+                with os.fdopen(tmp_fd, "wb") as handle:
+                    for item in kept:
+                        handle.write(item)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(tmp_name, path)
+            except Exception:
+                try:
+                    os.unlink(tmp_name)
+                except OSError:
+                    pass
+                raise
+        finally:
+            try:
+                os.close(lock_fd)
             except OSError:
                 pass
-            raise
     except Exception as exc:
-        sys.stderr.write(f"warning: failed to write steward ledger telemetry: {exc}\n")
-        sys.stderr.flush()
+        _warn_telemetry(f"failed to write steward ledger telemetry: {exc}", key=str(path))
 
 
 def reportLedgerSize(
@@ -564,6 +616,7 @@ class GitRefLedgerStore:
         max_telemetry_bytes: int | None = None,
     ) -> None:
         self.repo_root = Path(repo_root)
+        self.repoRoot = self.repo_root
         self.remote = validateRemote(remote)
         self.ref = validateRef(ref)
         self.localTimeout = localTimeout
@@ -577,7 +630,7 @@ class GitRefLedgerStore:
         self.urls: tuple[str, str] | None = None
         self.last_write_bytes: int = 0
         self.last_read_bytes: int = 0
-        self.telemetry_path = resolveTelemetryPath(telemetry_path)
+        self.telemetry_path = resolveTelemetryPath(telemetry_path, root=self.repoRoot)
         self.max_telemetry_bytes = max_telemetry_bytes
 
     # -- subprocess plumbing ------------------------------------------------
@@ -764,6 +817,10 @@ class GitRefLedgerStore:
             if telemetry_path is not None
             else getattr(self, "telemetry_path", None)
         )
+        if target_telemetry is None:
+            target_telemetry = resolveTelemetryPath(
+                None, root=getattr(self, "repoRoot", getattr(self, "repo_root", None))
+            )
         target_max_bytes = (
             max_telemetry_bytes
             if max_telemetry_bytes is not None
@@ -790,10 +847,14 @@ class GitRefLedgerStore:
         try:
             int_size = int(size)
             if int_size > limit:
+                duration_ms = (time.perf_counter() - t0) * 1000.0
                 reportLedgerSize(
                     int_size,
                     limit,
                     "read",
+                    duration_ms=duration_ms,
+                    cas_retries=0,
+                    run_id=effective_run_id,
                     telemetry_path=target_telemetry,
                     max_telemetry_bytes=target_max_bytes,
                 )
@@ -822,8 +883,14 @@ class GitRefLedgerStore:
     # -- compare-and-swap ---------------------------------------------------
 
     def compare_and_swap(
-        self, expected: str | None, document: dict[str, Any], message: str
+        self,
+        expected: str | None,
+        document: dict[str, Any],
+        message: str,
+        *,
+        _record_telemetry: bool = True,
     ) -> str:
+        t0 = time.perf_counter()
         data = serialize(nextGeneration(document))
         self.last_write_bytes = len(data)
         if expected is not None:
@@ -878,6 +945,18 @@ class GitRefLedgerStore:
             env=self._remoteEnv(pushUrl),
         )
         if result.returncode == 0:
+            if _record_telemetry:
+                duration_ms = (time.perf_counter() - t0) * 1000.0
+                limit = ledgerByteLimit()
+                reportLedgerSize(
+                    self.last_write_bytes,
+                    limit,
+                    "write",
+                    duration_ms=duration_ms,
+                    cas_retries=0,
+                    telemetry_path=getattr(self, "telemetry_path", None),
+                    max_telemetry_bytes=getattr(self, "max_telemetry_bytes", None),
+                )
             return commit
         self.classifyPushFailure(result, expected)
         raise AssertionError("classifyPushFailure always raises")  # pragma: no cover
@@ -936,7 +1015,20 @@ class FileLedgerStore:
         self.lockPath = self.path.with_name(self.path.name + ".lock")
         self.last_write_bytes: int = 0
         self.last_read_bytes: int = 0
-        self.telemetry_path = resolveTelemetryPath(telemetry_path)
+        root: Path | None = None
+        for candidate in (self.path.resolve().parent, *self.path.resolve().parent.parents):
+            if candidate.name == ".gaia":
+                root = candidate.parent
+                break
+            if (candidate / ".gaia").exists() or (candidate / ".git").exists():
+                root = candidate
+                break
+        if root is not None:
+            self.repoRoot = root
+            self.repo_root = root
+        self.telemetry_path = resolveTelemetryPath(
+            telemetry_path, root=getattr(self, "repoRoot", None)
+        )
         self.max_telemetry_bytes = max_telemetry_bytes
 
     @staticmethod
@@ -968,6 +1060,10 @@ class FileLedgerStore:
             if telemetry_path is not None
             else getattr(self, "telemetry_path", None)
         )
+        if target_telemetry is None:
+            target_telemetry = resolveTelemetryPath(
+                None, root=getattr(self, "repoRoot", getattr(self, "repo_root", None))
+            )
         target_max_bytes = (
             max_telemetry_bytes
             if max_telemetry_bytes is not None
@@ -1005,10 +1101,16 @@ class FileLedgerStore:
         return document, self.versionOf(document, data)
 
     def compare_and_swap(
-        self, expected: str | None, document: dict[str, Any], message: str
+        self,
+        expected: str | None,
+        document: dict[str, Any],
+        message: str,
+        *,
+        _record_telemetry: bool = True,
     ) -> str:
         if fcntl is None:  # pragma: no cover
             raise LedgerUnavailable("FileLedgerStore requires a POSIX host (fcntl)")
+        t0 = time.perf_counter()
         newDocument = nextGeneration(document)
         data = serialize(newDocument)
         self.last_write_bytes = len(data)
@@ -1037,7 +1139,20 @@ class FileLedgerStore:
                 except OSError:
                     pass
                 raise LedgerUnavailable(f"ledger write failed: {exc}") from exc
-            return self.versionOf(newDocument, data)
+            version = self.versionOf(newDocument, data)
+            if _record_telemetry:
+                duration_ms = (time.perf_counter() - t0) * 1000.0
+                limit = ledgerByteLimit()
+                reportLedgerSize(
+                    self.last_write_bytes,
+                    limit,
+                    "write",
+                    duration_ms=duration_ms,
+                    cas_retries=0,
+                    telemetry_path=getattr(self, "telemetry_path", None),
+                    max_telemetry_bytes=getattr(self, "max_telemetry_bytes", None),
+                )
+            return version
         finally:
             os.close(lockFd)  # closing the descriptor releases the flock
 
@@ -1083,6 +1198,10 @@ def update(
         if telemetry_path is not None
         else getattr(store, "telemetry_path", None)
     )
+    if target_telemetry_path is None:
+        target_telemetry_path = resolveTelemetryPath(
+            None, root=getattr(store, "repoRoot", getattr(store, "repo_root", None))
+        )
     target_max_bytes = (
         max_telemetry_bytes
         if max_telemetry_bytes is not None
@@ -1096,46 +1215,52 @@ def update(
     if effective_run_id == "":
         effective_run_id = None
 
-    for attempt in range(retries + 1):
-        try:
-            document, version = store.load(
-                telemetry_path=target_telemetry_path,
-                run_id=effective_run_id,
-                max_telemetry_bytes=target_max_bytes,
-            )
-        except TypeError:
-            document, version = store.load()
-        working = safeCopy(document)
-        result = mutate(working)
-        if working == document and version is not None:
-            return result, version
-        working["updatedAt"] = formatTime(clock())
-        try:
-            new_version = store.compare_and_swap(version, working, message)
-            duration_ms = (time.perf_counter() - t_start) * 1000.0
-            limit = ledgerByteLimit()
-            size = getattr(store, "last_write_bytes", None)
-            if size is None:
+    with _TelemetryDeduplicator():
+        for attempt in range(retries + 1):
+            try:
+                document, version = store.load(
+                    telemetry_path=target_telemetry_path,
+                    run_id=effective_run_id,
+                    max_telemetry_bytes=target_max_bytes,
+                )
+            except TypeError:
+                document, version = store.load()
+            working = safeCopy(document)
+            result = mutate(working)
+            if working == document and version is not None:
+                return result, version
+            working["updatedAt"] = formatTime(clock())
+            try:
                 try:
-                    size = len(serialize(nextGeneration(working)))
-                except Exception:
-                    size = 0
-            reportLedgerSize(
-                size,
-                limit,
-                "write",
-                duration_ms=duration_ms,
-                cas_retries=attempt,
-                run_id=effective_run_id,
-                telemetry_path=target_telemetry_path,
-                max_telemetry_bytes=target_max_bytes,
-            )
-            return result, new_version
-        except LedgerConflict as exc:
-            lastConflict = exc
-            if attempt < retries:
-                # Jitter breaks lock-step retries between many contenders.
-                sleep(random.random() * min(0.02 * (attempt + 1), 0.25))
+                    new_version = store.compare_and_swap(
+                        version, working, message, _record_telemetry=False
+                    )
+                except TypeError:
+                    new_version = store.compare_and_swap(version, working, message)
+                duration_ms = (time.perf_counter() - t_start) * 1000.0
+                limit = ledgerByteLimit()
+                size = getattr(store, "last_write_bytes", None)
+                if size is None:
+                    try:
+                        size = len(serialize(nextGeneration(working)))
+                    except Exception:
+                        size = 0
+                reportLedgerSize(
+                    size,
+                    limit,
+                    "write",
+                    duration_ms=duration_ms,
+                    cas_retries=attempt,
+                    run_id=effective_run_id,
+                    telemetry_path=target_telemetry_path,
+                    max_telemetry_bytes=target_max_bytes,
+                )
+                return result, new_version
+            except LedgerConflict as exc:
+                lastConflict = exc
+                if attempt < retries:
+                    # Jitter breaks lock-step retries between many contenders.
+                    sleep(random.random() * min(0.02 * (attempt + 1), 0.25))
     raise LedgerConflict(
         f"ledger update gave up after {retries + 1} attempts: {lastConflict}"
     )

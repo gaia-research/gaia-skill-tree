@@ -12,6 +12,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import threading
 import time
 from datetime import datetime, timedelta, timezone
@@ -69,8 +70,9 @@ def makeClone(root: Path, remote: Path, name: str) -> Path:
         check=True,
         env={**os.environ, "LC_ALL": "C"},
     )
+    (clone / ".gitignore").write_text(".gaia/\n")
     (clone / "tracked.txt").write_text("tracked\n")
-    git(clone, "add", "tracked.txt")
+    git(clone, "add", ".gitignore", "tracked.txt")
     git(clone, "-c", "commit.gpgsign=false", "commit", "--quiet", "-m", "init")
     # Leave the tree dirty so "never touches the working tree" is a real check.
     (clone / "tracked.txt").write_text("tracked and modified\n")
@@ -1390,25 +1392,25 @@ def test_telemetry_normal_read_write_operations_fields(tmp_path, monkeypatch):
     assert len(new_writes) == 2
     assert new_writes[1]["runId"] == "env-run-step-2"
 
-    # 4. Test default path under .gaia/steward/ when unconfigured
-    default_telem = Path(".gaia/steward/ledger-telemetry.jsonl")
-    if default_telem.is_file():
-        default_telem.unlink()
-    try:
-        ledgerModule.reportLedgerSize(2048, 67108864, "write", duration_ms=8.5, cas_retries=0, run_id="default-run")
-        assert default_telem.is_file()
-        last_line = default_telem.read_text(encoding="utf-8").strip().splitlines()[-1]
-        rec = json.loads(last_line)
-        assert set(rec.keys()) == required_fields
-        assert rec["op"] == "write"
-        assert rec["bytes"] == 2048
-        assert rec["limit"] == 67108864
-        assert rec["duration_ms"] == 8.5
-        assert rec["cas_retries"] == 0
-        assert rec["runId"] == "default-run"
-    finally:
-        if default_telem.is_file():
-            default_telem.unlink()
+    # 4. Test default path under .gaia/steward/ when unconfigured (isolated in tmp_path)
+    isolated_dir = tmp_path / "default_path_cwd"
+    isolated_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.chdir(isolated_dir)
+    monkeypatch.delenv("GAIA_STEWARD_LEDGER_TELEMETRY_PATH", raising=False)
+    monkeypatch.delenv("GAIA_STEWARD_RUN_ID", raising=False)
+
+    default_telem = isolated_dir / ".gaia/steward/ledger-telemetry.jsonl"
+    ledgerModule.reportLedgerSize(2048, 67108864, "write", duration_ms=8.5, cas_retries=0, run_id="default-run")
+    assert default_telem.is_file()
+    last_line = default_telem.read_text(encoding="utf-8").strip().splitlines()[-1]
+    rec = json.loads(last_line)
+    assert set(rec.keys()) == required_fields
+    assert rec["op"] == "write"
+    assert rec["bytes"] == 2048
+    assert rec["limit"] == 67108864
+    assert rec["duration_ms"] == 8.5
+    assert rec["cas_retries"] == 0
+    assert rec["runId"] == "default-run"
 
 
 def test_telemetry_file_size_bounding_rotation(tmp_path, monkeypatch):
@@ -1464,7 +1466,7 @@ def test_telemetry_write_failure_does_not_fail_operation_and_warns_stderr(tmp_pa
     assert "warning: failed to write steward ledger telemetry:" in captured.err
     # Count warnings in stderr: exactly one for this write attempt
     warning_lines = [line for line in captured.err.splitlines() if "warning: failed to write steward ledger telemetry:" in line]
-    assert len(warning_lines) >= 1
+    assert len(warning_lines) == 1
 
 
 def test_telemetry_never_committed_or_pushed_to_ledger_ref(tmp_path):
@@ -1522,3 +1524,177 @@ def test_serialize_does_not_emit_duplicate_write_telemetry(tmp_path):
     records = [json.loads(line) for line in lines]
     write_records = [r for r in records if r["op"] == "write"]
     assert len(write_records) == 1
+
+
+def test_telemetry_concurrent_writers_with_file_locking(tmp_path, capsys):
+    """Concurrent writers lock adjacent .lock file so records are not interleaved or corrupted."""
+    telem_path = tmp_path / "concurrent-telemetry.jsonl"
+    max_bytes = 2000
+    num_threads = 8
+    writes_per_thread = 15
+
+    barrier = threading.Barrier(num_threads)
+    errors = []
+
+    def worker(tid: int):
+        barrier.wait()
+        for i in range(writes_per_thread):
+            rec = {
+                "op": "write" if i % 2 == 0 else "read",
+                "bytes": 500 + tid * 10 + i,
+                "limit": 67108864,
+                "duration_ms": 1.5,
+                "cas_retries": 0,
+                "timestamp": "2026-11-08T15:00:00Z",
+                "runId": f"thread-{tid}-step-{i}",
+            }
+            try:
+                ledgerModule.write_ledger_telemetry(rec, telem_path, max_bytes)
+            except Exception as e:
+                errors.append(e)
+
+    threads = [threading.Thread(target=worker, args=(i,)) for i in range(num_threads)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    assert not errors
+    assert telem_path.is_file()
+    data = telem_path.read_bytes()
+    assert len(data) <= max_bytes
+    lines = [line.strip() for line in data.decode("utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 2
+    for line in lines:
+        parsed = json.loads(line)  # Each line must be valid, uncorrupted JSON
+        assert "runId" in parsed
+        assert "op" in parsed
+
+    # Test oversized record does not silently truncate existing telemetry and emits warning
+    existing_content = telem_path.read_bytes()
+    oversized_record = {
+        "op": "write",
+        "bytes": 1000,
+        "limit": 67108864,
+        "duration_ms": 1.0,
+        "cas_retries": 0,
+        "timestamp": "2026-11-08T15:00:00Z",
+        "runId": "huge-" + ("x" * (max_bytes + 50)),
+    }
+    capsys.readouterr()
+    ledgerModule.write_ledger_telemetry(oversized_record, telem_path, max_bytes)
+    captured = capsys.readouterr()
+    assert "warning: failed to write steward ledger telemetry:" in captured.err
+    # Existing content must be preserved untouched
+    assert telem_path.read_bytes() == existing_content
+
+    # Broken stderr does not fail write_ledger_telemetry
+    class BrokenStderr:
+        def write(self, _):
+            raise OSError("broken stderr")
+
+        def flush(self):
+            raise OSError("broken flush")
+
+    orig_stderr = sys.stderr
+    try:
+        sys.stderr = BrokenStderr()  # type: ignore[assignment]
+        # Should execute cleanly without raising
+        ledgerModule.write_ledger_telemetry(oversized_record, telem_path, max_bytes)
+    finally:
+        sys.stderr = orig_stderr
+
+
+def test_direct_compare_and_swap_emits_telemetry(tmp_path):
+    """Direct compare_and_swap emits write telemetry by default, suppressed when _record_telemetry=False."""
+    # 1. FileLedgerStore
+    telem_file = tmp_path / "cas-file-telemetry.jsonl"
+    file_store = FileLedgerStore(tmp_path / "file-ledger.json", telemetry_path=telem_file)
+    file_store.compare_and_swap(None, empty_ledger(), "direct cas file")
+    assert telem_file.is_file()
+    lines = [json.loads(line) for line in telem_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) == 1
+    assert lines[0]["op"] == "write"
+    assert lines[0]["cas_retries"] == 0
+    assert lines[0]["duration_ms"] is not None and lines[0]["duration_ms"] >= 0.0
+
+    # With _record_telemetry=False, no new telemetry record
+    doc, ver = file_store.load(telemetry_path=telem_file)
+    file_store.compare_and_swap(ver, doc, "suppressed cas", _record_telemetry=False)
+    lines_after = [json.loads(line) for line in telem_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+    # Only the read from load was added, no new write
+    writes = [r for r in lines_after if r["op"] == "write"]
+    assert len(writes) == 1
+
+    # 2. GitRefLedgerStore
+    remote = tmp_path / "cas-remote.git"
+    subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True)
+    clone = makeClone(tmp_path, remote, "clone-cas")
+    git_telem = clone / "git-cas-telemetry.jsonl"
+    git_store = GitRefLedgerStore(clone, telemetry_path=git_telem)
+
+    git_store.compare_and_swap(None, empty_ledger(), "direct cas git")
+    assert git_telem.is_file()
+    git_lines = [json.loads(line) for line in git_telem.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(git_lines) == 1
+    assert git_lines[0]["op"] == "write"
+    assert git_lines[0]["cas_retries"] == 0
+    assert git_lines[0]["duration_ms"] is not None and git_lines[0]["duration_ms"] >= 0.0
+
+    # With _record_telemetry=False
+    git_doc, git_ver = git_store.load(telemetry_path=git_telem)
+    git_v2 = git_store.compare_and_swap(git_ver, git_doc, "suppressed git cas", _record_telemetry=False)
+    git_lines_after = [json.loads(line) for line in git_telem.read_text(encoding="utf-8").splitlines() if line.strip()]
+    git_writes = [r for r in git_lines_after if r["op"] == "write"]
+    assert len(git_writes) == 1
+
+    # 3. Oversized read duration in GitRefLedgerStore.load()
+    # When ledger commit size exceeds limit, duration_ms is passed to reportLedgerSize
+    tiny_limit = 1024
+    big_doc = empty_ledger()
+    big_doc["runs"]["big-run"] = {"runId": "big-run", "data": "x" * 1500}
+    git_store.compare_and_swap(git_v2, big_doc, "big cas", _record_telemetry=False)
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", str(tiny_limit))
+        with pytest.raises(LedgerUnavailable, match="over the"):
+            git_store.load(telemetry_path=git_telem)
+    oversized_lines = [json.loads(line) for line in git_telem.read_text(encoding="utf-8").splitlines() if line.strip()]
+    last_read = oversized_lines[-1]
+    assert last_read["op"] == "read"
+    assert last_read["bytes"] > tiny_limit
+    assert last_read["limit"] == tiny_limit
+    assert last_read["duration_ms"] is not None and last_read["duration_ms"] >= 0.0
+
+
+def test_fullrun_mutate_run_propagates_run_id(tmp_path):
+    """FullRunner._mutateRun propagates runId to update() and telemetry writes."""
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+
+    telem_path = tmp_path / "fullrun-mutate-telemetry.jsonl"
+    store = FileLedgerStore(tmp_path / "fullrun-ledger.json", telemetry_path=telem_path)
+    config = FullRunConfig(repo_root=tmp_path, store=store)
+    runner = FullRunner(config)
+
+    # Seed run in ledger
+    def seed(doc: dict):
+        doc["runs"]["test-run-abc"] = {"runId": "test-run-abc", "status": "running", "phase": "initial"}
+        return "seeded"
+
+    update(store, seed)
+
+    # Apply mutateRun
+    def apply_phase(doc: dict, run: dict):
+        run["phase"] = "executing"
+        return "mutated-phase"
+
+    res = runner._mutateRun("test-run-abc", apply_phase, holdsLease=False)
+    assert res == "mutated-phase"
+
+    # Verify telemetry has write record with runId="test-run-abc"
+    assert telem_path.is_file()
+    records = [json.loads(line) for line in telem_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    run_records = [r for r in records if r.get("runId") == "test-run-abc"]
+    assert len(run_records) >= 1
+    write_records = [r for r in run_records if r["op"] == "write"]
+    assert len(write_records) >= 1
+    assert write_records[-1]["runId"] == "test-run-abc"
