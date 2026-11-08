@@ -1,5 +1,5 @@
 {
- "generation": 1859,
+ "generation": 1860,
  "lane": {
   "entries": [
    {
@@ -143660,6 +143660,15 @@
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "emittedAt": "2026-11-08T08:01:00.779337Z",
      "idempotencyKey": "dispatch-0f3635f7e2d72b8024db:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch13-builder-2db0f48e182c",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.proof.json",
+      "summary": "Batch batch13 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (F1 below-ceiling promotion, rank_up timeline event via CLI); commit 7722d89fc; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -143680,7 +143689,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T08:42:37.251947Z",
+     "status": "done",
      "stepId": "build:2db0f48e182c:1",
      "type": "agent.build"
     },
@@ -143800,6 +143810,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:808541080ee9:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch13-builder-2db0f48e182c",
+     "at": "2026-11-08T08:42:37.252495Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2db0f48e182c:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -146179,6 +146201,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-808541080ee9.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-808541080ee9.proof.json",
      "stepId": "build:808541080ee9:1"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.proof.json",
+     "stepId": "build:2db0f48e182c:1"
     }
    ],
    "pullRequests": [],
@@ -146265,11 +146293,11 @@
      "stepId": "build:808541080ee9:1"
     },
     {
-     "at": "2026-11-08T08:01:00.779337Z",
+     "at": "2026-11-08T08:42:37.251947Z",
      "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
      "idempotencyKey": "dispatch-0f3635f7e2d72b8024db:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:2db0f48e182c:1"
     },
     {
@@ -146296,11 +146324,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T08:26:54.161317Z"
+   "updatedAt": "2026-11-08T08:42:37.251947Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T08:28:53.918762Z",
+ "updatedAt": "2026-11-08T08:42:37.256409Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -147610,12 +147638,33 @@
    }
   },
   "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch13-builder-2db0f48e182c",
+     "at": "2026-11-08T08:42:37.252495Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2db0f48e182c:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/trust-calibration-drift-2db0f48e182c",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch13-builder-2db0f48e182c",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.diff",
+    "dispatchId": "dispatch-0f3635f7e2d72b8024db",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-2db0f48e182c.proof.json",
+    "recordedAt": "2026-11-08T08:42:37.252495Z",
+    "summary": "Batch batch13 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (F1 below-ceiling promotion, rank_up timeline event via CLI); commit 7722d89fc; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+   },
    "createdAt": "2026-11-08T08:01:00.779337Z",
    "debtId": "debt:trust_calibration_drift:garrytan-db-repair:5851eeabe7e8a40c",
    "dispatchId": "dispatch-0f3635f7e2d72b8024db",
@@ -147636,7 +147685,7 @@
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-08T08:01:00.779337Z",
+   "updatedAt": "2026-11-08T08:42:37.252495Z",
    "verification": null
   },
   "debt:trust_calibration_drift:garrytan-postgres-adopt:559577353ee00cff": {
