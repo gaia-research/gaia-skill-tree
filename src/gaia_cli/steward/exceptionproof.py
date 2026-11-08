@@ -10,9 +10,17 @@ what the Class B envelope authorizes:
   (a) Narrowing the exception type from broad (Exception/BaseException/bare) to specific.
   (b) Adding diagnostic logging before the fallback/terminal statement.
   (c) Adding/updating the documented `# steward: best-effort: <reason>` intent marker.
-- Enforces mandatory triage: handlers that feed authorization, budget/spend recording,
-  file overwrite, or mutation decisions cannot be marked with best-effort markers and must
-  be escalated to engineering.
+- Enforces mandatory triage with a POSITIVE envelope: a handler may be changed at all only
+  when its try body is proven side-effect-free or diagnostic-only under a small allowlist
+  (pure reads, formatting, optional imports, trusted logging; see ``try_body_envelope``),
+  no value the try binds reaches an unclassified call, write or decision guard elsewhere in
+  its scope, and the context is outside the known authorization, budget and overwrite
+  boundaries. Anything unproven (writes, network, subprocess, state mutation, any call whose
+  effect cannot be classified) escalates to engineering. The known-context denylist is an
+  extra layer, never the safety argument.
+- Trusts a name (a logger, ``sys``, a builtin exception) only after every lexical binding
+  form in scope is analysed (``bound_names``), and proves narrowing against the real
+  exception class hierarchy, never a breadth label.
 """
 
 from __future__ import annotations
@@ -20,6 +28,7 @@ from __future__ import annotations
 import ast
 import builtins
 import difflib
+import importlib
 import re
 from typing import Any
 
@@ -30,6 +39,8 @@ __all__ = [
     "prove_exception_edit",
     "is_escalated_security_context",
     "is_escalated_try_block",
+    "handler_escalation_reason",
+    "try_body_envelope",
     "_ESCALATED_LINE_LOCATIONS",
 ]
 
@@ -225,117 +236,124 @@ def _ast_equal(n1: Any, n2: Any) -> bool:
     return n1 == n2 and type(n1) is type(n2)
 
 
-def get_module_scope_provenance(tree: ast.Module) -> dict[str, str]:
-    """Inspect top-level module statements for verified, trusted imports and loggers.
+_TRUSTED_MODULES = ("sys", "json", "yaml", "subprocess", "logging", "re")
+_SCOPE_NODES = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef,
+                ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
 
-    Rejects arbitrary assignments like 'sys = attacker' or 'logger = None'.
+
+def _alias_bound(alias: ast.alias) -> str:
+    return alias.asname or alias.name.split(".")[0]
+
+
+def bound_names(node: ast.AST, *, descend: bool) -> list[str]:
+    """Every name a binding form under ``node`` binds, with repeats.
+
+    Covers assignment, augmented/annotated assignment, walrus, ``for``/``with``/
+    ``except ... as``/``del`` targets, tuple and starred unpacking, every argument
+    kind (positional-only, regular, ``*args``, keyword-only, ``**kwargs``), imports,
+    nested ``def``/``class`` names, ``match`` capture patterns and ``global``/
+    ``nonlocal`` declarations. With ``descend=False`` nested scopes contribute only
+    their own name, as Python scoping does; with ``descend=True`` everything below
+    counts (an over-approximation, which only ever fails closed).
     """
-    trusted: dict[str, str] = {}
-    logger_assign_counts: dict[str, int] = {}
-    invalid_logger_targets: set[str] = set()
 
+    names: list[str] = []
+
+    def visit(current: ast.AST, top: bool) -> None:
+        if isinstance(current, ast.Name) and isinstance(current.ctx, (ast.Store, ast.Del)):
+            names.append(current.id)
+        elif isinstance(current, ast.arg):
+            names.append(current.arg)
+        elif isinstance(current, (ast.Import, ast.ImportFrom)):
+            names.extend(_alias_bound(alias) for alias in current.names)
+        elif isinstance(current, (ast.Global, ast.Nonlocal)):
+            names.extend(current.names)
+        elif isinstance(current, ast.ExceptHandler) and current.name:
+            names.append(current.name)
+        elif isinstance(current, (ast.MatchAs, ast.MatchStar)) and current.name:
+            names.append(current.name)
+        elif isinstance(current, ast.MatchMapping) and current.rest:
+            names.append(current.rest)
+        if isinstance(current, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and not top:
+            names.append(current.name)
+            if not descend:
+                return
+        elif isinstance(current, _SCOPE_NODES) and not top and not descend:
+            return
+        for child in ast.iter_child_nodes(current):
+            visit(child, False)
+
+    visit(node, True)
+    return names
+
+
+def _global_declarations(tree: ast.Module) -> set[str]:
+    return {name for sub in ast.walk(tree) if isinstance(sub, ast.Global) for name in sub.names}
+
+
+def get_module_scope_provenance(tree: ast.Module) -> dict[str, str]:
+    """Trusted module-scope names: allowlisted imports and ``logging.getLogger`` loggers.
+
+    A name is trusted only when its trusted binding is its ONLY binding at module
+    scope (any form, anywhere at that scope) and no function declares it ``global``.
+    Rejects ``sys = attacker``, ``logger = None``, a second import, ``for logger in``,
+    ``with ... as logger`` and the like.
+    """
+
+    counts: dict[str, int] = {}
+    for name in bound_names(tree, descend=False):
+        counts[name] = counts.get(name, 0) + 1
+    globals_declared = _global_declarations(tree)
+    trusted: dict[str, str] = {}
     for stmt in tree.body:
         if isinstance(stmt, ast.Import):
             for alias in stmt.names:
-                if alias.name in ("sys", "json", "yaml", "subprocess", "logging"):
-                    if not alias.asname or alias.asname == alias.name:
-                        trusted[alias.name] = alias.name
+                if alias.name in _TRUSTED_MODULES and (not alias.asname or alias.asname == alias.name):
+                    trusted[alias.name] = alias.name
         elif isinstance(stmt, ast.ImportFrom):
-            if stmt.module == "gaia_cli.structuredRead":
-                for alias in stmt.names:
-                    if alias.name == "logDiagnostic" and (not alias.asname or alias.asname == "logDiagnostic"):
-                        trusted["logDiagnostic"] = "gaia_cli.structuredRead.logDiagnostic"
-            elif stmt.module == "logging":
-                for alias in stmt.names:
-                    if alias.name == "getLogger" and (not alias.asname or alias.asname == "getLogger"):
-                        trusted["getLogger"] = "logging.getLogger"
-
-    # Verify that logger / log is assigned strictly via trusted logging.getLogger(...)
+            for alias in stmt.names:
+                if stmt.module == "gaia_cli.structuredRead" and alias.name == "logDiagnostic" and alias.asname in (None, "logDiagnostic"):
+                    trusted["logDiagnostic"] = "gaia_cli.structuredRead.logDiagnostic"
+                elif stmt.module == "logging" and alias.name == "getLogger" and alias.asname in (None, "getLogger"):
+                    trusted["getLogger"] = "logging.getLogger"
     for stmt in tree.body:
-        if isinstance(stmt, ast.Assign):
-            for target in stmt.targets:
-                if isinstance(target, ast.Name) and target.id in ("logger", "log"):
-                    tname = target.id
-                    logger_assign_counts[tname] = logger_assign_counts.get(tname, 0) + 1
-                    val = stmt.value
-                    is_valid = False
-                    if isinstance(val, ast.Call):
-                        call_func = val.func
-                        if isinstance(call_func, ast.Attribute) and isinstance(call_func.value, ast.Name):
-                            # Must be logging.getLogger where logging was genuinely imported
-                            if (
-                                call_func.value.id in trusted
-                                and trusted[call_func.value.id] == "logging"
-                                and call_func.attr == "getLogger"
-                            ):
-                                is_valid = True
-                        elif isinstance(call_func, ast.Name):
-                            # Must be getLogger from logging where getLogger was genuinely imported
-                            if trusted.get(call_func.id) == "logging.getLogger":
-                                is_valid = True
-                    if is_valid and logger_assign_counts[tname] == 1:
-                        trusted[tname] = "logging.Logger"
-                    else:
-                        invalid_logger_targets.add(tname)
-                        trusted.pop(tname, None)
-        elif isinstance(stmt, ast.AnnAssign):
-            if isinstance(stmt.target, ast.Name) and stmt.target.id in ("logger", "log"):
-                invalid_logger_targets.add(stmt.target.id)
-                trusted.pop(stmt.target.id, None)
-
-    for bad in invalid_logger_targets:
-        trusted.pop(bad, None)
-
-    return trusted
+        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 and isinstance(stmt.targets[0], ast.Name):
+            target = stmt.targets[0].id
+            call = stmt.value
+            if target not in ("logger", "log") or not isinstance(call, ast.Call):
+                continue
+            func = call.func
+            if (
+                isinstance(func, ast.Attribute)
+                and isinstance(func.value, ast.Name)
+                and trusted.get(func.value.id) == "logging"
+                and func.attr == "getLogger"
+            ) or (isinstance(func, ast.Name) and trusted.get(func.id) == "logging.getLogger"):
+                trusted[target] = "logging.Logger"
+    return {
+        name: origin for name, origin in trusted.items()
+        if counts.get(name, 0) == 1 and name not in globals_declared
+    }
 
 
 def get_shadowed_names(
     tree: ast.Module,
     func_node: ast.FunctionDef | ast.AsyncFunctionDef | None = None,
+    func_chain: tuple[ast.AST, ...] = (),
 ) -> frozenset[str]:
-    """Collect all names assigned locally or globally that could shadow builtins or imports."""
-    shadowed: set[str] = set()
+    """Names that cannot be trusted as builtins or module imports inside this scope.
 
-    for stmt in tree.body:
-        if isinstance(stmt, (ast.Assign, ast.AnnAssign)):
-            targets = stmt.targets if isinstance(stmt, ast.Assign) else [stmt.target]
-            for t in targets:
-                if isinstance(t, ast.Name) and t.id not in ("logger", "log"):
-                    shadowed.add(t.id)
-        elif isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            shadowed.add(stmt.name)
-        elif isinstance(stmt, ast.Import):
-            for alias in stmt.names:
-                name = alias.asname or alias.name.split(".")[0]
-                if name not in ("sys", "json", "yaml", "subprocess", "logging"):
-                    shadowed.add(name)
-        elif isinstance(stmt, ast.ImportFrom):
-            for alias in stmt.names:
-                name = alias.asname or alias.name
-                if not (stmt.module == "gaia_cli.structuredRead" and name == "logDiagnostic") and not (
-                    stmt.module == "logging" and name == "getLogger"
-                ):
-                    shadowed.add(name)
+    The union of every binding in each enclosing function (all forms, nested blocks
+    included) and every module-scope binding other than a trusted one. Untrusted
+    module-scope names (bound twice, rebound, declared global) are shadowed too.
+    """
 
-    if func_node is not None:
-        for arg in func_node.args.args + func_node.args.kwonlyargs:
-            shadowed.add(arg.arg)
-        if func_node.args.vararg:
-            shadowed.add(func_node.args.vararg.arg)
-        if func_node.args.kwarg:
-            shadowed.add(func_node.args.kwarg.arg)
-        for sub in ast.walk(func_node):
-            if isinstance(sub, (ast.Assign, ast.AnnAssign)):
-                targets = sub.targets if isinstance(sub, ast.Assign) else [sub.target]
-                for t in targets:
-                    if isinstance(t, ast.Name):
-                        shadowed.add(t.id)
-            elif isinstance(sub, (ast.For, ast.AsyncFor)):
-                if isinstance(sub.target, ast.Name):
-                    shadowed.add(sub.target.id)
-            elif isinstance(sub, ast.ExceptHandler) and sub.name:
-                shadowed.add(sub.name)
-
+    trusted = get_module_scope_provenance(tree)
+    shadowed: set[str] = {name for name in bound_names(tree, descend=False) if name not in trusted}
+    shadowed |= _global_declarations(tree)
+    chain = tuple(func_chain) or ((func_node,) if func_node is not None else ())
+    for scope in chain:
+        shadowed.update(bound_names(scope, descend=True))
     return frozenset(shadowed)
 
 
@@ -345,42 +363,50 @@ def _is_valid_exception_ref(
     shadowed: frozenset[str],
 ) -> bool:
     """Verify that an AST expression is strictly a verified, side-effect-free exception reference."""
+    return _resolve_exception(node, trusted, shadowed) is not None
+
+
+def _resolve_exception(node: ast.expr, trusted: dict[str, str], shadowed: frozenset[str]) -> type | None:
+    """The real exception class a reference denotes, or None when it cannot be proven."""
+
     if isinstance(node, ast.Name):
-        return node.id in _BUILTIN_EXCEPTIONS and node.id not in shadowed
+        if node.id in _BUILTIN_EXCEPTIONS and node.id not in shadowed:
+            return getattr(builtins, node.id)
+        return None
     if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
         mod_name = node.value.id
         if mod_name in trusted and mod_name not in shadowed:
             actual_mod = trusted[mod_name]
-            known_attrs = _MODULE_EXCEPTIONS.get(actual_mod)
-            if known_attrs and node.attr in known_attrs:
-                return True
-    return False
+            if node.attr in _MODULE_EXCEPTIONS.get(actual_mod, frozenset()):
+                try:
+                    module = importlib.import_module(actual_mod)
+                except ImportError:
+                    return None
+                found = getattr(module, node.attr, None)
+                if isinstance(found, type) and issubclass(found, BaseException):
+                    return found
+    return None
+
+
+def _exception_classes(node: ast.expr | None, trusted: dict[str, str], shadowed: frozenset[str]) -> list[type] | None:
+    if node is None:
+        return [BaseException]
+    elements = node.elts if isinstance(node, ast.Tuple) else [node]
+    resolved = [_resolve_exception(el, trusted, shadowed) for el in elements]
+    if not elements or any(item is None for item in resolved):
+        return None
+    return resolved  # type: ignore[return-value]
 
 
 def _exception_level(node: ast.expr | None) -> int:
-    """Return breadth level:
-    2 = bare except or BaseException
-    1 = Exception
-    0 = specific exception(s)
-    """
+    """Return breadth level (kept for callers): 2 = bare/BaseException, 1 = Exception, 0 = other."""
     if node is None:
         return 2
     elements = node.elts if isinstance(node, ast.Tuple) else [node]
-    has_base = False
-    has_exception = False
-    for el in elements:
-        name = None
-        if isinstance(el, ast.Name):
-            name = el.id
-        elif isinstance(el, ast.Attribute):
-            name = el.attr
-        if name == "BaseException":
-            has_base = True
-        elif name == "Exception":
-            has_exception = True
-    if has_base:
+    names = {el.id if isinstance(el, ast.Name) else getattr(el, "attr", None) for el in elements}
+    if "BaseException" in names:
         return 2
-    if has_exception:
+    if "Exception" in names:
         return 1
     return 0
 
@@ -391,15 +417,281 @@ def _is_narrowed(
     trusted: dict[str, str],
     shadowed: frozenset[str],
 ) -> bool:
+    """True only when the new handler catches a strict subset of what the old one caught.
+
+    Both sides are resolved to real classes (bare except is ``BaseException``). Every
+    new class must be a subclass of some old class, and some old class must no longer
+    be fully covered. ``Exception`` -> ``KeyboardInterrupt`` is NOT narrowing.
+    """
+
     if new_type is None:
         return False
-    elements = new_type.elts if isinstance(new_type, ast.Tuple) else [new_type]
-    if not elements:
+    new_classes = _exception_classes(new_type, trusted, shadowed)
+    old_classes = _exception_classes(old_type, trusted, shadowed)
+    if not new_classes or not old_classes:
         return False
-    # All elements must be verified, side-effect-free exception type references
-    if not all(_is_valid_exception_ref(el, trusted, shadowed) for el in elements):
+    if not all(any(issubclass(new, old) for old in old_classes) for new in new_classes):
         return False
-    return _exception_level(new_type) < _exception_level(old_type)
+    return not all(any(issubclass(old, new) for new in new_classes) for old in old_classes)
+
+
+# --------------------------------------------------------------------------
+# Positive envelope: is the guarded try body demonstrably safe to leave swallowed?
+# --------------------------------------------------------------------------
+
+# Conversions and reads only. Builtins that iterate an arbitrary iterable (list, sorted,
+# sum, any, zip, ...) are excluded: iterating an unknown object can consume or mutate it.
+_PURE_BUILTINS = frozenset({
+    "abs", "ascii", "bool", "callable", "chr", "divmod", "float", "format", "getattr", "hasattr",
+    "hash", "hex", "id", "int", "isinstance", "issubclass", "len", "oct", "ord", "range", "repr",
+    "round", "slice", "str", "type",
+})
+_PURE_MODULE_CALLS = {
+    "json": frozenset({"loads", "dumps"}),
+    "yaml": frozenset({"safe_load"}),
+    "re": frozenset({"compile", "match", "search", "fullmatch", "findall", "split", "sub", "escape"}),
+}
+# Read-only methods, allowed only on a receiver whose type is proven (see _value_kind):
+# a str, a JSON value (json.loads / yaml.safe_load output and its items), or a re match.
+# A method on a receiver of unknown type (``session.get(url)``, ``requests.get``) is
+# never classified as pure, whatever its name.
+_STR_METHODS = frozenset({
+    "strip", "lstrip", "rstrip", "split", "rsplit", "splitlines", "lower", "upper", "casefold",
+    "title", "startswith", "endswith", "decode", "encode", "format", "join", "replace", "partition",
+    "rpartition", "count", "find", "rfind", "isdigit", "isalpha", "isalnum", "isspace",
+})
+_JSON_METHODS = _STR_METHODS | frozenset({"get", "keys", "values", "items", "index"})
+_MATCH_METHODS = frozenset({"group", "groups", "groupdict", "start", "end", "span"})
+_STR_BUILTINS = frozenset({"str", "repr", "format", "ascii", "hex", "oct", "chr"})
+_STR_RETURNING = frozenset({
+    "strip", "lstrip", "rstrip", "lower", "upper", "casefold", "title", "format", "join", "replace",
+    "decode", "encode",
+})
+
+
+def _value_kind(expr: ast.AST, trusted: dict[str, str], shadowed: frozenset[str]) -> str | None:
+    """``"str"``, ``"json"`` or ``"match"`` when the value's type is proven; else None."""
+
+    if isinstance(expr, ast.Constant) and isinstance(expr.value, (str, bytes)):
+        return "str"
+    if isinstance(expr, ast.JoinedStr):
+        return "str"
+    if isinstance(expr, ast.Subscript):
+        return "json" if _value_kind(expr.value, trusted, shadowed) == "json" else None
+    if not isinstance(expr, ast.Call):
+        return None
+    func = expr.func
+    if isinstance(func, ast.Name):
+        return "str" if func.id in _STR_BUILTINS and func.id not in shadowed else None
+    if not isinstance(func, ast.Attribute):
+        return None
+    if isinstance(func.value, ast.Name) and func.value.id in ("json", "yaml", "re"):
+        module = func.value.id
+        if trusted.get(module) != module or module in shadowed:
+            return None
+        if (module, func.attr) in (("json", "loads"), ("yaml", "safe_load")):
+            return "json"
+        if module == "re" and func.attr in ("match", "search", "fullmatch"):
+            return "match"
+        if (module, func.attr) in (("json", "dumps"), ("re", "escape"), ("re", "sub")):
+            return "str"
+        return None
+    receiver = _value_kind(func.value, trusted, shadowed)
+    if receiver == "json" and func.attr == "get":
+        return "json"
+    if receiver in ("str", "json") and func.attr in _STR_RETURNING:
+        return "str"
+    if receiver == "match" and func.attr == "group":
+        return "str"
+    return None
+
+
+def _logging_call(call: ast.Call, trusted: dict[str, str], shadowed: frozenset[str]) -> bool:
+    func = call.func
+    if isinstance(func, ast.Name) and func.id == "logDiagnostic":
+        return trusted.get("logDiagnostic") == "gaia_cli.structuredRead.logDiagnostic" and "logDiagnostic" not in shadowed
+    if isinstance(func, ast.Attribute) and isinstance(func.value, ast.Name):
+        name = func.value.id
+        return (
+            name in _SAFE_LOG_NAMES and func.attr in _SAFE_LOG_METHODS
+            and trusted.get(name) == "logging.Logger" and name not in shadowed
+        )
+    if (
+        isinstance(func, ast.Attribute) and isinstance(func.value, ast.Attribute)
+        and isinstance(func.value.value, ast.Name) and func.value.value.id == "sys"
+        and func.value.attr in ("stderr", "stdout") and func.attr == "write"
+    ):
+        return trusted.get("sys") == "sys" and "sys" not in shadowed
+    return False
+
+
+def _pure_call(call: ast.Call, trusted: dict[str, str], shadowed: frozenset[str]) -> bool:
+    func = call.func
+    if isinstance(func, ast.Name):
+        return func.id in _PURE_BUILTINS and func.id not in shadowed
+    if isinstance(func, ast.Attribute):
+        if isinstance(func.value, ast.Name) and func.value.id in _PURE_MODULE_CALLS:
+            module = func.value.id
+            return trusted.get(module) == module and module not in shadowed and func.attr in _PURE_MODULE_CALLS[module]
+        receiver = _value_kind(func.value, trusted, shadowed)
+        allowed = {"str": _STR_METHODS, "json": _JSON_METHODS, "match": _MATCH_METHODS}.get(receiver or "", frozenset())
+        return func.attr in allowed
+    return False
+
+
+def _unsafe_expr(expr: ast.AST | None, trusted: dict[str, str], shadowed: frozenset[str]) -> str | None:
+    """None when ``expr`` is a pure read or formatting; otherwise why not."""
+
+    if expr is None:
+        return None
+    if isinstance(expr, (ast.Constant, ast.Name)):
+        return None if not isinstance(expr, ast.Name) or isinstance(expr.ctx, ast.Load) else "name store"
+    if isinstance(expr, ast.Call):
+        if not (_pure_call(expr, trusted, shadowed) or _logging_call(expr, trusted, shadowed)):
+            return f"call {ast.unparse(expr.func)[:60]} has an effect that cannot be classified"
+        receiver = expr.func.value if isinstance(expr.func, ast.Attribute) else None
+        parts = [receiver, *expr.args, *(kw.value for kw in expr.keywords)]
+        return next((why for why in (_unsafe_expr(part, trusted, shadowed) for part in parts) if why), None)
+    if isinstance(expr, (ast.Attribute, ast.Subscript, ast.Starred)):
+        if not isinstance(getattr(expr, "ctx", ast.Load()), ast.Load):
+            return "attribute or item store"
+        parts = [expr.value] + ([expr.slice] if isinstance(expr, ast.Subscript) else [])
+        return next((why for why in (_unsafe_expr(part, trusted, shadowed) for part in parts) if why), None)
+    if isinstance(expr, (ast.BinOp, ast.UnaryOp, ast.BoolOp, ast.Compare, ast.IfExp, ast.JoinedStr,
+                         ast.FormattedValue, ast.Tuple, ast.List, ast.Set, ast.Dict, ast.Slice)):
+        for child in ast.iter_child_nodes(expr):
+            if isinstance(child, (ast.expr_context, ast.operator, ast.unaryop, ast.boolop, ast.cmpop)):
+                continue
+            why = _unsafe_expr(child, trusted, shadowed)
+            if why:
+                return why
+        return None
+    return f"expression {type(expr).__name__} is not in the pure-read allowlist"
+
+
+def _unsafe_stmt(stmt: ast.stmt, trusted: dict[str, str], shadowed: frozenset[str]) -> str | None:
+    if isinstance(stmt, ast.Pass) or (isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Constant)):
+        return None
+    if isinstance(stmt, (ast.Import, ast.ImportFrom)):
+        return None  # an optional import
+    if isinstance(stmt, ast.Expr):
+        if isinstance(stmt.value, ast.Call) and _logging_call(stmt.value, trusted, shadowed):
+            return next((w for w in (_unsafe_expr(a, trusted, shadowed) for a in [*stmt.value.args, *(k.value for k in stmt.value.keywords)]) if w), None)
+        return _unsafe_expr(stmt.value, trusted, shadowed) or (
+            None if isinstance(stmt.value, ast.Call) else "bare expression statement"
+        )
+    if isinstance(stmt, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+        targets = stmt.targets if isinstance(stmt, ast.Assign) else [stmt.target]
+        for target in targets:
+            for node in ast.walk(target):
+                if isinstance(node, (ast.Attribute, ast.Subscript)):
+                    return f"assignment to {ast.unparse(target)[:60]} mutates state"
+        return _unsafe_expr(stmt.value, trusted, shadowed)
+    if isinstance(stmt, ast.Return):
+        return _unsafe_expr(stmt.value, trusted, shadowed)
+    if isinstance(stmt, ast.If):
+        return _unsafe_expr(stmt.test, trusted, shadowed) or next(
+            (w for w in (_unsafe_stmt(s, trusted, shadowed) for s in [*stmt.body, *stmt.orelse]) if w), None
+        )
+    return f"statement {type(stmt).__name__} is not in the side-effect-free allowlist"
+
+
+def _walk_outside(scope: ast.AST, excluded: ast.AST):
+    stack = [scope]
+    while stack:
+        node = stack.pop()
+        if node is excluded:
+            continue
+        yield node
+        stack.extend(ast.iter_child_nodes(node))
+
+
+def try_body_envelope(
+    try_node: ast.Try,
+    scope: ast.AST,
+    trusted: dict[str, str],
+    shadowed: frozenset[str],
+) -> str | None:
+    """None when the try body is proven side-effect-free or diagnostic-only; else why not.
+
+    Allowlist only: ``pass``, docstrings, optional imports, assignments to plain local
+    names, ``return`` and ``if`` over pure expressions, and trusted logging. A pure
+    expression is a constant, name, attribute or item read, operator, comparison,
+    f-string, literal container, or a call to a pure builtin, a pure ``json``/``yaml``/
+    ``re`` function (trusted import) or a conventionally read-only method. Anything
+    else - writes, network, subprocess, state mutation, ``with``/loops, any call whose
+    effect cannot be classified - is unproven and escalates.
+
+    It also refuses when a name the try binds (or a ``global``/``nonlocal`` name it
+    touches) reaches, anywhere else in ``scope``, an unclassified call, an attribute or
+    item store, or the test of a branch that performs one: the swallowed default would
+    then feed a mutation or decision.
+    """
+
+    for stmt in try_node.body:
+        why = _unsafe_stmt(stmt, trusted, shadowed)
+        if why:
+            return f"try body is not proven side-effect-free: {why}"
+    # ``else`` runs only when the body succeeded and ``finally`` always: an effect there
+    # is silently skipped or reordered by the swallow, so they must be proven too.
+    for label, block in (("else", try_node.orelse), ("finally", try_node.finalbody)):
+        for stmt in block:
+            why = _unsafe_stmt(stmt, trusted, shadowed)
+            if why:
+                return f"try {label} clause is not proven side-effect-free: {why}"
+    bound = set(bound_names(ast.Module(body=list(try_node.body), type_ignores=[]), descend=False))
+    declared = {n for sub in ast.walk(scope) if isinstance(sub, (ast.Global, ast.Nonlocal)) for n in sub.names}
+    if bound & declared:
+        return f"try body assigns global/nonlocal name(s) {sorted(bound & declared)}"
+    if not bound:
+        return None
+
+    def uses(node: ast.AST) -> bool:
+        return any(isinstance(n, ast.Name) and n.id in bound and isinstance(n.ctx, ast.Load) for n in ast.walk(node))
+
+    for node in _walk_outside(scope, try_node):
+        if isinstance(node, ast.Call) and not (_pure_call(node, trusted, shadowed) or _logging_call(node, trusted, shadowed)) and uses(node):
+            return f"a value bound in the try reaches the unclassified call {ast.unparse(node.func)[:60]}"
+        if isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            if any(isinstance(t, (ast.Attribute, ast.Subscript)) for t in targets) and (uses(node.value) if node.value else False):
+                return "a value bound in the try is stored into an attribute or item"
+        if isinstance(node, (ast.If, ast.While)) and uses(node.test):
+            effects = [n for s in [*node.body, *node.orelse] for n in ast.walk(s)
+                       if isinstance(n, ast.Call) and not (_pure_call(n, trusted, shadowed) or _logging_call(n, trusted, shadowed))]
+            if effects:
+                return f"a value bound in the try guards the unclassified call {ast.unparse(effects[0].func)[:60]}"
+    return None
+
+
+def handler_escalation_reason(tree: ast.Module, try_node: ast.Try, filename: str) -> str | None:
+    """Why the handlers of ``try_node`` must be escalated instead of repaired; None when allowed."""
+
+    chain = _enclosing_chain(tree, try_node)
+    funcs = [n for n in chain if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+    func_name = funcs[-1].name if funcs else None
+    if is_escalated_try_block(try_node, func_name, filename) or is_escalated_security_context(filename, func_name=func_name):
+        return "handler feeds authorization, budget/spend recording, file overwrite, or mutation decisions (known context)"
+    trusted = get_module_scope_provenance(tree)
+    shadowed = get_shadowed_names(tree, func_chain=tuple(funcs))
+    scope = funcs[-1] if funcs else tree
+    return try_body_envelope(try_node, scope, trusted, shadowed)
+
+
+def _enclosing_chain(tree: ast.Module, target: ast.AST) -> list[ast.AST]:
+    """Function and class nodes enclosing ``target``, outermost first."""
+
+    path: list[ast.AST] = []
+
+    def visit(node: ast.AST, stack: list[ast.AST]) -> bool:
+        if node is target:
+            path.extend(stack)
+            return True
+        nested = stack + [node] if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) else stack
+        return any(visit(child, nested) for child in ast.iter_child_nodes(node))
+
+    visit(tree, [])
+    return path
 
 
 def _is_safe_argument(expr: ast.expr, bound_name: str | None = None) -> bool:
@@ -505,7 +797,7 @@ def _verify_handler_edit(
     func_name: str | None = None,
     trusted: dict[str, str] | None = None,
     shadowed: frozenset[str] | None = None,
-    is_escalated: bool = False,
+    is_escalated: bool | str = False,
 ) -> list[str]:
     best_effort_1 = _get_best_effort_reason(h1, before_code)
     best_effort_2 = _get_best_effort_reason(h2, after_code)
@@ -519,10 +811,10 @@ def _verify_handler_edit(
 
     # Escalated security context check on changed handlers:
     if is_escalated:
-        return [
-            f"line {line}: handler feeds authorization, budget/spend recording, file overwrite, "
-            f"or mutation decisions; cannot be resolved autonomously (must be escalated to engineering)"
-        ]
+        why = is_escalated if isinstance(is_escalated, str) else (
+            "handler feeds authorization, budget/spend recording, file overwrite, or mutation decisions"
+        )
+        return [f"line {line}: {why}; cannot be resolved autonomously (must be escalated to engineering)"]
 
     # Preserve exception binding name strictly
     if h1.name != h2.name:
@@ -621,6 +913,7 @@ def _compare_nodes(
     path: str = "",
     trusted: dict[str, str] | None = None,
     after_tree: ast.Module | None = None,
+    before_tree: ast.Module | None = None,
 ) -> list[str]:
     if type(n1) is not type(n2):
         return [f"AST node type mismatch at {path or 'root'}: {type(n1).__name__} vs {type(n2).__name__}"]
@@ -634,7 +927,7 @@ def _compare_nodes(
         violations: list[str] = []
         for idx, (item1, item2) in enumerate(zip(n1, n2)):
             violations.extend(
-                _compare_nodes(item1, item2, before_code, after_code, filename, current_func_node, f"{path}[{idx}]", trusted, after_tree)
+                _compare_nodes(item1, item2, before_code, after_code, filename, current_func_node, f"{path}[{idx}]", trusted, after_tree, before_tree)
             )
         return violations
 
@@ -653,11 +946,15 @@ def _compare_nodes(
             violations.append(f"try block finally clause was modified at line {line}")
 
         func_name = current_func_node.name if current_func_node is not None else None
-        is_escalated = is_escalated_try_block(n1, func_name, filename)
+        if before_tree is not None:
+            is_escalated: bool | str = handler_escalation_reason(before_tree, n1, filename) or False
+        else:
+            is_escalated = "the try block's context could not be established"
 
         shadowed = frozenset()
         if after_tree is not None:
-            shadowed = get_shadowed_names(after_tree, current_func_node)
+            chain = [n for n in _enclosing_chain(after_tree, n2) if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+            shadowed = get_shadowed_names(after_tree, func_chain=tuple(chain))
 
         if len(n1.handlers) != len(n2.handlers):
             violations.append(
@@ -677,7 +974,7 @@ def _compare_nodes(
             v1 = getattr(n1, field, None)
             v2 = getattr(n2, field, None)
             violations.extend(
-                _compare_nodes(v1, v2, before_code, after_code, filename, current_func_node, f"{path}.{field}", trusted, after_tree)
+                _compare_nodes(v1, v2, before_code, after_code, filename, current_func_node, f"{path}.{field}", trusted, after_tree, before_tree)
             )
         return violations
 
@@ -742,6 +1039,7 @@ def prove_exception_edit(before_code: str, after_code: str, filename: str = "") 
         filename,
         trusted=trusted,
         after_tree=after_tree,
+        before_tree=before_tree,
     )
     all_violations = diff_violations + ast_violations
     if all_violations:

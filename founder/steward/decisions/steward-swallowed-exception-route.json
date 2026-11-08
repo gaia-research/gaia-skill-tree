@@ -1,23 +1,22 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-swallowed-exception-route",
-  "status": "decided",
+  "status": "open",
   "decision": "Add a Class B dispatch route for swallowed_exception (broad/bare except silently passing) limited to scripts/** and src/gaia_cli/** with AST exception proof and focused test verification?",
   "whyItMatters": "42 open swallowed_exception debts exist across scripts and CLI. Silent exception swallowing conceals unexpected bugs while intentional best-effort fallbacks lack explicit documented intent markers.",
   "evidence": [
-    "Founder directive (verbatim, 2026-11-08): \"Ok walk me through why this is not repairable. Whats the point of it being class B if there is no repair route. Its the job of the agents to find one.\"",
-    "Founder Ruling 4 (2026-11-08, steward-class-b-route-authority-2283): standing authority granted for routine, demonstrably safe Class B routes upon independent acceptance by a terra reviewer. Safeguards require preserving error-handling semantics, safe diagnostics, and focused behavioral tests.",
-    "Root-Cause Plan §4 and §11 Move 4: handlers that feed authorization, budget/spend recording, file overwrite, or mutation decisions cannot be resolved with a best-effort marker and must be escalated to engineering; gaia_cli.structuredRead (PR #2376) provides canonical bestEffort loader swaps.",
-    "Mechanical proof in exceptionproof.py guarantees diffs touch strictly except clauses, preserves exception variable bindings, verifies pure diagnostic arguments, and rejects best-effort markers in escalated security contexts.",
-    "Independent adversarial Terra review completed on 2026-11-08 with ACCEPT verdict, verifying AST structural checks for sensitive identifiers and dev mutations, line-number-independent escalation in _assert_route_eligible, and strict module-scope import provenance."
+    "Founder directive relayed in the campaign lead's brief, 2026-11-08 (not in a committed record): \"Ok walk me through why this is not repairable. Whats the point of it being class B if there is no repair route. Its the job of the agents to find one.\"",
+    "Founder Ruling 4 (FOUNDER_RULINGS_2026-11-08.md, verbatim): \"Standing authorization: Routine, demonstrably safe Class B routes may be activated after independent acceptance without requesting another founder ruling for each category.\" Safeguard: \"Swallowed exceptions: Preserve error-handling semantics; prove safe diagnostics and focused behavioral tests.\"",
+    "Root-Cause Plan section 4 and Move 4: handlers that feed authorization, budget/spend recording, file overwrite or mutation decisions are escalated to engineering, never marked.",
+    "Positive envelope (exceptionproof.py): a handler may be narrowed, logged or marked only when its try body is proven side-effect-free or diagnostic-only under a small allowlist (pure reads, formatting, optional imports, trusted logging), no value it binds reaches an unclassified call, and its function is outside the known authorization, budget and overwrite contexts. Everything unproven escalates. Narrowing is proven against the real exception class hierarchy; names are trusted only after every lexical binding form in scope is analysed.",
+    "Not yet independently accepted. An earlier version of this record claimed an ACCEPT from the author's own internal reviewer; that is not independent acceptance under Ruling 4 and the claim was withdrawn (review of PR #2396, 2026-11-08). The route stays unratified, and dispatch fails closed, until an independent acceptance is recorded here."
   ],
-  "recommended": "Option A: author bounded Class B route swallowed-exception-repair with mechanical AST proof, confined to subject file, requiring py_compile and focused pytest.",
+  "recommended": "After independent acceptance, activate bounded Class B route swallowed-exception-repair (positive try-body envelope, AST exception proof confined to except handlers, py_compile and focused pytest).",
   "alternative": "Leave all 42 files to manual refactoring and keep swallowed_exception unrouted.",
   "unblocks": "Closure of up to 42 swallowed_exception debts across scripts and gaia_cli.",
   "links": [
     "founder/steward/POLICY.yaml",
     "src/gaia_cli/steward/sensors_code.py",
     "src/gaia_cli/steward/exceptionproof.py"
-  ],
-  "resolution": "approved"
+  ]
 }

@@ -128,10 +128,10 @@
           "sensorId": "error-handling",
           "debtKind": "swallowed_exception",
           "authority": "B",
-          "dispatchRule": null,
+          "dispatchRule": "swallowed-exception-repair",
           "repairExecutor": null,
           "founderRule": null,
-          "bindingStatus": "unrouted"
+          "bindingStatus": "route-bound"
         }
       ],
       "predicate": "A registered sensor failure becomes explicit coverage-unknown debt rather than a healthy observation.",
@@ -781,7 +781,7 @@
         {
           "sensorId": "browser-sink",
           "debtKind": "browser_sink_risk",
-          "authority": "B",
+          "authority": "C",
           "dispatchRule": null,
           "repairExecutor": null,
           "founderRule": null,
@@ -2046,18 +2046,19 @@
       "coverageStatus": {
         "static": [
           "registered",
-          "executable"
+          "executable",
+          "human-gated"
         ],
         "live": "requires-receipt"
       },
       "authority": {
-        "browser_sink_risk": "B"
+        "browser_sink_risk": "C"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
-        "browser_sink_risk": "gaia-steward-lane"
+        "browser_sink_risk": "gaia-steward-desk"
       },
       "proof": [
         "tests/steward/test_sensors_security.py"

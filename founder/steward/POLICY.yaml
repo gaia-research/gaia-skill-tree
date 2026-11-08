@@ -705,12 +705,14 @@ routing:
         - focused tests for the subject file fail or regress
         - the finding does not reproduce on the current head
         - the finding count for the subject file does not decrease
+        - the handler's try body, else or finally is not proven side-effect-free under the positive envelope, or a value it binds reaches a write, an unclassified call or a decision guard; escalate to engineering
       proof:
         - reproduce the swallowed_exception finding on the subject file
         - show a diff confined to the subject file modifying only except clauses, handler logging, or intent markers
         - run python -m py_compile on the modified file and report exact results
         - run focused pytest tests for the package or script and report exact results
         - run gaia steward scan to prove the finding count for the subject file is reduced
+        - for a narrowed handler, run a focused test that raises the expected error through the try and shows it is still handled, and report exact results
         - obtain independent review before integration
     credential-review-disposition:
       debtKind: credential_review

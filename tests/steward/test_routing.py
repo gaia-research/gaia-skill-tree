@@ -176,4 +176,3 @@ def test_dispatch_fails_closed_when_route_decision_unratified(tmp_path: Path) ->
 
     with pytest.raises(RoutingError, match="is unratified: decision record"):
         render_dispatch(root, debt_id, controller=controller)
-

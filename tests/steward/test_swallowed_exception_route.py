@@ -14,9 +14,11 @@ Verifies:
 
 from __future__ import annotations
 
+import ast
 import difflib
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -29,11 +31,7 @@ from gaia_cli.steward.models import (
     RoutingBudget,
     Subject,
 )
-from gaia_cli.steward.policy import (
-    SWALLOWED_EXCEPTION_DEBT_KIND,
-    SWALLOWED_EXCEPTION_RULE_ID,
-    StewardPolicy,
-)
+from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.routing import RoutingError, _assert_route_eligible, _assert_route_ratified
 from gaia_cli.steward.verification import (
     PROOF_TRANSCRIPT_SCHEMA,
@@ -165,10 +163,33 @@ def test_policy_loads_cleanly_with_swallowed_exception_rule() -> None:
     decision_file = REPO_ROOT / "founder/steward/decisions/steward-swallowed-exception-route.json"
     assert decision_file.is_file()
     data = json.loads(decision_file.read_text(encoding="utf-8"))
-    assert data["status"] == "decided"
-    assert data["resolution"] == "approved"
-    # Route is ratified under Founder Ruling 4
-    _assert_route_ratified(rule, REPO_ROOT)
+    # Ruling 4 activates a route only "after independent acceptance". The author's own
+    # reviewer is not independent, so the record stays open and dispatch fails closed
+    # until an independent acceptance is recorded (review of PR #2396, P1-1).
+    assert data["status"] == "open"
+    assert "resolution" not in data
+    assert not any("ACCEPT verdict" in item for item in data["evidence"])
+    with pytest.raises(RoutingError, match="is unratified"):
+        _assert_route_ratified(rule, REPO_ROOT)
+
+
+def test_route_is_ratified_only_by_a_decided_approved_record(tmp_path: Path) -> None:
+    rule = _live_rule()
+    decisions = tmp_path / "founder" / "steward" / "decisions"
+    decisions.mkdir(parents=True)
+    record = json.loads((REPO_ROOT / "founder/steward/decisions/steward-swallowed-exception-route.json").read_text(encoding="utf-8"))
+    target = decisions / "steward-swallowed-exception-route.json"
+    for status, resolution, ratified in (("open", None, False), ("decided", "rejected", False), ("decided", "approved", True)):
+        body = {k: v for k, v in record.items() if k != "resolution"}
+        body["status"] = status
+        if resolution:
+            body["resolution"] = resolution
+        target.write_text(json.dumps(body), encoding="utf-8")
+        if ratified:
+            _assert_route_ratified(rule, tmp_path)
+        else:
+            with pytest.raises(RoutingError, match="is unratified"):
+                _assert_route_ratified(rule, tmp_path)
 
 
 # --- 2. prove_exception_edit positive tests ----------------------------------
@@ -180,7 +201,7 @@ import json
 
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except Exception:
         pass
     return data
@@ -190,7 +211,7 @@ import json
 
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except (OSError, json.JSONDecodeError):
         pass
     return data
@@ -203,14 +224,14 @@ def test_prove_exception_edit_accepts_bare_except_narrowing() -> None:
     before = """\
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except:
         pass
 """
     after = """\
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except OSError:
         pass
 """
@@ -222,14 +243,14 @@ def test_prove_exception_edit_accepts_best_effort_comment() -> None:
     before = """\
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except Exception:
         pass
 """
     after = """\
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except Exception:  # steward: best-effort: intentional ignore
         pass
 """
@@ -245,7 +266,7 @@ logger = logging.getLogger(__name__)
 
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except Exception:
         pass
 """
@@ -256,7 +277,7 @@ logger = logging.getLogger(__name__)
 
 def process():
     try:
-        data = load_file()
+        data = int(raw)
     except Exception:
         logger.debug("ignored", exc_info=True)
         pass
@@ -273,7 +294,7 @@ log = logging.getLogger(__name__)
 
 for item in items:
     try:
-        work(item)
+        int(item)
     except Exception:
         continue
 """
@@ -284,7 +305,7 @@ log = logging.getLogger(__name__)
 
 for item in items:
     try:
-        work(item)
+        int(item)
     except OSError:
         log.warning("failed item")
         continue
@@ -301,7 +322,7 @@ logger = logging.getLogger(__name__)
 
 def fetch():
     try:
-        return get_val()
+        return int(raw)
     except Exception:
         return None
 """
@@ -312,7 +333,7 @@ logger = logging.getLogger(__name__)
 
 def fetch():
     try:
-        return get_val()
+        return int(raw)
     except (KeyError, ValueError):
         logger.info("value missing")
         return None
@@ -329,7 +350,7 @@ logger = logging.getLogger(__name__)
 
 while True:
     try:
-        step()
+        int(raw)
     except Exception:
         break
 """
@@ -340,7 +361,7 @@ logger = logging.getLogger(__name__)
 
 while True:
     try:
-        step()
+        int(raw)
     except StopIteration:
         logger.debug("stopped")
         break
@@ -374,14 +395,14 @@ def test_prove_exception_edit_rejects_changing_continue_to_pass() -> None:
     before = """\
 for item in items:
     try:
-        work(item)
+        int(item)
     except Exception:
         continue
 """
     after = """\
 for item in items:
     try:
-        work(item)
+        int(item)
     except OSError:
         pass
 """
@@ -394,14 +415,14 @@ def test_prove_exception_edit_rejects_changing_continue_to_break() -> None:
     before = """\
 for item in items:
     try:
-        work(item)
+        int(item)
     except Exception:
         continue
 """
     after = """\
 for item in items:
     try:
-        work(item)
+        int(item)
     except OSError:
         break
 """
@@ -414,14 +435,14 @@ def test_prove_exception_edit_rejects_changing_return_value() -> None:
     before = """\
 def compute():
     try:
-        return calculate()
+        return int(raw)
     except Exception:
         return None
 """
     after = """\
 def compute():
     try:
-        return calculate()
+        return int(raw)
     except OSError:
         return {}
 """
@@ -433,13 +454,13 @@ def compute():
 def test_prove_exception_edit_rejects_adding_raise() -> None:
     before = """\
 try:
-    do_something()
+    int(raw)
 except Exception:
     pass
 """
     after = """\
 try:
-    do_something()
+    int(raw)
 except OSError:
     raise
 """
@@ -452,14 +473,14 @@ def test_prove_exception_edit_rejects_editing_code_outside_try_except() -> None:
     before = """\
 a = 1
 try:
-    do_something()
+    int(raw)
 except Exception:
     pass
 """
     after = """\
 a = 999
 try:
-    do_something()
+    int(raw)
 except OSError:
     pass
 """
@@ -471,13 +492,13 @@ except OSError:
 def test_prove_exception_edit_rejects_syntax_error_in_after_code() -> None:
     before = """\
 try:
-    do_something()
+    int(raw)
 except Exception:
     pass
 """
     after = """\
 try:
-    do_something()
+    int(raw)
 except (OSError:
     pass
 """
@@ -497,13 +518,13 @@ def test_prove_exception_edit_rejects_syntax_error_in_before_code() -> None:
 def test_prove_exception_edit_rejects_widening_exception_type() -> None:
     before = """\
 try:
-    do_something()
+    int(raw)
 except Exception:
     pass
 """
     after = """\
 try:
-    do_something()
+    int(raw)
 except BaseException:
     pass
 """
@@ -515,13 +536,13 @@ except BaseException:
 def test_prove_exception_edit_rejects_disallowed_statement_in_body() -> None:
     before = """\
 try:
-    do_something()
+    int(raw)
 except Exception:
     pass
 """
     after = """\
 try:
-    do_something()
+    int(raw)
 except OSError:
     x = 42
     pass
@@ -534,18 +555,42 @@ except OSError:
 # --- 4. Route eligibility tests in routing.py --------------------------------
 
 
-def test_route_eligible_for_valid_subject_scripts() -> None:
-    rule = _live_rule()
-    debt = _make_debt("scripts/environment/smoke.py", findings=[{"line": 86, "handler": "except Exception", "body": "pass"}])
-    # Must not raise
-    _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
+PURE_SUBJECT = """\
+import json
 
 
-def test_route_eligible_for_valid_subject_gaia_cli() -> None:
+def parse(raw):
+    try:
+        value = json.loads(raw)
+    except Exception:
+        value = None
+    return value
+"""
+
+
+@pytest.mark.parametrize("subject", ["scripts/pure_parse.py", "src/gaia_cli/pure_parse.py"])
+def test_route_eligible_for_a_proven_side_effect_free_handler(tmp_path: Path, subject: str) -> None:
     rule = _live_rule()
-    debt = _make_debt("src/gaia_cli/treeManager.py", findings=[{"line": 170, "handler": "except Exception", "body": "pass"}])
-    # Must not raise
-    _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
+    (tmp_path / subject).parent.mkdir(parents=True, exist_ok=True)
+    (tmp_path / subject).write_text(PURE_SUBJECT, encoding="utf-8")
+    debt = _make_debt(subject, findings=[{"line": 7, "handler": "except Exception", "body": "value = None"}])
+    _assert_route_eligible(rule, debt, repo_root=tmp_path)  # must not raise
+
+
+@pytest.mark.parametrize(
+    "subject, line, why",
+    [
+        # Previously "eligible": a with/open read loop and a local-dict build are not in
+        # the side-effect-free allowlist, so they now escalate (positive envelope).
+        ("scripts/environment/smoke.py", 86, "With"),
+        ("src/gaia_cli/treeManager.py", 170, "not proven"),
+    ],
+)
+def test_real_handlers_outside_the_envelope_escalate(subject: str, line: int, why: str) -> None:
+    rule = _live_rule()
+    debt = _make_debt(subject, findings=[{"line": line, "handler": "except Exception", "body": "pass"}])
+    with pytest.raises(RoutingError, match="must be escalated to engineering"):
+        _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
 
 
 def test_route_ineligible_for_non_python_subject() -> None:
@@ -641,14 +686,14 @@ def test_verification_accepts_valid_exception_patch() -> None:
     before = """\
 def run():
     try:
-        execute()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        execute()
+        int(raw)
     except (OSError, RuntimeError):
         pass
 """
@@ -677,7 +722,7 @@ def test_verification_rejects_patch_that_modifies_try_body() -> None:
     before = """\
 def run():
     try:
-        execute()
+        int(raw)
     except Exception:
         pass
 """
@@ -779,8 +824,8 @@ def test_assert_route_eligible_rejects_escalated_security_file() -> None:
 def test_verification_rejects_diff_touching_different_subject_file() -> None:
     path_a = "src/gaia_cli/handler.py"
     path_b = "src/gaia_cli/other.py"
-    before = "try:\n    execute()\nexcept Exception:\n    pass\n"
-    after = "try:\n    execute()\nexcept OSError:\n    pass\n"
+    before = "try:\n    int(raw)\nexcept Exception:\n    pass\n"
+    after = "try:\n    int(raw)\nexcept OSError:\n    pass\n"
 
     diff = _patch(path_b, before, after)
     packet = _make_packet(path_a)
@@ -807,7 +852,7 @@ def test_prove_exception_edit_rejects_unsafe_diagnostic_call() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -815,7 +860,7 @@ def run():
     after_unsafe_arg = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning(delete_data())
         pass
@@ -827,7 +872,7 @@ def run():
     after_unapproved_target = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         attacker.write("leak")
         pass
@@ -840,7 +885,7 @@ def test_prove_exception_edit_rejects_statement_removal_in_handler() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         cleanup()
         pass
@@ -848,7 +893,7 @@ def run():
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except OSError:
         pass
 """
@@ -860,14 +905,14 @@ def test_prove_exception_edit_rejects_binding_renaming() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except OSError as other:
         pass
 """
@@ -879,14 +924,14 @@ def test_prove_exception_edit_rejects_attribute_lookup_in_diagnostic() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning(obj.attr)
         pass
@@ -899,14 +944,14 @@ def test_prove_exception_edit_rejects_binary_op_in_diagnostic() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         logger.warning("err: " + str(e))
         pass
@@ -919,14 +964,14 @@ def test_prove_exception_edit_rejects_fstring_in_diagnostic() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         logger.warning(f"err: {e}")
         pass
@@ -961,14 +1006,14 @@ def test_prove_exception_edit_rejects_side_effect_in_narrowed_type() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except execute_side_effect():
         pass
 """
@@ -980,14 +1025,14 @@ def test_prove_exception_edit_rejects_unbound_name_in_diagnostic() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception as e:
         logger.warning(unbound_var)
         pass
@@ -1000,14 +1045,14 @@ def test_prove_exception_edit_rejects_arbitrary_stderr_target() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         custom_obj.stderr.write("msg")
         pass
@@ -1022,7 +1067,7 @@ def test_prove_exception_edit_rejects_diff_outside_except_handler() -> None:
 def run():
     # Inside func
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1031,7 +1076,7 @@ def run():
 def run():
     # Inside func
     try:
-        do_work()
+        int(raw)
     except OSError:
         pass
 """
@@ -1078,13 +1123,20 @@ def _registry_has_any_verifier(reg):
 )
 def test_assert_route_eligible_rejects_all_escalated_locations(path: str, line: int) -> None:
     rule = _live_rule()
-    debt = _make_debt(
-        subject_path=path,
-        finding_count=1,
-        findings=[{"line": line, "handler": "except Exception", "body": "pass"}],
-    )
-    with pytest.raises(RoutingError, match="feeds authorization|escalated security|wraps custom_state"):
-        _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
+    # Lines were recorded against an older base; follow drift to the nearest handler
+    # (and check the recorded line too: a stale line must also be refused).
+    tree = ast.parse((REPO_ROOT / path).read_text(encoding="utf-8"))
+    handlers = sorted(h.lineno for n in ast.walk(tree) if isinstance(n, ast.Try) for h in n.handlers)
+    nearest = min(handlers, key=lambda h: abs(h - line))
+    candidates = {line} | ({nearest} if abs(nearest - line) <= 12 else set())
+    for candidate in candidates:
+        debt = _make_debt(
+            subject_path=path,
+            finding_count=1,
+            findings=[{"line": candidate, "handler": "except Exception", "body": "pass"}],
+        )
+        with pytest.raises(RoutingError, match="feeds authorization|escalated security|wraps custom_state|not an except handler"):
+            _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
 
 
 def test_prove_exception_edit_rejects_unbound_logger_target() -> None:
@@ -1092,14 +1144,14 @@ def test_prove_exception_edit_rejects_unbound_logger_target() -> None:
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("unbound logger")
         pass
@@ -1112,14 +1164,14 @@ def test_prove_exception_edit_rejects_missing_error_or_custom_attribute() -> Non
     before = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run():
     try:
-        do_work()
+        int(raw)
     except MissingError:
         pass
 """
@@ -1139,7 +1191,7 @@ def load_manifest():
 
 def download_skill():
     try:
-        fetch_remote()
+        int(raw)
     except Exception:
         pass
 """
@@ -1152,7 +1204,7 @@ def load_manifest():
 
 def download_skill():
     try:
-        fetch_remote()
+        int(raw)
     except OSError:
         pass
 """
@@ -1160,15 +1212,24 @@ def download_skill():
     assert violations == [], violations
 
 
-def test_assert_route_eligible_accepts_eligible_line_in_mixed_file() -> None:
+def test_assert_route_eligible_judges_each_handler_in_a_mixed_file(tmp_path: Path) -> None:
     rule = _live_rule()
-    debt = _make_debt(
-        subject_path="src/gaia_cli/install.py",
-        finding_count=1,
-        findings=[{"line": 649, "handler": "except Exception", "body": "pass"}],
-    )
-    # Line 649 in install.py is eligible (not escalated)! Must not raise.
-    _assert_route_eligible(rule, debt, repo_root=REPO_ROOT)
+    subject = "src/gaia_cli/mixed.py"
+    (tmp_path / subject).parent.mkdir(parents=True)
+    (tmp_path / subject).write_text(PURE_SUBJECT + """
+
+def persist(path, payload):
+    try:
+        path.write_text(payload)
+    except Exception:
+        pass
+""", encoding="utf-8")
+    pure = _make_debt(subject, findings=[{"line": 7, "handler": "except Exception", "body": "value = None"}])
+    _assert_route_eligible(rule, pure, repo_root=tmp_path)
+    mixed = _make_debt(subject, findings=[{"line": 7, "handler": "except Exception", "body": "value = None"},
+                                          {"line": 15, "handler": "except Exception", "body": "pass"}])
+    with pytest.raises(RoutingError, match="path.write_text"):
+        _assert_route_eligible(rule, mixed, repo_root=tmp_path)
 
 
 def test_prove_exception_edit_rejects_fake_logger_assignment() -> None:
@@ -1178,7 +1239,7 @@ logger = None
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1187,7 +1248,7 @@ logger = None
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("fake logger")
         pass
@@ -1201,14 +1262,14 @@ def test_prove_exception_edit_rejects_shadowed_builtin_exception() -> None:
     before = """\
 def run(OSError):
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
     after = """\
 def run(OSError):
     try:
-        do_work()
+        int(raw)
     except OSError:
         pass
 """
@@ -1224,7 +1285,7 @@ logger = logging.getLogger(__name__)
 
 def run(logger):
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1234,7 +1295,7 @@ logger = logging.getLogger(__name__)
 
 def run(logger):
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("shadowed logger")
         pass
@@ -1251,7 +1312,7 @@ logger = logging.getLogger(__name__)
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1261,7 +1322,7 @@ logger = logging.getLogger(__name__)
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("fake logging module")
         pass
@@ -1280,7 +1341,7 @@ logger = getLogger(__name__)
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1292,7 +1353,7 @@ logger = getLogger(__name__)
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("custom getLogger")
         pass
@@ -1310,7 +1371,7 @@ logger = "not a logger"
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         pass
 """
@@ -1321,7 +1382,7 @@ logger = "not a logger"
 
 def run():
     try:
-        do_work()
+        int(raw)
     except Exception:
         logger.warning("reassigned logger")
         pass
@@ -1350,7 +1411,265 @@ def scan_command():
     assert any("feeds authorization, budget/spend recording, file overwrite" in v for v in violations)
 
 
+# --- Review of PR #2396: reviewer probes and the positive envelope -------------------
+#
+# r2396-verdict.txt P1-2..P1-4 and the empty-findings note, kept as regression tests.
+# Each probe is checked against the proof, the canonical sensor and, for dispatch,
+# _assert_route_eligible. Escalation is the only acceptable outcome.
+
+from gaia_cli.steward.sensors_code import SourceFile, swallowed_handlers  # noqa: E402
+
+H = "src/gaia_cli/handler.py"
 
 
+def _sensor_count(code: str) -> int:
+    return len(swallowed_handlers(SourceFile(H, code, ast.parse(code), None, False)))
 
 
+def _proof_verdict(before: str, after: str):
+    packet = _make_packet(H)
+    return evaluate(
+        packet=packet,
+        change_set=parse_unified_diff(_patch(H, before, after)),
+        transcript=_make_transcript(packet),
+        debt_source="error-handling", sensor_sources=["error-handling"],
+        baseline_open_debt=[], current_open_debt=[], authority_still_class_b=True,
+        exception_baseline={H: before},
+    )
+
+
+UNSAFE_PERSIST = """\
+def persist_record(path, payload):
+    try:
+        path.write_text(payload)
+    except Exception:
+        pass
+"""
+
+
+def test_probe_mutation_marker_is_escalated_not_resolved(tmp_path: Path) -> None:
+    marked = UNSAFE_PERSIST.replace("except Exception:", "except Exception:  # steward: best-effort: optional persistence")
+    assert _sensor_count(UNSAFE_PERSIST) == 1 and _sensor_count(marked) == 0  # the marker WOULD silence the sensor
+    violations = prove_exception_edit(UNSAFE_PERSIST, marked, H)
+    assert any("path.write_text" in v and "must be escalated to engineering" in v for v in violations), violations
+    verdict = _proof_verdict(UNSAFE_PERSIST, marked)
+    assert verdict.verdict == "reject" and not verdict.scope_valid
+    (tmp_path / H).parent.mkdir(parents=True)
+    (tmp_path / H).write_text(UNSAFE_PERSIST, encoding="utf-8")
+    debt = _make_debt(H, findings=[{"line": 4, "handler": "except Exception", "body": "pass"}])
+    with pytest.raises(RoutingError, match="must be escalated to engineering"):
+        _assert_route_eligible(_live_rule(), debt, repo_root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    "observed",
+    [
+        {"findingCount": 1, "findings": []},
+        {"findingCount": 2, "findings": [{"line": 4}]},
+        {"findingCount": 1, "findings": [{"handler": "except Exception"}]},
+        {"findingCount": 1, "findings": [{"line": "4"}]},
+        {"findingCount": 1},
+    ],
+)
+def test_probe_incomplete_findings_fail_closed(tmp_path: Path, observed: dict) -> None:
+    from dataclasses import replace
+
+    (tmp_path / H).parent.mkdir(parents=True)
+    (tmp_path / H).write_text(PURE_SUBJECT, encoding="utf-8")
+    debt = _make_debt(H)
+    debt = replace(debt, observed_state={"path": H, "findingsCapped": False, **observed})
+    with pytest.raises(RoutingError, match="complete list"):
+        _assert_route_eligible(_live_rule(), debt, repo_root=tmp_path)
+
+
+def test_probe_stale_finding_line_fails_closed(tmp_path: Path) -> None:
+    (tmp_path / H).parent.mkdir(parents=True)
+    (tmp_path / H).write_text(PURE_SUBJECT, encoding="utf-8")
+    debt = _make_debt(H, findings=[{"line": 3, "handler": "except Exception", "body": "pass"}])
+    with pytest.raises(RoutingError, match="not an except handler"):
+        _assert_route_eligible(_live_rule(), debt, repo_root=tmp_path)
+
+
+PURE_TRY = """\
+def run(raw):
+    try:
+        value = int(raw)
+    except Exception:
+        pass
+"""
+
+
+@pytest.mark.parametrize("raise_body", [True, False])
+def test_probe_keyboard_interrupt_is_not_narrowing(raise_body: bool) -> None:
+    before = PURE_TRY.replace("value = int(raw)", "raise KeyboardInterrupt()") if raise_body else PURE_TRY
+    after = before.replace("except Exception:", "except KeyboardInterrupt:")
+    violations = prove_exception_edit(before, after, H)
+    assert violations
+    if not raise_body:  # the hierarchy check itself, not only the envelope, refuses it
+        assert any("was not narrowed" in v for v in violations), violations
+    assert _proof_verdict(before, after).verdict == "reject"
+
+
+@pytest.mark.parametrize(
+    "new_type, ok",
+    [
+        ("ValueError", True),
+        ("(ValueError, TypeError)", True),
+        ("(ValueError, KeyboardInterrupt)", False),
+        ("GeneratorExit", False),
+        ("SystemExit", False),
+        ("Exception", False),
+        ("BaseException", False),
+    ],
+)
+def test_narrowing_follows_the_real_class_hierarchy(new_type: str, ok: bool) -> None:
+    after = PURE_TRY.replace("except Exception:", f"except {new_type}:")
+    assert (prove_exception_edit(PURE_TRY, after, H) == []) is ok
+
+
+def test_narrowing_from_a_specific_type_must_be_a_subclass() -> None:
+    before = PURE_TRY.replace("except Exception:", "except (ValueError, OSError):")
+    assert prove_exception_edit(before, before.replace("(ValueError, OSError)", "ValueError"), H) == []
+    assert prove_exception_edit(before, before.replace("(ValueError, OSError)", "TypeError"), H)
+
+
+LOGGED_MODULE = """\
+import logging
+logger = logging.getLogger(__name__)
+"""
+
+
+@pytest.mark.parametrize(
+    "signature",
+    ["logger, /", "logger", "*, logger", "*logger", "**logger"],
+)
+def test_probe_logger_bound_by_any_argument_kind_is_untrusted(signature: str) -> None:
+    before = LOGGED_MODULE + PURE_TRY.replace("def run(raw):", f"def run(raw=0, {signature}):" if not signature.startswith("*") else f"def run(raw=0, {signature}):")
+    after = before.replace("        pass", "        logger.warning(\"diagnostic\")\n        pass")
+    assert prove_exception_edit(before, after, H), signature
+
+
+@pytest.mark.parametrize(
+    "binding",
+    [
+        "    from builtins import BaseException as OSError\n",
+        "    import builtins as OSError\n",
+        "    OSError, other = BaseException, 1\n",
+        "    for OSError in (BaseException,):\n        pass\n",
+        "    if (OSError := BaseException):\n        pass\n",
+        "    with open(__file__) as OSError:\n        pass\n",
+    ],
+)
+def test_probe_exception_name_shadowed_by_any_local_binding(binding: str) -> None:
+    before = PURE_TRY.replace("def run(raw):\n", "def run(raw):\n" + binding)
+    after = before.replace("except Exception:", "except OSError:")
+    violations = prove_exception_edit(before, after, H)
+    assert any("was not narrowed" in v for v in violations), (binding, violations)
+
+
+@pytest.mark.parametrize(
+    "rebinding",
+    [
+        "logger = None\n",
+        "for logger in []:\n    pass\n",
+        "def other():\n    global logger\n    logger = None\n",
+        "import logging as logger\n",
+    ],
+)
+def test_module_logger_rebound_anywhere_is_untrusted(rebinding: str) -> None:
+    before = LOGGED_MODULE + rebinding + PURE_TRY
+    after = before.replace("        pass", "        logger.warning(\"diagnostic\")\n        pass")
+    assert prove_exception_edit(before, after, H), rebinding
+
+
+def test_trusted_logging_on_a_proven_body_is_accepted() -> None:
+    before = LOGGED_MODULE + PURE_TRY
+    after = before.replace("        pass", "        logger.warning(\"could not parse\", exc_info=True)\n        pass")
+    assert prove_exception_edit(before, after, H) == []
+
+
+@pytest.mark.parametrize(
+    "body",
+    [
+        "value = json.loads(raw)",
+        "value = json.loads(raw).get('key', '').strip().lower()",
+        "value = json.loads(raw)['items'][0].get('id')",
+        "value = re.match('v([0-9]+)', raw).group(1)",
+        "value = getattr(raw, 'name', None)",
+        "value = f'{raw!r}: {len(raw)}'",
+        "import tomllib",
+        "value = raw['a'][0] if raw else None",
+        "return int(raw) + 1",
+    ],
+)
+def test_envelope_accepts_pure_reads_formatting_and_optional_imports(body: str) -> None:
+    before = "import json\nimport re\n" + PURE_TRY.replace("value = int(raw)", body)
+    after = before.replace("except Exception:", "except Exception:  # steward: best-effort: optional parse")
+    assert prove_exception_edit(before, after, H) == [], body
+
+
+@pytest.mark.parametrize(
+    "body, why",
+    [
+        ("path.write_text(raw)", "write_text"),
+        ("open(raw, 'w').write('x')", "open"),
+        ("subprocess.run(['true'])", "subprocess.run"),
+        ("requests.get(raw)", "requests.get"),
+        ("os.remove(raw)", "os.remove"),
+        ("state['k'] = raw", "mutates state"),
+        ("obj.attr = raw", "mutates state"),
+        ("cache.update(raw)", "cache.update"),
+        ("items.append(raw)", "items.append"),
+        ("with open(raw) as fh:\n            value = fh.read()", "With"),
+        ("for item in raw:\n            pass", "For"),
+        ("del raw", "Delete"),
+        ("value = (lambda: raw)()", "cannot be classified"),
+        ("value = raw.get('key')", "raw.get"),
+        ("value = session.get(raw)", "session.get"),
+        ("value = raw.strip()", "raw.strip"),
+        ("value = [x for x in raw]", "not in the pure-read allowlist"),
+        ("value = int(raw, base=compute())", "compute"),
+    ],
+)
+def test_envelope_escalates_everything_unproven(body: str, why: str) -> None:
+    before = "import json\nimport subprocess\n" + PURE_TRY.replace("value = int(raw)", body)
+    after = before.replace("except Exception:", "except Exception:  # steward: best-effort: optional")
+    violations = prove_exception_edit(before, after, H)
+    assert any("must be escalated to engineering" in v and why in v for v in violations), (body, violations)
+
+
+@pytest.mark.parametrize(
+    "tail, why",
+    [
+        ("    path.write_text(str(value))\n", "path.write_text"),
+        ("    if value:\n        require_operator()\n", "guards"),
+        ("    config['k'] = value\n", "stored into an attribute or item"),
+        ("    send(value)\n", "send"),
+    ],
+)
+def test_envelope_escalates_when_the_swallowed_value_feeds_a_mutation_or_decision(tail: str, why: str) -> None:
+    before = "def run(raw, path, config):\n    try:\n        value = int(raw)\n    except Exception:\n        value = 0\n" + tail
+    after = before.replace("except Exception:", "except ValueError:")
+    violations = prove_exception_edit(before, after, H)
+    assert any(why in v for v in violations), (tail, violations)
+
+
+def test_envelope_escalates_a_try_that_assigns_a_global() -> None:
+    before = "def run(raw):\n    global value\n    try:\n        value = int(raw)\n    except Exception:\n        pass\n"
+    violations = prove_exception_edit(before, before.replace("except Exception:", "except ValueError:"), H)
+    assert any("global/nonlocal" in v for v in violations), violations
+
+
+@pytest.mark.parametrize("call", ["sorted(raw)", "list(raw)", "sum(raw)", "any(raw)", "dict(raw)"])
+def test_envelope_refuses_builtins_that_iterate_an_unknown_object(call: str) -> None:
+    before = PURE_TRY.replace("int(raw)", call)
+    after = before.replace("except Exception:", "except Exception:  # steward: best-effort: optional")
+    assert any("cannot be classified" in v for v in prove_exception_edit(before, after, H))
+
+
+@pytest.mark.parametrize("clause", ["    else:\n        path.write_text(str(value))\n", "    finally:\n        path.unlink()\n"])
+def test_envelope_covers_else_and_finally(clause: str) -> None:
+    before = "def run(raw, path):\n    try:\n        value = int(raw)\n    except Exception:\n        pass\n" + clause
+    after = before.replace("except Exception:", "except ValueError:")
+    violations = prove_exception_edit(before, after, H)
+    assert any("clause is not proven side-effect-free" in v for v in violations), violations

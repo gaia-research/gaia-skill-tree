@@ -607,13 +607,20 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
             source="class-c-debt",
         )
     if kind == "browser_sink_risk":
+        sites = sum(
+            value for value in (debt.observed_state.get("findingCount") for debt in ordered)
+            if isinstance(value, int) and not isinstance(value, bool)
+        )
         return DeskDecision(
             decision_id=identity,
-            decision=f"Review and sanitize {count} unsafe DOM sink(s) in frontend templates ({count} finding(s)).",
+            decision=(
+                f"Review and sanitize unsafe DOM sinks in frontend templates: {sites} sink site(s) "
+                f"across {count} file(s)."
+            ),
             why_it_matters=(
-                "CLAUDE.md frontend human-gating strictly forbids automated changes that alter visible rendering "
-                "or DOM tree structure without founder review. Dynamic markup templates in docs/ cannot prove zero "
-                "rendered diff mechanically without an interactive browser render pass."
+                "CLAUDE.md frontend human-gating forbids automated changes that alter visible rendering or DOM "
+                "structure without founder review, and Founder Ruling 4 requires proving actual sink safety, not "
+                "merely visual equivalence, with headless validation. Neither is mechanically provable here yet."
             ),
             evidence=tuple(_generic_evidence(ordered)),
             recommended=(
@@ -621,7 +628,8 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
                 "Where markup is required, sanitize using DOMPurify or safe templating after founder review."
             ),
             alternative=(
-                "Author an interactive headless browser testing pipeline to mechanically prove zero rendered visual diff."
+                "Author a headless browser harness that proves sink safety (untrusted input renders as text) and "
+                "behavior per site, then propose a bounded route for independent acceptance."
             ),
             unblocks=unblocks,
             links=("https://github.com/gaia-research/gaia-skill-tree/blob/main/CLAUDE.md",),

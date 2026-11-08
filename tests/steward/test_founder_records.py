@@ -177,7 +177,7 @@ def test_browser_sink_risk_surfaces_on_founder_desk() -> None:
     )
     assert len(desk.decisions) == 1
     dec = desk.decisions[0]
-    assert "unsafe DOM sink(s)" in dec.decision
+    assert "unsafe DOM sinks" in dec.decision
+    assert "1 sink site(s) across 1 file(s)" in dec.decision  # sites and files are counted separately
     assert "CLAUDE.md frontend human-gating" in dec.why_it_matters
     assert dec.source == "class-c-debt"
-

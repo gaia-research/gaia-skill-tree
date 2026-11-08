@@ -25,10 +25,8 @@ from gaia_cli.steward.models import (
     normalize_decision_target,
 )
 from gaia_cli.steward.exceptionproof import (
-    _ESCALATED_FUNCTION_NAMES,
-    _ESCALATED_LINE_LOCATIONS,
+    handler_escalation_reason,
     is_escalated_security_context,
-    is_escalated_try_block,
 )
 from gaia_cli.steward.lane import (
     Lane,
@@ -280,8 +278,18 @@ def _assert_route_eligible(rule: Any, debt: Debt, repo_root: Path | None = None)
             )
         elif state.get("findingsCapped") or not isinstance(state.get("findingCount"), int) or state.get("findingCount") <= 0:
             reason = "findings must not be capped and must have findingCount > 0"
+        elif (
+            not isinstance(state.get("findings"), list)
+            or len(state["findings"]) != state["findingCount"]
+            or not all(
+                isinstance(f, dict) and isinstance(f.get("line"), int) and not isinstance(f.get("line"), bool)
+                and f["line"] > 0
+                for f in state["findings"]
+            )
+        ):
+            # Fail closed: missing, partial or line-less findings never mean "safe".
+            reason = "findings must be a complete list (one per findingCount) with usable line numbers"
         else:
-            findings = state.get("findings", [])
             full_path = (repo_root / subject).resolve() if repo_root is not None else Path(subject).resolve()
             if not full_path.is_file():
                 raise RoutingError(
@@ -289,66 +297,28 @@ def _assert_route_eligible(rule: Any, debt: Debt, repo_root: Path | None = None)
                 )
             try:
                 tree = ast.parse(full_path.read_text(encoding="utf-8"))
-                enclosing_funcs: dict[int, str] = {}
-                enclosing_tries: dict[int, ast.Try] = {}
-                for node in ast.walk(tree):
-                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                        start_line = getattr(node, "lineno", 0)
-                        end_line = getattr(node, "end_lineno", start_line)
-                        for l in range(start_line, (end_line or start_line) + 1):
-                            enclosing_funcs[l] = node.name
-                    elif isinstance(node, ast.Try):
-                        start_line = getattr(node, "lineno", 0)
-                        end_line = getattr(node, "end_lineno", start_line)
-                        for l in range(start_line, (end_line or start_line) + 1):
-                            enclosing_tries[l] = node
-            except Exception as exc:
-                raise RoutingError(
-                    f"debt {debt.id}: cannot establish AST context for {subject}: {exc}"
-                )
-
-            for f in findings:
-                f_line = f.get("line") if isinstance(f, dict) else None
-                func_name = enclosing_funcs.get(f_line) if f_line else None
-                try_node = enclosing_tries.get(f_line) if f_line else None
-
-                # 1. Whole-module escalation check
-                if is_escalated_security_context(subject):
+            except (OSError, UnicodeDecodeError, SyntaxError, ValueError) as exc:
+                raise RoutingError(f"debt {debt.id}: cannot establish AST context for {subject}: {exc}") from exc
+            # Each finding must sit on an except handler that exists on disk now.
+            handler_try: dict[int, ast.Try] = {}
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Try):
+                    for handler in node.handlers:
+                        handler_try[handler.lineno] = node
+            for f in state["findings"]:
+                f_line = f["line"]
+                try_node = handler_try.get(f_line)
+                if try_node is None:
                     reason = (
-                        f"subject {subject} is an escalated security or mutation module; "
-                        "must be escalated to engineering, not dispatched autonomously"
+                        f"finding line {f_line} is not an except handler in {subject} on disk; "
+                        "stale or unusable line context is never treated as safe"
                     )
                     break
-
-                # 2. Function-level escalation check
-                if func_name and func_name in _ESCALATED_FUNCTION_NAMES:
-                    if func_name in ("scan_command", "fuse_command"):
-                        if try_node is not None and is_escalated_try_block(try_node, func_name, subject):
-                            reason = (
-                                f"subject {subject}:{f_line} (function: {func_name}) wraps custom_state or manifest overwrite; "
-                                "must be escalated to engineering, not dispatched autonomously"
-                            )
-                            break
-                    else:
-                        reason = (
-                            f"subject {subject}:{f_line} (function: {func_name}) feeds authorization, budget/spend, or overwrite decisions; "
-                            "must be escalated to engineering, not dispatched autonomously"
-                        )
-                        break
-
-                # 3. Structural AST try-block escalation check (immune to line drift)
-                if try_node is not None and is_escalated_try_block(try_node, func_name, subject):
+                why = handler_escalation_reason(tree, try_node, subject)
+                if why:
                     reason = (
-                        f"subject {subject}:{f_line} (function: {func_name or 'module'}) feeds authorization, "
-                        "budget/spend, or overwrite decisions; must be escalated to engineering, not dispatched autonomously"
-                    )
-                    break
-
-                # 4. Fallback line location check
-                if is_escalated_security_context(subject, func_name=func_name, line=f_line):
-                    reason = (
-                        f"subject {subject}:{f_line} (function: {func_name or 'module'}) feeds authorization, "
-                        "budget/spend, or overwrite decisions; must be escalated to engineering, not dispatched autonomously"
+                        f"subject {subject}:{f_line} feeds authorization, budget/spend, or overwrite decisions "
+                        f"or is not proven safe ({why}); must be escalated to engineering, not dispatched autonomously"
                     )
                     break
         if reason is not None:
