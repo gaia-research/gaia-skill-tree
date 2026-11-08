@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import tempfile
 from typing import Any, Mapping, Sequence
@@ -812,6 +813,99 @@ def _diff_paths_safe(diff_text: str) -> bool:
     return True
 
 
+SENSOR_INPUTS_RELATIVE = Path(".gaia/steward/inputs")
+
+
+class _UnsafeInputPath(Exception):
+    """A sensor-input path component is a symlink, not a directory, or escapes its root."""
+
+
+def _safe_directory(root: Path, relative: Path, *, create: bool) -> Path | None:
+    """``root/relative`` with every component checked by lstat, never followed.
+
+    Each component from ``root`` down must be a real directory (not a symlink);
+    with ``create`` a missing component is made with ``os.mkdir``, which never
+    follows a symlink. The result must resolve under ``root``. Returns None when
+    the path is absent (and not created); raises _UnsafeInputPath otherwise.
+    """
+
+    base = root.resolve()
+    current = base
+    for part in relative.parts:
+        if part in ("", ".", ".."):
+            raise _UnsafeInputPath(f"unsafe component {part!r}")
+        current = current / part
+        try:
+            info = os.lstat(current)
+        except FileNotFoundError:
+            if not create:
+                return None
+            os.mkdir(current, 0o755)
+            info = os.lstat(current)
+        if stat.S_ISLNK(info.st_mode) or not stat.S_ISDIR(info.st_mode):
+            raise _UnsafeInputPath(f"{current} is not a real directory")
+    if not current.resolve().is_relative_to(base):
+        raise _UnsafeInputPath(f"{current} resolves outside {base}")
+    return current
+
+
+def _mirror_sensor_inputs(repo_root: Path, tree: Path) -> bool:
+    """Copy the checkout's ignored sensor inputs into ``tree``, read-only.
+
+    Returns False (the caller fails closed) on any unsafe path: a symlink in any
+    component of the source path from the repo root down to every input file,
+    a symlink or non-directory in any destination component under the scratch
+    tree, a path resolving outside its root, or a destination file that already
+    exists. Files are read with O_NOFOLLOW and written with
+    O_CREAT|O_EXCL|O_NOFOLLOW, mode 0444. With no inputs directory nothing is
+    copied, and both scratch trees stay identical.
+    """
+
+    try:
+        source = _safe_directory(repo_root, SENSOR_INPUTS_RELATIVE, create=False)
+        if source is None:
+            return True
+        target = _safe_directory(tree, SENSOR_INPUTS_RELATIVE, create=True)
+        assert target is not None
+        def unreadable(error: OSError) -> None:
+            # os.walk drops unreadable directories silently by default; an input
+            # that cannot be read must fail closed, not vanish from both trees.
+            raise error
+
+        for current, directories, files in os.walk(source, onerror=unreadable, followlinks=False):
+            here = Path(current)
+            relative = here.relative_to(source)
+            for name in directories:
+                if stat.S_ISLNK(os.lstat(here / name).st_mode):
+                    raise _UnsafeInputPath(f"{here / name} is a symlink")
+            destination = _safe_directory(target, relative, create=True) if relative.parts else target
+            for name in files:
+                entry = here / name
+                info = os.lstat(entry)
+                if stat.S_ISLNK(info.st_mode) or not stat.S_ISREG(info.st_mode):
+                    raise _UnsafeInputPath(f"{entry} is not a regular file")
+                reader = os.open(entry, os.O_RDONLY | os.O_NOFOLLOW)
+                with os.fdopen(reader, "rb") as stream:
+                    payload = stream.read()
+                writer = os.open(
+                    destination / name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444
+                )
+                with os.fdopen(writer, "wb") as stream:
+                    stream.write(payload)
+        return True
+    except (_UnsafeInputPath, OSError):
+        return False
+
+
+def _not_evaluated_key(receipt: Any) -> frozenset[tuple[str, bool]]:
+    """The set of (sensor, input absent) pairs a scan could not evaluate."""
+
+    return frozenset(
+        (str(item.get("sensor")), bool(item.get("inputAbsent")))
+        for item in (receipt.not_evaluated or ())
+    )
+
+
 def compute_patch_attribution(
     repo_root: Path,
     diff_text: str,
@@ -875,6 +969,12 @@ def compute_patch_attribution(
             if wt_patch.returncode != 0:
                 return None
             worktrees_to_cleanup.append(patched_dir)
+            # Detached worktrees lack the ignored sensor inputs, so give both
+            # trees the same read-only copy: base and patched then see identical
+            # inputs, and their coverage matches the main scan's.
+            for tree in (base_dir, patched_dir):
+                if not _mirror_sensor_inputs(repo_root, tree):
+                    return None
         else:
             # NOT a git repo (e.g. mock test tmp_path)
             def _ignore_patterns(path: str, names: list[str]) -> set[str]:
@@ -900,10 +1000,16 @@ def compute_patch_attribution(
         # Scan patched directory with controller
         patched_scan = controller.scan(patched_dir)
 
+        # Fail closed on unknown or partial coverage, or when the two scans were
+        # blind in different places. A sensor that is not evaluated in BOTH scans
+        # (identically, e.g. an optional input that is absent) is a symmetric blind
+        # spot: it can neither add nor hide a difference between base and patch.
         if any(
-            receipt.coverage_unknown or receipt.not_evaluated or receipt.partial_coverage
+            receipt.coverage_unknown or receipt.partial_coverage
             for receipt in (base_scan.receipt, patched_scan.receipt)
         ):
+            return None
+        if _not_evaluated_key(base_scan.receipt) != _not_evaluated_key(patched_scan.receipt):
             return None
 
         base_debts = {debt.id for debt in base_scan.open_debts}
