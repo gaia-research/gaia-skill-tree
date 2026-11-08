@@ -1,5 +1,5 @@
 {
- "generation": 1851,
+ "generation": 1852,
  "lane": {
   "entries": [
    {
@@ -143508,6 +143508,15 @@
      "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
      "emittedAt": "2026-11-08T08:01:00.779337Z",
      "idempotencyKey": "dispatch-4df7555f84efee74bd72:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch13-builder-4eef6ecc6d5f",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.proof.json",
+      "summary": "Batch batch13 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (2★→4★, rank_up timeline event via CLI); commit e3e813442; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -143528,7 +143537,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-08T08:26:28.852708Z",
+     "status": "done",
      "stepId": "build:4eef6ecc6d5f:1",
      "type": "agent.build"
     },
@@ -143712,6 +143722,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:3435f8d0b7d1:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch13-builder-4eef6ecc6d5f",
+     "at": "2026-11-08T08:26:28.853055Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:4eef6ecc6d5f:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -146067,6 +146089,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-3435f8d0b7d1.proof.json",
      "stepId": "build:3435f8d0b7d1:2"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.proof.json",
+     "stepId": "build:4eef6ecc6d5f:1"
     }
    ],
    "pullRequests": [],
@@ -146121,11 +146149,11 @@
      "stepId": "build:3435f8d0b7d1:2"
     },
     {
-     "at": "2026-11-08T08:01:00.779337Z",
+     "at": "2026-11-08T08:26:28.852708Z",
      "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
      "idempotencyKey": "dispatch-4df7555f84efee74bd72:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:4eef6ecc6d5f:1"
     },
     {
@@ -146184,11 +146212,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-08T08:21:34.101399Z"
+   "updatedAt": "2026-11-08T08:26:28.852708Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T08:21:34.102760Z",
+ "updatedAt": "2026-11-08T08:26:28.854698Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -147220,12 +147248,33 @@
    }
   },
   "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch13-builder-4eef6ecc6d5f",
+     "at": "2026-11-08T08:26:28.853055Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:4eef6ecc6d5f:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/trust-calibration-drift-4eef6ecc6d5f",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch13-builder-4eef6ecc6d5f",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.diff",
+    "dispatchId": "dispatch-4df7555f84efee74bd72",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261108T075755Z-3d4cd7b6/build-4eef6ecc6d5f.proof.json",
+    "recordedAt": "2026-11-08T08:26:28.853055Z",
+    "summary": "Batch batch13 builder (openai/gpt-6-luna medium, pi pane) ran the governed trust calibration once (2★→4★, rank_up timeline event via CLI); commit e3e813442; lead QA: one-file diff under registry/named, no frozen marker, clean worktree; pre/post inspection in proof."
+   },
    "createdAt": "2026-11-08T08:01:00.779337Z",
    "debtId": "debt:trust_calibration_drift:emilkowalski-mobile-native:47eff399f5196184",
    "dispatchId": "dispatch-4df7555f84efee74bd72",
@@ -147246,7 +147295,7 @@
    "runId": "run-20261108T075755Z-3d4cd7b6",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-08T08:01:00.779337Z",
+   "updatedAt": "2026-11-08T08:26:28.853055Z",
    "verification": null
   },
   "debt:trust_calibration_drift:emilkowalski-prototype:7f264457d62619d2": {
