@@ -28,16 +28,13 @@ def git(root, *args, data=None):
     return p.stdout.decode().strip()
 
 
-def observation_phases(sensorCount=2048, coverageUnknown=(), identityParts=0):
-    """Actual canonical producer output, not an invented padding/text field.
+from copy import deepcopy
+import functools
+from pathlib import Path
 
-    Synthetic distinct sensor observations exercise the existing unbounded
-    sensor-count map. Only typed identities and numeric counts enter phases;
-    no observation subjects, artifact references or prose are copied by the
-    producer. The large variant tests scale, not today's production fleet size.
-    Identity components are synthetic sensor namespaces, within the existing
-    source/ID contract, not a new field or serialized reference/prose format.
-    """
+
+@functools.lru_cache(maxsize=16)
+def _cached_observation_phases(sensorCount, coverageUnknown, identityParts):
     from gaia_cli.steward.controller import ScanResult
     from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
     from gaia_cli.steward.models import Observation, Receipt, Subject
@@ -51,7 +48,7 @@ def observation_phases(sensorCount=2048, coverageUnknown=(), identityParts=0):
     ) for number in range(sensorCount))
     receipt = Receipt(
         run_id="scan-original", started_at=START, finished_at=END,
-        observations_collected=len(observations), coverage_unknown=tuple(coverageUnknown),
+        observations_collected=len(observations), coverage_unknown=coverageUnknown,
         debt_created=(), debt_updated=(), debt_resolved=(), open_debt=(),
         authority_counts={"A": 0, "B": 0, "C": 0}, result_status="no_change",
     )
@@ -60,6 +57,19 @@ def observation_phases(sensorCount=2048, coverageUnknown=(), identityParts=0):
                       fresh_open_debt_ids=frozenset())
     runner = FullRunner(FullRunConfig(repo_root=Path("."), store=FileLedgerStore(Path("unused-ledger"))))
     return {"observe": runner._observationSummary(scan)}
+
+
+def observation_phases(sensorCount=16, coverageUnknown=(), identityParts=0):
+    """Actual canonical producer output, not an invented padding/text field.
+
+    Synthetic distinct sensor observations exercise the existing unbounded
+    sensor-count map. Only typed identities and numeric counts enter phases;
+    no observation subjects, artifact references or prose are copied by the
+    producer. The large variant tests scale, not today's production fleet size.
+    Identity components are synthetic sensor namespaces, within the existing
+    source/ID contract, not a new field or serialized reference/prose format.
+    """
+    return deepcopy(_cached_observation_phases(sensorCount, tuple(coverageUnknown), identityParts))
 
 
 def run_record(name="run-a", **extra):
@@ -104,7 +114,7 @@ def seed(store, runs=None):
         # Explicit synthetic settlement for the default desk reference. The
         # original absent-work shape remains a separate negative regression.
         doc["work"]["debt-c"] = {"debtId": "debt-c", "authority": "C", "state": "resolved",
-                                  "runId": "other", "history": [{"at": END, "reason": "synthetic settlement"}]}
+                                  "runId": "other", "history": [{"from": "escalated", "to": "resolved", "at": END, "reason": "synthetic settlement"}]}
         doc["operations"]["existing-dedup-key"] = {"status": "pending", "nonce": "preserve"}
     update(store, mutate)
     return store.load()

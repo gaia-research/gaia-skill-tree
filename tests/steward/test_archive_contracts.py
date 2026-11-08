@@ -129,7 +129,7 @@ def test_canonical_shapes_search_and_ordinary_view_equivalence(hosts):
     # transfer now supplies an explicit current authoritative work record.
     l.update(one, lambda doc: doc["work"].update({"settled": {
         "debtId": "settled", "authority": "B", "state": "resolved", "runId": "other",
-        "history": [{"at": END, "reason": "synthetic settlement"}],
+        "history": [{"from": "escalated", "to": "resolved", "at": END, "reason": "synthetic settlement"}],
     }}))
     before, _ = one.load()
     baseline = reader(one)._view(before, "run-a").to_dict()
@@ -211,7 +211,7 @@ def test_index_growth_rolls_at_entry_bound_and_search_reads_one_page(hosts, monk
     # Exercise rollover with a reduced page bound, preserving the repository's
     # existing 60-second per-test safeguard on slower mobile Git transports.
     monkeypatch.setattr(a, "MAX_PAGE_ENTRIES", 2)
-    seed(one, {f"r-{n:02}": run_record(f"r-{n:02}") for n in range(3)})
+    seed(one, {f"r-{n:02}": run_record(f"r-{n:02}", phases=observation_phases(1)) for n in range(3)})
     assert len(a.migrate(one, max_runs=2)["archived"]) == 2
     assert a.plan(two, max_runs=2)["remainingEligible"] == 0
     assert a.migrate(two, max_runs=2)["archived"] == ["r-02"]

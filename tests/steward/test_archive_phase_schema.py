@@ -7,7 +7,7 @@ import pytest
 
 from gaia_cli.steward import archive as a
 from gaia_cli.steward.ledger import update
-from tests.steward.test_archive import hosts, seed, run_record, refs, observation_phases
+from tests.steward.test_archive import hosts, seed, run_record, refs, observation_phases, END
 
 
 def test_independent_receipt_evidence_counterexample_stays_hot(hosts):
@@ -194,9 +194,10 @@ def test_historical_observation_is_not_current_settlement():
     phases = canonical_phases()
     original = deepcopy(phases)
     run = run_record(phases=phases)
+    history = [{"from": "escalated", "to": "resolved", "at": END, "reason": "synthetic settlement"}]
     document = {"leases": {}, "work": {
-        DEBT: {"debtId": DEBT, "authority": "B", "state": "resolved", "runId": "other"},
-        "debt-c": {"debtId": "debt-c", "authority": "C", "state": "resolved", "runId": "other"},
+        DEBT: {"debtId": DEBT, "authority": "B", "state": "resolved", "runId": "other", "history": history},
+        "debt-c": {"debtId": "debt-c", "authority": "C", "state": "resolved", "runId": "other", "history": history},
     }}
     assert a.phase_hold(phases) is None
     assert a.eligible(document, run)
@@ -298,6 +299,7 @@ def test_canonical_historical_shapes_roundtrip_without_losing_uncertainty(hosts)
     seed(one, {"run-a": run_record(phases=phases)})
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",
+        "history": [{"from": "escalated", "to": "resolved", "at": END, "reason": "synthetic settlement"}],
     }}))
     update(one, lambda doc: doc["work"][DEBT].update(authority="B"))
     before, _ = one.load()
@@ -314,6 +316,7 @@ def test_historical_debt_settlement_is_rechecked_after_cas_conflict(hosts):
     seed(one, {"run-a": run_record(phases=phases)})
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",
+        "history": [{"from": "escalated", "to": "resolved", "at": END, "reason": "synthetic settlement"}],
     }}))
     update(one, lambda doc: doc["work"][DEBT].update(authority="B"))
     raced = False

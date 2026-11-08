@@ -310,3 +310,193 @@ def test_explicit_current_settlement_roundtrip_keeps_hot_records(hosts):
         if key != "phases":
             assert after["runs"]["run-a"][key] == value
     assert debt in after["runs"]["run-a"][a.POINTER]["references"]["debtIds"]
+
+
+@pytest.mark.parametrize("bad_history", [
+    [],
+    ["not-a-dict"],
+    [123],
+    [{"to": "resolved", "at": END, "reason": "valid"}],
+    [{"from": "escalated", "at": END, "reason": "valid"}],
+    [{"from": "escalated", "to": "resolved", "reason": "valid"}],
+    [{"from": "escalated", "to": "resolved", "at": END}],
+    [{"from": "escalated", "to": "resolved", "at": "not-a-timestamp", "reason": "valid"}],
+    [{"from": "escalated", "to": "resolved", "at": 12345, "reason": "valid"}],
+    [{"from": "not_a_state", "to": "resolved", "at": END, "reason": "valid"}],
+    [{"from": "escalated", "to": "not_a_state", "at": END, "reason": "valid"}],
+    [{"from": [], "to": "resolved", "at": END, "reason": "valid"}],
+    [{"from": {}, "to": "resolved", "at": END, "reason": "valid"}],
+    [{"from": "escalated", "to": [], "at": END, "reason": "valid"}],
+    [{"from": "escalated", "to": {}, "at": END, "reason": "valid"}],
+    [{"from": "queued", "to": [], "at": START, "reason": "step1"}, {"from": "building", "to": "resolved", "at": END, "reason": "step2"}],
+    [{"from": "queued", "to": {}, "at": START, "reason": "step1"}, {"from": "building", "to": "resolved", "at": END, "reason": "step2"}],
+    [{"from": "escalated", "to": "resolved", "at": END, "reason": ""}],
+    [{"from": "escalated", "to": "resolved", "at": END, "reason": "   "}],
+    [{"from": "escalated", "to": "resolved", "at": END, "reason": None}],
+    [{"from": "escalated", "to": "resolved", "at": END, "reason": 123}],
+    [{"from": "escalated", "to": "resolved", "at": END, "reason": "valid", "extra": "forbidden"}],
+])
+def test_malformed_history_refuses_settlement(bad_history):
+    item = {"debtId": "d", "authority": "C", "state": "resolved", "history": bad_history}
+    assert not a._is_well_formed_settled_history(item)
+    summary, debt = open_summary(1)
+    doc = empty_ledger()
+    doc["work"][debt] = {"debtId": debt, "authority": "C", "state": "resolved", "history": bad_history}
+    assert not a.eligible(doc, historical_record(summary))
+
+
+@pytest.mark.parametrize("contradictory_item", [
+    {
+        "state": "resolved",
+        "history": [
+            {"from": "queued", "to": "building", "at": START, "reason": "began"},
+            {"from": "escalated", "to": "resolved", "at": END, "reason": "finished"},
+        ],
+    },
+    {
+        "state": "resolved",
+        "history": [{"from": "queued", "to": "escalated", "at": END, "reason": "failed"}],
+    },
+    {
+        "state": "resolved",
+        "history": [{"from": "queued", "to": "building", "at": END, "reason": "in progress"}],
+    },
+    {
+        "state": "building",
+        "history": [{"from": "building", "to": "resolved", "at": END, "reason": "finished"}],
+    },
+    {
+        "state": "resolved",
+        "history": [{"from": "building", "to": "landed", "at": END, "reason": "landed"}],
+    },
+    {
+        "state": "resolved",
+        "history": [
+            {"from": "queued", "to": "building", "at": END, "reason": "step1"},
+            {"from": "building", "to": "resolved", "at": START, "reason": "step2"},
+        ],
+    },
+])
+def test_contradictory_transitions_refuse_settlement(contradictory_item):
+    item = {"debtId": "d", "authority": "C", **contradictory_item}
+    assert not a._is_well_formed_settled_history(item)
+    summary, debt = open_summary(1)
+    doc = empty_ledger()
+    doc["work"][debt] = {"debtId": debt, "authority": "C", **contradictory_item}
+    assert not a.eligible(doc, historical_record(summary))
+
+
+@pytest.mark.parametrize("field,authority", [
+    ("classA", "A"),
+    ("issueClosure", "A"),
+    ("classB", "B"),
+    ("reportOnly", "B"),
+])
+def test_missing_work_for_class_a_and_b_open_references(field, authority):
+    debt = f"debt-{authority.lower()}"
+    run = run_record(desk={}, phases={"triage": {field: [debt], "classC": []}})
+    doc = empty_ledger()
+    # Missing work item completely -> not eligible
+    assert not a.eligible(doc, run)
+
+    # Wrong authority -> not eligible
+    wrong_auth = "C" if authority != "C" else "A"
+    doc["work"][debt] = settled(debt, authority=wrong_auth)
+    assert not a.eligible(doc, run)
+
+    # Correct authority and settled work -> eligible
+    doc["work"][debt] = settled(debt, authority=authority)
+    assert a.eligible(doc, run)
+
+
+def test_missing_work_for_class_c_open_references():
+    summary, debt = open_summary(1)
+    run = historical_record(summary)
+    doc = empty_ledger()
+    # Missing work item completely -> not eligible
+    assert not a.eligible(doc, run)
+
+    # Wrong authority (A or B instead of C) -> not eligible
+    doc["work"][debt] = settled(debt, authority="A")
+    assert not a.eligible(doc, run)
+
+    doc["work"][debt] = settled(debt, authority="B")
+    assert not a.eligible(doc, run)
+
+    # Correct authority C -> eligible
+    doc["work"][debt] = settled(debt, authority="C")
+    assert a.eligible(doc, run)
+
+
+def test_historical_shaped_record_holding_on_remote_when_history_inconsistent_vs_migrating(hosts):
+    remote, one, two = hosts
+    summary, debt = open_summary()
+    seed(one, {"run-a": historical_record(summary)})
+
+    # 1. Contradictory/inconsistent history: broken state chain
+    broken_history = [
+        {"from": "queued", "to": "building", "at": START, "reason": "started"},
+        {"from": "escalated", "to": "resolved", "at": END, "reason": "broken transition"},
+    ]
+    update(one, lambda doc: doc["work"].update({
+        debt: {"debtId": debt, "authority": "C", "state": "resolved", "runId": "other", "history": broken_history}
+    }))
+    before = one.load()
+    branches = refs(remote)
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+    assert refs(remote) == branches
+
+    # 2. Contradictory/inconsistent history: reversed timestamps
+    reversed_ts_history = [
+        {"from": "queued", "to": "building", "at": END, "reason": "started"},
+        {"from": "building", "to": "resolved", "at": START, "reason": "reversed time"},
+    ]
+    update(one, lambda doc: doc["work"].update({
+        debt: {"debtId": debt, "authority": "C", "state": "resolved", "runId": "other", "history": reversed_ts_history}
+    }))
+    before = one.load()
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+
+    # 3. Terminal state not resolved (to: escalated)
+    non_resolved_history = [
+        {"from": "queued", "to": "escalated", "at": END, "reason": "not resolved"},
+    ]
+    update(one, lambda doc: doc["work"].update({
+        debt: {"debtId": debt, "authority": "C", "state": "resolved", "runId": "other", "history": non_resolved_history}
+    }))
+    before = one.load()
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+
+    # 4. Unhashable state in history holds cleanly without raising
+    unhashable_history = [
+        {"from": [], "to": "resolved", "at": END, "reason": "unhashable from"},
+    ]
+    update(one, lambda doc: doc["work"].update({
+        debt: {"debtId": debt, "authority": "C", "state": "resolved", "runId": "other", "history": unhashable_history}
+    }))
+    before = one.load()
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+
+    # 5. Genuinely proven settlement: valid chain, monotonic timestamps, terminal resolved
+    proven_history = [
+        {"from": "queued", "to": "building", "at": START, "reason": "started"},
+        {"from": "building", "to": "resolved", "at": END, "reason": "completed successfully"},
+    ]
+    update(one, lambda doc: doc["work"].update({
+        debt: {"debtId": debt, "authority": "C", "state": "resolved", "runId": "other", "history": proven_history}
+    }))
+    assert a.plan(one)["eligible"] == ["run-a"]
+    assert a.migrate(one)["archived"] == ["run-a"]
+    after, _ = two.load()
+    assert a.POINTER in after["runs"]["run-a"]
+    assert debt in after["runs"]["run-a"][a.POINTER]["references"]["debtIds"]
+    assert after["work"][debt]["history"] == proven_history
+

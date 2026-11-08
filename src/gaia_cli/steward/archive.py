@@ -22,6 +22,7 @@ from typing import Any, Callable
 from gaia_cli.steward.ledger import (
     GitRefLedgerStore, LedgerConflict, LedgerUnavailable, formatTime,
     parseTime, serialize, utcNow, validate_ledger, ledgerByteLimit, ARCHIVE_LEDGER_SCHEMA, nextGeneration,
+    WORK_STATES,
 )
 
 SCHEMA = "steward-archive-v1"
@@ -151,15 +152,13 @@ class GitArchive:
         if commit is None:
             raise fail(f"missing {ref['kind']} {ref['sha256']}")
         spec = f"{commit}:{FILENAME}"
-        try:
-            size = int(store.plumb(["cat-file", "-s", spec]))
-        except ValueError as exc:
-            raise fail("unreadable archive size") from exc
-        if size != ref["size"] or size > LIMITS[ref["kind"]]:
-            raise fail("archive byte count mismatch")
         result = store.git(["cat-file", "-p", spec], timeout=store.localTimeout)
         data = result.stdout
-        if result.returncode or len(data) != size or digest(data) != ref["sha256"]:
+        if result.returncode:
+            raise fail("archive checksum/readback mismatch")
+        if len(data) != ref["size"] or len(data) > LIMITS[ref["kind"]]:
+            raise fail("archive byte count mismatch")
+        if digest(data) != ref["sha256"]:
             raise fail("archive checksum/readback mismatch")
         validate_object(ref["kind"], data)
         return data
@@ -342,14 +341,14 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
     }
     detector = phaseObject({"sensor": phaseIdentity, "state": sensorState}, ("sensor", "state"))
     routine = phaseObject({
-        "routine": lambda value: type(value) is int and 1 <= value <= 18,
+        "routine": lambda value: type(value) is int and 1 <= value <= 19,
         "state": phaseEnum("observed", "partial", "unknown", "not-evaluated", "no-detector"),
         "detectors": phaseList(phaseEither(detector, phaseIdentity)),
     }, ("routine", "state", "detectors"))
     sensor = phaseObject({
         "id": phaseIdentity, "registered": boolean, "state": sensorState,
         "executed": boolean, "unknown": boolean, "notEvaluated": boolean,
-        "observations": counts, "routine_ids": phaseList(lambda value: type(value) is int and 1 <= value <= 18),
+        "observations": counts, "routine_ids": phaseList(lambda value: type(value) is int and 1 <= value <= 19),
         "reason": ambiguous, "partial": boolean, "skippedCount": phaseCount,
     }, ("id", "state"))
     return {
@@ -361,7 +360,7 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
                                   "resolvedWork": debts,
                                   "notes": phaseList(phaseObject({"debtId": phaseDebtIdentity, "note": ambiguous}, ("debtId", "note")))}),
         "retro": phaseObject({
-            "routines": phaseEither(phaseCount, phaseList(phaseEither(routine, lambda value: type(value) is int and 1 <= value <= 18))),
+            "routines": phaseEither(phaseCount, phaseList(phaseEither(routine, lambda value: type(value) is int and 1 <= value <= 19))),
             "sensors": phaseList(phaseEither(sensor, phaseIdentity)),
             "registered": phaseCount, "executed": phaseCount, "unknown": identities,
             "notEvaluated": notEvaluated, "partiallyCovered": partial,
@@ -383,6 +382,45 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
         "class_b": phaseObject({"status": settled, "dispatched": nothing, "reason": ambiguous}),
         "verify": phaseObject({"status": settled, "results": phaseEmpty, "deferred": phaseEmpty, "expired": identities}),
     }
+
+
+_WORK_STATES = frozenset(WORK_STATES)
+_HISTORY_KEYS = frozenset({"at", "from", "to", "reason"})
+
+
+def _is_well_formed_settled_history(item: dict[str, Any]) -> bool:
+    if not isinstance(item, dict) or item.get("state") != "resolved":
+        return False
+    history = item.get("history")
+    if not isinstance(history, list) or not history:
+        return False
+    if not isinstance(history[-1], dict) or history[-1].get("to") != "resolved":
+        return False
+    parsed_times = []
+    for entry in history:
+        if not isinstance(entry, dict) or set(entry) != _HISTORY_KEYS:
+            return False
+        if not isinstance(entry["at"], str):
+            return False
+        try:
+            parsed_times.append(parseTime(entry["at"]))
+        except Exception:
+            return False
+        if not isinstance(entry["from"], str) or not isinstance(entry["to"], str):
+            return False
+        if entry["from"] not in _WORK_STATES or entry["to"] not in _WORK_STATES:
+            return False
+        reason = entry["reason"]
+        if not isinstance(reason, str) or not bool(reason.strip()):
+            return False
+
+    for i in range(1, len(history)):
+        if history[i]["from"] != history[i - 1]["to"]:
+            return False
+        if parsed_times[i] < parsed_times[i - 1]:
+            return False
+
+    return True
 
 
 def phase_hold(value: Any) -> str | None:
@@ -495,7 +533,7 @@ def settled_references(document: dict[str, Any], run: dict[str, Any]) -> bool:
     for debt in debts:
         item = work.get(debt)
         if (type(item) is not dict or item.get("debtId") != debt or item.get("state") != "resolved"
-                or item.get("authority") not in ("A", "B", "C") or type(item.get("history", [])) is not list):
+                or item.get("authority") not in ("A", "B", "C") or not _is_well_formed_settled_history(item)):
             return False
     for summary in observations:
         if "authorityCounts" in summary:
@@ -504,7 +542,7 @@ def settled_references(document: dict[str, Any], run: dict[str, Any]) -> bool:
                 actual[work[debt]["authority"]] += 1
             if any(summary["authorityCounts"].get(key, 0) != count for key, count in actual.items()):
                 return False
-    for authority, names in (("A", ("classA", "issueClosure")), ("B", ("classB",)), ("C", ("classC",))):
+    for authority, names in (("A", ("classA", "issueClosure")), ("B", ("classB", "reportOnly")), ("C", ("classC",))):
         if any(work[debt]["authority"] != authority for name in names for debt in triage.get(name, [])):
             return False
     return True

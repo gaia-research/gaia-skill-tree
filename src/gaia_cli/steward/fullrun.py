@@ -73,7 +73,7 @@ from gaia_cli.steward.lane import (
     record_verdict,
 )
 from gaia_cli.steward.models import AuthorityClass, Debt, stable_json
-from gaia_cli.steward.policy import PolicyError, StewardPolicy
+from gaia_cli.steward.policy import BrowserPolicy, PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
@@ -1364,7 +1364,10 @@ class FullRunner:
     def _browserSetting(self) -> dict[str, bool]:
         """The browser access this run was started with: headless from policy, interactive only from this run's flag."""
 
-        policy = self._policyLoaded().browser
+        try:
+            policy = self._policyLoaded().browser
+        except PolicyError:
+            policy = BrowserPolicy()
         return policy.setting(interactiveRequested=self.config.interactive_browser)
 
     def _view(self, doc: dict[str, Any], runId: str) -> RunView:
