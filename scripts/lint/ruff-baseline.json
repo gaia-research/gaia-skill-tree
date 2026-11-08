@@ -1,7 +1,7 @@
 {
   "counts_by_code": {
     "E722": 1,
-    "F401": 255,
+    "F401": 254,
     "S110": 71,
     "S112": 14
   },
@@ -279,9 +279,6 @@
     "tests/steward/test_browser_policy.py": {
       "F401": 1
     },
-    "tests/steward/test_calibration_route.py": {
-      "F401": 1
-    },
     "tests/steward/test_challenge_receipt_issuer.py": {
       "F401": 1
     },
@@ -494,7 +491,7 @@
       "F401": 2
     }
   },
-  "total_ratchet_violations": 341,
+  "total_ratchet_violations": 340,
   "version": 1,
   "violations": [
     {
@@ -984,7 +981,7 @@
       "code": "S110",
       "column": 9,
       "file": "scripts/validate.py",
-      "line": 699,
+      "line": 711,
       "message": "`try`-`except`-`pass` detected, consider logging the exception"
     },
     {
@@ -2032,13 +2029,6 @@
     },
     {
       "code": "F401",
-      "column": 100,
-      "file": "tests/steward/test_calibration_route.py",
-      "line": 27,
-      "message": "`gaia_cli.steward.models.Subject` imported but unused"
-    },
-    {
-      "code": "F401",
       "column": 8,
       "file": "tests/steward/test_challenge_receipt_issuer.py",
       "line": 20,
@@ -2755,14 +2745,14 @@
       "code": "F401",
       "column": 5,
       "file": "tests/test_trust_magnitude.py",
-      "line": 23,
+      "line": 24,
       "message": "`gaia_cli.trustMagnitude.checkDirectNestedSuiteGte1` imported but unused"
     },
     {
       "code": "F401",
       "column": 5,
       "file": "tests/test_trust_magnitude.py",
-      "line": 24,
+      "line": 25,
       "message": "`gaia_cli.trustMagnitude.checkOverallGradeS` imported but unused"
     },
     {

@@ -19,14 +19,12 @@ from typing import Any
 
 import pytest
 
-from gaia_cli.commands.steward import StewardCommand
 from gaia_cli.main import main
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.desk import (
     DECISIONS_RELATIVE_DIR,
     _RECORD_OPTIONAL_KEYS,
     _check_record,
-    load_decision_records,
 )
 from gaia_cli.steward.fullrun import (
     FullRunConfig,
@@ -35,14 +33,10 @@ from gaia_cli.steward.fullrun import (
     _hash12,
 )
 from gaia_cli.steward.lane import (
-    lane_document,
     load_lane,
 )
-from gaia_cli.steward.ledger import FileLedgerStore, transition_work, update, upsert_work
+from gaia_cli.steward.ledger import FileLedgerStore, update
 from gaia_cli.steward.models import (
-    AuthorityClass,
-    Debt,
-    DispatchPacket,
     Observation,
     Subject,
 )

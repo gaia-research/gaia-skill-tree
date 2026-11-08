@@ -24,7 +24,7 @@ from gaia_cli.steward.calibrationroute import (
     ineligibilityReason,
     proveCalibrationEdit,
 )
-from gaia_cli.steward.models import AuthorityClass, Debt, DispatchPacket, Priority, RoutingBudget, Subject
+from gaia_cli.steward.models import AuthorityClass, Debt, DispatchPacket, Priority, RoutingBudget
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH, PolicyError, StewardPolicy
 from gaia_cli.steward.routing import RoutingError, _assert_route_eligible
 from gaia_cli.steward.sensors import TrustCalibrationDriftSensor

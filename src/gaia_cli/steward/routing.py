@@ -10,6 +10,7 @@ from __future__ import annotations
 import dataclasses
 from dataclasses import dataclass
 import json
+import logging
 import os
 from pathlib import Path
 import re
@@ -64,6 +65,8 @@ from gaia_cli.steward.verification import (
     parse_unified_diff,
     read_text_input,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 class RoutingError(RuntimeError):
@@ -1031,8 +1034,10 @@ def compute_patch_attribution(
                     capture_output=True,
                     check=False,
                 )
-            except Exception:
-                pass
+            except (OSError, subprocess.SubprocessError) as exc:
+                # Best-effort cleanup of a scratch worktree: a failure must not mask the
+                # verdict, but it is recorded instead of silently dropped.
+                LOGGER.warning("scratch worktree removal failed for %s: %s", wt, exc)
         if is_git:
             try:
                 subprocess.run(
@@ -1041,8 +1046,8 @@ def compute_patch_attribution(
                     capture_output=True,
                     check=False,
                 )
-            except Exception:
-                pass
+            except (OSError, subprocess.SubprocessError) as exc:
+                LOGGER.warning("git worktree prune failed in %s: %s", repo_root, exc)
         shutil.rmtree(scratch_dir, ignore_errors=True)
 
 

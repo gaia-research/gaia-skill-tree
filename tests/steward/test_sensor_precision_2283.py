@@ -96,6 +96,15 @@ class TestS2AcknowledgedMarker:
         (finding,) = item.observed_state["findings"]
         assert finding["acknowledgedReason"] == "build constant"
 
+    @pytest.mark.parametrize("terminator", ["-->", "--!>"])
+    def test_html_comment_end_tags_both_trim_the_reason(self, tmp_path: Path, terminator: str) -> None:
+        # Browsers end an HTML comment at ``--!>`` as well as ``-->``; the reason must
+        # not swallow either terminator or the markup that follows it.
+        source = f"<script>el.innerHTML = `<b>${{x}}</b>`; // gaia-html-sink-ok: build constant {terminator}</script>\n"
+        (item,) = _browser(tmp_path, source, name="docs/a.html")
+        (finding,) = item.observed_state["findings"]
+        assert finding["acknowledgedReason"] == "build constant"
+
 
 # --------------------------------------------------------------------------
 # S3: per-site shape annotation (no re-keying; the subject stays the file)
