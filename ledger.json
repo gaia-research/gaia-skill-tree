@@ -1,5 +1,5 @@
 {
- "generation": 1963,
+ "generation": 1964,
  "lane": {
   "entries": [
    {
@@ -6846,7 +6846,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T12:53:33.171297Z",
-   "expiresAt": "2026-11-08T13:52:40.922081Z",
+   "expiresAt": "2026-11-08T13:52:47.156952Z",
    "holder": "run-20261108T125333Z-2c528d60"
   }
  },
@@ -153308,6 +153308,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-08T13:01:33.570918Z",
     "decisions": [
@@ -154116,7 +154117,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -155392,6 +155393,34 @@
       "debt:benchmark_source_drift:benchmark-sources:3a7b3e1aef26b30b"
      ],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:trust_calibration_drift:panniantong-agent-reach:a30f30f1fe59727a",
+       "reasons": [
+        "patch attribution failed; failing closed on safety gate"
+       ],
+       "result": "mechanical-escalate"
+      },
+      {
+       "debtId": "debt:trust_calibration_drift:theqtcompanyrnd-qt-qml-review:f0c0f2ad2e2c6ee5",
+       "reasons": [
+        "patch attribution failed; failing closed on safety gate"
+       ],
+       "result": "mechanical-escalate"
+      },
+      {
+       "debtId": "debt:trust_calibration_drift:zhaoxuya520-reverse-skill:7dc91bd88ffe3ddd",
+       "reasons": [
+        "patch attribution failed; failing closed on safety gate"
+       ],
+       "result": "mechanical-escalate"
+      }
+     ],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -155486,6 +155515,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-11-08T13:22:46.210262Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -155499,7 +155534,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T13:22:40.925806Z",
+ "updatedAt": "2026-11-08T13:22:47.157093Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
