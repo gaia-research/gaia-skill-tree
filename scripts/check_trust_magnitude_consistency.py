@@ -38,11 +38,15 @@ a frozen skill the expected value is its locked ``trustMagnitude`` /
 must publish the lock, and the lock itself must be valid. Non-frozen skills are
 checked exactly as before.
 
+A missing ``registry/named-skills.json`` is NOT agreement: the gate exits 1 with
+"named index not built" unless ``--allow-missing-index`` is passed explicitly.
+
 Exit code 0 = all named skills agree across surfaces; 1 = drift (each printed).
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import sys
@@ -63,6 +67,11 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
 )
 
 TOLERANCE = 0.02
+
+INDEX_NOT_BUILT = (
+    "named index not built; run scripts/generateNamedIndex.py (gaia dev docs) "
+    "before this gate"
+)
 
 
 class InputError(Exception):
@@ -113,18 +122,21 @@ def _finiteNumber(value) -> bool:
 
 
 def findViolations(
-    namedSkills: list[dict], mergedMap: dict, generatedIndex: dict[str, dict] | None
+    namedSkills: list[dict],
+    mergedMap: dict,
+    generatedIndex: dict[str, dict] | None,
+    allowMissingIndex: bool = False,
 ) -> tuple[list[str], int, int]:
     """Return ``(violations, cacheChecked, indexChecked)`` for the named skills.
 
-    ``generatedIndex`` is ``None`` when the index was never built (cross-check skipped);
-    a built index, even an empty one, must contain every frozen skill.
+    ``generatedIndex`` is ``None`` when the index was never built. A missing
+    publication artifact is not agreement: unless ``allowMissingIndex`` is set, every
+    frozen skill is reported as unpublished. A built index, even an empty one, must
+    contain every frozen skill.
     """
+    indexBuilt = generatedIndex is not None
     if generatedIndex is None:
         generatedIndex = {}
-        indexBuilt = False
-    else:
-        indexBuilt = True
     frozen = frozenIds(namedSkills)
     violations: list[str] = []
     cacheChecked = 0
@@ -165,7 +177,13 @@ def findViolations(
             # a missing entry, missing or non-finite values, or any inequality
             # (however small) is a violation; there is no tolerance on a lock.
             if indexEntry is None:
-                if indexBuilt:
+                if not indexBuilt:
+                    if not allowMissingIndex:
+                        violations.append(
+                            f"{skillId}: frozen skill cannot be checked against its published "
+                            f"entry: {INDEX_NOT_BUILT}."
+                        )
+                else:
                     violations.append(
                         f"{skillId}: frozen skill is missing from registry/named-skills.json; "
                         f"the generator must publish the frozen lock ({lock[0]} / {lock[1]})."
@@ -202,7 +220,18 @@ def findViolations(
     return violations, cacheChecked, indexChecked
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Trust Magnitude consistency gate")
+    parser.add_argument(
+        "--allow-missing-index",
+        action="store_true",
+        help="Explicit opt-in for contexts that legitimately run without a built "
+        "registry/named-skills.json (e.g. local maintenance): skip the generated-index "
+        "cross-check. The default fails closed, because a missing publication artifact "
+        "is not agreement.",
+    )
+    args = parser.parse_args(argv)
+
     registryPath = str(REPO_ROOT)
     try:
         namedSkills = _loadNamedSkills(registryPath)
@@ -210,15 +239,22 @@ def main() -> int:
     except InputError as exc:
         print(f"❌ Trust Magnitude consistency cannot be established: {exc}")
         return 1
+    if generatedIndex is None and not args.allow_missing_index:
+        print(
+            f"❌ Trust Magnitude consistency cannot be established: {INDEX_NOT_BUILT} "
+            f"(pass --allow-missing-index only where no index is expected)."
+        )
+        return 1
     mergedMap = buildMergedSkillMap(registryPath)
 
-    violations, cacheChecked, indexChecked = findViolations(namedSkills, mergedMap, generatedIndex)
+    violations, cacheChecked, indexChecked = findViolations(
+        namedSkills, mergedMap, generatedIndex, allowMissingIndex=args.allow_missing_index
+    )
 
     if generatedIndex is None:
         print(
-            "Note: registry/named-skills.json not found — skipping generated-index "
-            "cross-check (run `python scripts/assemble_gaia.py && "
-            "python scripts/generateNamedIndex.py` first for full coverage)."
+            "Note: registry/named-skills.json not found; generated-index cross-check "
+            "skipped by --allow-missing-index."
         )
 
     print(

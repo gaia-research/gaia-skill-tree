@@ -94,7 +94,7 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia dev validate [--intake] [--meta-sync]
+  gaia dev validate [--intake] [--meta-sync] [--allow-missing-index]
   gaia dev arbor check [record.json]
   gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
   gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
@@ -1000,6 +1000,11 @@ class DevCommand(Command):
             "--meta-sync",
             action="store_true",
             help="Verify meta.json is in sync with gaia.json",
+        )
+        dev_validate.add_argument(
+            "--allow-missing-index",
+            action="store_true",
+            help="Skip the generated named-index cross-check when no index is built (default: fail closed)",
         )
 
         dev_release = dev_sub.add_parser(

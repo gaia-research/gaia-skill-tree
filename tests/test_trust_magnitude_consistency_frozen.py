@@ -8,6 +8,8 @@ on non-frozen skills.
 
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from scripts import check_trust_magnitude_consistency as gate
@@ -112,9 +114,56 @@ def test_frozen_index_exactly_equal_to_the_lock_passes():
     assert gate.findViolations([dict(FROZEN)], {}, published) == ([], 0, 1)
 
 
-def test_unbuilt_index_skips_the_cross_check_but_an_empty_built_one_does_not():
-    assert gate.findViolations([dict(FROZEN)], {}, None)[0] == []
-    assert gate.findViolations([dict(FROZEN)], {}, {})[0]
+def test_missing_index_is_not_agreement_for_a_frozen_skill():
+    violations, cacheChecked, indexChecked = gate.findViolations([dict(FROZEN)], {}, None)
+    assert indexChecked == 0
+    assert len(violations) == 1
+    assert "named index not built" in violations[0]
+    assert "scripts/generateNamedIndex.py" in violations[0]
+
+
+def test_missing_index_is_skipped_only_with_the_explicit_opt_in():
+    assert gate.findViolations([dict(FROZEN)], {}, None, allowMissingIndex=True)[0] == []
+    # The opt-in never excuses a built index that lacks the frozen skill.
+    assert gate.findViolations([dict(FROZEN)], {}, {}, allowMissingIndex=True)[0]
+
+
+def _stageRegistry(tmp_path, monkeypatch, frozen=True):
+    named = tmp_path / "registry" / "named" / "demo"
+    named.mkdir(parents=True)
+    lines = ["---", "id: demo/f", "status: named"]
+    if frozen:
+        lines += ["frozen: true", "trustMagnitude: 50.0", "overallTrustGrade: B"]
+    (named / "f.md").write_text("\n".join(lines + ["---", ""]), encoding="utf-8")
+    monkeypatch.setattr(gate, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(gate, "named_skills_dir", lambda registry: str(tmp_path / "registry" / "named"))
+    monkeypatch.setattr(gate, "named_skills_index_path", lambda registry: str(tmp_path / "registry" / "named-skills.json"))
+    monkeypatch.setattr(gate, "buildMergedSkillMap", lambda registry: {})
+
+
+def test_main_fails_closed_when_the_index_is_absent(tmp_path, monkeypatch, capsys):
+    _stageRegistry(tmp_path, monkeypatch)
+    assert gate.main([]) == 1
+    out = capsys.readouterr().out
+    assert "named index not built; run scripts/generateNamedIndex.py (gaia dev docs)" in out
+
+
+def test_main_fails_closed_for_an_absent_index_even_without_frozen_skills(tmp_path, monkeypatch):
+    _stageRegistry(tmp_path, monkeypatch, frozen=False)
+    assert gate.main([]) == 1
+
+
+def test_main_passes_without_an_index_only_with_allow_missing_index(tmp_path, monkeypatch, capsys):
+    _stageRegistry(tmp_path, monkeypatch)
+    assert gate.main(["--allow-missing-index"]) == 0
+    assert "skipped by --allow-missing-index" in capsys.readouterr().out
+
+
+def test_main_passes_with_a_built_index_that_publishes_the_lock(tmp_path, monkeypatch):
+    _stageRegistry(tmp_path, monkeypatch)
+    index = {"buckets": {"g": [{"id": "demo/f", "trustMagnitude": 50.0, "overallTrustGrade": "B"}]}}
+    (tmp_path / "registry" / "named-skills.json").write_text(json.dumps(index), encoding="utf-8")
+    assert gate.main([]) == 0
 
 
 def test_malformed_or_unreadable_inputs_fail_closed(tmp_path, monkeypatch):
