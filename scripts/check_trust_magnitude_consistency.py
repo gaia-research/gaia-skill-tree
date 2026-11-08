@@ -81,19 +81,67 @@ class InputError(Exception):
 NAMED_SCHEMA = Path("registry") / "schema" / "namedSkill.schema.json"
 GATED_STATUS = "named"  # every other schema status is excluded explicitly, not skipped by accident
 
+# Fields validated by their own sub-schema from namedSkill.schema.json (read, never
+# restated), only where the real registry conforms. NOT the whole-record schema: the
+# committed schema has drifted from the registry (see the schema-drift issue), so the
+# record is deliberately not validated as a whole.
+SCHEMA_DERIVED_FIELDS = (
+    "status", "genericSkillRef", "trustMagnitude", "overallTrustGrade", "suiteRef", "suiteComponents",
+)
 
-def _allowedStatuses(registryPath: str) -> frozenset[str]:
-    """The lifecycle statuses the named-skill schema allows (read, never hard-coded)."""
+
+class SchemaContext:
+    """The named-skill schema's enums and per-field validators, read from the schema file."""
+
+    def __init__(self, path: Path, schema) -> None:
+        if not isinstance(schema, dict) or not isinstance(schema.get("properties"), dict):
+            raise InputError(f"{path}: not a schema with a 'properties' object")
+        self.path = path
+        self.properties = schema["properties"]
+        self.statuses = self._enum("status")
+        self.grades = self._enum("overallTrustGrade")
+        if GATED_STATUS not in self.statuses:
+            raise InputError(f"{path}: status enum does not contain {GATED_STATUS!r}")
+        try:
+            import jsonschema
+        except ImportError as exc:  # fail closed: a missing validator is not a passing validation
+            raise InputError("jsonschema is required to validate named skills against the schema") from exc
+        self.validators = {}
+        for field in SCHEMA_DERIVED_FIELDS:
+            sub = self.properties.get(field)
+            if not isinstance(sub, dict):
+                raise InputError(f"{path}: schema defines no sub-schema for {field!r}")
+            try:
+                jsonschema.Draft7Validator.check_schema(sub)
+            except jsonschema.SchemaError as exc:
+                raise InputError(f"{path}: invalid sub-schema for {field!r}: {exc.message}") from exc
+            self.validators[field] = jsonschema.Draft7Validator(sub)
+        # Type level only: the item schema rejects fields real files carry (e.g.
+        # evidence[].updatedAt), so only "an array of mappings" is enforced.
+        for field in ("evidence", "timeline"):
+            base = self.properties.get(field)
+            if not isinstance(base, dict) or base.get("type") != "array":
+                raise InputError(f"{path}: schema does not define {field!r} as an array")
+            self.validators[field] = jsonschema.Draft7Validator({"type": "array", "items": {"type": "object"}})
+
+    def _enum(self, field: str) -> frozenset[str]:
+        values = (self.properties.get(field) or {}).get("enum") if isinstance(self.properties.get(field), dict) else None
+        if not isinstance(values, list) or not values or not all(isinstance(v, str) and v for v in values):
+            raise InputError(f"{self.path}: the {field!r} enum must be a non-empty list of non-empty strings (got {values!r})")
+        return frozenset(values)
+
+
+def _loadSchema(registryPath: str) -> SchemaContext:
     path = Path(registryPath) / NAMED_SCHEMA
     try:
-        values = json.loads(path.read_text(encoding="utf-8"))["properties"]["status"]["enum"]
-        if not values or not all(isinstance(value, str) and value for value in values):
-            raise ValueError("status enum must be a non-empty list of strings")
-    except (OSError, ValueError, KeyError, TypeError) as exc:
-        raise InputError(f"{path}: cannot read the allowed status values: {exc}") from exc
-    if GATED_STATUS not in values:
-        raise InputError(f"{path}: status enum does not contain {GATED_STATUS!r}")
-    return frozenset(values)
+        schema = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise InputError(f"{path}: cannot read the named-skill schema: {exc}") from exc
+    return SchemaContext(path, schema)
+
+
+def _allowedStatuses(registryPath: str) -> frozenset[str]:
+    return _loadSchema(registryPath).statuses
 
 
 def _requireString(path: Path, meta: dict, field: str) -> None:
@@ -102,59 +150,63 @@ def _requireString(path: Path, meta: dict, field: str) -> None:
         raise InputError(f"{path}: field {field!r} is missing or not a non-empty string (got {value!r})")
 
 
-def _optionalType(path: Path, meta: dict, field: str, check, expected: str) -> None:
-    value = meta.get(field)
-    if value is not None and not check(value):
-        raise InputError(f"{path}: field {field!r} must be {expected} when present (got {value!r})")
+def _explicitType(path: Path, meta: dict, field: str, check, expected: str) -> None:
+    """For fields ``gaia_cli.frozen`` reads that the schema does not define: typed when present."""
+    if field in meta and not check(meta[field]):
+        raise InputError(f"{path}: field {field!r} must be {expected} when present (got {meta[field]!r})")
 
 
-def _validateNamedRecord(path: Path, meta, allowedStatuses: frozenset[str]) -> dict:
-    """Validate every field the gate reads from one named file, or raise ``InputError``.
+def _validateNamedRecord(path: Path, meta, schema: SchemaContext) -> dict:
+    """Validate the fields the gate reads from one named file, or raise ``InputError``.
 
-    Every message names the file and the field. Fields read, and why:
-      id, status                 identity and census membership (always)
-      frozen, frozenAt, timeline, installable, suiteRef, suiteComponents
-                                 read by ``gaia_cli.frozen`` to decide who is frozen
-      trustMagnitude, overallTrustGrade
-                                 the lock of a frozen skill (validated by ``frozenLock``)
-      trustMagnitude, trustMagnitudeInputHash
-                                 the stamp and its hash for a non-frozen named skill
-      genericSkillRef            required by the recomputation (generic evidence resolution)
+    Every message names the file and the field. Schema-derived: ``status`` (enum),
+    ``genericSkillRef``, ``trustMagnitude`` (number, minimum 0), ``overallTrustGrade``
+    (enum), ``suiteRef``, ``suiteComponents``, ``evidence``/``timeline`` (array of
+    mappings, type level). Explicit: ``id``, ``frozen``/``frozenAt``/``installable``
+    (not in the schema; ``gaia_cli.frozen`` reads them), timeline ``action`` strings,
+    and the stricter-than-schema requirements applied for a named record.
     """
     if not isinstance(meta, dict) or not meta:
         raise InputError(f"{path}: missing or malformed frontmatter")
-    _requireString(path, meta, "id")
-    status = meta.get("status")
-    if status not in allowedStatuses:
-        raise InputError(
-            f"{path}: field 'status' must be one of {sorted(allowedStatuses)} (got {status!r})"
-        )
-    # Fields that decide who is frozen apply to every record, whatever its status.
-    _optionalType(path, meta, "frozen", lambda v: isinstance(v, bool), "a bool")
-    _optionalType(path, meta, "frozenAt", lambda v: isinstance(v, str) and bool(v.strip()), "a non-empty string")
-    _optionalType(path, meta, "installable", lambda v: isinstance(v, bool), "a bool")
-    _optionalType(path, meta, "suiteRef", lambda v: isinstance(v, str) and bool(v.strip()), "a non-empty string")
-    _optionalType(
-        path, meta, "suiteComponents",
-        lambda v: isinstance(v, list) and all(isinstance(item, str) and item.strip() for item in v),
-        "a list of non-empty strings",
-    )
-    _optionalType(
-        path, meta, "timeline",
-        lambda v: isinstance(v, list) and all(isinstance(item, dict) for item in v),
-        "a list of mappings",
-    )
-    if status != GATED_STATUS:
+    _requireString(path, meta, "id")  # the schema's id pattern rejects a real file; type-level only
+    if "status" not in meta:
+        raise InputError(f"{path}: field 'status' is required (one of {sorted(schema.statuses)})")
+    for field in (*SCHEMA_DERIVED_FIELDS, "evidence", "timeline"):
+        if field in meta:
+            for error in schema.validators[field].iter_errors(meta[field]):
+                where = "".join(f"[{part!r}]" for part in error.absolute_path)
+                raise InputError(f"{path}: field {field!r}{where}: {error.message}")
+    if meta["status"] not in schema.statuses:  # defensive: the validator already enforced the enum
+        raise InputError(f"{path}: field 'status' must be one of {sorted(schema.statuses)}")
+    for field, check, expected in (
+        ("frozen", lambda v: isinstance(v, bool), "a bool"),
+        ("frozenAt", lambda v: isinstance(v, str) and bool(v.strip()), "a non-empty string"),
+        ("installable", lambda v: isinstance(v, bool), "a bool"),
+    ):
+        _explicitType(path, meta, field, check, expected)
+    # Invariants the schema cannot express. ``gaia_cli.frozen`` freezes on an
+    # ``upstream_deprecated`` timeline action, so every item needs a usable action
+    # (a missing or non-string action would silently read as "not frozen").
+    # ``timeline: null`` is rejected (the schema's type is array); frozen.py would read
+    # it as no timeline, so the gate may only be stricter, never different.
+    for index, item in enumerate(meta.get("timeline") or []):
+        action = item.get("action")
+        if not isinstance(action, str) or not action.strip():
+            raise InputError(f"{path}: field 'timeline'[{index}]['action'] must be a non-empty string (got {action!r})")
+    if meta["status"] != GATED_STATUS:
         return meta  # explicitly excluded from the stamp checks; still part of the frozen census
-    _requireString(path, meta, "genericSkillRef")
+    # Stricter than the schema, because the gate needs them: the schema requires neither the
+    # stamp nor its hash, and the cache check is meaningless without both.
+    if "genericSkillRef" not in meta:
+        raise InputError(f"{path}: field 'genericSkillRef' is required for a named record")
     return meta
 
 
 def _validateStamps(records: list[dict], paths: dict[str, Path]) -> None:
     """A non-frozen named skill's stamp and hash are what the cache check reads: both required.
 
-    Frozen skills are exempt here: their lock is validated by ``frozenLock`` and a bad
-    lock is reported as a violation against the skill.
+    Stricter than the schema (which requires neither). Frozen skills are exempt here:
+    their lock is validated by ``frozenLock`` and a bad lock is a violation.
     """
     frozen = frozenIds(records)
     for meta in records:
@@ -176,7 +228,7 @@ def _loadNamedSkills(registryPath: str) -> list[dict]:
     records = []
     if not namedDir.exists():
         return records
-    allowedStatuses = _allowedStatuses(registryPath)
+    schema = _loadSchema(registryPath)
     paths: dict[str, Path] = {}
     for mdFile in sorted(namedDir.rglob("*.md")):
         try:
@@ -184,7 +236,7 @@ def _loadNamedSkills(registryPath: str) -> list[dict]:
             fm = load_yaml_simple(fmText)
         except (OSError, ValueError) as exc:
             raise InputError(f"unreadable named skill {mdFile}: {exc}") from exc
-        record = _validateNamedRecord(mdFile, fm, allowedStatuses)
+        record = _validateNamedRecord(mdFile, fm, schema)
         if record["id"] in paths:
             raise InputError(f"{mdFile}: field 'id' {record['id']!r} duplicates {paths[record['id']]}")
         paths[record["id"]] = mdFile
@@ -194,21 +246,31 @@ def _loadNamedSkills(registryPath: str) -> list[dict]:
 
 
 def _loadGeneratedIndex(registryPath: str) -> dict[str, dict] | None:
-    """The generated index by id; ``None`` only when it was never built, else fail closed."""
+    """The generated index by id; ``None`` only when it was never built, else fail closed.
+
+    Valid structure is an object whose ``buckets`` is an object of lists of mappings, each
+    with a non-empty string ``id``; a duplicate id is an error (never last-wins).
+    """
     indexPath = Path(named_skills_index_path(registryPath))
     if not indexPath.exists():
         return None
     try:
         data = json.loads(indexPath.read_text(encoding="utf-8"))
-        buckets = data["buckets"].values()
-        byId: dict[str, dict] = {}
-        for entries in buckets:
-            for entry in entries:
-                entryId = entry.get("id")
-                if entryId:
-                    byId[entryId] = entry
-    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+    except (OSError, ValueError) as exc:
         raise InputError(f"unreadable or malformed {indexPath}: {exc}") from exc
+    if not isinstance(data, dict) or not isinstance(data.get("buckets"), dict):
+        raise InputError(f"{indexPath}: expected an object with a 'buckets' object")
+    byId: dict[str, dict] = {}
+    for bucket, entries in data["buckets"].items():
+        if not isinstance(entries, list):
+            raise InputError(f"{indexPath}: bucket {bucket!r} must be a list")
+        for position, entry in enumerate(entries):
+            entryId = entry.get("id") if isinstance(entry, dict) else None
+            if not isinstance(entryId, str) or not entryId.strip():
+                raise InputError(f"{indexPath}: bucket {bucket!r}[{position}] is not a mapping with a non-empty string 'id'")
+            if entryId in byId:
+                raise InputError(f"{indexPath}: duplicate id {entryId!r} (bucket {bucket!r})")
+            byId[entryId] = entry
     return byId
 
 

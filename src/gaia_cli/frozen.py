@@ -89,7 +89,7 @@ def frozenLock(meta: dict) -> Optional[tuple[float, str]]:
     """Return a valid locked ``(trustMagnitude, grade)``, else ``None``.
 
     Frozen records never fall back to live computation. A lock must contain a
-    finite numeric TM (not a bool or a string) and one canonical Overall Trust Grade. Call
+    finite numeric TM >= 0 (not a bool or a string) and one canonical Overall Trust Grade. Call
     :func:`requireFrozenLocks` at a read or write boundary to fail closed with
     the affected ids rather than silently changing historical standing.
     """
@@ -100,7 +100,8 @@ def frozenLock(meta: dict) -> Optional[tuple[float, str]]:
     if isinstance(tm, bool) or not isinstance(tm, (int, float)) or grade not in _VALID_GRADES:
         return None
     value = float(tm)
-    return (value, grade) if math.isfinite(value) else None
+    # The schema's trustMagnitude minimum is 0: a negative lock is malformed.
+    return (value, grade) if math.isfinite(value) and value >= 0 else None
 
 
 def missingFrozenLocks(metas: Iterable[dict], frozen: Optional[set[str]] = None) -> list[str]:

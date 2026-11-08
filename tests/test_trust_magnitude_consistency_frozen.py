@@ -320,23 +320,6 @@ def test_the_reviewers_repro_a_frozen_skill_without_status_aborts(tmp_path, monk
     assert str(path) in str(caught.value)
 
 
-def test_allowed_statuses_come_from_the_schema_not_a_hard_coded_list(tmp_path, monkeypatch):
-    writeSchema(tmp_path)
-    assert gate._allowedStatuses(str(tmp_path)) == frozenset(
-        json.loads((REPO / "registry/schema/namedSkill.schema.json").read_text())["properties"]["status"]["enum"]
-    )
-    schema = tmp_path / "registry" / "schema" / "namedSkill.schema.json"
-    schema.write_text(json.dumps({"properties": {"status": {"enum": ["named", "retired"]}}}), encoding="utf-8")
-    assert gate._allowedStatuses(str(tmp_path)) == {"named", "retired"}
-    for broken in ("{nope", "{}", json.dumps({"properties": {"status": {"enum": ["awakened"]}}}), json.dumps({"properties": {"status": {"enum": []}}})):
-        schema.write_text(broken, encoding="utf-8")
-        with pytest.raises(gate.InputError):
-            gate._allowedStatuses(str(tmp_path))
-    schema.unlink()
-    with pytest.raises(gate.InputError):
-        gate._allowedStatuses(str(tmp_path))
-
-
 def test_non_named_status_is_excluded_explicitly_but_still_in_the_frozen_census(tmp_path, monkeypatch):
     stageFile(tmp_path, monkeypatch, {"id": "demo/awake", "status": "awakened"})
     records = gate._loadNamedSkills(str(tmp_path))
@@ -379,3 +362,196 @@ def test_non_frozen_index_value_must_be_a_finite_number(published):
 def test_a_fully_valid_non_frozen_record_loads(tmp_path, monkeypatch):
     stageFile(tmp_path, monkeypatch, dict(LIVE))
     assert [r["id"] for r in gate._loadNamedSkills(str(tmp_path))] == ["demo/live"]
+
+
+# --------------------------------------------------------------------------
+# Round-5 findings (a)-(e) and schema-derived validation, table-driven.
+# --------------------------------------------------------------------------
+
+def realSchema() -> dict:
+    return json.loads((REPO / "registry/schema/namedSkill.schema.json").read_text(encoding="utf-8"))
+
+
+def writeCustomSchema(root: Path, mutate) -> Path:
+    schema = realSchema()
+    mutate(schema)
+    target = root / "registry" / "schema"
+    target.mkdir(parents=True, exist_ok=True)
+    path = target / "namedSkill.schema.json"
+    path.write_text(json.dumps(schema), encoding="utf-8")
+    return path
+
+
+def test_the_gate_reads_status_and_grade_sets_from_the_schema(tmp_path):
+    writeSchema(tmp_path)
+    context = gate._loadSchema(str(tmp_path))
+    schema = realSchema()["properties"]
+    assert context.statuses == frozenset(schema["status"]["enum"])
+    assert context.grades == frozenset(schema["overallTrustGrade"]["enum"])
+    # gaia_cli.frozen keeps its own grade set; the two must never diverge.
+    from gaia_cli import frozen
+    assert frozen._VALID_GRADES == context.grades
+    writeCustomSchema(tmp_path, lambda s: s["properties"]["status"].update(enum=["named", "retired"]))
+    assert gate._loadSchema(str(tmp_path)).statuses == {"named", "retired"}
+
+
+# (e) a malformed schema enum, or schema, aborts
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda s: s["properties"]["status"].update(enum={"named": 1, "awakened": 2}),  # object, not a list
+        lambda s: s["properties"]["status"].update(enum="named"),
+        lambda s: s["properties"]["status"].update(enum=[]),
+        lambda s: s["properties"]["status"].update(enum=["named", 3]),
+        lambda s: s["properties"]["status"].update(enum=["named", ""]),
+        lambda s: s["properties"]["status"].pop("enum"),
+        lambda s: s["properties"]["status"].update(enum=["awakened"]),  # no gated status
+        lambda s: s["properties"]["overallTrustGrade"].update(enum={"S": 1}),
+        lambda s: s["properties"]["overallTrustGrade"].update(enum=[]),
+        lambda s: s["properties"].pop("trustMagnitude"),
+        lambda s: s["properties"]["evidence"].update(type="object"),
+        lambda s: s.pop("properties"),
+    ],
+)
+def test_a_malformed_schema_aborts(tmp_path, mutate):
+    writeCustomSchema(tmp_path, mutate)
+    with pytest.raises(gate.InputError):
+        gate._loadSchema(str(tmp_path))
+
+
+def test_an_unreadable_or_non_json_schema_aborts(tmp_path):
+    with pytest.raises(gate.InputError):
+        gate._loadSchema(str(tmp_path))
+    (tmp_path / "registry" / "schema").mkdir(parents=True)
+    (tmp_path / "registry" / "schema" / "namedSkill.schema.json").write_text("{nope", encoding="utf-8")
+    with pytest.raises(gate.InputError):
+        gate._loadSchema(str(tmp_path))
+
+
+# (a) timeline items and null; (c) evidence shape; (d) lock minimum; schema-derived types
+RECORD_CASES = [
+    # (a) timeline action must be a non-empty string; null is rejected
+    ("timeline", [{"timestamp": "2026-01-01"}], "'action'"),
+    ("timeline", [{"action": None}], "'action'"),
+    ("timeline", [{"action": ""}], "'action'"),
+    ("timeline", [{"action": 5}], "'action'"),
+    ("timeline", [{"action": "note"}, {"details": "x"}], "'timeline'[1]"),
+    ("timeline", None, "'timeline'"),
+    ("timeline", {"action": "upstream_deprecated"}, "'timeline'"),
+    # (c) evidence must be an array of mappings
+    ("evidence", {"type": "repo-own"}, "'evidence'"),
+    ("evidence", "repo-own", "'evidence'"),
+    ("evidence", [3], "'evidence'[0]"),
+    ("evidence", [{"type": "repo-own"}, "x"], "'evidence'[1]"),
+    ("evidence", None, "'evidence'"),
+    # (d) the TM minimum is the schema's, and the grade set is the schema's
+    ("trustMagnitude", -0.01, "'trustMagnitude'"),
+    ("trustMagnitude", -50, "'trustMagnitude'"),
+    ("overallTrustGrade", "D", "'overallTrustGrade'"),
+    ("overallTrustGrade", None, "'overallTrustGrade'"),
+    # schema-derived suite fields and explicit non-schema fields
+    ("suiteRef", "Not A Ref", "'suiteRef'"),
+    ("frozen", None, "'frozen'"),
+]
+
+
+@pytest.mark.parametrize("field, value, fragment", RECORD_CASES)
+def test_schema_derived_and_explicit_record_checks_abort(tmp_path, monkeypatch, field, value, fragment):
+    meta = {**LIVE, field: value}
+    path = stageFile(tmp_path, monkeypatch, meta)
+    with pytest.raises(gate.InputError) as caught:
+        gate._loadNamedSkills(str(tmp_path))
+    assert str(path) in str(caught.value)
+    assert fragment in str(caught.value)
+
+
+def test_a_missing_evidence_key_is_accepted_because_real_files_omit_it(tmp_path, monkeypatch):
+    stageFile(tmp_path, monkeypatch, dict(LIVE))  # LIVE has no evidence key (61 real files have none)
+    assert gate._loadNamedSkills(str(tmp_path))
+
+
+def test_a_well_formed_timeline_and_evidence_load(tmp_path, monkeypatch):
+    meta = {**LIVE, "timeline": [{"action": "note", "details": "x"}], "evidence": [{"type": "repo-own", "updatedAt": "2026-01-01"}]}
+    stageFile(tmp_path, monkeypatch, meta)
+    assert gate._loadNamedSkills(str(tmp_path))  # updatedAt is real drift; item schema is deliberately not applied
+
+
+# (a) the gate and frozen.py must agree on what freezes a skill
+@pytest.mark.parametrize(
+    "timeline, frozenExpected",
+    [
+        ([{"action": "upstream_deprecated"}], True),
+        ([{"action": "note"}, {"action": "upstream_deprecated"}], True),
+        ([{"action": "upstream_deprecated "}], False),
+        ([{"action": "Upstream_Deprecated"}], False),
+        ([{"action": "note"}], False),
+    ],
+)
+def test_timeline_freezing_is_decided_by_frozen_py_alone(timeline, frozenExpected):
+    from gaia_cli.frozen import frozenIds
+    meta = {**LIVE, "timeline": timeline, "overallTrustGrade": "B"}
+    assert (meta["id"] in frozenIds([meta])) is frozenExpected
+    published = {meta["id"]: {"trustMagnitude": 49.0, "overallTrustGrade": "B"}}
+    violations, _, _ = gate.findViolations([meta], {}, published)
+    # A frozen skill is compared exactly against its lock (49.0 != 50.0); a live one is not.
+    assert any("locked stamp" in item for item in violations) is frozenExpected
+
+
+# (d) a negative lock is not a lock
+@pytest.mark.parametrize("tm", [-0.01, -1, -250.0])
+def test_a_negative_frozen_lock_is_invalid_and_a_violation(tm):
+    from gaia_cli.frozen import frozenLock
+    assert frozenLock({"trustMagnitude": tm, "overallTrustGrade": "B"}) is None
+    frozen = {"id": "x/f", "status": "named", "frozen": True, "trustMagnitude": tm, "overallTrustGrade": "B"}
+    violations, _, _ = gate.findViolations([frozen], {}, {"x/f": {"trustMagnitude": tm, "overallTrustGrade": "B"}})
+    assert len(violations) == 1 and "lacks a valid" in violations[0]
+
+
+def test_a_zero_lock_is_valid():
+    from gaia_cli.frozen import frozenLock
+    assert frozenLock({"trustMagnitude": 0, "overallTrustGrade": "ungraded"}) == (0.0, "ungraded")
+
+
+# (b) the generated index: structure and duplicates
+INDEX_CASES = [
+    ('{"buckets": {"a": [{"id": "x/y"}], "b": [{"id": "x/y"}]}}', "duplicate id 'x/y'"),
+    ('{"buckets": {"a": [{"id": "x/y"}, {"id": "x/y"}]}}', "duplicate id 'x/y'"),
+    ('{"buckets": {"a": [{"trustMagnitude": 1}]}}', "non-empty string 'id'"),
+    ('{"buckets": {"a": [{"id": ""}]}}', "non-empty string 'id'"),
+    ('{"buckets": {"a": [{"id": 4}]}}', "non-empty string 'id'"),
+    ('{"buckets": {"a": ["x/y"]}}', "non-empty string 'id'"),
+    ('{"buckets": {"a": {"id": "x/y"}}}', "must be a list"),
+    ('{"buckets": []}', "'buckets' object"),
+    ('{"buckets": null}', "'buckets' object"),
+    ("[]", "'buckets' object"),
+    ("{}", "'buckets' object"),
+    ("{not json", "malformed"),
+]
+
+
+@pytest.mark.parametrize("content, fragment", INDEX_CASES)
+def test_the_generated_index_must_be_valid_and_duplicate_free(tmp_path, monkeypatch, content, fragment):
+    monkeypatch.setattr(gate, "named_skills_index_path", lambda registry: str(tmp_path / "named-skills.json"))
+    (tmp_path / "named-skills.json").write_text(content, encoding="utf-8")
+    with pytest.raises(gate.InputError, match=fragment):
+        gate._loadGeneratedIndex(str(tmp_path))
+
+
+def test_a_valid_index_loads_and_an_empty_one_is_valid(tmp_path, monkeypatch):
+    monkeypatch.setattr(gate, "named_skills_index_path", lambda registry: str(tmp_path / "named-skills.json"))
+    (tmp_path / "named-skills.json").write_text('{"buckets": {"a": [{"id": "x/y"}], "b": []}}', encoding="utf-8")
+    assert set(gate._loadGeneratedIndex(str(tmp_path))) == {"x/y"}
+    (tmp_path / "named-skills.json").write_text('{"buckets": {}}', encoding="utf-8")
+    assert gate._loadGeneratedIndex(str(tmp_path)) == {}
+
+
+def test_a_schema_invalid_record_aborts_the_gate(tmp_path, monkeypatch, capsys):
+    _stageRegistry(tmp_path, monkeypatch)
+    index = {"buckets": {"g": [{"id": "demo/f", "trustMagnitude": 50.0, "overallTrustGrade": "B"}]}}
+    (tmp_path / "registry" / "named-skills.json").write_text(json.dumps(index), encoding="utf-8")
+    assert gate.main([]) == 0  # a valid record and index pass
+    skill = tmp_path / "registry" / "named" / "demo" / "f.md"
+    skill.write_text(skill.read_text(encoding="utf-8").replace("trustMagnitude: 50.0", "trustMagnitude: -3.0"), encoding="utf-8")
+    assert gate.main([]) == 1
+    out = capsys.readouterr().out
+    assert "cannot be established" in out and "'trustMagnitude'" in out and str(skill) in out
