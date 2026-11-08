@@ -1,5 +1,5 @@
 {
- "generation": 1793,
+ "generation": 1794,
  "lane": {
   "entries": [
    {
@@ -6696,7 +6696,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:16:16.712867Z",
-   "expiresAt": "2026-11-08T07:56:33.963309Z",
+   "expiresAt": "2026-11-08T07:58:57.464453Z",
    "holder": "run-20261108T003105Z-3faf1f97"
   }
  },
@@ -138217,6 +138217,30 @@
      "status": "pending",
      "stepId": "verify:4e35681dda17:2",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+     "emittedAt": "2026-11-08T07:28:56.015339Z",
+     "idempotencyKey": "verify:dispatch-67ccdfdbedf6d13c41c0:2",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch10-builder-94b4c68a20c6",
+       "pi-herdr-batch12-builder-94b4c68a20c6"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/verify-94b4c68a20c6.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:94b4c68a20c6:2",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -139476,6 +139500,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:4e35681dda17:2"
+    },
+    {
+     "at": "2026-11-08T07:28:56.015339Z",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+     "idempotencyKey": "verify:dispatch-67ccdfdbedf6d13c41c0:2",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:94b4c68a20c6:2"
     }
    ],
    "thinkingEfforts": [
@@ -139489,7 +139521,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T07:26:33.963521Z",
+ "updatedAt": "2026-11-08T07:28:57.464667Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140144,7 +140176,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-11-08T07:19:44.857590Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261108T072638Z-8ac0e5177d0e4245",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261108T003105Z-3faf1f97/verify-94b4c68a20c6.prompt.md"
+   }
   },
   "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154": {
    "assignments": [
