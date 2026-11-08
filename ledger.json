@@ -1,5 +1,5 @@
 {
- "generation": 1794,
+ "generation": 1795,
  "lane": {
   "entries": [
    {
@@ -6696,7 +6696,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-08T07:16:16.712867Z",
-   "expiresAt": "2026-11-08T07:58:57.464453Z",
+   "expiresAt": "2026-11-08T07:59:03.215653Z",
    "holder": "run-20261108T003105Z-3faf1f97"
   }
  },
@@ -138274,6 +138274,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "finishedAt": null,
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
@@ -139412,6 +139413,25 @@
       "debt:benchmark_source_drift:benchmark-sources:3a7b3e1aef26b30b"
      ],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+       "receipt": "steward-20261108T072404Z-287bc8d36e606b3c",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+       "receipt": "steward-20261108T072638Z-8ac0e5177d0e4245",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -139521,7 +139541,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-08T07:28:57.464667Z",
+ "updatedAt": "2026-11-08T07:29:03.215816Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
