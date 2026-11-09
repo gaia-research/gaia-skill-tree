@@ -59,7 +59,7 @@ def test_os_system_curl_evil_triggers_shell_and_net():
     assert "outboundNet" in cats
     # outboundNet should report the host
     netFindings = [f for f in findings if f.category == "outboundNet"]
-    assert any("evil.com" in f.rule for f in netFindings)
+    assert any(f.rule.partition(" -> ")[2] == "evil.com" for f in netFindings)
 
 
 # ---------------------------------------------------------------------------
@@ -160,6 +160,15 @@ def test_allowlist_suppresses_github_host():
     text = _wrapPython('r = requests.get("https://github.com/foo/bar")')
     findings = detectOutboundNet(text, "ok.md")
     assert findings == [], f"github.com should be allowlisted: {findings}"
+
+
+def test_outbound_net_spoofed_subdomain_or_substring_not_allowlisted():
+    for spoofedHost in ("evil-github.com", "github.com.evil.example"):
+        text = _wrapPython(f'requests.get("https://{spoofedHost}/api")')
+        findings = detectOutboundNet(text, "spoof.md")
+        assert any(
+            f.rule.partition(" -> ")[2] == spoofedHost for f in findings
+        ), f"Failed to flag spoofed host {spoofedHost}"
 
 
 # ---------------------------------------------------------------------------
