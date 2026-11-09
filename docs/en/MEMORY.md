@@ -1,3 +1,34 @@
+## 2026-11-09 — Routine 071
+
+**Branch:** `docs/routines/071` (from `origin/main`; the prior `docs/routines/064` PR #2235 merged and shipped in the 070 close).
+
+**Task chosen:** CONTINUE from "Planned next (Routine 071)" in 070: check the fusion and custom-fusion answers on `faq.html` against `fuse_command`.
+
+### What I did
+
+- `faq.html` has no `gaia fuse` answer. Its only fusion text is the Type axis (Basic vs Fusion prerequisites), which matches `CONTEXT.md`. Nothing to correct on the fuse paths.
+- Checked the `gaia push` / `gaia propose` answer against `src/gaia_cli/commands/push.py`. `propose` accepts `--no-pr` ("Write intake proposal without opening a PR"), which the FAQ did not mention. Added one sentence after the existing text. Words only; layout unchanged.
+
+### Design decisions
+
+- Did not add a new fusion FAQ entry. The planned check asked for corrections, not new content, and the FAQ is not the place for command flags.
+
+### Issues informed
+
+- None filed. No tooling friction met.
+
+### Files
+
+- `docs/en/faq.html` (one sentence in the `gaia propose` list item)
+- `docs/en/DOCS.md` (Page Map row 10 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 072)
+
+- ROTATE to the least-recently-touched Page Map page: `share-bundles.html`. Check the `gaia install <bundle>` flow and its non-TTY view-only default against `src/gaia_cli/share.py`.
+
+---
+
 ## 2026-11-06 — Routine 070
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
