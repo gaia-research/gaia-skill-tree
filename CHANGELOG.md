@@ -2,6 +2,23 @@
 
 All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the three manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `registry/gaia.json`) move in lockstep.
 
+## [9.4.0] - 2026-11-09
+
+### Performance — Steward Batched Dispatch Scan Reuse (#2316)
+
+Eliminates redundant repository-wide scans during batched Class B Steward maintenance repairs (`gaia steward full run`).
+
+- **Targeted Scan Reuse**: During batched Class B dispatch, `render_dispatch` and `render_dispatch_prompt` now safely reuse the run's existing fresh `ScanResult` across compatible repair packets when git HEAD is unchanged, the working tree is clean, local inputs are identical, and the scan is within the 300-second freshness window. Drops 8 of 9 scans (~89% execution time reduction from ~27 min to ~3 min per 8-build batch).
+- **Fail-Closed Freshness Guarantees**: Fresh repository scans are strictly preserved whenever git HEAD moves, the working tree is modified (tracked or untracked), local state or driver inputs change, or time-sensitive inputs cross freshness boundaries. Outside a git repository, scan reuse is refused.
+- **Batched Packet Recovery**: Multi-packet lost prompt recovery reuses the active scan across unroutable and routable packets alike, eliminating repeated scans on interrupted runs.
+- **Independent Verification & Receipts**: Each packet retains its individual immutable routing receipt referencing the run's scan receipt, preserving complete auditability.
+
+### Other Improvements (since v9.0.0)
+
+- **Security & Integrity**: Strengthened defensive checks and governance links (#2422), fail-closed scope gates with exact immutable SHAs (#2334), and verified runner baselines (#2428).
+- **Topology & Intakes**: Ratified topology batches for #2274 and #2275 (#2435), canonical node listing without generated graph (#2302), and strict frozen Trust Magnitude index validation (#2430).
+- **Steward Full Delivery**: Merged full-campaign closeout delivery for #2283 with independent verification, closed-issue baselines, and bound Class B route authorities (#2427).
+
 ## [9.0.0] - 2026-11-03
 
 ### Yggdrasil IV — EPIC #2189 — challenge-driven, reversible trust governance
