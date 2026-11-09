@@ -2,9 +2,8 @@
 
 **Date**: 2026-11-09  
 **Branch**: `dev/intake-2274-2275-ratified-topology`  
-**Commit**: `43f174089d2254b67121d8bba65a7f960a313b9f` (PR #2435)  
 **Supersedes**: `review/meta/intake-2274-2275-ratified-topology` (PR #2303, `61b83ed6efdc8cb64b6de3a6bac84873b7c97457`)  
-**Base**: `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`, post-PR #2427)  
+**Base**: `main` (`ef4dfbd243a8a8041c66a2d161f5c4eec327b43d`, post-PR #2302)  
 **Status**: READY FOR REVIEW  
 
 ---
@@ -45,7 +44,7 @@ No issue bodies were edited, preserving the immutable issue body SHA-256 hash re
 ---
 
 ## 3. Invariant & Steward Preservation
-Current `main` at `af57c7f6d6b796364d485688d35c1f5c871f1b04` (post-PR #2427) is strictly preserved:
+Current `main` at `ef4dfbd243a8a8041c66a2d161f5c4eec327b43d` (post-PR #2427 and #2302) is strictly preserved:
 - No files in `registry/nodes/`, `registry/named/`, `founder/`, `src/`, or `tests/` were touched.
 - No evidence is ingested and no canonical registry nodes are mutated.
 - Zero merge conflicts against latest `main`.
@@ -54,13 +53,13 @@ Current `main` at `af57c7f6d6b796364d485688d35c1f5c871f1b04` (post-PR #2427) is 
 
 ## 4. Verification Evidence
 
-### 4.1. Effective Diff Against Latest `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`)
+### 4.1. Effective Diff Against Latest `main` (`ef4dfbd243a8a8041c66a2d161f5c4eec327b43d`)
 `git diff --stat main..HEAD`:
 ```
-docs/agents/INTAKE_2274_2275_RATIFIED_TOPOLOGY_HANDOFF.md                                                     | 107 ++++++++++++++++++++++
+docs/agents/INTAKE_2274_2275_RATIFIED_TOPOLOGY_HANDOFF.md                                                     | 106 ++++++++++++++++++++++
 registry-for-review/skill-batches/content-2f79d53f0c3459290085511633f0e5680a1e4fe1d9a395912338c017aa59aa0b-from-file.json |  62 +++++++++++++
 registry-for-review/skill-batches/content-8963e6359eb6d3eb15e967744fa579b3dbb6186ced669756e76b52283732ac29-from-file.json |  74 +++++++++++++++
-3 files changed, 243 insertions(+)
+3 files changed, 242 insertions(+)
 ```
 Strictly limited to the 2 ratified intake batch files and this handoff. Zero files in `registry/`, `founder/`, `src/`, or `tests/` are modified, preserving 100% of Steward PR #2427.
 
