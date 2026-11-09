@@ -1,5 +1,5 @@
 # Gaia Security integration handoff
-Date: 2026-11-09. Reconciled against latest main (af57c7f6d6b796364d485688d35c1f5c871f1b04, post-PR #2427). Review proposal only; no merge or deployment authorized.
+Date: 2026-11-09. Reconciled against latest main (b404b1ae9494d2a95e2d9c3bb48c85b705d43165, post-PR #2427, #2302, and #2435). Review proposal only; no merge or deployment authorized.
 
 ## 1. Architecture and implementation
 [gaia-research/gaia-security](https://github.com/gaia-research/gaia-security) governs standards/profiles/validation contracts. Skill Tree retains scanning execution, GitHub-native alerts, Steward headquarters, existing ownership and authority gates. There is no new runtime dependency or duplicate scanner process.
@@ -15,15 +15,15 @@ Existing named-skill scanner, HTML/model-format guards, 39-row credential-dispos
 - Optional asset-tool Pillow minimum aligned to `>=13.0.0`, including scripts/README.md. This reduces an old allowed version floor; it does not assert which version every existing environment has installed.
 - This self-contained handoff. No workflow, native CodeQL configuration, lockfile, historical credential disposition or Steward lock changed.
 
-### Complete Diff Against Latest `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`)
+### Complete Diff Against Latest `main` (`b404b1ae9494d2a95e2d9c3bb48c85b705d43165`)
 `git diff --stat main..HEAD`:
 ```
 SECURITY.md                                   | 21 ++++++++++
-docs/agents/security/GAIA_SECURITY_HANDOFF.md | 55 +++++++++++++++++++++++++++
+docs/agents/security/GAIA_SECURITY_HANDOFF.md | 74 +++++++++++++++++++++++++++
 scripts/README.md                             |  2 +-
 scripts/compress-assets.requirements.txt      |  2 +-
 tests/test_security_scanner.py                | 11 +++++-
-5 files changed, 88 insertions(+), 3 deletions(-)
+5 files changed, 107 insertions(+), 3 deletions(-)
 ```
 Strictly 5 files in scope. Zero Steward files from PR #2427 (Class B 323 -> 191, 48 canonical repairs, 45 demotions) or earlier Steward work were touched or reverted.
 
@@ -42,7 +42,7 @@ Strictly 5 files in scope. Zero Steward files from PR #2427 (Class B 323 -> 191,
 - Native central baseline invocation: `gaia_security scan --repo gaia-research/gaia-skill-tree --path <checkout> --scanners gitleaks,osv-scanner,trivy --include-github-api`. It completed the native scanners and CodeQL API ingestion; Dependabot API was unavailable/disabled, so overall CLI returned **2/incomplete**, correctly.
 - Baseline telemetry: Gitleaks working-tree **150 candidates** (local binary version unreported), OSV 2.7.0 **110 advisory records**, Trivy 0.76.2 misconfiguration **0 candidates**, CodeQL API **1 open alert**. Counts are time/scope specific. All **224 deduplicated baseline findings remained pending validation**; none were auto-dismissed/accepted. Existing possible secrets and private evidence were NOT published or altered.
 - Founder-directed final `reviewer-shared` (`openai-codex/gpt-6.1-terra`, high, read-only) marked this integration **READY FOR REVIEW**, with no blockers in inspected source/tests/policy/handoff. Review did not independently rerun tests or inspect all references (search tools unavailable). No approval to merge or deploy is implied.
-- Hosted native CodeQL (Actions, JavaScript/TypeScript, Python), vocabulary/lexicon PR guards, branch scope, author attribution, graph validation and skill quality gates passed. While an earlier intermediate hosted run ([Python package run 42486164856](https://github.com/gaia-research/gaia-skill-tree/actions/runs/42486164856) on commit `e2c7c6281a7b5756d66f0104741eb69d2e485e7a`) encountered an isolated transient loopback HTTPS probe failure in `test_trusted_certificate_sends_one_bearer_request_and_ignores_proxy_environment`, the subsequent head run ([Python package run 42486942861](https://github.com/gaia-research/gaia-skill-tree/actions/runs/42486942861) on commit `a916456be5f6de07c9051288274938a04bbc83b4`) **passed completely in 24m51s** with all 14 checks green across the entire package, test, build, and smoke-test matrix. Targeted defensive scanner suite (`tests/test_security_scanner.py`) verified locally with 24 passed in 0.33s.
+- Hosted native CodeQL (Actions, JavaScript/TypeScript, Python), vocabulary/lexicon PR guards, branch scope, author attribution, graph validation and skill quality gates passed. Both full hosted package test runs ([42486942861](https://github.com/gaia-research/gaia-skill-tree/actions/runs/42486942861) in 24m51s, and [42534513777](https://github.com/gaia-research/gaia-skill-tree/actions/runs/42534513777) in 23m53s) **passed completely green** across the entire package, test, build, and smoke-test matrix. Targeted defensive scanner suite (`tests/test_security_scanner.py`) verified locally with 24 passed in 0.24s.
 - Scanner JSON/Markdown stayed owner-only outside the repository. Native alert payloads/locations/credentials are deliberately absent from this public handoff.
 
 ## 5. Scanner coverage
