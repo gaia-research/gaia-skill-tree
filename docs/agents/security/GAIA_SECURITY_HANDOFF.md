@@ -31,7 +31,7 @@ Strictly 5 files in scope. Zero Steward files from PR #2427 (Class B 323 -> 191,
 - `e2c7c6281`: initial implementation.
 - `a916456be`: historical PR head that completed the 24m51s green hosted Python Package run ([42486942861](https://github.com/gaia-research/gaia-skill-tree/actions/runs/42486942861)).
 - `abcfafbe7`: mechanical merge of latest `main` (`af57c7f6d6b796364d485688d35c1f5c871f1b04`, post-PR #2427).
-- Reconciled commits update this documentation handoff only.
+- Reconciled commits update this documentation handoff only, rebased cleanly on top of main after PR #2302 and #2435.
 - The four code, dependency, and test files (`SECURITY.md`, `scripts/README.md`, `scripts/compress-assets.requirements.txt`, `tests/test_security_scanner.py`) are 100% byte-identical between historical head `a916456be` and current `HEAD` (zero diff across all four files).
 
 ## 4. Validation evidence
