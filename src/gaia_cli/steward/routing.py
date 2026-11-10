@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import dataclasses
 from dataclasses import dataclass
+from datetime import datetime, timezone
+import hashlib
 import json
 import logging
 import os
@@ -20,7 +22,14 @@ import subprocess
 import tempfile
 from typing import Any, Mapping, Sequence
 
-from gaia_cli.steward.controller import ScanResult, StewardController
+from gaia_cli.steward.controller import (
+    ScanResult,
+    StewardController,
+    git_head_commit,
+    git_tree_is_clean,
+    local_inputs_fingerprint,
+    sensor_signature,
+)
 from gaia_cli.steward.models import (
     AuthorityClass,
     Debt,
@@ -65,6 +74,7 @@ from gaia_cli.steward.verification import (
     parse_unified_diff,
     read_text_input,
 )
+from gaia_cli.steward.primitives.inputs import parse_instant, SensorUnavailable
 
 LOGGER = logging.getLogger(__name__)
 
@@ -332,6 +342,190 @@ def _restore_routing_scan_state(
             path.unlink()
 
 
+DEFAULT_SCAN_FRESHNESS_SECONDS = 300
+
+
+_FUTURE_TOLERANCE_SECONDS = 300  # 5 minutes
+_MAX_INPUT_AGE_SECONDS = 7 * 86400  # 7 days
+
+
+_MAX_INPUT_PARSE_BYTES = 20 * 1024 * 1024
+
+
+def _input_file_timestamp_and_window(path: Path, policy: StewardPolicy) -> tuple[datetime, int, int] | None:
+    try:
+        st = path.stat()
+        if st.st_size > _MAX_INPUT_PARSE_BYTES:
+            # Fail closed on oversized inputs
+            return None
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            return None
+        # PR maintenance census (1-hour default)
+        if path.name == "github-prs.json":
+            val = data.get("fetchedAt")
+            if isinstance(val, str):
+                max_pr_age = getattr(getattr(policy, "pr_maintenance", None), "maxCensusAgeSeconds", 3600)
+                try:
+                    return (parse_instant(val, "PR census fetchedAt"), max_pr_age, 0)
+                except SensorUnavailable:
+                    return None
+            return None
+        # Issue hygiene census (6-hour default)
+        if (
+            path.name == "github-issues.json"
+            or "census" in path.name.lower()
+            or "census" in str(data.get("schemaVersion", "")).lower()
+        ):
+            val = data.get("fetchedAt")
+            if isinstance(val, str):
+                max_issue_age = getattr(getattr(policy, "issue_hygiene", None), "maxCensusAgeSeconds", 6 * 3600)
+                try:
+                    return (parse_instant(val, "issue census fetchedAt"), max_issue_age, 0)
+                except SensorUnavailable:
+                    return None
+            return None
+        # Other driver inputs (e.g. ci-runs.json, test-history.json, advisories.json)
+        for key in ("collectedAt", "generatedAt"):
+            val = data.get(key)
+            if isinstance(val, str):
+                try:
+                    return (parse_instant(val, f"input {key}"), 7 * 86400, _FUTURE_TOLERANCE_SECONDS)
+                except SensorUnavailable:
+                    return None
+        return (datetime.fromtimestamp(st.st_mtime, tz=timezone.utc), 7 * 86400, _FUTURE_TOLERANCE_SECONDS)
+    except Exception:
+        return None
+
+
+def _input_status_at(
+    ts: datetime,
+    at_dt: datetime,
+    max_age_seconds: int = _MAX_INPUT_AGE_SECONDS,
+    future_tolerance_seconds: int = _FUTURE_TOLERANCE_SECONDS,
+) -> str:
+    diff = (ts - at_dt).total_seconds()
+    if diff > future_tolerance_seconds:
+        return "future"
+    if (at_dt - ts).total_seconds() > max_age_seconds:
+        return "past"
+    return "valid"
+
+
+def _is_scan_fresh(
+    scan: ScanResult,
+    root: Path,
+    *,
+    policy: StewardPolicy,
+    controller: StewardController | None = None,
+    max_age_seconds: int = DEFAULT_SCAN_FRESHNESS_SECONDS,
+) -> bool:
+    if scan.receipt.coverage_unknown:
+        return False
+    # Validate controller binding and sensor configuration
+    if controller is not None:
+        if getattr(scan, "controller_token", None) != getattr(controller, "instance_token", None):
+            return False
+        if hasattr(controller, "sensors"):
+            sig = getattr(scan, "sensor_signature", None)
+            if not sig or sig != sensor_signature(controller.sensors):
+                return False
+    # Validate local state confinement and receipt persistence
+    expected_state_dir = root / policy.state_directory
+    expected_debt_path = expected_state_dir / "debt.json"
+    expected_receipts_dir = expected_state_dir / policy.receipts_directory
+    try:
+        if scan.debt_state_path.resolve() != expected_debt_path.resolve():
+            return False
+        if not scan.receipt_path.is_file():
+            return False
+        scan.receipt_path.resolve().relative_to(expected_receipts_dir.resolve())
+        persisted_receipt = json.loads(scan.receipt_path.read_bytes())
+        if not isinstance(persisted_receipt, dict) or persisted_receipt != scan.receipt.to_dict():
+            return False
+    except (ValueError, OSError, json.JSONDecodeError, UnicodeDecodeError):
+        return False
+    # Ledger generation check: require valid recorded hash matching current debt.json
+    if getattr(scan, "debt_state_hash", None) is None:
+        return False
+    try:
+        current_hash = hashlib.sha256(expected_debt_path.read_bytes()).hexdigest()
+        if current_hash != scan.debt_state_hash:
+            return False
+    except OSError:
+        return False
+    # Reuse requires a verifiable, clean Git repository
+    if not (root / ".git").exists():
+        return False
+    current_head = git_head_commit(root)
+    if current_head is None or scan.head_commit is None or scan.head_commit != current_head:
+        return False
+    state_prefix = policy.state_directory.parts[0] if policy.state_directory.parts else ".gaia"
+    if not getattr(scan, "tree_clean", False) or not git_tree_is_clean(root, state_prefix):
+        return False
+    # Check driver inputs directory fingerprint (including absent/empty inputs and ignored surfaces)
+    current_inputs_hash = local_inputs_fingerprint(expected_state_dir, repo_root=root)
+    if (
+        getattr(scan, "inputs_hash", None) is None
+        or current_inputs_hash is None
+        or scan.inputs_hash != current_inputs_hash
+    ):
+        return False
+    if controller is not None and getattr(controller, "clock", None) is not None:
+        now_dt = controller.clock()
+    else:
+        now_dt = datetime.now(timezone.utc)
+    if now_dt.tzinfo is None:
+        now_dt = now_dt.replace(tzinfo=timezone.utc)
+    try:
+        started_dt = datetime.fromisoformat(scan.receipt.started_at.replace("Z", "+00:00"))
+        if started_dt.tzinfo is None:
+            started_dt = started_dt.replace(tzinfo=timezone.utc)
+        finished_dt = datetime.fromisoformat(scan.receipt.finished_at.replace("Z", "+00:00"))
+        if finished_dt.tzinfo is None:
+            finished_dt = finished_dt.replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError, AttributeError):
+        return False
+    age = (now_dt - finished_dt).total_seconds()
+    if not (-5.0 <= age <= max_age_seconds):
+        return False
+    # Check driver inputs status transitions between sensor evaluation time (start) and reuse time (now)
+    inputs_dir = expected_state_dir / "inputs"
+    if inputs_dir.is_dir():
+        for entry in inputs_dir.iterdir():
+            if entry.is_file():
+                info = _input_file_timestamp_and_window(entry, policy)
+                if info is None:
+                    return False
+                ts, max_age, future_tol = info
+                if (
+                    _input_status_at(ts, started_dt, max_age, future_tol)
+                    != _input_status_at(ts, now_dt, max_age, future_tol)
+                ):
+                    return False
+    # Ensure time-sensitive sensor inputs have not transitioned status
+    max_census_age = getattr(getattr(policy, "issue_hygiene", None), "maxCensusAgeSeconds", 6 * 3600)
+    for observation in scan.observations:
+        provenance = getattr(observation, "provenance", None)
+        if isinstance(provenance, dict):
+            for stamp_key in ("collectedAt", "generatedAt", "fetchedAt", "censusFetchedAt"):
+                stamp_val = provenance.get(stamp_key)
+                if isinstance(stamp_val, str):
+                    try:
+                        collected_dt = parse_instant(stamp_val, f"observation {stamp_key}")
+                        is_census = stamp_key in ("fetchedAt", "censusFetchedAt")
+                        max_age = max_census_age if is_census else 7 * 86400
+                        future_tol = 0 if is_census else _FUTURE_TOLERANCE_SECONDS
+                        if (
+                            _input_status_at(collected_dt, started_dt, max_age, future_tol)
+                            != _input_status_at(collected_dt, now_dt, max_age, future_tol)
+                        ):
+                            return False
+                    except (ValueError, TypeError, SensorUnavailable):
+                        return False
+    return True
+
+
 def _scan_and_persist_routing(
     root: Path,
     policy: StewardPolicy,
@@ -339,6 +533,8 @@ def _scan_and_persist_routing(
     controller: StewardController,
     build: Any,
     commit: Any = None,
+    scan: ScanResult | None = None,
+    max_age_seconds: int = DEFAULT_SCAN_FRESHNESS_SECONDS,
 ) -> RoutingResult:
     """Make scan, routing receipt, and any lane move one local-state transaction.
 
@@ -359,7 +555,10 @@ def _scan_and_persist_routing(
         ledger_before = ledger_path.read_bytes() if ledger_path.exists() else None
         lane_before = lane_path.read_bytes() if lane_path.exists() else None
         receipts_before = set(receipts_directory.glob("*.json")) if receipts_directory.exists() else set()
-        scan = controller.scan(root, _lock_held=True)
+        if scan is None or not _is_scan_fresh(
+            scan, root, policy=policy, controller=controller, max_age_seconds=max_age_seconds
+        ):
+            scan = controller.scan(root, _lock_held=True)
         try:
             artifact = build(scan)
             receipt, receipt_path = _persist(
@@ -597,6 +796,8 @@ def render_dispatch(
     *,
     controller: StewardController | None = None,
     policy: StewardPolicy | None = None,
+    scan: ScanResult | None = None,
+    max_age_seconds: int = DEFAULT_SCAN_FRESHNESS_SECONDS,
 ) -> RoutingResult:
     """Freshly scan, then render exactly one policy-supported Class B packet.
 
@@ -622,13 +823,9 @@ def render_dispatch(
         _assert_route_eligible(rule, debt)
         head_commit = None
         if (root / ".git").exists():
-            head = subprocess.run(
-                ["git", "rev-parse", "--verify", "HEAD^{commit}"],
-                cwd=root, capture_output=True, text=True, check=False,
-            )
-            if head.returncode != 0 or not head.stdout.strip():
+            head_commit = git_head_commit(root)
+            if not head_commit:
                 raise RoutingError("cannot determine dispatch HEAD commit")
-            head_commit = head.stdout.strip()
         return DispatchPacket.create(
             head_commit=head_commit, debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
@@ -637,11 +834,25 @@ def render_dispatch(
             proof=rule.proof, budget=policy.routing_budget, capability=rule.capability,
         )
 
-    return _scan_and_persist_routing(root, policy, "dispatch", controller or StewardController(), build)
+    return _scan_and_persist_routing(
+        root,
+        policy,
+        "dispatch",
+        controller or StewardController(),
+        build,
+        scan=scan,
+        max_age_seconds=max_age_seconds,
+    )
 
 
 def render_dispatch_prompt(
-    repo_root: Path, debt_id: str, *, controller: StewardController | None = None
+    repo_root: Path,
+    debt_id: str,
+    *,
+    controller: StewardController | None = None,
+    policy: StewardPolicy | None = None,
+    scan: ScanResult | None = None,
+    max_age_seconds: int = DEFAULT_SCAN_FRESHNESS_SECONDS,
 ) -> tuple[RoutingResult, str]:
     """Render one Class B packet and its harness-neutral Tree Keeper prompt.
 
@@ -654,8 +865,15 @@ def render_dispatch_prompt(
 
     root = repo_root.resolve()
     # One load serves both the envelope and its routine pointer.
-    policy = StewardPolicy.load(root)
-    result = render_dispatch(root, debt_id, controller=controller, policy=policy)
+    policy = policy if policy is not None else StewardPolicy.load(root)
+    result = render_dispatch(
+        root,
+        debt_id,
+        controller=controller,
+        policy=policy,
+        scan=scan,
+        max_age_seconds=max_age_seconds,
+    )
     packet = result.artifact
     if not isinstance(packet, DispatchPacket):
         raise RoutingError("dispatch did not render a Class B packet")
