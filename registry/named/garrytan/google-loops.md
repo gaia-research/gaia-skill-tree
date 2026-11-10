@@ -12,7 +12,7 @@ description: 'Set up and operate the Gmail/Calendar/Contacts connector and the o
   `gbrain waiting` digest, loop closing/muting, and troubleshooting via the typed
   error catalog.'
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Google Loops
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:59:42Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 31769d8242ffdfaff617eb0f0ecd5e87a7c83a04a1a6e1ff7f2c0610d180d026
 ---
 

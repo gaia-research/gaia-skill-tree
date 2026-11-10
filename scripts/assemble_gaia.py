@@ -1,6 +1,5 @@
 import json
 import os
-import datetime
 
 def _read_version(root_path) -> str:
     import os

@@ -10,8 +10,10 @@ files. The manifest is folded into three debt kinds:
   turns these into ``forge.close_issue`` actions under its own gates.
 - ``issue_suite_review`` (Class B): one debt per suite batch (or ``unbatched``).
 - ``issue_founder_decision`` (Class C): one debt per founder question, plus two steward notes (B8):
-  ``reopened-after-closure`` (a pair the steward closed is open again, so a person reopened it: never closed again)
-  and ``closure-refused`` (a pair the gate refused ``RETRYLIMIT`` times: one question for all of them).
+  ``reopened-after-closure`` (a pair the steward closed is open again, so a person reopened it: never closed again),
+  ``closure-refused`` (a pair the gate refused ``RETRYLIMIT`` times: one question for all of them) and
+  ``closeout-discrepancy`` (founder ruling #6: a closed umbrella is a completed epic, so a closed umbrella with
+  unfinished children or contradicting registry evidence is a HIGH-PRIORITY note; the closure is preserved).
 
 Anything the census or manifest cannot prove fails closed: a missing census is
 ``SensorNotEvaluated``; an incomplete, stale or unreconcilable census is
@@ -27,10 +29,16 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
-from gaia_cli.steward.issuehygiene.census import Census, loadCensus, parseTimestamp
+from gaia_cli.steward.issuehygiene.census import Census, closedOnlyIncomplete, closedTelemetry, loadCensus, parseTimestamp
 from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
 from gaia_cli.steward.issuehygiene.outcomes import RETRYLIMIT, OutcomeStoreError, doneClosures, loadOutcomes
+from gaia_cli.steward.issuehygiene.reconcile import (
+    CLOSEOUT_BASIS,
+    CLOSEOUT_OPTIONS,
+    CLOSEOUT_RECOMMENDATION,
+    PRIORITY_HIGH,
+)
 from gaia_cli.steward.issuehygiene.reconcile import SCHEMA_VERSION as MANIFEST_SCHEMA
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
@@ -45,6 +53,7 @@ UNBATCHED = "unbatched"
 UNQUESTIONED = "unquestioned"
 REOPENED = "reopened-after-closure"
 REFUSED = "closure-refused"
+CLOSEOUT = "closeout-discrepancy"
 AUTHORITIES = ("A", "B", "C", "none")
 # Bounded so one large suite cannot blow the observation budget or the ledger.
 MAX_ITEMS_PER_DEBT = 200
@@ -101,7 +110,8 @@ def _hygienePolicy(root: Path) -> HygienePolicy:
     return policy.issue_hygiene
 
 
-def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any) -> Mapping[str, Any]:
+def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any,
+                    closedHistoryUnavailable: bool = False) -> Mapping[str, Any]:
     """Run the real reconciliation: registry index, workflow probes, then the manifest.
 
     Reads local files only. Any failure is coverage unknown with the exception type
@@ -114,7 +124,8 @@ def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any
         from gaia_cli.steward.issuehygiene.questions import loadIssueDecisions
 
         manifest = reconcile(census, index, hygiene, now, workflowDisabled=probes,
-                             decisionRecords=loadIssueDecisions(root))
+                             decisionRecords=loadIssueDecisions(root),
+                             closedHistoryUnavailable=closedHistoryUnavailable)
     except Exception as exc:  # noqa: BLE001 - any reconciliation failure is coverage unknown
         raise SensorUnavailable(f"issue reconciliation failed: {type(exc).__name__}") from exc
     if not isinstance(manifest, Mapping):
@@ -246,10 +257,14 @@ class IssueHygieneSensor:
         now = parse_instant(observed_at, "observed_at")
         hygiene = _hygienePolicy(root)
         census = loadCensus(path, now=now, maxAgeSeconds=hygiene.maxCensusAgeSeconds)
-        if not census.status.complete:
+        degraded = not census.status.complete and closedOnlyIncomplete(census)
+        if not census.status.complete and not degraded:
             reasons = ", ".join(_text(reason, 80) for reason in census.status.reasons[:3]) or "no reason recorded"
             raise SensorUnavailable(f"issue census is {census.status.status}: {reasons}")
-        manifest = reconcileCensus(census, root, hygiene, now)
+        manifest = (
+            reconcileCensus(census, root, hygiene, now, closedHistoryUnavailable=True) if degraded
+            else reconcileCensus(census, root, hygiene, now)
+        )
         _validateManifest(manifest)
         try:
             closed = doneClosures(root)
@@ -261,11 +276,27 @@ class IssueHygieneSensor:
             if entry.get("outcome") == "refused" and isinstance(entry.get("key"), str) and isinstance(entry.get("issue"), int)
             and int(entry.get("attempts", 0) or 0) >= RETRYLIMIT
         })
-        return self._observations(manifest, hygiene, observed_at, closed, escalated)
+        scan = self._observations(manifest, hygiene, observed_at, closed, escalated, closureEvaluated=not degraded)
+        if degraded:
+            # Only closed history is missing. The open inventory above was reconciled and observed as usual; every
+            # operation that needs closed history (closure proofs and plans) is NOT EVALUATED. Partial coverage also
+            # stops the exhaustive sweep from resolving closure debt it did not look at. Nothing here blinds Steward.
+            reason = (
+                "issue census closed history is incomplete "
+                f"({_text(str(census.document['completeness']['closed'].get('reason', 'unknown')), 80)}); "
+                f"issue closure operations are NOT EVALUATED. Telemetry: {closedTelemetry(census)}"
+            )
+            scan = SensorScan(
+                observations=scan.observations,
+                skipped=tuple(scan.skipped) + ({
+                    "subjectType": "issue-scope", "subjectId": "closure-operations", "reason": reason,
+                },),
+            )
+        return scan
 
     def _observations(self, manifest: Mapping[str, Any], hygiene: HygienePolicy, observed_at: str,
                       closed: Mapping[tuple, str | None] | None = None,
-                      escalated: list[tuple] | None = None) -> SensorScan:
+                      escalated: list[tuple] | None = None, closureEvaluated: bool = True) -> SensorScan:
         digest = _digest(manifest)
         stats = manifest.get("stats") if isinstance(manifest.get("stats"), Mapping) else {}
         # Provenance carries the backlog counts so a receipt can show before and after.
@@ -302,7 +333,9 @@ class IssueHygieneSensor:
             suite_rows.setdefault(suite, []).append(_suiteRow(item))
 
         observations: list[Observation] = []
-        for rule in sorted(rule for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule)):
+        # Closure rules are observed only when closed history backs them: a rule "healthy" with no plans would otherwise
+        # read a missing inventory as an empty one.
+        for rule in sorted(rule for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule) and closureEvaluated):
             rows = [plan for plan in plans if plan["ruleId"] == rule]
             if hygiene.writesEnabled:
                 observed = {"ruleId": rule, "count": len(rows), "plans": rows[:MAX_ITEMS_PER_DEBT],
@@ -332,6 +365,7 @@ class IssueHygieneSensor:
         observations.extend(self._founder(manifest, founder_items, observed_at, provenance, digest))
         observations.extend(self._stewardNotes(reopened, sorted(number for _key, number in (escalated or [])),
                                                observed_at, provenance, digest))
+        observations.extend(self._closeoutNotes(manifest, observed_at, provenance, digest))
         skipped = self._notEvaluated(manifest)
         return SensorScan(observations=tuple(observations), skipped=skipped)
 
@@ -341,14 +375,65 @@ class IssueHygieneSensor:
 
         numbers = [n for n in (manifest["coverage"].get("notEvaluated") or [])
                    if isinstance(n, int) and not isinstance(n, bool)]
-        if not numbers:
-            return ()
-        named = ", ".join(f"#{number}" for number in numbers[:NOT_EVALUATED_LIMIT])
-        return ({
-            "subjectType": "issue-scope",
-            "subjectId": "unevaluated-issues",
-            "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
-        },)
+        skipped: list[dict[str, str]] = []
+        evaluation = manifest.get("closeoutEvaluation")
+        if isinstance(evaluation, Mapping) and evaluation.get("status") == "not-evaluated" \
+                and manifest.get("censusStatus") == "complete":
+            # Founder ruling #6: closed umbrella history could not be read in full, so only the umbrella-dependent
+            # decisions (closed-batch suppression and closeout discrepancies) are not evaluated. Nothing else is.
+            reasons = ", ".join(_text(reason, 80) for reason in (evaluation.get("reasons") or [])[:3]
+                                if isinstance(reason, str)) or "no reason recorded"
+            skipped.append({
+                "subjectType": "issue-scope",
+                "subjectId": "closed-umbrella-history",
+                "reason": f"closed umbrella history not evaluated ({reasons}); closed-batch suppression and closeout discrepancies are skipped",
+            })
+        if numbers:
+            named = ", ".join(f"#{number}" for number in numbers[:NOT_EVALUATED_LIMIT])
+            skipped.append({
+                "subjectType": "issue-scope",
+                "subjectId": "unevaluated-issues",
+                "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
+            })
+        return tuple(skipped)
+
+    @staticmethod
+    def _closeoutNotes(manifest: Mapping[str, Any], observed_at: str, provenance: Mapping[str, Any],
+                       digest: str) -> list[Observation]:
+        """Founder ruling #6: closed umbrellas that leave unfinished work or contradictory evidence.
+
+        One HIGH-PRIORITY Class C note names every such umbrella and its open children. The closure is
+        preserved: the note asks for explicit reconciliation and never proposes reopening or declaring completion.
+        """
+        rows = [row for row in manifest.get("closeoutDiscrepancies") or [] if isinstance(row, Mapping)]
+        numbers: set[int] = set()
+        summary: list[dict[str, Any]] = []
+        for row in sorted(rows, key=lambda item: item.get("umbrella") if isinstance(item.get("umbrella"), int) else 0):
+            umbrella = row.get("umbrella")
+            if isinstance(umbrella, bool) or not isinstance(umbrella, int):
+                continue
+            numbers.add(umbrella)
+            children = [n for n in row.get("openChildren") or [] if isinstance(n, int) and not isinstance(n, bool)]
+            numbers.update(children)
+            summary.append({
+                "umbrella": umbrella, "suite": _text(row.get("suite"), 120), "version": _text(row.get("version"), 60),
+                "reasons": [_text(reason, 160) for reason in (row.get("reasons") or [])[:5] if isinstance(reason, str)],
+                "openChildren": children[:MAX_ITEMS_PER_DEBT],
+            })
+        if not summary:
+            return []
+        observed = decisionState(
+            CLOSEOUT,
+            "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished "
+            "children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile "
+            "explicitly: finish the missed work, or record each leftover as an intentional disposition.",
+            sorted(numbers), list(CLOSEOUT_OPTIONS), CLOSEOUT_RECOMMENDATION, CLOSEOUT_BASIS, digest)
+        observed["priority"] = PRIORITY_HIGH
+        observed["discrepancies"] = summary[:MAX_ITEMS_PER_DEBT]
+        return [_observation(
+            kind="issue_founder_decision", subject=Subject(type="issue-question", id=CLOSEOUT),
+            observed_at=observed_at, provenance=provenance, status="drift", observed=observed,
+        )]
 
     @staticmethod
     def _stewardNotes(reopened: list[int], refused: list[int], observed_at: str,

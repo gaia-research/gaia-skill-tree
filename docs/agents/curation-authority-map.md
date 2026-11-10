@@ -42,7 +42,7 @@ Rules the engine applies and skills must not contradict:
 
 - **Same-source dedup is within type.** `_dedupeSameSource` keys rows on `(evidence type, canonical URL)`. A `github-stars-own` row and a `repo-own` row at the same URL are different keys, and **both count**. Two rows of the *same* type at the same URL collapse, and the higher one wins.
 - **There is no repository-count divisor.** `skillCountInRepo` is recorded provenance and part of `computeTrustMagnitudeInputHash`. It never divides a score; the old repository-count discount retired with the #1705 logarithmic curve.
-- **Suite-component repository cap.** A component's shared suite-root `github-stars-own` + `repo-own` contributions are bounded to 50.0 TM together (`SUITE_COMPONENT_REPOSITORY_CAP`).
+- **Suite-component repository cap.** A component's shared suite-root `github-stars-own` + `repo-own` contributions are bounded to 49.9 TM together (`SUITE_COMPONENT_REPOSITORY_CAP`), just below the inclusive Grade B floor, so the inherited baseline alone grades C (founder ruling 2026-11-08, RFC #2148).
 - **Plateau.** A stackable type scores its rows in descending order, at factors such as 1.0 / 0.5 / 0.25. Rows past the type's max-row count score 0 (`_PLATEAU_CONFIG`).
 - **Freshness** decays only `benchmark-result`, `social-signal` and `peer-review` with `lastVerified`.
 
@@ -93,6 +93,7 @@ Worked examples (synthetic and offline; checked live):
 - TM and the Overall Trust Grade are **computed** by the engine.
 - `trustMagnitude`, `overallTrustGrade` and `trustMagnitudeInputHash` may appear in named-skill frontmatter. They are a **hash-signed cache** written only by `gaia dev calibrate-trust-magnitude` (playbook: `.agents/skills/dev-calibrate/`). `scripts/generateNamedIndex.py` trusts the cache only when the stored hash matches the current inputs; otherwise it recomputes.
 - Never hand-edit those fields, and never add or recommend a separate write-back helper. A stale cache is refreshed through the CLI verb.
+- Event-driven refresh (founder ruling 2026-11-06, #1642): `gaia dev evidence` and `gaia dev rm-evidence` restamp, through that same verb, only the skills whose computed TM the write moved, and only when the computed grade still agrees with the stored star level and the refresh would not rewrite the stored grade (`--recomputation-only`; owner: `src/gaia_cli/trustRestamp.py`, with `require_operator` and the canonical transaction lock enforced at the writer and at the restamp body, a partial stamp without a grade held rather than given one, unfingerprintable skills held and reported, and a from-disk re-verification). Frozen skills are skipped and no star level is ever written. Periodic reconciliation is the Steward `trust_stamp_stale` sensor plus `gaia dev calibrate-trust-magnitude --all --recomputation-only`.
 - Raw inputs (`stars`, `commits`, `contributors`, `citations`, `views`, `reviewers`, `percentile`, …) are the persisted evidence inventory.
 
 ## 5. Metric provenance and claim status

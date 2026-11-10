@@ -24,8 +24,9 @@ name: Gaia Steward Full
 # reports what it can see; a missing credential makes the agent run fail and the
 # step is reported failed. Class B is only ever claimed when an agent ran.
 #
-# If the workflow is separately reauthorized, maxDispatchesPerRun remains pinned
-# to 1 in code; an empty STEWARD_AGENT selection must still run without agents.
+# If the workflow is separately reauthorized, maxDispatchesPerRun stays bounded in
+# code to 1..maxInFlight (founder decision steward-class-b-throughput-2026-11-06);
+# an empty STEWARD_AGENT selection must still run without agents.
 
 # Paused by founder: subscription-driven Claude routine replaces gh-aw GitHub inference.
 # No scheduled or manual dispatch here until explicitly reauthorized.
@@ -42,13 +43,125 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Browser rendering runs here and nowhere else. This job has a read-only token, no persisted git credentials
+  # and no secrets, installs its single dependency with `npm ci --ignore-scripts` (no package lifecycle script
+  # runs), and hands the privileged job a plain artifact that `scripts/steward_accept_browser_render.py` validates
+  # as data. Headless Chromium is free and on by default; a real/interactive browser is never used in CI.
+  browser-collect:
+    name: Browser render collection (unprivileged)
+    runs-on: ubuntu-latest
+    outputs:
+      # The consumer compares this with the attempt written into the artifact and with its own attempt. After a re-run of
+      # failed jobs a successful earlier producer keeps its OLD output, so a replayed artifact cannot pass as current.
+      attempt: ${{ steps.attempt.outputs.id }}
+    timeout-minutes: 25
+    # Founder pause, same as the drive job: nothing here runs until the workflow is reauthorized.
+    if: ${{ false }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Record this job's run and attempt
+        id: attempt
+        run: echo "id=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
+      # POLICY.yaml `browser.headless: false` switches collection off; the privileged job records that as refused.
+      - name: Read the headless setting from POLICY.yaml
+        id: policy
+        run: |
+          if awk '/^browser:/{f=1;next} /^[^ #]/{f=0} f' founder/steward/POLICY.yaml | grep -Eq '^[[:space:]]+headless:[[:space:]]*false'; then
+            echo "headless=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "headless=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install the collector dependency without lifecycle scripts
+        id: deps
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Install headless Chromium
+        id: chromium
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Record an install failure
+        if: always() && (steps.deps.outcome == 'failure' || steps.chromium.outcome == 'failure')
+        run: node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
+
+      - name: Collect rendered-frontend facts (headless)
+        id: collect
+        if: steps.policy.outputs.headless == 'true' && steps.deps.outcome == 'success' && steps.chromium.outcome == 'success'
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ github.workspace }}/scripts/steward-browser/node_modules
+        run: node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"
+
+      # upload-artifact@v4 skips hidden paths, so the two files are staged in a visible directory. When collection was
+      # attempted a status file always exists (the collector or --record-failure writes one), so a missing handoff is
+      # an error, never silently ignored.
+      # The collector's files are handed over ONLY when the collect step actually succeeded. A collector that wrote
+      # `ok` and then exited nonzero (outcome failure) must not be accepted: its render is dropped and the status is
+      # rewritten as failed. If collection never ran (an install failed), the install-failure status already exists.
+      # The producer's own run and attempt are written into the artifact so the consumer can refuse a replayed one.
+      - name: Stage the render and status for the handoff
+        if: always() && steps.policy.outputs.headless == 'true'
+        env:
+          COLLECT_OUTCOME: ${{ steps.collect.outcome }}
+        run: |
+          set -e
+          inputs=.gaia/steward/inputs
+          mkdir -p browser-render-handoff "$inputs"
+          if [ "$COLLECT_OUTCOME" = "success" ]; then
+            for f in browser-render.json browser-render-status.json; do
+              if [ -f "$inputs/$f" ]; then cp "$inputs/$f" browser-render-handoff/; fi
+            done
+          else
+            rm -f "$inputs/browser-render.json"
+            if [ "$COLLECT_OUTCOME" = "failure" ]; then
+              node scripts/steward_collect_browser_render.js --record-failure collection-error
+            fi
+            if [ -f "$inputs/browser-render-status.json" ]; then cp "$inputs/browser-render-status.json" browser-render-handoff/; fi
+          fi
+          printf '{"schemaVersion":"steward-browser-render-attempt-v1","attemptId":"%s-%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" > browser-render-handoff/browser-render-attempt.json
+          if [ ! -f browser-render-handoff/browser-render-status.json ]; then
+            echo "::error title=browser handoff::no collection status was produced"
+            exit 1
+          fi
+
+      - name: Publish the render artifact
+        if: always() && steps.policy.outputs.headless == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-browser-render
+          if-no-files-found: error
+          retention-days: 7
+          path: browser-render-handoff/
+
   drive:
     name: Drive Class A and Class B
+    # When the founder pause is lifted this job must also run if the browser job fails (`if: ${{ !cancelled() }}`),
+    # so an infrastructure failure there is a recorded failed collection and not a skipped drive.
+    needs: browser-collect
     # STEWARD_LANDING_ENABLED=false stops the loop; unset means on.
     if: ${{ false }} # Founder pause: do not invoke gh-aw agents
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
+      # The validator binds the accepted render to this attempt and the run refuses any render not bound to it.
+      STEWARD_BROWSER_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
+      STEWARD_BROWSER_PRODUCER_ATTEMPT: ${{ needs.browser-collect.outputs.attempt }}
       INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
       GH_TOKEN: ${{ github.token }}
       STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || '' }}
@@ -77,6 +190,33 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # The collector ran in the unprivileged browser-collect job. Only what the validator accepts as data
+      # reaches .gaia/steward/inputs; anything else leaves a current failed status, so the browser-render
+      # detector reports NOT EVALUATED and an older render is never read as healthy.
+      - name: Download the browser-render artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: steward-browser-render
+          path: browser-artifact
+
+      - name: Accept the browser-render artifact (validated, headless only)
+        if: always()
+        run: |
+          python scripts/steward_accept_browser_render.py --from browser-artifact | tee "$RUNNER_TEMP/browser-accept.txt"
+          if grep -q "artifact: ok" "$RUNNER_TEMP/browser-accept.txt"; then
+            echo "browser-render=ok" > "$RUNNER_TEMP/inputs-browser.txt"
+          else
+            echo "browser-render=failed:$(cat "$RUNNER_TEMP/browser-accept.txt"); rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
+          fi
+
+      - name: Report driver inputs
+        if: always()
+        run: |
+          args=()
+          for f in "$RUNNER_TEMP"/inputs-*.txt; do [ -f "$f" ] && args+=(--item "$(cat "$f")"); done
+          [ "${#args[@]}" -eq 0 ] || python scripts/steward_report_inputs.py "${args[@]}"
 
       # Prove what this run can actually do instead of assuming it.
       - name: Preflight (branch, ref writes, agent workflows, credentials)
@@ -140,6 +280,7 @@ jobs:
           python scripts/steward_drive.py \
             --integration-branch "$INTEGRATION_BRANCH" \
             --ledger git --trigger scheduled \
+            --browser-collection external \
             "${agent_args[@]}" \
             --report drive-report.json
           rc=$?

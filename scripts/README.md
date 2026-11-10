@@ -19,7 +19,7 @@ future re-compression passes.
 | Tool | Required | Install |
 |------|----------|---------|
 | **Python 3.10+** | Yes | already in the repo environment |
-| **Pillow ≥ 10.2.0** | Yes | `pip install "Pillow>=10.2.0"` (or `pip install -r scripts/compress-assets.requirements.txt`) |
+| **Pillow ≥ 13.0.0** | Yes | `pip install "Pillow>=13.0.0"` (or `pip install -r scripts/compress-assets.requirements.txt`) |
 | **ffmpeg** | For MP4/WebM output | Windows: `winget install ffmpeg` · macOS: `brew install ffmpeg` · Linux: `sudo apt install ffmpeg` |
 | **pngquant** | Optional (PNG fallback) | Windows: `winget install pngquant` · macOS: `brew install pngquant` · Linux: `sudo apt install pngquant` |
 

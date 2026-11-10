@@ -142,9 +142,16 @@ def validateBenchmarkCatalog(catalog: dict[str, Any], schemaPath: str | Path | N
     _validatePolicy(catalog)
 
 
-def loadBenchmarkCatalog(root: str | Path | None = None, *, validate: bool = True) -> dict[str, Any]:
-    """Load the benchmark catalog from source checkout, else bundled package data."""
-    path = benchmarkCatalogPath(root)
+def loadBenchmarkCatalog(
+    root: str | Path | None = None, *, validate: bool = True, requireSource: bool = False
+) -> dict[str, Any]:
+    """Load the catalog, optionally requiring the specified checkout's source file."""
+    if requireSource:
+        if root is None:
+            raise BenchmarkCatalogError("a checkout root is required when requiring a source catalog")
+        path = Path(root) / CATALOG_RELATIVE_PATH
+    else:
+        path = benchmarkCatalogPath(root)
     try:
         catalog = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:

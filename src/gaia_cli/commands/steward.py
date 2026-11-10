@@ -17,7 +17,7 @@ class StewardCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         subparsers = parser.add_subparsers(
-            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder,full}"
+            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder,full,reverify}"
         )
         scan = subparsers.add_parser(
             "scan",
@@ -159,7 +159,7 @@ class StewardCommand(Command):
                 "outcome back. Never merges and never pushes to main."
             ),
         )
-        actions = full.add_subparsers(dest="fullAction", metavar="{run,record,status}")
+        actions = full.add_subparsers(dest="fullAction", metavar="{run,record,abandon,status,reverify}")
 
         def ledgerOptions(target: argparse.ArgumentParser) -> None:
             target.add_argument(
@@ -184,6 +184,20 @@ class StewardCommand(Command):
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
         run.add_argument("--trigger", choices=("manual", "scheduled"), default="manual", help="What started this run")
+        run.add_argument(
+            "--interactive-browser", dest="interactiveBrowser", action="store_true",
+            help=(
+                "Allow a real, interactive browser for this run only (default off; no persistent setting can grant it). "
+                "Headless Chromium is on by default."
+            ),
+        )
+        run.add_argument(
+            "--browser-collection", dest="browserCollection", choices=("local", "external"), default="local",
+            help=(
+                "local (default): this run starts the headless browser collector. external: an earlier "
+                "least-privilege job collected and a validator accepted the artifact; this run collects nothing."
+            ),
+        )
         run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
         run.add_argument(
             "--integration-branch", dest="integrationBranch", metavar="B",
@@ -203,17 +217,48 @@ class StewardCommand(Command):
         abandon.add_argument("--reason", required=True, help="Why the run is being ended (kept in the ledger)")
         ledgerOptions(abandon)
 
+        reverify = actions.add_parser(
+            "reverify",
+            help="Founder-ruled reverification of escalated Class B work",
+            description="Reverify escalated Class B work items authorized by a founder decision ruling.",
+        )
+        reverify.add_argument("runId", metavar="RUN_ID", help="Run id to reverify work for")
+        reverify.add_argument("item_ids", nargs="*", metavar="ITEM_ID", help="Work item id(s) or debt id(s) to reverify")
+        reverify.add_argument("--ruling", default="steward-verification-reverify-2283", help="Founder decision ruling id")
+        reverify.add_argument("--by", default="lead", help="Actor authorising the reverification")
+        reverify.add_argument("--reason", default="founder-ruled reverification under ruling 1", help="Reason for reverification")
+        ledgerOptions(reverify)
+
         status = actions.add_parser("status", help="Read-only view of the ledger and the active run")
         ledgerOptions(status)
 
+        reverify_direct = subparsers.add_parser(
+            "reverify",
+            help="Founder-ruled reverification of escalated Class B work",
+            description="Reverify escalated Class B work items authorized by a founder decision ruling.",
+        )
+        reverify_direct.add_argument("runId", metavar="RUN_ID", help="Run id to reverify work for")
+        reverify_direct.add_argument("item_ids", nargs="*", metavar="ITEM_ID", help="Work item id(s) or debt id(s) to reverify")
+        reverify_direct.add_argument("--ruling", default="steward-verification-reverify-2283", help="Founder decision ruling id")
+        reverify_direct.add_argument("--by", default="lead", help="Actor authorising the reverification")
+        reverify_direct.add_argument("--reason", default="founder-ruled reverification under ruling 1", help="Reason for reverification")
+        reverify_direct.add_argument(
+            "--ledger", choices=("auto", "git", "local"), default="auto",
+            help="Ledger transport: git ref on the remote, a local file, or auto (git when the remote answers)",
+        )
+        reverify_direct.add_argument("--json", action="store_true", help="Output the result as JSON")
+
     def execute(self, args: argparse.Namespace) -> int | None:
-        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full"}:
+        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full", "reverify"}:
             print(
-                "usage: gaia steward {scan,run,dispatch,lane,verify,founder,full} [--json]",
+                "usage: gaia steward {scan,run,dispatch,lane,verify,founder,full,reverify} [--json]",
                 file=sys.stderr,
             )
             return 2
         if args.steward_command == "full":
+            return self._executeFull(args)
+        if args.steward_command == "reverify":
+            args.fullAction = "reverify"
             return self._executeFull(args)
         if args.steward_command == "lane" and getattr(args, "lane_action", None) not in {
             "status",
@@ -279,6 +324,9 @@ class StewardCommand(Command):
                     )
             elif args.json:
                 result = render_founder_queue(root)
+                from gaia_cli.steward.desk import classify_decision_records, load_decision_records
+
+                founderRecords = classify_decision_records(load_decision_records(root)).to_dict()
             else:
                 # The digest *is* the human surface. A terse list of decision
                 # ids is machine output wearing a person's clothes.
@@ -297,6 +345,8 @@ class StewardCommand(Command):
 
         if args.json:
             payload = result.to_dict()
+            if args.steward_command == "founder":
+                payload["decisionRecords"] = founderRecords
             if prompt is not None:
                 payload["prompt"] = prompt
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
@@ -488,8 +538,8 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         action = getattr(args, "fullAction", None)
-        if action not in {"run", "record", "abandon", "status"}:
-            print("usage: gaia steward full {run,record,abandon,status} [--json]", file=sys.stderr)
+        if action not in {"run", "record", "abandon", "status", "reverify"}:
+            print("usage: gaia steward full {run,record,abandon,status,reverify} [--json]", file=sys.stderr)
             return 2
         root = Path(args.registry).resolve()
         remote = "origin"
@@ -507,6 +557,8 @@ class StewardCommand(Command):
                 push=bool(getattr(args, "push", False)),
                 trigger=getattr(args, "trigger", "manual"),
                 agents=not getattr(args, "noAgents", False),
+                interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
+                browser_collection=getattr(args, "browserCollection", "local"),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
             )
             runner = FullRunner(config)
@@ -517,6 +569,14 @@ class StewardCommand(Command):
             elif action == "record":
                 outcome = self._readOutcome(args.input)
                 result = runner.record(args.runId, args.stepId, outcome)
+            elif action == "reverify":
+                result = runner.reverify_escalated(
+                    runId=args.runId,
+                    item_ids=args.item_ids,
+                    ruling=args.ruling,
+                    by=args.by,
+                    reason=args.reason,
+                )
             else:
                 result = self._fullRun(runner, args)
         except _FullRefused as exc:
@@ -530,12 +590,45 @@ class StewardCommand(Command):
             return 1
 
         if args.json:
-            print(json.dumps(result.to_dict(), indent=2, sort_keys=True, ensure_ascii=False))
+            print(json.dumps(result if isinstance(result, dict) else result.to_dict(), indent=2, sort_keys=True, ensure_ascii=False))
         elif action == "status":
             self._printFullStatus(result)
+        elif action == "reverify":
+            self._printReverify(result)
         else:
             self._printFullRun(result)
-        return 0 if action == "status" else result.exitCode
+        if action == "status":
+            return 0
+        if action == "reverify":
+            reopened = result.get("reopened", []) if isinstance(result, dict) else []
+            return 0 if bool(reopened) else 1
+        return result.exitCode
+
+    @staticmethod
+    def _printReverify(result: dict) -> None:
+        reopened = result.get("reopened", [])
+        ruling = result.get("ruling", "")
+        run_id = result.get("runId", "")
+        print(f"Steward reverify: run {run_id} under ruling {ruling}")
+        results = result.get("results", [])
+        if not results:
+            print("  No items processed.")
+            return
+        if reopened:
+            print(f"  Reopened {len(reopened)} item(s) for independent verification:")
+            for item in results:
+                if item.get("result") == "awaiting-verifier":
+                    debt_id = item.get("debtId")
+                    step_id = item.get("stepId")
+                    print(f"    - {debt_id} (awaiting-verifier, step {step_id})")
+        non_reopened = [item for item in results if item.get("result") != "awaiting-verifier"]
+        if non_reopened:
+            print(f"  Refused/escalated {len(non_reopened)} item(s):")
+            for item in non_reopened:
+                debt_id = item.get("debtId")
+                status = item.get("result")
+                reasons = "; ".join(item.get("reasons", []))
+                print(f"    - {debt_id} ({status}: {reasons})")
 
     @staticmethod
     def _readOutcome(path: str) -> dict:
@@ -578,7 +671,20 @@ class StewardCommand(Command):
         print(f"Run                  {view.runId}  (mode {view.mode})")
         print(f"Status               {view.status}  (phase {view.phase})")
         print(f"Ledger               {ledger.get('transport')}  {shared}")
+        if view.browser is not None:
+            print(
+                "Browser              headless "
+                + ("on" if view.browser.get("headless") else "off")
+                + ", interactive "
+                + ("ON" if view.browser.get("interactive") else "off")
+            )
         summary = view.summary
+        collected = (summary.get("observe") or {}).get("browserCollection")
+        if isinstance(collected, dict):
+            print(
+                f"Browser collection   {collected.get('state')}  ({collected.get('mode')})"
+                + (f"  - {collected['reason']}" if collected.get("reason") else "")
+            )
         observe = summary.get("reobserve") or summary.get("observe")
         if observe:
             print(

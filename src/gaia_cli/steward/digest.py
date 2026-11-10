@@ -187,7 +187,7 @@ def backlogHealthLine(scan: ScanResult) -> str | None:
             f"(bot {stats.get('botOpen')}, upstream children {stats.get('upstreamChildOpen')})")
 
 
-def _health(scan: ScanResult, lane: Lane, decisions: int) -> list[str]:
+def _health(scan: ScanResult, lane: Lane, decisions: int, awaiting: int = 0) -> list[str]:
     """The compact health view from the operating model, § 14."""
 
     open_debts = scan.open_debts
@@ -211,6 +211,8 @@ def _health(scan: ScanResult, lane: Lane, decisions: int) -> list[str]:
         f"{lane_counts['dispatched']} in flight, {lane_counts['escalated']} escalated",
         f"  Decisions for you        {decisions}",
     ]
+    if awaiting:
+        lines.append(f"  Approved, not yet landed {awaiting}")
     backlog = backlogHealthLine(scan)
     if backlog is not None:
         lines.append(backlog)
@@ -230,33 +232,100 @@ def _oldest(open_debts: Sequence[Debt], now: str) -> str:
     return f"{_age(oldest.first_observed_at, now)}  ({oldest.id})"
 
 
-def render_founder_digest(scan: ScanResult, queue: FounderQueue, lane: Lane) -> str:
-    """Render the whole founder-facing digest for one fresh scan."""
+def _record_sections(records: Any) -> list[str]:
+    """Pending canonical records, approved records awaiting landing, and unreadable records."""
 
+    sections: list[str] = []
+    for item in records.pending:
+        sections.extend([
+            "─" * 68,
+            f"{item.decision_id} — decision record",
+            "",
+            "Question",
+            *_wrap(item.decision),
+            "",
+            "Why it matters",
+            *_wrap(item.why_it_matters),
+            "",
+            "Steward recommendation",
+            *_wrap(item.recommended),
+            "",
+            "Alternative",
+            *_wrap(item.alternative),
+            "",
+            "Unblocks",
+            *_wrap(item.unblocks),
+            "",
+            f"Identity  {item.decision_id}  (founder/steward/decisions/{item.decision_id}.json)",
+            "",
+        ])
+    if records.awaiting:
+        sections.extend([
+            "─" * 68,
+            f"APPROVED, AWAITING IMPLEMENTATION OR LANDING ({len(records.awaiting)})",
+            "  The founder has ruled on each of these. No new decision is needed;",
+            "  each still needs its change implemented or landed. Add a",
+            "  `landedIn` field to a record once its change has landed.",
+            "",
+        ])
+        for item in records.awaiting:
+            sections.extend([f"  {item.record_id}", *_wrap(item.decision), ""])
+    if records.invalid:
+        sections.extend([
+            "─" * 68,
+            f"DECISION RECORDS THAT CANNOT BE READ ({len(records.invalid)})",
+            "",
+        ])
+        for op in records.invalid:
+            sections.extend([f"  {op.subject}", *_wrap(op.detail), ""])
+    return sections
+
+
+def render_founder_digest(scan: ScanResult, queue: FounderQueue, lane: Lane, records: Any = None) -> str:
+    """Render the whole founder-facing digest for one fresh scan.
+
+    ``records`` is a ``desk.RecordDesk`` over ``founder/steward/decisions/``. It
+    is optional so a caller with no records directory keeps the old behaviour,
+    but the digest never reports an empty desk while any record is actionable.
+    """
+
+    from gaia_cli.steward.desk import RecordDesk
+
+    records = records if records is not None else RecordDesk()
     decisions = queue.decisions
     labels = decision_labels(decisions)
+    pending = len(decisions) + len(records.pending)
     sections = [
         "Gaia Steward — founder digest",
         f"  as of {scan.receipt.finished_at}",
         "",
         "Health",
-        *_health(scan, lane, len(decisions)),
+        *_health(scan, lane, pending, len(records.awaiting)),
         "",
     ]
 
-    if not decisions:
+    if not decisions and not records.pending:
+        if not records.actionable():
+            sections.extend([
+                "Nothing requires a decision.",
+                "",
+                "That is the expected outcome. Steward is measured on how rarely it",
+                "needs you as much as on what it closes — open debt below Class C is",
+                "information, not a queue you are behind on.",
+                "",
+            ])
+            return "\n".join(sections)
         sections.extend([
-            "Nothing requires a decision.",
+            "No decision is pending.",
             "",
-            "That is the expected outcome. Steward is measured on how rarely it",
-            "needs you as much as on what it closes — open debt below Class C is",
-            "information, not a queue you are behind on.",
+            "Actionable decision records remain; they are listed below.",
             "",
         ])
+        sections.extend(_record_sections(records))
         return "\n".join(sections)
 
     sections.append(
-        f"{len(decisions)} decision(s) require founder judgment. Steward has taken"
+        f"{pending} decision(s) require founder judgment. Steward has taken"
     )
     sections.append("no action on any of them.")
     sections.append("")
@@ -289,6 +358,7 @@ def render_founder_digest(scan: ScanResult, queue: FounderQueue, lane: Lane) -> 
                 sections.extend(["", *_wrap(paragraph)] if index else _wrap(paragraph))
         sections.extend(["", f"Identity  {decision.decision_id}", ""])
 
+    sections.extend(_record_sections(records))
     sections.extend([
         "─" * 68,
         "",

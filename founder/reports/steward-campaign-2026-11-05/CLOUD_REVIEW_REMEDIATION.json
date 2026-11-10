@@ -1,0 +1,128 @@
+{
+  "cloudVerdict": "REJECT",
+  "reviewedCandidate": "314fdf655edb7a6cb9bd131461bc11952366979d",
+  "reviewedTree": "e53b5920571b1458a6b6d0bde1fe454f57c7b411",
+  "publicReport": "CLOUD_REVIEW_20261106.md",
+  "originalUserMessageSha256": "7d65230c4760b2699d2492c498bebf6f3aac0fe25591eff7bb4ce4b21e93d5d5",
+  "cloudReportedWholeStewardPasses": 2967,
+  "cloudCountsRelabeledAsParentRuns": false,
+  "technicalRepairScope": [
+    "F1 unbound local failure vs outstanding shared sender",
+    "F2 post-effect CLI refusal without correlated operation identity"
+  ],
+  "independentReproductionRequired": true,
+  "cloudP3P4ArtifactsRequested": true,
+  "cloudP3P4ArtifactsReceived": false,
+  "governanceHold": "F3 explicitly decided best-effort GitHub comment WRITES; durable verification, justification, authentic effect evidence and required reads/checks and shared Git/CAS remain mandatory. No activation or other gates waived.",
+  "carriedOutOfScope": "F4 lower-cap ratchet and non-defect liveness observations",
+  "worker": {
+    "nativeRun": "7f71fcf8-22c9-4203-96c6-30acfe9934be",
+    "branch": "dev/steward-r19-cloud-repair-2283",
+    "base": "314fdf655edb7a6cb9bd131461bc11952366979d",
+    "requestedProvider": "openai",
+    "requestedModel": "gpt-6.1-terra",
+    "requestedThinking": "high",
+    "newTaskNotRefusedWholeReviewRerun": true,
+    "priorAccessRefusalDisclosed": true,
+    "globalConfigChanged": false,
+    "installedPackageChanged": false,
+    "temporaryProjectLocalPersona": "campaign-terra-pinned",
+    "offlineResolvedFallbacks": [],
+    "offlineResolvedRetries": 0,
+    "offlineMaximumManagedAttempts": 1,
+    "benignProbeActualProvider": "openai",
+    "benignProbeActualModel": "gpt-6.1-terra",
+    "benignProbeAssistantResponses": 1,
+    "implementationRuntimeCollectionPending": false,
+    "implementationOutcomePending": false,
+    "initialNativeRun": "070b3ae2-fe6e-4520-83c0-0120ecf87df9",
+    "sessionId": "01a1b04c-34a8-7698-8bf5-f1eb80300330",
+    "initialOutcome": "partial: independent reconstructed F1/F2 expected-invariant RED,2failed16.34s; no fix/commit/green",
+    "initialRuntimeProviderVerified": "openai",
+    "initialProviderError": "terminated",
+    "initialAccessRefusal": false,
+    "dirtyFilesPreserved": [
+      "tests/steward/prmaintenance/test_runner.py",
+      "tests/steward/prmaintenance/test_executor.py"
+    ],
+    "implementationCandidate": "3fad32497990b5d620295afb9399262ed08c15c3",
+    "implementationTree": "e969c65e99797fd25eca06af572921da893b8773",
+    "actualAssistantRoutes": [
+      {
+        "provider": "openai",
+        "model": "gpt-6.1-terra",
+        "api": "openai-responses"
+      }
+    ],
+    "reportedFinalFocusedTests": {
+      "passed": 12,
+      "seconds": 83.61
+    },
+    "cleanTrackedTreeAtFreeze": true,
+    "productPathsChanged": 5,
+    "accepted": false
+  },
+  "frozenSourceAndHandoffBranchesModified": false,
+  "sourceAccepted": false,
+  "activationOrLiveMutationAuthorized": false,
+  "canonicalImportEditGrantApproved": true,
+  "canonicalRepairsResolvedAndMainDelivered": 2,
+  "composition": {
+    "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "tree": "02ce5633db8c56d20110af15f658f1653f1f9088",
+    "parents": [
+      "3fad32497990b5d620295afb9399262ed08c15c3",
+      "72aba66351dd0395073220131fad8e80878643b2"
+    ],
+    "technicalRuntimeUnchanged": true,
+    "longTests": {
+      "task": "b9d8ee9c3",
+      "status": "completed_failed",
+      "exit": 1,
+      "failureCount": 5,
+      "sourceBindingsPreserved": true,
+      "receipt": "R19_COMPOSED_REGRESSIONS_31A9.json"
+    },
+    "boundedIndependentReview": {
+      "run": "8f321497-375a-4577-b461-de1a019c9e11",
+      "agent": "worker-dsflash",
+      "scope": "F1/F2/F3 only, not whole R19",
+      "actualInitialProvider": "deepseek",
+      "actualInitialModel": "deepseek-flash",
+      "requestedThinking": "medium",
+      "initialThinkingJournal": "high",
+      "status": "completed_REJECT",
+      "F1": "PASS",
+      "F2": "FAIL reporting-contract regression",
+      "F3": "PASS",
+      "actualFinalProvider": "deepseek",
+      "actualFinalModel": "deepseek-flash",
+      "actualThinkingJournal": "high",
+      "providerErrors": [],
+      "receipt": "R19_F1_F2_DSFLASH_REVIEW_31A9.json"
+    },
+    "wholeSourceAccepted": false
+  },
+  "founderF3Decision": {
+    "verbatim": "git is best effort, not preconditions",
+    "decisionBeforeActionCommit": "41f79697a",
+    "clarificationCommit": "72aba66351dd0395073220131fad8e80878643b2"
+  },
+  "regressionCompletion": {
+    "run": "b743bf80-30c2-49fd-80a0-4bc1e7710d67",
+    "agent": "worker-dsflash",
+    "branch": "dev/steward-r19-uncertainty-contract-2283",
+    "base": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "actualInitialProvider": "deepseek",
+    "actualInitialModel": "deepseek-flash",
+    "requestedThinking": "medium",
+    "initialThinkingJournal": "high",
+    "status": "completed_candidate_pending_verification",
+    "candidate": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+    "tree": "070cd00ffb515dd7626cb1f08cbefe8b612d322d",
+    "parentLongTests": "b51d6fac0",
+    "independentFollowup": "1c2483ab-7a5e-474a-bf9b-5106fa486d6b",
+    "wholeSourceAccepted": false
+  },
+  "pendingCIChurnEditExceptionApproved": true
+}

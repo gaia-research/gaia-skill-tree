@@ -14,9 +14,9 @@
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 3★ | `/agent-memory-platform` |
 | · ████████/sparc-methodology | Fusion | — | `/agentic-workflow-design` |
-| · [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Fusion | 2★ | `/animation-performance` |
+| · [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Fusion | 4★ | `/animation-performance` |
 | ○ ████████/hf-cli | Basic | — | `/api-call` |
-| · [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Fusion | 2★ | `/architecture-diagram` |
+| · [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Fusion | 4★ | `/architecture-diagram` |
 | ○ /audience-model | Basic | — | `/audience-model` |
 | ○ [disler](../docs/u/disler/)/auto-review | Basic | 2★ | `/auto-review` |
 | · [garrytan](../docs/u/garrytan/)/smoke-test | Fusion | 2★ | `/automated-testing` |
@@ -41,7 +41,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Fusion | 2★ | `/cloud-platform-management` |
 | ○ /code-execution | Basic | — | `/code-execution` |
 | ○ ████████/zoom-out | Basic | — | `/code-explain` |
-| ○ [garrytan](../docs/u/garrytan/)/design-html | Basic | 3★ | `/code-generation` |
+| ○ [emilkowalski](../docs/u/emilkowalski/)/write-swift | Basic | 4★ | `/code-generation` |
 | · [garrytan](../docs/u/garrytan/)/plan-eng-review | Fusion | 3★ | `/code-review-pipeline` |
 | · [trailhq](../docs/u/trailhq/)/graft | Fusion | 4★ | `/codebase-graph-retrieval` |
 | · /collaborative-diagramming | Fusion | — | `/collaborative-diagramming` |
@@ -49,7 +49,7 @@
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
 | · /computational-science-platform | Fusion | — | `/computational-science-platform` |
 | ○ /computer-use | Basic | — | `/computer-use` |
-| · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 3★ | `/concept-synthesis` |
+| · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 2★ | `/concept-synthesis` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-audit | Basic | 2★ | `/context-compression` |
 | ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
@@ -59,13 +59,13 @@
 | · ████████/huggingface-datasets | Fusion | — | `/data-analysis` |
 | ○ /data-visualize | Basic | — | `/data-visualize` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
-| · [garrytan](../docs/u/garrytan/)/land-and-deploy | Fusion | 3★ | `/deployment-automation` |
+| · [addy-osmani](../docs/u/addy-osmani/)/ci-cd-and-automation | Fusion | 2★ | `/deployment-automation` |
 | · [leonxlnx](../docs/u/leonxlnx/)/taste-skill | Fusion | 4★ | `/design-generation` |
-| · [garrytan](../docs/u/garrytan/)/design-shotgun | Fusion | 3★ | `/design-review` |
-| · [garrytan](../docs/u/garrytan/)/design-consultation | Fusion | 3★ | `/design-system-extraction` |
-| · [garrytan](../docs/u/garrytan/)/canary | Fusion | 3★ | `/detect-anomaly` |
+| · [emilkowalski](../docs/u/emilkowalski/)/prototype | Fusion | 4★ | `/design-review` |
+| · [garrytan](../docs/u/garrytan/)/design-consultation | Fusion | 2★ | `/design-system-extraction` |
+| · [garrytan](../docs/u/garrytan/)/canary | Fusion | 2★ | `/detect-anomaly` |
 | ○ /diff-content | Basic | — | `/diff-content` |
-| · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 3★ | `/dispatching-parallel-agents` |
+| · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 2★ | `/dispatching-parallel-agents` |
 | · [ruvnet](../docs/u/ruvnet/)/hive-mind | Fusion | 3★ | `/distributed-consensus-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Fusion | 2★ | `/distributed-neural-training` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
@@ -73,19 +73,19 @@
 | ○ [mattpocock](../docs/u/mattpocock/)/edit-article | Basic | 3★ | `/document-editing` |
 | ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 2★ | `/dual-mode` |
-| · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
+| · [garrytan](../docs/u/garrytan/)/qa | Fusion | 2★ | `/e2e-testing` |
 | · ████████/edge-model-compression | Fusion | — | `/edge-optimization` |
 | ○ /embed-text | Basic | — | `/embed-text` |
 | · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 4★ | `/engineering-discipline` |
 | ○ [garrytan](../docs/u/garrytan/)/correction-pipeline | Basic | 2★ | `/error-interpretation` |
-| ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic | 3★ | `/evaluate-output` |
+| ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic | 2★ | `/evaluate-output` |
 | · [obra](../docs/u/obra/)/executing-plans | Fusion | 3★ | `/executing-plans` |
 | · /explainability-audit | Fusion | — | `/explainability-audit` |
 | ○ /extract-entities | Basic | — | `/extract-entities` |
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
-| · [anthropics](../docs/u/anthropics/)/creating-financial-models | Fusion | 2★ | `/financial-modeling` |
+| · [anthropics](../docs/u/anthropics/)/creating-financial-models | Fusion | 4★ | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
-| · [addy-osmani](../docs/u/addy-osmani/)/shipping-and-launch | Fusion | 3★ | `/finishing-a-development-branch` |
+| · [addy-osmani](../docs/u/addy-osmani/)/shipping-and-launch | Fusion | 2★ | `/finishing-a-development-branch` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 3★ | `/firecrawl` |
 | ○ [ayghri](../docs/u/ayghri/)/i-have-adhd | Basic | 4★ | `/format-output` |
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
@@ -120,10 +120,10 @@
 | · [garrytan](../docs/u/garrytan/)/frontmatter-guard | Fusion | 2★ | `/knowledge-aware-frontend` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · [garrytan](../docs/u/garrytan/)/archive-crawler | Fusion | 2★ | `/knowledge-harvest` |
-| · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/brain-ingest-gate | Fusion | 2★ | `/knowledge-management` |
 | ○ [garrytan](../docs/u/garrytan/)/query | Basic | 2★ | `/knowledge-query` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
-| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 2★ | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
 | ○ ████████/remotion-maps | Basic | — | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
@@ -153,7 +153,7 @@
 | ○ /parse-html | Basic | — | `/parse-html` |
 | ○ /parse-json | Basic | — | `/parse-json` |
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
-| ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 3★ | `/performance-tuning` |
+| ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 2★ | `/performance-tuning` |
 | · [mattpocock](../docs/u/mattpocock/)/personal | Fusion | 3★ | `/personal` |
 | · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
@@ -203,12 +203,12 @@
 | · /scientific-writing | Fusion | — | `/scientific-writing` |
 | ○ /score-relevance | Basic | — | `/score-relevance` |
 | · /search-engine-optimization | Fusion | — | `/search-engine-optimization` |
-| · [garrytan](../docs/u/garrytan/)/cso | Fusion | 3★ | `/security-audit` |
+| · [zhaoxuya520](../docs/u/zhaoxuya520/)/reverse-skill | Fusion | 2★ | `/security-audit` |
 | ○ /self-critique | Basic | — | `/self-critique` |
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
 | · ████████/scvi-tools | Fusion | — | `/single-cell-omics-modeling` |
 | · [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Fusion | 3★ | `/skill-authoring` |
-| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-registry | Basic | 3★ | `/skill-discovery` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-registry | Basic | 2★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
 | · [garrytan](../docs/u/garrytan/)/skill-autobench | Fusion | 2★ | `/skill-performance-benchmarking` |
@@ -228,7 +228,7 @@
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
-| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-animation | Basic | 3★ | `/timeline-animation` |
+| ○ [emilkowalski](../docs/u/emilkowalski/)/animate | Basic | 4★ | `/timeline-animation` |
 | ○ /tokenize | Basic | — | `/tokenize` |
 | · /tool-chaining | Fusion | — | `/tool-chaining` |
 | · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 2★ | `/tool-creation` |
@@ -239,8 +239,8 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/redesign-skill | Basic | 3★ | `/ui-audit` |
-| · [emilkowalski](../docs/u/emilkowalski/)/break-ui | Fusion | 2★ | `/ui-red-teaming` |
+| ○ [emilkowalski](../docs/u/emilkowalski/)/find-animation-opportunities | Basic | 4★ | `/ui-audit` |
+| · [emilkowalski](../docs/u/emilkowalski/)/break-ui | Fusion | 4★ | `/ui-red-teaming` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
@@ -254,12 +254,12 @@
 | ○ ████████/remotion-studio | Basic | — | `/video-preview` |
 | ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-core | Basic | 3★ | `/video-rendering` |
 | ○ ████████/remotion-saas | Basic | — | `/video-saas` |
-| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-cli | Basic | 3★ | `/video-scaffolding` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/image-to-code-skill | Basic | 3★ | `/vision-qa` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-cli | Basic | 2★ | `/video-scaffolding` |
+| ○ [leonxlnx](../docs/u/leonxlnx/)/image-to-code-skill | Basic | 2★ | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · [garrytan](../docs/u/garrytan/)/voice-note-ingest | Fusion | 2★ | `/voice-knowledge-ingestion` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |
-| · [emilkowalski](../docs/u/emilkowalski/)/mobile-native | Fusion | 2★ | `/web-best-practices` |
+| · [emilkowalski](../docs/u/emilkowalski/)/mobile-native | Fusion | 4★ | `/web-best-practices` |
 | · /web-quality-audit | Fusion | — | `/web-quality-audit` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Fusion | 4★ | `/web-scrape` |
 | ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Basic | 3★ | `/web-search` |
@@ -277,11 +277,16 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Unique Skill | 4★ | `/animation-performance` |
+| ◉ [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Unique Skill | 4★ | `/architecture-diagram` |
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/write-swift | Unique Skill | 4★ | `/code-generation` |
 | ◉ [trailhq](../docs/u/trailhq/)/graft | Unique Skill | 4★ | `/codebase-graph-retrieval` |
 | ◉ [mksglu](../docs/u/mksglu/)/context-mode | Unique Skill | 4★ | `/context-safe-execution` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/prototype | Unique Skill | 4★ | `/design-review` |
+| ◉ [anthropics](../docs/u/anthropics/)/creating-financial-models | Unique Skill | 4★ | `/financial-modeling` |
 | ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
 | ◉ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Unique Skill | 4★ | `/gpu-dataframe-acceleration` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
@@ -291,8 +296,12 @@
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/animate | Unique Skill | 4★ | `/timeline-animation` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/find-animation-opportunities | Unique Skill | 4★ | `/ui-audit` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/break-ui | Unique Skill | 4★ | `/ui-red-teaming` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/mobile-native | Unique Skill | 4★ | `/web-best-practices` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
 | ◉ [obra](../docs/u/obra/)/writing-plans | Unique Skill | 4★ | `/writing-plans` |
 
@@ -310,26 +319,26 @@
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Deprecation and Migration | Intrinsic Skill | 2★ | `/deprecation-and-migration` |
-| ○ Design Source Import | Intrinsic Skill | 3★ | `/design-source-import` |
+| ○ Design Source Import | Intrinsic Skill | 2★ | `/design-source-import` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
 | ○ Event Ticket Transfer | Intrinsic Skill | — | `/event-ticket-transfer` |
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | — | `/few-shot-learning` |
-| ○ Framework Upgrade | Intrinsic Skill | 3★ | `/framework-upgrade` |
+| ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Google Workspace Automation | Intrinsic Skill | 2★ | `/google-workspace-automation` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
-| ○ Image Generate | Intrinsic Skill | 3★ | `/image-generate` |
-| ○ Interactive Presentation Authoring | Intrinsic Skill | 3★ | `/interactive-presentation-authoring` |
+| ○ Image Generate | Intrinsic Skill | 2★ | `/image-generate` |
+| ○ Interactive Presentation Authoring | Intrinsic Skill | 2★ | `/interactive-presentation-authoring` |
 | ○ Knowledge Enrichment | Intrinsic Skill | 2★ | `/knowledge-enrichment` |
 | ○ MCP Server Deployment | Intrinsic Skill | 2★ | `/mcp-server-deployment` |
-| ○ Media Asset Orchestration | Intrinsic Skill | 3★ | `/media-asset-orchestration` |
+| ○ Media Asset Orchestration | Intrinsic Skill | 2★ | `/media-asset-orchestration` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Observability Instrumentation | Intrinsic Skill | 2★ | `/observability-instrumentation` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
-| ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
+| ○ postgres-best-practices | Intrinsic Skill | 3★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | — | `/quantum-circuit-programming` |
 | ○ Scroll-Driven Web Design | Intrinsic Skill | 3★ | `/scroll-driven-web-design` |
@@ -343,7 +352,7 @@
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ supabase | Intrinsic Skill | — | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | 2★ | `/synthetic-data-generation` |
-| ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
+| ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | — | `/token-observability` |
 | ○ Transactional Email Resend | Intrinsic Skill | — | `/transactional-email-resend` |

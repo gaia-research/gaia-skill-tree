@@ -219,7 +219,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     # 2. a second invocation sees the holder and does nothing.
     other = makeRunner(repo, store, [sensor]).start("full")
     assert other.status == "observing-existing" and other.holder == view.runId
-    assert sensor.scans == 2  # the first run's observe and the dispatch's own scan; none for `other`
+    assert sensor.scans == 1  # the first run's observe scan; dispatch reuses it; none for `other`
 
     # 3. the builder's outcome is validated, then recorded.
     diff, proof = writeBuildArtifacts(repo)
@@ -289,10 +289,17 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert any("does not contain it yet" in n["note"] for n in item["notes"])
 
     # 8. only after the condition is observed healthy does it become resolved.
+    # This scenario records a synthetic SHA; model an already integrated checkout for the predicate.
+    runner._mergedInto = lambda _item: True
     sensor.heal("leaked-artifact")
     final = runner.start("verify")
     assert final.status == "completed"
-    assert ledgerOf(store)["work"][debtId]["state"] == "resolved"
+    resolved = ledgerOf(store)["work"][debtId]
+    assert resolved["state"] == "resolved"
+    assert resolved["resolvedBy"]["kind"] == "lane_repair"
+    assert resolved["resolvedBy"]["mergedSha"] == resolved["mergedSha"]
+    assert resolved["resolvedBy"]["verifiedBy"] == "verifier-1"
+    assert final.summary["reobserve"]["resolvedByRepair"] == [debtId]
 
 
 def test_scenario_c_mechanical_reject_returns_the_debt_and_attempts_are_bounded(tmp_path: Path) -> None:
@@ -850,11 +857,13 @@ def test_scenario_d5_verified_but_unintegrated_work_holds_the_only_slot(tmp_path
     assert ledgerOf(store)["work"][verified["debtId"]]["state"] == "verified"
 
 
-def test_the_shipped_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_third(tmp_path: Path) -> None:
-    """Concurrency 2, end to end: each run still dispatches at most one build (maxDispatchesPerRun 1)."""
+def test_a_two_slot_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_third(tmp_path: Path) -> None:
+    """Concurrency 2 with one build per run, end to end (maxInFlight 2, maxDispatchesPerRun 1)."""
 
     repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
-    assert StewardPolicy.load(repo).lane.max_in_flight == 2, "this test is about the shipped two-slot lane"
+    pinMaxInFlight(repo, 2, perRun=1)
+    runner = makeRunner(repo, store, [sensor])
+    assert StewardPolicy.load(repo).lane.max_in_flight == 2, "this test is about a two-slot lane"
 
     first_view = runner.start("full")
     assert actionTypes(first_view) == ["agent.build"], first_view.to_dict()
@@ -879,6 +888,74 @@ def test_the_shipped_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_
     assert "agent.build" not in actionTypes(third_view), third_view.to_dict()
     assert "maxInFlight" in third_view.summary["class_b"]["reason"]
     assert len(builds(ledgerOf(store))) == 2, "the refused third debt was never dispatched"
+
+
+def test_a_run_with_three_slots_and_three_debts_emits_three_parallel_builds(tmp_path: Path) -> None:
+    """maxDispatchesPerRun 3 hands out three builds over distinct debts in one pass, all verified and landed."""
+
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
+    pinMaxInFlight(repo, 3, perRun=3)
+    runner = makeRunner(repo, store, [sensor])
+    policy = StewardPolicy.load(repo)
+    assert (policy.lane.max_in_flight, policy.max_dispatches_per_run) == (3, 3)
+
+    view = runner.start("full")
+
+    assert actionTypes(view) == ["agent.build"] * 3, view.to_dict()
+    debts = [a["params"]["debtId"] for a in view.actions]
+    assert len(set(debts)) == 3, "three distinct debts, never the same one twice"
+    assert len({a["params"]["dispatchId"] for a in view.actions}) == 3
+    for action in view.actions:
+        assert (repo / action["params"]["promptPath"]).is_file()
+    doc = ledgerOf(store)
+    lane = load_lane(doc["lane"], policy.lane)
+    assert {e.debt_id for e in lane.in_flight} == set(debts) and len(lane.in_flight) <= policy.lane.max_in_flight
+    assert all(doc["work"][d]["state"] == "building" for d in debts)
+    assert len(doc["runs"][view.runId]["phases"]["class_b"]["dispatchedAll"]) == 3
+
+    # Record all three builds, then resume: verification is emitted for each, no fourth build appears.
+    for index, action in enumerate(view.actions):
+        diff, proof = writeBuildArtifacts(repo, f"par{index}")
+        runner.record(view.runId, action["stepId"], {**BUILD, "diffPath": str(diff), "proofPath": str(proof)})
+    verifying = runner.resume(view.runId)
+    assert actionTypes(verifying) == ["agent.verify"] * 3, verifying.to_dict()
+    assert len(builds(ledgerOf(store))) == 3, "the batch is spent: re-entry never tops it up"
+
+    final = drive(runner, verifying, repo)
+    assert final.status == "completed", final.to_dict()
+    doc = ledgerOf(store)
+    assert sorted(doc["work"][d]["state"] for d in debts) == ["landed"] * 3
+
+
+def test_a_batch_never_exceeds_the_lane_ceiling_even_when_more_debts_are_eligible(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c", "d", "e"])
+    pinMaxInFlight(repo, 2, perRun=2)
+    runner = makeRunner(repo, store, [sensor])
+
+    view = runner.start("full")
+    assert actionTypes(view) == ["agent.build"] * 2, view.to_dict()
+    drive(runner, view, repo, integrate="hold")  # both verified but unreviewed: both slots stay occupied
+
+    again = makeRunner(repo, store, [sensor]).start("full")
+    assert "agent.build" not in actionTypes(again), again.to_dict()
+    assert "maxInFlight" in again.summary["class_b"]["reason"]
+    assert len(builds(ledgerOf(store))) == 2
+
+
+def test_the_batch_is_bounded_by_free_lane_slots_when_the_run_cap_is_higher_than_the_free_capacity(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
+    pinMaxInFlight(repo, 3, perRun=1)
+    first_runner = makeRunner(repo, store, [sensor])
+    first = first_runner.start("full")
+    assert actionTypes(first) == ["agent.build"]
+    drive(first_runner, first, repo, integrate="hold")  # one slot now held by verified, unintegrated work
+
+    # Widen the per-run cap to the whole lane: only the two free slots may be handed out.
+    pinMaxInFlight(repo, 3, perRun=3)
+    second = makeRunner(repo, store, [sensor]).start("full")
+    assert actionTypes(second) == ["agent.build"] * 2, second.to_dict()
+    held = {w["debtId"] for w in ledgerOf(store)["work"].values() if w["state"] == "verified"}
+    assert held.isdisjoint({a["params"]["debtId"] for a in second.actions})
 
 
 # --- D3: a deferred verification is never "nothing further" and cannot deadlock the lane ------
@@ -963,6 +1040,11 @@ def test_scenario_d6_blocked_work_resolves_when_the_debt_is_observed_resolved(tm
     assert doc["work"][debtId]["state"] == "resolved"
     assert "resolved by observation" in doc["work"][debtId]["history"][-1]["reason"]
     assert final.summary["reobserve"]["resolvedWork"] == [debtId]
+    assert ledgerOf(store)["work"][debtId]["resolvedBy"] == {
+        "kind": "condition_not_reobserved", "receipt": final.summary["reobserve"]["scanReceiptId"],
+        "priorState": "blocked",
+    }
+    assert final.summary["reobserve"]["resolvedByRepair"] == []
     assert final.status == "completed" and final.desk["decisions"] == []
     assert not [op for op in final.desk["operations"] if op["kind"] == "failed_dispatch"]
     entry = load_lane(doc["lane"], StewardPolicy.load(repo).lane).by_id(debtId)

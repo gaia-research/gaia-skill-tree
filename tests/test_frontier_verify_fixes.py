@@ -14,7 +14,9 @@ from jsonschema import Draft202012Validator
 from gaia_cli import frontier
 from gaia_cli.frontier import (append_event, build_experiment_receipt, check_timestamps, receipt_digest, validate_events, validate_experiment_receipt,
                                validate_lead_timestamps, validate_meta_verification, validate_triage_record)
-from test_frontier_meta_verification import ART, REPO, VERIFIER_RUN, case, check, rerunTrace, run_cli, sha, verifierNative  # noqa: F401  (case is a fixture)
+from test_frontier_meta_verification import ART, REPO, VERIFIER_RUN, check, rerunTrace, run_cli, sha, verifierNative, case as _case_fixture  # noqa: F401
+
+case = _case_fixture  # pytest fixture alias
 from test_frontier_protocol import committedBundle
 
 

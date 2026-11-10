@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-class-b-route-authority-2283",
+  "status": "decided",
+  "decision": "Standing authority to make Class B debt repairable by authoring dispatch routes, activated after independent acceptance?",
+  "whyItMatters": "About 170 Class B items had no dispatch route, so the runner could not dispatch them at all.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**APPROVED: Steward should proactively make Class B debt repairable.**\n\nA missing dispatch route is a coverage gap requiring engineering, not a permanent reason to leave Class B debt untouched.\n\n**Flash's non-Steward engineering lane** may sample real findings and design/implement missing routes. Each route requires:\n\n- Narrow debt kind, paths, commands, stop conditions, and proof contract.\n- Independent review, including negative tests rejecting out-of-envelope edits.\n- Preservation of security boundaries, product behavior, and canonical policy.\n- Normal protected-main delivery.\n\n**Standing authorization:** Routine, demonstrably safe Class B routes may be activated after independent acceptance without requesting another founder ruling for each category.\n\nSpecific safeguards:\n\n- **Swallowed exceptions:** Preserve error-handling semantics; prove safe diagnostics and focused behavioral tests.\n- **Browser sinks:** Prove actual sink safety, not merely visual equivalence; validate headless behavior.\n- **Code duplication:** Require behavior-preserving refactoring evidence.\n- **Unsafe execution and ungated mutation:** No blanket write/security authority. Escalate anything changing execution trust boundaries, canonical mutation authority, or security policy.\n- **Trust/registry changes:** Preserve existing governed CLI, Verifier, and founder gates.\n\nThe **Pi/Herdr Steward lane** consumes independently accepted routes using its canonical Luna roster. Flash does not replace or commandeer those agents.\n\nReport a reconciled Class B inventory separating **unrouted**, **ineligible**, **proposal-only**, and **dispatch-ready**. Note that `trust_stamp_stale` is **Class C**, not Class B.\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Dispatch routes for undispatchable Class B kinds without a per-category founder ruling.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved"
+}

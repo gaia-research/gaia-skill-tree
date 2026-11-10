@@ -2,14 +2,14 @@
   "id": "emilkowalski/animate-expo",
   "name": "animate-expo",
   "contributor": "emilkowalski",
-  "level": "2★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 129.67,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/emilkowalski/animate-expo.json",
     "contributor": "/api/v1/contributors/emilkowalski.json",
@@ -25,7 +25,7 @@
   },
   "title": "Animate Expo",
   "genericSkillRef": "timeline-animation",
-  "origin": false,
+  "origin": true,
   "description": "Build animations in React Native and Expo, making the decisions in the order that determines whether they feel right — should it animate, which thread it runs on, which properties, spring or timing, how the gesture hands off, how it degrades. Writes the implementation with Reanimated, Gesture Handler, Expo Router and expo-haptics. Use when animating anything in an Expo app, adding gestures, sheets, screen transitions, press feedback or haptics, or fixing motion that stutters on device. For web a",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -66,6 +66,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-07T20:27:29Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

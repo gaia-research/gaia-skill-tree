@@ -57,6 +57,22 @@ def closeActions(view) -> list[dict]:
     return [action for action in view.actions if action["type"] == CLOSE]
 
 
+def receiptEntry(params: dict, outcome: dict, runId: str, **changes) -> dict:
+    """A terminal receipt the way the executor leaves it: attribution, authority, exact proof, before and after (#10)."""
+    entry = {"schemaVersion": "steward-issue-closure-receipt-v1", "runId": runId, "key": params["key"],
+             "issue": params["issue"], "ruleId": params["ruleId"], "outcome": outcome["outcome"],
+             "commentUrl": outcome.get("commentUrl"), "commentId": outcome.get("commentId"),
+             "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z",
+             "stewardOwner": "steward-owner-test", "worker": "steward-worker-test",
+             "authority": {"decision": "steward-issue-closure-authority", "resolution": "approved", "recordSha256": "a" * 64},
+             "closureProof": {"ruleId": params["ruleId"], "closureSha8": params["closureSha8"],
+                              "itemSha256": params["itemSha256"], "preservedSha256": params["preservedSha256"]},
+             "before": {"snapshot": {"state": "open"}},
+             "after": {"state": "closed", "stateReason": "completed", "updatedAt": "2026-10-21T19:30:00Z", "verified": True}}
+    entry.update(changes)
+    return entry
+
+
 def settle(runner, runId: str, action: dict, outcome: dict):
     """Record a driver outcome the way the executor leaves it: a closed outcome has a matching receipt (B7 D7).
 
@@ -67,12 +83,8 @@ def settle(runner, runId: str, action: dict, outcome: dict):
         params = action["params"]
         receipt = runner.root / params["receiptPath"]
         receipt.parent.mkdir(parents=True, exist_ok=True)
-        entry = {"schemaVersion": "steward-issue-closure-receipt-v1", "runId": runId, "key": params["key"],
-                 "issue": params["issue"], "ruleId": params["ruleId"], "outcome": outcome["outcome"],
-                 "commentUrl": outcome.get("commentUrl"), "commentId": outcome.get("commentId"),
-                 "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z"}
         with receipt.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(entry, sort_keys=True) + "\n")
+            handle.write(json.dumps(receiptEntry(params, outcome, runId), sort_keys=True) + "\n")
     return runner.record(runId, action["stepId"], outcome)
 
 

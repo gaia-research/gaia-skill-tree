@@ -4,8 +4,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import hashlib
+import os
 from pathlib import Path
-from typing import Callable, Iterable
+import subprocess
+from typing import Any, Callable, Iterable
 
 from gaia_cli.steward.debt import reconcile_debt
 from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, SensorScan, Subject
@@ -42,6 +45,268 @@ def _timestamp(value: datetime) -> str:
     return value.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
+def git_head_commit(root: Path) -> str | None:
+    if not (root / ".git").exists():
+        return None
+    try:
+        proc = subprocess.run(
+            ["git", "rev-parse", "--verify", "HEAD^{commit}"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if proc.returncode == 0 and proc.stdout.strip():
+            return proc.stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return None
+
+
+def git_origin_url(root: Path) -> str | None:
+    if not (root / ".git").exists():
+        return None
+    try:
+        proc = subprocess.run(
+            ["git", "-C", str(root), "config", "--get", "remote.origin.url"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if proc.returncode == 0:
+            return proc.stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return None
+
+
+def git_tree_is_clean(root: Path, state_dir_name: str = ".gaia") -> bool:
+    if not (root / ".git").exists():
+        return False
+    try:
+        proc = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=all", "--", f":!{state_dir_name}"],
+            cwd=root,
+            capture_output=True,
+            check=False,
+        )
+        if proc.returncode == 0:
+            return len(proc.stdout.strip()) == 0
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return False
+
+
+def _hash_file_bounded(path: Path, h: Any, visited_symlinks: set[str] | None = None) -> bool:
+    if visited_symlinks is None:
+        visited_symlinks = set()
+    try:
+        if path.is_symlink():
+            link_target = os.readlink(path)
+            h.update(f"symlink:{link_target}".encode("utf-8"))
+            try:
+                resolved = path.resolve(strict=True)
+            except (OSError, RuntimeError):
+                return False
+            resolved_str = str(resolved)
+            if resolved_str in visited_symlinks:
+                return False
+            visited_symlinks.add(resolved_str)
+            if not resolved.is_file():
+                return False
+            target_path = resolved
+        else:
+            target_path = path
+
+        st = target_path.stat()
+        if not target_path.is_file():
+            return False
+        h.update(str(st.st_size).encode("utf-8"))
+        h.update(str(st.st_mtime_ns).encode("utf-8"))
+        with target_path.open("rb") as handle:
+            while True:
+                chunk = handle.read(65536)
+                if not chunk:
+                    break
+                h.update(chunk)
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def local_inputs_fingerprint(state_dir: Path, repo_root: Path | None = None) -> str | None:
+    h = hashlib.sha256()
+
+    def on_error(err: OSError) -> None:
+        raise err
+
+    if state_dir.is_dir():
+        try:
+            for root_dir, dirs, files in os.walk(state_dir, onerror=on_error):
+                root_path = Path(root_dir)
+                if root_path.is_symlink():
+                    return None
+                for d in dirs:
+                    if (root_path / d).is_symlink():
+                        return None
+                rel_root = root_path.relative_to(state_dir)
+                if rel_root.parts and rel_root.parts[0] in {"receipts", "full", ".scan.lock"}:
+                    continue
+                if rel_root != Path("."):
+                    h.update(f"d:{rel_root}".encode("utf-8"))
+                dirs[:] = [
+                    d for d in sorted(dirs)
+                    if not (rel_root == Path(".") and d in {"receipts", "full", ".scan.lock"})
+                    and d != ".git"
+                ]
+                for filename in sorted(files):
+                    if filename == ".git":
+                        continue
+                    if rel_root == Path(".") and filename in {"debt.json", "lane.json"}:
+                        continue
+                    file_path = root_path / filename
+                    rel_path = file_path.relative_to(state_dir)
+                    h.update(str(rel_path).encode("utf-8"))
+                    if not _hash_file_bounded(file_path, h):
+                        return None
+        except OSError:
+            return None
+
+    if repo_root is not None:
+        h.update(f"origin:{git_origin_url(repo_root)}".encode("utf-8"))
+        ignored_surfaces = (
+            repo_root / "generated-output",
+            repo_root / ".gaia/upstream-watcher",
+            repo_root / ".agents/skills",
+            repo_root / ".claude/skills",
+            repo_root / "registry",
+            repo_root / "src/gaia_cli/data/registry/schema",
+        )
+        for surface_dir in ignored_surfaces:
+            h.update(f"surface:{surface_dir.name}:{surface_dir.is_dir()}".encode("utf-8"))
+            if surface_dir.is_dir():
+                try:
+                    for root_dir, dirs, files in os.walk(surface_dir, onerror=on_error):
+                        root_path = Path(root_dir)
+                        if root_path.is_symlink():
+                            return None
+                        for d in dirs:
+                            if (root_path / d).is_symlink():
+                                return None
+                        rel_root = root_path.relative_to(surface_dir)
+                        h.update(f"d:{surface_dir.name}/{rel_root}".encode("utf-8"))
+                        dirs[:] = [d for d in sorted(dirs) if d != ".git"]
+                        for filename in sorted(files):
+                            file_path = root_path / filename
+                            rel_path = file_path.relative_to(repo_root)
+                            h.update(str(rel_path).encode("utf-8"))
+                            if not _hash_file_bounded(file_path, h):
+                                return None
+                except OSError:
+                    return None
+
+        # Python source trees read by sensors (scripts/ and src/)
+        for py_dir_name in ("scripts", "src"):
+            py_dir = repo_root / py_dir_name
+            h.update(f"py_surface:{py_dir_name}:{py_dir.is_dir()}".encode("utf-8"))
+            if py_dir.is_dir():
+                try:
+                    for root_dir, dirs, files in os.walk(py_dir, onerror=on_error):
+                        root_path = Path(root_dir)
+                        if root_path.is_symlink():
+                            return None
+                        for d in dirs:
+                            if (root_path / d).is_symlink():
+                                return None
+                        dirs[:] = [d for d in sorted(dirs) if d != "__pycache__" and d != ".git"]
+                        for filename in sorted(files):
+                            if filename.endswith(".py"):
+                                file_path = root_path / filename
+                                rel_path = file_path.relative_to(repo_root)
+                                h.update(str(rel_path).encode("utf-8"))
+                                if not _hash_file_bounded(file_path, h):
+                                    return None
+                except OSError:
+                    return None
+
+    return h.hexdigest()
+
+
+_DEFAULT_HEAD = object()
+
+
+def _normalize_slots(slots_decl: Any) -> tuple[str, ...]:
+    if isinstance(slots_decl, str):
+        return (slots_decl,)
+    if isinstance(slots_decl, Iterable):
+        return tuple(str(x) for x in slots_decl)
+    return ()
+
+
+def _resolve_slot_name(cls: type, slot: str) -> str:
+    if slot.startswith("__") and not slot.endswith("__"):
+        return f"_{cls.__name__.lstrip('_')}{slot}"
+    return slot
+
+
+def _serialize_config_val(v: Any, visited: set[int] | None = None) -> str:
+    if visited is None:
+        visited = set()
+    obj_id = id(v)
+    if obj_id in visited:
+        return "cycle"
+    if isinstance(v, (str, int, float, bool, bytes)) or v is None:
+        return repr(v)
+
+    visited.add(obj_id)
+    try:
+        if isinstance(v, frozenset):
+            return "frozenset{" + ",".join(sorted(_serialize_config_val(x, visited) for x in v)) + "}"
+        if isinstance(v, set):
+            return "set{" + ",".join(sorted(_serialize_config_val(x, visited) for x in v)) + "}"
+        if isinstance(v, tuple):
+            return "tuple(" + ",".join(_serialize_config_val(x, visited) for x in v) + ")"
+        if isinstance(v, list):
+            return "list[" + ",".join(_serialize_config_val(x, visited) for x in v) + "]"
+        if isinstance(v, dict):
+            return "{" + ",".join(f"{repr(k)}:{_serialize_config_val(val, visited)}" for k, val in sorted(v.items(), key=lambda i: str(i[0]))) + "}"
+
+        parts = ["obj:" + v.__class__.__name__]
+        if hasattr(v, "__dict__"):
+            parts.append("dict:" + _serialize_config_val(v.__dict__, visited))
+        for cls in getattr(v.__class__, "__mro__", ()):
+            for slot in _normalize_slots(getattr(cls, "__slots__", ())):
+                resolved = _resolve_slot_name(cls, slot)
+                if hasattr(v, resolved):
+                    parts.append(f"slot:{slot}:" + _serialize_config_val(getattr(v, resolved), visited))
+        if len(parts) > 1:
+            return ";".join(parts)
+        return repr(v)
+    finally:
+        visited.remove(obj_id)
+
+
+def sensor_signature(sensors: Iterable[Sensor]) -> tuple[Any, ...]:
+    sig = []
+    for s in sensors:
+        telemetry = getattr(s, "_telemetry_attrs", frozenset())
+        attrs = []
+        for k, v in getattr(s, "__dict__", {}).items():
+            if k in telemetry:
+                continue
+            attrs.append((k, _serialize_config_val(v)))
+        for cls in s.__class__.__mro__:
+            for raw_slot in _normalize_slots(getattr(cls, "__slots__", ())):
+                if raw_slot in telemetry:
+                    continue
+                resolved = _resolve_slot_name(cls, raw_slot)
+                if hasattr(s, resolved):
+                    attrs.append((raw_slot, _serialize_config_val(getattr(s, resolved))))
+        attrs.sort()
+        sig.append((s.id, s.__class__.__module__, s.__class__.__qualname__, tuple(attrs)))
+    return tuple(sig)
+
+
 @dataclass(frozen=True)
 class _Collection:
     """Everything one pass over the sensors produced."""
@@ -66,13 +331,21 @@ class ScanResult:
     # Open debt ids observed as drift during this reconciliation. Routing must
     # use this membership, not a clock-resolution-dependent timestamp.
     fresh_open_debt_ids: frozenset[str]
+    head_commit: str | None = None
+    debt_state_hash: str | None = None
+    tree_clean: bool = False
+    inputs_hash: str | None = None
+    sensor_ids: tuple[str, ...] = ()
+    controller_id: int | None = None
+    controller_token: str | None = None
+    sensor_signature: tuple[Any, ...] = ()
 
     @property
     def open_debts(self) -> tuple[Debt, ...]:
         return tuple(debt for debt in self.debts if debt.status == "open")
 
     def to_dict(self) -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "receipt": self.receipt.to_dict(),
             "observations": [item.to_dict() for item in self.observations],
             "debt": [item.to_dict() for item in self.debts],
@@ -81,6 +354,19 @@ class ScanResult:
                 "receipt": str(self.receipt_path),
             },
         }
+        if self.head_commit is not None:
+            payload["headCommit"] = self.head_commit
+        if self.debt_state_hash is not None:
+            payload["debtStateHash"] = self.debt_state_hash
+        if self.tree_clean:
+            payload["treeClean"] = True
+        if self.inputs_hash is not None:
+            payload["inputsHash"] = self.inputs_hash
+        if self.sensor_ids:
+            payload["sensorIds"] = list(self.sensor_ids)
+        if self.controller_token is not None:
+            payload["controllerToken"] = self.controller_token
+        return payload
 
 
 @dataclass(frozen=True)
@@ -108,6 +394,7 @@ class StewardController:
     ) -> None:
         self.sensors = tuple(sensors) if sensors is not None else default_sensors()
         self.clock = clock
+        self.instance_token = f"ctrl-{os.urandom(16).hex()}"
         sensor_ids = [sensor.id for sensor in self.sensors]
         if len(sensor_ids) != len(set(sensor_ids)):
             raise ValueError("Steward sensor ids must be unique")
@@ -115,8 +402,26 @@ class StewardController:
     def scan(self, repo_root: Path, *, _lock_held: bool = False) -> ScanResult:
         root = repo_root.resolve()
         policy = StewardPolicy.load(root)
+        state_prefix = policy.state_directory.parts[0] if policy.state_directory.parts else ".gaia"
+        head_before = git_head_commit(root)
+        tree_before_clean = git_tree_is_clean(root, state_prefix)
+        inputs_before = local_inputs_fingerprint(root / policy.state_directory, repo_root=root)
+        sig_before = sensor_signature(self.sensors)
         observed_at = _timestamp(self.clock())
         collection = self._collect_observations(root, policy, observed_at)
+        finished_at = observed_at
+        sig_after = sensor_signature(self.sensors)
+        head_after = git_head_commit(root)
+        tree_after_clean = git_tree_is_clean(root, state_prefix)
+        inputs_after = local_inputs_fingerprint(root / policy.state_directory, repo_root=root)
+        sensor_sig = sig_after if sig_before == sig_after else ()
+        if (root / ".git").exists():
+            head_commit = head_after if (head_before is not None and head_before == head_after) else None
+            tree_clean = tree_before_clean and tree_after_clean
+        else:
+            head_commit = None
+            tree_clean = False
+        inputs_hash = inputs_after if (inputs_before is not None and inputs_before == inputs_after) else None
 
         state_directory = root / policy.state_directory
         debt_state_path = state_directory / "debt.json"
@@ -129,6 +434,7 @@ class StewardController:
         ensure_local_state_path(root, state_directory, debt_state_path)
         ensure_local_state_path(root, state_directory, receipts_directory)
         ensure_local_state_path(root, state_directory, lock_directory)
+        sensor_ids = tuple(s.id for s in self.sensors)
         if _lock_held:
             return self._reconcile_and_commit(
                 root=root,
@@ -141,6 +447,14 @@ class StewardController:
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
+                head_commit=head_commit,
+                tree_clean=tree_clean,
+                inputs_hash=inputs_hash,
+                finished_at=finished_at,
+                sensor_ids=sensor_ids,
+                controller_id=id(self),
+                controller_token=self.instance_token,
+                sensor_sig=sensor_sig,
             )
         with exclusive_scan_lock(
             lock_directory,
@@ -158,6 +472,14 @@ class StewardController:
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
+                head_commit=head_commit,
+                tree_clean=tree_clean,
+                inputs_hash=inputs_hash,
+                finished_at=finished_at,
+                sensor_ids=sensor_ids,
+                controller_id=id(self),
+                controller_token=self.instance_token,
+                sensor_sig=sensor_sig,
             )
 
     def run(self, repo_root: Path) -> RunResult:
@@ -350,7 +672,17 @@ class StewardController:
         required_resolved: tuple[str, ...] = (),
         require_known_coverage: bool = False,
         result_status: str | None = None,
+        head_commit: str | None | object = _DEFAULT_HEAD,
+        tree_clean: bool = False,
+        inputs_hash: str | None = None,
+        finished_at: str | None = None,
+        sensor_ids: tuple[str, ...] = (),
+        controller_id: int | None = None,
+        controller_token: str | None = None,
+        sensor_sig: tuple[Any, ...] = (),
     ) -> ScanResult:
+        if head_commit is _DEFAULT_HEAD:
+            head_commit = git_head_commit(root)
         existing = load_debts(
             debt_state_path,
             repo_root=root,
@@ -403,8 +735,10 @@ class StewardController:
         )
         debt_created = (cycle_start.debt_created if cycle_start else ()) + reconciliation.created
         debt_updated = (cycle_start.debt_updated if cycle_start else ()) + reconciliation.updated
+        scan_finished = finished_at or observed_at
         receipt_payload = {
             "observedAt": observed_at,
+            "finishedAt": scan_finished,
             "observations": [observation.to_dict() for observation in observations],
             "cycleStart": cycle_start.run_id if cycle_start else None,
             "created": debt_created,
@@ -421,7 +755,7 @@ class StewardController:
         receipt = Receipt(
             run_id=run_id,
             started_at=cycle_start.started_at if cycle_start else observed_at,
-            finished_at=observed_at,
+            finished_at=scan_finished,
             observations_collected=(
                 (cycle_start.observations_collected if cycle_start else 0) + len(observations)
             ),
@@ -467,6 +801,11 @@ class StewardController:
                 )
             raise
         assert receipt_path is not None
+        debt_state_hash = (
+            hashlib.sha256(debt_state_path.read_bytes()).hexdigest()
+            if debt_state_path.is_file()
+            else None
+        )
         return ScanResult(
             observations=tuple(observations),
             debts=reconciliation.debts,
@@ -478,6 +817,14 @@ class StewardController:
                 for observation in observations
                 if observation.status == "drift"
             ),
+            head_commit=head_commit,
+            debt_state_hash=debt_state_hash,
+            tree_clean=tree_clean,
+            inputs_hash=inputs_hash,
+            sensor_ids=sensor_ids,
+            controller_id=controller_id,
+            controller_token=controller_token,
+            sensor_signature=sensor_sig,
         )
 
     def _collect_observations(

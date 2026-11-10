@@ -75,7 +75,7 @@ from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven
+from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven, receiptProblem
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
@@ -260,14 +260,25 @@ class FullRunConfig:
     trigger: str = "manual"
     agents: bool = True
     holder: str = "steward"
+    # Run-scoped switch for real/interactive browser access; off unless the run asks (policy browser.interactive can also enable it).
+    interactive_browser: bool = False
+    # "local": this run starts the headless collector itself (the default for scheduled and founder runs).
+    # "external": an earlier least-privilege job already collected and a validator accepted the artifact; this
+    # run then collects nothing and evaluates only what was accepted.
+    browser_collection: str = "local"
+    # Seam for tests: (root, repository, headless, interactive) -> {state, reason, mode}.
+    browser_collector: Callable[..., dict[str, Any]] | None = None
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
+    prCoordinatorFactory: Callable[[], Any] | None = None
 
     def __post_init__(self) -> None:
         self.repo_root = Path(self.repo_root).resolve()
         if self.trigger not in {"manual", "scheduled"}:
             raise ValueError("trigger must be manual or scheduled")
+        if self.browser_collection not in {"local", "external"}:
+            raise ValueError("browser_collection must be local or external")
         if self.lease_ttl_seconds <= 0:
             raise ValueError("lease_ttl_seconds must be positive")
 
@@ -291,6 +302,7 @@ class RunView:
     desk: dict[str, Any] | None = None
     ledger: dict[str, Any] = field(default_factory=dict)
     error: str | None = None
+    browser: dict[str, bool] | None = None
 
     @property
     def exitCode(self) -> int:
@@ -317,6 +329,8 @@ class RunView:
             "notEvaluated": self.notEvaluated,
             "ledger": self.ledger,
         }
+        if self.browser is not None:
+            data["browser"] = self.browser
         if self.holder is not None:
             data["holder"] = self.holder
             data["holderPhase"] = self.holderPhase
@@ -520,6 +534,7 @@ class FullRunner:
         options = {
             "routine": routine, "debt": debt, "afk": bool(afk),
             "push": bool(self.config.push), "agents": bool(self.config.agents),
+            "browser": self._browserSetting(),
         }
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -668,7 +683,7 @@ class FullRunner:
         a lost packet is never an indefinite block.
         """
 
-        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+        from gaia_cli.steward.routing import RoutingError, _is_scan_fresh, render_dispatch_prompt
 
         run = self._loadRun(runId)
         lost = [a for a in self._pending(run, "agent.build")
@@ -677,9 +692,20 @@ class FullRunner:
             return
         now = self._now()
         rendered: dict[str, str | None] = {}
+        policy = self._policyLoaded()
+        controller = self._controllerInstance()
+        active_scan = controller.scan(self.root)
+        self._scans[runId] = active_scan
         for action in lost:
+            if not _is_scan_fresh(active_scan, self.root, policy=policy, controller=controller):
+                active_scan = controller.scan(self.root)
+                self._scans[runId] = active_scan
             try:
-                _result, text = render_dispatch_prompt(self.root, action["debtId"], controller=self._controllerInstance())
+                result, text = render_dispatch_prompt(
+                    self.root, action["debtId"], controller=controller, policy=policy, scan=active_scan
+                )
+                active_scan = result.scan
+                self._scans[runId] = active_scan
             except RoutingError:
                 text = None
             rendered[action["stepId"]] = text
@@ -927,6 +953,413 @@ class FullRunner:
         )
 
     # ------------------------------------------------------------------
+    # reverify_escalated(): founder-ruled reverification under ruling 1
+    # ------------------------------------------------------------------
+
+    def reverify_escalated(
+        self,
+        runId: str,
+        item_ids: Sequence[str] = (),
+        ruling: str = "steward-verification-reverify-2283",
+        by: str = "lead",
+        reason: str = "founder-ruled reverification under ruling 1",
+    ) -> dict[str, Any]:
+        """Reverify escalated Class B work items under a founder decision ruling.
+
+        Validates the decision record via desk._check_record, strictly enforces
+        authorization, verifies that items are escalated with existing diff/proof
+        artifacts, preserves append-only history without resetting attempts,
+        re-runs mechanical verification with attribution, and emits fresh
+        agent.verify actions for independent verifiers.
+        """
+        from gaia_cli.steward.desk import DECISIONS_RELATIVE_DIR, _check_record
+        from gaia_cli.steward.models import DispatchPacket
+        from gaia_cli.steward.prompt import render_verifier_prompt
+        from gaia_cli.steward.routing import (
+            _dispatch_receipt_for,
+            render_verification,
+        )
+
+        ruling_stem = Path(ruling).stem
+        record_path = self.root / DECISIONS_RELATIVE_DIR / f"{ruling_stem}.json"
+        if not record_path.is_file():
+            raise FullRunError(f"decision record not found: {ruling}")
+        try:
+            record_data = json.loads(record_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            raise FullRunError(f"cannot parse decision record {ruling}: {exc}") from exc
+        if not isinstance(record_data, dict):
+            raise FullRunError(f"decision record {ruling} must be a JSON object")
+        record_data["_source"] = f"{DECISIONS_RELATIVE_DIR}/{ruling_stem}.json"
+        check_err = _check_record(record_data)
+        if check_err:
+            raise FullRunError(f"invalid decision record {ruling}: {check_err}")
+
+        canonical_ruling_id = str(record_data.get("id") or ruling_stem)
+        ruling = canonical_ruling_id
+
+        if record_data.get("status") != "decided" or record_data.get("resolution") != "approved":
+            raise FullRunError(
+                f"decision record {ruling} is not decided and approved "
+                f"(status={record_data.get('status')!r}, resolution={record_data.get('resolution')!r})"
+            )
+
+        authorized_debts = set(record_data.get("authorizedDebtIds") or ())
+        authorized_slugs = set(record_data.get("authorizedWorkItems") or ())
+        authorized_targets = record_data.get("authorizedTargets") or []
+
+        def authorized_for_run(debt_id: str) -> bool:
+            slug = _hash12(debt_id)
+            return any(
+                target["runId"] == runId
+                and (target["debtId"] == debt_id or target.get("workItem") == slug)
+                for target in authorized_targets
+            )
+
+        doc = self._load()
+        run = doc["runs"].get(runId)
+        if run is None:
+            raise UnknownRun(f"unknown run {runId}")
+
+        target_debt_ids: list[str] = []
+        if item_ids:
+            for req in item_ids:
+                is_authorized = (
+                    req in authorized_debts
+                    or req in authorized_slugs
+                    or _hash12(req) in authorized_slugs
+                )
+                matched_debt_id: str | None = None
+                if req in doc["work"]:
+                    matched_debt_id = req
+                else:
+                    for d_id in doc["work"]:
+                        if _hash12(d_id) == req:
+                            matched_debt_id = d_id
+                            break
+                if matched_debt_id is not None:
+                    if (
+                        matched_debt_id in authorized_debts
+                        or _hash12(matched_debt_id) in authorized_slugs
+                    ):
+                        is_authorized = True
+
+                if not is_authorized:
+                    raise FullRunError(f"item {req!r} is not authorized by decision record {ruling}")
+                if matched_debt_id is None:
+                    raise FullRunError(f"work item {req!r} does not exist in run {runId}")
+                if not authorized_for_run(matched_debt_id):
+                    raise FullRunError(f"item {req!r} is not authorized for run {runId} by decision record {ruling}")
+                target_debt_ids.append(matched_debt_id)
+        else:
+            target_debt_ids = [
+                d_id
+                for d_id, w in doc["work"].items()
+                if authorized_for_run(d_id)
+                and w.get("runId") == runId
+                and w.get("state") == "escalated"
+            ]
+            if not target_debt_ids:
+                raise FullRunError(
+                    f"no escalated work items authorized by {ruling} found in run {runId}"
+                )
+
+        def runner_baseline(item: dict[str, Any]) -> dict[str, str | None]:
+            """The integration head the runner recorded for the run that dispatched this work.
+
+            Only Steward's own ledger is consulted: the one run whose agent.build action carries
+            this dispatch id at the attempt the stored build was recorded for (a dispatch id is
+            stable across re-dispatch, so the attempt disambiguates). Its recorded
+            integrationHead and integrationBranch go to routing, which authenticates them
+            (ancestry and before-image hashes) or fails closed.
+            """
+            build = item.get("build") or {}
+            dispatch = item.get("dispatchId") or build.get("dispatchId")
+            attempt = build.get("attempt", item.get("attempt"))
+            owners = [
+                other for other in doc["runs"].values()
+                if any(
+                    a.get("type") == "agent.build"
+                    and (a.get("params") or {}).get("dispatchId") == dispatch
+                    and (a.get("params") or {}).get("attempt") == attempt
+                    for a in other.get("actions", [])
+                )
+            ]
+            if len(owners) != 1:
+                return {"commit": None, "branchRef": None}
+            owner = owners[0]
+            branch = owner.get("integrationBranch")
+            if item.get("baseBranch") and item.get("baseBranch") != branch:
+                return {"commit": None, "branchRef": None}
+            return {
+                "commit": owner.get("integrationHead"),
+                "branchRef": f"refs/remotes/{self.config.remote}/{branch}" if branch else None,
+            }
+
+        def ruling_consumed(work: dict[str, Any]) -> bool:
+            existing = {Path(str(r)).stem for r in (work.get("consumedRulings") or []) if r}
+            current = (work.get("verification") or {}).get("ruling")
+            prior = {Path(str(v["ruling"])).stem for v in (work.get("priorVerifications") or []) if v.get("ruling")}
+            return canonical_ruling_id in existing or (bool(current) and Path(str(current)).stem == canonical_ruling_id) or canonical_ruling_id in prior
+
+        resolved_targets: list[tuple[str, dict[str, Any], Path, Path]] = []
+        for debt_id in target_debt_ids:
+            item = doc["work"].get(debt_id)
+            if item is None:
+                raise FullRunError(f"work item {debt_id} does not exist")
+            if ruling_consumed(item):
+                raise FullRunError(f"work item {debt_id} was already released to re-verification under ruling {ruling}; founder authorization is consumable once")
+            if item.get("runId") != runId:
+                raise FullRunError(
+                    f"work item {debt_id} belongs to run {item.get('runId')!r}, not {runId}"
+                )
+            if item.get("state") != "escalated":
+                raise FullRunError(
+                    f"work item {debt_id} is in state {item.get('state')!r}, not 'escalated'"
+                )
+            dispatch_id = item.get("dispatchId") or (item.get("build") or {}).get("dispatchId")
+            if not dispatch_id:
+                raise FullRunError(f"work item {debt_id} is missing dispatchId; cannot identify original dispatch authorization")
+            build = item.get("build")
+            if not build:
+                raise FullRunError(f"work item {debt_id} has no build recorded")
+            diff_path_str = build.get("diffPath")
+            proof_path_str = build.get("proofPath")
+            if not diff_path_str or not proof_path_str:
+                raise FullRunError(f"work item {debt_id} is missing diffPath or proofPath")
+            diff_path = self._resolvePath(diff_path_str)
+            proof_path = self._resolvePath(proof_path_str)
+            if not diff_path.is_file():
+                raise FullRunError(
+                    f"diff file {diff_path} for work item {debt_id} does not exist"
+                )
+            if not proof_path.is_file():
+                raise FullRunError(
+                    f"proof file {proof_path} for work item {debt_id} does not exist"
+                )
+            resolved_targets.append((debt_id, item, diff_path, proof_path))
+
+        policy = self._policyLoaded()
+        controller = self._controllerInstance()
+        receipts = self.root / policy.state_directory / policy.receipts_directory
+
+        verifications: list[dict[str, Any]] = []
+        for debt_id, item, diff_path, proof_path in resolved_targets:
+            try:
+                result, diff_text, outputs = render_verification(
+                    self.root,
+                    debt_id,
+                    diff_path=diff_path,
+                    proof_path=proof_path,
+                    controller=controller,
+                    dispatch_id=item.get("dispatchId") or item.get("build", {}).get("dispatchId"),
+                    runner_baseline=runner_baseline(item),
+                )
+            except Exception as exc:
+                raise FullRunError(f"verification failed for {debt_id}: {exc}") from exc
+
+            verdict = result.artifact
+            slug = _hash12(debt_id)
+            if verdict.verdict == "pending":
+                dispatch_id = item.get("dispatchId") or item.get("build", {}).get("dispatchId")
+                packet = DispatchPacket.from_dict(_dispatch_receipt_for(receipts, debt_id, dispatch_id)["artifact"])
+                rule = policy.dispatch_rules[packet.rule]
+                prompt = render_verifier_prompt(
+                    packet,
+                    verdict,
+                    prompt_guide=rule.prompt_guide,
+                    diff_text=diff_text,
+                    proof_outputs=outputs,
+                    receipt=result.receipt.to_dict(),
+                )
+                if slug == "01bdcf8a1d9c" or debt_id == "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe":
+                    prompt += (
+                        "\n\n## Founder Ruling 1 Mandate: Module API & Consumer Contract Compatibility Check\n\n"
+                        "For `scripts/upstream_watcher/batch.py`, independently verify whether removing `re` breaks a genuine module API or consumer contract.\n"
+                        "- Check whether any external script, test, or consumer accesses `batch.re` or expects `re` in `scripts.upstream_watcher.batch`.\n"
+                        "- Retain `re` if compatibility requires it; otherwise permit the bounded repair.\n"
+                        "- Stop on any remaining uncertainty.\n"
+                    )
+                reverify_seq = len(item.get("priorVerifications") or ()) + 1
+                prompt_file = self._runDirectory(runId) / f"verify-{slug}-reverify-{item.get('attempt', 1)}-{reverify_seq}.prompt.md"
+                prompt_file.write_text(prompt, encoding="utf-8")
+                prompt_path = self._relative(prompt_file)
+                verifications.append({
+                    "debtId": debt_id,
+                    "slug": slug,
+                    "verdict": verdict,
+                    "result_receipt": result.receipt.run_id,
+                    "prompt_path": prompt_path,
+                    "status": "awaiting-verifier",
+                })
+            else:
+                verifications.append({
+                    "debtId": debt_id,
+                    "slug": slug,
+                    "verdict": verdict,
+                    "result_receipt": result.receipt.run_id,
+                    "prompt_path": None,
+                    "status": f"mechanical-{verdict.verdict}",
+                })
+
+        reopened_debt_ids: list[str] = []
+        action_results: list[dict[str, Any]] = []
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            now = self._now()
+            lane_data = doc.get("lane")
+            lane = load_lane(lane_data, policy.lane) if lane_data else None
+
+            for v in verifications:
+                debt_id = v["debtId"]
+                slug = v["slug"]
+                verdict = v["verdict"]
+                work = doc["work"][debt_id]
+
+                if ruling_consumed(work):
+                    raise FullRunError(f"work item {debt_id} was already released to re-verification under ruling {ruling}; founder authorization is consumable once")
+                if work.get("state") != "escalated":
+                    raise FullRunError(
+                        f"work item {debt_id} concurrently modified: state is {work.get('state')!r}"
+                    )
+                if work.get("runId") != runId:
+                    raise FullRunError(
+                        f"work item {debt_id} concurrently modified: runId is {work.get('runId')!r}"
+                    )
+
+                reverify_seq = len(work.get("priorVerifications") or ()) + 1
+                prior_verifications = list(work.get("priorVerifications") or [])
+                if "verification" in work and work["verification"]:
+                    prior_verifications.append(work["verification"])
+                work["priorVerifications"] = prior_verifications
+                # Only a decided outcome consumes the ruling: a mechanical reject here, or the
+                # independent verifier's judgment recorded later. A release to the verifier
+                # reserves it (verification.ruling) so it cannot be released twice; a mechanical
+                # escalation decides nothing and leaves the ruling available for a retry.
+
+                if v["status"] == "awaiting-verifier":
+                    builders = sorted({
+                        a["agentId"]
+                        for a in work.get("assignments", [])
+                        if a.get("role") == "builder"
+                    })
+                    transition_work(
+                        doc,
+                        debt_id,
+                        "building",
+                        now,
+                        f"{reason} (ruling {ruling} by {by})",
+                    )
+                    FullRunner._note(
+                        work,
+                        now,
+                        f"reverified under ruling {ruling} by {by}: {reason}",
+                    )
+                    work["verification"] = {
+                        "stage": "awaiting-verifier",
+                        "verdict": "pending",
+                        "receipt": v["result_receipt"],
+                        "verifierPromptPath": v["prompt_path"],
+                        "ruling": ruling,
+                    }
+                    if lane is not None:
+                        entry = lane.by_id(debt_id)
+                        if entry is not None and entry.state == "escalated":
+                            lane = lane.replaced(
+                                entry.moved(
+                                    to="dispatched",
+                                    at=now,
+                                    reason=f"founder-ruled reverification under ruling {ruling} by {by}",
+                                    last_verdict="pending",
+                                )
+                            )
+
+                    step_id = f"verify:{slug}:{work.get('attempt', 1)}:reverify:{reverify_seq}"
+
+                    added = self._addAction(
+                        run,
+                        step_id,
+                        "agent.verify",
+                        debt_id,
+                        f"verify:{work.get('dispatchId')}:{work.get('attempt', 1)}:reverify:{reverify_seq}",
+                        {
+                            "debtId": debt_id,
+                            "verifierPromptPath": v["prompt_path"],
+                            "forbiddenAgentIds": builders,
+                            "attempt": work.get("attempt", 1),
+                            "allowedModels": list(VERIFIERMODELS),
+                            "effortRequired": True,
+                            "ruling": ruling,
+                            "reverification": True,
+                        },
+                        now,
+                    )
+                    if not added:
+                        raise FullRunError(f"action {step_id} already exists in run {runId}")
+                    reopened_debt_ids.append(debt_id)
+                    action_results.append({
+                        "debtId": debt_id,
+                        "result": "awaiting-verifier",
+                        "stepId": step_id,
+                        "verifierPromptPath": v["prompt_path"],
+                        "forbiddenAgentIds": builders,
+                    })
+                else:
+                    note = f"mechanical verification ({v['result_receipt'] or 'input refusal'})"
+                    reasons_list = list(verdict.reasons)
+                    escalated = verdict.verdict == "escalate"
+                    if lane is not None:
+                        entry = lane.by_id(debt_id)
+                        if entry is not None and entry.state == "dispatched":
+                            lane = record_verdict(lane, debt_id, verdict.verdict, now=now, note=note)
+                            escalated = lane.by_id(debt_id).state == "escalated"
+                    work["verification"] = {
+                        "stage": "mechanical",
+                        "verdict": verdict.verdict,
+                        "reasons": reasons_list,
+                        "recordedAt": now,
+                    }
+                    if verdict.verdict == "escalate":
+                        work["verification"]["rulingAttempt"] = ruling
+                        work["verification"]["rulingConsumed"] = False
+                    else:
+                        work["verification"]["ruling"] = ruling
+                        work["consumedRulings"] = sorted(set(list(work.get("consumedRulings") or []) + [ruling]))
+                    if escalated:
+                        self._setState(doc, debt_id, "escalated", now, f"{note}: {'; '.join(reasons_list)[:200]}")
+                    else:
+                        self._setState(doc, debt_id, "blocked", now, f"{note}: rejected - {'; '.join(reasons_list)[:200]}")
+                    action_results.append({
+                        "debtId": debt_id,
+                        "result": f"mechanical-{verdict.verdict}",
+                        "reasons": reasons_list,
+                    })
+
+            if lane is not None:
+                set_lane(doc, lane_document(lane))
+
+            if reopened_debt_ids:
+                if run["status"] not in OPENRUNSTATES:
+                    run["status"] = "awaiting-action"
+                run["phase"] = "verify"
+                run["nextAction"] = (
+                    f"perform pending verification action(s), record each with "
+                    f"`gaia steward full record {runId} <stepId> --input FILE`, then "
+                    f"`gaia steward full run --resume {runId}`"
+                )
+            release_lease(doc, RUNLEASE, runId)
+            run["mutated"] = True
+
+        self._mutateRun(runId, apply, message=f"steward full reverify under {ruling}")
+
+        return {
+            "runId": runId,
+            "ruling": ruling,
+            "reopened": reopened_debt_ids,
+            "results": action_results,
+        }
+
+    # ------------------------------------------------------------------
     # record(): driver outcomes
     # ------------------------------------------------------------------
 
@@ -973,12 +1406,13 @@ class FullRunner:
                 )
             now = self._now()
             prepared(doc, run, live)
-            live["status"] = "done" if live.get("heldOnly") is not True else "held"
+            keepPending = live.pop("keepPending", False)
+            live["status"] = "pending" if keepPending else ("done" if live.get("heldOnly") is not True else "held")
             live["outcome"] = outcome
             live["recordedAt"] = now
             for step in run["steps"]:
                 if step["stepId"] == stepId:
-                    step["status"] = "done"
+                    step["status"] = "pending" if keepPending else "done"
                     step["at"] = now
             run["mutated"] = True
             run["updatedAt"] = now
@@ -1105,10 +1539,17 @@ class FullRunner:
             elif lane.by_id(debtId).state != "dispatched":
                 raise RecordRefused("the lane entry is not dispatched; it cannot take a verdict")
             self._noteAgent(doc, run, debtId, "verifier", live["stepId"], outcome, now)
+            if item.get("verification"):
+                item.setdefault("priorVerifications", []).append(item["verification"])
             item["verification"] = {
                 "stage": "judged", "verdict": verdict, "rationale": rationale,
                 "agentId": outcome["agentId"], "recordedAt": now,
             }
+            ruling = action["params"].get("ruling")
+            if ruling and action["params"].get("reverification"):
+                # The independent judgment is the decided outcome a founder ruling buys.
+                item["verification"]["ruling"] = ruling
+                item["consumedRulings"] = sorted(set(list(item.get("consumedRulings") or []) + [ruling]))
             escalated = lane.by_id(debtId).state == "escalated"
             if verdict == "accept":
                 if noChange:
@@ -1311,6 +1752,12 @@ class FullRunner:
     # view
     # ------------------------------------------------------------------
 
+    def _browserSetting(self) -> dict[str, bool]:
+        """The browser access this run was started with: headless from policy, interactive only from this run's flag."""
+
+        policy = self._policyLoaded().browser
+        return policy.setting(interactiveRequested=self.config.interactive_browser)
+
     def _view(self, doc: dict[str, Any], runId: str) -> RunView:
         run = doc["runs"].get(runId)
         if run is None:
@@ -1327,6 +1774,7 @@ class FullRunner:
             desk=copy.deepcopy(run.get("desk")),
             ledger=self._ledgerInfo(),
             error=run.get("error"),
+            browser=copy.deepcopy(run.get("options", {}).get("browser")),
         )
 
     # ------------------------------------------------------------------
@@ -1457,10 +1905,31 @@ class FullRunner:
             "observationsBySensor": dict(sorted(bySensor.items())),
         }
 
+    def _collectBrowser(self) -> dict[str, Any] | None:
+        """Start this run's own headless collection, tied to this attempt. None when an earlier job supplied it."""
+
+        from gaia_cli.steward import browsercollect
+
+        if self.config.browser_collection == "external":
+            # An earlier least-privilege job collected. Evaluate it only if the validator accepted it for this very
+            # attempt; otherwise the render is invalidated and the sensor reports NOT EVALUATED.
+            return browsercollect.verifyExternal(self.root, os.environ.get(browsercollect.ATTEMPT_ENV))
+        from gaia_cli.steward.primitives.inputs import origin_repository
+
+        setting = self._browserSetting()
+        repository = origin_repository(self.root) or os.environ.get("GITHUB_REPOSITORY") or None
+        collector = self.config.browser_collector or browsercollect.collect
+        return dict(collector(
+            self.root, repository=repository, headless=setting["headless"], interactive=setting["interactive"],
+        ))
+
     def _phaseObserve(self, runId: str) -> bool:
+        browser = self._collectBrowser()
         scan = self._controllerInstance().scan(self.root)
         self._scans[runId] = scan
         summary = self._observationSummary(scan, self._load()["work"])
+        if browser is not None:
+            summary["browserCollection"] = browser
         receiptId = summary["scanReceiptId"]
 
         def updates(_doc: dict[str, Any], run: dict[str, Any]) -> None:
@@ -1751,7 +2220,7 @@ class FullRunner:
         summary["deferred"] = len(deferred)
         return summary
 
-    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> None:
+    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """A terminal closure outcome is trusted only when this checkout's receipts record the same outcome (B7 D7).
 
         The receipt is written by the executor before the driver reports, in the confined store. A driver
@@ -1776,6 +2245,11 @@ class FullRunner:
                 matches = outcome.get("markerVerified") is True and entry.get("markerVerified") is True
         if not matches:
             raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
+        # Founder ruling #10: a closure is trusted only when its receipt holds the Steward owner and the worker.
+        problem = receiptProblem(entry, params)
+        if problem is not None:
+            raise RecordRefused(f"{problem}; a closure without an attributable, fully proven receipt stays pending")
+        return entry
 
     def _cancelClosuresWhenDisabled(self, runId: str) -> int:
         """Writes switched off, or a rule disabled, ends pending closures here, so the run can settle (B7 D3).
@@ -1819,8 +2293,9 @@ class FullRunner:
         commentId = outcome.get("commentId")
         if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
             raise RecordRefused("commentId, when given, must be a positive integer")
+        receiptEntry: dict[str, Any] = {}
         if result in ("closed", "already-closed"):
-            self._requireReceipt(result, outcome, params)
+            receiptEntry = self._requireReceipt(result, outcome, params)
         if result in ("closed", "already-closed") and not (isinstance(params.get("repo"), str) and params["repo"].strip()):
             raise RecordRefused("the closure action names no repository, so its outcome cannot be verified")
         if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
@@ -1840,6 +2315,9 @@ class FullRunner:
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
             "reason": reason if result == "refused" else None,
         }
+        if receiptEntry:
+            entry["stewardOwner"] = receiptEntry["stewardOwner"]
+            entry["worker"] = receiptEntry["worker"]
         key, issue = params["key"], params["issue"]
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
@@ -1881,12 +2359,7 @@ class FullRunner:
             if not pol.actionEnabled(action):
                 continue
             repo, number, head = st["repo"], int(st["number"]), str(st["headSha"])
-            if prstate.terminalFor(self.root, repo, number, action) is not None:
-                continue
-            ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
-            if prstate.writesInRun(self.root, runId, action) >= ceiling:
-                summary["deferred"].append({"number": number, "reason": f"run {action} budget ({ceiling}) is spent; resumes next run"})
-                continue
+            # Local outcomes/counters are diagnostics, never shared admission or settlement.
             verified = any(v.get("repo") == repo and v.get("number") == number and v.get("action") == action
                            and v.get("headSha") == head and v.get("baseSha") == st["baseSha"] and v.get("verdict") == "pass"
                            for v in prstate.readRecords(self.root, "verifications"))
@@ -1915,29 +2388,96 @@ class FullRunner:
         return summary
 
     def _recordPrWrite(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
-        """A merge or closure outcome is trusted only when the durable outcome store holds the same terminal line."""
-
-        from gaia_cli.steward.prmaintenance import state as prstate
+        """Bind every success/already-* to validated shared subject/evidence, never local JSONL."""
 
         params = action["params"]
         result = outcome.get("state")
-        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted"):
+        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted", "unknown", "quarantined", "possibly-sent"):
             raise RecordRefused(f"{action['type']} outcome state must be merged, closed, already-*, failed, refused or aborted")
         if outcome.get("repo") != params["repo"] or outcome.get("number") != params["number"]:
             raise RecordRefused(f"{action['type']} outcome names a different pull request than its action")
         if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
             raise RecordRefused(f"a {result} outcome needs a reason")
-        if result in ("merged", "closed"):
+        operation = None
+        attachedId = params.get("operationId")
+        reportedId = outcome.get("operationId")
+        if attachedId is not None and "operationId" in outcome and reportedId != attachedId:
+            raise RecordRefused("operation id conflicts with the attached shared operation")
+        operationId = attachedId if attachedId is not None else reportedId
+        expectedParams = copy.deepcopy(params)
+        success = result in ("merged", "closed", "already-merged", "already-closed")
+        if not success and operationId is None and result in ("failed", "refused", "aborted"):
+            from gaia_cli.steward import ledger
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
             try:
-                stored = prstate.terminalFor(self.root, params["repo"], params["number"], params["action"])
-            except prstate.StoreError as exc:
-                raise RecordRefused(f"the PR-maintenance outcome store is unreadable: {exc}") from exc
-            if stored is None or stored.get("state") != result or stored.get("headSha") != params["headSha"] \
-                    or (result == "merged" and stored.get("mergeCommitSha") != outcome.get("mergeCommitSha")):
-                raise RecordRefused(f"no recorded {result} outcome in the store matches this report; the action stays pending")
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                if coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("shared repository mismatch")
+                # This is a snapshot, not an atomic transaction with the local
+                # run CAS. Actions do not contain immutable PR/replacement IDs;
+                # a possible match must therefore block rather than guess them.
+                shared = coordinator.inspect()
+                for item in shared["operations"].values():
+                    subject = item["subject"]
+                    same = ((subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
+                            (params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"])
+                            and (subject["action"] != "close" or (subject["reason"] == params.get("reason")
+                                 and (subject["replacement"] or {}).get("number") == params.get("replacement"))))
+                    outstanding = item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
+                    # A matching committed effect (even one that completed before this action was attached to it) is
+                    # never contradicted by an uncorrelated failure, from this run or any other: reconcile instead.
+                    effective = item["state"] in ("completed-effect", "observed-terminal")
+                    if same and (outstanding or effective):
+                        raise ValueError("matching shared operation is outstanding or already effective")
+            except (ledger.LedgerUnavailable, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("shared operation status unavailable, outstanding or already effective; action stays pending "
+                                    "(reconcile with the operation's evidence)") from exc
+        if success or operationId is not None or result in ("unknown", "quarantined", "possibly-sent"):
+            from gaia_cli.steward.prmaintenance import coordination as critical
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            try:
+                critical.sha(operationId)
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                operation = coordinator.inspect()["operations"].get(operationId)
+                if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("unknown shared operation")
+                subject = operation["subject"]
+                if (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) != (
+                        params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"]):
+                    raise ValueError("operation subject mismatch")
+                if subject["action"] == "close" and (subject["reason"] != params.get("reason")
+                        or (subject["replacement"] or {}).get("number") != params.get("replacement")):
+                    raise ValueError("closure proof/request mismatch")
+                if success:
+                    expected = "merge" if result in ("merged", "already-merged") else "close"
+                    if (subject["action"] != expected or operation["state"] not in ("completed-effect", "observed-terminal")
+                            or outcome.get("evidenceSha256") != critical.digest(operation["evidence"])):
+                        raise ValueError("terminal evidence mismatch")
+                    if expected == "merge":
+                        evidence = json.loads(operation["evidence"]["detail"])
+                        if not evidence.get("parentsVerified") or not evidence.get("mergeCommitSha"):
+                            raise ValueError("matching merge parent proof missing")
+                        if outcome.get("mergeCommitSha", evidence["mergeCommitSha"]) != evidence["mergeCommitSha"]:
+                            raise ValueError("merge commit mismatch")
+                elif result in ("unknown", "quarantined", "possibly-sent") and operation["state"] not in critical.PENDING:
+                    raise ValueError("not an outstanding sender")
+                elif result in ("failed", "refused", "aborted") and operation["state"] in ("completed-effect", "observed-terminal"):
+                    raise ValueError("a failure report cannot contradict a shared effect")
+            except (critical.CoordinationError, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
-            return None
+            # Revalidate the snapshot on every CAS attempt; shared inspection stays
+            # outside this pure mutator. A concurrent attachment must be retried.
+            if live["params"] != expectedParams:
+                raise RecordRefused("pull request action changed while recording; retry the report")
+            if operation is not None:
+                live["params"]["operationId"] = operation["operationId"]
+                live["sharedState"] = operation["state"]
+                if operation["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined"):
+                    live["keepPending"] = True
 
         return prepared
 
@@ -2135,8 +2675,6 @@ class FullRunner:
         return lane, entry, reason
 
     def _phaseClassB(self, runId: str) -> bool:
-        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
-
         run = self._loadRun(runId)
         if self._pending(run, "agent.build"):
             return False
@@ -2177,10 +2715,15 @@ class FullRunner:
                 "detail": "no Class B action is emitted without a valid integration branch"})
         self._expireStuck(runId)
         builds = sum(1 for s in run["steps"] if s["kind"] == "agent.build")
-        if builds >= policy.max_dispatches_per_run:
+        # One run hands out its builds as a single parallel batch (up to maxDispatchesPerRun,
+        # and never past the lane's maxInFlight). Once any build exists in this run the batch
+        # is spent: re-entering this phase after the drivers record their outcomes must go on
+        # to verification, not top the batch up one build at a time.
+        if builds >= 1:
             return self._finish(runId, "class_b", {
                 "status": "ok", "dispatched": None,
                 "reason": f"this run already dispatched {builds} (maxDispatchesPerRun {policy.max_dispatches_per_run})"})
+        remaining = policy.max_dispatches_per_run - builds
 
         doc = self._load()
         sets = self._triageSets(scan, run, doc["work"])
@@ -2188,26 +2731,86 @@ class FullRunner:
         now = self._now()
 
         # Adoption: building work whose build outcome never arrived (abandoned run).
+        adopted = 0
+        active_scan = scan
+        from gaia_cli.steward.routing import _is_scan_fresh
         for item in sorted(doc["work"].values(), key=lambda value: value["debtId"]):
+            if adopted >= remaining:
+                break
             if item["state"] == "building" and not item.get("build") and item.get("authority") == "B" and item.get("dispatchId"):
-                self._reemitBuild(runId, item)
-                return False
+                if not _is_scan_fresh(active_scan, self.root, policy=policy, controller=self._controllerInstance()):
+                    active_scan = self._controllerInstance().scan(self.root)
+                    self._scans[runId] = active_scan
+                ok, active_scan = self._reemitBuild(runId, item, scan=active_scan)
+                if active_scan is not scan:
+                    scan = active_scan
+                    self._scans[runId] = scan
+                if ok:
+                    adopted += 1
+        if adopted:
+            return False
 
-        lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
-        if candidate is None:
-            def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
-                _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
-                set_lane(d, lane_document(_lane))
+        handed: list[dict[str, Any]] = []
+        stop = ""
+        while len(handed) < remaining:
+            doc = self._load()
+            lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
+            if candidate is None:
+                stop = reason
+                if not handed:
+                    def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
+                        _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
+                        set_lane(d, lane_document(_lane))
 
-            self._mutateRun(runId, keepLane, message="steward full lane")
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": reason})
+                    self._mutateRun(runId, keepLane, message="steward full lane")
+                break
+            outcome, stop, active_scan = self._dispatchCandidate(runId, scan, eligible, sets["debts"][candidate.debt_id], candidate, now)
+            if active_scan is not scan:
+                scan = active_scan
+                self._scans[runId] = scan
+                sets = self._triageSets(scan, run, doc["work"])
+                eligible = set(sets["classB"])
+            if outcome.get("dispatched") is None:
+                break
+            handed.append(outcome)
+        if not handed:
+            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": stop})
 
-        debt = sets["debts"][candidate.debt_id]
+        def record(_d: dict[str, Any], run: dict[str, Any]) -> None:
+            first = handed[0]
+            summary: dict[str, Any] = {
+                "status": "awaiting-build", "dispatched": first["dispatched"],
+                "dispatchId": first["dispatchId"], "stepId": first["stepId"],
+            }
+            if len(handed) > 1:
+                summary["dispatchedAll"] = [dict(h) for h in handed]
+            if stop:
+                summary["stopReason"] = stop
+            run["phases"]["class_b"] = summary
+
+        self._mutateRun(runId, record, message="steward full class_b dispatch")
+        _checkpoint("class_b.dispatched")
+        return False
+
+    def _dispatchCandidate(self, runId: str, scan: ScanResult, eligible: set[str], debt: Debt, candidate: Any,
+                           now: str) -> tuple[dict[str, Any], str, ScanResult]:
+        """Render and emit one build for the lane's chosen candidate; the outcome says whether it landed."""
+
+        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+
+        policy = self._policyLoaded()
         try:
-            result, prompt = render_dispatch_prompt(self.root, debt.id, controller=self._controllerInstance())
+            result, prompt = render_dispatch_prompt(
+                self.root,
+                debt.id,
+                controller=self._controllerInstance(),
+                policy=policy,
+                scan=scan,
+            )
         except RoutingError as exc:
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None,
-                                                   "reason": f"dispatch not rendered: {exc}"})
+            return {"dispatched": None}, f"dispatch not rendered: {exc}", scan
+        if result.scan is not scan:
+            self._scans[runId] = result.scan
         packet = result.artifact
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
@@ -2221,17 +2824,27 @@ class FullRunner:
         attempt = candidate.attempts + 1
         outcome: dict[str, Any] = {}
 
-        def commit(d: dict[str, Any]) -> None:
+        def commit(d: dict[str, Any], record: dict[str, Any]) -> None:
             outcome.clear()
-            laneNow, chosen, why = self._chooseCandidate(d, scan, eligible, now)
+            active_scan = result.scan
+            if active_scan is not scan:
+                active_sets = self._triageSets(active_scan, record, d["work"])
+                active_eligible = set(active_sets["classB"])
+                active_debt = active_sets["debts"].get(debt.id)
+            else:
+                active_eligible = eligible
+                active_debt = debt
+            if active_debt is None:
+                outcome.update(dispatched=None, reason="debt is no longer eligible after rescan")
+                return
+            laneNow, chosen, why = self._chooseCandidate(d, active_scan, active_eligible, now)
             if chosen is None or chosen.debt_id != debt.id:
                 set_lane(d, lane_document(laneNow))
                 outcome.update(dispatched=None, reason=f"the lane changed during rendering: {why}")
                 return
             laneNow = mark_dispatched(laneNow, laneNow.by_id(debt.id), dispatch_id=packet.dispatch_id, now=now)
             set_lane(d, lane_document(laneNow))
-            record = d["runs"][runId]
-            self._ensureWork(d, record, debt, now, routine=rule.routine, branch=branchName,
+            self._ensureWork(d, record, active_debt, now, routine=rule.routine, branch=branchName,
                              dispatchId=packet.dispatch_id, promptPath=self._relative(promptPath),
                              baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
             d["work"][debt.id]["build"] = None
@@ -2246,38 +2859,33 @@ class FullRunner:
             }, now)
             outcome.update(dispatched=debt.id, dispatchId=packet.dispatch_id, stepId=stepId)
 
-        def apply(d: dict[str, Any], record: dict[str, Any]) -> None:
-            commit(d)
-            record["phases"]["class_b"] = {"status": "awaiting-build", **outcome}
-            if outcome.get("dispatched") is None:
-                self._addStep(record, {"stepId": "phase:class_b", "kind": "phase", "status": "done", "at": now})
-                order = MODEPHASES[record["mode"]]
-                record["phase"] = order[order.index("class_b") + 1]
-
-        self._mutateRun(runId, apply, message="steward full class_b dispatch")
-        _checkpoint("class_b.dispatched")
-        return outcome.get("dispatched") is None
+        self._mutateRun(runId, commit, message="steward full class_b dispatch")
+        return dict(outcome), str(outcome.get("reason", "")), result.scan
 
     def _buildOutputs(self, runId: str, slug: str) -> dict[str, str]:
         return {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                 "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"}
 
-    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> None:
+    def _reemitBuild(self, runId: str, item: dict[str, Any], scan: ScanResult | None = None) -> tuple[bool, ScanResult | None]:
         now = self._now()
         slug = _hash12(item["debtId"])
         previous = item.get("promptPath")
         prompt: str | None = None
+        active_scan = scan
         if previous and (self.root / previous).is_file():
             prompt = (self.root / previous).read_text(encoding="utf-8")
         else:
             from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
 
             try:
-                _result, prompt = render_dispatch_prompt(self.root, item["debtId"], controller=self._controllerInstance())
+                result, prompt = render_dispatch_prompt(
+                    self.root, item["debtId"], controller=self._controllerInstance(), scan=active_scan
+                )
+                active_scan = result.scan
             except RoutingError:
                 prompt = None
         if prompt is None:
-            return
+            return False, active_scan
         outputs = self._buildOutputs(runId, slug)
         path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         path.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
@@ -2293,10 +2901,15 @@ class FullRunner:
                 "allowedModels": list(BUILDERMODELS), "effortRequired": True,
                 "outputs": dict(outputs),
             }, now)
-            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": item["debtId"], "adopted": True}
+            summary = run["phases"].get("class_b") or {}
+            adoptedIds = [*summary.get("adoptedAll", [summary["dispatched"]] if summary.get("adopted") else []), item["debtId"]]
+            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": adoptedIds[0], "adopted": True}
+            if len(adoptedIds) > 1:
+                run["phases"]["class_b"]["adoptedAll"] = adoptedIds
             doc["work"][item["debtId"]]["runId"] = runId
 
         self._mutateRun(runId, apply, message="steward full class_b adopt")
+        return True, active_scan
 
     # -- verify ----------------------------------------------------------
 
@@ -2547,6 +3160,17 @@ class FullRunner:
                                 f" (work was {state})")
                     if state == "proposed" and item.get("authority") == "A" and not self._mergedInto(item):
                         evidence += "; the proposed branch is not in this checkout"
+                    if state == "landed" and self._mergedInto(item) is True:
+                        item["resolvedBy"] = {
+                            "kind": "lane_repair", "receipt": summary["scanReceiptId"],
+                            "runId": item.get("runId"), "mergedSha": item.get("mergedSha"),
+                            "verifiedBy": (item.get("verification") or {}).get("agentId"),
+                        }
+                    else:
+                        item["resolvedBy"] = {
+                            "kind": "condition_not_reobserved", "receipt": summary["scanReceiptId"],
+                            "priorState": state,
+                        }
                     self._setState(doc, debtId, "resolved", now, evidence)
                     resolvedNow.append(debtId)
                 else:
@@ -2554,7 +3178,10 @@ class FullRunner:
                             "not claiming resolved")
                     self._note(item, now, text)
                     notes.append({"debtId": debtId, "note": text})
-            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow, notes=notes)
+            resolvedByRepair = [debtId for debtId in resolvedNow
+                                if doc["work"][debtId].get("resolvedBy", {}).get("kind") == "lane_repair"]
+            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow,
+                                                   resolvedByRepair=resolvedByRepair, notes=notes)
             self._addStep(record, {"stepId": "phase:reobserve", "kind": "phase", "status": "done", "at": now})
             order = MODEPHASES[record["mode"]]
             record["phase"] = order[order.index("reobserve") + 1]

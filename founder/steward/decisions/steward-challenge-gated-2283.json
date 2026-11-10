@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-challenge-gated-2283",
+  "status": "decided",
+  "decision": "Should the challenge dev command require Verifier authorization?",
+  "whyItMatters": "Challenge mutates governed state and must have the same authorization boundary as other mutating dev commands.",
+  "evidence": [
+    "Founder ruling 2026-11-08: \"Add challenge to MUTATING_DEV_COMMANDS\"",
+    "challengeCommand already calls require_operator at entry; adding dispatch-level membership must not cause a duplicate authorization prompt."
+  ],
+  "recommended": "Add challenge to MUTATING_DEV_COMMANDS and document it among gated verbs.",
+  "alternative": "Leave challenge outside the canonical mutating command set.",
+  "unblocks": "Verifier-gated challenge command dispatch.",
+  "links": ["https://github.com/gaia-research/gaia-skill-tree/issues/2283"],
+  "resolution": "approved"
+}

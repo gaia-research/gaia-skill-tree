@@ -24,12 +24,9 @@ import argparse
 import json
 import os
 import re
-import shutil
 import sys
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
 
 # Repo root is three parents up: contentEngine/ → scripts/ → repo root
 ROOT = Path(__file__).resolve().parents[2]

@@ -33,6 +33,7 @@ SRC = REPO_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from gaia_cli.frozen import frozenIds, frozenLock  # noqa: E402
 from gaia_cli.fusionScore import fusionScoreProjection  # noqa: E402
 from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
@@ -287,6 +288,18 @@ def appraise_skill(
             distinct_types = _countDistinctEvidenceTypes(named_dict, merged_map)
             has_witness = _hasEligibleIndependentWitness(named_dict, merged_map)
             grade = computeOverallTrustGrade(tm, distinct_types, has_witness)
+            # Frozen skills publish their locked TM/grade (gaia_cli.frozen); the
+            # fresh recomputation is reported alongside, never as the standing.
+            frozenFields: dict[str, Any] = {}
+            if named_dict.get("id") in frozenIds([*named_map.values(), named_dict]):
+                lock = frozenLock(named_dict)
+                if lock is None:
+                    return {
+                        "skillRef": skill_id,
+                        "error": f"frozen skill {skill_id!r} lacks a valid trustMagnitude/overallTrustGrade lock",
+                    }
+                frozenFields = {"frozen": True, "recomputedTm": round(tm, 2), "recomputedGrade": grade}
+                tm, grade = lock
             row_scores = computeRowArtifactScores(named_dict, merged_map)
             by_type = computeTrustMagnitudeByType(named_dict, merged_map)
             scope, genericResolution = namedScope(named_dict, merged_map)
@@ -297,6 +310,7 @@ def appraise_skill(
                 "grade": grade,
                 "scope": scope,
                 "genericResolution": genericResolution,
+                **frozenFields,
                 "totalStatus": "final" if genericResolution != GENERIC_NOT_EVALUATED else "partial",
                 "registryRevision": registryRevision(),
                 **fusionScoreProjection(named_dict, merged_map, merged_map),
@@ -373,6 +387,21 @@ def defaultTargets() -> list[AppraisalTarget]:
     ]
 
 
+def standingLines(result: dict[str, Any]) -> list[str]:
+    """Text lines for an appraisal's standing; a frozen skill's lock is labelled as a lock.
+
+    The score rows printed after these lines are always the current recomputation,
+    so a frozen skill states both numbers rather than presenting the lock as fresh.
+    """
+    if not result.get("frozen"):
+        return [f"  TM: {result['tm']:.1f}  Grade: {result['grade']}"]
+    return [
+        f"  FROZEN - locked TM {result['tm']:.2f} / {result['grade']} (never rewritten); "
+        f"current recomputation {result['recomputedTm']:.2f} / {result['recomputedGrade']}",
+        "  The rows below are the current recomputation, not the locked standing.",
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Dry-run TM appraisal for Gaia skills or suites")
     parser.add_argument("--skill", action="append", metavar="CONTRIBUTOR/SKILL-ID",
@@ -397,7 +426,8 @@ def main() -> int:
                 f"  Scope: {r['scope']}  Generic: {r['genericResolution']}"
                 f"  Total: {r['totalStatus']}  Registry rev: {r['registryRevision']}"
             )
-            print(f"  TM: {r['tm']:.1f}  Grade: {r['grade']}")
+            for line in standingLines(r):
+                print(line)
             fb = r.get("fusionBreakdown") or {}
             print(
                 f"  Fusion Score: {r.get('fusionScore', 0):.2f}"

@@ -9,7 +9,7 @@ level: 2★
 description: Route content to specialized ingestion skills. Detects input type and
   delegates.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Ingest
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md
@@ -32,6 +32,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md
@@ -44,8 +49,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:59:58Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: e68e991a4d392fd39d780f23ac5d4287779c3300b741b724c5017dd706720fa0
 ---
 

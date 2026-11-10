@@ -24,3 +24,10 @@ def pinnedSteward() -> Iterator[str]:
         yield FIXTURE_NOW
     finally:
         setClock(previous)
+
+
+@pytest.fixture(autouse=True)
+def attributableSteward(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Founder ruling #10: closures name the Steward owner and the worker. Tests act as this pair unless they unset it."""
+    monkeypatch.setenv("GAIA_STEWARD_OWNER", "steward-owner-test")
+    monkeypatch.setenv("GAIA_STEWARD_WORKER", "steward-worker-test")

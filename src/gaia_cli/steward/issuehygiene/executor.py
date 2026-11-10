@@ -281,7 +281,7 @@ def gateClosure(root: Path, action: Mapping[str, Any], receipt: Path, runId: str
     from .authority import closureAuthorityApproved
 
     if not closureAuthorityApproved(root):
-        raise ActionRefused("issue closure authority is an unratified Class C proposal", code="authority-pending")
+        raise ActionRefused("issue closure authority is unratified: steward-issue-closure-authority is not a decided, approved record", code="authority-pending")
     policy = loadHygienePolicyOrRefuse(root)
     if not policy.writesEnabled:
         raise ActionRefused("issueHygiene.writesEnabled is false; closures are not performed", code="writes-disabled")

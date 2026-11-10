@@ -12,7 +12,7 @@ description: Day-one data bootstrapping for a new brain. Sequences the highest-l
   import, calendar sync, contacts seeding, X/Twitter archive, conversation imports,
   and file archives. Use when a user has just finished gbrain setup and asks "now
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-09'
 title: Cold Start
 links:
   github: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-08T18:17:06Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 49.9, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: garrytan/gbrain
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md
@@ -47,8 +52,8 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-11-02T21:57:54Z'
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 49.9
+overallTrustGrade: C
 trustMagnitudeInputHash: 3ad6bd07b524a4872641823aa10894dad102f63619f4eeda802a5a6a228dec8c
 ---
 

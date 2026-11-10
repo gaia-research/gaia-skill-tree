@@ -79,11 +79,13 @@ def test_issue_2042_check_globs_new_english_pages_and_preserves_clean_and_stale_
     assert clean_page.read_bytes() == clean_bytes
 
 
-def test_issue_1642_rank_sensor_does_not_prove_cached_tm_input_freshness(tmp_path: Path) -> None:
+def test_issue_1642_hash_only_staleness_is_reported_even_when_rank_and_grade_match(tmp_path: Path) -> None:
     """A matching rank/grade can hide changed evidence when the cache hash is stale.
 
-    This is a documented coverage limit of TrustCalibrationDriftSensor, not
-    evidence that all trust-calibration coverage is healthy or cache-aware.
+    This was a documented coverage limit of TrustCalibrationDriftSensor. The
+    restamp review (#2323, B2) closed it: a stored trustMagnitudeInputHash that no
+    longer matches the evidence is reported as ``trust_stamp_stale`` even though the
+    level agrees with the computed grade and TM did not move.
     """
     named = tmp_path / "registry" / "named" / "fixture"
     named.mkdir(parents=True)
@@ -117,9 +119,11 @@ def test_issue_1642_rank_sensor_does_not_prove_cached_tm_input_freshness(tmp_pat
     track_all(tmp_path)
     observations = TrustCalibrationDriftSensor().scan(tmp_path, "2026-10-15T00:00:00Z")
 
-    # The sensor compares current level to computed target grade; it does not
-    # compare trustMagnitudeInputHash, so this fixture cannot establish cache freshness.
-    assert observations == []
+    # No calibration drift (level agrees with the grade), but the stale cache hash is reported.
+    assert [item.kind for item in observations] == ["trust_stamp_stale"]
+    state = observations[0].observed_state
+    assert state["staleFields"] == ["trustMagnitudeInputHash"]
+    assert state["recomputationOnly"] is True
 
 
 class _FailingAfterDriftSensor:

@@ -1,14 +1,11 @@
-"""Durable, resumable, idempotent state for PR maintenance (ignored local state under ``.gaia/steward/pr-maintenance``).
+"""Checkout-local PR diagnostics, independent-verifier inputs and model dispatch.
 
-Four append-only JSONL stores, written under one advisory file lock, each line one fsynced write:
-
-* ``outcomes``      reserved -> terminal lines for every write action (the exactly-once record);
-* ``verifications`` independent verification receipts bound to an exact head and base SHA;
-* ``dispatches``    roster dispatch records (environment, profile, agent, effort, capability, reason, envelope);
-* ``receipts``      GitHub comment receipts that were posted, keyed for idempotency.
-
-A reservation is written *before* the forge is called. A crash after the write leaves a reservation that the next
-run resolves from GitHub's actual state, so a merge is never repeated and never lost.
+These fsynced JSONL files and their local lock are NOT critical coordination or
+settlement authority. New merge/close preparation, claims, budgets and evidence
+live only on the separately pinned canonical coordinator ref. Legacy outcome,
+900-second reservation and counter readers remain historical diagnostics; they
+cannot issue a send grant, expire/refund an unknown sender or migrate old work.
+Profiles/dispatch/receipt publication bookkeeping stays local and best effort.
 """
 
 from __future__ import annotations

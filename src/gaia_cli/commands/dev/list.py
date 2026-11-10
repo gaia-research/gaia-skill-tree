@@ -1,6 +1,7 @@
 import os
 import json
-from gaia_cli.registry import registry_graph_path, named_skills_index_path
+from pathlib import Path
+from gaia_cli.registry import registry_graph_path, registry_nodes_dir, named_skills_index_path
 
 
 def meta_list_command(args):
@@ -11,10 +12,19 @@ def meta_list_command(args):
     results = []
 
     if getattr(args, "generic", False) or not getattr(args, "named", False):
-        if os.path.exists(graph_path):
+        checkout_nodes = Path(registry_path) / "registry" / "nodes"
+        nodes_path = checkout_nodes if checkout_nodes.is_dir() else Path(registry_nodes_dir(registry_path))
+        if nodes_path.is_dir():
+            skills = [json.loads(path.read_text(encoding="utf-8"))
+                      for path in sorted(nodes_path.rglob("*.json"))]
+            skills.sort(key=lambda skill: skill["id"])
+        elif os.path.exists(graph_path):
             with open(graph_path, "r", encoding="utf-8") as f:
-                graph_data = json.load(f)
-            for skill in graph_data.get("skills", []):
+                skills = json.load(f).get("skills", [])
+        else:
+            skills = []
+        if skills:
+            for skill in skills:
                 item = {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
                 if getattr(args, "description", False):
                     item["description"] = skill.get("description")
@@ -56,7 +66,7 @@ def meta_list_command(args):
                     results.append(item)
 
     if not results:
-        print("No skills found.")
+        print("[]" if getattr(args, "json", False) else "No skills found.")
         return
 
     # Output formatting

@@ -88,6 +88,7 @@ An independent reviewer re-runs the same commands before the proposal is used.
 
 ## Founder notes
 
-- Closure authority is not granted here. It is the rule-bound `issue_closure_ready` path, recorded in the decision file above, and it is switched off by `issueHygiene.writesEnabled: false`.
+- Closure authority is not granted here. It is the rule-bound `issue_closure_ready` path. The founder ratified the A1-A5 allowlist (ruling #10, recorded in the decision file above); it stays switched off by `issueHygiene.writesEnabled: false` until independently verified. Its receipts name the Steward owner and the worker.
+- A closed upstream umbrella is a completed epic (ruling #6). A repeat of that batch is suppressed (per child: only children matching a candidate of the closed batch) and a new version or candidate is new work. Closed umbrellas are read by label with no age window; if that history is unreadable every umbrella and parented child is not evaluated (no closure, dispatch or question), and a legacy slug-only row without a known full identity leaves its child not evaluated. A closed umbrella with open children or contradicting registry evidence is a HIGH-PRIORITY `closeout-discrepancy` founder note: preserve the closure, investigate, reconcile explicitly, never fabricate completion.
 - A proposal that says `accept-candidate` is a recommendation. The founder still decides whether the umbrella closes.
 - The highest-value dispatch is the batch where a founder question has just been answered. Reconcile that family, then close what the rule proves.

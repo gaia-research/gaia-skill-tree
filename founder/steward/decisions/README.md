@@ -35,8 +35,9 @@ File name `<id>.json`; the `id` inside must equal the file stem.
 |---|---|---|
 | `schemaVersion` | string | exactly `steward-decision-v1` |
 | `id` | string | lowercase `[a-z0-9][a-z0-9._-]*`, equals the file stem, unique |
-| `status` | string | `open` appears on the desk; `decided` is kept as history and never shown |
-| `resolution` | string | optional, non-empty; interpreted only by an explicitly scoped consumer |
+| `status` | string | `open` appears on the desk as a pending decision; `decided` is history, except a `decided` record with `resolution: approved` and no `landedIn`, which `gaia steward founder` lists as approved-awaiting-landing (see below) |
+| `resolution` | string | optional, non-empty; `approved` marks a founder approval (see below), any other value is interpreted only by an explicitly scoped consumer |
+| `landedIn` | string | optional, non-empty; the PR, commit or release where an `approved` record's change landed |
 | `decision` | string | the question, stated once, non-empty |
 | `whyItMatters` | string | non-empty |
 | `evidence` | list of strings | facts, not opinions; may be empty |
@@ -45,7 +46,7 @@ File name `<id>.json`; the `id` inside must equal the file stem.
 | `unblocks` | string | what moves once this is decided, non-empty |
 | `links` | list of strings | issue, PR, or repo-relative path; may be empty |
 
-Exactly the required keys above plus optional `resolution`: an unknown or missing
+Exactly the required keys above plus optional `resolution` and `landedIn`: an unknown or missing
 required key makes the record malformed.
 
 ## Lifecycle
@@ -82,6 +83,57 @@ cites the decision record; it does not rewrite issue or registry payloads.
 These records do **not** decide `steward-issue-closure-authority.json`, change
 `writesEnabled`, activate workflows or update a live ledger. Old persisted debt
 requires a separate authorized re-observation before its queue state can change.
+
+## Frozen post-freeze history acknowledgements (#2283 S7)
+
+A frozen skill's timeline is append-only, so rank events recorded after its
+freeze can never be repaired. `frozen_skill_drift` reports them until a founder
+acknowledges them with an ordinary decision record (no extra schema fields):
+
+- file and `id`: any id starting `steward-frozen-history` (e.g. the per-skill
+  `steward-frozen-history-mattpocock.diagnose`, or one dated record covering
+  several skills, as founder ruling F4 did in `steward-frozen-history-2026-11-08`);
+- `status: decided` and `resolution: acknowledged`;
+- one `evidence` line per acknowledged event, exactly
+  `postFreezeEvent <skill id> <timestamp> <action> sha256:<digest>`, copied from
+  the event's `acknowledgementLine` in the sensor's `postFreezeHistory`. The
+  digest covers the event's whole content, so a different event that happens to
+  share the timestamp and action is not acknowledged; two byte-identical events
+  need two copies of the line.
+
+Each evidence line names its skill, so one record can acknowledge several
+skills without one skill's line covering another's event. When two records carry
+the same line, it counts once per record at most (the largest count in any one
+record), so duplicating a record never covers an extra event.
+
+Each event is matched exactly, so a later post-freeze event is reported again. A
+malformed, open or differently resolved record acknowledges nothing. A stored
+level that differs from the frozen level is never acknowledged this way; it stays
+a founder decision. Steward never writes these records.
+
+## Scoped unsafe-execution exceptions (#2283 F6)
+
+`unsafe_execution` findings the founder ruled a scoped exception are pinned in
+`sensors_security._RECORDED_EXECUTION_EXCEPTIONS` as (path, pattern, enclosing
+function) -> record id, like the ungated-mutation exemptions. A matching finding is
+still listed, annotated `acknowledged` with the record and scope; the file is
+`healthy` only when every finding is covered. The same construct in any other file,
+function or pattern still flags, and the exception lapses if the record is missing
+or not `decided`. Current entry: `steward-humaneval-exec-benchmark-exception`
+(HumanEval `_execAndCheck`, `exec-nonliteral`, benchmark use only).
+
+## `gaia steward founder`
+
+`gaia steward founder` lists the same records `gaia steward full` does, in three groups:
+
+- **Pending** (`status: open`): decisions waiting for a ruling. They count toward "Decisions for you".
+- **Approved, awaiting implementation or landing** (`status: decided`, `resolution: approved`, no `landedIn`):
+  the founder has ruled, no new decision is needed, but the change is not yet recorded as landed. Set
+  `landedIn` once it has.
+- **Cannot be read**: malformed records, never dropped silently.
+
+The command prints "Nothing requires a decision." only when all three groups and the Class C queue are empty.
+`--json` carries the same grouping under `decisionRecords`.
 
 ## Malformed records
 

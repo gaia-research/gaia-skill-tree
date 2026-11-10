@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-11-06T14:17:08.462634+00:00",
+  "runId": "run-20261106T045029Z-92c5e38b",
+  "dispatchId": "dispatch-7930613ee061481cf023",
+  "stepId": "build:549e1d59b78e:1",
+  "attempt": 1,
+  "actionStatus": "pending",
+  "workState": "building",
+  "holder": null,
+  "capPolicy": {
+    "cooldownSeconds": 3600,
+    "maxAttempts": 2,
+    "maxInFlight": 2
+  },
+  "base": "786a24408eeb9c8e7f4fab83d6c6e70f2df281a6",
+  "scriptBlob": "56f075d2073c8ee7c1b6714e51e2e34e4f21ffe1",
+  "targetSensorAnalysis": {
+    "unused_imports": [
+      {
+        "line": 37,
+        "name": "os",
+        "statement": "import os",
+        "sideEffectPossible": true
+      },
+      {
+        "line": 41,
+        "name": "timezone",
+        "statement": "from datetime import timezone",
+        "sideEffectPossible": false
+      }
+    ]
+  },
+  "analysisOnlyNotCanonicalScan": true,
+  "stdlibSubprocessSource": "$STDLIB/subprocess.py",
+  "stdlibSubprocessSha256": "f5346dba56de4a9489e44ff7297177d5ac1d268793adf2b7198d5d0bd3f350b2",
+  "retainedSubprocessUnconditionallyImportsOs": true,
+  "sourcePacketSha256": "38383392ede369b72cf151d0505a405d46a141835cb3304f183fe1beced93426",
+  "approvalCommit": "af0e818f5",
+  "originalPacketUnmodified": true,
+  "noCanonicalMutation": true,
+  "ledgerVersion": "db0ec86253ecaf49ffeefabcbae1fdc1975feec3",
+  "operatorReplyVerbatim": "ci churn edit authorized",
+  "decisionCommittedBeforeImplementation": "af0e818f5",
+  "newHostBuilder": "1ec60be6-fb2b-4ac1-b9a3-541354b8d119",
+  "initialActualProvider": "openai",
+  "initialActualModel": "gpt-6.1-terra",
+  "initialActualApi": "openai-responses",
+  "initialActualThinking": "medium",
+  "priorSharedBuilderWasTerminalBlockedNotRestarted": true,
+  "newCanonicalAttemptCreated": false,
+  "canonicalStateMutatedByRevalidation": false,
+  "wholeSourceOrDebtClosureClaimed": false,
+  "builderOutcome": {
+    "candidate": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+    "tree": "ba96f3cb5b31bf509a231ef0d448a39607f77a2e",
+    "subjectBlob": "cb53169b8e718f48564c95ea858d864d54e13bc7",
+    "scope": "only authorized os/timezone bindings removed",
+    "reportedTests": {
+      "passed": 14,
+      "seconds": 1.18,
+      "compileallExit": 0
+    },
+    "actualFullSessionProvider": "openai",
+    "actualFullSessionModel": "gpt-6.1-terra",
+    "actualFullSessionThinking": "medium",
+    "policyModelClassification": "pi (harness slot, not runtime model)",
+    "independentReviewPending": true,
+    "leadCanonicalRecordAndFreshInputsResumeJob": "bd9d48845",
+    "leadCanonicalRecordAndFreshInputsResumeExit": 0
+  },
+  "independentVerification": {
+    "runId": "run-20261106T045029Z-92c5e38b",
+    "stepId": "verify:549e1d59b78e:1",
+    "attempt": 1,
+    "emittedAt": "2026-11-06T14:53:57.917796Z",
+    "mechanicalPrecheckNonObjection": true,
+    "coverageUnknown": [],
+    "freshIssuePrCiInputsCollected": true,
+    "nativeRun": "52020067-05d2-4e98-be5d-1dd46ba4eb91",
+    "agent": "campaign-luna-pinned",
+    "requestedProvider": "openai",
+    "requestedModel": "gpt-6-luna",
+    "requestedThinking": "medium",
+    "role": "different agent/session from builder",
+    "capabilityFloor": "simple one-subject two-import patch, Luna-first per operator",
+    "status": "completed_clarified_accept_recorded",
+    "accepted": false,
+    "initialActualProvider": "openai",
+    "initialActualModel": "gpt-6-luna",
+    "initialThinkingJournal": [
+      "medium"
+    ],
+    "sessionId": "01a1b15b-ad83-7134-b050-a2ee84bba371",
+    "initialVerdict": "reject",
+    "initialCanonicalVerdictRecorded": false,
+    "initialConcerns": [
+      "independent sensor reproduction not performed",
+      "consumer assurance insufficient",
+      "incorrectly demands builder-supplied independent-review item4"
+    ],
+    "clarificationRun": "0c649d70-a7cb-447a-a120-aaaf62251625",
+    "clarificationReason": "Correct explicit builderpacket/skill contradiction foritem4 and complete already-authorized pure-readonly analysis; no desired verdict, source edit or attempt reset",
+    "finalVerdict": "accept",
+    "initialProtocolItem4ErrorWithdrawn": true,
+    "freshRegisteredSensorBase2Candidate0": true
+  },
+  "canonicalResolution": "CICHURN_CANONICAL_RESOLUTION.json"
+}

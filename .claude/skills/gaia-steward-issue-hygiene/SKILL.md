@@ -42,8 +42,14 @@ closure digests match the re-derived closure.
 1. Perform the closure:
 
 ```bash
-python scripts/steward_issue_close.py --action ACTION.json --root . --repo gaia-research/gaia-skill-tree --run-id RUN
+python scripts/steward_issue_close.py --action ACTION.json --root . --repo gaia-research/gaia-skill-tree --run-id RUN \
+  --steward-owner "<accountable Steward owner>" --worker "<this worker>"
 ```
+
+`--steward-owner` and `--worker` (or `GAIA_STEWARD_OWNER` and `GAIA_STEWARD_WORKER`) are required: without both,
+nothing is written (exit 2, reason `attribution-missing`). Every receipt then records `stewardOwner`, `worker`,
+the ratified `authority` record, the exact `closureProof`, and the issue's state `before` and `after` the closure.
+The full-run record step refuses a closed outcome whose receipt does not name both. The close script applies the same receipt check to every terminal outcome it prints, fresh or replayed (attribution, approved authority, proof matching the action, open before state, consistent after state): a legacy, malformed or contradictory receipt, or an after observation of open, exits 2 with reason `receipt-invalid` and is never reported as a close.
 
 It prints one JSON line: `outcome`, `key`, `issue`, `closedAt`, `failure`,
 `preservedSha256`, and exactly ONE proof field: `commentUrl` (a GitHub comment URL on this
@@ -66,9 +72,11 @@ The executor re-derives every gate below before any forge is built:
 
 0. `founder/steward/decisions/steward-issue-closure-authority.json` is explicitly `decided`
    with `resolution: "approved"`; a rejected or merely decided question grants no authority.
-   It is OPEN in this mission: no inferred approval, live closure dry run or pilot.
+   The founder ratified it on 2026-11-06 (ruling #10, A1-A5), but ratification is not rollout: no live
+   closure dry run or pilot is authorized by it.
 1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`, and the policy parses.
-   Changing this switch alone cannot ratify the proposed Class A issue-write authority.
+   Changing this switch alone cannot ratify Class A issue-write authority, and the ratified record alone
+   never turns writes on. It stays false until the lead has independently verified the path.
 2. The action's rule is in `issueHygiene.enabledRules`. An A5 closure also needs a
    non-empty `a5Disabled` covering every workflow its evidence names.
 2a. The pair is not recorded as done in ANY receipts file or in the outcome store (B8 H-1). A pair the steward
@@ -91,6 +99,8 @@ The executor re-derives every gate below before any forge is built:
 - Writes the marked closing comments, or finds them already posted by the closer identity.
   Another author's marker or unknown closer blocks without a duplicate comment. Before close,
   re-reads the issue and complete history, checks for objections, and verifies every part's full content.
+- A closure a person reopened is respected: the pair is never closed again automatically (reason `already-recorded`).
+- Ambiguous, contested or unsupported cases are excluded: any doubt is `failed`, `blocked-identity` or `stale-skip`.
 - Never edits a title or body, never deletes, never reopens, never touches another issue, and
   never edits `registry/`, `POLICY.yaml` or `.gaia/steward/` state beyond the receipt and the
   recorded outcome.

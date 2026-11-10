@@ -1,7 +1,6 @@
 import sys
 import datetime
 import json
-import os
 from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_nodes_dir
@@ -27,6 +26,100 @@ def _preflight_benchmark_percentile(args) -> None:
     _run_dev_preflights([
         lambda: _preflight_evidence_static(args, ("benchmark-result", "repo-own")),
     ])
+
+
+def _restampSnapshot(args):
+    """Preflight the dependent restamp, then snapshot trust before the evidence write (#1642).
+
+    Runs BEFORE the evidence is mutated. Every named skill must be fingerprintable
+    and Origin standings (and frozen locks) must be derivable, because the restamp
+    that follows needs both. If it cannot be computed safely the whole command is
+    refused with nothing written. Returns None when ``--no-restamp`` opted out.
+    """
+    if getattr(args, "no_restamp", False):
+        return None
+    from gaia_cli.trustRestamp import namedTrustSnapshot, protectedState
+
+    problems: list[str] = []
+    snapshot = None
+    try:
+        snapshot = namedTrustSnapshot(args.registry)
+        if snapshot.unevaluable:
+            problems.append(
+                f"{len(snapshot.unevaluable)} named skill(s) cannot be fingerprinted "
+                f"({', '.join(snapshot.unevaluable[:5])})"
+            )
+        protectedState(args.registry)  # Origin derivability, frozen locks, record digests
+    except Exception as exc:  # noqa: BLE001 - fail closed: any inability to compute is a refusal
+        problems.append(f"{type(exc).__name__}: {exc}")
+    if problems:
+        print(
+            "Error: refusing to write evidence: the dependent trust restamp cannot be safely computed "
+            f"({'; '.join(problems)}). Nothing was written. Fix the cause, or pass --no-restamp to write "
+            "the evidence without refreshing trust stamps (the trust_stamp_stale sensor will then flag them).",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return snapshot
+
+
+def _restampAfter(args, before, trigger, targetId) -> None:
+    """Restamp the derived trust stamp of only the skills this evidence write affected.
+
+    Founder ruling 2026-11-06 (#1642, option 8A). Runs in the same invocation as
+    the evidence change so the stamp refresh lands in the same reviewed PR. It
+    is gated on recomputationOnly (the computed grade still agrees with the
+    stored star level and the stored grade), skips frozen skills, never writes a
+    star level, and is re-verified from disk. A refresh that is not a pure
+    recomputation is held and reported; the stale stamp keeps its governed
+    authority.
+
+    Anything that still fails here happens AFTER the evidence was written (the
+    preflight in ``_restampSnapshot`` already refused what could be foreseen), so
+    the command exits nonzero and says exactly that, rather than a bare error.
+    """
+    if before is None:
+        return
+    from gaia_cli.trustRestamp import restampAfterEvidenceChange
+
+    def partial(reason: str) -> str:
+        return (
+            "Error: Evidence written; stamps not refreshed (sensor backstop will flag): "
+            f"{reason}. The evidence change is on disk, so do not re-add it, and the refresh may be "
+            "incomplete or unverified (some stamps may have been written). Resolve the cause, then run "
+            "`gaia dev calibrate-trust-magnitude --all --recomputation-only` (or let the "
+            "`trust_stamp_stale` sensor report the stale stamps)."
+        )
+
+    try:
+        report = restampAfterEvidenceChange(
+            args.registry, before, trigger=trigger, targetId=targetId
+        )
+    except SystemExit:
+        print(partial("the operator was not authorized to refresh stamps"), file=sys.stderr)
+        raise
+    except Exception as exc:  # noqa: BLE001 - after the write every failure must be reported as partial success
+        print(partial(f"restamp failed ({type(exc).__name__}: {exc})"), file=sys.stderr)
+        sys.exit(1)
+    if not (report.affected or report.held or report.unevaluable):
+        return
+    print(
+        f"Trust stamp restamp (event-driven, #1642): {len(report.affected)} affected, "
+        f"{len(report.restamped)} restamped, {len(report.held)} held, "
+        f"{len(report.frozen)} frozen skipped; no star level written."
+    )
+    for item in report.held:
+        print(
+            f"  HELD {item['skillId']}: {item['reason']} "
+            f"(level {item['storedLevel']}, stored grade {item.get('storedGrade')}, "
+            f"computed grade {item['computedGrade']}). Stamp left unchanged; "
+            "it stays a Class C trust_stamp_stale finding."
+        )
+    if report.unevaluable:
+        print(
+            f"  WARNING: {len(report.unevaluable)} named skill(s) could not be fingerprinted "
+            f"({', '.join(report.unevaluable[:5])}); affected status is unproven for any that carry a stamp."
+        )
 
 
 def meta_evidence_command(args):
@@ -281,6 +374,7 @@ def meta_evidence_command(args):
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source, evidence_type),
         ])
+        restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
         if not evidence_changed:
             print(f"No evidence changes for {skill_id} entry #{index}.")
@@ -315,6 +409,7 @@ def meta_evidence_command(args):
             lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source, evidence_type),
         ])
+        restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(data.setdefault("evidence", []))
         if not evidence_changed:
             print(f"No evidence changes for {skill_id} entry #{index}.")
@@ -378,6 +473,8 @@ def meta_evidence_command(args):
                 registry_path=registry_path,
             )
 
+    _restampAfter(args, restampBefore, "gaia dev evidence", skill_id)
+
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
         _run_docs_build(args.registry)
@@ -430,6 +527,7 @@ def meta_rm_evidence_command(args):
         _run_dev_preflights([
             lambda: preflightNamedSkillMutable(registry_path, skill_id),
         ])
+        restampBefore = _restampSnapshot(args)
         kept, removed = _filter(meta.get("evidence", []))
         if not removed:
             print(f"No matching evidence on '{skill_id}'.")
@@ -454,6 +552,7 @@ def meta_rm_evidence_command(args):
             sys.exit(1)
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
+        restampBefore = _restampSnapshot(args)
         kept, removed = _filter(data.get("evidence", []))
         if not removed:
             print(f"No matching evidence on '{skill_id}'.")
@@ -474,6 +573,8 @@ def meta_rm_evidence_command(args):
         f"Removed dead/invalid evidence: {srcs}",
         registry_path=registry_path,
     )
+
+    _restampAfter(args, restampBefore, "gaia dev rm-evidence", skill_id)
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

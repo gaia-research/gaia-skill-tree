@@ -24,6 +24,7 @@ shape, and page error text is reduced to a count.
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 from typing import Any
@@ -38,13 +39,29 @@ from gaia_cli.steward.primitives import (
     read_text_bounded,
     tracked_files,
 )
-from gaia_cli.steward.primitives.inputs import origin_repository, require_fresh
+from gaia_cli.steward.primitives.inputs import origin_repository, parse_instant, require_fresh
 from gaia_cli.steward.primitives.redact import describe_value
 from gaia_cli.steward.sensors_ci import _load_optional_json, _require_str
 from gaia_cli.steward.sensors_contracts import _FRONTEND_EXCLUDES
 
 _RENDER_INPUT = Path(".gaia/steward/inputs/browser-render.json")
 _RENDER_SCHEMA = "steward-browser-render-v1"
+# The collector records how its last attempt ended here, so a browser that could not run is reported as
+# unavailable instead of as an absent or stale input. Optional: an absent file changes nothing.
+_STATUS_INPUT = Path(".gaia/steward/inputs/browser-render-status.json")
+_STATUS_SCHEMA = "steward-browser-render-status-v1"
+_STATUS_STATES = frozenset({"ok", "failed", "refused"})
+# Only these reasons are ever echoed; the collector's own wording never is.
+_STATUS_REASONS = {
+    "playwright-missing": "Playwright is not installed",
+    "chromium-install-failed": "Chromium could not be installed",
+    "chromium-launch-failed": "Chromium could not be launched",
+    "collection-error": "the collector stopped with an error",
+    "interactive-not-allowed": "an interactive browser was requested but the run did not allow one",
+    "collection-incomplete": "the collection attempt never finished (killed, timed out or never started)",
+    "headless-disabled": "headless collection is switched off in POLICY.yaml",
+    "artifact-rejected": "the collected render failed validation and was discarded",
+}
 _MAX_RENDERS = 4000
 _MAX_FAILURES_PER_RENDER = 50
 _REPOSITORY = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
@@ -86,7 +103,13 @@ class BrowserRenderSensor:
 
     def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         root = git_root(repo_root)
-        document = _load_optional_json(root, _RENDER_INPUT)
+        status = self._collectionStatus(root)
+        try:
+            document = _load_optional_json(root, _RENDER_INPUT)
+        except SensorNotEvaluated:
+            if status is not None and status["state"] != "ok":
+                raise self._collectionUnavailable(status) from None
+            raise
         if not isinstance(document, dict) or document.get("schemaVersion") != _RENDER_SCHEMA:
             raise SensorUnavailable(f"browser-render does not declare schema {_RENDER_SCHEMA}")
         repository = _require_str(document, "repository", "browser-render")
@@ -104,6 +127,11 @@ class BrowserRenderSensor:
         viewports = self._viewports(document.get("viewports"))
         renders = self._renders(document.get("renders"), viewports)
         freshness = require_fresh(document, root / _RENDER_INPUT, observed_at, label="browser-render")
+        if status is not None and status["state"] != "ok" and status["at"] >= parse_instant(
+            document.get("collectedAt"), "browser-render collectedAt"
+        ):
+            # The latest collection attempt failed after this input was written, so it describes an older render.
+            raise self._collectionUnavailable(status)
 
         origin = origin_repository(root)
         if origin is not None and origin.casefold() != repository.casefold():
@@ -169,6 +197,42 @@ class BrowserRenderSensor:
                 )
             )
         return SensorScan(tuple(observations), skips.entries())
+
+    @staticmethod
+    def _collectionStatus(root: Path) -> dict[str, Any] | None:
+        """The collector's own record of its last attempt, or None when it left none."""
+
+        path = root / _STATUS_INPUT
+        if not path.exists() and not path.is_symlink():
+            return None
+        if not path.is_file():
+            raise SensorUnavailable(f"{_STATUS_INPUT.as_posix()} is not a regular file")
+        try:
+            document = json.loads(read_text_bounded(path))
+        except json.JSONDecodeError as exc:
+            raise SensorUnavailable(f"{_STATUS_INPUT.as_posix()} is not valid JSON: {exc.msg}") from exc
+        if not isinstance(document, dict) or document.get("schemaVersion") != _STATUS_SCHEMA:
+            raise SensorUnavailable(f"browser-render status does not declare schema {_STATUS_SCHEMA}")
+        state = document.get("state")
+        if state not in _STATUS_STATES:
+            raise SensorUnavailable(f"browser-render status state is not one of {sorted(_STATUS_STATES)}")
+        reason = document.get("reason")
+        if state != "ok" and reason not in _STATUS_REASONS:
+            reason = "collection-error"
+        return {
+            "state": state,
+            "reason": reason,
+            "at": parse_instant(document.get("collectedAt"), "browser-render status collectedAt"),
+        }
+
+    @staticmethod
+    def _collectionUnavailable(status: dict[str, Any]) -> SensorNotEvaluated:
+        """Not evaluated, and not 'absent': a collection was attempted and could not complete, which a person can fix."""
+
+        return SensorNotEvaluated(
+            f"browser collection {status['state']}: {_STATUS_REASONS[status['reason']]}; "
+            "rendered frontend facts are NOT EVALUATED, not healthy"
+        )
 
     @staticmethod
     def _inventory(root: Path) -> list[str]:

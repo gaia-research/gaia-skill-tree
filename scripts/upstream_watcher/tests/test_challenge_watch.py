@@ -35,17 +35,13 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.upstream_watcher.challenge_watch import (
     ChallengeComparator,
     ChallengeTarget,
-    ChallengeWatchResult,
-    ObservationPacket,
     ValidatedChallenge,
     VerificationReceipt,
     WatchBudget,
     WatchLedger,
-    observe_challenge,
     run_challenge_watch as _run_challenge_watch,
 )
 from scripts.upstream_watcher.transport import (
-    Response,
     SimulatedTransport,
     VirtualClock,
 )

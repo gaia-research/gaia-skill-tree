@@ -3,6 +3,7 @@ import datetime as dt
 from dataclasses import replace
 
 from gaia_cli import shadowEvaluation as shadow
+from gaia_cli.trustMagnitude import SUITE_COMPONENT_REPOSITORY_CAP
 from gaia_cli import trustMagnitude as tm
 
 UTC = dt.timezone.utc
@@ -236,7 +237,7 @@ def test_row_report_distinguishes_raw_artifact_score_from_suite_bounded_contribu
     report = result["rows"][0]
     assert report["rawArtifactScore"] == report["artifactScore"]
     assert report["rawArtifactScore"] > 50
-    assert report["boundedArtifactScore"] == 50
+    assert report["boundedArtifactScore"] == SUITE_COMPONENT_REPOSITORY_CAP
     assert "pre-plateau/pre-suite-cap" in report["artifactScoreMeaning"]
 
 
