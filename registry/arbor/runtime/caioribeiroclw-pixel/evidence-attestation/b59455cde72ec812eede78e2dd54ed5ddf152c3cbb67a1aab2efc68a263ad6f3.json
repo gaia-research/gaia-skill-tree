@@ -1,0 +1,57 @@
+{
+  "inputDigest": "b7912fd575ed15543efc0509bbbb2a70206761b556fd96c211be55abffd93480",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 25-41, 92-110, of caioribeiroclw-pixel/pluribus@b15a1886284ffd392223d6cf6d71c8f7dafe0b45:skills/evidence-attestation/SKILL.md (sha256 886ca4c1299b1fe758cf11b83770bc8432095b778694114a2f575c859ecb7316; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "The agent has produced a claim that another agent, a later session or a reviewer will reuse as authority, and it holds resolvable references to the evidence behind it (commit ids, issue URLs, command names, fixture paths, artifact hashes). The claim concerns what the attestation records, not whether the underlying work is correct. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+            "declarationId": "arbor-i-seed.caioribeiroclw-pixel.evidence-attestation.v1",
+            "declarationSource": "090e550dd5b2f04ee0c9ce9f0913169b5bd90a55d2a9395407a3016a9c68cfd4",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "model-led",
+            "id": "structured-attestation-of-a-reused-claim",
+            "interpretationSource": null,
+            "rationale": "The source has the agent emit a compact attestation listing evidence references, a status per claim ('supported', 'contradicted', 'unknown' or 'not_checked'), and a verdict chosen by stated rules: 'accepted only when the evidence supports the claim and no required evidence is missing', 'review_required when evidence is partial, stale-prone, or needs a human/verifier', 'blocked when required evidence is inaccessible or unsafe to inspect' (lines 92-97). It excludes raw prompts, transcripts, secrets and full diffs in favour of hashes, identifiers and source labels (lines 29-37) and says 'Do not upgrade weak evidence into authority' (line 39). Emitting the attestation does not wait on a person, but one of its verdicts exists to hand the claim to one: 'review_required' is for evidence that 'needs a human/verifier' (line 96). The bundled checker it mentions (line 99) is not part of the inspected file. The text states its own ceiling: a passing check 'does not prove the underlying work is correct; it proves the evidence boundary is inspectable' (line 110). The principal failure mode is structural: the attestation is issued by the same agent whose claim it describes, so an 'accepted' verdict is a self-report, and evidence references can be written that nobody resolves. Falsified if 'accepted' verdicts are emitted where a required evidence reference is missing or does not resolve; qualified if downstream readers are shown to treat a passing structural check as proof of the work.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "92b93a864c5203f850df2097054b17f630a99caaae80c4721e1cd37587733fcc",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
+          "id": "caioribeiroclw-pixel/evidence-attestation"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "090e550dd5b2f04ee0c9ce9f0913169b5bd90a55d2a9395407a3016a9c68cfd4"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "b7912fd575ed15543efc0509bbbb2a70206761b556fd96c211be55abffd93480",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [],
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
+    "id": "caioribeiroclw-pixel/evidence-attestation"
+  }
+}

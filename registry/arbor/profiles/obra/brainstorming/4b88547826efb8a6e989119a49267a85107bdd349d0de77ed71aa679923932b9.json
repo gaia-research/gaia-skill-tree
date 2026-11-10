@@ -1,0 +1,33 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 17-33, 101-106, 245-283, of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/brainstorming/SKILL.md (sha256 2c9ca71f94886f9ca9f4aef055f7cafb3e1a9bdf3aeebf8f4cb547c69405d207; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "benchmarkSources": [],
+      "conditions": "A person is available to answer questions and to approve a written design; the request is creative or underspecified work (a new feature, component or behaviour change) that the request does not already fully specify. The agent can write a design document into the workspace.",
+      "declarationId": "arbor-i-seed.obra.brainstorming.v1",
+      "declarationSource": "2babdaf0c48abaa5afefdce78dfe7a6568f645d3a7475e0e9546f53b2e3b1362",
+      "declaredAt": "2026-11-10T13:45:00Z",
+      "facet": "human-led",
+      "id": "design-approval-before-build",
+      "interpretationSource": null,
+      "rationale": "The source orders the work as: lay out approaches in a message of their own and have the person pick, write a design document, 'Get their approval of that doc', then invoke the planning skill (lines 28-33). Questions are asked one at a time and only when the answer would change what gets built (lines 101-106). A block marked HARD-GATE says 'Nothing gets built until your human partner approves the design doc', where building includes product code, scaffolding, installing dependencies, creating projects and invoking an implementation skill (lines 269-274). The gate has 'Two exceptions': if the person opted out of the questions 'the skill is done and the gate goes with it', and 'A spike they said yes to may be built; it stays labeled throwaway' (lines 276-279). The convergence step is therefore owned by the person, including the choice to waive it. Further qualifications visible in the text: the agent itself judges whether 'Everything that matters is in the request' and may then skip the process (lines 17-24), so the gate depends on the agent's own estimate of what is missing; the builder check depends on a sibling prompt file and a subagent tool (lines 250-266). Plausible failure mode: in an unattended run nothing can approve the document and the run stalls at the gate. Falsified if a session that has loaded this text writes product code before a design approval when the person has neither opted out of the questions nor agreed to a labelled spike; qualified by how often the skip path is taken on requests a reviewer would call underspecified.",
+      "support": "expert-declared"
+    }
+  ],
+  "inputDigest": "11c57a3b0c88243eab46f36a343efadee7013f8b4a03248599562f0153b3a2cc",
+  "schema": "gaia.arbor-profile/v1",
+  "skill": {
+    "contentSha256": "4b88547826efb8a6e989119a49267a85107bdd349d0de77ed71aa679923932b9",
+    "id": "obra/brainstorming"
+  },
+  "sources": {
+    "benchmarkReceipts": [],
+    "declarations": [
+      "2babdaf0c48abaa5afefdce78dfe7a6568f645d3a7475e0e9546f53b2e3b1362"
+    ],
+    "interpretations": []
+  }
+}

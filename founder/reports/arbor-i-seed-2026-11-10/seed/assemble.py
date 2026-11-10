@@ -10,6 +10,7 @@ script never writes into `registry/arbor/`.
 
     python founder/reports/arbor-i-seed-2026-11-10/seed/assemble.py            # write records/
     python founder/reports/arbor-i-seed-2026-11-10/seed/assemble.py --check    # records == store?
+    python founder/reports/arbor-i-seed-2026-11-10/seed/assemble.py --list-digests
 
 Re-issue under a different authority (the PR #2036 pattern: same claims, a
 human adopter as the named authority) with `--authority-actor`,
@@ -147,6 +148,11 @@ def buildRecords(seed: dict, override: dict | None, declaredAt: str | None) -> d
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--check", action="store_true", help="verify records/ and the store match the seed")
+    parser.add_argument(
+        "--list-digests",
+        action="store_true",
+        help="print the store-relative source path of every seed record, for removal before a re-issue",
+    )
     parser.add_argument("--authority-actor")
     parser.add_argument("--authority-basis")
     parser.add_argument("--declared-at")
@@ -167,6 +173,11 @@ def main() -> int:
     except SeedError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
+
+    if args.list_digests:
+        for _relative, record in sorted(records.items()):
+            print(f"{SOURCE_DIRECTORIES[record['schema']]}/{contentDigest(record)}.json")
+        return 0
 
     out = Path(args.out)
     failures = 0

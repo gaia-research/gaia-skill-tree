@@ -3,8 +3,92 @@
   "schema": "gaia.arbor-runtime-index/v1",
   "subjects": [
     {
+      "contentSha256": "c05a190b4edd61039ebfba00cf6db26a977ff383e613da529a84778850262d7f",
+      "id": "addy-osmani/source-driven-development"
+    },
+    {
+      "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
+      "id": "caioribeiroclw-pixel/evidence-attestation"
+    },
+    {
+      "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+      "id": "garrytan/careful"
+    },
+    {
+      "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+      "id": "garrytan/context-restore"
+    },
+    {
+      "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+      "id": "garrytan/context-save"
+    },
+    {
+      "contentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
+      "id": "garrytan/cso"
+    },
+    {
+      "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+      "id": "garrytan/freeze"
+    },
+    {
+      "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+      "id": "garrytan/guard"
+    },
+    {
+      "contentSha256": "3e4638a7937f1bd8ffcb8985ee09988d0910ed2626402cdf24993d1b03652d16",
+      "id": "garrytan/land-and-deploy"
+    },
+    {
+      "contentSha256": "266f1bbb6ce9f0036e0af82e91b94b50ad6200d42d81d4b8ef078bc1ebf7f26f",
+      "id": "garrytan/qa-only"
+    },
+    {
+      "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
+      "id": "garrytan/qa"
+    },
+    {
+      "contentSha256": "df77b1351da3886ab547a226d8d0b33a00842bca1e541b805b4e0169e7453972",
+      "id": "mattpocock/diagnosing-bugs"
+    },
+    {
+      "contentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
+      "id": "mattpocock/grill-me"
+    },
+    {
+      "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+      "id": "mattpocock/grilling"
+    },
+    {
+      "contentSha256": "fb23458098bb2eea695a906fe8b554be9bdbdda851fc1d87682ec23b80f1cff8",
+      "id": "mattpocock/handoff"
+    },
+    {
+      "contentSha256": "eb07fcf50aea873ffa809407798eedb586193f7636950d27a457bfc61b7fa7f8",
+      "id": "mattpocock/wayfinder"
+    },
+    {
+      "contentSha256": "4b88547826efb8a6e989119a49267a85107bdd349d0de77ed71aa679923932b9",
+      "id": "obra/brainstorming"
+    },
+    {
+      "contentSha256": "17b6dbb5903798fd3cc06871b95e4c7ce16763dcc5182b8da5114845b9469b7a",
+      "id": "obra/executing-plans"
+    },
+    {
       "contentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
       "id": "obra/receiving-code-review"
+    },
+    {
+      "contentSha256": "1de89db6429470eefe80ab16c65e7742ad96b1155ba4d3aef38715293baacf2e",
+      "id": "obra/subagent-driven-development"
+    },
+    {
+      "contentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
+      "id": "obra/systematic-debugging"
+    },
+    {
+      "contentSha256": "c5a7509a90d254f630fde69d1a1dbf05e3c238bcd113b5257e642094a6d27326",
+      "id": "obra/verification-before-completion"
     }
   ]
 }

@@ -1,0 +1,88 @@
+{
+  "inputDigest": "3da3827194cf747ca2a8ae90029b6568e6d8e9c3166f2113e3029510cd9a883a",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 107, 161, 189, 225-258, 302-308, 388-397, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "Work is about to be interrupted (before compaction, a hand-off or the end of a session) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, inside a git repository. The agent may write under the gstack state root. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+            "declarationId": "arbor-i-seed.garrytan.context-save.v1",
+            "declarationSource": "76537062e24e251e0e12012500ea0efb7e35c559802c1bfdccda202087ca6852",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "model-led",
+            "id": "state-capture-without-code-changes",
+            "interpretationSource": null,
+            "rationale": "The source carries a block 'HARD GATE: Do NOT implement code changes. This skill captures state only' (line 107) and the rule 'Never modify code. This skill only reads state and writes the context file' (line 391). It writes a new checkpoint file each time under the state root, never overwriting an earlier one (lines 244, 393-394), with the path computed in the shell so a user-supplied title cannot steer it (line 225). It tells the agent to 'Infer, don't interrogate' and to ask only if a title cannot be inferred (lines 396-397). It adds checks on its own content: every remaining-work item starts with a provenance status (line 161) and a claim about file contents needs a same-turn read (line 189). An append-only write outside the repository with no required question is what makes this suitable for a model to trigger. Plausible failure modes: the checkpoint is the model's own reconstruction of the conversation, so a decision it misremembers is saved as fact; a checkpoint taken after compaction can only record what survived; the shared startup section also writes logs and analytics; when the session started in a directory outside the repository the skill also leaves a pointer file there (lines 302-308). Falsified if a save modifies repository files; qualified by how much a checkpoint omits when taken late.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "a5e904158b2a3d52605fc3037d6c0ac3b4d390a3d13c340925a3aed74724014e",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+          "id": "garrytan/context-save"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "76537062e24e251e0e12012500ea0efb7e35c559802c1bfdccda202087ca6852"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "1604447a38767114205637891a8ca568377a8e4e7bbead15bdf6adf0fc507c39",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [
+        {
+          "authority": {
+            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+            "basis": "Agent-authored structural reading, lines from 105, 225-258, 298-308; to 106, 142, 259-283, 318-326, 401-403, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+          },
+          "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction.",
+          "declarationSource": "e8bef617fee06292d1751d4ddc7b88653e9947884e7cee07d4180908c9e463c9",
+          "edgeKey": "bcf3f2bf19b872f94e5482baec73c193ff9b0dbb11e86305ab17c6b0aca86745",
+          "interpretationSource": null,
+          "observationSources": [],
+          "pair": {
+            "from": {
+              "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+              "id": "garrytan/context-save"
+            },
+            "to": {
+              "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+              "id": "garrytan/context-restore"
+            }
+          },
+          "pairApplicable": true,
+          "relation": "unlocks",
+          "schema": "gaia.arbor-edge/v1",
+          "structuralOverlap": "not-evaluated",
+          "support": "expert-declared",
+          "target": {
+            "claimId": "restore-reads-what-save-wrote",
+            "declarationSha256": "e8bef617fee06292d1751d4ddc7b88653e9947884e7cee07d4180908c9e463c9"
+          }
+        }
+      ],
+      "sourceDigest": "49e7a451461847453c304c186bb50c3a69c09e272007b7da594a653ae70a4967",
+      "status": "present"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+    "id": "garrytan/context-save"
+  }
+}

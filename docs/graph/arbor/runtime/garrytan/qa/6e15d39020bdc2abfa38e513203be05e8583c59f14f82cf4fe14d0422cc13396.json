@@ -1,0 +1,73 @@
+{
+  "inputDigest": "68e06ed10b0d8a84401fd41180c82fe09071eff5d397cb4ef04fa29a83459d7a",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 83-84, 216, 228, 275, 325, 360-450, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "A clean working tree in a repository the agent may edit and commit to locally, with a runnable target, code the source's ownership check reports as the user's own, one exploration mode already chosen, and the skill's first-run questions already answered. Pushing, merging and opening pull requests are outside this claim. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+            "declarationId": "arbor-i-seed.garrytan.qa.v1",
+            "declarationSource": "f71cef15e1c38891eb82f72c916e56ad6dd0238807c2a003ff6f86eab9ed2e15",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "model-led",
+            "id": "bounded-fix-verify-commit-loop",
+            "interpretationSource": null,
+            "rationale": "After baseline findings are reported (line 325), the source runs a per-issue loop: make the 'minimal fix. No unrelated refactors or features' (line 405), add a regression test (line 398), re-run 'the regression, original failing probe and adjacent happy path' (line 409), and 'Commit each verified fix with its regression, never unrelated fixes' (line 426). The loop carries its own brakes: 'Every 5 fixes, and after any revert, check whether the loop is doing more harm than good. STOP immediately after two reverts or one edit to a file unrelated to the finding' (lines 444-447), and 'Hard cap: 50 fixes' (line 450). The inspected file directs local commits and no push or pull request. Bounded edits, verification per fix and stated stop rules are what make model leadership plausible here. Plausible failure modes: a fix recorded as 'best-effort' when it cannot be fully verified (line 432) still lands as a commit; the ownership classification comes from the startup output, so a wrong classification sends the agent to fix code that is someone else's; the stop rules are self-applied; rechecking a browser defect after repair follows a section file that was not read (line 415). Falsified if a run commits a change unrelated to a finding or continues after two reverts without asking.",
+            "support": "expert-declared"
+          },
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 84, 216, 228-230, 275, 444-448, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "The working tree is dirty when the skill starts, or two exploration modes were requested at once, or the skill's first-run cross-project question is unanswered, or the fix loop reaches its stop rule, or the code's ownership is reported as collaborative or unknown; and a person can answer through the harness's question tool.",
+            "declarationId": "arbor-i-seed.garrytan.qa.v1",
+            "declarationSource": "f71cef15e1c38891eb82f72c916e56ad6dd0238807c2a003ff6f86eab9ed2e15",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "human-led",
+            "id": "user-decision-at-dirty-tree-and-loop-stop",
+            "interpretationSource": null,
+            "rationale": "In these situations the source hands the decision to the person: on a dirty tree 'STOP and use AskUserQuestion' with commit, stash or abort as the person's options (lines 228-230); with both exploration flags it says to 'ask which exploration mode to use' (line 216); on first use it puts a cross-project question to the person (line 275); at the stop rule 'Show the user what you've done so far and ask whether to continue' (line 448); and for collaborative or unknown ownership 'Flag via AskUserQuestion, don't fix (may be someone else's)' (line 84). Each is a choice about the person's own uncommitted work, their configuration, or code that is not the agent's to change. Plausible failure mode: with no responder the session parks at the first of these questions, so an unattended run on a dirty tree does no work. Falsified if a session stashes or commits the user's pending changes without the question.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "24727a326dcd4705b3794490086c1f17e510b5dad7eface4bf307b8f2134f6bd",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
+          "id": "garrytan/qa"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "f71cef15e1c38891eb82f72c916e56ad6dd0238807c2a003ff6f86eab9ed2e15"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "68e06ed10b0d8a84401fd41180c82fe09071eff5d397cb4ef04fa29a83459d7a",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [],
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
+    "id": "garrytan/qa"
+  }
+}

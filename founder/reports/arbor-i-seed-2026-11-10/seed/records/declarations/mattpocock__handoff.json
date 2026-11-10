@@ -2,8 +2,8 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 1-16, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/handoff/SKILL.md (sha256 4cbb043950dad2ffd3662ff1a5a0b51ae676004b5cae10e3787e8ee7a4ee69d3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 1-16, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/handoff/SKILL.md (sha256 4cbb043950dad2ffd3662ff1a5a0b51ae676004b5cae10e3787e8ee7a4ee69d3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
       },
       "conditions": "A person decides the current conversation should continue in a fresh session and invokes the skill, optionally describing what the next session is for. The agent can write to the operating system's temporary directory.",
       "facet": "human-led",
@@ -12,7 +12,7 @@
     }
   ],
   "declarationId": "arbor-i-seed.mattpocock.handoff.v1",
-  "declaredAt": "2026-11-10T08:20:00Z",
+  "declaredAt": "2026-11-10T13:45:00Z",
   "schema": "gaia.arbor-expert-declaration/v1",
   "skill": {
     "contentSha256": "fb23458098bb2eea695a906fe8b554be9bdbdda851fc1d87682ec23b80f1cff8",

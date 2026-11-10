@@ -1,0 +1,88 @@
+{
+  "inputDigest": "850abcad0d777a4cfd36beb20b12cb13440705b502f1122e5549cf7cbbe43f61",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 6-30, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "A person who owns the decisions is present and answering in the same session, and the subject is a plan, decision or design that is not yet settled. The agent may read the environment and may dispatch a fresh-context sub-agent for fact-finding.",
+            "declarationId": "arbor-i-seed.mattpocock.grilling.v1",
+            "declarationSource": "8c80f8516ec37e94f3eaaf0d445a21ec3c648ba22b54bcb21f391592e32afb33",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "human-led",
+            "id": "interview-rounds-until-shared-understanding",
+            "interpretationSource": null,
+            "rationale": "The source directs the agent to interview the user in numbered rounds over a 'design tree': ask every question whose prerequisites are settled, give a recommended answer for each, then wait for the user's answers before the next round (lines 6-26). It separates facts from decisions: 'Finding facts is your job, never the user's', while 'The decisions are the user's: put each to them and wait' (line 28). It ends only when the frontier is empty, and adds 'Do not act on it until the user confirms' (line 30). Every decision therefore routes through the person; the agent's autonomous part is limited to fact-finding. Plausible failure modes: with no responder the frontier never empties, so the procedure cannot terminate as written; because questions are worded so that 'yes' accepts the agent's recommendation (line 24), an acquiescent user can ratify the agent's own plan with the appearance of review. The claim is falsified if a session that has loaded this text edits files or takes another action on the plan before the user has confirmed, and qualified if the recommended-answer wording is shown to move decisions toward the agent's proposal.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "32dcd7659995f68ccf161e03f0f5dd825fd704898375016beeef2ec341609ab1",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+          "id": "mattpocock/grilling"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "8c80f8516ec37e94f3eaaf0d445a21ec3c648ba22b54bcb21f391592e32afb33"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "d8d6b6053248f3cec8c3cf2e017cc74d735c78811fb7b270479a89f70c89ea12",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [
+        {
+          "authority": {
+            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+            "basis": "Agent-authored structural reading, lines from 1-7; to 1-30, of from: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grill-me/SKILL.md (sha256 caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637; the canonical record links ref 'main'); to: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+          },
+          "conditions": "Both skills are candidates for the same need in one session, for example when a retrieval returns both for a request to stress-test a plan.",
+          "declarationSource": "259815a2daeb361c72f5e8aa0be1b689e0da16a34863199137d799d0a42d9a00",
+          "edgeKey": "0c35eb28a4931aa014dba235b480c1ebee093eb0e500abe845c072feffcda988",
+          "interpretationSource": null,
+          "observationSources": [],
+          "pair": {
+            "from": {
+              "contentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
+              "id": "mattpocock/grill-me"
+            },
+            "to": {
+              "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+              "id": "mattpocock/grilling"
+            }
+          },
+          "pairApplicable": true,
+          "relation": "duplicates",
+          "schema": "gaia.arbor-edge/v1",
+          "structuralOverlap": "not-evaluated",
+          "support": "expert-declared",
+          "target": {
+            "claimId": "redirect-carries-no-separate-behaviour",
+            "declarationSha256": "259815a2daeb361c72f5e8aa0be1b689e0da16a34863199137d799d0a42d9a00"
+          }
+        }
+      ],
+      "sourceDigest": "9c6c1fa0d23c717b4229c99134fe396239c7288105385a62ce2db9b64a8c0b49",
+      "status": "present"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+    "id": "mattpocock/grilling"
+  }
+}

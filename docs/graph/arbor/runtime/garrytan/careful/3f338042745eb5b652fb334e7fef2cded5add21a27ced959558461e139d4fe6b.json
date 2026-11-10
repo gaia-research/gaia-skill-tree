@@ -1,0 +1,88 @@
+{
+  "inputDigest": "38bcb72bc48f9e284299b65b72579dede5be7e7dd447995d185723cf2d6f3d5b",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 1-24, 30-32, 40-50, 67-68, 72-92, 103, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, the gstack distribution is installed under ~/.claude/skills/gstack, bash is available, and a person can answer the permission prompt. The effect lasts for the session in which the skill was activated. Where the hook does not fire, this skill places no constraint on the agent.",
+            "declarationId": "arbor-i-seed.garrytan.careful.v1",
+            "declarationSource": "d7b8aae61cd8cd6b2472ff09f83aeb4052293b7f5f48dceb2f205ab9d8a37946",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "human-led",
+            "id": "confirmation-before-destructive-commands",
+            "interpretationSource": null,
+            "rationale": "The frontmatter registers a PreToolUse hook on the Bash and PowerShell tools that runs a checking script before each command (lines 1-24). The body says that when a destructive command is detected the person is warned 'and can choose to proceed or cancel' (line 32): a command matching a listed pattern (recursive delete, DROP TABLE, TRUNCATE, force-push, git reset --hard, kubectl delete and similar; lines 40-50) returns a permission decision of ask (line 81), while two catastrophic shapes are denied outright (lines 86-89). The decision on a destructive command therefore moves from the model to the person, and the mechanism is the harness hook rather than the model's compliance. Limits the text states: on PowerShell, string matching 'can't see a command built at' runtime (line 67); compound commands fall through to the ask tier (lines 90-91); it is 'A best-effort advisory hard-stop, not a policy boundary' (line 91); deletions of common build directories are allowed without warning (lines 72-75); the hooks are session-scoped (line 103). Plausible failure modes: in an unattended session the ask has no responder and the run parks; in a harness that does not execute skill-declared hooks the text has no effect at all. Falsified if a listed pattern executes without a prompt in a session meeting the conditions.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "0427e8aaabc836cea1e46302e0079b5203ade83018dfdd3f9c14bb605a5c53b9",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+          "id": "garrytan/careful"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "d7b8aae61cd8cd6b2472ff09f83aeb4052293b7f5f48dceb2f205ab9d8a37946"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "c3ffc8526a4d34f4827821d560ec04d186675ba8b2858e311a337c19477df690",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [
+        {
+          "authority": {
+            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+            "basis": "Agent-authored structural reading, lines from 1-38, 47, 83; to 1-24, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+          },
+          "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
+          "declarationSource": "ee74be2c86ca66cad653ea9175062ae4430db306ff15d71cf3fe8cca6ec993f8",
+          "edgeKey": "2893fe6d666fab941f9008805346f3ff96da41a8f1326121e72e179cd76e04c1",
+          "interpretationSource": null,
+          "observationSources": [],
+          "pair": {
+            "from": {
+              "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+              "id": "garrytan/guard"
+            },
+            "to": {
+              "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+              "id": "garrytan/careful"
+            }
+          },
+          "pairApplicable": true,
+          "relation": "duplicates",
+          "schema": "gaia.arbor-edge/v1",
+          "structuralOverlap": "not-evaluated",
+          "support": "expert-declared",
+          "target": {
+            "claimId": "same-command-check-hook-registered-twice",
+            "declarationSha256": "ee74be2c86ca66cad653ea9175062ae4430db306ff15d71cf3fe8cca6ec993f8"
+          }
+        }
+      ],
+      "sourceDigest": "ad091807db114f6acc914ca3f0689b65f7182f837b849a1f01716d16d33665ad",
+      "status": "present"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+    "id": "garrytan/careful"
+  }
+}

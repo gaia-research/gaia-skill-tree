@@ -1,0 +1,88 @@
+{
+  "inputDigest": "d9b9eb3c2209db8482d86b7de8d55594a51863b652e03e1142b7ae350aba3d29",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+              "basis": "Agent-authored structural reading, lines 1-30, 48-57, 68-77, 85, 93-94, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:freeze/SKILL.md (sha256 b3fd0406df9e7dc3c6522665a3205229beaadbe7bff82c94136fc51d76d054bd; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            },
+            "benchmarkSources": [],
+            "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, the gstack distribution is installed under ~/.claude/skills/gstack, and a person supplies the directory to which edits are to be confined. Tools the hooks do not cover, shell commands included, are not constrained by this skill.",
+            "declarationId": "arbor-i-seed.garrytan.freeze.v1",
+            "declarationSource": "4936aae64c7688a79a035d6932dc25543787b6452013ecd01a6c16d070712296",
+            "declaredAt": "2026-11-10T13:45:00Z",
+            "facet": "human-led",
+            "id": "user-set-edit-boundary",
+            "interpretationSource": null,
+            "rationale": "The source asks the person for a directory (lines 48-51), records it through a shared state writer (lines 55-57), and registers PreToolUse hooks on Edit, Write and NotebookEdit that return a deny for any path outside the boundary (lines 68-73). It fails closed: 'a tool payload the hook cannot parse is DENIED' (line 76). The person sets the scope and the hook holds it, so the constraint does not depend on the model remembering it. The text states its own limits: 'This prevents accidental edits, not a security boundary - Bash or PowerShell commands like sed or Set-Content can still modify files outside the boundary' (line 93), and the boundary 'persists until explicitly removed' (line 85): 'ending or killing a conversation does not remove persisted state' (line 94). Plausible failure modes: a later session inherits a boundary nobody remembers setting and has its edits denied; an agent blocked by the boundary routes the same change through a shell command. Falsified if an Edit or Write outside the boundary succeeds in a session meeting the conditions; qualified by how often blocked edits reappear as shell writes.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "847b9cf5e1f971738a1222819798efa39422d7628ca6d2d399664d171ba39edf",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+          "id": "garrytan/freeze"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "4936aae64c7688a79a035d6932dc25543787b6452013ecd01a6c16d070712296"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "4e926003df568dc9f3d450b9bcb977b3b05fafe2ce21e08afe6fd4f70b674e49",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [
+        {
+          "authority": {
+            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+            "basis": "Agent-authored structural reading, lines from 1-38, 61-70, 84; to 1-30, 55-57, 63, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:freeze/SKILL.md (sha256 b3fd0406df9e7dc3c6522665a3205229beaadbe7bff82c94136fc51d76d054bd; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+          },
+          "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
+          "declarationSource": "a795dd87a28607799c477afd8d940a9a6aacde8d7ae37bdaa1cdc2f06847b8de",
+          "edgeKey": "3ae83e671064c715f1cc91f4cdee713f83414297e068a6aecaf765e7b3cbb406",
+          "interpretationSource": null,
+          "observationSources": [],
+          "pair": {
+            "from": {
+              "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+              "id": "garrytan/guard"
+            },
+            "to": {
+              "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+              "id": "garrytan/freeze"
+            }
+          },
+          "pairApplicable": true,
+          "relation": "duplicates",
+          "schema": "gaia.arbor-edge/v1",
+          "structuralOverlap": "not-evaluated",
+          "support": "expert-declared",
+          "target": {
+            "claimId": "same-edit-boundary-hook-and-state",
+            "declarationSha256": "a795dd87a28607799c477afd8d940a9a6aacde8d7ae37bdaa1cdc2f06847b8de"
+          }
+        }
+      ],
+      "sourceDigest": "a78d3b3ee3037f23e91b3100abb4995cbbac33f337822970a3479015153ab1c7",
+      "status": "present"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+    "id": "garrytan/freeze"
+  }
+}

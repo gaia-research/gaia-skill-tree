@@ -1,0 +1,49 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 190-212, of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "benchmarkSources": [],
+      "conditions": "Three or more fix attempts on the same problem have failed, and a person who can decide whether the design should change is reachable in the session.",
+      "declarationId": "arbor-i-seed.obra.systematic-debugging.v1",
+      "declarationSource": "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613",
+      "declaredAt": "2026-11-10T13:45:00Z",
+      "facet": "human-led",
+      "id": "architecture-discussion-after-three-failed-fixes",
+      "interpretationSource": null,
+      "rationale": "At this point the source switches leadership: 'If ≥ 3: STOP and question the architecture', 'DON'T attempt Fix #4 without architectural discussion' (lines 194-196), and 'Discuss with your human partner before attempting more fixes' (line 210), framing the situation as 'a wrong architecture' rather than a failed hypothesis (line 212). The same skill is thus model-led below the threshold and human-led above it. Plausible failure modes: the count of failed fixes is tracked only by the agent, so it can be under-counted or reset by relabelling an attempt; in an unattended run the instruction either stalls the session or is satisfied by the agent answering its own question. Falsified if sessions that load this text attempt a fourth fix without surfacing the architectural question to a person.",
+      "support": "expert-declared"
+    },
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 17-20, 46, 74-85, 162-196, 233-242, of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "benchmarkSources": [],
+      "conditions": "The agent is working a bug, test failure or unexpected behaviour in a repository it may read, run and edit, fewer than three fix attempts on that problem have failed, and the agent has not reached a point where it does not understand what it is seeing. A person does not have to act for the procedure to advance under these conditions, though the text expects one to be able to redirect it. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "declarationId": "arbor-i-seed.obra.systematic-debugging.v1",
+      "declarationSource": "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613",
+      "declaredAt": "2026-11-10T13:45:00Z",
+      "facet": "model-led",
+      "id": "root-cause-investigation-before-fix",
+      "interpretationSource": null,
+      "rationale": "The source imposes four ordered phases with the rule 'NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST' (line 17), 'If you haven't completed Phase 1, you cannot propose fixes' (line 20) and 'You MUST complete each phase before proceeding to the next' (line 46). It directs diagnostic instrumentation before any fix (lines 74-85), a failing test case before the fix (lines 172-176), a single fix at a time (line 179), and a return to Phase 1 while fewer than three fixes have failed (line 194). Those steps do not wait on a person, so the procedure can run under model leadership up to its escalation point. Two person touchpoints sit inside that span and bound the claim: when the agent does not understand something it is told to say so and 'Ask for help' (lines 162-166), and a section on the human partner's redirections ('Stop guessing', 'We're stuck?') ends 'STOP. Return to Phase 1' (lines 233-242). Plausible failure modes: the text gives no checkable criterion for Phase 1 being complete, so the agent decides when investigation is enough; instrumentation added for diagnosis can be left behind; the failing-test-first step may not be practical for environmental or performance problems the text also lists in scope; unattended, the ask-for-help step has no responder. Falsified if a session that has loaded and read this text edits a fix before any reproduction or evidence-gathering command has run; qualified if the ordering holds only for failures that reproduce deterministically.",
+      "support": "expert-declared"
+    }
+  ],
+  "inputDigest": "bd3b39970389b944d97cafa69e7b7ed55fa34362700a77b3db6ab89dbee3d451",
+  "schema": "gaia.arbor-profile/v1",
+  "skill": {
+    "contentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
+    "id": "obra/systematic-debugging"
+  },
+  "sources": {
+    "benchmarkReceipts": [],
+    "declarations": [
+      "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613"
+    ],
+    "interpretations": []
+  }
+}
