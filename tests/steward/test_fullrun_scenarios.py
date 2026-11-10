@@ -219,7 +219,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     # 2. a second invocation sees the holder and does nothing.
     other = makeRunner(repo, store, [sensor]).start("full")
     assert other.status == "observing-existing" and other.holder == view.runId
-    assert sensor.scans == 2  # the first run's observe and the dispatch's own scan; none for `other`
+    assert sensor.scans == 1  # the first run's observe scan; dispatch reuses it; none for `other`
 
     # 3. the builder's outcome is validated, then recorded.
     diff, proof = writeBuildArtifacts(repo)

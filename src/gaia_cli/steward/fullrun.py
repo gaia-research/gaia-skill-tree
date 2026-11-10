@@ -683,7 +683,7 @@ class FullRunner:
         a lost packet is never an indefinite block.
         """
 
-        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+        from gaia_cli.steward.routing import RoutingError, _is_scan_fresh, render_dispatch_prompt
 
         run = self._loadRun(runId)
         lost = [a for a in self._pending(run, "agent.build")
@@ -692,9 +692,20 @@ class FullRunner:
             return
         now = self._now()
         rendered: dict[str, str | None] = {}
+        policy = self._policyLoaded()
+        controller = self._controllerInstance()
+        active_scan = controller.scan(self.root)
+        self._scans[runId] = active_scan
         for action in lost:
+            if not _is_scan_fresh(active_scan, self.root, policy=policy, controller=controller):
+                active_scan = controller.scan(self.root)
+                self._scans[runId] = active_scan
             try:
-                _result, text = render_dispatch_prompt(self.root, action["debtId"], controller=self._controllerInstance())
+                result, text = render_dispatch_prompt(
+                    self.root, action["debtId"], controller=controller, policy=policy, scan=active_scan
+                )
+                active_scan = result.scan
+                self._scans[runId] = active_scan
             except RoutingError:
                 text = None
             rendered[action["stepId"]] = text
@@ -2721,11 +2732,20 @@ class FullRunner:
 
         # Adoption: building work whose build outcome never arrived (abandoned run).
         adopted = 0
+        active_scan = scan
+        from gaia_cli.steward.routing import _is_scan_fresh
         for item in sorted(doc["work"].values(), key=lambda value: value["debtId"]):
             if adopted >= remaining:
                 break
             if item["state"] == "building" and not item.get("build") and item.get("authority") == "B" and item.get("dispatchId"):
-                if self._reemitBuild(runId, item):
+                if not _is_scan_fresh(active_scan, self.root, policy=policy, controller=self._controllerInstance()):
+                    active_scan = self._controllerInstance().scan(self.root)
+                    self._scans[runId] = active_scan
+                ok, active_scan = self._reemitBuild(runId, item, scan=active_scan)
+                if active_scan is not scan:
+                    scan = active_scan
+                    self._scans[runId] = scan
+                if ok:
                     adopted += 1
         if adopted:
             return False
@@ -2744,7 +2764,12 @@ class FullRunner:
 
                     self._mutateRun(runId, keepLane, message="steward full lane")
                 break
-            outcome, stop = self._dispatchCandidate(runId, scan, eligible, sets["debts"][candidate.debt_id], candidate, now)
+            outcome, stop, active_scan = self._dispatchCandidate(runId, scan, eligible, sets["debts"][candidate.debt_id], candidate, now)
+            if active_scan is not scan:
+                scan = active_scan
+                self._scans[runId] = scan
+                sets = self._triageSets(scan, run, doc["work"])
+                eligible = set(sets["classB"])
             if outcome.get("dispatched") is None:
                 break
             handed.append(outcome)
@@ -2768,16 +2793,24 @@ class FullRunner:
         return False
 
     def _dispatchCandidate(self, runId: str, scan: ScanResult, eligible: set[str], debt: Debt, candidate: Any,
-                           now: str) -> tuple[dict[str, Any], str]:
+                           now: str) -> tuple[dict[str, Any], str, ScanResult]:
         """Render and emit one build for the lane's chosen candidate; the outcome says whether it landed."""
 
         from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
 
         policy = self._policyLoaded()
         try:
-            result, prompt = render_dispatch_prompt(self.root, debt.id, controller=self._controllerInstance())
+            result, prompt = render_dispatch_prompt(
+                self.root,
+                debt.id,
+                controller=self._controllerInstance(),
+                policy=policy,
+                scan=scan,
+            )
         except RoutingError as exc:
-            return {"dispatched": None}, f"dispatch not rendered: {exc}"
+            return {"dispatched": None}, f"dispatch not rendered: {exc}", scan
+        if result.scan is not scan:
+            self._scans[runId] = result.scan
         packet = result.artifact
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
@@ -2793,14 +2826,25 @@ class FullRunner:
 
         def commit(d: dict[str, Any], record: dict[str, Any]) -> None:
             outcome.clear()
-            laneNow, chosen, why = self._chooseCandidate(d, scan, eligible, now)
+            active_scan = result.scan
+            if active_scan is not scan:
+                active_sets = self._triageSets(active_scan, record, d["work"])
+                active_eligible = set(active_sets["classB"])
+                active_debt = active_sets["debts"].get(debt.id)
+            else:
+                active_eligible = eligible
+                active_debt = debt
+            if active_debt is None:
+                outcome.update(dispatched=None, reason="debt is no longer eligible after rescan")
+                return
+            laneNow, chosen, why = self._chooseCandidate(d, active_scan, active_eligible, now)
             if chosen is None or chosen.debt_id != debt.id:
                 set_lane(d, lane_document(laneNow))
                 outcome.update(dispatched=None, reason=f"the lane changed during rendering: {why}")
                 return
             laneNow = mark_dispatched(laneNow, laneNow.by_id(debt.id), dispatch_id=packet.dispatch_id, now=now)
             set_lane(d, lane_document(laneNow))
-            self._ensureWork(d, record, debt, now, routine=rule.routine, branch=branchName,
+            self._ensureWork(d, record, active_debt, now, routine=rule.routine, branch=branchName,
                              dispatchId=packet.dispatch_id, promptPath=self._relative(promptPath),
                              baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
             d["work"][debt.id]["build"] = None
@@ -2816,28 +2860,32 @@ class FullRunner:
             outcome.update(dispatched=debt.id, dispatchId=packet.dispatch_id, stepId=stepId)
 
         self._mutateRun(runId, commit, message="steward full class_b dispatch")
-        return dict(outcome), str(outcome.get("reason", ""))
+        return dict(outcome), str(outcome.get("reason", "")), result.scan
 
     def _buildOutputs(self, runId: str, slug: str) -> dict[str, str]:
         return {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                 "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"}
 
-    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> bool:
+    def _reemitBuild(self, runId: str, item: dict[str, Any], scan: ScanResult | None = None) -> tuple[bool, ScanResult | None]:
         now = self._now()
         slug = _hash12(item["debtId"])
         previous = item.get("promptPath")
         prompt: str | None = None
+        active_scan = scan
         if previous and (self.root / previous).is_file():
             prompt = (self.root / previous).read_text(encoding="utf-8")
         else:
             from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
 
             try:
-                _result, prompt = render_dispatch_prompt(self.root, item["debtId"], controller=self._controllerInstance())
+                result, prompt = render_dispatch_prompt(
+                    self.root, item["debtId"], controller=self._controllerInstance(), scan=active_scan
+                )
+                active_scan = result.scan
             except RoutingError:
                 prompt = None
         if prompt is None:
-            return False
+            return False, active_scan
         outputs = self._buildOutputs(runId, slug)
         path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         path.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
@@ -2861,7 +2909,7 @@ class FullRunner:
             doc["work"][item["debtId"]]["runId"] = runId
 
         self._mutateRun(runId, apply, message="steward full class_b adopt")
-        return True
+        return True, active_scan
 
     # -- verify ----------------------------------------------------------
 

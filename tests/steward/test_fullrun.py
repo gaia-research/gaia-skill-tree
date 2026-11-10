@@ -103,6 +103,7 @@ class StubSensor:
     """A sensor whose findings a test controls. `subjects` may be mutated."""
 
     resolution_scope = "exhaustive"
+    _telemetry_attrs = frozenset({"scans"})
 
     def __init__(self, sensorId: str, kind: str, subjects: Iterable[str] = (), *,
                  routines: Sequence[int] = (), raises: BaseException | None = None,
