@@ -62,6 +62,7 @@ jobs:
         env:
           RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
         run: |
+          # Former direct push URL: git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
           if [[ -z "$RELEASE_PAT" ]]; then
             echo "::error::RELEASE_PAT is required to push the automation branch and create/update its PR (repository permissions: Contents: write; Pull requests: write)."
             exit 1
