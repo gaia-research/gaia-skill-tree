@@ -150,17 +150,17 @@ def local_inputs_fingerprint(state_dir: Path, repo_root: Path | None = None) -> 
                     if (root_path / d).is_symlink():
                         return None
                 rel_root = root_path.relative_to(state_dir)
-                if rel_root.parts and rel_root.parts[0] in {"receipts", "full"}:
+                if rel_root.parts and rel_root.parts[0] in {"receipts", "full", ".scan.lock"}:
                     continue
                 if rel_root != Path("."):
                     h.update(f"d:{rel_root}".encode("utf-8"))
                 dirs[:] = [
                     d for d in sorted(dirs)
-                    if not (rel_root == Path(".") and d in {"receipts", "full"})
-                    and not d.startswith(".")
+                    if not (rel_root == Path(".") and d in {"receipts", "full", ".scan.lock"})
+                    and d != ".git"
                 ]
                 for filename in sorted(files):
-                    if filename.startswith("."):
+                    if filename == ".git":
                         continue
                     if rel_root == Path(".") and filename in {"debt.json", "lane.json"}:
                         continue

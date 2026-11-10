@@ -1591,3 +1591,108 @@ def test_fullrun_batch_dispatch_single_scan(tmp_path: Path) -> None:
     build_actions = [a for a in view.actions if a["type"] == "agent.build"]
     assert len(build_actions) == 3
     assert scan_count[0] == 1
+
+
+def test_render_dispatch_ignored_dot_prefixed_sensor_input_modification_forces_rescan(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _git_repo(tmp_path)
+    inputs_dir = root / ".gaia/steward/inputs"
+    inputs_dir.mkdir(parents=True, exist_ok=True)
+    dot_input = inputs_dir / ".ci-runs.json"
+    dot_input.write_text('{"schemaVersion": "steward-ci-runs-v1", "runs": []}', encoding="utf-8")
+
+    sensor = RoutingSensor(include_c=0)
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+
+    # Verify initial scan is reusable
+    result_same = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert result_same.scan is scan
+
+    # Modify the ignored dot-prefixed sensor input
+    dot_input.write_text('{"schemaVersion": "steward-ci-runs-v1", "runs": [{"id": "run-1"}]}', encoding="utf-8")
+
+    scan_called = []
+    orig_scan = controller.scan
+
+    def spy_scan(*args, **kwargs):
+        scan_called.append(True)
+        return orig_scan(*args, **kwargs)
+
+    monkeypatch.setattr(controller, "scan", spy_scan)
+
+    result = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert len(scan_called) == 1
+    assert result.scan is not scan
+
+
+def test_render_dispatch_ignored_dot_prefixed_directory_input_modification_forces_rescan(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _git_repo(tmp_path)
+    hidden_dir = root / ".gaia/steward/.custom_inputs"
+    hidden_dir.mkdir(parents=True, exist_ok=True)
+    hidden_file = hidden_dir / "config.json"
+    hidden_file.write_text('{"mode": "default"}', encoding="utf-8")
+
+    sensor = RoutingSensor(include_c=0)
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+
+    # Verify initial scan is reusable
+    result_same = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert result_same.scan is scan
+
+    # Modify file inside ignored dot-prefixed directory
+    hidden_file.write_text('{"mode": "modified"}', encoding="utf-8")
+
+    scan_called = []
+    orig_scan = controller.scan
+
+    def spy_scan(*args, **kwargs):
+        scan_called.append(True)
+        return orig_scan(*args, **kwargs)
+
+    monkeypatch.setattr(controller, "scan", spy_scan)
+
+    result = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert len(scan_called) == 1
+    assert result.scan is not scan
+
+
+def test_render_dispatch_ignored_dot_prefixed_watcher_input_forces_rescan(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _git_repo(tmp_path)
+    watcher_dir = root / ".gaia/upstream-watcher"
+    watcher_dir.mkdir(parents=True, exist_ok=True)
+    dot_feed = watcher_dir / ".custom_feed.json"
+    dot_feed.write_text('{"entries": []}', encoding="utf-8")
+
+    sensor = RoutingSensor(include_c=0)
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+
+    # Verify initial scan is reusable
+    result_same = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert result_same.scan is scan
+
+    # Modify file inside ignored dot-prefixed watcher
+    dot_feed.write_text('{"entries": ["entry-1"]}', encoding="utf-8")
+
+    scan_called = []
+    orig_scan = controller.scan
+
+    def spy_scan(*args, **kwargs):
+        scan_called.append(True)
+        return orig_scan(*args, **kwargs)
+
+    monkeypatch.setattr(controller, "scan", spy_scan)
+
+    result = render_dispatch(root, debt_id, controller=controller, scan=scan)
+    assert len(scan_called) == 1
+    assert result.scan is not scan
