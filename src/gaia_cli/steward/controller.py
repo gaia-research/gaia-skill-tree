@@ -8,7 +8,7 @@ import hashlib
 import os
 from pathlib import Path
 import subprocess
-from typing import Callable, Iterable
+from typing import Any, Callable, Iterable
 
 from gaia_cli.steward.debt import reconcile_debt
 from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, SensorScan, Subject
@@ -409,7 +409,7 @@ class StewardController:
         sig_before = sensor_signature(self.sensors)
         observed_at = _timestamp(self.clock())
         collection = self._collect_observations(root, policy, observed_at)
-        finished_at = _timestamp(self.clock())
+        finished_at = observed_at
         sig_after = sensor_signature(self.sensors)
         head_after = git_head_commit(root)
         tree_after_clean = git_tree_is_clean(root, state_prefix)

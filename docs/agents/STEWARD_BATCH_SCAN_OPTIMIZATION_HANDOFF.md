@@ -5,7 +5,7 @@
 **Issue**: [#2316](https://github.com/gaia-research/gaia-skill-tree/issues/2316)  
 **Related**: [#2434](https://github.com/gaia-research/gaia-skill-tree/issues/2434)  
 **PR**: [#2437](https://github.com/gaia-research/gaia-skill-tree/pull/2437)  
-**Status**: READY FOR REVIEW  
+**Status**: READY FOR MERGE  
 
 ---
 
@@ -25,7 +25,7 @@ This PR enables safe, fail-closed reuse of the run's existing fresh `ScanResult`
 
 All subagents were orchestrated strictly following project guidelines with `@parke.dev/pi-subagent`:
 - **Lead**: Gemini Flash, HIGH (coordination, architecture, synthesis)
-- **Worker**: Gemini Flash (implementation, unit testing, benchmark execution)
+- **Worker / Builder**: Gemini Flash (implementation, unit testing, benchmark execution)
 - **Independent Reviewer**: Terra, HIGH (multi-round adversarial code review of the diff)
 - **Preflight Verification**: Executed `subagent` with `action: "plan"`, verifying model identities, thinking levels, capabilities, and permissions before spawning.
 - **Review Integrity**: Sign-off was reviewed iteratively through 30+ review passes until every potential edge case (symlink handling, name mangling, nested config objects, boundary transitions, large files, unroutable recoveries, ignored dot-prefixed sensor inputs) was hardened.
@@ -34,20 +34,22 @@ All subagents were orchestrated strictly following project guidelines with `@par
 
 ## 3. Benchmark Measurements: 8-Packet Batch
 
-A representative 8-packet batch was benchmarked using `FullRunDriver` with 8 concurrent build dispatches under identical conditions.
+A representative 8-packet batch was benchmarked using `FullRunDriver` with 8 concurrent build dispatches under identical conditions, comparing baseline vs optimized behavior.
 
 ### Benchmark Results Comparison
 
 | Metric | Without Scan Reuse (Baseline) | With Scan Reuse (Optimized) | Impact / Delta |
 |---|---|---|---|
 | **Full-Scan Count** | 9 scans (1 initial + 8 dispatch) | **1 scan** (1 initial + 0 dispatch) | **88.9% reduction** (8 scans eliminated) |
-| **Total Dispatch / Run Time** | 2.9255s (synthetic suite) / ~27 min (live repo) | **1.5356s** (synthetic suite) / ~3 min (live repo) | **~48% faster (synthetic) / ~89% faster (live)** |
-| **Cumulative Fingerprint Validation Time** | N/A (unconditional scans) | **0.4024s** (402.40 ms across all 8 checks) | **~50.3 ms** average per validation check |
-| **Full Repo Fingerprint Walk Time** | N/A | **2.7517s** (live repo, thousands of files) | **65x faster** than a 180s full scan |
+| **Total Dispatch / Run Time** | 3.3243s (synthetic suite) / ~27 min (live repo) | **1.8754s** (synthetic suite) / ~3 min (live repo) | **~44% faster (synthetic) / ~89% faster (live)** |
+| **Cumulative Fingerprint Validation Time** | N/A (unconditional scans) | **0.5087s** (508.75 ms across all 8 checks) | **~63.6 ms** average per validation check |
+| **Live Repo Fingerprint Walk Time** | N/A | **3.0897s** (live repo, thousands of files) | **~60x faster** than a 180s full scan |
+| **Behavior on Input Mutation** | Fresh (no reuse) | **Invalidated immediately** (`fresh=False`) | **Fail-closed** |
+| **Behavior on Incomplete Coverage** | Blocked / Error | **Refused reuse** (`fresh=False`) | **Fail-closed** |
 
 ### Key Benchmark Takeaways
 1. **Zero Redundant Full Scans**: Exactly 1 full scan is performed for the entire batch. All 8 dispatches safely reuse the existing fresh scan.
-2. **Negligible Validation Overhead**: Validating the entire repository state, git cleanliness, and all sensor inputs takes only ~50 ms on synthetic repos and ~2.75s on the full live repository, compared to ~180s for each redundant scan.
+2. **Negligible Validation Overhead**: Validating the entire repository state, git cleanliness, and all sensor inputs takes only ~60 ms on synthetic repos and ~3.09s on the full live repository, compared to ~180s for each redundant scan.
 3. **Fail-Closed Assurance**: If any file changes during the batch, fingerprint validation fails immediately and triggers a full fresh scan.
 
 ---
@@ -90,7 +92,9 @@ Scan reuse in `_is_scan_fresh` enforces a strict fail-closed contract across 10 
 9. **Controller Instance & Sensor Signature Binding**:
    - `controller.instance_token`: unique cryptographic per-instance token prevents cross-instance reuse (even on Python ID reuse).
    - `sensor_signature`: deep structural signature traversing instance attributes, `__slots__` across the MRO (with private name-mangling resolution), and nested configuration objects (with cycle detection). Excludes only explicitly declared `_telemetry_attrs` (e.g. `StubSensor.scans`).
-10. **Freshness Window**: Evaluates `scan.receipt.finished_at` (recorded at actual collection completion) against `controller.clock()` / UTC now within `DEFAULT_SCAN_FRESHNESS_SECONDS = 300`.
+10. **Freshness Window & Single Clock Reading**:
+   - A single clock reading is taken per scan (`observed_at`), ensuring `receipt.finished_at == observed_at` and preserving identity with `resolved.last_observed_at`.
+   - Freshness window evaluates `scan.receipt.finished_at` against `controller.clock()` / UTC now within `DEFAULT_SCAN_FRESHNESS_SECONDS = 300`.
 
 ---
 
@@ -102,5 +106,6 @@ All relevant test suites pass with 100% green status:
 2. **`tests/steward/test_fullrun.py`**: **51 passed**
 3. **`tests/steward/test_fullrun_scenarios.py`**: **70 passed**
 4. **`tests/steward/issuehygiene/test_b7_runner.py`**: **8 passed**
-5. **`python3 scripts/verify_lockstep.py`**: **Passes at v9.3.0**
-6. **PR Guards (`python3 scripts/pr_guards.py --all`)**: All 6 guards PASS (`html-sink`, `rank-vocabulary`, `taxonomy-authority`, `version-stamp`, `lexicon`, `license`).
+5. **`tests/steward/test_controller_resolution.py`**: **19 passed**
+6. **`python3 scripts/verify_lockstep.py`**: **Passes at v9.3.0**
+7. **PR Guards (`python3 scripts/pr_guards.py --all`)**: All 6 guards PASS (`html-sink`, `rank-vocabulary`, `taxonomy-authority`, `version-stamp`, `lexicon`, `license`).
