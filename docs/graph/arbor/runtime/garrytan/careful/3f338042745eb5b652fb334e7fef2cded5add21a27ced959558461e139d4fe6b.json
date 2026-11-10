@@ -1,19 +1,19 @@
 {
-  "inputDigest": "38bcb72bc48f9e284299b65b72579dede5be7e7dd447995d185723cf2d6f3d5b",
+  "inputDigest": "068d542fba0d7fd10b28e1755eebae6391ee8b2d85227ceec85ad6e76a4d5af8",
   "lenses": {
     "claims": {
       "profile": {
         "claims": [
           {
             "authority": {
-              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-              "basis": "Agent-authored structural reading, lines 1-24, 30-32, 40-50, 67-68, 72-92, 103, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+              "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+              "basis": "Evidence tier: source-declared. Read from lines 1-24, 30-32, 40-50, 67-68, 72-92, 103 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, the gstack distribution is installed under ~/.claude/skills/gstack, bash is available, and a person can answer the permission prompt. The effect lasts for the session in which the skill was activated. Where the hook does not fire, this skill places no constraint on the agent.",
             "declarationId": "arbor-i-seed.garrytan.careful.v1",
-            "declarationSource": "d7b8aae61cd8cd6b2472ff09f83aeb4052293b7f5f48dceb2f205ab9d8a37946",
-            "declaredAt": "2026-11-10T13:45:00Z",
+            "declarationSource": "3b2979628629ac0240b3769b6e99e04c8b1a3d31283dbd96de84464acbadbfab",
+            "declaredAt": "2026-11-10T18:12:00Z",
             "facet": "human-led",
             "id": "confirmation-before-destructive-commands",
             "interpretationSource": null,
@@ -21,7 +21,7 @@
             "support": "expert-declared"
           }
         ],
-        "inputDigest": "0427e8aaabc836cea1e46302e0079b5203ade83018dfdd3f9c14bb605a5c53b9",
+        "inputDigest": "404a38efbc2a2c00f771410a7fb9553639dd82f9cf16f3592a1841e7a1f94502",
         "schema": "gaia.arbor-profile/v1",
         "skill": {
           "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
@@ -30,12 +30,12 @@
         "sources": {
           "benchmarkReceipts": [],
           "declarations": [
-            "d7b8aae61cd8cd6b2472ff09f83aeb4052293b7f5f48dceb2f205ab9d8a37946"
+            "3b2979628629ac0240b3769b6e99e04c8b1a3d31283dbd96de84464acbadbfab"
           ],
           "interpretations": []
         }
       },
-      "sourceDigest": "c3ffc8526a4d34f4827821d560ec04d186675ba8b2858e311a337c19477df690",
+      "sourceDigest": "068d542fba0d7fd10b28e1755eebae6391ee8b2d85227ceec85ad6e76a4d5af8",
       "status": "present"
     },
     "hellHeaven": {
@@ -44,40 +44,9 @@
       "status": "absent-no-accepted-record"
     },
     "interactions": {
-      "edges": [
-        {
-          "authority": {
-            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-            "basis": "Agent-authored structural reading, lines from 1-38, 47, 83; to 1-24, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
-          },
-          "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
-          "declarationSource": "ee74be2c86ca66cad653ea9175062ae4430db306ff15d71cf3fe8cca6ec993f8",
-          "edgeKey": "2893fe6d666fab941f9008805346f3ff96da41a8f1326121e72e179cd76e04c1",
-          "interpretationSource": null,
-          "observationSources": [],
-          "pair": {
-            "from": {
-              "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
-              "id": "garrytan/guard"
-            },
-            "to": {
-              "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
-              "id": "garrytan/careful"
-            }
-          },
-          "pairApplicable": true,
-          "relation": "duplicates",
-          "schema": "gaia.arbor-edge/v1",
-          "structuralOverlap": "not-evaluated",
-          "support": "expert-declared",
-          "target": {
-            "claimId": "same-command-check-hook-registered-twice",
-            "declarationSha256": "ee74be2c86ca66cad653ea9175062ae4430db306ff15d71cf3fe8cca6ec993f8"
-          }
-        }
-      ],
-      "sourceDigest": "ad091807db114f6acc914ca3f0689b65f7182f837b849a1f01716d16d33665ad",
-      "status": "present"
+      "edges": [],
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
     }
   },
   "schema": "gaia.arbor-runtime/v1",

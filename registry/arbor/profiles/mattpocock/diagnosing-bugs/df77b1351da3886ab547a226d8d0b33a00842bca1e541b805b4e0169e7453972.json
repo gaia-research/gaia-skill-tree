@@ -2,14 +2,14 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 22-66, 86-138, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 22-66, 86-138 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "benchmarkSources": [],
       "conditions": "A hard bug or performance regression in an environment where the agent can build and run one command that reproduces the failure (a test, script, HTTP call or headless-browser script) and may add temporary instrumentation. The user may be away. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
       "declarationId": "arbor-i-seed.mattpocock.diagnosing-bugs.v1",
-      "declarationSource": "8e4772b3ccd4683d1312962e9953df9c33148299bebe65d26367c19bef99c3c3",
-      "declaredAt": "2026-11-10T13:45:00Z",
+      "declarationSource": "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef",
+      "declaredAt": "2026-11-10T18:12:00Z",
       "facet": "model-led",
       "id": "feedback-loop-before-hypothesis",
       "interpretationSource": null,
@@ -18,14 +18,14 @@
     },
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 16, 35, 53-55, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 16, 35, 53-55 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "benchmarkSources": [],
       "conditions": "The agent cannot construct a reproducing loop from what it can reach, and a person can grant access to the reproducing environment, supply a captured artifact, approve temporary production instrumentation, or perform manual steps the agent cannot.",
       "declarationId": "arbor-i-seed.mattpocock.diagnosing-bugs.v1",
-      "declarationSource": "8e4772b3ccd4683d1312962e9953df9c33148299bebe65d26367c19bef99c3c3",
-      "declaredAt": "2026-11-10T13:45:00Z",
+      "declarationSource": "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef",
+      "declaredAt": "2026-11-10T18:12:00Z",
       "facet": "human-led",
       "id": "stop-and-ask-when-no-loop-can-be-built",
       "interpretationSource": null,
@@ -33,7 +33,7 @@
       "support": "expert-declared"
     }
   ],
-  "inputDigest": "998712d340b31565fa8f1670b3b3df7e37c000ef7dfe4ddba06b6193737407f3",
+  "inputDigest": "d9673000c0777d6f1b96e7a4448c59e9c03bc8124141218d446dc63b8e74d6be",
   "schema": "gaia.arbor-profile/v1",
   "skill": {
     "contentSha256": "df77b1351da3886ab547a226d8d0b33a00842bca1e541b805b4e0169e7453972",
@@ -42,7 +42,7 @@
   "sources": {
     "benchmarkReceipts": [],
     "declarations": [
-      "8e4772b3ccd4683d1312962e9953df9c33148299bebe65d26367c19bef99c3c3"
+      "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef"
     ],
     "interpretations": []
   }

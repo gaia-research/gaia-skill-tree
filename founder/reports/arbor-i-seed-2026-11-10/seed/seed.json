@@ -1,10 +1,16 @@
 {
   "seed": "arbor-i-seed-2026-11-10",
   "purpose": "Authoring source for the first declaration-first population of Arbor I. Reviewable input to assemble.py; the import-ready records are under records/.",
-  "declaredAt": "2026-11-10T13:45:00Z",
+  "declaredAt": "2026-11-10T18:12:00Z",
   "authority": {
-    "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-    "basis": "Agent-authored structural reading, lines {lines}, of {sources}. No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+    "supportingAuthor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ",
+    "claimActor": "{owner} - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: {supportingAuthor}, which drafted the claim from those instructions.",
+    "edgeActor": "{owners} - owner of both canonical skills; the relation is stated in the skills' own instructions (primary attribution). Supporting author: {supportingAuthor}, which drafted the relation claim from those instructions.",
+    "basisLead": {
+      "claim": "Evidence tier: source-declared. Read from lines {lines} of {sources}",
+      "edge": "Evidence tier: source-declared. Read from the two skills' instructions (lines: {lines}) - {sources}"
+    },
+    "basis": "{lead}; the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
   },
   "skills": {
     "mattpocock/grilling": {
@@ -27,7 +33,8 @@
           "conditions": "A person who owns the decisions is present and answering in the same session, and the subject is a plan, decision or design that is not yet settled. The agent may read the environment and may dispatch a fresh-context sub-agent for fact-finding.",
           "rationale": "The source directs the agent to interview the user in numbered rounds over a 'design tree': ask every question whose prerequisites are settled, give a recommended answer for each, then wait for the user's answers before the next round (lines 6-26). It separates facts from decisions: 'Finding facts is your job, never the user's', while 'The decisions are the user's: put each to them and wait' (line 28). It ends only when the frontier is empty, and adds 'Do not act on it until the user confirms' (line 30). Every decision therefore routes through the person; the agent's autonomous part is limited to fact-finding. Plausible failure modes: with no responder the frontier never empties, so the procedure cannot terminate as written; because questions are worded so that 'yes' accepts the agent's recommendation (line 24), an acquiescent user can ratify the agent's own plan with the appearance of review. The claim is falsified if a session that has loaded this text edits files or takes another action on the plan before the user has confirmed, and qualified if the recommended-answer wording is shown to move decisions toward the agent's proposal."
         }
-      ]
+      ],
+      "owner": "mattpocock"
     },
     "obra/brainstorming": {
       "declarationId": "arbor-i-seed.obra.brainstorming.v1",
@@ -49,7 +56,8 @@
           "conditions": "A person is available to answer questions and to approve a written design; the request is creative or underspecified work (a new feature, component or behaviour change) that the request does not already fully specify. The agent can write a design document into the workspace.",
           "rationale": "The source orders the work as: lay out approaches in a message of their own and have the person pick, write a design document, 'Get their approval of that doc', then invoke the planning skill (lines 28-33). Questions are asked one at a time and only when the answer would change what gets built (lines 101-106). A block marked HARD-GATE says 'Nothing gets built until your human partner approves the design doc', where building includes product code, scaffolding, installing dependencies, creating projects and invoking an implementation skill (lines 269-274). The gate has 'Two exceptions': if the person opted out of the questions 'the skill is done and the gate goes with it', and 'A spike they said yes to may be built; it stays labeled throwaway' (lines 276-279). The convergence step is therefore owned by the person, including the choice to waive it. Further qualifications visible in the text: the agent itself judges whether 'Everything that matters is in the request' and may then skip the process (lines 17-24), so the gate depends on the agent's own estimate of what is missing; the builder check depends on a sibling prompt file and a subagent tool (lines 250-266). Plausible failure mode: in an unattended run nothing can approve the document and the run stalls at the gate. Falsified if a session that has loaded this text writes product code before a design approval when the person has neither opted out of the questions nor agreed to a labelled spike; qualified by how often the skip path is taken on requests a reviewer would call underspecified."
         }
-      ]
+      ],
+      "owner": "obra"
     },
     "obra/systematic-debugging": {
       "declarationId": "arbor-i-seed.obra.systematic-debugging.v1",
@@ -78,7 +86,8 @@
           "conditions": "Three or more fix attempts on the same problem have failed, and a person who can decide whether the design should change is reachable in the session.",
           "rationale": "At this point the source switches leadership: 'If ≥ 3: STOP and question the architecture', 'DON'T attempt Fix #4 without architectural discussion' (lines 194-196), and 'Discuss with your human partner before attempting more fixes' (line 210), framing the situation as 'a wrong architecture' rather than a failed hypothesis (line 212). The same skill is thus model-led below the threshold and human-led above it. Plausible failure modes: the count of failed fixes is tracked only by the agent, so it can be under-counted or reset by relabelling an attempt; in an unattended run the instruction either stalls the session or is satisfied by the agent answering its own question. Falsified if sessions that load this text attempt a fourth fix without surfacing the architectural question to a person."
         }
-      ]
+      ],
+      "owner": "obra"
     },
     "mattpocock/diagnosing-bugs": {
       "declarationId": "arbor-i-seed.mattpocock.diagnosing-bugs.v1",
@@ -107,7 +116,8 @@
           "conditions": "The agent cannot construct a reproducing loop from what it can reach, and a person can grant access to the reproducing environment, supply a captured artifact, approve temporary production instrumentation, or perform manual steps the agent cannot.",
           "rationale": "For this case the source says 'Stop and say so explicitly. List what you tried. Ask the user for: (a) access to whatever environment reproduces it, (b) a redacted captured artifact ..., or (c) permission to add temporary production instrumentation' (line 55). Where a person must act in the loop it directs the agent to drive them with a helper script (line 35), and where redacted output is insufficient to 'say so and ask the user' (line 16). The three requested items are grants only a person can give, which is why leadership moves to the person here. Plausible failure mode: the line 22 instruction to refuse to give up competes with this stop, so the agent may keep building speculative loops instead of asking. Falsified if, when no loop exists, sessions continue to hypothesise without the stop described."
         }
-      ]
+      ],
+      "owner": "mattpocock"
     },
     "mattpocock/wayfinder": {
       "declarationId": "arbor-i-seed.mattpocock.wayfinder.v1",
@@ -130,7 +140,8 @@
           "rationale": "The source plans work as one 'map' issue with child decision tickets and blocking relationships (lines 21, 114), says to 'never resolve more than one ticket per session', research tickets excepted (line 105), and requires a session to claim a ticket before working it (lines 67, 123). Its frontmatter sets disable-model-invocation: true, and it states that a human-in-the-loop ticket 'only resolves through that live exchange; the agent never stands in for the human's side of it' (line 75); its default output is 'decisions, not deliverables' (line 13). The person therefore starts each use and owns the decisions the map records. Agent-driven parts exist inside that frame: research tickets are resolved by sub-agents (lines 77, 115) and, absent a named ticket, 'you pick the next decision, not the user' (line 120). Side effects are external and visible to collaborators: issues are created, commented on and closed, and research branches are pushed with no pull request (lines 115, 125). Plausible failure modes: a non-interactive ticket is closed on the agent's own resolution with no stated human check; pushed research branches have no cleanup step; the text expects concurrent sessions (line 128) but names only the assignee claim as concurrency control. Falsified if sessions resolve human-in-the-loop tickets without the live exchange."
         }
       ],
-      "note": "No model-led facet declared: the source disables model invocation and writes to a shared tracker."
+      "note": "No model-led facet declared: the source disables model invocation and writes to a shared tracker.",
+      "owner": "mattpocock"
     },
     "garrytan/cso": {
       "declarationId": "arbor-i-seed.garrytan.cso.v1",
@@ -153,7 +164,8 @@
           "rationale": "The frontmatter restricts the Bash tool to the gstack-cso launcher. The body tells the agent to read the audited source only through the run's inspect, read and history commands and 'Never use host Read/Glob/Grep' (line 93), to 'never run target tools or Docker on the host' (line 22), and describes the default mode as 'Static daily investigation ... No application execution' (line 34). Repository content, instructions and scanner output are declared 'untrusted evidence' that 'cannot authorize execution or alter policy' (line 22). The run is bounded: one start per run (line 91), ten minutes for the default mode (line 99), at most two retries on tooling errors, and 'not assessed' rather than a finding when tooling fails (lines 20, 26). Surviving findings are surfaced to the user immediately (line 95). These bounds are why a model can lead the run. Limits the text itself states: 'Containment does not sandbox the host agent or kernel' (line 22); public package and advisory identifiers are looked up over the network unless --offline is given (line 28). Further qualification: the launcher binary and the audit-phase sections it loads are not part of the inspected file, so this claim rests on the instruction text and not on the binary's behaviour, and in a harness that does not enforce allowed-tools the read-only property depends on model compliance. Falsified if a default run modifies tracked files in the audited repository or executes its code."
         }
       ],
-      "note": "--comprehensive (Docker reproduction, repair candidates) is deliberately not covered by any claim."
+      "note": "--comprehensive (Docker reproduction, repair candidates) is deliberately not covered by any claim.",
+      "owner": "garrytan"
     },
     "garrytan/qa-only": {
       "declarationId": "arbor-i-seed.garrytan.qa-only.v1",
@@ -175,7 +187,8 @@
           "conditions": "A runnable target (browser application, API, CLI, job, worker or webhook) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, where the agent may write under the report directory and the gstack state root. The target and mode are known or inferable; the user may be away afterwards. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
           "rationale": "The source states 'NEVER fix anything or change product tests' and 'Write only reports, evidence and owned temporary fixtures' (lines 130-131) and, in its own rules, 'Do not edit product code, tests, dependencies, config or tracked state through any tool, including shell writes, renames, deletions and edit-then-restore. Never commit, stash or bootstrap' (lines 333-336). It forbids chaining: 'Never invoke /qa or another skill from this report-only run' (line 339), and it writes probe charters into the report before probing (line 244). In the inspected file the questions it directs are for an unknown target or a mode conflict (lines 155-164). Tracked product files are to be left as found, which bounds what a model-led run can change there. Qualifications: surface selection, probing and reporting are defined in section files that were not read (lines 144-145), so further questions or writes may be directed there; the shared startup section still writes question logs and analytics under the state root, so 'report-only' describes the product repository and not the machine; and probing an API, job or webhook is not read-only for the system under test, which the no-write rules do not cover. Falsified if tracked files or git state differ after a run, the skill's own reports, evidence and temporary fixtures aside; qualified if probes are shown to mutate the target system's data."
         }
-      ]
+      ],
+      "owner": "garrytan"
     },
     "garrytan/qa": {
       "declarationId": "arbor-i-seed.garrytan.qa.v1",
@@ -204,7 +217,8 @@
           "conditions": "The working tree is dirty when the skill starts, or two exploration modes were requested at once, or the skill's first-run cross-project question is unanswered, or the fix loop reaches its stop rule, or the code's ownership is reported as collaborative or unknown; and a person can answer through the harness's question tool.",
           "rationale": "In these situations the source hands the decision to the person: on a dirty tree 'STOP and use AskUserQuestion' with commit, stash or abort as the person's options (lines 228-230); with both exploration flags it says to 'ask which exploration mode to use' (line 216); on first use it puts a cross-project question to the person (line 275); at the stop rule 'Show the user what you've done so far and ask whether to continue' (line 448); and for collaborative or unknown ownership 'Flag via AskUserQuestion, don't fix (may be someone else's)' (line 84). Each is a choice about the person's own uncommitted work, their configuration, or code that is not the agent's to change. Plausible failure mode: with no responder the session parks at the first of these questions, so an unattended run on a dirty tree does no work. Falsified if a session stashes or commits the user's pending changes without the question."
         }
-      ]
+      ],
+      "owner": "garrytan"
     },
     "obra/executing-plans": {
       "declarationId": "arbor-i-seed.obra.executing-plans.v1",
@@ -233,7 +247,8 @@
           "conditions": "During plan execution a step is irreversible or destructive, is security-sensitive, has a side effect outside the worktree (a merge, a push to a shared branch, a publish), or the plan is too broken to follow without guessing; or execution would begin on main/master. A person is reachable.",
           "rationale": "The source limits its own autonomy with one sentence: 'Four things stop you, and only these: an irreversible or destructive operation; a security-sensitive action; a side effect outside this worktree that norms say you ask about first ...; and a plan so broken that every path forward is a guess. For those, stop and ask' (lines 39-43). It also says never to start on main/master without the person's explicit consent (line 112). These four categories are the boundary between the model-led claim on this skill and the person's authority. The load-bearing weakness is that the agent classifies each step into or out of the four categories itself; a misclassified publish or destructive step is exactly the case the text exists to prevent. Falsified if sessions that load this text push to a shared branch, merge or publish during plan execution without asking."
         }
-      ]
+      ],
+      "owner": "obra"
     },
     "obra/subagent-driven-development": {
       "declarationId": "arbor-i-seed.obra.subagent-driven-development.v1",
@@ -262,7 +277,8 @@
           "conditions": "During controller-led execution a step is irreversible or destructive, is security-sensitive, has a side effect outside the worktree (a merge, a push to a shared branch, a publish), or the plan is too broken to follow without guessing; or execution would begin on main/master. A person is reachable.",
           "rationale": "The source carries the same boundary sentence as its inline sibling: 'Four things stop you, and only these ... For those, stop and ask' (lines 27-31), and it forbids starting on main/master without the person's consent (line 105). Because implementer subagents act on briefs written by the controller, the boundary holds only if the controller's classification reaches those briefs; the inspected file does not show the implementer prompt, so whether subagents themselves stop on these categories is not established by this reading. Falsified if a dispatched implementer performs a merge, shared-branch push, publish or destructive operation that the controller did not first raise with the person."
         }
-      ]
+      ],
+      "owner": "obra"
     },
     "obra/verification-before-completion": {
       "declarationId": "arbor-i-seed.obra.verification-before-completion.v1",
@@ -284,7 +300,8 @@
           "conditions": "The agent is about to state that work is complete, fixed or passing, or to commit, push or open a pull request, and a command that can prove the claim exists and can be run in the session. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
           "rationale": "The source's rule is 'NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE' (line 17): 'If you haven't run the verification command in this message, you cannot claim it passes' (line 20), followed by a five-step gate to identify the proving command, run it in full, read the output, verify, and only then claim (lines 25-31). A subagent's success report is to be checked against a version-control diff rather than accepted (line 47). The text contains no instruction to ask or wait for a person, and it needs no tool beyond the proving command, so it is a self-contained gate a model can apply to its own claims. Plausible failure modes: the text gives no path when the proving command cannot be run, so the agent may substitute a weaker command and still claim; a full fresh run before every status statement is costly on long suites; the regression-test check reverts and restores a fix (line 84), which an interruption can leave reverted. Falsified if a session that has loaded and read this text states that work passes or is complete in a message that contains no fresh run of a proving command."
         }
-      ]
+      ],
+      "owner": "obra"
     },
     "addy-osmani/source-driven-development": {
       "declarationId": "arbor-i-seed.addy-osmani.source-driven-development.v1",
@@ -313,7 +330,8 @@
           "conditions": "Versions are missing or ambiguous in the dependency files, or official sources conflict with each other or with the project's existing code, or a fetched example would add an outbound endpoint to the generated code; and a person is reachable.",
           "rationale": "For these cases the source hands the choice to the person: 'If versions are missing or ambiguous, ask the user. Don't guess' (line 61); when official sources conflict with each other it says to 'surface the discrepancy to the user' (line 95); when documentation conflicts with existing code it presents the options, asks 'Which approach do you prefer?' and adds 'Don't silently pick one' (lines 136-139); and it forbids hardcoding outbound endpoints from fetched examples 'without surfacing them to the user' (line 114). Each is a project decision or a data-egress decision, which is why leadership moves to the person. Falsified if a session that has loaded this text resolves such a conflict, or adds such an endpoint, without raising it."
         }
-      ]
+      ],
+      "owner": "addy-osmani"
     },
     "caioribeiroclw-pixel/evidence-attestation": {
       "declarationId": "arbor-i-seed.caioribeiroclw-pixel.evidence-attestation.v1",
@@ -335,7 +353,8 @@
           "conditions": "The agent has produced a claim that another agent, a later session or a reviewer will reuse as authority, and it holds resolvable references to the evidence behind it (commit ids, issue URLs, command names, fixture paths, artifact hashes). The claim concerns what the attestation records, not whether the underlying work is correct. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
           "rationale": "The source has the agent emit a compact attestation listing evidence references, a status per claim ('supported', 'contradicted', 'unknown' or 'not_checked'), and a verdict chosen by stated rules: 'accepted only when the evidence supports the claim and no required evidence is missing', 'review_required when evidence is partial, stale-prone, or needs a human/verifier', 'blocked when required evidence is inaccessible or unsafe to inspect' (lines 92-97). It excludes raw prompts, transcripts, secrets and full diffs in favour of hashes, identifiers and source labels (lines 29-37) and says 'Do not upgrade weak evidence into authority' (line 39). Emitting the attestation does not wait on a person, but one of its verdicts exists to hand the claim to one: 'review_required' is for evidence that 'needs a human/verifier' (line 96). The bundled checker it mentions (line 99) is not part of the inspected file. The text states its own ceiling: a passing check 'does not prove the underlying work is correct; it proves the evidence boundary is inspectable' (line 110). The principal failure mode is structural: the attestation is issued by the same agent whose claim it describes, so an 'accepted' verdict is a self-report, and evidence references can be written that nobody resolves. Falsified if 'accepted' verdicts are emitted where a required evidence reference is missing or does not resolve; qualified if downstream readers are shown to treat a passing structural check as proof of the work."
         }
-      ]
+      ],
+      "owner": "caioribeiroclw-pixel"
     },
     "garrytan/context-save": {
       "declarationId": "arbor-i-seed.garrytan.context-save.v1",
@@ -357,7 +376,8 @@
           "conditions": "Work is about to be interrupted (before compaction, a hand-off or the end of a session) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, inside a git repository. The agent may write under the gstack state root. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
           "rationale": "The source carries a block 'HARD GATE: Do NOT implement code changes. This skill captures state only' (line 107) and the rule 'Never modify code. This skill only reads state and writes the context file' (line 391). It writes a new checkpoint file each time under the state root, never overwriting an earlier one (lines 244, 393-394), with the path computed in the shell so a user-supplied title cannot steer it (line 225). It tells the agent to 'Infer, don't interrogate' and to ask only if a title cannot be inferred (lines 396-397). It adds checks on its own content: every remaining-work item starts with a provenance status (line 161) and a claim about file contents needs a same-turn read (line 189). An append-only write outside the repository with no required question is what makes this suitable for a model to trigger. Plausible failure modes: the checkpoint is the model's own reconstruction of the conversation, so a decision it misremembers is saved as fact; a checkpoint taken after compaction can only record what survived; the shared startup section also writes logs and analytics; when the session started in a directory outside the repository the skill also leaves a pointer file there (lines 302-308). Falsified if a save modifies repository files; qualified by how much a checkpoint omits when taken late."
         }
-      ]
+      ],
+      "owner": "garrytan"
     },
     "garrytan/context-restore": {
       "declarationId": "arbor-i-seed.garrytan.context-restore.v1",
@@ -386,7 +406,8 @@
           "conditions": "More than one recent checkpoint could be the continuation (different titles with no usable branch discriminator, a newer task elsewhere, or no checkpoint verified as this project's), or the state has been presented and the next action is to be chosen; and a person can answer through the harness's question tool.",
           "rationale": "In these cases the source forbids a silent choice: 'do not silently load newest if the recent candidates ... carry different titles. Show those titles ... and wait' (lines 262-266); 'Do not silently take an older checkpoint' (line 268); and with no verified checkpoint, 'do not present any checkpoint as the latest one ... ask which one, if any, to open' (lines 274-278). After presenting, it asks the person whether to continue, show the file, or stop (lines 384-390). Which thread of work to resume is the person's call, and the text keeps it there. Falsified if sessions auto-load one of several differently titled recent checkpoints without asking."
         }
-      ]
+      ],
+      "owner": "garrytan"
     },
     "mattpocock/handoff": {
       "declarationId": "arbor-i-seed.mattpocock.handoff.v1",
@@ -409,7 +430,8 @@
           "rationale": "The frontmatter sets disable-model-invocation: true, so the source itself reserves the trigger to the person. The body directs one write: a hand-off document summarising the conversation, saved to the OS temporary directory and 'not the current workspace' (line 8), with a section naming skills the next agent should load (line 10), references to existing artifacts instead of copies (line 12), redaction of sensitive information (line 14), and tailoring to the stated purpose of the next session (line 16). The person chooses when to compact and what the next session is for; the agent only writes. Plausible failure modes: the temporary directory is machine-local and may not outlive a reboot or a cloud container, so the document can be gone when the next session starts; redaction depends on the model recognising what is sensitive; the suggested-skills section carries the first session's assumptions into the next as recommendations. Falsified if the document is written into the workspace or produced without a person's invocation in a harness that honours the frontmatter flag."
         }
       ],
-      "note": "No model-led facet declared: the source disables model invocation."
+      "note": "No model-led facet declared: the source disables model invocation.",
+      "owner": "mattpocock"
     },
     "garrytan/careful": {
       "declarationId": "arbor-i-seed.garrytan.careful.v1",
@@ -432,7 +454,8 @@
           "rationale": "The frontmatter registers a PreToolUse hook on the Bash and PowerShell tools that runs a checking script before each command (lines 1-24). The body says that when a destructive command is detected the person is warned 'and can choose to proceed or cancel' (line 32): a command matching a listed pattern (recursive delete, DROP TABLE, TRUNCATE, force-push, git reset --hard, kubectl delete and similar; lines 40-50) returns a permission decision of ask (line 81), while two catastrophic shapes are denied outright (lines 86-89). The decision on a destructive command therefore moves from the model to the person, and the mechanism is the harness hook rather than the model's compliance. Limits the text states: on PowerShell, string matching 'can't see a command built at' runtime (line 67); compound commands fall through to the ask tier (lines 90-91); it is 'A best-effort advisory hard-stop, not a policy boundary' (line 91); deletions of common build directories are allowed without warning (lines 72-75); the hooks are session-scoped (line 103). Plausible failure modes: in an unattended session the ask has no responder and the run parks; in a harness that does not execute skill-declared hooks the text has no effect at all. Falsified if a listed pattern executes without a prompt in a session meeting the conditions."
         }
       ],
-      "note": "No model-led facet declared: the behaviour is hook enforcement plus a person's answer."
+      "note": "No model-led facet declared: the behaviour is hook enforcement plus a person's answer.",
+      "owner": "garrytan"
     },
     "garrytan/freeze": {
       "declarationId": "arbor-i-seed.garrytan.freeze.v1",
@@ -455,7 +478,8 @@
           "rationale": "The source asks the person for a directory (lines 48-51), records it through a shared state writer (lines 55-57), and registers PreToolUse hooks on Edit, Write and NotebookEdit that return a deny for any path outside the boundary (lines 68-73). It fails closed: 'a tool payload the hook cannot parse is DENIED' (line 76). The person sets the scope and the hook holds it, so the constraint does not depend on the model remembering it. The text states its own limits: 'This prevents accidental edits, not a security boundary - Bash or PowerShell commands like sed or Set-Content can still modify files outside the boundary' (line 93), and the boundary 'persists until explicitly removed' (line 85): 'ending or killing a conversation does not remove persisted state' (line 94). Plausible failure modes: a later session inherits a boundary nobody remembers setting and has its edits denied; an agent blocked by the boundary routes the same change through a shell command. Falsified if an Edit or Write outside the boundary succeeds in a session meeting the conditions; qualified by how often blocked edits reappear as shell writes."
         }
       ],
-      "note": "No model-led facet declared: activation requires a person to supply the boundary."
+      "note": "No model-led facet declared: activation requires a person to supply the boundary.",
+      "owner": "garrytan"
     },
     "garrytan/guard": {
       "declarationId": "arbor-i-seed.garrytan.guard.v1",
@@ -478,7 +502,8 @@
           "rationale": "The source describes itself as 'the combination of /careful + /freeze in a single command' (line 47). Its frontmatter registers the careful checking script on Bash and PowerShell and the freeze checking script on Edit, Write and NotebookEdit (lines 1-38), and its setup asks the person for the directory and records it through the same shared state writer (lines 61-70). It adds no behaviour of its own: it points to /careful for the pattern list and to /freeze for boundary enforcement (lines 83-84). The person-owned decisions are therefore the two its components carry: the boundary, and each flagged command. It inherits both components' stated limits and adds a dependency: 'Both must be installed' (line 50). It also tells the agent not to claim the boundary is active if the state writer fails (line 73). Falsified under the same observations as its two components."
         }
       ],
-      "note": "No model-led facet declared, for the reasons given on garrytan/careful and garrytan/freeze."
+      "note": "No model-led facet declared, for the reasons given on garrytan/careful and garrytan/freeze.",
+      "owner": "garrytan"
     },
     "garrytan/land-and-deploy": {
       "declarationId": "arbor-i-seed.garrytan.land-and-deploy.v1",
@@ -501,7 +526,8 @@
           "rationale": "The frontmatter sets disable-model-invocation: true. The body automates only 'read-only detection and polling' and makes 'First-run setup confirmation ... and pre-merge approval ... mandatory when applicable' (lines 186-187), stopping on missing access, an unknown target, unapproved red, pending or missing CI, conflicts or failing tests (line 188). It calls the merge 'irreversible' (line 383), refuses non-GitHub platforms (line 168), and offers a revert only on the person's explicit choice, by pushing a revert commit to the base branch or opening a revert pull request (lines 457-515). The merge and its consequences are external to the worktree and are the person's decision at each step. Limits the text states: 'HTTP 200 proves reachability, not which release is live' (line 429) and 'No record means deployment UNVERIFIED, not success' (line 439). The merge command and the readiness gate themselves are in section files outside the inspected file, so this reading establishes that approval is required, not how the merge is performed. Falsified if a session merges without the pre-merge approval the text calls mandatory."
         }
       ],
-      "note": "No model-led facet declared: merging and deploying are external, hard-to-reverse actions and the source disables model invocation."
+      "note": "No model-led facet declared: merging and deploying are external, hard-to-reverse actions and the source disables model invocation.",
+      "owner": "garrytan"
     },
     "mattpocock/grill-me": {
       "declarationId": "arbor-i-seed.mattpocock.grill-me.v1",
@@ -516,7 +542,8 @@
         "linkRef": "main"
       },
       "claims": [],
-      "note": "Edge endpoint only. A seven-line redirect; its behaviour is the grilling skill's."
+      "note": "Edge endpoint only. A seven-line redirect; its behaviour is the grilling skill's.",
+      "owner": "mattpocock"
     }
   },
   "edges": [
@@ -530,35 +557,7 @@
           "relation": "duplicates",
           "lines": "from 1-7; to 1-30",
           "conditions": "Both skills are candidates for the same need in one session, for example when a retrieval returns both for a request to stress-test a plan.",
-          "rationale": "The entire body of the 'from' skill is one instruction: 'Call the Skill tool with \"grilling\"' (line 7). It adds no procedure of its own, so loading both places one behaviour in context twice. The two differ only in who may trigger them: the 'from' skill's frontmatter sets disable-model-invocation: true and the 'to' skill's does not. That difference is an invocation boundary set by the source and enforced by the harness, not a behavioural one. This is a reading of the two texts; no run has compared sessions with one against both. Falsified if a session with both loaded follows a procedure that a session with only the 'to' skill does not."
-        }
-      ]
-    },
-    {
-      "declarationId": "arbor-i-seed.edge.guard-duplicates-careful.v1",
-      "from": "garrytan/guard",
-      "to": "garrytan/careful",
-      "claims": [
-        {
-          "id": "same-command-check-hook-registered-twice",
-          "relation": "duplicates",
-          "lines": "from 1-38, 47, 83; to 1-24",
-          "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
-          "rationale": "The 'from' skill's frontmatter registers the same checking script on the same tools (Bash and PowerShell) as the 'to' skill's frontmatter, and its body says it is 'the combination of /careful + /freeze' and points to the 'to' skill for the pattern list (from lines 47, 83). Read from the two texts, activating both registers one check twice and adds no pattern the 'from' skill does not already register. Whether the harness then runs the check once or twice per command, and whether a person is prompted once or twice, is not established by the text. No run has observed both active together. Falsified if both active produce a different set of flagged commands than the 'from' skill alone."
-        }
-      ]
-    },
-    {
-      "declarationId": "arbor-i-seed.edge.guard-duplicates-freeze.v1",
-      "from": "garrytan/guard",
-      "to": "garrytan/freeze",
-      "claims": [
-        {
-          "id": "same-edit-boundary-hook-and-state",
-          "relation": "duplicates",
-          "lines": "from 1-38, 61-70, 84; to 1-30, 55-57, 63",
-          "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
-          "rationale": "The 'from' skill registers the same boundary-checking script on Edit, Write and NotebookEdit as the 'to' skill and records the boundary through the same state writer (from lines 61-70; to lines 55-57). The 'to' skill says running it again changes the boundary (to line 63), so the boundary appears to be one shared value that either skill replaces; the state writer itself was not read. On that reading, activating both asks the person for a directory twice for one effect. No run has observed both active together. Falsified if both active enforce two distinct boundaries at once."
+          "rationale": "The entire body of the 'from' skill is one instruction: 'Call the Skill tool with \"grilling\"' (line 7). It adds no procedure of its own, so loading both places one behaviour in context twice. The two differ only in who may trigger them: the 'from' skill's frontmatter sets disable-model-invocation: true and the 'to' skill's does not. That difference is an invocation boundary set by the source and enforced by the harness, not a behavioural one. Both canonical skills keep their identity, history and ownership: this relation records that the two share one behaviour at these pinned bytes, and it is no reason to merge, remove or re-curate either record. The canonical record of the 'from' skill still describes it as a lighter variant with its own procedure; the redirect is what its linked upstream file contains at the pinned commit. This is a reading of the two texts; no run has compared sessions with one against both. Falsified if a session with both loaded follows a procedure that a session with only the 'to' skill does not."
         }
       ]
     },
@@ -571,7 +570,7 @@
           "id": "restore-reads-what-save-wrote",
           "relation": "unlocks",
           "lines": "from 105, 225-258, 298-308; to 106, 142, 259-283, 318-326, 401-403",
-          "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction.",
+          "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction, so that a checkpoint exists. With no checkpoint the 'to' skill still runs, by a different route, and this relation does not apply.",
           "rationale": "The 'to' skill loads checkpoint files from the project's checkpoint directory under the gstack state root; the 'from' skill is what writes them there and says its purpose is that a later session 'can resume without losing a beat via /context-restore' (from line 105). The 'to' skill's verify-first sorting relies on the commit and project identity that the 'from' skill stamps into the checkpoint (from lines 298-308; to lines 280-283, 318-326), and it states reduced ability for checkpoints lacking them (to line 326). Without a prior save the 'to' skill has no checkpoint to load; it then tells the user nothing was saved and rebuilds context by a separate route defined in a section file that was not read (to lines 142, 401-403). This is a mechanical dependency read from the two texts; how much of a session's working state survives a save-then-restore round trip has not been observed. Falsified if a restore with no prior save presents the same remaining-work list as one that follows a save."
         }
       ]

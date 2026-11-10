@@ -1,19 +1,19 @@
 {
-  "inputDigest": "bfdb37b6244ea063d8df8dd097815c8888b60ac8235d4785ba3bc3459c670ba8",
+  "inputDigest": "a7de0c25e97d4101dcc1ad66041adc549466d58d6fc6f2c0b9e606d3c5e22ee8",
   "lenses": {
     "claims": {
       "profile": {
         "claims": [
           {
             "authority": {
-              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-              "basis": "Agent-authored structural reading, lines 190-212, of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+              "actor": "obra - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+              "basis": "Evidence tier: source-declared. Read from lines 190-212 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "Three or more fix attempts on the same problem have failed, and a person who can decide whether the design should change is reachable in the session.",
             "declarationId": "arbor-i-seed.obra.systematic-debugging.v1",
-            "declarationSource": "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613",
-            "declaredAt": "2026-11-10T13:45:00Z",
+            "declarationSource": "8e012de7720b7ce88dbcf0065a94cfab6c5c7771debeac9b18e02b40915925b7",
+            "declaredAt": "2026-11-10T18:12:00Z",
             "facet": "human-led",
             "id": "architecture-discussion-after-three-failed-fixes",
             "interpretationSource": null,
@@ -22,14 +22,14 @@
           },
           {
             "authority": {
-              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-              "basis": "Agent-authored structural reading, lines 17-20, 46, 74-85, 162-196, 233-242, of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+              "actor": "obra - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+              "basis": "Evidence tier: source-declared. Read from lines 17-20, 46, 74-85, 162-196, 233-242 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "The agent is working a bug, test failure or unexpected behaviour in a repository it may read, run and edit, fewer than three fix attempts on that problem have failed, and the agent has not reached a point where it does not understand what it is seeing. A person does not have to act for the procedure to advance under these conditions, though the text expects one to be able to redirect it. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
             "declarationId": "arbor-i-seed.obra.systematic-debugging.v1",
-            "declarationSource": "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613",
-            "declaredAt": "2026-11-10T13:45:00Z",
+            "declarationSource": "8e012de7720b7ce88dbcf0065a94cfab6c5c7771debeac9b18e02b40915925b7",
+            "declaredAt": "2026-11-10T18:12:00Z",
             "facet": "model-led",
             "id": "root-cause-investigation-before-fix",
             "interpretationSource": null,
@@ -37,7 +37,7 @@
             "support": "expert-declared"
           }
         ],
-        "inputDigest": "bd3b39970389b944d97cafa69e7b7ed55fa34362700a77b3db6ab89dbee3d451",
+        "inputDigest": "7cf2d4555263a20b0e23660b979d765064da6b69d5010f1278a8ad2709f24b19",
         "schema": "gaia.arbor-profile/v1",
         "skill": {
           "contentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
@@ -46,12 +46,12 @@
         "sources": {
           "benchmarkReceipts": [],
           "declarations": [
-            "a04696fdced3c6df2fe3a40396267a6773afd548f03505e00f31da7dcbffc613"
+            "8e012de7720b7ce88dbcf0065a94cfab6c5c7771debeac9b18e02b40915925b7"
           ],
           "interpretations": []
         }
       },
-      "sourceDigest": "9cfc98ed9fdf4164df6a9ef7dd7a0c36dee13c0df8448ae3e07bcbf6bccc2021",
+      "sourceDigest": "b958b926272950e9cb411b1017d0f2084f41046b410147550b3a850e485efa1e",
       "status": "present"
     },
     "hellHeaven": {
@@ -63,12 +63,12 @@
       "edges": [
         {
           "authority": {
-            "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-            "basis": "Agent-authored structural reading, lines from 17-20, 190-210; to 197-198, of from: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'); to: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/executing-plans/SKILL.md (sha256 deaf176fa179827e80f2ea3101db3ea90fdf562ebef340eba761e4687940f5f5; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+            "actor": "obra - owner of both canonical skills; the relation is stated in the skills' own instructions (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the relation claim from those instructions.",
+            "basis": "Evidence tier: source-declared. Read from the two skills' instructions (lines: from 17-20, 190-210; to 197-198) - from: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'); to: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/executing-plans/SKILL.md (sha256 deaf176fa179827e80f2ea3101db3ea90fdf562ebef340eba761e4687940f5f5; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
           },
           "conditions": "During plan execution under the 'to' skill, a step's observed output does not match the plan because the code is wrong, and the 'from' skill is available to load.",
-          "declarationSource": "5b647c366c8415bb9c810839c9dfa024ecf3a7488b54a6e4fdddb9cb4f4220cd",
-          "edgeKey": "14bd342ec1425254039ea958c9e990f179b2eb295bcbe2dc95260dcfbfa6ebda",
+          "declarationSource": "3342d4173a62efccdab5d345e0fd31a45ef16f9f27a2cd6f7b7dc90cee7d0d70",
+          "edgeKey": "1524ef4bf4b4d08c6e65188d6ed85198358b9ef434e24125a5fa4e2d7eacc20b",
           "interpretationSource": null,
           "observationSources": [],
           "pair": {
@@ -88,11 +88,11 @@
           "support": "expert-declared",
           "target": {
             "claimId": "named-recovery-route-when-code-is-wrong",
-            "declarationSha256": "5b647c366c8415bb9c810839c9dfa024ecf3a7488b54a6e4fdddb9cb4f4220cd"
+            "declarationSha256": "3342d4173a62efccdab5d345e0fd31a45ef16f9f27a2cd6f7b7dc90cee7d0d70"
           }
         }
       ],
-      "sourceDigest": "301e618354ec361b90060774d7794ff63ef094afbb92dfe8aceba07829c45944",
+      "sourceDigest": "66368f5a87f1b91364351c693413e089b3704029ffa38f96d2eb0e6ba9215b9e",
       "status": "present"
     }
   },

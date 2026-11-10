@@ -1,19 +1,19 @@
 {
-  "inputDigest": "b7912fd575ed15543efc0509bbbb2a70206761b556fd96c211be55abffd93480",
+  "inputDigest": "3c0044b9d650ea5b9c93c177223c3875e2d687b4452102cc9ec4d5a2efd184e5",
   "lenses": {
     "claims": {
       "profile": {
         "claims": [
           {
             "authority": {
-              "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-              "basis": "Agent-authored structural reading, lines 25-41, 92-110, of caioribeiroclw-pixel/pluribus@b15a1886284ffd392223d6cf6d71c8f7dafe0b45:skills/evidence-attestation/SKILL.md (sha256 886ca4c1299b1fe758cf11b83770bc8432095b778694114a2f575c859ecb7316; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+              "actor": "caioribeiroclw-pixel - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+              "basis": "Evidence tier: source-declared. Read from lines 25-41, 92-110 of caioribeiroclw-pixel/pluribus@b15a1886284ffd392223d6cf6d71c8f7dafe0b45:skills/evidence-attestation/SKILL.md (sha256 886ca4c1299b1fe758cf11b83770bc8432095b778694114a2f575c859ecb7316; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "The agent has produced a claim that another agent, a later session or a reviewer will reuse as authority, and it holds resolvable references to the evidence behind it (commit ids, issue URLs, command names, fixture paths, artifact hashes). The claim concerns what the attestation records, not whether the underlying work is correct. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
             "declarationId": "arbor-i-seed.caioribeiroclw-pixel.evidence-attestation.v1",
-            "declarationSource": "090e550dd5b2f04ee0c9ce9f0913169b5bd90a55d2a9395407a3016a9c68cfd4",
-            "declaredAt": "2026-11-10T13:45:00Z",
+            "declarationSource": "13fe05cabc3b53c83533f8e3d07ff1960ae36c008dcfc48d104538f60fa58a6b",
+            "declaredAt": "2026-11-10T18:12:00Z",
             "facet": "model-led",
             "id": "structured-attestation-of-a-reused-claim",
             "interpretationSource": null,
@@ -21,7 +21,7 @@
             "support": "expert-declared"
           }
         ],
-        "inputDigest": "92b93a864c5203f850df2097054b17f630a99caaae80c4721e1cd37587733fcc",
+        "inputDigest": "722baaed8aa02fa3f7b28e5b3e052f8c159e35db67e96be702de56820462025d",
         "schema": "gaia.arbor-profile/v1",
         "skill": {
           "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
@@ -30,12 +30,12 @@
         "sources": {
           "benchmarkReceipts": [],
           "declarations": [
-            "090e550dd5b2f04ee0c9ce9f0913169b5bd90a55d2a9395407a3016a9c68cfd4"
+            "13fe05cabc3b53c83533f8e3d07ff1960ae36c008dcfc48d104538f60fa58a6b"
           ],
           "interpretations": []
         }
       },
-      "sourceDigest": "b7912fd575ed15543efc0509bbbb2a70206761b556fd96c211be55abffd93480",
+      "sourceDigest": "3c0044b9d650ea5b9c93c177223c3875e2d687b4452102cc9ec4d5a2efd184e5",
       "status": "present"
     },
     "hellHeaven": {

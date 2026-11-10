@@ -12,11 +12,11 @@ script never writes into `registry/arbor/`.
     python founder/reports/arbor-i-seed-2026-11-10/seed/assemble.py --check    # records == store?
     python founder/reports/arbor-i-seed-2026-11-10/seed/assemble.py --list-digests
 
-Re-issue under a different authority (the PR #2036 pattern: same claims, a
-human adopter as the named authority) with `--authority-actor`,
-`--authority-basis` and `--declared-at`. Claim text is never altered by those
-flags, so a re-issue differs from the seed only in `authority` and
-`declaredAt`.
+Attribution follows the founder ruling of 2026-11-11: the owner of the canonical
+skill is the primary attribution and the drafting agent is the supporting
+author. The owner comes from each canonical record's `contributor` field, as
+recorded in `seed.json`. An edge whose two endpoints have different owners needs
+its own attribution wording and is refused here.
 """
 
 from __future__ import annotations
@@ -77,15 +77,36 @@ def sourceLine(entry: dict) -> str:
     )
 
 
-def authorityFor(seed: dict, sources: list[str], lines: str, override: dict | None) -> dict:
-    if override is not None:
-        return override
+def claimAuthority(seed: dict, entry: dict, lines: str) -> dict:
     template = seed["authority"]
-    basis = template["basis"].format(sources="; ".join(sources), lines=lines)
-    return {"actor": template["actor"], "basis": basis}
+    return {
+        "actor": template["claimActor"].format(
+            owner=entry["owner"], supportingAuthor=template["supportingAuthor"]
+        ),
+        "basis": template["basis"].format(
+            lead=template["basisLead"]["claim"].format(sources=sourceLine(entry), lines=lines)
+        ),
+    }
 
 
-def buildRecords(seed: dict, override: dict | None, declaredAt: str | None) -> dict[str, dict]:
+def edgeAuthority(seed: dict, fromEntry: dict, toEntry: dict, lines: str) -> dict:
+    if fromEntry["owner"] != toEntry["owner"]:
+        raise SeedError(
+            "an edge between skills with different owners needs its own attribution wording"
+        )
+    template = seed["authority"]
+    sources = "from: " + sourceLine(fromEntry) + "; to: " + sourceLine(toEntry)
+    return {
+        "actor": template["edgeActor"].format(
+            owners=fromEntry["owner"], supportingAuthor=template["supportingAuthor"]
+        ),
+        "basis": template["basis"].format(
+            lead=template["basisLead"]["edge"].format(sources=sources, lines=lines)
+        ),
+    }
+
+
+def buildRecords(seed: dict, declaredAt: str | None) -> dict[str, dict]:
     declaredAt = declaredAt or seed["declaredAt"]
     records: dict[str, dict] = {}
     for skillId, entry in sorted(seed["skills"].items()):
@@ -103,9 +124,7 @@ def buildRecords(seed: dict, override: dict | None, declaredAt: str | None) -> d
                     "facet": claim["facet"],
                     "conditions": claim["conditions"],
                     "rationale": claim["rationale"],
-                    "authority": authorityFor(
-                        seed, [sourceLine(entry)], claim["lines"], override
-                    ),
+                    "authority": claimAuthority(seed, entry, claim["lines"]),
                 }
                 for claim in claims
             ],
@@ -127,15 +146,7 @@ def buildRecords(seed: dict, override: dict | None, declaredAt: str | None) -> d
                     "relation": claim["relation"],
                     "conditions": claim["conditions"],
                     "rationale": claim["rationale"],
-                    "authority": authorityFor(
-                        seed,
-                        [
-                            "from: " + sourceLine(fromEntry),
-                            "to: " + sourceLine(toEntry),
-                        ],
-                        claim["lines"],
-                        override,
-                    ),
+                    "authority": edgeAuthority(seed, fromEntry, toEntry, claim["lines"]),
                 }
                 for claim in edge["claims"]
             ],
@@ -153,23 +164,13 @@ def main() -> int:
         action="store_true",
         help="print the store-relative source path of every seed record, for removal before a re-issue",
     )
-    parser.add_argument("--authority-actor")
-    parser.add_argument("--authority-basis")
     parser.add_argument("--declared-at")
     parser.add_argument("--out", default=str(HERE / "records"))
     args = parser.parse_args()
 
-    if bool(args.authority_actor) != bool(args.authority_basis):
-        parser.error("--authority-actor and --authority-basis must be given together")
-    override = (
-        {"actor": args.authority_actor, "basis": args.authority_basis}
-        if args.authority_actor
-        else None
-    )
-
     seed = json.loads((HERE / "seed.json").read_text(encoding="utf-8"))
     try:
-        records = buildRecords(seed, override, args.declared_at)
+        records = buildRecords(seed, args.declared_at)
     except SeedError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

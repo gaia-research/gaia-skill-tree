@@ -2,8 +2,8 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 83-84, 216, 228, 275, 325, 360-450, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 83-84, 216, 228, 275, 325, 360-450 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "A clean working tree in a repository the agent may edit and commit to locally, with a runnable target, code the source's ownership check reports as the user's own, one exploration mode already chosen, and the skill's first-run questions already answered. Pushing, merging and opening pull requests are outside this claim. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
       "facet": "model-led",
@@ -12,8 +12,8 @@
     },
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 84, 216, 228-230, 275, 444-448, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 84, 216, 228-230, 275, 444-448 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "The working tree is dirty when the skill starts, or two exploration modes were requested at once, or the skill's first-run cross-project question is unanswered, or the fix loop reaches its stop rule, or the code's ownership is reported as collaborative or unknown; and a person can answer through the harness's question tool.",
       "facet": "human-led",
@@ -22,7 +22,7 @@
     }
   ],
   "declarationId": "arbor-i-seed.garrytan.qa.v1",
-  "declaredAt": "2026-11-10T13:45:00Z",
+  "declaredAt": "2026-11-10T18:12:00Z",
   "schema": "gaia.arbor-expert-declaration/v1",
   "skill": {
     "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",

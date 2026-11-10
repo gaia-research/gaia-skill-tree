@@ -2,8 +2,8 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 55-61, 95, 99, 114-123, 149, of addyosmani/agent-skills@c004a74784a08295d52749b04cda634125b9a581:skills/source-driven-development/SKILL.md (sha256 c59faf851377f0eeda45306398d16eb96d77ab1c2fd3e1a7fb58e9a0af33c1e9; the canonical record links ref '0.6.10'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "addy-osmani - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 55-61, 95, 99, 114-123, 149 of addyosmani/agent-skills@c004a74784a08295d52749b04cda634125b9a581:skills/source-driven-development/SKILL.md (sha256 c59faf851377f0eeda45306398d16eb96d77ab1c2fd3e1a7fb58e9a0af33c1e9; the canonical record links ref '0.6.10'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "Implementing against a framework or library whose version can be read from the project's dependency files, with network access to that project's official documentation, where the official sources do not conflict with each other or with the project's existing code, and the fetched examples contain no outbound endpoints. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
       "facet": "model-led",
@@ -12,8 +12,8 @@
     },
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 61, 95, 114, 136-139, of addyosmani/agent-skills@c004a74784a08295d52749b04cda634125b9a581:skills/source-driven-development/SKILL.md (sha256 c59faf851377f0eeda45306398d16eb96d77ab1c2fd3e1a7fb58e9a0af33c1e9; the canonical record links ref '0.6.10'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "addy-osmani - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 61, 95, 114, 136-139 of addyosmani/agent-skills@c004a74784a08295d52749b04cda634125b9a581:skills/source-driven-development/SKILL.md (sha256 c59faf851377f0eeda45306398d16eb96d77ab1c2fd3e1a7fb58e9a0af33c1e9; the canonical record links ref '0.6.10'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "Versions are missing or ambiguous in the dependency files, or official sources conflict with each other or with the project's existing code, or a fetched example would add an outbound endpoint to the generated code; and a person is reachable.",
       "facet": "human-led",
@@ -22,7 +22,7 @@
     }
   ],
   "declarationId": "arbor-i-seed.addy-osmani.source-driven-development.v1",
-  "declaredAt": "2026-11-10T13:45:00Z",
+  "declaredAt": "2026-11-10T18:12:00Z",
   "schema": "gaia.arbor-expert-declaration/v1",
   "skill": {
     "contentSha256": "c05a190b4edd61039ebfba00cf6db26a977ff383e613da529a84778850262d7f",

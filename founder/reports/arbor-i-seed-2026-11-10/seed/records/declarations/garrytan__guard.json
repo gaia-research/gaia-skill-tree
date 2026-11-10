@@ -2,8 +2,8 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 1-38, 47-50, 61-73, 83-84, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 1-38, 47-50, 61-73, 83-84 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, with the gstack careful and freeze skill directories both installed under ~/.claude/skills/gstack, a person who supplies the edit boundary, and a person who can answer permission prompts.",
       "facet": "human-led",
@@ -12,7 +12,7 @@
     }
   ],
   "declarationId": "arbor-i-seed.garrytan.guard.v1",
-  "declaredAt": "2026-11-10T13:45:00Z",
+  "declaredAt": "2026-11-10T18:12:00Z",
   "schema": "gaia.arbor-expert-declaration/v1",
   "skill": {
     "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",

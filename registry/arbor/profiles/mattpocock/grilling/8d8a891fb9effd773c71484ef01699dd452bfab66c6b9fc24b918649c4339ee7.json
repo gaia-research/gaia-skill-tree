@@ -2,14 +2,14 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 6-30, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 6-30 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "benchmarkSources": [],
       "conditions": "A person who owns the decisions is present and answering in the same session, and the subject is a plan, decision or design that is not yet settled. The agent may read the environment and may dispatch a fresh-context sub-agent for fact-finding.",
       "declarationId": "arbor-i-seed.mattpocock.grilling.v1",
-      "declarationSource": "8c80f8516ec37e94f3eaaf0d445a21ec3c648ba22b54bcb21f391592e32afb33",
-      "declaredAt": "2026-11-10T13:45:00Z",
+      "declarationSource": "1a8b1adf2eea62d779bea9f5d758b00a52881c40f0373ffe4655161ded6cc6ee",
+      "declaredAt": "2026-11-10T18:12:00Z",
       "facet": "human-led",
       "id": "interview-rounds-until-shared-understanding",
       "interpretationSource": null,
@@ -17,7 +17,7 @@
       "support": "expert-declared"
     }
   ],
-  "inputDigest": "32dcd7659995f68ccf161e03f0f5dd825fd704898375016beeef2ec341609ab1",
+  "inputDigest": "f08062f7cf7ca12aa2ad416999782822c75a197e4b8247873b7159e1bb8c3a62",
   "schema": "gaia.arbor-profile/v1",
   "skill": {
     "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
@@ -26,7 +26,7 @@
   "sources": {
     "benchmarkReceipts": [],
     "declarations": [
-      "8c80f8516ec37e94f3eaaf0d445a21ec3c648ba22b54bcb21f391592e32afb33"
+      "1a8b1adf2eea62d779bea9f5d758b00a52881c40f0373ffe4655161ded6cc6ee"
     ],
     "interpretations": []
   }

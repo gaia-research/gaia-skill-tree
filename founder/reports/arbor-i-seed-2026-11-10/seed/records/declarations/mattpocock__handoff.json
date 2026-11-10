@@ -2,8 +2,8 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 1-16, of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/handoff/SKILL.md (sha256 4cbb043950dad2ffd3662ff1a5a0b51ae676004b5cae10e3787e8ee7a4ee69d3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 1-16 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/handoff/SKILL.md (sha256 4cbb043950dad2ffd3662ff1a5a0b51ae676004b5cae10e3787e8ee7a4ee69d3; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "conditions": "A person decides the current conversation should continue in a fresh session and invokes the skill, optionally describing what the next session is for. The agent can write to the operating system's temporary directory.",
       "facet": "human-led",
@@ -12,7 +12,7 @@
     }
   ],
   "declarationId": "arbor-i-seed.mattpocock.handoff.v1",
-  "declaredAt": "2026-11-10T13:45:00Z",
+  "declaredAt": "2026-11-10T18:12:00Z",
   "schema": "gaia.arbor-expert-declaration/v1",
   "skill": {
     "contentSha256": "fb23458098bb2eea695a906fe8b554be9bdbdda851fc1d87682ec23b80f1cff8",

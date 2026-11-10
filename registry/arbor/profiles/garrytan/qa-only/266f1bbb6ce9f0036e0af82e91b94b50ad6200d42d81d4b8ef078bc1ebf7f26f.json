@@ -2,14 +2,14 @@
   "claims": [
     {
       "authority": {
-        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead agent of the Arbor I declaration-first seeding mission, working from a mission brief given by the project owner (mbtiongson1) on 2026-11-10",
-        "basis": "Agent-authored structural reading, lines 129-132, 144-145, 155-164, 244, 330-341, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa-only/SKILL.md (sha256 1130fd5a80b02eea003d5cd8370e8eab524f2a6bf14a8caf262650ce64606c26; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text; the mission brief asked for the seed and endorses no claim in it. Line-cited fact sheets were extracted by delegated read-only subagents and quotations were checked against these bytes after normalising punctuation and markdown emphasis; the wording and classification are the lead agent's, revised after one independent agent review. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+        "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
+        "basis": "Evidence tier: source-declared. Read from lines 129-132, 144-145, 155-164, 244, 330-341 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa-only/SKILL.md (sha256 1130fd5a80b02eea003d5cd8370e8eab524f2a6bf14a8caf262650ce64606c26; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "benchmarkSources": [],
       "conditions": "A runnable target (browser application, API, CLI, job, worker or webhook) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, where the agent may write under the report directory and the gstack state root. The target and mode are known or inferable; the user may be away afterwards. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
       "declarationId": "arbor-i-seed.garrytan.qa-only.v1",
-      "declarationSource": "e3b4bd1edbfcd4835d3e075d86d30ae731e3c959fff69dc2a6dc79b5919843e6",
-      "declaredAt": "2026-11-10T13:45:00Z",
+      "declarationSource": "e0dca77da67c48a327dfea9f286e94151c51e4f09a048e168fca4051d9770a85",
+      "declaredAt": "2026-11-10T18:12:00Z",
       "facet": "model-led",
       "id": "report-only-probing",
       "interpretationSource": null,
@@ -17,7 +17,7 @@
       "support": "expert-declared"
     }
   ],
-  "inputDigest": "ee0f86a8e23ae2dda4346c56afdfaa7e51f168aa30f2299571941a7d05c443f2",
+  "inputDigest": "d66d9d26a544d440ecbcb9ec9926d14f0d1122972254804863c1327b913a3b34",
   "schema": "gaia.arbor-profile/v1",
   "skill": {
     "contentSha256": "266f1bbb6ce9f0036e0af82e91b94b50ad6200d42d81d4b8ef078bc1ebf7f26f",
@@ -26,7 +26,7 @@
   "sources": {
     "benchmarkReceipts": [],
     "declarations": [
-      "e3b4bd1edbfcd4835d3e075d86d30ae731e3c959fff69dc2a6dc79b5919843e6"
+      "e0dca77da67c48a327dfea9f286e94151c51e4f09a048e168fca4051d9770a85"
     ],
     "interpretations": []
   }
