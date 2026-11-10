@@ -559,9 +559,9 @@ The identity has not.
 
 # 12. Future Trees
 
-Gaia should deliberately leave room for additional independent lenses.
+Gaia should deliberately leave room for additional independent lenses. A Tree is an independent, versioned interpretation of the shared capability universe, not automatically a new repository, runtime product, or administrative service. Its rules and projections must be explicit; it does not inherit prestige, runtime authority, or scores from another Tree.
 
-Two promising future domains are:
+Examples of possible future lenses, not a fixed list or implementation commitment, include:
 
 ## Efficiency / Cost versus Capability
 
@@ -600,6 +600,10 @@ Potential observations:
 - enterprise controls
 
 This should remain distinct from Yggdrasil's existing verification/prestige system unless future evidence demonstrates that a merge is conceptually correct.
+
+Gaia Security (`gaia-research/gaia-security`) separately governs security standards, scanning profiles, and evidence-bound vulnerability management. It is an assurance/governance service, **not automatically a Security Tree**. A future security lens may interpret reviewed observations, but scanner findings cannot by themselves become canonical safety claims or authorization to repair; Steward retains its dispatch/authority gates.
+
+A prospective Gaia App may provide a common control-plane *interface* across these independent domains. It does not merge their truths, replace Gaia CLI, or constitute implementation approval. See [Gaia Control Plane founder direction](GAIA_CONTROL_PLANE_DIRECTION_2026-11-08.md).
 
 ---
 
