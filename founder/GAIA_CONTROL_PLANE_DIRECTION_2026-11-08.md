@@ -1,7 +1,7 @@
 # Gaia Control Plane: Founder Product Direction
 
-**Date:** 2026-11-08  
-**Status:** Founder-selected product direction; **documentation only / implementation not authorized**  
+**Date:** 2026-11-08<br>
+**Status:** Founder-selected product direction; **documentation only / implementation not authorized**<br>
 **Scope:** Gaia App as a prospective cross-ecosystem interface. This is not a release plan, architectural ratification, implementation ticket, or authorization to merge/deploy.
 
 ## 1. North star
