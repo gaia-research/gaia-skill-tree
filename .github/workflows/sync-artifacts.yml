@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
   actions: write   # dispatch publish-pypi.yml (workflow_dispatch)
 
 # Serialize proposal runs on main and finalization runs per PR.
@@ -57,15 +58,18 @@ jobs:
             echo "proceed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Require RELEASE_PAT
+      - name: Validate Token for Branch and PR Creation
         if: steps.proposal_gate.outputs.proceed == 'true'
         env:
           RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
         run: |
           # Former direct push URL: git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
-          if [[ -z "$RELEASE_PAT" ]]; then
-            echo "::error::RELEASE_PAT is required to push the automation branch and create/update its PR (repository permissions: Contents: write; Pull requests: write)."
-            exit 1
+          if [[ -n "$RELEASE_PAT" ]] && USER=$(GH_TOKEN="$RELEASE_PAT" gh api user --jq .login 2>/dev/null); then
+            echo "AUTH_TOKEN_NAME=RELEASE_PAT" >> "$GITHUB_ENV"
+            echo "Validated RELEASE_PAT (authenticated as $USER)."
+          else
+            echo "AUTH_TOKEN_NAME=GITHUB_TOKEN" >> "$GITHUB_ENV"
+            echo "::warning::RELEASE_PAT is not set or invalid; falling back to GITHUB_TOKEN."
           fi
 
       - name: Set up Python
@@ -131,7 +135,8 @@ jobs:
       - name: Push version branch and create or update PR
         if: steps.proposal_gate.outputs.proceed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
@@ -150,27 +155,23 @@ jobs:
           BRANCH="chore/auto-release-v${VERSION}"
           git switch -C "$BRANCH"
 
-          # Remove checkout's persisted GITHUB_TOKEN header before configuring
-          # gh's step-scoped RELEASE_PAT credential helper. Keep origin URL clean.
-          git config --local --unset-all http.https://github.com/.extraheader || true
-          gh auth setup-git
-          ORIGIN_URL=$(git remote get-url origin)
-          if [[ "$ORIGIN_URL" != "https://github.com/${GITHUB_REPOSITORY}" && "$ORIGIN_URL" != "https://github.com/${GITHUB_REPOSITORY}.git" ]]; then
-            echo "::error::origin is not the expected credential-free GitHub URL."
-            exit 1
+          CRED="${GITHUB_TOKEN}"
+          if [[ "${AUTH_TOKEN_NAME:-}" == "RELEASE_PAT" && -n "${RELEASE_PAT:-}" ]]; then
+            CRED="${RELEASE_PAT}"
           fi
+          export GH_TOKEN="$CRED"
 
-          # Capture the remote branch tip, then use an explicit lease. An empty
-          # expected SHA means create only if the branch is still absent.
+          AUTH_B64=$(printf "x-access-token:%s" "$CRED" | base64 -w 0 2>/dev/null || printf "x-access-token:%s" "$CRED" | base64)
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ${AUTH_B64}"
+
           REMOTE_SHA=$(git ls-remote origin "refs/heads/${BRANCH}" | awk 'NR==1 {print $1}')
-          if ! git push --force-with-lease="refs/heads/${BRANCH}:${REMOTE_SHA}" \
-            origin "HEAD:refs/heads/${BRANCH}"; then
-            echo "::error::Could not update release branch. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+          if ! git push --force-with-lease="refs/heads/${BRANCH}:${REMOTE_SHA}" origin "HEAD:refs/heads/${BRANCH}"; then
+            echo "::error::Could not push release branch to origin."
             exit 1
           fi
 
           if ! PR=$(gh pr list --state open --base main --head "$BRANCH" --json number --jq '.[0].number'); then
-            echo "::error::Could not query release PRs. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+            echo "::error::Could not query release PRs."
             exit 1
           fi
           if [[ -n "$PR" ]]; then
@@ -181,7 +182,7 @@ jobs:
             if ! gh pr create --base main --head "$BRANCH" \
               --title "chore(auto): release v${VERSION} [skip-gen]" \
               --body "Automated version and generated-artifact proposal for v${VERSION}. This PR must pass the required main status checks before merge. Release tags and publication are created only after merge."; then
-              echo "::error::Could not create release PR. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+              echo "::error::Could not create release PR."
               exit 1
             fi
           fi

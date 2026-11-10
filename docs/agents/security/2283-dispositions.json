@@ -731,11 +731,11 @@
       "ledgerDisposition": "unchanged; parent-owned",
       "status": "harmless",
       "originalSourceSha256": "aa80e0dc4013644598634ad8e02be12d147ce8b7c5ba1ad1bb576f74cd044527",
-      "reviewedSourceSha256": "0ce82cd426f31b18eaa0bf9d45d6a5670d0537eea4dbe661fba50763fed8b5e3",
+      "reviewedSourceSha256": "6edf57719eaae77469dd58105d5011a168c41d9427e443fa657a42e07dd1b5f1",
       "findings": [
         {
           "fingerprint": "41e3de627921",
-          "line": 65,
+          "line": 66,
           "pattern": "credential-assignment",
           "status": "harmless",
           "reason": "Shell expansion of RELEASE_PAT from GitHub secrets in a push URL; repository contains a variable reference, not a PAT."
