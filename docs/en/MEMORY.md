@@ -1,3 +1,39 @@
+## 2026-11-10 — Routine 072
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Continued on it; no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 072)" in 071: ROTATE to `share-bundles.html`, check the `gaia install <bundle>` flow and non-TTY view-only default against `src/gaia_cli/share.py`.
+
+### What I did
+
+- Checked the A/P/V/Q prompt, the pick prompt, and the non-TTY branch against `install_bundle()` in `src/gaia_cli/share.py`. The prompt text, the pick input, and the non-TTY view-only default all match the page.
+- Two sentences were wrong:
+  - The summary prints **three** counts (installed, skipped, unresolved). `failed` is folded into `unresolved`. The page said four.
+  - Pressing Enter with no input **quits**. Any unrecognized answer **views only**. The page called View only the "safe default" and did not mention either case.
+- Corrected both sentences in the Install Flow table and the summary paragraph. Layout unchanged.
+- Confirmed the CLI wiring (`src/gaia_cli/impl.py`) passes no `auto` value, so the page's "no CLI flag to force an all-install" statement still holds.
+
+### Design decisions
+
+- Did not touch the non-TTY section beyond verification. It was already accurate.
+- Left the inline `style` colors on the page as they were. This PR adds no new hex.
+
+### Issues informed
+
+- None filed. `install_bundle()` has an `auto` parameter that the CLI does not expose. That is a CLI gap, not a docs defect, and the page already says so.
+
+### Files
+
+- `docs/en/share-bundles.html` (Install Flow choice table, summary paragraph)
+- `docs/en/DOCS.md` (Page Map row 11)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 073)
+
+- ROTATE to the next least-recently-touched Page Map page: `timeline-audit.html` (row 12). Check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/` and fix one section only.
+
+---
+
 ## 2026-11-09 — Routine 071
 
 **Branch:** `docs/routines/071` (from `origin/main`; the prior `docs/routines/064` PR #2235 merged and shipped in the 070 close).
