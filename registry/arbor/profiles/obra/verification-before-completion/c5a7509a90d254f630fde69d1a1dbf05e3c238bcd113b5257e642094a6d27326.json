@@ -2,14 +2,14 @@
   "claims": [
     {
       "authority": {
-        "actor": "obra - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
-        "basis": "Evidence tier: source-declared. Read from lines 17-31, 47, 54, 84 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/verification-before-completion/SKILL.md (sha256 2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+        "actor": "obra - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 17-31, 47, 54, 84 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/verification-before-completion/SKILL.md (sha256 2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
       },
       "benchmarkSources": [],
       "conditions": "The agent is about to state that work is complete, fixed or passing, or to commit, push or open a pull request, and a command that can prove the claim exists and can be run in the session. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
       "declarationId": "arbor-i-seed.obra.verification-before-completion.v1",
-      "declarationSource": "69e565b88e5de8fe054c7ed88199ce93f46febf58a15c6c272ef56a0817581bb",
-      "declaredAt": "2026-11-10T18:12:00Z",
+      "declarationSource": "20fb1d55cb45cd37baac7f5d37ee33632a4613d730581fcd4b0457842052b9ff",
+      "declaredAt": "2026-11-10T18:23:00Z",
       "facet": "model-led",
       "id": "fresh-verification-before-completion-claim",
       "interpretationSource": null,
@@ -17,7 +17,7 @@
       "support": "expert-declared"
     }
   ],
-  "inputDigest": "bf51458ea7cd7af05e29e0679ecf2f55e6c04fe565cce9536d0fbee872e4fbb5",
+  "inputDigest": "717eec78025407878bccbe6ad1c94b5a0a18fdaa7b63cadceb73c5662b3bc6f3",
   "schema": "gaia.arbor-profile/v1",
   "skill": {
     "contentSha256": "c5a7509a90d254f630fde69d1a1dbf05e3c238bcd113b5257e642094a6d27326",
@@ -26,7 +26,7 @@
   "sources": {
     "benchmarkReceipts": [],
     "declarations": [
-      "69e565b88e5de8fe054c7ed88199ce93f46febf58a15c6c272ef56a0817581bb"
+      "20fb1d55cb45cd37baac7f5d37ee33632a4613d730581fcd4b0457842052b9ff"
     ],
     "interpretations": []
   }

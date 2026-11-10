@@ -1,5 +1,5 @@
 {
-  "inputDigest": "e00c637d9b28a72c007eb89a37025e565a601444dce00bf7706d42ed762a4ee7",
+  "inputDigest": "69308e10ed8ebd126ee37af033909f8c88a5f1d40110f6159374e47c9e242922",
   "lenses": {
     "claims": {
       "profile": null,
@@ -15,12 +15,12 @@
       "edges": [
         {
           "authority": {
-            "actor": "mattpocock - owner of both canonical skills; the relation is stated in the skills' own instructions (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the relation claim from those instructions.",
-            "basis": "Evidence tier: source-declared. Read from the two skills' instructions (lines: from 1-7; to 1-30) - from: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grill-me/SKILL.md (sha256 caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637; the canonical record links ref 'main'); to: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+            "actor": "mattpocock - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+            "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 1-7; to 1-30) - from: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grill-me/SKILL.md (sha256 caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637; the canonical record links ref 'main'); to: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
           },
           "conditions": "Both skills are candidates for the same need in one session, for example when a retrieval returns both for a request to stress-test a plan.",
-          "declarationSource": "fa8b852a2859e9a0360ce2088af9cc6765a84f0cda46520b42b155e17f39cd87",
-          "edgeKey": "81ac5e109b7aaa66745679e56ccf48b0e47f8a2eb991354941066c3c2f40d0f1",
+          "declarationSource": "84143e10c1aacff724885b3541187ba39f0c2ccda2008e4b0668698d1213fe71",
+          "edgeKey": "16b9586c7de948b37be37feabf5b048e54d2dbe4830bd29ef219d4ffe27232e9",
           "interpretationSource": null,
           "observationSources": [],
           "pair": {
@@ -40,11 +40,11 @@
           "support": "expert-declared",
           "target": {
             "claimId": "redirect-carries-no-separate-behaviour",
-            "declarationSha256": "fa8b852a2859e9a0360ce2088af9cc6765a84f0cda46520b42b155e17f39cd87"
+            "declarationSha256": "84143e10c1aacff724885b3541187ba39f0c2ccda2008e4b0668698d1213fe71"
           }
         }
       ],
-      "sourceDigest": "e00c637d9b28a72c007eb89a37025e565a601444dce00bf7706d42ed762a4ee7",
+      "sourceDigest": "69308e10ed8ebd126ee37af033909f8c88a5f1d40110f6159374e47c9e242922",
       "status": "present"
     }
   },

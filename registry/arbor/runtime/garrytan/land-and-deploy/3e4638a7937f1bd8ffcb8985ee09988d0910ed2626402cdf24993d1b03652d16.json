@@ -1,19 +1,19 @@
 {
-  "inputDigest": "55c3dfcaf4f8bd3baad19756c0704b29ba914c9075a025b359b4e7e4413a011f",
+  "inputDigest": "d6b4ae2690d89b84d1aa47a96e0902ec39352fc65a1d283552b633790a150d87",
   "lenses": {
     "claims": {
       "profile": {
         "claims": [
           {
             "authority": {
-              "actor": "garrytan - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
-              "basis": "Evidence tier: source-declared. Read from lines 4-20, 168-190, 222-256, 383-388, 429-446, 457-515 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:land-and-deploy/SKILL.md (sha256 5082913d9df6d6c54e7a636347b5300637f4bb67770d298bd6b6f7743fb364b1; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+              "actor": "garrytan - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+              "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 4-20, 168-190, 222-256, 383-388, 429-446, 457-515 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:land-and-deploy/SKILL.md (sha256 5082913d9df6d6c54e7a636347b5300637f4bb67770d298bd6b6f7743fb364b1; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "A person invokes the skill for an existing open GitHub pull request, from a clean checkout that matches the pull request, with an authenticated gh CLI, and stays available to give the first-run confirmation and the pre-merge approval.",
             "declarationId": "arbor-i-seed.garrytan.land-and-deploy.v1",
-            "declarationSource": "b6e2993f0b5cfcf3eee7edab52c02ac60b8a94aae261a5f66413fa24039fe849",
-            "declaredAt": "2026-11-10T18:12:00Z",
+            "declarationSource": "b312d71ec6384a8efce725eb2dea71831889280ced2093d7c5995613e8f9c880",
+            "declaredAt": "2026-11-10T18:23:00Z",
             "facet": "human-led",
             "id": "approval-gated-merge-and-deploy-verification",
             "interpretationSource": null,
@@ -21,7 +21,7 @@
             "support": "expert-declared"
           }
         ],
-        "inputDigest": "1811c41c1dc16880ac1c0c41e28f06a6a296adef908ae686b74eed9b8709c884",
+        "inputDigest": "b2f379c093b6787d9886c71822fad0b2739d677b69407d81f777f7a1ea1298c3",
         "schema": "gaia.arbor-profile/v1",
         "skill": {
           "contentSha256": "3e4638a7937f1bd8ffcb8985ee09988d0910ed2626402cdf24993d1b03652d16",
@@ -30,12 +30,12 @@
         "sources": {
           "benchmarkReceipts": [],
           "declarations": [
-            "b6e2993f0b5cfcf3eee7edab52c02ac60b8a94aae261a5f66413fa24039fe849"
+            "b312d71ec6384a8efce725eb2dea71831889280ced2093d7c5995613e8f9c880"
           ],
           "interpretations": []
         }
       },
-      "sourceDigest": "55c3dfcaf4f8bd3baad19756c0704b29ba914c9075a025b359b4e7e4413a011f",
+      "sourceDigest": "d6b4ae2690d89b84d1aa47a96e0902ec39352fc65a1d283552b633790a150d87",
       "status": "present"
     },
     "hellHeaven": {

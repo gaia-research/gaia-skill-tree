@@ -17,6 +17,12 @@ skill is the primary attribution and the drafting agent is the supporting
 author. The owner comes from each canonical record's `contributor` field, as
 recorded in `seed.json`. An edge whose two endpoints have different owners needs
 its own attribution wording and is refused here.
+
+Writing records is strict: it refuses a seed whose pins no longer match the
+canonical bytes in this checkout, because a new record must be admitted against
+current canon. `--check` and `--list-digests` are not strict: they rebuild the
+records as issued, from the pins recorded in the seed, so they keep working
+after a canonical record moves, and `--check` reports that drift separately.
 """
 
 from __future__ import annotations
@@ -32,6 +38,7 @@ ROOT = HERE.parents[3]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gaia_cli.arbor import (  # noqa: E402
+    ArborError,
     DECLARATION_SCHEMA,
     EDGE_DECLARATION_SCHEMA,
     SOURCE_DIRECTORIES,
@@ -50,12 +57,14 @@ def currentPin(skillId: str) -> str:
     return hashlib.sha256(canonicalSkillPath(skillId, ROOT).read_bytes()).hexdigest()
 
 
-def pinned(seed: dict, skillId: str) -> dict:
-    """Return the endpoint pin, refusing a manifest that drifted from canon."""
+def pinned(seed: dict, skillId: str, strict: bool = True) -> dict:
+    """Return the endpoint pin; when strict, refuse a seed that drifted from canon."""
 
     entry = seed["skills"].get(skillId)
     if entry is None:
         raise SeedError(f"{skillId} is used by the seed but has no skills entry")
+    if not strict:
+        return {"id": skillId, "contentSha256": entry["canonicalSha256"]}
     actual = currentPin(skillId)
     if entry["canonicalSha256"] != actual:
         raise SeedError(
@@ -106,7 +115,7 @@ def edgeAuthority(seed: dict, fromEntry: dict, toEntry: dict, lines: str) -> dic
     }
 
 
-def buildRecords(seed: dict, declaredAt: str | None) -> dict[str, dict]:
+def buildRecords(seed: dict, declaredAt: str | None, strict: bool = True) -> dict[str, dict]:
     declaredAt = declaredAt or seed["declaredAt"]
     records: dict[str, dict] = {}
     for skillId, entry in sorted(seed["skills"].items()):
@@ -117,7 +126,7 @@ def buildRecords(seed: dict, declaredAt: str | None) -> dict[str, dict]:
             "schema": DECLARATION_SCHEMA,
             "declarationId": entry["declarationId"],
             "declaredAt": declaredAt,
-            "skill": pinned(seed, skillId),
+            "skill": pinned(seed, skillId, strict),
             "claims": [
                 {
                     "id": claim["id"],
@@ -139,7 +148,10 @@ def buildRecords(seed: dict, declaredAt: str | None) -> dict[str, dict]:
             "schema": EDGE_DECLARATION_SCHEMA,
             "declarationId": edge["declarationId"],
             "declaredAt": declaredAt,
-            "pair": {"from": pinned(seed, edge["from"]), "to": pinned(seed, edge["to"])},
+            "pair": {
+                "from": pinned(seed, edge["from"], strict),
+                "to": pinned(seed, edge["to"], strict),
+            },
             "claims": [
                 {
                     "id": claim["id"],
@@ -170,7 +182,9 @@ def main() -> int:
 
     seed = json.loads((HERE / "seed.json").read_text(encoding="utf-8"))
     try:
-        records = buildRecords(seed, args.declared_at)
+        records = buildRecords(
+            seed, args.declared_at, strict=not (args.check or args.list_digests)
+        )
     except SeedError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
@@ -202,7 +216,50 @@ def main() -> int:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(text, encoding="utf-8")
             print(f"wrote    {digest[:12]} {relative}")
+    if args.check:
+        failures += reportStrays(seed, records, out)
     return 1 if failures else 0
+
+
+def reportStrays(seed: dict, records: dict[str, dict], out: Path) -> int:
+    """Report what `--check` would otherwise miss; return the failure count."""
+
+    failures = 0
+    expected = {str(out / relative) for relative in records}
+    for path in sorted(out.rglob("*.json")):
+        if str(path) not in expected:
+            failures += 1
+            print(f"STRAY    {path.relative_to(out)} is in records/ but not in the seed")
+
+    # Store sources the seed did not produce are other people's records, not an
+    # error; a leftover from an earlier issue of this seed would show up here.
+    produced = {
+        f"{SOURCE_DIRECTORIES[record['schema']]}/{contentDigest(record)}.json"
+        for record in records.values()
+    }
+    sources = ROOT / "registry" / "arbor" / "sources"
+    for schema in (DECLARATION_SCHEMA, EDGE_DECLARATION_SCHEMA):
+        directory = sources / SOURCE_DIRECTORIES[schema]
+        for path in sorted(directory.glob("*.json")):
+            relative = f"{directory.name}/{path.name}"
+            if relative not in produced:
+                declarationId = json.loads(path.read_text(encoding="utf-8")).get("declarationId")
+                leftover = str(declarationId).startswith("arbor-i-seed.")
+                failures += leftover
+                print(f"{'LEFTOVER' if leftover else 'other   '} {path.stem[:12]} {declarationId}")
+
+    for skillId, entry in sorted(seed["skills"].items()):
+        try:
+            actual = currentPin(skillId)
+        except (ArborError, OSError) as exc:  # a removed canonical record is drift, not a crash
+            print(f"drift    {skillId}: {exc}")
+            continue
+        if actual != entry["canonicalSha256"]:
+            print(
+                f"drift    {skillId}: canonical record is now {actual[:12]}; "
+                f"the admitted records pin {entry['canonicalSha256'][:12]} and stay valid history"
+            )
+    return failures
 
 
 if __name__ == "__main__":

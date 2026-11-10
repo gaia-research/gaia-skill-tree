@@ -34,6 +34,7 @@ from gaia_cli.arbor import (
     INTERPRETATION_SCHEMA,
     allSourceRecords,
     canonicalSkillPath,
+    currentEndpointMatches,
     pairKey,
     readJson,
     replay,
@@ -176,11 +177,24 @@ def test_every_edge_endpoint_sees_its_interaction_and_no_other(store):
     for edge in index["edges"]:
         for endpoint in edge["pair"].values():
             expected.setdefault((endpoint["id"], endpoint["contentSha256"]), set()).add(edge["edgeKey"])
-    for runtime in runtimes(store):
-        subject = (runtime["subject"]["id"], runtime["subject"]["contentSha256"])
+    bySubject = {
+        (runtime["subject"]["id"], runtime["subject"]["contentSha256"]): runtime
+        for runtime in runtimes(store)
+    }
+    # An endpoint with no runtime aggregate would hide its interactions entirely.
+    assert set(expected) <= set(bySubject)
+    for subject, runtime in bySubject.items():
         lens = runtime["lenses"]["interactions"]
         keys = {edge["edgeKey"] for edge in lens["edges"]}
-        if lens["status"] == "present":
-            assert keys == expected.get(subject, set())
+        wanted = expected.get(subject, set())
+        pinHolds = currentEndpointMatches(runtime["subject"], store["root"])
+        if wanted and pinHolds:
+            # The lens may not silently drop a relation whose pin still holds.
+            assert lens["status"] == "present", subject
+            assert keys == wanted
+        elif wanted:
+            assert lens["status"] == "absent-subject-version-mismatch", subject
+            assert keys == set()
         else:
+            assert lens["status"] == "absent-no-accepted-record", subject
             assert keys == set()

@@ -120,7 +120,12 @@ Four read-only inspectors extracted line-cited fact sheets from 43 upstream skil
 
 The reviewer called `garrytan/qa` as model-led the closest call of the 27 and `caioribeiroclw-pixel/evidence-attestation` the weakest basis of the 20.
 
-**Second pass** (fix verification, attribution wording, implementation): requested; result recorded here when it returns.
+**Second pass** (fix verification, attribution wording, implementation): verdict *accept with changes*. All 18 first-pass items verified fixed or withdrawn; every quote and line citation re-checked against the pinned upstream bytes; `owner` matches the canonical `contributor` for 21 of 21 skills. Two blocking findings, both in the authority text and both fixed by a re-issue of all 23 records:
+
+- **A1** — the basis cited a ruling "of 2026-11-11" in records declared on 2026-11-10 UTC. The basis now says the decision log dates the review 2026-11-11 (a local date) and that it reached this session on 2026-11-10 UTC, before declaration.
+- **A2** — the edge actor text read as if the sources state the relation. It now says the instructions contain the cross-reference the relation reads, and that the supporting author named the relation and wrote its conditions and caveats.
+
+Non-blocking, applied: owner described as owner of the repository the instructions are in (A3); projected support named as `expert-declared` and the classification attributed to the supporting author (A4); `assemble.py --check` reports stray, leftover and drifted records and no longer fails on a legitimate canonical edit (I1, I2); committed-store test 6 now requires a runtime for every edge endpoint and a present lens whenever the pin holds. Not applied: the cross-owner branch of `edgeAuthority` is untested because all three relations are same-owner (I3). The reviewer was the same vendor as the author, a Sonnet-tier subagent, not Terra; this is not a cross-vendor review.
 
 ## 6. Records in this round
 
@@ -128,26 +133,26 @@ Forty-four upstream sources were resolved to a commit and hashed. One registry l
 
 | Skill (owner is the primary attribution) | Claims (facet) | Canonical pin | Upstream bytes read | Record |
 |---|---|---|---|---|
-| `mattpocock/grilling` | `interview-rounds-until-shared-understanding` (human-led) | `8d8a891fb9ef` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `a146842ed93c` | `1a8b1adf2eea` |
-| `obra/brainstorming` | `design-approval-before-build` (human-led) | `4b88547826ef` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `2c9ca71f9488` | `67ffa164d18c` |
-| `obra/systematic-debugging` | `root-cause-investigation-before-fix` (model-led)<br>`architecture-discussion-after-three-failed-fixes` (human-led) | `cab03ead911b` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `51c6435d98c8` | `8e012de7720b` |
-| `mattpocock/diagnosing-bugs` | `feedback-loop-before-hypothesis` (model-led)<br>`stop-and-ask-when-no-loop-can-be-built` (human-led) | `df77b1351da3` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `849198df88cd` | `a22321edd9ff` |
-| `mattpocock/wayfinder` | `decision-ticket-map-across-sessions` (human-led) | `eb07fcf50aea` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `0c9fa96791ae` | `b183416f78f0` |
-| `garrytan/cso` | `static-audit-through-trusted-launcher` (model-led) | `322f0a0f3193` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `ebf891082d33` | `0f9c4dbaec79` |
-| `garrytan/qa-only` | `report-only-probing` (model-led) | `266f1bbb6ce9` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `1130fd5a80b0` | `e0dca77da67c` |
-| `garrytan/qa` | `bounded-fix-verify-commit-loop` (model-led)<br>`user-decision-at-dirty-tree-and-loop-stop` (human-led) | `6e15d39020bd` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `1cda78da8e01` | `ac5f8111ad40` |
-| `obra/executing-plans` | `continuous-inline-plan-execution-with-ledger` (model-led)<br>`four-stop-categories-and-main-branch-consent` (human-led) | `17b6dbb59037` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `deaf176fa179` | `87db56ce7638` |
-| `obra/subagent-driven-development` | `controller-dispatch-and-review-loop` (model-led)<br>`four-stop-categories-and-main-branch-consent` (human-led) | `1de89db64294` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `1baf70e307bd` | `57890d8b3b18` |
-| `obra/verification-before-completion` | `fresh-verification-before-completion-claim` (model-led) | `c5a7509a90d2` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `2befe7fc55bc` | `69e565b88e5d` |
-| `addy-osmani/source-driven-development` | `documentation-grounded-implementation` (model-led)<br>`surface-version-ambiguity-and-doc-conflicts` (human-led) | `c05a190b4edd` | `addyosmani/agent-skills@c004a74784` (link ref `0.6.10`), sha256 `c59faf851377` | `a6261bac6a4e` |
-| `caioribeiroclw-pixel/evidence-attestation` | `structured-attestation-of-a-reused-claim` (model-led) | `b59455cde72e` | `caioribeiroclw-pixel/pluribus@b15a188628` (link ref `main`), sha256 `886ca4c1299b` | `13fe05cabc3b` |
-| `garrytan/context-save` | `state-capture-without-code-changes` (model-led) | `a20c8177280f` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `8c182dd16eb5` | `59002318f900` |
-| `garrytan/context-restore` | `resume-with-verify-first-sorting` (model-led)<br>`user-selects-among-ambiguous-checkpoints` (human-led) | `a835b396e4a8` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `86e2a4ac539f` | `43ad4fd30cb5` |
-| `mattpocock/handoff` | `user-triggered-handoff-document` (human-led) | `fb23458098bb` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `4cbb043950da` | `9b6f9ce1acbf` |
-| `garrytan/careful` | `confirmation-before-destructive-commands` (human-led) | `3f338042745e` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `f3dfed24accc` | `3b2979628629` |
-| `garrytan/freeze` | `user-set-edit-boundary` (human-led) | `1eb9392db883` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `b3fd0406df9e` | `0d911fd38ebf` |
-| `garrytan/guard` | `combined-command-and-edit-guard` (human-led) | `924f2484f03b` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `74417889d310` | `6210a2f6e20d` |
-| `garrytan/land-and-deploy` | `approval-gated-merge-and-deploy-verification` (human-led) | `3e4638a7937f` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `5082913d9df6` | `b6e2993f0b5c` |
+| `mattpocock/grilling` | `interview-rounds-until-shared-understanding` (human-led) | `8d8a891fb9ef` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `a146842ed93c` | `a790afdd0389` |
+| `obra/brainstorming` | `design-approval-before-build` (human-led) | `4b88547826ef` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `2c9ca71f9488` | `ba150610c2e0` |
+| `obra/systematic-debugging` | `root-cause-investigation-before-fix` (model-led)<br>`architecture-discussion-after-three-failed-fixes` (human-led) | `cab03ead911b` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `51c6435d98c8` | `0065fe60a1e1` |
+| `mattpocock/diagnosing-bugs` | `feedback-loop-before-hypothesis` (model-led)<br>`stop-and-ask-when-no-loop-can-be-built` (human-led) | `df77b1351da3` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `849198df88cd` | `a1f5fced21db` |
+| `mattpocock/wayfinder` | `decision-ticket-map-across-sessions` (human-led) | `eb07fcf50aea` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `0c9fa96791ae` | `7c4ac7399ecd` |
+| `garrytan/cso` | `static-audit-through-trusted-launcher` (model-led) | `322f0a0f3193` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `ebf891082d33` | `ffb531d369b9` |
+| `garrytan/qa-only` | `report-only-probing` (model-led) | `266f1bbb6ce9` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `1130fd5a80b0` | `8dc05a75f89f` |
+| `garrytan/qa` | `bounded-fix-verify-commit-loop` (model-led)<br>`user-decision-at-dirty-tree-and-loop-stop` (human-led) | `6e15d39020bd` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `1cda78da8e01` | `95ebc6b81933` |
+| `obra/executing-plans` | `continuous-inline-plan-execution-with-ledger` (model-led)<br>`four-stop-categories-and-main-branch-consent` (human-led) | `17b6dbb59037` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `deaf176fa179` | `973e324af76d` |
+| `obra/subagent-driven-development` | `controller-dispatch-and-review-loop` (model-led)<br>`four-stop-categories-and-main-branch-consent` (human-led) | `1de89db64294` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `1baf70e307bd` | `4fc07ca8abd8` |
+| `obra/verification-before-completion` | `fresh-verification-before-completion-claim` (model-led) | `c5a7509a90d2` | `obra/superpowers@22f0b463e7` (link ref `main`), sha256 `2befe7fc55bc` | `20fb1d55cb45` |
+| `addy-osmani/source-driven-development` | `documentation-grounded-implementation` (model-led)<br>`surface-version-ambiguity-and-doc-conflicts` (human-led) | `c05a190b4edd` | `addyosmani/agent-skills@c004a74784` (link ref `0.6.10`), sha256 `c59faf851377` | `8d1911262160` |
+| `caioribeiroclw-pixel/evidence-attestation` | `structured-attestation-of-a-reused-claim` (model-led) | `b59455cde72e` | `caioribeiroclw-pixel/pluribus@b15a188628` (link ref `main`), sha256 `886ca4c1299b` | `4114083c976d` |
+| `garrytan/context-save` | `state-capture-without-code-changes` (model-led) | `a20c8177280f` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `8c182dd16eb5` | `a1d64b5b17bd` |
+| `garrytan/context-restore` | `resume-with-verify-first-sorting` (model-led)<br>`user-selects-among-ambiguous-checkpoints` (human-led) | `a835b396e4a8` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `86e2a4ac539f` | `81de8127c595` |
+| `mattpocock/handoff` | `user-triggered-handoff-document` (human-led) | `fb23458098bb` | `mattpocock/skills@4ae2317ddb` (link ref `main`), sha256 `4cbb043950da` | `c06ee20e263b` |
+| `garrytan/careful` | `confirmation-before-destructive-commands` (human-led) | `3f338042745e` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `f3dfed24accc` | `6d9e28c21cba` |
+| `garrytan/freeze` | `user-set-edit-boundary` (human-led) | `1eb9392db883` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `b3fd0406df9e` | `5eceafb88fa9` |
+| `garrytan/guard` | `combined-command-and-edit-guard` (human-led) | `924f2484f03b` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `74417889d310` | `2bb39607ff80` |
+| `garrytan/land-and-deploy` | `approval-gated-merge-and-deploy-verification` (human-led) | `3e4638a7937f` | `garrytan/gstack@ee3bae4028` (link ref `main`), sha256 `5082913d9df6` | `b312d71ec638` |
 
 Skills carrying both facets do so under different conditions, as A1 intends. Each `rationale` names the failure modes visible in the text and ends with a one-session observation that would falsify it.
 
@@ -155,9 +160,9 @@ Skills carrying both facets do so under different conditions, as A1 intends. Eac
 
 | From | Relation | To | Owner | Grounding in the two texts | Record |
 |---|---|---|---|---|---|
-| `mattpocock/grill-me` | **duplicates** | `mattpocock/grilling` | mattpocock | The `from` skill's linked file is a redirect to the `to` skill. Both canonical identities stand. | `fa8b852a2859` |
-| `garrytan/context-save` | **unlocks** | `garrytan/context-restore` | garrytan | The `to` skill loads the checkpoint, commit and identity stamp the `from` skill writes. Conditional on a checkpoint existing; without one the `to` skill takes another route. | `3366428a6794` |
-| `obra/systematic-debugging` | **recovers** | `obra/executing-plans` | obra | The `to` skill names the `from` skill as its route when a step fails because the code is wrong. Which skill's stop rule wins is unresolved. | `3342d4173a62` |
+| `mattpocock/grill-me` | **duplicates** | `mattpocock/grilling` | mattpocock | The `from` skill's linked file is a redirect to the `to` skill. Both canonical identities stand. | `84143e10c1aa` |
+| `garrytan/context-save` | **unlocks** | `garrytan/context-restore` | garrytan | The `to` skill loads the checkpoint, commit and identity stamp the `from` skill writes. Conditional on a checkpoint existing; without one the `to` skill takes another route. | `8be1933e971b` |
+| `obra/systematic-debugging` | **recovers** | `obra/executing-plans` | obra | The `to` skill names the `from` skill as its route when a step fails because the code is wrong. Which skill's stop rule wins is unresolved. | `fc54d204470d` |
 
 No relation is justified by a Yggdrasil structural link, and the builder reports `structuralOverlap: not-evaluated` for all three.
 

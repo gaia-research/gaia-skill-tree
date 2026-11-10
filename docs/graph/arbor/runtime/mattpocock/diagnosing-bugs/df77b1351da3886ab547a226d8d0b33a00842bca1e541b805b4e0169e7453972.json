@@ -1,19 +1,19 @@
 {
-  "inputDigest": "a0ef0cf52f982a7e4aeb51cabb223d2cfed394a5d3878f80714f050dfb14cfa6",
+  "inputDigest": "ec298e959b8349067191930724717526ed5111320b7d8f551f6a502b2032c1cb",
   "lenses": {
     "claims": {
       "profile": {
         "claims": [
           {
             "authority": {
-              "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
-              "basis": "Evidence tier: source-declared. Read from lines 22-66, 86-138 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+              "actor": "mattpocock - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+              "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 22-66, 86-138 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "A hard bug or performance regression in an environment where the agent can build and run one command that reproduces the failure (a test, script, HTTP call or headless-browser script) and may add temporary instrumentation. The user may be away. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
             "declarationId": "arbor-i-seed.mattpocock.diagnosing-bugs.v1",
-            "declarationSource": "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef",
-            "declaredAt": "2026-11-10T18:12:00Z",
+            "declarationSource": "a1f5fced21db677040c3257aa6a185c83457a8094a25ccd99bc8bd2650920905",
+            "declaredAt": "2026-11-10T18:23:00Z",
             "facet": "model-led",
             "id": "feedback-loop-before-hypothesis",
             "interpretationSource": null,
@@ -22,14 +22,14 @@
           },
           {
             "authority": {
-              "actor": "mattpocock - owner of the canonical skill and author of the instructions this claim reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which drafted the claim from those instructions.",
-              "basis": "Evidence tier: source-declared. Read from lines 16, 35, 53-55 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'); the skill owner wrote those instructions and did not write or review this claim's wording. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review of 2026-11-11 the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+              "actor": "mattpocock - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+              "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 16, 35, 53-55 of mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/engineering/diagnosing-bugs/SKILL.md (sha256 849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
             },
             "benchmarkSources": [],
             "conditions": "The agent cannot construct a reproducing loop from what it can reach, and a person can grant access to the reproducing environment, supply a captured artifact, approve temporary production instrumentation, or perform manual steps the agent cannot.",
             "declarationId": "arbor-i-seed.mattpocock.diagnosing-bugs.v1",
-            "declarationSource": "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef",
-            "declaredAt": "2026-11-10T18:12:00Z",
+            "declarationSource": "a1f5fced21db677040c3257aa6a185c83457a8094a25ccd99bc8bd2650920905",
+            "declaredAt": "2026-11-10T18:23:00Z",
             "facet": "human-led",
             "id": "stop-and-ask-when-no-loop-can-be-built",
             "interpretationSource": null,
@@ -37,7 +37,7 @@
             "support": "expert-declared"
           }
         ],
-        "inputDigest": "d9673000c0777d6f1b96e7a4448c59e9c03bc8124141218d446dc63b8e74d6be",
+        "inputDigest": "c5cb31ee2ab432ab845db49ebccafa49db3794159de08a67ebc002869249b2ea",
         "schema": "gaia.arbor-profile/v1",
         "skill": {
           "contentSha256": "df77b1351da3886ab547a226d8d0b33a00842bca1e541b805b4e0169e7453972",
@@ -46,12 +46,12 @@
         "sources": {
           "benchmarkReceipts": [],
           "declarations": [
-            "a22321edd9ff6c5bd7a997163f94acf9c7b94641d78882365cc7a8ae20dfcbef"
+            "a1f5fced21db677040c3257aa6a185c83457a8094a25ccd99bc8bd2650920905"
           ],
           "interpretations": []
         }
       },
-      "sourceDigest": "a0ef0cf52f982a7e4aeb51cabb223d2cfed394a5d3878f80714f050dfb14cfa6",
+      "sourceDigest": "ec298e959b8349067191930724717526ed5111320b7d8f551f6a502b2032c1cb",
       "status": "present"
     },
     "hellHeaven": {
