@@ -148,10 +148,6 @@
       "job": "heartbeat"
     },
     {
-      "workflow": ".github/workflows/sync-artifacts.yml",
-      "job": "sync"
-    },
-    {
       "workflow": ".github/workflows/upstream-approve.yml",
       "job": "approve"
     },

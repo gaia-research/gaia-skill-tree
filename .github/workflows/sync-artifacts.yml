@@ -2,40 +2,221 @@ name: Auto-Sync Registry Artifacts
 
 on:
   # Run on EVERY push to the default branch — not just registry/script changes —
-  # so that CLI-only and docs-only merges also get a version bump, a GitHub
-  # Release, and a PyPI publish. The job's `if:` already restricts execution to
-  # the default branch and skips bot/[skip-gen] commits, so this cannot loop.
+  # so CLI-only and docs-only merges also get a version bump and release proposal.
+  # The proposal job skips bot/[skip-gen] commits to prevent release-PR recursion.
   push:
     branches: [main]
   workflow_dispatch:
+  # Finalize only a merged release PR targeting main; never publish from its branch.
+  pull_request:
+    branches: [main]
+    types: [closed]
 
 permissions:
   contents: write
   actions: write   # dispatch publish-pypi.yml (workflow_dispatch)
 
-# Serialize runs on the same ref. With the broadened trigger, several merges can
-# land close together; without this they would race on the version bump + push.
+# Serialize proposal runs on main and finalization runs per PR.
 concurrency:
-  group: sync-artifacts-${{ github.ref }}
+  group: sync-artifacts-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
-  sync:
-    name: Regenerate and Commit Artifacts
+  propose:
+    name: Regenerate Artifacts and Propose Release PR
     runs-on: ubuntu-latest
-    # Only auto-version + commit artifacts on the default branch. Feature branches
-    # must NOT commit registry/gaia.json or docs/graph/gaia.json (see CLAUDE.md §8):
-    # doing so manufactures merge conflicts in the three version-lockstep files.
-    if: |
-      github.ref_name == github.event.repository.default_branch &&
-      github.actor != 'github-actions[bot]' &&
-      !contains(github.event.head_commit.message, '[skip-gen]')
+    timeout-minutes: 15
+    # Do not run the proposal on PR-close events. Push events retain the
+    # subject/body skip-gen recursion guard; workflow_dispatch is gated after checkout.
+    if: >-
+      (github.event_name == 'push' &&
+       github.ref_name == github.event.repository.default_branch &&
+       github.actor != 'github-actions[bot]' &&
+       !contains(github.event.head_commit.message, '[skip-gen]') &&
+       !contains(github.event.head_commit.message, 'chore(auto): release v')) ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.ref_name == github.event.repository.default_branch)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: main
+
+      # workflow_dispatch has no reliable head_commit.message. Check the actual
+      # checked-out commit before any other proposal step, including secret use.
+      - name: Gate generated release commits
+        id: proposal_gate
+        run: |
+          set -euo pipefail
+          MSG=$(git log -1 --format=%B)
+          if [[ "$MSG" == *"[skip-gen]"* || "$MSG" == *"chore(auto): release v"* ]]; then
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping generated release commit."
+          else
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Require RELEASE_PAT
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        env:
+          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
+        run: |
+          if [[ -z "$RELEASE_PAT" ]]; then
+            echo "::error::RELEASE_PAT is required to push the automation branch and create/update its PR (repository permissions: Contents: write; Pull requests: write)."
+            exit 1
+          fi
+
+      - name: Set up Python
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        run: pip install -e ".[dev]"
+
+      - name: Configure git identity
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Auto-Versioning and Regeneration
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        env:
+          # Fresh runners have no gitignored Class P named index; this step's
+          # gated release must bootstrap the artifact regeneration pipeline.
+          GAIA_OPERATOR_OVERRIDE: "1"
+        run: |
+          # Preserve the established classifier and release-channel mapping.
+          MSG=$(git log -1 --format=%B)
+          BUMP="patch"
+          if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
+          if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
+          case "$BUMP" in
+            major) CHANNEL="production" ;;
+            minor) CHANNEL="beta" ;;
+            *)     CHANNEL="canary" ;;
+          esac
+          echo "GAIA_BUMP=$BUMP" >> "$GITHUB_ENV"
+          echo "GAIA_CHANNEL=$CHANNEL" >> "$GITHUB_ENV"
+          echo "Bump: $BUMP → channel: $CHANNEL"
+
+          # --no-push keeps the release commit local until this job publishes the
+          # deterministic version branch. The PR must pass Main Ruleset checks.
+          gaia dev release "$BUMP" --sync --no-push
+          gaia dev docs
+
+      - name: Restore badges from HEAD (auto-sync must NOT touch docs/badges/)
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        # docs/badges/_assets/ and docs/badges/registry.json are NEVER
+        # regenerated by auto-sync. They're a Cloudflare-served reward artifact
+        # whose source-of-truth is human curation via infra/ PRs. The auto-sync
+        # runner may hydrate registry/named-skills.json from a stale release;
+        # that can make `gaia dev docs` regenerate a near-empty badge tree and
+        # wipe live contributor SVGs. Restore from the checked-out baseline so
+        # auto-sync cannot erase the human-curated badge tree. See the founder
+        # rationale: founder/CLAUDE.md, "Why auto-sync was banned from docs/badges/".
+        run: |
+          git checkout HEAD -- docs/badges/_assets/ docs/badges/registry.json || true
+          if [[ -n "$(git status --porcelain docs/badges/)" ]]; then
+            echo "::warning::auto-sync produced badge drift; reverted to HEAD"
+            git status --porcelain docs/badges/
+          fi
+
+      - name: Push version branch and create or update PR
+        if: steps.proposal_gate.outputs.proceed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+        run: |
+          set -euo pipefail
+          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            LAST_MSG=$(git log -1 --format=%B)
+            if [[ "$LAST_MSG" == chore:\ release\ v* ]]; then
+              git commit --amend -m "chore(auto): release v${VERSION} [skip-gen]"
+            else
+              git commit -m "chore(auto): release v${VERSION} [skip-gen]"
+            fi
+          elif [[ "$(git log -1 --format=%s)" == chore:\ release\ v* ]]; then
+            git commit --amend -m "chore(auto): release v${VERSION} [skip-gen]"
+          fi
+
+          BRANCH="chore/auto-release-v${VERSION}"
+          git switch -C "$BRANCH"
+
+          # Remove checkout's persisted GITHUB_TOKEN header before configuring
+          # gh's step-scoped RELEASE_PAT credential helper. Keep origin URL clean.
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          gh auth setup-git
+          ORIGIN_URL=$(git remote get-url origin)
+          if [[ "$ORIGIN_URL" != "https://github.com/${GITHUB_REPOSITORY}" && "$ORIGIN_URL" != "https://github.com/${GITHUB_REPOSITORY}.git" ]]; then
+            echo "::error::origin is not the expected credential-free GitHub URL."
+            exit 1
+          fi
+
+          # Capture the remote branch tip, then use an explicit lease. An empty
+          # expected SHA means create only if the branch is still absent.
+          REMOTE_SHA=$(git ls-remote origin "refs/heads/${BRANCH}" | awk 'NR==1 {print $1}')
+          if ! git push --force-with-lease="refs/heads/${BRANCH}:${REMOTE_SHA}" \
+            origin "HEAD:refs/heads/${BRANCH}"; then
+            echo "::error::Could not update release branch. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+            exit 1
+          fi
+
+          if ! PR=$(gh pr list --state open --base main --head "$BRANCH" --json number --jq '.[0].number'); then
+            echo "::error::Could not query release PRs. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+            exit 1
+          fi
+          if [[ -n "$PR" ]]; then
+            gh pr edit "$PR" --title "chore(auto): release v${VERSION} [skip-gen]" \
+              --body "Automated version and generated-artifact proposal for v${VERSION}. This PR must pass the required main status checks before merge. Release tags and publication are created only after merge."
+            echo "Updated open release PR #${PR}."
+          else
+            if ! gh pr create --base main --head "$BRANCH" \
+              --title "chore(auto): release v${VERSION} [skip-gen]" \
+              --body "Automated version and generated-artifact proposal for v${VERSION}. This PR must pass the required main status checks before merge. Release tags and publication are created only after merge."; then
+              echo "::error::Could not create release PR. Check RELEASE_PAT repository permissions: Contents: write; Pull requests: write."
+              exit 1
+            fi
+          fi
+
+  finalize:
+    name: Finalize Merged Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'chore/auto-release-v') &&
+      startsWith(github.event.pull_request.title, 'chore(auto): release v') &&
+      endsWith(github.event.pull_request.title, '[skip-gen]')
+    steps:
+      - name: Checkout merged main commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Validate release PR identity
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          VERSION="${PR_BRANCH##*-v}"
+          if [[ "$PR_REPOSITORY" != "$GITHUB_REPOSITORY" || "$PR_TITLE" != "chore(auto): release v${VERSION} [skip-gen]" || ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Merged PR does not have the expected same-repository generated release title/branch pair."
+            exit 1
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -46,182 +227,137 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
-      - name: Configure git identity
-        # Must run BEFORE `gaia dev release`, which creates its own version-bump
-        # commit. Without an identity here git aborts with "empty ident name".
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Auto-Versioning and Regeneration
+      - name: Regenerate Class P artifacts for packaging
         env:
-          # Fresh runners have no gitignored Class P named index; this step's
-          # gated release must bootstrap the artifact regeneration pipeline.
           GAIA_OPERATOR_OVERRIDE: "1"
-        run: |
-          # 1. Classify bump type from commit message → release channel.
-          #    See CONTEXT.md § Release Channels for the full contract:
-          #      major  → production (published to PyPI, GitHub Release = latest)
-          #      minor  → beta       (GitHub pre-release only)
-          #      patch  → canary     (GitHub pre-release only)
-          MSG=$(git log -1 --format=%B)
-          BUMP="patch"
-          if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
-          if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
+        run: gaia dev docs
 
-          case "$BUMP" in
-            major) CHANNEL="production" ;;
-            minor) CHANNEL="beta" ;;
-            *)     CHANNEL="canary" ;;
-          esac
-
-          # Export for later steps (GitHub Release labeling + PyPI gating).
-          echo "GAIA_BUMP=$BUMP" >> "$GITHUB_ENV"
-          echo "GAIA_CHANNEL=$CHANNEL" >> "$GITHUB_ENV"
-          echo "Bump: $BUMP → channel: $CHANNEL"
-
-          # 2. Apply version bump and regenerate artifacts via CLI
-          # We use --no-push because gaia dev release uses GITHUB_TOKEN by default,
-          # which won't trigger the Release workflow on tag push.
-          gaia dev release "$BUMP" --sync --no-push
-          gaia dev docs
-
-      - name: Restore badges from HEAD (auto-sync must NOT touch docs/badges/)
-        # docs/badges/_assets/ and docs/badges/registry.json are NEVER
-        # regenerated by auto-sync. They're a Cloudflare-served reward artifact
-        # whose source-of-truth is human curation via infra/ PRs. The auto-sync
-        # runner hydrates registry/named-skills.json via `gaia pull` from the
-        # last GitHub Release, which can be stale — that staleness then makes
-        # `gaia dev docs` regenerate a near-empty badge tree and wipe live
-        # contributor SVGs. This restore step makes the wipe impossible by
-        # reverting any badge-tree changes the regen produced.
-        #
-        # Tracked: badges must regenerate ONLY via infra/badge-* PRs that an
-        # operator has reviewed locally with `gaia pull` against a known-good
-        # snapshot. See founder/CLAUDE.md "Why auto-sync was banned from
-        # docs/badges/" (added after the 2026-06-23 wipe).
+      - name: Restore badges from merged HEAD (auto-sync must NOT touch docs/badges/)
+        # Keep this boundary in both proposal and finalization: badges are
+        # Cloudflare-served, human-curated artifacts and must not be overwritten
+        # by stale runner registry data during the Class P regeneration below.
         run: |
           git checkout HEAD -- docs/badges/_assets/ docs/badges/registry.json || true
           if [[ -n "$(git status --porcelain docs/badges/)" ]]; then
-            echo "::warning::auto-sync produced badge drift; reverted to HEAD"
+            echo "::warning::auto-sync produced badge drift; reverted to merged HEAD"
             git status --porcelain docs/badges/
           fi
 
-      - name: Commit and Push Changes
+      - name: Verify merge, generated docs, and release channel
         run: |
-          # 1. Consolidate any unstaged changes (e.g. from docs build) into the commit
-          # Use --fixup + --autosquash if we already made a release commit, so we 
-          # don't have to manually --amend (which fails if rebase happens in between).
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git add .
-            LAST_MSG=$(git log -1 --format=%B)
-            if [[ "$LAST_MSG" == chore:\ release\ v* ]]; then
-               echo "Creating fixup for release commit..."
-               git commit --fixup HEAD
-            else
-               echo "Creating auto-sync commit..."
-               git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
-            fi
+          set -euo pipefail
+          git fetch origin main
+          MERGE_SHA='${{ github.event.pull_request.merge_commit_sha }}'
+          if [[ -z "$MERGE_SHA" ]] || ! git merge-base --is-ancestor "$MERGE_SHA" origin/main; then
+            echo "::error::Merged release commit is not present on origin/main; refusing finalization."
+            exit 1
           fi
-
-          # 2. Push with rebase + exponential backoff to survive concurrent pushes
-          # This handles both the release commit and the auto-sync commit.
-          if [[ -n "$(git log origin/${GITHUB_REF_NAME}..HEAD)" ]]; then
-            n=0
-            until [[ $n -ge 4 ]]; do
-              # Rebase with autosquash to merge fixups into the release commit
-              if git fetch origin "${GITHUB_REF_NAME}" && git rebase --autosquash "origin/${GITHUB_REF_NAME}" && git push; then
-                echo "Successfully pushed changes to origin/${GITHUB_REF_NAME}."
-                break
-              fi
-              n=$((n + 1))
-              echo "Push failed (attempt $n/4) — retrying in $((2 ** n))s."
-              sleep $((2 ** n))
-            done
-            if [[ $n -ge 4 ]]; then
-              echo "::error::Unable to push changes after 4 attempts."
-              exit 1
-            fi
+          # Class S artifacts are committed site output. Never package a tar from
+          # regenerated but uncommitted docs that differ from the merged commit.
+          if ! git diff --quiet HEAD -- docs/; then
+            echo "::error::gaia dev docs changed tracked docs/ output after merge; refusing to package Class S drift."
+            git diff --stat HEAD -- docs/
+            exit 1
+          fi
+          version_at() {
+            git show "$1:pyproject.toml" | sed -n 's/^version = "\(.*\)"/\1/p' | head -n 1
+          }
+          BASE_SHA=$(git rev-parse "${MERGE_SHA}^1")
+          BASE_VERSION=$(version_at "$BASE_SHA")
+          VERSION=$(version_at "$MERGE_SHA")
+          if [[ ! "$BASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ || ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not derive valid base and merged X.Y.Z versions from pyproject.toml."
+            exit 1
+          fi
+          IFS=. read -r BASE_MAJOR BASE_MINOR BASE_PATCH <<< "$BASE_VERSION"
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VERSION"
+          if (( MAJOR == BASE_MAJOR + 1 && MINOR == 0 && PATCH == 0 )); then
+            BUMP=major; CHANNEL=production
+          elif (( MAJOR == BASE_MAJOR && MINOR == BASE_MINOR + 1 && PATCH == 0 )); then
+            BUMP=minor; CHANNEL=beta
+          elif (( MAJOR == BASE_MAJOR && MINOR == BASE_MINOR && PATCH == BASE_PATCH + 1 )); then
+            BUMP=patch; CHANNEL=canary
           else
-            echo "No local commits to push."
+            echo "::error::Merged version $VERSION is not an exact one-step major, minor, or patch transition from $BASE_VERSION."
+            exit 1
           fi
+          echo "GAIA_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "GAIA_CHANNEL=$CHANNEL" >> "$GITHUB_ENV"
+          echo "GAIA_BUMP=$BUMP" >> "$GITHUB_ENV"
+          echo "Finalizing v$VERSION: $BASE_VERSION → $VERSION ($CHANNEL)."
 
-      - name: Tag Release
-        # Push a version tag so release.yml fires and creates a GitHub Release.
-        # The tag MUST be pushed with a PAT (RELEASE_PAT): pushes made with the
-        # default GITHUB_TOKEN do NOT trigger other workflows, so a token-pushed
-        # tag would silently never invoke release.yml.
-        env:
-          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
-        run: |
-          if [[ -z "${RELEASE_PAT}" ]]; then
-            echo "::warning::RELEASE_PAT is not set — skipping tag push. release.yml will NOT fire."
-            echo "          Add a repo/PAT secret named RELEASE_PAT (contents:write) to enable releases."
-            exit 0
-          fi
-
-          # Extract version from pyproject.toml (source of truth after gaia dev release).
-          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
-          TAG="v${VERSION}"
-
-          # Update the local tag to point to the final amended/rebased commit.
-          git tag -f "${TAG}"
-
-          # Skip if this tag already exists remotely (idempotent).
-          if git ls-remote --tags origin "${TAG}" | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on remote — skipping."
-            exit 0
-          fi
-
-          git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
-          echo "Pushed tag ${TAG} → release.yml will create the GitHub Release."
-
-      - name: Create GitHub Release
-        # Create the Release directly in this job rather than depending on
-        # release.yml firing from the tag push. A tag pushed by a token that
-        # does not trigger workflows (the default GITHUB_TOKEN, GitHub App
-        # tokens, and some PATs) will silently never invoke release.yml — which
-        # is why tags historically accumulated with no Releases. Creating the
-        # Release via the API works with the plain GITHUB_TOKEN (it can create
-        # releases; it just cannot *trigger* other workflows). Idempotent.
+      - name: Verify any existing release metadata
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
-          TAG="v${VERSION}"
-
-          # Self-heal: if the tag never reached the remote (e.g. RELEASE_PAT
-          # unset so the previous step skipped), push it with GITHUB_TOKEN.
-          # The push won't trigger release.yml, but we create the Release below.
-          if ! git ls-remote --tags origin "${TAG}" | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} missing on remote — pushing with GITHUB_TOKEN."
-            git tag -f "${TAG}"
-            git push origin "${TAG}" || echo "::warning::Could not push ${TAG}; release may target an existing tag."
+          set -euo pipefail
+          TAG="v${GAIA_VERSION}"
+          RELEASE_JSON=$(gh release view "$TAG" --json name,isPrerelease,isDraft,assets 2>/dev/null || true)
+          if [[ -n "$RELEASE_JSON" ]]; then
+            RELEASE_NAME=$(jq -r '.name // ""' <<< "$RELEASE_JSON")
+            IS_PRERELEASE=$(jq -r '.isPrerelease' <<< "$RELEASE_JSON")
+            IS_DRAFT=$(jq -r '.isDraft' <<< "$RELEASE_JSON")
+            EXPECT_PRERELEASE=false
+            [[ "$GAIA_CHANNEL" == production ]] || EXPECT_PRERELEASE=true
+            if [[ "$RELEASE_NAME" != "${TAG} (${GAIA_CHANNEL})" || "$IS_PRERELEASE" != "$EXPECT_PRERELEASE" || "$IS_DRAFT" != false ]]; then
+              echo "::error::Existing release ${TAG} has channel/name/draft metadata inconsistent with ${GAIA_CHANNEL}; refusing finalization."
+              exit 1
+            fi
           fi
 
-          # Channel labeling: only production (major) is marked --latest; beta
-          # (minor) and canary (patch) are GitHub pre-releases. See CONTEXT.md.
-          if [ "${GAIA_CHANNEL}" = "production" ]; then
-            CHANNEL_FLAGS="--latest"
+      - name: Tag Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="v${GAIA_VERSION}"
+          TAG_REFS=$(git ls-remote --tags origin "refs/tags/${TAG}" "refs/tags/${TAG}^{}")
+          REMOTE_SHA=$(awk -v tag="refs/tags/${TAG}" '$2 == tag {sha=$1} $2 == tag "^{}" {sha=$1} END {print sha}' <<< "$TAG_REFS")
+          MERGE_SHA='${{ github.event.pull_request.merge_commit_sha }}'
+          if [[ -n "$REMOTE_SHA" ]]; then
+            if [[ "$REMOTE_SHA" != "$MERGE_SHA" ]]; then
+              echo "::error::Remote tag ${TAG} peels to ${REMOTE_SHA}, not merged commit ${MERGE_SHA}; refusing to overwrite it."
+              exit 1
+            fi
+            echo "Tag ${TAG} already points to the merged commit; continuing idempotently."
           else
-            CHANNEL_FLAGS="--prerelease --latest=false"
+            git tag "$TAG" "$MERGE_SHA"
+            # GITHUB_TOKEN does not trigger release.yml on tag push. This job
+            # creates the release itself via the API below after checking channel.
+            git push origin "$TAG"
           fi
 
-          if gh release view "${TAG}" --json tagName -q .tagName &>/dev/null; then
-            echo "Release ${TAG} already exists — skipping."
+      - name: Create GitHub Release and upload artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="v${GAIA_VERSION}"
+          ARTIFACT_NAME=gaia-artifacts.tar.gz
+          RELEASE_JSON=$(gh release view "$TAG" --json name,isPrerelease,isDraft,assets 2>/dev/null || true)
+          EXPECT_PRERELEASE=false
+          [[ "$GAIA_CHANNEL" == production ]] || EXPECT_PRERELEASE=true
+          if [[ -n "$RELEASE_JSON" ]]; then
+            RELEASE_NAME=$(jq -r '.name // ""' <<< "$RELEASE_JSON")
+            IS_PRERELEASE=$(jq -r '.isPrerelease' <<< "$RELEASE_JSON")
+            IS_DRAFT=$(jq -r '.isDraft' <<< "$RELEASE_JSON")
+            if [[ "$RELEASE_NAME" != "${TAG} (${GAIA_CHANNEL})" || "$IS_PRERELEASE" != "$EXPECT_PRERELEASE" || "$IS_DRAFT" != false ]]; then
+              echo "::error::Existing release ${TAG} has channel/name/draft metadata inconsistent with ${GAIA_CHANNEL}; refusing reuse."
+              exit 1
+            fi
           else
-            gh release create "${TAG}" \
-              --title "${TAG} (${GAIA_CHANNEL})" \
-              --generate-notes \
-              $CHANNEL_FLAGS
-            echo "Created GitHub Release ${TAG} on the ${GAIA_CHANNEL} channel."
+            if [[ "$GAIA_CHANNEL" == production ]]; then
+              CHANNEL_FLAGS=(--latest)
+            else
+              CHANNEL_FLAGS=(--prerelease --latest=false)
+            fi
+            gh release create "$TAG" --title "${TAG} (${GAIA_CHANNEL})" --generate-notes "${CHANNEL_FLAGS[@]}"
+            RELEASE_JSON=$(gh release view "$TAG" --json name,isPrerelease,isDraft,assets)
           fi
 
           echo "Packaging generated registry and graph artifacts..."
-          # registry/gaia.svg was retired under Yggdrasil II (the 3D World Tree
-          # superseded the static SVG atlas; only the GEXF export survives — see
-          # scripts/build_docs.py). `gaia dev docs` no longer emits it, so listing
-          # it here made `set -e` tar exit 2 and skip the PyPI/Cloudflare steps.
+          # registry/gaia.svg was retired under Yggdrasil II; the GEXF export
+          # survives. Keep this list aligned with the canonical release payload.
           ARTIFACTS=(
             registry/gaia.json
             registry/gaia.gexf
@@ -231,25 +367,30 @@ jobs:
             registry/real-skills.md
             docs/graph/
           )
-          if [ -d registry/support ]; then
-            ARTIFACTS+=(registry/support/)
-          fi
-          tar -czf gaia-artifacts.tar.gz "${ARTIFACTS[@]}"
+          if [ -d registry/support ]; then ARTIFACTS+=(registry/support/); fi
+          tar -czf "$ARTIFACT_NAME" "${ARTIFACTS[@]}"
 
-          echo "Uploading gaia-artifacts.tar.gz to release ${TAG}..."
-          gh release upload "${TAG}" gaia-artifacts.tar.gz --clobber
+          if jq -e --arg name "$ARTIFACT_NAME" '.assets[]? | select(.name == $name)' <<< "$RELEASE_JSON" >/dev/null; then
+            TMPDIR=$(mktemp -d)
+            gh release download "$TAG" --pattern "$ARTIFACT_NAME" --dir "$TMPDIR"
+            if cmp -s "$ARTIFACT_NAME" "$TMPDIR/$ARTIFACT_NAME"; then
+              echo "Existing ${ARTIFACT_NAME} matches generated artifact; skipping upload."
+            else
+              echo "Existing ${ARTIFACT_NAME} differs; replacing only after byte comparison."
+              gh release upload "$TAG" "$ARTIFACT_NAME" --clobber
+            fi
+            rm -rf "$TMPDIR"
+          else
+            gh release upload "$TAG" "$ARTIFACT_NAME"
+          fi
 
       - name: Publish to PyPI
-        # Production channel only: PyPI publishes happen on MAJOR bumps. beta and
-        # canary stay as GitHub pre-releases (install from a tag/source instead).
-        # publish-pypi.yml keys off `on: push tags: v*`, which never fires for a
-        # tag pushed by an automation token (same limitation that broke Releases)
-        # — so we dispatch it via workflow_dispatch, which DOES start a workflow
-        # from a running job (with `actions: write`).
         if: env.GAIA_CHANNEL == 'production'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh workflow run publish-pypi.yml --ref "${GITHUB_REF_NAME}" \
-            && echo "Dispatched publish-pypi.yml (production) for ${GITHUB_REF_NAME}." \
+          # Production only: PyPI is dispatched for major bumps. Minor/Beta and
+          # patch/Canary remain GitHub pre-releases; a one-off override is manual.
+          gh workflow run publish-pypi.yml --ref "v${GAIA_VERSION}" \
+            && echo "Dispatched publish-pypi.yml (production) for v${GAIA_VERSION}." \
             || echo "::warning::Could not dispatch publish-pypi.yml — publish PyPI manually if needed."
