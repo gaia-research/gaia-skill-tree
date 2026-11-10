@@ -697,6 +697,28 @@ def test_reversed_edge_pairs_are_distinct_and_edge_keys_include_declaration_iden
     )
 
 
+def test_declared_edges_do_not_count_as_evaluated_pairs(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    _, declarationDigest, _ = importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root, pair))
+    importArborRecord(
+        root, tmp_path, "other.json", edgeDeclaration(root, edgePair(root, "edge-c", "edge-d"), "other-edge")
+    )
+    replay(root)
+    index = readJson(root / "registry" / "arbor" / "edges.json")
+    # Two authored hypotheses are two edges and zero evaluated pairs.
+    assert len(index["edges"]) == 2
+    assert index["coverage"] == {"pairsEvaluated": 0, "absenceMeaning": "not-evaluated"}
+    assert {edge["support"] for edge in index["edges"]} == {"expert-declared"}
+
+    importArborRecord(root, tmp_path, "observation.json", edgeObservation(declarationDigest, pair))
+    replay(root)
+    index = readJson(root / "registry" / "arbor" / "edges.json")
+    # An observation makes one pair evaluated; it still classifies nothing.
+    assert index["coverage"]["pairsEvaluated"] == 1
+    assert {edge["support"] for edge in index["edges"]} == {"expert-declared"}
+
+
 def test_parallel_edge_interpretations_are_rejected_until_superseded(tmp_path):
     root = makeEdgeStore(tmp_path)
     pair = edgePair(root)

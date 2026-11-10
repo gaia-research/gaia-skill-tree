@@ -1,0 +1,21 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 107, 161, 189, 225-258, 388-397, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "Work is about to be interrupted (before compaction, a hand-off or the end of a session) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, inside a git repository. The agent may write under the gstack state root. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "state-capture-without-code-changes",
+      "rationale": "The source carries a block 'HARD GATE: Do NOT implement code changes. This skill captures state only' (line 107) and the rule 'Never modify code. This skill only reads state and writes the context file' (line 391). It writes a new checkpoint file each time under the state root, never overwriting an earlier one (lines 244, 393-394), with the path computed in the shell so a user-supplied title cannot steer it (line 225). It tells the agent to 'Infer, don't interrogate' and to ask only if a title cannot be inferred (lines 396-397). It adds checks on its own content: every remaining-work item starts with a provenance status (line 161) and a claim about file contents needs a same-turn read (line 189). An append-only write outside the repository with no required question is what makes this suitable for a model to trigger. Plausible failure modes: the checkpoint is the model's own reconstruction of the conversation, so a decision it misremembers is saved as fact; a checkpoint taken after compaction can only record what survived; the shared startup section also writes logs and analytics. Falsified if a save modifies repository files; qualified by how much a checkpoint omits when taken late."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.context-save.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+    "id": "garrytan/context-save"
+  }
+}

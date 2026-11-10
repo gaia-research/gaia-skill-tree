@@ -1,0 +1,21 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 25-41, 92-110, of caioribeiroclw-pixel/pluribus@b15a1886284ffd392223d6cf6d71c8f7dafe0b45:skills/evidence-attestation/SKILL.md (sha256 886ca4c1299b1fe758cf11b83770bc8432095b778694114a2f575c859ecb7316; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "The agent has produced a claim that another agent, a later session or a reviewer will reuse as authority, and it holds resolvable references to the evidence behind it (commit ids, issue URLs, command names, fixture paths, artifact hashes). The claim concerns what the attestation records, not whether the underlying work is correct. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "structured-attestation-of-a-reused-claim",
+      "rationale": "The source has the agent emit a compact attestation listing evidence references, a status per claim ('supported', 'contradicted', 'unknown' or 'not_checked'), and a verdict chosen by stated rules: 'accepted only when the evidence supports the claim and no required evidence is missing', 'review_required when evidence is partial, stale-prone, or needs a human/verifier', 'blocked when required evidence is inaccessible or unsafe to inspect' (lines 92-97). It excludes raw prompts, transcripts, secrets and full diffs in favour of hashes, identifiers and source labels (lines 29-37) and says 'Do not upgrade weak evidence into authority' (line 39). No step waits on a person. The text states its own ceiling: a passing check 'does not prove the underlying work is correct; it proves the evidence boundary is inspectable' (line 110). The principal failure mode is structural: the attestation is issued by the same agent whose claim it describes, so an 'accepted' verdict is a self-report, and evidence references can be written that nobody resolves. Falsified if 'accepted' verdicts are emitted where a required evidence reference is missing or does not resolve; qualified if downstream readers are shown to treat a passing structural check as proof of the work."
+    }
+  ],
+  "declarationId": "arbor-i-seed.caioribeiroclw-pixel.evidence-attestation.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
+    "id": "caioribeiroclw-pixel/evidence-attestation"
+  }
+}

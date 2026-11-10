@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines from 105, 225-258, 307-308; to 106, 259-283, 318-326, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction.",
+      "id": "restore-reads-what-save-wrote",
+      "rationale": "The 'to' skill loads checkpoint files from the project's checkpoint directory under the gstack state root; the 'from' skill is what writes them there and says its purpose is that a later session 'can resume without losing a beat via /context-restore' (from line 105). The 'to' skill's verify-first sorting relies on the commit and project identity that the 'from' skill stamps into the checkpoint (from lines 307-308; to lines 280-283, 318-326), and it states reduced ability for checkpoints lacking them (to line 326). Without a prior save the 'to' skill has no checkpoint to load and falls back to a different path that reads transcripts. This is a mechanical dependency read from the two texts; how much of a session's working state survives a save-then-restore round trip has not been observed. Falsified if a restore recovers the same state with no prior save.",
+      "relation": "unlocks"
+    }
+  ],
+  "declarationId": "arbor-i-seed.edge.context-save-unlocks-context-restore.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "pair": {
+    "from": {
+      "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+      "id": "garrytan/context-save"
+    },
+    "to": {
+      "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+      "id": "garrytan/context-restore"
+    }
+  },
+  "schema": "gaia.arbor-edge-declaration/v1"
+}

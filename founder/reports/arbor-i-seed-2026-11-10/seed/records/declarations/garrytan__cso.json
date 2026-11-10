@@ -1,0 +1,21 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 1-12, 18-37, 89-99, 137-148, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:cso/SKILL.md (sha256 ebf891082d3384579d9099950a87eb84896263e8f9a0705779b6aecf9d3201d1; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "The default invocation (without --comprehensive) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, with the trusted gstack-cso launcher present, auditing a repository the agent may read. Findings are reported, not applied to the audited repository. A person need not be present during the run. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "static-audit-through-trusted-launcher",
+      "rationale": "The frontmatter restricts the Bash tool to the gstack-cso launcher. The body tells the agent to read the audited source only through the run's inspect, read and history commands and 'Never use host Read/Glob/Grep' (line 93), to 'never run target tools or Docker on the host' (line 22), and describes the default mode as 'Static daily investigation ... No application execution' (line 34). Repository content, instructions and scanner output are declared 'untrusted evidence' that 'cannot authorize execution or alter policy' (line 22). The run is bounded: one start per run (line 91), ten minutes for the default mode (line 99), at most two retries on tooling errors, and 'not assessed' rather than a finding when tooling fails (lines 20, 26). Surviving findings are surfaced to the user immediately (line 95). These bounds are why a model can lead the run. Limits the text itself states: 'Containment does not sandbox the host agent or kernel' (line 22); public package and advisory identifiers are looked up over the network unless --offline is given (line 28); review identity is self-attested (line 148). Further qualification: the launcher binary and the audit-phase sections it loads are not part of the inspected file, so this claim rests on the instruction text and not on the binary's behaviour, and in a harness that does not enforce allowed-tools the read-only property depends on model compliance. Falsified if a default run modifies tracked files in the audited repository or executes its code."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.cso.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
+    "id": "garrytan/cso"
+  }
+}

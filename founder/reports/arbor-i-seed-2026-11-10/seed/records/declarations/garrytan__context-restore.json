@@ -1,0 +1,31 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 106, 259-261, 280-283, 318-326, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "One checkpoint of the current project is unambiguously the newest for the current branch, in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack. The claim covers loading and presenting saved state, not acting on it. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "resume-with-verify-first-sorting",
+      "rationale": "The source loads 'the newest ... checkpoint of this project for the current branch' when one is identified (lines 259-261) under 'HARD GATE: Do NOT implement code changes. This skill only reads saved' state (line 106). It compares the commit recorded at save time with the current one: when commits have landed since, it lists 'every Remaining Work item under Verify first: the saving session could not know about those commits, so any step may already be done' (lines 318-321). It reports a project identity mismatch before any summary (lines 280-283) and states what it cannot tell for checkpoints that predate commit tracking (line 326). Loading and sorting need no person, and the verify-first rule is the part that guards against replaying finished work. Plausible failure modes: the restored content is an earlier model's summary and is presented with the authority of a record; the checkpoint scan reaches directories of other repositories below the current one. Falsified if restores present remaining work as next steps when commits landed after the save."
+    },
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 262-278, 384-392, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "More than one recent checkpoint could be the continuation (different titles with no usable branch discriminator, a newer task elsewhere, or no checkpoint verified as this project's), or the state has been presented and the next action is to be chosen; and a person can answer through the harness's question tool.",
+      "facet": "human-led",
+      "id": "user-selects-among-ambiguous-checkpoints",
+      "rationale": "In these cases the source forbids a silent choice: 'do not silently load newest if the recent candidates ... carry different titles. Show those titles ... and wait' (lines 262-266); 'Do not silently take an older checkpoint' (line 268); and with no verified checkpoint, 'do not present any checkpoint as the latest one ... ask which one, if any, to open' (lines 274-278). After presenting, it asks the person whether to continue, show the file, or stop (lines 384-390). Which thread of work to resume is the person's call, and the text keeps it there. Falsified if sessions auto-load one of several differently titled recent checkpoints without asking."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.context-restore.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+    "id": "garrytan/context-restore"
+  }
+}

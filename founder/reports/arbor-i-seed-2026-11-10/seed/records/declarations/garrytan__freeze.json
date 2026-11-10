@@ -1,0 +1,21 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 1-27, 48-57, 68-77, 85, 93-94, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:freeze/SKILL.md (sha256 b3fd0406df9e7dc3c6522665a3205229beaadbe7bff82c94136fc51d76d054bd; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, the gstack distribution is installed under ~/.claude/skills/gstack, and a person supplies the directory to which edits are to be confined.",
+      "facet": "human-led",
+      "id": "user-set-edit-boundary",
+      "rationale": "The source asks the person for a directory (lines 48-51), records it through a shared state writer (lines 55-57), and registers PreToolUse hooks on Edit, Write and NotebookEdit that return a deny for any path outside the boundary (lines 68-73). It fails closed: 'a tool payload the hook cannot parse is DENIED' (line 76). The person sets the scope and the hook holds it, so the constraint does not depend on the model remembering it. The text states its own limits: 'This prevents accidental edits, not a security boundary - Bash or PowerShell commands like sed or Set-Content can still modify files outside the boundary' (line 93), and the boundary 'persists until explicitly removed' (line 85): 'ending or killing a conversation does not remove persisted state' (line 94). Plausible failure modes: a later session inherits a boundary nobody remembers setting and has its edits denied; an agent blocked by the boundary routes the same change through a shell command. Falsified if an Edit or Write outside the boundary succeeds in a session meeting the conditions; qualified by how often blocked edits reappear as shell writes."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.freeze.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+    "id": "garrytan/freeze"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines from 1-38, 47, 83; to 1-20, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:careful/SKILL.md (sha256 f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
+      "id": "same-command-check-hook-registered-twice",
+      "rationale": "The 'from' skill's frontmatter registers the same checking script on the same tools (Bash and PowerShell) as the 'to' skill's frontmatter, and its body says it is 'the combination of /careful + /freeze' and points to the 'to' skill for the pattern list (from lines 47, 83). Activating both adds no protection the 'from' skill does not already provide. Whether the harness then runs the check once or twice per command, and whether a person is prompted once or twice, is not established by the text. No run has observed both active together. Falsified if both active produce a different set of flagged commands than the 'from' skill alone.",
+      "relation": "duplicates"
+    }
+  ],
+  "declarationId": "arbor-i-seed.edge.guard-duplicates-careful.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "pair": {
+    "from": {
+      "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+      "id": "garrytan/guard"
+    },
+    "to": {
+      "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+      "id": "garrytan/careful"
+    }
+  },
+  "schema": "gaia.arbor-edge-declaration/v1"
+}

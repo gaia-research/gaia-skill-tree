@@ -1,0 +1,31 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 83-84, 228, 325, 360-449, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "A clean working tree in a repository the agent may edit and commit to locally, with a runnable target, and code the source's ownership check reports as the user's own. Pushing, merging and opening pull requests are outside this claim. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "bounded-fix-verify-commit-loop",
+      "rationale": "After baseline findings are reported (line 325), the source runs a per-issue loop: make the 'minimal fix. No unrelated refactors or features' (line 405), add a regression test (line 398), re-run 'the regression, original failing probe and adjacent happy path' (line 409), and 'Commit each verified fix with its regression, never unrelated fixes' (line 426). The loop carries its own brake: 'Every 5 fixes, and after any revert, check whether the loop is doing more harm than good. STOP immediately after two reverts or one edit to a file unrelated to the finding' (lines 444-447). The inspected file directs local commits and no push or pull request. Bounded edits, verification per fix and a stated stop rule are what make model leadership plausible here. Plausible failure modes: a fix recorded as 'best-effort' when it cannot be fully verified (line 432) still lands as a commit; the ownership classification comes from the startup output, so a wrong classification sends the agent to fix code that is someone else's; the stop rule is self-applied. Falsified if runs commit changes unrelated to a finding or continue after two reverts without asking."
+    },
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines 84, 228-230, 444-448, of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:qa/SKILL.md (sha256 1cda78da8e01d074966334d1ff3c3103f1a78732f6d7ecf797df5b8cbf6ce540; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "The working tree is dirty when the skill starts, or the fix loop reaches its stop rule, or the code's ownership is reported as collaborative or unknown; and a person can answer through the harness's question tool.",
+      "facet": "human-led",
+      "id": "user-decision-at-dirty-tree-and-loop-stop",
+      "rationale": "In these situations the source hands the decision to the person: on a dirty tree 'STOP and use AskUserQuestion' with commit, stash or abort as the person's options (lines 228-230); at the stop rule 'Show the user what you've done so far and ask whether to continue' (line 448); and for collaborative or unknown ownership 'Flag via AskUserQuestion, don't fix (may be someone else's)' (line 84). Each is a choice about the person's own uncommitted work or about code that is not the agent's to change. Plausible failure mode: with no responder the session parks at the first of these questions, so an unattended run on a dirty tree does no work. Falsified if sessions stash or commit the user's pending changes without the question."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.qa.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
+    "id": "garrytan/qa"
+  }
+}

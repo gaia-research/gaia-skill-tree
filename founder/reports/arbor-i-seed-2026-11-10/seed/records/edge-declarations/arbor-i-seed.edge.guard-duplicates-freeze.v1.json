@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, lead of the Arbor I declaration-first seeding mission commissioned by the project owner (mbtiongson1) on 2026-11-10",
+        "basis": "Agent-authored structural reading, lines from 1-38, 61-70, 84; to 1-27, 55-57, of from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:freeze/SKILL.md (sha256 b3fd0406df9e7dc3c6522665a3205229beaadbe7bff82c94136fc51d76d054bd; the canonical record links ref 'main'). No benchmark, receipt, telemetry or runtime observation supports this claim, and no human has ratified its text. Line-cited fact sheets were extracted by delegated read-only subagents and their quotations machine-verified against these bytes; the wording and classification are the lead agent's. Proposed for project-owner review in founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md and canonical only where the project owner has merged it."
+      },
+      "conditions": "Both skills are active in the same Claude Code session with skill-declared hooks enabled.",
+      "id": "same-edit-boundary-hook-and-state",
+      "rationale": "The 'from' skill registers the same boundary-checking script on Edit, Write and NotebookEdit as the 'to' skill and records the boundary through the same state writer (from lines 61-70; to lines 55-57). The boundary is one shared piece of state, so setting it through either skill replaces the other's value rather than adding a second boundary. Activating both therefore asks the person for a directory twice for one effect. No run has observed both active together. Falsified if both active enforce two distinct boundaries at once.",
+      "relation": "duplicates"
+    }
+  ],
+  "declarationId": "arbor-i-seed.edge.guard-duplicates-freeze.v1",
+  "declaredAt": "2026-11-10T08:20:00Z",
+  "pair": {
+    "from": {
+      "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+      "id": "garrytan/guard"
+    },
+    "to": {
+      "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+      "id": "garrytan/freeze"
+    }
+  },
+  "schema": "gaia.arbor-edge-declaration/v1"
+}
