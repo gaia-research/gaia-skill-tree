@@ -32,7 +32,7 @@ Status reflects current truth only — the per-routine edit history lives in
 | 9 | `mcp-server.html` | MCP Server | ✅ Current. Documents the `skill-heaven` plugin's `summon` tool; standalone Gaia MCP noted as decommissioned. | 005, 017, 018, 025, 045, editor-055wk |
 | 10 | `faq.html` | FAQ | ✅ Current. Tier/Branch and Evidence Type/Grade vocabulary match CONTEXT.md. | 005, 017, 018, 025, 026, 042, editor-055wk, 071 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Current. `gaia share` Flags table complete (`-o/--output`); no fictional `--auto` flag; install prompt keys, Enter-quits and three-count summary match `share.py`; nav chip self-updates via `id="ver"`. | 006, 018, 025, 038, 056, 059, editor-056wk, 072 |
-| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Current. `dev validate`'s Trust Magnitude Consistency Gate documented; `dev timeline --previous-value/--new-value` documented; Reclassification card correctly attributes `installable` to `dev update-named`, not `dev reclassify`. | 008, 018, 025, 044, editor-055wk, 060 |
+| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Current. `dev validate`'s Trust Magnitude Consistency Gate documented; `dev timeline --previous-value/--new-value` documented; Reclassification card correctly attributes `installable` to `dev update-named`, not `dev reclassify`. | 008, 018, 025, 044, editor-055wk, 060, 073 |
 | 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Current. CTA table's named-implementation row is the real `gaia dev add --named --contributor ... --generic-ref ...` invocation (no fictional `gaia dev named`/`gaia dev discover`). | 030, 031, 032, 033, 037, 046, editor-055wk, 061 |
 
 ---

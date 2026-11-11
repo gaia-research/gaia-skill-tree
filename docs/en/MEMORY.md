@@ -1,3 +1,35 @@
+## 2026-11-11 — Routine 073
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Rebased onto `origin/main` (v9.4.0) and continued on it; no new branch or PR. Resolved a whole-file conflict in `faq.html` by taking main's copy and re-applying the one-sentence `--no-pr` change.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 073)" in 072: ROTATE to `timeline-audit.html`, check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/`.
+
+### What I did
+
+- Checked the `dev timeline` flags in `src/gaia_cli/commands/dev/__init__.py`. `--user`, `--previous-value`, `--new-value` and the `demote` action all exist, and the help text says the two value flags apply only with `--user`.
+- Two workaround cells in the Known CLI gaps table gave `gaia dev timeline --action demote` without `--user`. Without `--user` the event goes to the registry node, not the user tree, so the workaround did not do what the row says. Added `--user <handle>` to both cells. Table layout unchanged.
+- The `dev validate` Transparency Gate prose was not changed. No drift found in this pass.
+
+### Design decisions
+
+- Fixed the command text, not the narrative. The gap rows already name the right behavior; only the runnable example was incomplete.
+
+### Issues informed
+
+- None filed. The `--previous-value`/`--new-value` help text already says these flags need `--user`, so the CLI is consistent with the fix.
+
+### Files
+
+- `docs/en/timeline-audit.html` (two workaround cells in Known CLI gaps)
+- `docs/en/DOCS.md` (Page Map row 12 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 074)
+
+- ROTATE to the least-recently-touched Page Map page: `skill-hierarchy.html` (row 4, last routine 028). Check the Type/Branch rank table and the Named Skill lifecycle steps against `CONTEXT.md` § Taxonomy v6, and fix one section only.
+
+---
+
 ## 2026-11-10 — Routine 072
 
 **Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Continued on it; no new branch or PR.

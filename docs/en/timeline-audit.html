@@ -844,12 +844,12 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
             <tr>
               <td>No <code>gaia demote</code> command</td>
               <td>Demotion events can't be written by any player-facing CLI flow</td>
-              <td>Use <code>trace_timeline.py --apply</code>, or <code>gaia dev timeline --action demote --previous-value &lt;level&gt; --new-value &lt;level&gt;</code> for a single event</td>
+              <td>Use <code>trace_timeline.py --apply</code>, or <code>gaia dev timeline --user &lt;handle&gt; --action demote --previous-value &lt;level&gt; --new-value &lt;level&gt;</code> for a single event</td>
             </tr>
             <tr>
               <td>No <code>gaia remove-skill</code> command</td>
               <td>Stale generic entries can't be removed via CLI</td>
-              <td>Direct JSON edit to remove from <code>unlockedSkills</code>; then log with <code>gaia dev timeline --action demote</code></td>
+              <td>Direct JSON edit to remove from <code>unlockedSkills</code>; then log with <code>gaia dev timeline --user &lt;handle&gt; --action demote</code></td>
             </tr>
           </tbody>
         </table>
