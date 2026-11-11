@@ -5,7 +5,7 @@ contributor: theqtcompanyrnd
 origin: false
 genericSkillRef: code-review-pipeline
 status: named
-level: 2★
+level: 3★
 description: Invoke when the user asks to review, check, audit, or look over Qt6 QML
   code -- or suggest before committing. Runs deterministic linting (48+ rules) then
   deep-analysis agents (scaled to the size of the change) covering bindings, layout,
@@ -13,7 +13,7 @@ description: Invoke when the user asks to review, check, audit, or look over Qt6
   type-level checks. Reports only high-confidence issues (>80/100) with structured
   mitigations. Read-only -- never modifies code.
 createdAt: '2026-11-03'
-updatedAt: '2026-11-03'
+updatedAt: '2026-11-11'
 title: Qt Qml Review
 links:
   github: https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md
@@ -32,6 +32,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 59.74, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-11T02:55:58Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md
   evaluator: mbtiongson1
