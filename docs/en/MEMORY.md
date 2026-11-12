@@ -1,3 +1,34 @@
+## 2026-11-12 — Routine 074
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main` (no rebase needed); continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 074)" in 073: ROTATE to `skill-hierarchy.html`. Checked the Type/Branch rank table and the Named Skill lifecycle against `CONTEXT.md` § Taxonomy v6.
+
+### What I did
+
+- Rank table (Stars axis) matches `CONTEXT.md` § Taxonomy v6: 0★–6★ names, Suite/Unique branch pairs. No change.
+- Named Skills section: the intro said the contributor's name "attaches permanently" as Origin and that "only the first is the Origin". `CONTEXT.md` § Origin Contributor says current Origin is merit-based and transferable by approved review; earlier attribution stays as history. Rewrote the two sentences to match. Layout unchanged.
+
+### Design decisions
+
+- Fixed the claim, not the lifecycle steps. Steps 1–5 already match the Verifier gate at 4★ and the Named (2★) entry point.
+
+### Issues informed
+
+- None filed. The Origin rule is already in `CONTEXT.md` and `META.md` §4.1.
+
+### Files
+
+- `docs/en/skill-hierarchy.html` (Named Skills intro, two sentences)
+- `docs/en/DOCS.md` (Page Map row 4 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 075)
+
+- ROTATE to the least-recently-touched page: `contributing.html` (row 5, last routine 043). Check the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/`. Fix one section only.
+
+---
+
 ## 2026-11-11 — Routine 073
 
 **Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Rebased onto `origin/main` (v9.4.0) and continued on it; no new branch or PR. Resolved a whole-file conflict in `faq.html` by taking main's copy and re-applying the one-sentence `--no-pr` change.
