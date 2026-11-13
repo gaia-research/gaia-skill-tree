@@ -7,11 +7,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-import pytest
 
 from gaia_cli.commands.steward import StewardCommand
 from tests.steward.test_custody import (
-    World, controller, diffText, git, transcript,
+    World, diffText, transcript,
 )
 from gaia_cli.steward.routing import render_dispatch
 
