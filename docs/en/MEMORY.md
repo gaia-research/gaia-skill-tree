@@ -1,3 +1,164 @@
+## 2026-11-13 — Routine 075
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main`; continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 075)" in 074: ROTATE to `contributing.html`. Checked the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/__init__.py` and `calibrate.py`.
+
+### What I did
+
+- `gaia dev evidence` example: `--type repo-own` is valid (in `registry/schema/meta.json`); `--trust` and `--notes` exist. No change.
+- `gaia dev calibrate` example: the level argument must be a star level from `ALLOWED_LEVELS` (`1★`–`6★`). The page passed a bare `3`, which the command rejects with "must be one of". Changed the example to `3★`. The command's own error message already uses the ★ form.
+
+### Design decisions
+
+- One example line changed. Layout unchanged.
+
+### Issues informed
+
+- None filed. The fix is a docs correction against the live CLI.
+
+### Files
+
+- `docs/en/contributing.html` (calibrate example, one line)
+- `docs/en/DOCS.md` (Page Map row 5 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 076)
+
+- ROTATE to the least-recently-touched page: `named-skills.html` (row 6, last routine 038). Check the claiming walkthrough's `gaia dev add --named` flags against `src/gaia_cli/commands/dev/__init__.py`. Fix one section only.
+
+---
+
+## 2026-11-12 — Routine 074
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main` (no rebase needed); continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 074)" in 073: ROTATE to `skill-hierarchy.html`. Checked the Type/Branch rank table and the Named Skill lifecycle against `CONTEXT.md` § Taxonomy v6.
+
+### What I did
+
+- Rank table (Stars axis) matches `CONTEXT.md` § Taxonomy v6: 0★–6★ names, Suite/Unique branch pairs. No change.
+- Named Skills section: the intro said the contributor's name "attaches permanently" as Origin and that "only the first is the Origin". `CONTEXT.md` § Origin Contributor says current Origin is merit-based and transferable by approved review; earlier attribution stays as history. Rewrote the two sentences to match. Layout unchanged.
+
+### Design decisions
+
+- Fixed the claim, not the lifecycle steps. Steps 1–5 already match the Verifier gate at 4★ and the Named (2★) entry point.
+
+### Issues informed
+
+- None filed. The Origin rule is already in `CONTEXT.md` and `META.md` §4.1.
+
+### Files
+
+- `docs/en/skill-hierarchy.html` (Named Skills intro, two sentences)
+- `docs/en/DOCS.md` (Page Map row 4 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 075)
+
+- ROTATE to the least-recently-touched page: `contributing.html` (row 5, last routine 043). Check the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/`. Fix one section only.
+
+---
+
+## 2026-11-11 — Routine 073
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Rebased onto `origin/main` (v9.4.0) and continued on it; no new branch or PR. Resolved a whole-file conflict in `faq.html` by taking main's copy and re-applying the one-sentence `--no-pr` change.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 073)" in 072: ROTATE to `timeline-audit.html`, check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/`.
+
+### What I did
+
+- Checked the `dev timeline` flags in `src/gaia_cli/commands/dev/__init__.py`. `--user`, `--previous-value`, `--new-value` and the `demote` action all exist, and the help text says the two value flags apply only with `--user`.
+- Two workaround cells in the Known CLI gaps table gave `gaia dev timeline --action demote` without `--user`. Without `--user` the event goes to the registry node, not the user tree, so the workaround did not do what the row says. Added `--user <handle>` to both cells. Table layout unchanged.
+- The `dev validate` Transparency Gate prose was not changed. No drift found in this pass.
+
+### Design decisions
+
+- Fixed the command text, not the narrative. The gap rows already name the right behavior; only the runnable example was incomplete.
+
+### Issues informed
+
+- None filed. The `--previous-value`/`--new-value` help text already says these flags need `--user`, so the CLI is consistent with the fix.
+
+### Files
+
+- `docs/en/timeline-audit.html` (two workaround cells in Known CLI gaps)
+- `docs/en/DOCS.md` (Page Map row 12 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 074)
+
+- ROTATE to the least-recently-touched Page Map page: `skill-hierarchy.html` (row 4, last routine 028). Check the Type/Branch rank table and the Named Skill lifecycle steps against `CONTEXT.md` § Taxonomy v6, and fix one section only.
+
+---
+
+## 2026-11-10 — Routine 072
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Continued on it; no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 072)" in 071: ROTATE to `share-bundles.html`, check the `gaia install <bundle>` flow and non-TTY view-only default against `src/gaia_cli/share.py`.
+
+### What I did
+
+- Checked the A/P/V/Q prompt, the pick prompt, and the non-TTY branch against `install_bundle()` in `src/gaia_cli/share.py`. The prompt text, the pick input, and the non-TTY view-only default all match the page.
+- Two sentences were wrong:
+  - The summary prints **three** counts (installed, skipped, unresolved). `failed` is folded into `unresolved`. The page said four.
+  - Pressing Enter with no input **quits**. Any unrecognized answer **views only**. The page called View only the "safe default" and did not mention either case.
+- Corrected both sentences in the Install Flow table and the summary paragraph. Layout unchanged.
+- Confirmed the CLI wiring (`src/gaia_cli/impl.py`) passes no `auto` value, so the page's "no CLI flag to force an all-install" statement still holds.
+
+### Design decisions
+
+- Did not touch the non-TTY section beyond verification. It was already accurate.
+- Left the inline `style` colors on the page as they were. This PR adds no new hex.
+
+### Issues informed
+
+- None filed. `install_bundle()` has an `auto` parameter that the CLI does not expose. That is a CLI gap, not a docs defect, and the page already says so.
+
+### Files
+
+- `docs/en/share-bundles.html` (Install Flow choice table, summary paragraph)
+- `docs/en/DOCS.md` (Page Map row 11)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 073)
+
+- ROTATE to the next least-recently-touched Page Map page: `timeline-audit.html` (row 12). Check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/` and fix one section only.
+
+---
+
+## 2026-11-09 — Routine 071
+
+**Branch:** `docs/routines/071` (from `origin/main`; the prior `docs/routines/064` PR #2235 merged and shipped in the 070 close).
+
+**Task chosen:** CONTINUE from "Planned next (Routine 071)" in 070: check the fusion and custom-fusion answers on `faq.html` against `fuse_command`.
+
+### What I did
+
+- `faq.html` has no `gaia fuse` answer. Its only fusion text is the Type axis (Basic vs Fusion prerequisites), which matches `CONTEXT.md`. Nothing to correct on the fuse paths.
+- Checked the `gaia push` / `gaia propose` answer against `src/gaia_cli/commands/push.py`. `propose` accepts `--no-pr` ("Write intake proposal without opening a PR"), which the FAQ did not mention. Added one sentence after the existing text. Words only; layout unchanged.
+
+### Design decisions
+
+- Did not add a new fusion FAQ entry. The planned check asked for corrections, not new content, and the FAQ is not the place for command flags.
+
+### Issues informed
+
+- None filed. No tooling friction met.
+
+### Files
+
+- `docs/en/faq.html` (one sentence in the `gaia propose` list item)
+- `docs/en/DOCS.md` (Page Map row 10 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 072)
+
+- ROTATE to the least-recently-touched Page Map page: `share-bundles.html`. Check the `gaia install <bundle>` flow and its non-TTY view-only default against `src/gaia_cli/share.py`.
+
+---
+
 ## 2026-11-06 — Routine 070
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
