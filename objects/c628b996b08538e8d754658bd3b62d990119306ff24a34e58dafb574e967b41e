@@ -1,0 +1,70 @@
+{
+  "action": "verify",
+  "artifact": {
+    "attributionFailed": false,
+    "authorityStillValid": true,
+    "changeSet": {
+      "deletedGuardFiles": [],
+      "diffHash": "b6f4f1c58a658fafbd7e5a28a510800ae32bbe8e0220c8bd191a2cbc33461181",
+      "fileCount": 1,
+      "files": [
+        {
+          "added": 0,
+          "deletedFile": false,
+          "path": "scripts/archive/add_hermes_batch.py",
+          "removed": 2
+        }
+      ],
+      "guardSignalAdded": 0,
+      "guardSignalRemoved": 0
+    },
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+    "decidedBy": "pending-independent-judgment",
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "findingConfirmed": true,
+    "globalNewDebt": [],
+    "guardsWeakened": false,
+    "newDebt": [],
+    "proof": {
+      "entries": [
+        {
+          "command": "gaia steward scan --json",
+          "contractIndex": 1,
+          "exitCode": 0
+        },
+        {
+          "command": "git diff --name-only",
+          "contractIndex": 2,
+          "exitCode": 0
+        },
+        {
+          "command": "python -m compileall -q scripts/archive/add_hermes_batch.py",
+          "contractIndex": 3,
+          "exitCode": 0
+        },
+        {
+          "command": "python -m pytest tests/steward/test_sensors_code.py -q",
+          "contractIndex": 3,
+          "exitCode": 0
+        }
+      ],
+      "transcriptHash": "91e42f92a721c72284cb5f7959e834b8350034ea494e766906292699cc18332f"
+    },
+    "proofValid": true,
+    "reasons": [
+      "no disqualifying fact found mechanically; whether the patch resolves the finding and whether the proof is genuine require independent judgment"
+    ],
+    "schemaVersion": "steward-verification-verdict-v1",
+    "scopeValid": true,
+    "unrelatedNewDebt": [],
+    "verdict": "pending"
+  },
+  "models": [],
+  "repairs": [],
+  "result": {
+    "status": "verdict:pending"
+  },
+  "runId": "steward-20261113T065439Z-cae03cf1b818c29d",
+  "scanReceiptId": "steward-20261113T065439Z-0e39942a6707a699",
+  "schemaVersion": "steward-routing-receipt-v1"
+}
