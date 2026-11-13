@@ -88,3 +88,72 @@ def test_cli_exit_codes_and_unreadable_input_is_never_protected(tmp_path: Path, 
     notList.write_text("{}")
     assert checker.main(["--rulesets-file", str(notList)]) == 2
     assert "UNVERIFIED" in capsys.readouterr().err
+
+
+CONCRETE_ONLY = variant(conditions={"ref_name": {"include": list(checker.REQUIRED_REFS), "exclude": []}})
+
+
+def test_a_ruleset_naming_only_todays_concrete_refs_is_not_protection() -> None:
+    """Codex re-review finding 2: it covers every existing branch and none of the future ones."""
+
+    report = checker.evaluate([CONCRETE_ONLY])
+    assert report["protected"] is False
+    for ref in checker.REQUIRED_REFS:
+        assert report["refs"][ref]["covered"] is True, ref
+    for ref in checker.FUTURE_REFS:
+        assert report["refs"][ref]["covered"] is False, ref
+        assert "not included" in " ".join(report["refs"][ref]["problems"])
+
+
+def test_the_default_check_set_includes_refs_that_do_not_exist() -> None:
+    assert not set(checker.FUTURE_REFS) & set(checker.REQUIRED_REFS)
+    assert {"refs/heads/steward/evidence-future-probe"} <= set(checker.evaluate([GOOD])["refs"])
+
+
+def test_a_partial_wildcard_does_not_cover_the_whole_evidence_namespace() -> None:
+    narrow = variant(conditions={"ref_name": {"include": [
+        "refs/heads/steward/evidence", "refs/heads/steward/evidence-rehearsal-*", "refs/heads/steward/ledger"],
+        "exclude": []}})
+    report = checker.evaluate([narrow])
+    assert report["protected"] is False
+    assert report["refs"]["refs/heads/steward/evidence-future-probe"]["covered"] is False
+
+
+@pytest.mark.parametrize("exclude", [
+    ["refs/heads/steward/evidence-probe-*"],
+    ["refs/heads/steward/evidence-rehearsal-*"],
+    ["refs/heads/steward/*"],
+    ["refs/heads/steward/ledger"],
+    ["~ALL"],
+])
+def test_an_exclusion_inside_the_namespace_voids_the_ruleset(exclude) -> None:
+    report = checker.evaluate([variant(conditions={"ref_name": {"include": [
+        "refs/heads/steward/evidence", "refs/heads/steward/evidence-*", "refs/heads/steward/ledger"],
+        "exclude": exclude}})])
+    assert report["protected"] is False
+
+
+def test_an_unrelated_exclusion_does_not_void_it() -> None:
+    assert checker.evaluate([variant(conditions={"ref_name": {"include": [
+        "refs/heads/steward/evidence", "refs/heads/steward/evidence-*", "refs/heads/steward/ledger"],
+        "exclude": ["refs/heads/dev/*"]}})])["protected"] is True
+
+
+@pytest.mark.parametrize("include", [["~ALL"], ["refs/heads/steward/**"]])
+def test_broader_patterns_that_really_cover_the_namespace_pass(include) -> None:
+    assert checker.evaluate([variant(conditions={"ref_name": {"include": include, "exclude": []}})])["protected"] is True
+
+
+def test_single_star_does_not_cross_path_segments() -> None:
+    assert checker.globMatch("refs/heads/steward/evidence-*", "refs/heads/steward/evidence-x")
+    assert not checker.globMatch("refs/heads/steward/evidence-*", "refs/heads/steward/evidence-x/y")
+    assert checker.globMatch("refs/heads/steward/**", "refs/heads/steward/evidence-x/y")
+
+
+def test_cli_rejects_the_concrete_only_ruleset(tmp_path: Path, capsys) -> None:
+    path = tmp_path / "concrete.json"
+    path.write_text(json.dumps([CONCRETE_ONLY]))
+    assert checker.main(["--rulesets-file", str(path)]) == 1
+    out = capsys.readouterr().out
+    assert "UNPROTECTED refs/heads/steward/evidence-future-probe" in out
+    assert "NOT protected" in out

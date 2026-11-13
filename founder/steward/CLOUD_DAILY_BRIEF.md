@@ -31,9 +31,14 @@ before the agent that produced them exits, and read back from the remote.
   `gaia steward evidence --help` works. If the installed gaia lacks it, stop:
   report "BLOCKED: provenance unavailable (gaia lacks evidence custody)". Do not
   continue without custody and do not fall back to local receipts.
-- Full-run mode: `gaia steward full run --trigger scheduled ...` and
-  `gaia steward full record ...` honour GAIA_STEWARD_EVIDENCE=git and publish
-  automatically. Standalone mode: `gaia steward dispatch` / `lane next` publish the
+- Full-run mode: `gaia steward full run --trigger scheduled --ledger git ...` and
+  `gaia steward full record --ledger git ...` honour GAIA_STEWARD_EVIDENCE=git and
+  publish automatically. Always pass `--ledger git`. With custody on the shared
+  steward/ledger ref is enforced in code: `--ledger auto` never falls back to local
+  state and `--ledger local` is refused. If the remote is unreachable the run ends
+  "BLOCKED: provenance unavailable" (exit 4), even on a quiet day: no local ledger
+  is created, and nothing local is reported as a durable run. Do not retry with
+  `--ledger local`, a different checkout or custody off. Standalone mode: `gaia steward dispatch` / `lane next` publish the
   dispatch automatically; the builder runs `gaia steward evidence accept DEBT`
   first and `gaia steward evidence publish-build DEBT --diff ... --proof ...
   --summary ... --model M --effort E` before exiting.

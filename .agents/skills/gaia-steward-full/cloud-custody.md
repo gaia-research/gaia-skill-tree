@@ -11,6 +11,8 @@ they finish; it is not the GitHub Actions Class A pulse (`.github/workflows/stew
 receipts, diffs and proofs die with the container**, so cloud Class B work runs with
 evidence custody on: `--evidence git` (or `GAIA_STEWARD_EVIDENCE=git`) on `gaia steward
 full run|record`, and on standalone `dispatch`, `lane next` and `verify`. Custody
+requires the shared git ledger: `--ledger git`; `auto` never falls back and `local` is
+refused (BLOCKED, exit 4, even on a quiet day). Custody
 stores the original scan and dispatch receipts byte-for-byte (and the exact builder
 prompt), the candidate diff, the validated `steward-proof-transcript-v1` and the
 verification receipt on the append-only `steward/evidence` ref (fast-forward CAS, no

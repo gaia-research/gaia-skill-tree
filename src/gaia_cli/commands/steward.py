@@ -777,17 +777,24 @@ class StewardCommand(Command):
         return 0
 
     @staticmethod
-    def _fullStore(root: Path, choice: str, remote: str):
-        """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers."""
+    def _fullStore(root: Path, choice: str, remote: str, custody: bool = False):
+        """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers.
+
+        With evidence custody on there is no fallback: `auto` and `git` both mean the shared ref.
+        """
 
         import subprocess
 
         from gaia_cli.steward.ledger import FileLedgerStore, GitRefLedgerStore
 
         local = FileLedgerStore(root / ".gaia" / "steward" / "full" / "ledger.json")
+        shared = GitRefLedgerStore(root, remote)
+        if custody:
+            # Evidence custody is for ephemeral cloud checkouts: the ledger must be the shared git ref.
+            # `auto` never probes or falls back, and `local` is refused (see FullRunConfig).
+            return local if choice == "local" else shared
         if choice == "local":
             return local
-        shared = GitRefLedgerStore(root, remote)
         if choice == "git":
             return shared
         try:
@@ -823,7 +830,11 @@ class StewardCommand(Command):
         root = Path(args.registry).resolve()
         remote = "origin"
         try:
-            store = self._fullStore(root, args.ledger, remote)
+            from gaia_cli.steward.custody import requestedMode
+
+            store = self._fullStore(
+                root, args.ledger, remote, custody=requestedMode(getattr(args, "evidence", None)) == "git"
+            )
             config = FullRunConfig(
                 repo_root=root,
                 store=store,
@@ -870,6 +881,16 @@ class StewardCommand(Command):
             print(f"Steward full refused: {exc}", file=sys.stderr)
             return 2
         except (LedgerUnavailable, LedgerConflict, OSError) as exc:
+            from gaia_cli.steward.custody import BLOCKED_PREFIX, CustodyError as _Custody, requestedMode
+
+            try:
+                custodyOn = requestedMode(getattr(args, "evidence", None)) == "git"
+            except _Custody:
+                custodyOn = False
+            if custodyOn and isinstance(exc, LedgerUnavailable):
+                # The shared ledger is the only durable record; there is no local stand-in to continue on.
+                print(f"{BLOCKED_PREFIX}: shared steward ledger unreachable: {exc}", file=sys.stderr)
+                return 4
             print(f"Steward full failed: {exc}", file=sys.stderr)
             return 1
 

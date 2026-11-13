@@ -283,6 +283,15 @@ class FullRunConfig:
         from gaia_cli.steward.custody import requestedMode
 
         self.evidence = requestedMode(self.evidence)
+        if self.evidence == "git" and not getattr(self.store, "shared", False):
+            # A local-only ledger in an ephemeral checkout would record run, lease and quiet-day state that
+            # vanishes with the container and that no other agent can see. Custody never degrades to that.
+            from gaia_cli.steward.custody import CustodyRefused
+
+            raise CustodyRefused(
+                "evidence custody requires the shared git-ref ledger (`--ledger git`); "
+                f"a {getattr(self.store, 'transport', 'local')} ledger is not durable across containers"
+            )
         self.repo_root = Path(self.repo_root).resolve()
         if self.trigger not in {"manual", "scheduled"}:
             raise ValueError("trigger must be manual or scheduled")

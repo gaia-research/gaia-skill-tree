@@ -263,9 +263,9 @@ The pattern `steward/evidence-*` intentionally covers rehearsal refs too, so the
 
 1. `python scripts/check_steward_evidence_protection.py --live` (needs admin read; exits 0 only if an **active** branch
    ruleset with **no bypass actors** blocks `deletion` and `non_fast_forward` for `steward/evidence`, the rehearsal pattern
-   and `steward/ledger`; exits 2 "UNVERIFIED" if rulesets cannot be read; 1 if anything is uncovered). Unit-tested in
-   `tests/steward/test_evidence_protection.py` (13 cases: main-only ruleset, disabled/evaluate mode, missing rule,
-   bypass actor, wrong target, excluded ref, unreadable input).
+   and `steward/ledger`; exits 2 "UNVERIFIED" if rulesets cannot be read; 1 if anything is uncovered). It also requires coverage of refs that
+   do not exist yet (`steward/evidence-future-probe`, `steward/evidence-rehearsal-9999-v9`), so a ruleset naming only
+   today's branches fails; see section 17. Unit-tested in `tests/steward/test_evidence_protection.py` (26 cases).
 2. Empirical negative probe on a **non-production** ref covered by the pattern, from the identity the daily job uses:
    push a commit to `steward/evidence-authz-probe-N`, then `git push --force` an unrelated commit (must be rejected),
    then `git push --delete` (must be rejected). Never probe `steward/evidence` itself.
@@ -361,3 +361,72 @@ delete it failed with `remote end hung up`, so it needs a founder `git push orig
 New files: `scripts/check_steward_evidence_protection.py`, `tests/steward/test_evidence_protection.py`; changed `custody*.py`,
 `fullrun.py`, `commands/steward.py`. Revert the remediation commit to return to the round-1 behavior; custody remains opt-in and
 the round-1 rollback in section 10 still applies. No scheduler, ruleset or production ref was changed by this round.
+
+## 17. Codex re-review of `5e1abbbb`: two remaining findings (round 3)
+
+### 17.1 Finding 1: custody must never run on a local ledger
+
+**Defect.** `--ledger auto` (the default of `gaia steward full run|record`) probed the remote and silently picked the local
+file ledger when it was down, so a cloud run with `GAIA_STEWARD_EVIDENCE=git` could create run, lease and quiet-day state
+that dies with the container and that no other agent sees. The brief did not name `--ledger git`.
+
+**Fix (enforced in code, two layers).**
+* `FullRunConfig.__post_init__` raises `CustodyRefused` when custody resolves to `git` and the store is not `shared`
+  (any local-file ledger). This holds for library callers, the `--evidence git` flag and the environment variable alike.
+* `StewardCommand._fullStore(..., custody=True)` returns the shared git-ref ledger for `auto` and `git` with no
+  reachability probe and no fallback; `local` is refused by the config check. When the shared ledger cannot be read,
+  `LedgerUnavailable` becomes `BLOCKED: provenance unavailable: shared steward ledger unreachable` and exit **4**, quiet or not.
+* Custody off is unchanged: `auto` still falls back to local, `local` still works (negative control in the tests).
+* `founder/steward/CLOUD_DAILY_BRIEF.md` now tells cloud agents to pass `--ledger git` on `full run` and `full record`, states
+  the BLOCKED behaviour and forbids retrying with `--ledger local`, another checkout or custody off. The shared skill note
+  `cloud-custody.md` says the same (mirrored to `.claude/skills/`).
+
+**Tests** (`tests/steward/test_custody_ledger.py`, 13). With the source reverted 11 of the 13 fail; the other 2 are the
+legacy-behaviour controls.
+* unreachable origin + `GAIA_STEWARD_EVIDENCE=git` on a quiet, no-debt scheduled `full run`, with `--ledger` omitted,
+  `auto` and `git`: exit 4, BLOCKED banner, and **no** `.gaia/steward/full/ledger.json` (nor any `.gaia/steward/full`) created;
+* the `--evidence git` flag behaves like the environment variable;
+* `--ledger local` with custody on and a reachable remote is refused, no local ledger created;
+* `full status` and `full record` with the remote down also create nothing;
+* `_fullStore` returns the shared store for `auto`/`git` without probing; a local store cannot back a custody config;
+* negative control: with custody off, `auto` and an unreachable remote does create `ledger.json` and reports `local-file`.
+
+### 17.2 Finding 2: the protection checker certified concrete names only
+
+**Defect.** `REQUIRED_REFS` was three exact branch names, so an active, bypass-free ruleset listing only those names passed
+while `steward/evidence-rehearsal-2448-v2`, `steward/evidence-authz-probe-N` and every future `steward/evidence-*` ref stayed
+unprotected.
+
+**Fix** (`scripts/check_steward_evidence_protection.py`).
+* The checked set now adds the existing v2 and probe refs and two synthetic refs that will never exist
+  (`FUTURE_REFS`). Only a pattern can cover the latter, so a names-only ruleset reports `UNPROTECTED` for them and exits 1.
+* Matching is stricter than `fnmatch`: `*` stays inside one path segment and `**` crosses segments (GitHub semantics);
+  `~ALL` is understood.
+* Any `exclude` whose literal prefix can reach `steward/evidence*` or `steward/ledger` voids the ruleset, so a carve-out
+  such as `steward/evidence-probe-*` cannot hide behind a covering include.
+* Still required: `active`, branch target, no bypass actors, `deletion` and `non_fast_forward`.
+
+**Tests** (`tests/steward/test_evidence_protection.py`, 13 to 26): the three-concrete-refs ruleset is covered for every
+existing ref, **fails** for both future refs and the whole check; a partial wildcard (`evidence-rehearsal-*`) fails;
+exclusions inside the namespace (five variants incl. `~ALL`) fail; an unrelated exclusion passes; `~ALL` and
+`steward/**` pass; single-star segment semantics; CLI exit 1 with `UNPROTECTED refs/heads/steward/evidence-future-probe`.
+The documented ruleset in 11.3 still passes unchanged. The checker was **not** run live here (no admin API access).
+
+### 17.3 Results (round 3)
+
+| Command | Result |
+|---|---|
+| `pytest tests/steward/test_custody.py test_custody_fullrun.py test_custody_cli.py test_custody_ledger.py test_evidence_protection.py test_fullrun_cli.py test_ordinary_shared_ledger.py test_fullrun.py tests/test_cli_reference_steward.py tests/steward/test_steward_skills.py` | **251 passed** |
+| `ruff check` on the changed source, script and tests | clean |
+| `python scripts/sync_agent_skill_mirror.py --check` | in sync |
+| `python scripts/validate_skills.py`, `quick_validate_skill.py .agents/skills/gaia-steward-full` | passed |
+
+The full `tests/steward` directory was not re-run: the change touches only the ledger-selection path and the checker, both
+covered above, and round 2 already recorded the 47 sandbox-only baseline failures. CI on the final HEAD is recorded in the PR comment.
+
+### 17.4 Founder-side gates (unchanged)
+
+Delete `steward/evidence-authz-probe-2448`; create the 11.3 ruleset; run `check_steward_evidence_protection.py --live`
+(it now also proves the wildcard namespace) and the 11.4 negative probe; optional dedicated Steward identity; install the
+brief into `Gaia Steward Daily` only after those and the final review; delete the rehearsal refs when evidence is retired.
+No ruleset, ref deletion, merge, deploy or scheduler change was made in this round.
