@@ -263,9 +263,9 @@ The pattern `steward/evidence-*` intentionally covers rehearsal refs too, so the
 
 1. `python scripts/check_steward_evidence_protection.py --live` (needs admin read; exits 0 only if an **active** branch
    ruleset with **no bypass actors** blocks `deletion` and `non_fast_forward` for `steward/evidence`, the rehearsal pattern
-   and `steward/ledger`; exits 2 "UNVERIFIED" if rulesets cannot be read; 1 if anything is uncovered). It also requires coverage of refs that
-   do not exist yet (`steward/evidence-future-probe`, `steward/evidence-rehearsal-9999-v9`), so a ruleset naming only
-   today's branches fails; see section 17. Unit-tested in `tests/steward/test_evidence_protection.py` (26 cases).
+   and `steward/ledger`; exits 2 "UNVERIFIED" if rulesets cannot be read; 1 if anything is uncovered). It also proves, by pattern-language
+   containment (not by sampling names), that the includes match **every** ref of the form `steward/evidence-*`, so a
+   ruleset made of exact branch names fails; see section 17.5. Unit-tested in `tests/steward/test_evidence_protection.py` (40 cases).
 2. Empirical negative probe on a **non-production** ref covered by the pattern, from the identity the daily job uses:
    push a commit to `steward/evidence-authz-probe-N`, then `git push --force` an unrelated commit (must be rejected),
    then `git push --delete` (must be rejected). Never probe `steward/evidence` itself.
@@ -430,3 +430,37 @@ Delete `steward/evidence-authz-probe-2448`; create the 11.3 ruleset; run `check_
 (it now also proves the wildcard namespace) and the 11.4 negative probe; optional dedicated Steward identity; install the
 brief into `Gaia Steward Daily` only after those and the final review; delete the rehearsal refs when evidence is retired.
 No ruleset, ref deletion, merge, deploy or scheduler change was made in this round.
+
+### 17.5 Codex follow-up on `17e7c4b0`: sampling is not proof (round 4)
+
+**Defect found by Codex.** The round-3 checker tested a finite list (the five existing refs plus two invented future names).
+A ruleset whose `include` is exactly those seven strings (zero wildcards) therefore passed with `protected: true` while
+`steward/evidence-arbitrary-new-branch` stayed unprotected, and the earlier negative test only used the existing refs, so
+the two hard-coded "future" names defeated it. Same root cause as finding 2: names are not a namespace.
+
+**Fix** (`scripts/check_steward_evidence_protection.py`). `FUTURE_REFS` is removed. The namespace
+`refs/heads/steward/evidence-*` is now an explicit checked entry proved by `coversLanguage(includes, namespace)`, an exact decision
+procedure: the include patterns (as a union, GitHub semantics: `*` = non-slash run, `**` = any run, `?` = one non-slash
+character, `~ALL`; `[` stays literal so nothing is over-credited) are run as an automaton over the namespace's literal prefix,
+and every state reachable by any non-slash tail (including the empty tail) must accept. So it passes for
+`steward/evidence-*`, `steward/evidence*`, `steward/*`, `steward/**`, `refs/heads/**` and `~ALL`, and fails for exact names,
+partial wildcards (`evidence-rehearsal-*`, `evidence-a*`, `evidence-*-v2`), `evidence-?*` (misses `evidence-` itself) and an
+empty or unrelated include. The existing concrete refs, no-overlapping-exclusion, `active`, bypass-free,
+`deletion` and `non_fast_forward` requirements are unchanged. Checked set printed by `--live`: the five concrete refs plus the
+`refs/heads/steward/evidence-*` namespace line ("every future ref: needs the pattern, not names").
+
+**Tests** (`tests/steward/test_evidence_protection.py`, 40). The regression Codex asked for: includes =
+`list(REQUIRED_REFS) + the two old sample names` (seven exact refs) **fails** (`protected: false`, namespace `covered: false`,
+CLI exit 1 printing `UNPROTECTED refs/heads/steward/evidence-*`). A previously unseen name
+(`evidence-arbitrary-new-branch`) is protected under the accepted pattern and unprotected under the seven exact names. Seven
+partial/absent patterns fail; six exact-or-broader patterns pass; union semantics; exclusions inside the namespace (five
+variants) still void the ruleset. The documented 11.3 ruleset, which is what the founder installed, still passes.
+
+**Results.** Targeted set (same ten files as 17.3): **265 passed** (251 + 14 new checker cases). `ruff` clean, mirror in sync.
+No source outside the checker and its test changed in this round, so the ledger/custody behaviour reviewed and resolved in
+the previous follow-up is untouched. CI on the final HEAD is recorded in the PR comment.
+
+**Founder-side status (reported by the founder, not verified by me).** The 11.3 ruleset was created, `--live` returned exit 0 with
+the previous checker, and the 11.4 negative probe was rejected for both force-push and delete on
+`steward/evidence-authz-probe-2448`. The documented ruleset contains the exact `refs/heads/steward/evidence-*` pattern, so it
+satisfies the stricter checker; the founder should re-run `--live` once from this branch to confirm.
