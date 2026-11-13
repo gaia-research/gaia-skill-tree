@@ -1,3 +1,34 @@
+## 2026-11-13 — Routine 075
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main`; continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 075)" in 074: ROTATE to `contributing.html`. Checked the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/__init__.py` and `calibrate.py`.
+
+### What I did
+
+- `gaia dev evidence` example: `--type repo-own` is valid (in `registry/schema/meta.json`); `--trust` and `--notes` exist. No change.
+- `gaia dev calibrate` example: the level argument must be a star level from `ALLOWED_LEVELS` (`1★`–`6★`). The page passed a bare `3`, which the command rejects with "must be one of". Changed the example to `3★`. The command's own error message already uses the ★ form.
+
+### Design decisions
+
+- One example line changed. Layout unchanged.
+
+### Issues informed
+
+- None filed. The fix is a docs correction against the live CLI.
+
+### Files
+
+- `docs/en/contributing.html` (calibrate example, one line)
+- `docs/en/DOCS.md` (Page Map row 5 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 076)
+
+- ROTATE to the least-recently-touched page: `named-skills.html` (row 6, last routine 038). Check the claiming walkthrough's `gaia dev add --named` flags against `src/gaia_cli/commands/dev/__init__.py`. Fix one section only.
+
+---
+
 ## 2026-11-12 — Routine 074
 
 **Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main` (no rebase needed); continued on it, no new branch or PR.
