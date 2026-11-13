@@ -746,8 +746,6 @@ class StewardCommand(Command):
             print(exc.blocked(), file=sys.stderr)
             return 4
         except (OSError, ValueError, RuntimeError) as exc:
-            from gaia_cli.steward.policy import PolicyError  # noqa: F401  (policy errors are RuntimeErrors)
-
             print(f"{ops.BLOCKED_PREFIX}: {exc}", file=sys.stderr)
             return 4
 
