@@ -1,0 +1,31 @@
+{
+  "bundleId": "fc09a9b1fe7d9700853d1deb7855ab06609927bae51760c1e5b3490add562a7a",
+  "identity": {
+    "artifacts": {
+      "dispatch-receipt": {
+        "name": "steward-20261113T064623Z-9b229a3774fcf358.json",
+        "sha256": "2c7d9be44059dd0ab228392758e993e3a393fedf7d8857ce42099b972b496d0b",
+        "size": 4365
+      },
+      "scan-receipt": {
+        "name": "steward-20261113T064623Z-0b9b79836316094e.json",
+        "sha256": "3f778a8968ba7d9c2bc7e29128b7713837626ef68983349e02bcfabbf191fa20",
+        "size": 44862
+      }
+    },
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "dispatchReceiptId": "steward-20261113T064623Z-9b229a3774fcf358",
+    "kind": "dispatch",
+    "parent": null,
+    "scanReceiptId": "steward-20261113T064623Z-0b9b79836316094e",
+    "sourceCommit": "0af8850d988e32f0cd184ce643f5da298cec158f"
+  },
+  "meta": {
+    "createdAt": "2026-11-13T06:48:41Z",
+    "writer": {
+      "role": "lead"
+    }
+  },
+  "schemaVersion": "steward-evidence-bundle-v1"
+}

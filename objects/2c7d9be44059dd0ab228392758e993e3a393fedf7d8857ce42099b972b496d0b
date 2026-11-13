@@ -1,0 +1,139 @@
+{
+  "action": "dispatch",
+  "artifact": {
+    "allowedCommands": [
+      "python -m pytest",
+      "python -m compileall",
+      "gaia steward scan"
+    ],
+    "allowedPaths": [
+      "src/gaia_cli/**",
+      "scripts/**",
+      "tests/**"
+    ],
+    "authority": "B",
+    "budget": {
+      "maxMinutes": 0,
+      "maxTokens": 0,
+      "modelCalls": 0
+    },
+    "capability": "Remove module-level imports that the dead-code detector proved have no in-module read, keeping side-effect imports, re-exports and guarded imports, and prove the package still imports and its tests pass.",
+    "debt": {
+      "authority": {
+        "class": "B"
+      },
+      "confidence": 0.8,
+      "currentState": {
+        "unusedImports": 0
+      },
+      "firstObservedAt": "2026-11-13T06:43:21Z",
+      "id": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+      "kind": "unused_import",
+      "lastObservedAt": "2026-11-13T06:46:23Z",
+      "observationCount": 2,
+      "observedState": {
+        "findingCount": 2,
+        "findings": [
+          {
+            "line": 2,
+            "name": "os",
+            "sideEffectPossible": false,
+            "statement": "import os"
+          },
+          {
+            "line": 3,
+            "name": "datetime",
+            "sideEffectPossible": false,
+            "statement": "from datetime import datetime"
+          }
+        ],
+        "findingsCapped": false,
+        "path": "scripts/archive/add_hermes_batch.py"
+      },
+      "priority": {
+        "decisionImpact": 0.3,
+        "expectedCost": 0.1,
+        "exposure": 0.3,
+        "freshnessNeed": 0.4,
+        "importance": 0.3,
+        "score": 0.0864
+      },
+      "schemaVersion": "steward-debt-v1",
+      "source": "dead-code",
+      "status": "open",
+      "subject": {
+        "id": "scripts/archive/add_hermes_batch.py",
+        "type": "source-file"
+      }
+    },
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "evidence": {
+      "confidence": 0.8,
+      "currentState": {
+        "unusedImports": 0
+      },
+      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+      "lastObservedAt": "2026-11-13T06:46:23Z",
+      "observedState": {
+        "findingCount": 2,
+        "findings": [
+          {
+            "line": 2,
+            "name": "os",
+            "sideEffectPossible": false,
+            "statement": "import os"
+          },
+          {
+            "line": 3,
+            "name": "datetime",
+            "sideEffectPossible": false,
+            "statement": "from datetime import datetime"
+          }
+        ],
+        "findingsCapped": false,
+        "path": "scripts/archive/add_hermes_batch.py"
+      },
+      "source": "dead-code",
+      "subject": {
+        "id": "scripts/archive/add_hermes_batch.py",
+        "type": "source-file"
+      }
+    },
+    "forbiddenPaths": [
+      ".agents/skills/**",
+      ".claude/skills/**",
+      ".gaia/steward/**",
+      ".github/**",
+      "docs/**",
+      "founder/**",
+      "registry/**",
+      "skill-trees/**"
+    ],
+    "headCommit": "0af8850d988e32f0cd184ce643f5da298cec158f",
+    "objective": "Reproduce the unused-import finding for the one subject file, remove only the imports the packet names, and return the smallest diff with focused proof. Touch no other file.",
+    "proof": [
+      "reproduce the finding for the subject file",
+      "show a diff confined to the subject file",
+      "run python -m pytest on the importing package and python -m compileall on the file",
+      "obtain independent review before integration"
+    ],
+    "routine": "dead-code-gardener",
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-dispatch-packet-v1",
+    "stopConditions": [
+      "the diff touches any file other than the debt's subject file",
+      "a flagged import is marked sideEffectPossible and its side effect is not proven absent",
+      "the file is an __init__.py re-export surface, a star import or a guarded import",
+      "tests or compileall of the file fail after the change",
+      "the finding does not reproduce on the current head"
+    ]
+  },
+  "models": [],
+  "repairs": [],
+  "result": {
+    "status": "reported"
+  },
+  "runId": "steward-20261113T064623Z-9b229a3774fcf358",
+  "scanReceiptId": "steward-20261113T064623Z-0b9b79836316094e",
+  "schemaVersion": "steward-routing-receipt-v1"
+}
