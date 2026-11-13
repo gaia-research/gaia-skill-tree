@@ -92,6 +92,9 @@ second concurrent invocation loses the lease and refuses cleanly. Only the Lead
 writes the shared ledger; `--ledger git` is unchanged and is never replaced by local
 state to get a green run.
 
+Cloud agents are ephemeral and `steward/ledger` does not keep their receipts or proof: run Class B with `--evidence git`
+and follow [cloud-custody.md](cloud-custody.md). Persistence fails closed (`BLOCKED: provenance unavailable`); never re-dispatch.
+
 Only Routine 19 critical operation identity, immutable proof, global slot/accounting
 and outcomes use its separately provisioned canonical coordination ref; ordinary run
 state never moves there. Local run

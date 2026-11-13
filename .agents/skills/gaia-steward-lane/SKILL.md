@@ -49,6 +49,16 @@ If you want to see the state before asking for work:
 gaia steward lane status
 ```
 
+### On an ephemeral cloud agent
+
+Your container is destroyed when you finish, taking `.gaia/steward/` with it. If the
+job runs with custody on (`GAIA_STEWARD_EVIDENCE=git`), start with
+`gaia steward evidence accept DEBT`; if it refuses, stop and report
+`BLOCKED: provenance unavailable`. When the patch and proof are done, make them durable
+before you exit: `gaia steward evidence publish-build DEBT --diff ... --proof ... --summary
+... --model M --effort E`. Exit only after it prints a read-back. Never re-run `dispatch`
+to replace a lost receipt.
+
 ### Issue suite review (routine 18)
 
 A `issue-suite-review` dispatch asks for one written disposition proposal for one
