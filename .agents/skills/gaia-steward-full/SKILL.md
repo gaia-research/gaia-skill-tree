@@ -92,47 +92,8 @@ second concurrent invocation loses the lease and refuses cleanly. Only the Lead
 writes the shared ledger; `--ledger git` is unchanged and is never replaced by local
 state to get a green run.
 
-## Ephemeral cloud-subagent evidence (daily runs)
-
-Scheduled cloud subagents may be destroyed immediately after a task. **Shared
-`steward/ledger` full-run state does not by itself make checkout-local
-`.gaia/steward/` standalone scan/dispatch receipts or proof files durable.**
-Before routing Class B work, the Lead must identify whether the job is using
-`gaia steward full` or standalone `scan` / `dispatch` / `lane next`; do not
-mistake a GitHub Actions Class A pulse for the cloud subagent's run.
-
-1. **Before dispatch or handoff**, establish a sanctioned, shared evidence path
-   that the independent verifier can actually read from a new checkout. Preserve
-   the *original* scan and content-addressed dispatch receipt, its authenticated
-   baseline, the debt/dispatch/run IDs and exact hash bindings. Do not assume a
-   local receipt was pushed with the Git ledger or a PR branch. Only the Lead
-   may write shared coordination state; no force-push or silent local fallback.
-2. **Before any builder environment exits**, retain the genuine candidate diff
-   and complete `steward-proof-transcript-v1` from that run, including the
-   proof commands and outcomes, with a checksum and source/head SHAs. An empty
-   file, `/dev/null`, narrative substitute or backdated receipt is **not** proof.
-   Do not publish sensitive data in public PRs or commit raw `.gaia/` state to
-   the canonical registry branch.
-3. **Before claiming verification or opening a ready-for-review PR**, prove that
-   a separate checkout can retrieve and authenticate the same scan, dispatch
-   and proof, and that the canonical mechanical verifier can evaluate the
-   candidate against its original authorized baseline. A successful mechanical
-   check remains *pending*, not accepted: obtain the required independent
-   verifier verdict through the existing authorized action. Preserve model and
-   effort preflight rules; GitHub PR review is distinct from Steward's internal
-   verifier record.
-4. **Fail closed if persistence is missing or cannot be read back**: stop at
-   `BLOCKED: cloud provenance unavailable`, identify the exact missing record
-   and host boundary, and request repair. Never silently re-dispatch an already
-   produced patch to fabricate its historical authority or broaden its envelope.
-   A specific founder-governed disposition may address a specific candidate,
-   but does not make a failed `gaia steward verify` pass or authorize future
-   bypasses.
-
-This is an **interim safety gate, not a durable store implementation**. Track
-cross-host receipt persistence, actual cloud scheduler wiring and recovery
-verification in [issue #2448](https://github.com/gaia-research/gaia-skill-tree/issues/2448).
-
+Cloud agents are ephemeral and `steward/ledger` does not keep their receipts or proof: run Class B with `--evidence git`
+and follow [cloud-custody.md](cloud-custody.md). Persistence fails closed (`BLOCKED: provenance unavailable`); never re-dispatch.
 
 Only Routine 19 critical operation identity, immutable proof, global slot/accounting
 and outcomes use its separately provisioned canonical coordination ref; ordinary run

@@ -272,8 +272,16 @@ class FullRunConfig:
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
     prCoordinatorFactory: Callable[[], Any] | None = None
+    # Durable cross-host evidence custody (issue #2448). "git" makes every Class B boundary fail closed
+    # with `BLOCKED: provenance unavailable` unless the original receipts, diff, proof and verdict are
+    # durable on the shared steward/evidence ref and read back. None resolves GAIA_STEWARD_EVIDENCE.
+    evidence: str | None = None
+    evidence_remote: str = "origin"
 
     def __post_init__(self) -> None:
+        from gaia_cli.steward.custody import requestedMode
+
+        self.evidence = requestedMode(self.evidence)
         self.repo_root = Path(self.repo_root).resolve()
         if self.trigger not in {"manual", "scheduled"}:
             raise ValueError("trigger must be manual or scheduled")
@@ -435,6 +443,15 @@ class FullRunner:
 
     def _now(self) -> str:
         return formatTime(self.config.clock())
+
+    def _custody(self) -> Any:
+        """The evidence custody for this run, or None when it was not requested. Never a silent downgrade."""
+
+        if self.config.evidence != "git":
+            return None
+        from gaia_cli.steward.custody import Custody
+
+        return Custody.open(self.root, self.config.evidence_remote)
 
     def _policyLoaded(self) -> StewardPolicy:
         if self._policy is None:
@@ -1448,11 +1465,42 @@ class FullRunner:
                 raise RecordRefused("diffPath is empty; a build that changed nothing must set noChange true")
         debtId = action["debtId"]
         params = action["params"]
+        buildEvidence: dict[str, Any] | None = None
+        if self.config.evidence == "git":
+            # Boundaries 2-3. A build is not accepted until its patch and a valid proof transcript are
+            # durable on the shared ref and read back. This runs OUTSIDE the ledger CAS closure (which may be
+            # retried), and refusing here leaves the build step pending, so the outcome can simply be recorded
+            # again once the transport is repaired.
+            from gaia_cli.steward.custody import CustodyError
+            from gaia_cli.steward.custody_ops import publishBuild, writerRecord
+
+            pointer = (self._load()["work"].get(debtId) or {}).get("evidence") or {}
+            if not pointer.get("dispatchBundle"):
+                raise RecordRefused(
+                    f"BLOCKED: provenance unavailable: work for {debtId} has no durable dispatch bundle; "
+                    "its original authority was never preserved"
+                )
+            try:
+                published = publishBuild(
+                    self.root, self._custody(), debtId,
+                    writer=writerRecord(role="builder", agentId=outcome.get("agentId"), model=outcome.get("model"),
+                                        effort=outcome.get("effort"), runId=runId),
+                    summary=summary, noChange=noChange,
+                    diffPath=None if noChange else self._resolvePath(outcome["diffPath"]),
+                    proofPath=None if noChange else self._resolvePath(outcome["proofPath"]),
+                    dispatchBundleId=pointer["dispatchBundle"],
+                )
+            except CustodyError as exc:
+                raise RecordRefused(exc.blocked()) from exc
+            buildEvidence = {"dispatchBundle": pointer["dispatchBundle"], "buildBundle": published.bundleId,
+                             "evidenceCommit": published.commit}
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
             item = doc["work"].get(debtId)
             if item is None or item["state"] != "building":
                 raise RecordRefused(f"work for {debtId} is not building; refusing the build outcome")
+            if buildEvidence is not None:
+                item["evidence"] = dict(buildEvidence)
             if item.get("dispatchId") != params["dispatchId"]:
                 raise RecordRefused("build outcome belongs to a different dispatch than the work item holds")
             if item.get("attempt") != params.get("attempt"):
@@ -2773,6 +2821,12 @@ class FullRunner:
             if outcome.get("dispatched") is None:
                 break
             handed.append(outcome)
+        if not handed and stop.startswith("BLOCKED: provenance unavailable"):
+            def provenanceBlocked(_doc: dict[str, Any], record: dict[str, Any]) -> None:
+                record["provenanceBlocked"] = stop
+
+            return self._finish(runId, "class_b", {"status": "blocked", "reason": stop, "dispatched": None},
+                                provenanceBlocked)
         if not handed:
             return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": stop})
 
@@ -2815,6 +2869,23 @@ class FullRunner:
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
         _checkpoint("class_b.rendered")
+        evidencePointer: dict[str, Any] | None = None
+        if self.config.evidence == "git":
+            # Boundary 1. The original scan and dispatch receipts must be durable and read back BEFORE
+            # a builder can be told about this work or the lane moves; otherwise the authority that
+            # commissioned it dies with this container.
+            from gaia_cli.steward.custody import CustodyError
+            from gaia_cli.steward.custody_ops import publishDispatch, writerRecord
+
+            try:
+                published = publishDispatch(
+                    self.root, self._custody(), debt.id,
+                    writer=writerRecord(role="lead", agentId=self.config.holder, model=None, effort=None, runId=runId),
+                    scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(),
+                )
+            except CustodyError as exc:
+                return {"dispatched": None, "blocked": True}, exc.blocked(), result.scan
+            evidencePointer = {"dispatchBundle": published.bundleId, "evidenceCommit": published.commit}
         slug = _hash12(debt.id)
         promptPath = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         branchName = f"steward/b/{debt.kind.replace('_', '-')}-{slug}"
@@ -2849,6 +2920,10 @@ class FullRunner:
                              baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
             d["work"][debt.id]["build"] = None
             d["work"][debt.id]["verification"] = None
+            if evidencePointer is not None:
+                d["work"][debt.id]["evidence"] = dict(evidencePointer)
+            else:
+                d["work"][debt.id].pop("evidence", None)
             self._setState(d, debt.id, "building", now, f"dispatched as {packet.dispatch_id} (attempt {attempt})")
             stepId = f"build:{slug}:{attempt}"
             self._addAction(record, stepId, "agent.build", debt.id, f"{packet.dispatch_id}:{attempt}", {
@@ -3005,7 +3080,7 @@ class FullRunner:
         return self._finish(runId, "verify", dict(summary, status="deferred" if deferred else "ok"), store)
 
     def _verifyOne(self, runId: str, item: dict[str, Any], deferred: list[dict[str, Any]], policy: StewardPolicy) -> dict[str, Any]:
-        from gaia_cli.steward.routing import RoutingError, _latest_dispatch_receipt, render_dispatch, render_verification
+        from gaia_cli.steward.routing import RoutingError, _dispatch_receipt_for, _latest_dispatch_receipt, render_verification
         from gaia_cli.steward.models import DispatchPacket
         from gaia_cli.steward.prompt import render_verifier_prompt
 
@@ -3022,23 +3097,29 @@ class FullRunner:
                 pass  # the prompt still names the debt id and kind
             prompt = self._verifierPromptNoChange(item, evidence)
             return self._emitVerify(runId, item, prompt, slug, {"verdict": "pending", "mode": "no-change"})
+        custody = self._custody() if self.config.evidence == "git" else None
+        if custody is not None:
+            return self._verifyFromCustody(runId, item, deferred, policy, custody, slug)
         diff, proof = Path(build["diffPath"]), Path(build["proofPath"])
         if not diff.is_file() or not proof.is_file():
             deferred.append({"debtId": debtId, "reason": "diff or proof file is not present on this machine"})
             return {"debtId": debtId, "result": "deferred"}
         controller = self._controllerInstance()
         try:
-            try:
-                result, diffText, outputs = render_verification(
-                    self.root, debtId, diff_path=diff, proof_path=proof, controller=controller)
-            except RoutingError as exc:
-                if "no dispatch receipt" not in str(exc):
-                    raise
-                render_dispatch(self.root, debtId, controller=controller)
-                result, diffText, outputs = render_verification(
-                    self.root, debtId, diff_path=diff, proof_path=proof, controller=controller)
+            # Verify against the dispatch that commissioned THIS work item. If that receipt is not on this
+            # machine, the authority is lost: refuse. Re-dispatching here would mint a new envelope under
+            # today's policy and judge an old patch against it, which is exactly the fabrication custody exists
+            # to prevent (issue #2448).
+            result, diffText, outputs = render_verification(
+                self.root, debtId, diff_path=diff, proof_path=proof, controller=controller,
+                dispatch_id=item.get("dispatchId"))
         except RoutingError as exc:
-            deferred.append({"debtId": debtId, "reason": str(exc)})
+            reason = str(exc)
+            if "no dispatch receipt" in reason:
+                reason = ("BLOCKED: provenance unavailable: the original dispatch receipt for this work is not on "
+                          "this machine and was never made durable; run with --evidence git, or restore the "
+                          f"original receipts. A new dispatch will not be issued to legitimize the patch ({reason})")
+            deferred.append({"debtId": debtId, "reason": reason})
             return {"debtId": debtId, "result": "deferred"}
         except Exception as exc:  # VerificationError and friends: the evidence itself is bad
             if type(exc).__name__ != "VerificationError":
@@ -3048,10 +3129,55 @@ class FullRunner:
         if verdict.verdict in {"reject", "escalate"}:
             return self._applyMechanical(runId, item, verdict.verdict, list(verdict.reasons), result.receipt.run_id)
         receipts = self.root / policy.state_directory / policy.receipts_directory
-        packet = DispatchPacket.from_dict(_latest_dispatch_receipt(receipts, debtId)["artifact"])
+        packet = DispatchPacket.from_dict(
+            _dispatch_receipt_for(receipts, debtId, item.get("dispatchId"))["artifact"])
         rule = policy.dispatch_rules[packet.rule]
         prompt = render_verifier_prompt(packet, verdict, prompt_guide=rule.prompt_guide, diff_text=diffText,
                                         proof_outputs=outputs, receipt=result.receipt.to_dict())
+        return self._emitVerify(runId, item, prompt, slug, {"verdict": "pending", "receipt": result.receipt.run_id})
+
+    def _verifyFromCustody(self, runId: str, item: dict[str, Any], deferred: list[dict[str, Any]],
+                           policy: StewardPolicy, custody: Any, slug: str) -> dict[str, Any]:
+        """Boundaries 4-5 on a possibly different host: retrieve the original evidence, verify, make the verdict durable."""
+
+        import json as _json
+
+        from gaia_cli.steward.custody import CustodyError
+        from gaia_cli.steward.custody_ops import publishVerdict, verifyFromCustody, writerRecord
+        from gaia_cli.steward.models import DispatchPacket
+        from gaia_cli.steward.prompt import render_verifier_prompt
+
+        debtId = item["debtId"]
+        pointer = (self._load()["work"].get(debtId) or {}).get("evidence") or {}
+        if not pointer.get("buildBundle"):
+            deferred.append({"debtId": debtId, "reason": "BLOCKED: provenance unavailable: no durable build bundle is "
+                             "recorded for this work item"})
+            return {"debtId": debtId, "result": "deferred"}
+        try:
+            verified = verifyFromCustody(self.root, custody, debtId, bundleId=pointer["buildBundle"],
+                                         controller=self._controllerInstance())
+            result = verified.result
+            publishVerdict(
+                self.root, custody, debtId, receiptPath=result.receipt_path,
+                buildBundleId=pointer["buildBundle"],
+                writer=writerRecord(role="mechanical", agentId=self.config.holder, model=None, effort=None, runId=runId),
+            )
+        except CustodyError as exc:
+            deferred.append({"debtId": debtId, "reason": exc.blocked()})
+            return {"debtId": debtId, "result": "deferred"}
+        except Exception as exc:
+            if type(exc).__name__ != "VerificationError":
+                raise
+            return self._applyMechanical(runId, item, "reject", [f"verification input refused: {exc}"], None)
+        verdict = result.artifact
+        if verdict.verdict in {"reject", "escalate"}:
+            return self._applyMechanical(runId, item, verdict.verdict, list(verdict.reasons), result.receipt.run_id)
+        # The packet is the ORIGINAL one, restored byte-exact from custody.
+        packet = DispatchPacket.from_dict(
+            _json.loads(verified.restored.dispatch.files["dispatch-receipt"])["artifact"])
+        rule = policy.dispatch_rules[packet.rule]
+        prompt = render_verifier_prompt(packet, verdict, prompt_guide=rule.prompt_guide, diff_text=verified.diffText,
+                                        proof_outputs=verified.outputs, receipt=result.receipt.to_dict())
         return self._emitVerify(runId, item, prompt, slug, {"verdict": "pending", "receipt": result.receipt.run_id})
 
     def _applyMechanical(self, runId: str, item: dict[str, Any], verdict: str, reasons: list[str], receipt: str | None) -> dict[str, Any]:
@@ -3292,6 +3418,11 @@ class FullRunner:
                 action = ("sensor coverage is unknown"
                           + (f" ({', '.join(unknown)})" if unknown else "")
                           + "; fix the failing sensor(s) and start a new run")
+            elif record.get("provenanceBlocked"):
+                status = "blocked"
+                action = (f"{record['provenanceBlocked']}. Nothing was dispatched, so nothing is lost; repair the "
+                          "shared steward/evidence transport (remote reachable, push allowed) and start a new run. "
+                          "Never re-dispatch an old patch to recreate its authority.")
             elif pending:
                 status = "awaiting-action"
                 action = (f"perform {len(pending)} pending action(s) "

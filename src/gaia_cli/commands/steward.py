@@ -17,7 +17,7 @@ class StewardCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         subparsers = parser.add_subparsers(
-            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder,full,reverify}"
+            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder,full,reverify,evidence}"
         )
         scan = subparsers.add_parser(
             "scan",
@@ -34,6 +34,17 @@ class StewardCommand(Command):
             description="Run local sensors then the one policy-authorized Class A repair, if eligible.",
         )
         run.add_argument("--json", action="store_true", help="Output the full run result as JSON")
+        def evidenceOption(target: argparse.ArgumentParser) -> None:
+            target.add_argument(
+                "--evidence", choices=("git", "off"), default=None,
+                help=(
+                    "Durable evidence custody on the shared steward/evidence ref (default: "
+                    "GAIA_STEWARD_EVIDENCE, else off). With 'git' a failure to persist or read "
+                    "back is BLOCKED: provenance unavailable (exit 4); there is no local fallback."
+                ),
+            )
+            target.add_argument("--evidence-remote", default="origin", help="Git remote that holds steward/evidence")
+
         dispatch = subparsers.add_parser(
             "dispatch",
             help="Render one report-only, bounded Class B packet",
@@ -44,6 +55,7 @@ class StewardCommand(Command):
         )
         dispatch.add_argument("debt_id", help="Open Class B debt id to render")
         dispatch.add_argument("--json", action="store_true", help="Output the packet and receipt as JSON")
+        evidenceOption(dispatch)
         dispatch.add_argument(
             "--prompt",
             action="store_true",
@@ -75,6 +87,7 @@ class StewardCommand(Command):
             "next", help="Hand out the next bounded dispatch the lane permits"
         )
         lane_next.add_argument("--json", action="store_true", help="Output the packet as JSON")
+        evidenceOption(lane_next)
         lane_next.add_argument(
             "--prompt",
             action="store_true",
@@ -113,13 +126,18 @@ class StewardCommand(Command):
         )
         verify.add_argument("debt_id", help="Dispatched Class B debt id under verification")
         verify.add_argument(
-            "--diff", required=True, help="Path to the candidate unified diff"
+            "--diff", default=None, help="Path to the candidate unified diff (required unless --evidence git)"
         )
         verify.add_argument(
             "--proof",
-            required=True,
-            help="Path to a steward-proof-transcript-v1 JSON document",
+            default=None,
+            help="Path to a steward-proof-transcript-v1 JSON document (required unless --evidence git)",
         )
+        verify.add_argument(
+            "--bundle", default=None,
+            help="With --evidence git: the build bundle id to verify (required when several builds exist)",
+        )
+        evidenceOption(verify)
         verify.add_argument("--json", action="store_true", help="Output the verdict and receipt as JSON")
         verify.add_argument(
             "--prompt",
@@ -160,6 +178,16 @@ class StewardCommand(Command):
             ),
         )
         actions = full.add_subparsers(dest="fullAction", metavar="{run,record,abandon,status,reverify}")
+
+        def evidenceFlags(target: argparse.ArgumentParser) -> None:
+            target.add_argument(
+                "--evidence", choices=("git", "off"), default=None,
+                help=(
+                    "Durable evidence custody on the shared steward/evidence ref (default: GAIA_STEWARD_EVIDENCE, "
+                    "else off). With 'git' every Class B boundary fails closed: BLOCKED: provenance unavailable."
+                ),
+            )
+            target.add_argument("--evidence-remote", default="origin", help="Git remote that holds steward/evidence")
 
         def ledgerOptions(target: argparse.ArgumentParser) -> None:
             target.add_argument(
@@ -205,12 +233,14 @@ class StewardCommand(Command):
         )
         run.add_argument("--push", action="store_true", help="Push Class A landing branches to the remote")
         ledgerOptions(run)
+        evidenceFlags(run)
 
         record = actions.add_parser("record", help="Record a driver's outcome for an emitted action")
         record.add_argument("runId", metavar="RUN_ID", help="Run that emitted the action")
         record.add_argument("stepId", metavar="STEP_ID", help="Step id of the action")
         record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
         ledgerOptions(record)
+        evidenceFlags(record)
 
         abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work stays adoptable")
         abandon.add_argument("runId", metavar="RUN_ID", help="Open run to abandon")
@@ -248,10 +278,72 @@ class StewardCommand(Command):
         )
         reverify_direct.add_argument("--json", action="store_true", help="Output the result as JSON")
 
+        evidence = subparsers.add_parser(
+            "evidence",
+            help="Durable cross-host custody of dispatch, proof and verdict evidence",
+            description=(
+                "Daily Steward runs execute on ephemeral cloud agents whose .gaia/steward/ "
+                "disappears with the container. These verbs persist the ORIGINAL scan and "
+                "dispatch receipts, the candidate diff, the proof transcript and the "
+                "verification receipt on the shared steward/evidence git ref, read every write "
+                "back from the remote, and let a different clean checkout retrieve and "
+                "authenticate them. Every failure is 'BLOCKED: provenance unavailable' (exit 4). "
+                "Nothing is re-dispatched, re-rendered or fabricated."
+            ),
+        )
+        actions = evidence.add_subparsers(
+            dest="evidenceAction", metavar="{publish-dispatch,accept,publish-build,restore,verify,publish-verdict,ready,status}"
+        )
+
+        def evidenceCommon(target: argparse.ArgumentParser, *, debt: bool = True) -> None:
+            if debt:
+                target.add_argument("debt_id", help="Class B debt id")
+            target.add_argument("--evidence-remote", default="origin", help="Git remote that holds steward/evidence")
+            target.add_argument("--json", action="store_true", help="Output the result as JSON")
+
+        def evidenceWriter(target: argparse.ArgumentParser) -> None:
+            target.add_argument("--agent-id", default=None, help="Identity of the agent writing this bundle")
+            target.add_argument("--model", default=None, help="Model that did the work (required for builder/verifier bundles)")
+            target.add_argument("--effort", default=None, help="Explicit thinking effort; default/inherit are refused")
+            target.add_argument("--run-id", default=None, help="Steward run id this belongs to")
+
+        pubDispatch = actions.add_parser("publish-dispatch", help="Make the original scan + dispatch receipts durable")
+        pubDispatch.add_argument("--dispatch-id", default=None, help="Dispatch id when several receipts exist for the debt")
+        evidenceCommon(pubDispatch)
+        evidenceWriter(pubDispatch)
+        accept = actions.add_parser("accept", help="Builder preflight: the dispatch must already be durable and intact")
+        accept.add_argument("--bundle", default=None, help="Dispatch bundle id")
+        evidenceCommon(accept)
+        pubBuild = actions.add_parser("publish-build", help="Make the candidate diff + proof transcript durable")
+        pubBuild.add_argument("--diff", default=None, help="Candidate unified diff")
+        pubBuild.add_argument("--proof", default=None, help="steward-proof-transcript-v1 JSON")
+        pubBuild.add_argument("--no-change", action="store_true", help="The builder genuinely changed nothing")
+        pubBuild.add_argument("--summary", required=True, help="One-line builder summary")
+        pubBuild.add_argument("--dispatch-bundle", default=None, help="Dispatch bundle id this build answers")
+        evidenceCommon(pubBuild)
+        evidenceWriter(pubBuild)
+        restore = actions.add_parser("restore", help="Retrieve + authenticate a chain into this checkout (no verification)")
+        restore.add_argument("--bundle", default=None, help="Build/verdict bundle id when several chains exist")
+        evidenceCommon(restore)
+        evVerify = actions.add_parser("verify", help="Restore from custody, run the canonical mechanical verifier, record the verdict")
+        evVerify.add_argument("--bundle", default=None, help="Build bundle id when several builds exist")
+        evidenceCommon(evVerify)
+        evidenceWriter(evVerify)
+        pubVerdict = actions.add_parser("publish-verdict", help="Make an existing verification receipt durable")
+        pubVerdict.add_argument("--receipt", required=True, help="Path to the local verification receipt")
+        pubVerdict.add_argument("--build-bundle", required=True, help="Build bundle id the receipt judged")
+        evidenceCommon(pubVerdict)
+        evidenceWriter(pubVerdict)
+        ready = actions.add_parser("ready", help="Gate: re-read the whole chain from the remote before READY/PR handoff")
+        ready.add_argument("--bundle", default=None, help="Verdict bundle id when several chains exist")
+        evidenceCommon(ready)
+        status = actions.add_parser("status", help="List what custody holds for a debt (quiet when nothing was dispatched)")
+        evidenceCommon(status)
+
     def execute(self, args: argparse.Namespace) -> int | None:
-        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full", "reverify"}:
+        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full", "reverify", "evidence"}:
             print(
-                "usage: gaia steward {scan,run,dispatch,lane,verify,founder,full,reverify} [--json]",
+                "usage: gaia steward {scan,run,dispatch,lane,verify,founder,full,reverify,evidence} [--json]",
                 file=sys.stderr,
             )
             return 2
@@ -260,6 +352,8 @@ class StewardCommand(Command):
         if args.steward_command == "reverify":
             args.fullAction = "reverify"
             return self._executeFull(args)
+        if args.steward_command == "evidence":
+            return self._executeEvidence(args)
         if args.steward_command == "lane" and getattr(args, "lane_action", None) not in {
             "status",
             "next",
@@ -269,6 +363,7 @@ class StewardCommand(Command):
             return 2
 
         from gaia_cli.steward.controller import StewardController
+        from gaia_cli.steward.custody import CustodyError
         from gaia_cli.steward.policy import PolicyError
         from gaia_cli.steward.receipts import StateError
         from gaia_cli.steward.lane import LaneError
@@ -287,8 +382,14 @@ class StewardCommand(Command):
         )
 
         prompt: str | None = None
+        custodyLine: dict | None = None
         try:
             root = Path(args.registry)
+            if args.steward_command in {"dispatch", "verify"} or (
+                args.steward_command == "lane" and getattr(args, "lane_action", None) == "next"
+            ):
+                # Resolve (and validate) the custody mode BEFORE any work: a typo must not dispatch and then fail.
+                self._custodyOn(args)
             if args.steward_command == "scan":
                 result = StewardController().scan(root)
             elif args.steward_command == "run":
@@ -298,30 +399,38 @@ class StewardCommand(Command):
                     result, prompt = render_dispatch_prompt(root, args.debt_id)
                 else:
                     result = render_dispatch(root, args.debt_id)
+                custodyLine = self._custodyDispatch(root, args, result)
             elif args.steward_command == "lane":
                 if args.lane_action == "status":
                     result = render_lane(root)
                 elif args.lane_action == "next":
                     result, prompt = render_lane_next(root, prompt=args.prompt)
+                    custodyLine = self._custodyDispatch(root, args, result)
                 else:
                     result = record_lane_verdict(
                         root, args.debt_id, args.verdict, note=args.note
                     )
             elif args.steward_command == "verify":
-                if args.prompt:
-                    result, prompt = render_verifier_prompt_for(
-                        root,
-                        args.debt_id,
-                        diff_path=Path(args.diff),
-                        proof_path=Path(args.proof),
-                    )
+                if self._custodyOn(args):
+                    result, prompt, custodyLine = self._custodyVerify(root, args)
                 else:
-                    result, _diff, _outputs = render_verification(
-                        root,
-                        args.debt_id,
-                        diff_path=Path(args.diff),
-                        proof_path=Path(args.proof),
-                    )
+                    if not args.diff or not args.proof:
+                        print("Steward verify failed: --diff and --proof are required unless --evidence git", file=sys.stderr)
+                        return 2
+                    if args.prompt:
+                        result, prompt = render_verifier_prompt_for(
+                            root,
+                            args.debt_id,
+                            diff_path=Path(args.diff),
+                            proof_path=Path(args.proof),
+                        )
+                    else:
+                        result, _diff, _outputs = render_verification(
+                            root,
+                            args.debt_id,
+                            diff_path=Path(args.diff),
+                            proof_path=Path(args.proof),
+                        )
             elif args.json:
                 result = render_founder_queue(root)
                 from gaia_cli.steward.desk import classify_decision_records, load_decision_records
@@ -331,6 +440,11 @@ class StewardCommand(Command):
                 # The digest *is* the human surface. A terse list of decision
                 # ids is machine output wearing a person's clothes.
                 result, prompt = render_founder_digest(root)
+        except CustodyError as exc:
+            # The work was not proven durable. Nothing is printed to stdout, so a
+            # prompt can never reach a builder whose authority could not be preserved.
+            print(exc.blocked(), file=sys.stderr)
+            return 4
         except LaneEmpty as exc:
             # A lane with nothing to hand out is healthy, not broken. Scheduled
             # pickups run on quiet days far more often than busy ones, and a
@@ -349,6 +463,8 @@ class StewardCommand(Command):
                 payload["decisionRecords"] = founderRecords
             if prompt is not None:
                 payload["prompt"] = prompt
+            if custodyLine is not None:
+                payload["evidenceCustody"] = custodyLine
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
             if args.steward_command == "verify":
                 # The verdict must survive the output format. A machine reading
@@ -356,6 +472,13 @@ class StewardCommand(Command):
                 return {"pending": 0, "reject": 1, "escalate": 3}[result.artifact.verdict]
             return 0
 
+        if custodyLine is not None:
+            # stderr, so a piped prompt on stdout stays byte-pure.
+            print(
+                f"Evidence custody     {custodyLine['kind']} bundle {custodyLine['bundleId'][:12]} "
+                f"{'published' if custodyLine['published'] else 'already durable'}, read back from {custodyLine['evidenceCommit'][:12]}",
+                file=sys.stderr,
+            )
         if prompt is not None:
             # The prompt is the whole output: it is meant to be piped or pasted
             # verbatim, so no status banner may precede it.
@@ -499,6 +622,146 @@ class StewardCommand(Command):
     # ------------------------------------------------------------------
 
     @staticmethod
+    def _custodyOn(args: argparse.Namespace) -> bool:
+        from gaia_cli.steward.custody import requestedMode
+
+        return requestedMode(getattr(args, "evidence", None)) == "git"
+
+    @staticmethod
+    def _leadWriter(role: str = "lead"):
+        import os
+
+        from gaia_cli.steward.custody_ops import writerRecord
+
+        return writerRecord(role=role, agentId=os.environ.get("GAIA_STEWARD_AGENT"), model=None, effort=None)
+
+    def _custodyDispatch(self, root: Path, args: argparse.Namespace, result) -> dict | None:
+        """Boundary 1: a dispatch is not handed out until its original receipts are durable and read back."""
+
+        if not self._custodyOn(args):
+            return None
+        from gaia_cli.steward.custody import Custody
+        from gaia_cli.steward.custody_ops import publishDispatch
+
+        packet = result.artifact
+        custody = Custody.open(root, getattr(args, "evidence_remote", "origin"))
+        published = publishDispatch(
+            root, custody, str(packet.debt["id"]), writer=self._leadWriter(),
+            scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(),
+        )
+        return published.to_dict()
+
+    def _custodyVerify(self, root: Path, args: argparse.Namespace):
+        """Boundaries 4-5: verify only what custody holds, then make the verdict durable."""
+
+        from gaia_cli.steward.custody import Custody
+        from gaia_cli.steward.custody_ops import publishVerdict, verifyFromCustody
+
+        custody = Custody.open(root, getattr(args, "evidence_remote", "origin"))
+        verified = verifyFromCustody(
+            root, custody, args.debt_id, bundleId=args.bundle, prompt=bool(args.prompt),
+        )
+        published = publishVerdict(
+            root, custody, args.debt_id, receiptPath=verified.result.receipt_path,
+            buildBundleId=verified.restored.build.bundle.bundleId, writer=self._leadWriter("mechanical"),
+        )
+        return verified.result, verified.prompt, published.to_dict()
+
+    def _executeEvidence(self, args: argparse.Namespace) -> int:
+        import os
+
+        from gaia_cli.steward.custody import Custody, CustodyError, CustodyRefused
+        from gaia_cli.steward import custody_ops as ops
+
+        action = getattr(args, "evidenceAction", None)
+        if action is None:
+            print(
+                "usage: gaia steward evidence {publish-dispatch,accept,publish-build,restore,verify,publish-verdict,ready,status} DEBT_ID",
+                file=sys.stderr,
+            )
+            return 2
+        root = Path(args.registry)
+
+        def writer(role: str):
+            return ops.writerRecord(
+                role=role, agentId=getattr(args, "agent_id", None) or os.environ.get("GAIA_STEWARD_AGENT"),
+                model=getattr(args, "model", None), effort=getattr(args, "effort", None),
+                runId=getattr(args, "run_id", None),
+            )
+
+        try:
+            custody = Custody.open(root, args.evidence_remote)
+            if action == "publish-dispatch":
+                payload = ops.publishDispatch(
+                    root, custody, args.debt_id, writer=writer("lead"), dispatchId=args.dispatch_id
+                ).to_dict()
+            elif action == "accept":
+                loaded = ops.acceptBuild(custody, args.debt_id, bundleId=args.bundle)
+                payload = {"accepted": True, "bundleId": loaded.bundle.bundleId, "evidenceCommit": loaded.commit,
+                           "dispatchId": loaded.bundle.identity.get("dispatchId"),
+                           "sourceCommit": loaded.bundle.identity.get("sourceCommit")}
+            elif action == "publish-build":
+                if not args.no_change and (not args.diff or not args.proof):
+                    raise CustodyRefused("publish-build needs --diff and --proof, or --no-change")
+                payload = ops.publishBuild(
+                    root, custody, args.debt_id, writer=writer("builder"), summary=args.summary,
+                    noChange=args.no_change, diffPath=Path(args.diff) if args.diff else None,
+                    proofPath=Path(args.proof) if args.proof else None, dispatchBundleId=args.dispatch_bundle,
+                ).to_dict()
+            elif action == "restore":
+                restored = ops.restore(root, custody, args.debt_id, bundleId=args.bundle)
+                payload = {
+                    "dispatchBundle": restored.dispatch.bundle.bundleId,
+                    "buildBundle": restored.build.bundle.bundleId if restored.build else None,
+                    "receipts": [str(path) for path in restored.receiptPaths],
+                    "diff": str(restored.diffPath) if restored.diffPath else None,
+                    "proof": str(restored.proofPath) if restored.proofPath else None,
+                }
+            elif action == "verify":
+                verified = ops.verifyFromCustody(root, custody, args.debt_id, bundleId=args.bundle)
+                result = verified.result
+                published = ops.publishVerdict(
+                    root, custody, args.debt_id, receiptPath=result.receipt_path,
+                    buildBundleId=verified.restored.build.bundle.bundleId, writer=writer("mechanical"),
+                )
+                payload = {"verdict": result.artifact.verdict, "reasons": list(result.artifact.reasons),
+                           "verificationReceipt": result.receipt.run_id, "custody": published.to_dict()}
+            elif action == "publish-verdict":
+                payload = ops.publishVerdict(
+                    root, custody, args.debt_id, receiptPath=Path(args.receipt),
+                    buildBundleId=args.build_bundle, writer=writer("mechanical"),
+                ).to_dict()
+            elif action == "ready":
+                payload = ops.readiness(custody, args.debt_id, bundleId=args.bundle)
+            else:  # status
+                commit = custody.store.snapshot()
+                held = custody.bundles(commit, args.debt_id)
+                payload = {
+                    "status": "quiet" if not held else "held",
+                    "evidenceCommit": commit,
+                    "bundles": [{"kind": b.kind, "bundleId": b.bundleId, "parent": b.parent,
+                                 "dispatchId": b.identity.get("dispatchId")} for b in held],
+                }
+        except CustodyError as exc:
+            print(exc.blocked(), file=sys.stderr)
+            return 4
+        except (OSError, ValueError, RuntimeError) as exc:
+            from gaia_cli.steward.policy import PolicyError  # noqa: F401  (policy errors are RuntimeErrors)
+
+            print(f"{ops.BLOCKED_PREFIX}: {exc}", file=sys.stderr)
+            return 4
+
+        if args.json:
+            print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
+        else:
+            print(f"Gaia Steward evidence {action}")
+            for key, value in payload.items():
+                print(f"{key:<22} {json.dumps(value, ensure_ascii=False) if not isinstance(value, str) else value}")
+        if action == "verify" and payload["verdict"] != "pending":
+            return {"reject": 1, "escalate": 3}.get(payload["verdict"], 1)
+        return 0
+
+    @staticmethod
     def _fullStore(root: Path, choice: str, remote: str):
         """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers."""
 
@@ -532,6 +795,7 @@ class StewardCommand(Command):
     def _executeFull(self, args: argparse.Namespace) -> int:
         import os
 
+        from gaia_cli.steward.custody import CustodyError
         from gaia_cli.steward.fullrun import FullRunConfig, FullRunError, FullRunner
         from gaia_cli.steward.ledger import LedgerConflict, LedgerUnavailable
         from gaia_cli.steward.policy import PolicyError
@@ -560,6 +824,8 @@ class StewardCommand(Command):
                 interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
                 browser_collection=getattr(args, "browserCollection", "local"),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
+                evidence=getattr(args, "evidence", None),
+                evidence_remote=getattr(args, "evidence_remote", "origin"),
             )
             runner = FullRunner(config)
             if action == "status":
@@ -582,6 +848,9 @@ class StewardCommand(Command):
         except _FullRefused as exc:
             print(f"Steward full refused: {exc}", file=sys.stderr)
             return 2
+        except CustodyError as exc:
+            print(exc.blocked(), file=sys.stderr)
+            return 4
         except (FullRunError, PolicyError, StateError, ValueError) as exc:
             print(f"Steward full refused: {exc}", file=sys.stderr)
             return 2
