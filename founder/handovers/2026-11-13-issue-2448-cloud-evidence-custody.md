@@ -1,5 +1,10 @@
 # Issue #2448 — durable evidence custody for ephemeral cloud Steward runs
 
+> **Remediation round (Codex review 5887713453).** Sections 1-10 describe the first round and stay as the
+> record; where they conflict with sections 11-15 (trust boundary, findings, verification, live v2 handoff,
+> remaining rollout), sections 11-15 win. Notably: bundle `meta` now holds only `createdAt`; `writer` and
+> `summary` are authenticated identity; verdicts are bound to builds; recovery never re-renders.
+
 Handoff for founder review. Branch `infra/steward-cloud-receipt-preflight-2448`, PR #2449
 (extended; see "PR structure"). Nothing here is merged, deployed or released.
 Operational contract for agents: `.agents/skills/gaia-steward-full/cloud-custody.md`.
@@ -141,22 +146,18 @@ Leftovers on the shared remote: ref `steward/evidence-rehearsal-2448` (3 bundles
 
 ## 8. Risks and open items
 
-1. **Trust anchor.** Anyone who can push to `steward/evidence` can write a dispatch bundle that is
-   internally consistent (self-hashing receipts are not signatures). In full runs the ledger pointer
-   (written only by the lease holder) is the authority anchor; standalone `evidence verify` does not
-   cross-check the ledger. Recommend restricting pushes to `steward/*` to the Steward identity.
+1. **Trust anchor.** Superseded by section 11: pins and the ledger binding are implemented; the server-side
+   append-only ruleset is a founder gate and is **not verified**.
 2. **Production ref not yet created.** The first real daily run with custody creates `steward/evidence`.
 3. **Scheduler not changed.** `CLOUD_DAILY_BRIEF.md` is exact replacement text; until installed, daily
    agents will not use custody. The task's prompt does not name a gaia command, so adoption depends on the agent.
 4. **Independence.** Custody enforces durability and authenticity, not agent independence. Builder != verifier
    remains enforced only by the full runner (`forbiddenAgentIds`) and the brief.
-5. **Branch scope.** This PR is `infra/` but now touches `src/` and `tests/`; `branch-scope` will reject it
-   unless a maintainer applies `skip-scope-check` (pre-authorized for labelling per `founder/CLAUDE.md`) or
-   the work is re-homed on a `cli/` branch. I did not label or rename.
+5. **Branch scope.** Resolved: the founder applied `skip-scope-check`; the scope check is skipped on the latest heads.
 6. **Retention.** `steward/evidence` grows without bound (append-only by design); archival/compaction is a
    later, founder-gated decision. Per-object bound 8 MiB.
 7. `lane next --evidence git` and `full run --evidence git` live runs were not performed; both are covered
-   by unit/integration tests and share the code exercised live.
+   by unit/integration tests and share the code exercised live (the live dispatch used `dispatch --prompt --evidence git`).
 
 ## 9. PR structure
 
@@ -177,3 +178,186 @@ skills + mirrors, and `founder/steward/CLOUD_DAILY_BRIEF.md`.
 * Scheduler: remove the appended section from the `Gaia Steward Daily` prompt (nothing was installed).
 * Remote: `steward/evidence*` refs are append-only and unused by anything else; delete a ref with
   `git push origin --delete <ref>` (founder action).
+
+---
+
+# Remediation round — Codex review 5887713453 (HEAD at review `e8b97907`)
+
+## 11. Production trust boundary for `steward/evidence` (finding 3)
+
+### 11.1 Audit: who can create, update, force-push and delete the ref
+
+Facts established from this session, with what each does and does not prove:
+
+| Question | Observation | Reading |
+|---|---|---|
+| Who has write access? | `list_repository_collaborators`: **3 direct collaborators, all `admin`**: `mbtiongson1`, `milim-gaia`, `nova-gaia`. | No non-admin writers exist. Admins can edit or bypass classic branch protection and can administer rulesets. |
+| Which identity do cloud Steward sessions push as? | `get_me` in this session returns `mbtiongson1`, the founder's own account. Cloud A and cloud B (both spawned sessions) pushed to origin successfully. | **GitHub cannot distinguish a Steward agent from the founder or from any other agent session.** Ref permissions alone can never prove "this writer was an authorized Steward lead". |
+| Branch protection | `list_branches`: every listed branch is `protected: false` except `main`. This covers classic protection only. | `steward/*` has no classic protection. |
+| Rulesets | Codex reported one ruleset, "Main Ruleset", covering `refs/heads/main` only. I could not read rulesets here (no API tool; `gh` is out of scope for this session). | **Not verified. Treat `steward/*` as unprotected.** |
+| Create | I created a throwaway ref `steward/evidence-authz-probe-2448` with plain `git push` from this session: **allowed**. | Any session can create any `steward/*` ref. |
+| Update (fast-forward / non-ff) | Non-ff push rejected by git itself; `git push --force` to the same ref: **succeeded** (`+ ... (forced update)`). | **A force-push can rewrite `steward/evidence` today.** |
+| Delete | Three `git push --delete` attempts failed with `remote end hung up unexpectedly` / `unexpected disconnect while reading sideband packet`. | **Inconclusive.** The failure could be this session's git proxy or GitHub; I cannot tell, and it must not be read as "deletes are blocked". |
+
+Content hashes (already present) prove the stored **bytes** were not altered. They do not prove who wrote
+a bundle, and a writer who can force-push can replace the whole ref with a consistent alternative.
+
+### 11.2 What the code now enforces (smallest compatible solution, no new infrastructure)
+
+1. **Writer metadata is authenticated identity.** `writer` (role, agent id, model, effort, run id) and the build `summary`
+   moved from the unauthenticated `meta` into the bundle `identity`, which `bundleId` hashes. Substituting any of them
+   changes the id; `test_writer_metadata_cannot_be_substituted_without_changing_the_bundle_id`. Only `createdAt` stays
+   in `meta`, and is informational.
+2. **A verifiable relationship between dispatch, ledger and custody chain.** In full runs the ledger work item records
+   `evidence.dispatchBundle` / `buildBundle` (written only by the lease holder). Verification now requires the custody
+   chain to start at exactly that dispatch bundle and dispatch id, and pins the build bundle, **before any byte is
+   written to the checkout** (`restoreChain(expectDispatchBundle, expectDispatchId, pinBundle)`).
+3. **Pins from outside the ref.** `--pin-bundle` (a full id that must appear in the chain) and `--pin-commit` (must
+   still be an ancestor of the evidence tip) accept identifiers recorded elsewhere: the ledger, or the `ready` record
+   the Lead posts on the PR. A substituted chain, or history rewritten after the pin was taken, is refused
+   (`test_pins_accept_the_recorded_chain_and_refuse_a_substituted_one`, `test_a_rewritten_history_is_detected_by_the_pinned_commit`).
+4. **Honest scope.** `evidence ready` prints `writerAuthorization: not verified by this command` and never claims the
+   ref is protected.
+
+What this does **not** do, and cannot do without a server-side control: stop a writer from appending a new
+self-consistent chain, or from force-pushing before any pin exists. Pins only help once the identifier lives
+somewhere the attacker did not also rewrite, and every agent session here shares one GitHub identity.
+
+### 11.3 Rollout gate 1 (REQUIRED, founder-side): server-side append-only ruleset
+
+Because the sole writer identity is shared and admin, the one control that survives a compromised or misbehaving
+session is a ruleset **with no bypass actors** that makes the refs append-only. Create it as a repository ruleset
+(Settings -> Rules -> Rulesets -> New branch ruleset), or:
+
+```json
+{
+  "name": "steward-evidence-append-only",
+  "target": "branch",
+  "enforcement": "active",
+  "bypass_actors": [],
+  "conditions": {
+    "ref_name": {
+      "include": [
+        "refs/heads/steward/evidence",
+        "refs/heads/steward/evidence-*",
+        "refs/heads/steward/ledger"
+      ],
+      "exclude": []
+    }
+  },
+  "rules": [{"type": "deletion"}, {"type": "non_fast_forward"}]
+}
+```
+
+`POST /repos/gaia-research/gaia-skill-tree/rulesets` with that body (admin). It deliberately has no bypass actors:
+rewriting or deleting the refs then requires disabling the ruleset, which is itself an audited admin action.
+It does not restrict ordinary fast-forward appends, which Steward needs. `steward/ledger` is included because the
+ledger pointers are the authority anchor; the ledger store never force-pushes or deletes, so this changes nothing for it.
+
+**Order matters.** Deletion is blocked once the ruleset is active. Before enabling it, delete the refs that should not
+persist (or keep them): `steward/evidence-authz-probe-2448` (my empty throwaway probe, **I could not delete it**; see
+11.1) and, when the evidence is retired, `steward/evidence-rehearsal-2448` and `steward/evidence-rehearsal-2448-v2`.
+The pattern `steward/evidence-*` intentionally covers rehearsal refs too, so the negative probe in 11.4 is safe.
+
+### 11.4 Verification (do not claim protection before this passes)
+
+1. `python scripts/check_steward_evidence_protection.py --live` (needs admin read; exits 0 only if an **active** branch
+   ruleset with **no bypass actors** blocks `deletion` and `non_fast_forward` for `steward/evidence`, the rehearsal pattern
+   and `steward/ledger`; exits 2 "UNVERIFIED" if rulesets cannot be read; 1 if anything is uncovered). Unit-tested in
+   `tests/steward/test_evidence_protection.py` (13 cases: main-only ruleset, disabled/evaluate mode, missing rule,
+   bypass actor, wrong target, excluded ref, unreadable input).
+2. Empirical negative probe on a **non-production** ref covered by the pattern, from the identity the daily job uses:
+   push a commit to `steward/evidence-authz-probe-N`, then `git push --force` an unrelated commit (must be rejected),
+   then `git push --delete` (must be rejected). Never probe `steward/evidence` itself.
+
+### 11.5 Rollout gate 2 (OPTIONAL, founder decision): a dedicated Steward identity
+
+If the founder wants "only the Steward may append" rather than "nobody may rewrite", the cloud job needs its own GitHub
+identity (a machine account or GitHub App) and an additional ruleset rule restricting creation/updates to it. That is new
+infrastructure and a credential to manage, so it is **not** introduced here; the demonstrated need is real (section 11.1:
+one shared admin identity) but gate 1 plus pins covers rewrite and substitution, and the remaining forgery-by-append
+risk is bounded by the ledger pin and by the independent verifier still being required.
+
+### 11.6 Decisions and status
+
+| Item | Status |
+|---|---|
+| Writer metadata authenticated as bundle identity | **Implemented and tested** |
+| Ledger-to-custody binding, pins, rewrite detection | **Implemented and tested** |
+| `steward/evidence` protected against force-push/delete | **NOT protected. Founder gate 1; not verified.** |
+| Dedicated Steward identity | Optional gate 2; not done |
+| `Gaia Steward Daily` schedule | **Unchanged and must stay unchanged until gate 1 verifies** |
+
+## 12. Codex findings: resolution
+
+| # | Finding | Resolution |
+|---|---|---|
+| 1 | Recovery/adoption re-render a prompt from today's policy | `_recoverLostPackets` and `_reemitBuild` no longer call `render_dispatch_prompt` when custody is on. The dispatch bundle now stores the **exact builder prompt**; recovery restores it byte for byte (`custody_ops.originalPrompt`), authenticates the dispatch, and checks it is the ledger's dispatch. If it cannot, the pending action keeps its authority, shows `BLOCKED: provenance unavailable` in `nextAction` (or the run blocks on adoption), and nothing is superseded, re-dispatched or substituted; resume after repair restores it. Tests: ordinary resume and cross-container adoption with narrowed policy, a negative control proving the old path silently dropped an authorized path, custody-down block, recovery after repair, adoption blocked with no fallback dispatch. |
+| 2 | Verdict receipt not bound to the exact build | `authenticateVerdict` recomputes the diff hash and proof-transcript hash from the build's own bytes (`content_hash`, the canonical verifier's own function) and checks debt and dispatch. Enforced at publication, on **every chain load** (`checkChain`) and in `readiness`. Verdict identity restates what it binds. Legacy unbound verdicts are refused with a clear message. Tests: same dispatch / different diff, different proof, different debt, a forged verdict written directly to the ref (refused on retrieval, `readiness` and `restore`), edited binding fields, no-change build, genuine chain still passes. `pending` is still never `accept`. |
+| 3 | Writer authorization unproven | Section 11: audited, code hardened, server-side gate documented and checkable, **not claimed protected**. |
+
+## 13. Verification: exact commands and results (remediation round)
+
+Run from the repository root of this branch, `pip install -e .` plus `pip install jinja2 ruff pytest`.
+
+| Command | Result |
+|---|---|
+| `python -m pytest tests/steward/test_custody.py tests/steward/test_custody_cli.py tests/steward/test_custody_fullrun.py tests/steward/test_evidence_protection.py -q` | **all pass**: library 46, CLI 4, full-run 11, protection checker 13 (74 total) |
+| `python -m pytest tests/steward -q` (full steward directory, local sandbox) | 4306 passed, **47 failed**. The 47 are the identical set (diffed id by id) that fails on a clean `origin/main` worktree: all in `tests/steward/prmaintenance/` (`test_executor`, `test_gate`, `test_r19_review_regressions`, `test_exact_tree`, `test_executor_processes`), caused by this sandbox (no GitHub/SSL/git-environment, jinja2 absent at first). **None are in custody, fullrun, ledger or CLI code.** |
+| `python scripts/sync_agent_skill_mirror.py --check` | in sync |
+| `python scripts/validate_skills.py` | passed (pre-existing warnings only) |
+| `python -m pytest tests/steward/test_steward_skills.py -q` | 49 passed (root skill still 160 lines; detail lives in `cloud-custody.md`) |
+| `ruff check` on every changed file | clean except one advisory `BLE001` in a test thread helper |
+| `python scripts/check_steward_evidence_protection.py --live` | **NOT RUN here** (no admin API access in this session). It is the founder's verification gate, section 11.4 |
+
+Mutation/negative controls: `test_negative_control_without_custody_a_lost_prompt_is_re_rendered_from_todays_policy`
+reproduces the original defect (the pre-custody path silently drops an authorized path under narrowed policy and mints
+a new dispatch receipt); the custody-on tests assert the opposite.
+
+### CI (GitHub)
+
+* **Reviewed head `e8b97907`: `Test, Build, and Smoke Test` completed `success`** (job 131747862442, 34 min, Full tests step 25 min, sdist/wheel
+  build and clean-environment install all green). This answers Codex's "still running" note. The 47 local failures are therefore
+  sandbox-specific, not regressions: the same tests pass in GitHub's environment.
+* Branch Scope Check: **skipped** after the founder's `skip-scope-check`.
+* Heads after this round are recorded in the PR comment for the exact final HEAD.
+
+## 14. Live cross-environment handoff, round 2 (real remote, binding + prompt preservation)
+
+The format changed in this round (bundle identity, prompt artifact, verdict binding), so the round-1 rehearsal evidence
+is the pre-binding format. `steward/evidence-rehearsal-2448` is **preserved untouched** as requested; the new code reads
+its dispatch -> build chain but **refuses its unbound verdict** with an explicit message (verified on the real ref:
+`BLOCKED: ... verdict bundle's binding does not match its build and receipt`; now worded "predates verdict binding").
+A second real handoff was run on a new ref, `steward/evidence-rehearsal-2448-v2`, against baseline `b7fa338a2ca844c7aeeec77e360961a9c1fd8344`.
+
+| Step | Where | Result |
+|---|---|---|
+| Dispatch | cloud A (this container) | `gaia steward dispatch DEBT --prompt --evidence git`: dispatch bundle `af7ef3aa599e…`, scan `2bbee023…`, dispatch receipt `5851ebf1…`, **builder prompt preserved** (`bc8aec39…`). Read back from `c56cec69`. |
+| Build | cloud A, scratch worktree | `evidence accept` ok; same two-line unused-import fix; `gaia steward scan` reproduction, `compileall`, `pytest tests/steward/test_sensors_code.py` (155 passed) recorded in a valid proof; `publish-build` -> build bundle `0e606af0…`, commit `c08df60a`. |
+| Negative pin | **cloud B2: a separate cloud session** (Haiku 5.5 medium, host `vm`, fresh clone at `b7fa338a`) | `verify --pin-bundle aaaa…` exit **4**: `the pinned bundle aaaaaaaaaaaa is not part of the custody chain; refusing a substituted chain`; nothing written to `.gaia/steward/receipts`. |
+| Verify | cloud B2 | `verify --bundle 0e606af0… --pin-bundle 0e606af0… --pin-commit c08df60a…` exit **0**, verdict **`pending`**, verdict bundle `67fa1ca2…` bound to that build, published and read back from `f424afaf`. |
+| Ready | cloud B2 | `ready --pin-bundle 67fa1ca2… --pin-commit f424afaf…` exit **0**; output states `writerAuthorization: not verified by this command`, `independentVerifierRequired: true`. |
+| Re-check | lead, third fresh clone of the real remote | `readiness` with pins (`--pin-commit c08df60a`) ok; hashes of A's receipts (`5851ebf1…`, `2bbee023…`) and diff/proof (`3b81aafb…`, `d790c447…`) equal what B2 restored; **the preserved builder prompt is byte-identical to the prompt A printed to stdout**. |
+
+Limits, same as round 1: lead acted as dispatcher and builder, so only the **mechanical** verdict exists; the patch was not
+landed; B2's report is another session's output and the checks above were re-run by the lead; the full runner's live
+cross-container adoption is proven by tests (section 12), not by a live run. New leftover refs on origin:
+`steward/evidence-rehearsal-2448-v2` and `steward/evidence-authz-probe-2448` (empty-tree commit; my three attempts to
+delete it failed with `remote end hung up`, so it needs a founder `git push origin --delete`, which a ruleset from 11.3 would then block; delete it first).
+
+## 15. Remaining rollout steps (all founder-side; nothing is deployed)
+
+1. Review and merge decision for #2449 (no merge authorized to me).
+2. **Gate 1:** delete `steward/evidence-authz-probe-2448`; create the append-only ruleset (11.3); run
+   `python scripts/check_steward_evidence_protection.py --live` and the negative probe (11.4). Until both pass the production
+   ref is **not** protected.
+3. Optional gate 2: a dedicated Steward identity (11.5).
+4. Only after 2 and the final review: install `founder/steward/CLOUD_DAILY_BRIEF.md` into `Gaia Steward Daily`
+   (`trig_01NLfT4PzgwkWh8utSzRRopE`), and read the task back to verify. **I did not change the schedule.**
+5. When the evidence is no longer needed for review: delete the two rehearsal refs (before enabling the ruleset, or temporarily disable it).
+
+## 16. Rollback (additions)
+
+New files: `scripts/check_steward_evidence_protection.py`, `tests/steward/test_evidence_protection.py`; changed `custody*.py`,
+`fullrun.py`, `commands/steward.py`. Revert the remediation commit to return to the round-1 behavior; custody remains opt-in and
+the round-1 rollback in section 10 still applies. No scheduler, ruleset or production ref was changed by this round.
