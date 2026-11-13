@@ -1,0 +1,36 @@
+{
+  "bundleId": "0e606af0390159a7db1ba6231a83431c4a4fb83b51c128b0e7b528de2b036a0a",
+  "identity": {
+    "artifacts": {
+      "candidate-diff": {
+        "name": "candidate.diff",
+        "sha256": "3b81aafbb7f27b8525cbfff9d0da7cb612ce8194f78114ff6be74df7519a1d0d",
+        "size": 333
+      },
+      "proof-transcript": {
+        "name": "proof.json",
+        "sha256": "d790c4475e91efe5c1c5b490583a3119432ac86c722e4e0b8c3ecb0e69f9782b",
+        "size": 759
+      }
+    },
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "dispatchReceiptId": "steward-20261113T075640Z-84e11ca3f1b49578",
+    "kind": "build",
+    "noChange": false,
+    "parent": "af7ef3aa599eb07a9d86cb76ef27560ac632f2c6f40357995026afba51177b02",
+    "scanReceiptId": "steward-20261113T075640Z-c32d1479f284105b",
+    "sourceCommit": "b7fa338a2ca844c7aeeec77e360961a9c1fd8344",
+    "summary": "remove two unused imports (os, datetime) from scripts/archive/add_hermes_batch.py",
+    "writer": {
+      "agentId": "rehearsal-builder-lead",
+      "effort": "high",
+      "model": "sonnet-5-5",
+      "role": "builder"
+    }
+  },
+  "meta": {
+    "createdAt": "2026-11-13T08:02:29Z"
+  },
+  "schemaVersion": "steward-evidence-bundle-v1"
+}

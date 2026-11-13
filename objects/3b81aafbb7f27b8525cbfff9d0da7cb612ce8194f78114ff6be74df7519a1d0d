@@ -1,0 +1,11 @@
+diff --git a/scripts/archive/add_hermes_batch.py b/scripts/archive/add_hermes_batch.py
+index be184dc2..2210dcb6 100644
+--- a/scripts/archive/add_hermes_batch.py
++++ b/scripts/archive/add_hermes_batch.py
+@@ -1,6 +1,4 @@
+ import json
+-import os
+-from datetime import datetime
+ 
+ def patch_gaia():
+     gaia_path = 'registry/gaia.json'
