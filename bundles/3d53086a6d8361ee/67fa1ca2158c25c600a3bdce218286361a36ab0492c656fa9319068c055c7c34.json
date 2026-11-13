@@ -1,0 +1,33 @@
+{
+  "bundleId": "67fa1ca2158c25c600a3bdce218286361a36ab0492c656fa9319068c055c7c34",
+  "identity": {
+    "artifacts": {
+      "verification-receipt": {
+        "name": "steward-20261113T080321Z-528ffb05959b8424.json",
+        "sha256": "6b214be1834f7a2785ae19014f6374e4b400e43e8d96ece7a98f13829540343d",
+        "size": 2089
+      }
+    },
+    "binds": {
+      "candidateDiff": "3b81aafbb7f27b8525cbfff9d0da7cb612ce8194f78114ff6be74df7519a1d0d",
+      "diffHash": "b6f4f1c58a658fafbd7e5a28a510800ae32bbe8e0220c8bd191a2cbc33461181",
+      "proofTranscript": "d790c4475e91efe5c1c5b490583a3119432ac86c722e4e0b8c3ecb0e69f9782b",
+      "transcriptHash": "fa5721c7c6d2871bdcf38a4b6cc924f21ad2d3f3da85143ad0c32dda9a506455"
+    },
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "dispatchReceiptId": "steward-20261113T075640Z-84e11ca3f1b49578",
+    "kind": "verdict",
+    "parent": "0e606af0390159a7db1ba6231a83431c4a4fb83b51c128b0e7b528de2b036a0a",
+    "scanReceiptId": "steward-20261113T075640Z-c32d1479f284105b",
+    "sourceCommit": "b7fa338a2ca844c7aeeec77e360961a9c1fd8344",
+    "verdict": "pending",
+    "writer": {
+      "role": "mechanical"
+    }
+  },
+  "meta": {
+    "createdAt": "2026-11-13T08:10:27Z"
+  },
+  "schemaVersion": "steward-evidence-bundle-v1"
+}
