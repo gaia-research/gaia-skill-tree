@@ -301,6 +301,16 @@ class StewardCommand(Command):
             target.add_argument("--evidence-remote", default="origin", help="Git remote that holds steward/evidence")
             target.add_argument("--json", action="store_true", help="Output the result as JSON")
 
+        def evidencePins(target: argparse.ArgumentParser) -> None:
+            target.add_argument(
+                "--pin-bundle", default=None, metavar="BUNDLE_ID",
+                help="Full bundle id recorded elsewhere (ledger work item or the Lead's PR handoff); the chain must contain it",
+            )
+            target.add_argument(
+                "--pin-commit", default=None, metavar="SHA",
+                help="Evidence commit recorded elsewhere; must still be an ancestor of the tip (detects rewritten history)",
+            )
+
         def evidenceWriter(target: argparse.ArgumentParser) -> None:
             target.add_argument("--agent-id", default=None, help="Identity of the agent writing this bundle")
             target.add_argument("--model", default=None, help="Model that did the work (required for builder/verifier bundles)")
@@ -325,9 +335,11 @@ class StewardCommand(Command):
         restore = actions.add_parser("restore", help="Retrieve + authenticate a chain into this checkout (no verification)")
         restore.add_argument("--bundle", default=None, help="Build/verdict bundle id when several chains exist")
         evidenceCommon(restore)
+        evidencePins(restore)
         evVerify = actions.add_parser("verify", help="Restore from custody, run the canonical mechanical verifier, record the verdict")
         evVerify.add_argument("--bundle", default=None, help="Build bundle id when several builds exist")
         evidenceCommon(evVerify)
+        evidencePins(evVerify)
         evidenceWriter(evVerify)
         pubVerdict = actions.add_parser("publish-verdict", help="Make an existing verification receipt durable")
         pubVerdict.add_argument("--receipt", required=True, help="Path to the local verification receipt")
@@ -337,6 +349,7 @@ class StewardCommand(Command):
         ready = actions.add_parser("ready", help="Gate: re-read the whole chain from the remote before READY/PR handoff")
         ready.add_argument("--bundle", default=None, help="Verdict bundle id when several chains exist")
         evidenceCommon(ready)
+        evidencePins(ready)
         status = actions.add_parser("status", help="List what custody holds for a debt (quiet when nothing was dispatched)")
         evidenceCommon(status)
 
@@ -399,13 +412,13 @@ class StewardCommand(Command):
                     result, prompt = render_dispatch_prompt(root, args.debt_id)
                 else:
                     result = render_dispatch(root, args.debt_id)
-                custodyLine = self._custodyDispatch(root, args, result)
+                custodyLine = self._custodyDispatch(root, args, result, prompt)
             elif args.steward_command == "lane":
                 if args.lane_action == "status":
                     result = render_lane(root)
                 elif args.lane_action == "next":
                     result, prompt = render_lane_next(root, prompt=args.prompt)
-                    custodyLine = self._custodyDispatch(root, args, result)
+                    custodyLine = self._custodyDispatch(root, args, result, prompt)
                 else:
                     result = record_lane_verdict(
                         root, args.debt_id, args.verdict, note=args.note
@@ -635,7 +648,7 @@ class StewardCommand(Command):
 
         return writerRecord(role=role, agentId=os.environ.get("GAIA_STEWARD_AGENT"), model=None, effort=None)
 
-    def _custodyDispatch(self, root: Path, args: argparse.Namespace, result) -> dict | None:
+    def _custodyDispatch(self, root: Path, args: argparse.Namespace, result, prompt: str | None = None) -> dict | None:
         """Boundary 1: a dispatch is not handed out until its original receipts are durable and read back."""
 
         if not self._custodyOn(args):
@@ -648,6 +661,7 @@ class StewardCommand(Command):
         published = publishDispatch(
             root, custody, str(packet.debt["id"]), writer=self._leadWriter(),
             scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(),
+            prompt=prompt,
         )
         return published.to_dict()
 
@@ -709,7 +723,8 @@ class StewardCommand(Command):
                     proofPath=Path(args.proof) if args.proof else None, dispatchBundleId=args.dispatch_bundle,
                 ).to_dict()
             elif action == "restore":
-                restored = ops.restore(root, custody, args.debt_id, bundleId=args.bundle)
+                restored = ops.restore(
+                    root, custody, args.debt_id, bundleId=args.bundle, pinBundle=args.pin_bundle, pinCommit=args.pin_commit)
                 payload = {
                     "dispatchBundle": restored.dispatch.bundle.bundleId,
                     "buildBundle": restored.build.bundle.bundleId if restored.build else None,
@@ -718,7 +733,8 @@ class StewardCommand(Command):
                     "proof": str(restored.proofPath) if restored.proofPath else None,
                 }
             elif action == "verify":
-                verified = ops.verifyFromCustody(root, custody, args.debt_id, bundleId=args.bundle)
+                verified = ops.verifyFromCustody(
+                    root, custody, args.debt_id, bundleId=args.bundle, pinBundle=args.pin_bundle, pinCommit=args.pin_commit)
                 result = verified.result
                 published = ops.publishVerdict(
                     root, custody, args.debt_id, receiptPath=result.receipt_path,
@@ -732,7 +748,8 @@ class StewardCommand(Command):
                     buildBundleId=args.build_bundle, writer=writer("mechanical"),
                 ).to_dict()
             elif action == "ready":
-                payload = ops.readiness(custody, args.debt_id, bundleId=args.bundle)
+                payload = ops.readiness(
+                    custody, args.debt_id, bundleId=args.bundle, pinBundle=args.pin_bundle, pinCommit=args.pin_commit)
             else:  # status
                 commit = custody.store.snapshot()
                 held = custody.bundles(commit, args.debt_id)

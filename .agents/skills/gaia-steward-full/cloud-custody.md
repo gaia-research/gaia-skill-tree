@@ -11,9 +11,10 @@ they finish; it is not the GitHub Actions Class A pulse (`.github/workflows/stew
 receipts, diffs and proofs die with the container**, so cloud Class B work runs with
 evidence custody on: `--evidence git` (or `GAIA_STEWARD_EVIDENCE=git`) on `gaia steward
 full run|record`, and on standalone `dispatch`, `lane next` and `verify`. Custody
-stores the original scan and dispatch receipts byte-for-byte, the candidate diff, the
-validated `steward-proof-transcript-v1` and the verification receipt on the append-only
-`steward/evidence` ref (fast-forward CAS, no force, read back before success). Contract:
+stores the original scan and dispatch receipts byte-for-byte (and the exact builder
+prompt), the candidate diff, the validated `steward-proof-transcript-v1` and the
+verification receipt on the append-only `steward/evidence` ref (fast-forward CAS, no
+force, read back before success). Contract:
 `founder/handovers/2026-11-13-issue-2448-cloud-evidence-custody.md`.
 
 | Boundary | Command (Lead unless noted) | If it fails |
@@ -21,9 +22,18 @@ validated `steward-proof-transcript-v1` and the verification receipt on the appe
 | Dispatch issued | automatic with `--evidence git`; or `gaia steward evidence publish-dispatch DEBT` | no prompt, no builder, run `blocked` |
 | Builder accepts | builder runs `gaia steward evidence accept DEBT` first | builder stops |
 | Patch + proof | `gaia steward evidence publish-build DEBT --diff D --proof P --summary S --model M --effort E` (automatic in `full record`) | outcome refused; step stays pending, record again after repair |
+| Lost prompt / adoption | automatic: the ORIGINAL prompt is restored from custody | pending work shows `BLOCKED`; resume after repair; nothing is re-rendered |
 | Verifier retrieves | different checkout: `gaia steward evidence verify DEBT` (automatic in `full run --verify`) | work deferred, never re-dispatched |
-| Outcome recorded | automatic: the verdict receipt is published | deferred |
-| Before READY / PR | `gaia steward evidence ready DEBT`; paste its ids and hashes in the PR | not READY |
+| Outcome recorded | automatic: the verdict receipt is published, bound to that exact build | deferred |
+| Before READY / PR | `gaia steward evidence ready DEBT --pin-bundle ID --pin-commit SHA`; paste its ids and hashes in the PR | not READY |
+
+A verdict is bound to the build it judged: its debt, dispatch, diff hash and proof
+hash must match that build's bytes, at publication, at every retrieval and in `ready`.
+`--pin-bundle` / `--pin-commit` check the chain against identifiers recorded somewhere
+the ref's writers do not control (the ledger work item, or the Lead's PR handoff);
+`--pin-commit` also detects rewritten history. Writer, model, effort and summary are
+part of each bundle's identity. `ready` never claims the ref is protected: that is
+repository configuration, verified only by `scripts/check_steward_evidence_protection.py`.
 
 Non-negotiable: never re-dispatch, re-render or write a receipt to recreate lost
 authority; a missing or altered original means `BLOCKED: provenance unavailable`

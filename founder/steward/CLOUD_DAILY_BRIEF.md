@@ -1,6 +1,9 @@
 # Daily cloud Steward — operating brief addendum (issue #2448)
 
-**Status: NOT INSTALLED.** The daily job is an external scheduled task, not a file
+**Status: NOT INSTALLED, and gated.** Do not paste this into the scheduled task until the
+production trust boundary in `founder/handovers/2026-11-13-issue-2448-cloud-evidence-custody.md`
+section 11 is verified (`python scripts/check_steward_evidence_protection.py --live` exits 0)
+and the final review is cleared. The daily job is an external scheduled task, not a file
 in this repository: `Gaia Steward Daily` (`trig_01NLfT4PzgwkWh8utSzRRopE`, cron
 `CRON_TZ=Asia/Manila 45 10 * * *`, model `claude-sonnet-5-5`, fresh session each
 fire, `persist_session: false`). Its prompt is a prose brief ("Daily Steward
@@ -38,7 +41,12 @@ before the agent that produced them exits, and read back from the remote.
   runs `gaia steward evidence verify DEBT` (or `gaia steward full run --verify`)
   in a fresh checkout. Never re-run `dispatch` to make a verification possible.
 - Before any PR is marked ready, run `gaia steward evidence ready DEBT` and put
-  its bundle ids and hashes (never the payloads) in the PR body.
+  its bundle ids, evidence commit and hashes (never the payloads) in the PR body. A
+  later reader re-checks with `--pin-bundle ID --pin-commit SHA` taken from that PR
+  text (or from the ledger work item), so a substituted chain or rewritten history is
+  refused rather than trusted.
+- A lost builder prompt is restored from the original dispatch by custody; never
+  run `dispatch` again to recover one.
 - Any "BLOCKED: provenance unavailable" (exit 4) is a final outcome for that item:
   report it verbatim in the completion email, name the missing record, keep the
   item blocked, and move on. No retroactive receipts, no silent local fallback,

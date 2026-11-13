@@ -175,6 +175,7 @@ def _utcNow() -> datetime:
 
 
 HANDOFFHEADING = "\n## Steward hand-off\n"
+BLOCKEDPREFIX = "BLOCKED: provenance unavailable"
 
 
 def withHandoff(prompt: str, *, base: str, branch: str, diffPath: str, proofPath: str) -> str:
@@ -707,6 +708,9 @@ class FullRunner:
                 if not (self.root / str(a["params"].get("promptPath", ""))).is_file()]
         if not lost:
             return
+        if self.config.evidence == "git":
+            self._recoverFromCustody(runId, lost)
+            return
         now = self._now()
         rendered: dict[str, str | None] = {}
         policy = self._policyLoaded()
@@ -753,6 +757,78 @@ class FullRunner:
                     self._note(item, now, "task packet lost and the debt is no longer routable; the next run reconciles it")
 
         self._mutateRun(runId, apply, message="steward full recover packets")
+
+    def _recoverFromCustody(self, runId: str, lost: list[dict[str, Any]]) -> None:
+        """Restore lost builder prompts from the ORIGINAL authenticated dispatch, never from a new one.
+
+        With custody on, the envelope a builder works under is the one that was
+        durably recorded when the work was dispatched. Re-rendering would run the
+        current policy and scan, possibly minting a different envelope than the
+        ledger and the verifier hold. If the original cannot be authenticated the
+        action stays pending and the run is reported blocked; nothing is superseded,
+        re-dispatched or substituted.
+        """
+
+        from gaia_cli.steward.custody import CustodyError, CustodyRefused
+        from gaia_cli.steward.custody_ops import originalPrompt
+
+        now = self._now()
+        restored: dict[str, str] = {}
+        blocked: dict[str, str] = {}
+        work = self._load()["work"]
+        for action in lost:
+            debtId = action["debtId"]
+            pointer = (work.get(debtId) or {}).get("evidence") or {}
+            try:
+                if not pointer.get("dispatchBundle"):
+                    raise CustodyRefused(f"work for {debtId} has no durable dispatch bundle")
+                restored[action["stepId"]] = originalPrompt(
+                    self._custody(), debtId, dispatchBundle=pointer["dispatchBundle"],
+                    dispatchId=action["params"]["dispatchId"],
+                )
+            except CustodyError as exc:
+                blocked[action["stepId"]] = exc.blocked()
+        for action in lost:
+            text = restored.get(action["stepId"])
+            if text is None:
+                continue
+            params = action["params"]
+            path = self._resolvePath(params["promptPath"])
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(withHandoff(text, base=params["base"], branch=params["branch"], **params["outputs"]),
+                            encoding="utf-8")
+
+        def apply(_doc: dict[str, Any], record: dict[str, Any]) -> None:
+            for action in record["actions"]:
+                if action["status"] != "pending":
+                    continue
+                if action["stepId"] in restored:
+                    action["recoveredAt"] = now
+                    action["promptSource"] = "custody"
+                    action.pop("recoveryBlocked", None)
+                elif action["stepId"] in blocked:
+                    action["recoveryBlocked"] = blocked[action["stepId"]]
+            stillBlocked = [a["recoveryBlocked"] for a in record["actions"]
+                            if a["status"] == "pending" and a.get("recoveryBlocked")]
+            if stillBlocked:
+                # The run keeps its lease and its pending work: after the transport is repaired, `resume` restores
+                # the prompt. The operator sees the block instead of a pending action nobody can perform.
+                record["provenanceBlocked"] = stillBlocked[0]
+                record["nextAction"] = (
+                    f"{stillBlocked[0]}. The builder prompt for pending work cannot be restored from its original "
+                    f"dispatch; repair the shared steward/evidence transport, then `gaia steward full run --resume {runId}`. "
+                    "Nothing was re-dispatched and nothing will be."
+                )
+            elif record.get("provenanceBlocked") and str(record.get("nextAction", "")).startswith(BLOCKEDPREFIX):
+                record.pop("provenanceBlocked", None)
+                pending = self._pending(record)
+                record["nextAction"] = (
+                    f"perform {len(pending)} pending action(s) ({', '.join(sorted({a['type'] for a in pending}))}), "
+                    f"record each with `gaia steward full record {runId} <stepId> --input FILE`, then "
+                    f"`gaia steward full run --resume {runId}`"
+                )
+
+        self._mutateRun(runId, apply, message="steward full recover packets from custody")
 
     def abandon(self, runId: str, reason: str) -> RunView:
         """Operator disposition: end an open run with an auditable reason.
@@ -881,6 +957,14 @@ class FullRunner:
             f"record each with `gaia steward full record {runId} <stepId> --input FILE`, then "
             f"`gaia steward full run --resume {runId}`"
         )
+        stuck = [a["recoveryBlocked"] for a in pending if a.get("recoveryBlocked")]
+        if stuck:
+            # A pending build whose original prompt could not be restored is not performable; say so plainly.
+            text = (
+                f"{stuck[0]}. The builder prompt for pending work cannot be restored from its original dispatch; "
+                f"repair the shared steward/evidence transport, then `gaia steward full run --resume {runId}`. "
+                "Nothing was re-dispatched and nothing will be."
+            )
         # The run stops before `report`, but the person still deserves the desk as of now.
         desk = None
         if runId in self._scans:
@@ -1488,7 +1572,7 @@ class FullRunner:
                     summary=summary, noChange=noChange,
                     diffPath=None if noChange else self._resolvePath(outcome["diffPath"]),
                     proofPath=None if noChange else self._resolvePath(outcome["proofPath"]),
-                    dispatchBundleId=pointer["dispatchBundle"],
+                    dispatchBundleId=pointer["dispatchBundle"], dispatchId=params["dispatchId"],
                 )
             except CustodyError as exc:
                 raise RecordRefused(exc.blocked()) from exc
@@ -2882,6 +2966,7 @@ class FullRunner:
                     self.root, self._custody(), debt.id,
                     writer=writerRecord(role="lead", agentId=self.config.holder, model=None, effort=None, runId=runId),
                     scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(),
+                    prompt=prompt,
                 )
             except CustodyError as exc:
                 return {"dispatched": None, "blocked": True}, exc.blocked(), result.scan
@@ -2949,6 +3034,28 @@ class FullRunner:
         active_scan = scan
         if previous and (self.root / previous).is_file():
             prompt = (self.root / previous).read_text(encoding="utf-8")
+        elif self.config.evidence == "git":
+            # Adopting abandoned work after its container is gone: the original authenticated dispatch is the
+            # only source. No render_dispatch_prompt here: that would mint a new dispatch under today's policy.
+            from gaia_cli.steward.custody import CustodyError, CustodyRefused
+            from gaia_cli.steward.custody_ops import originalPrompt
+
+            pointer = item.get("evidence") or {}
+            try:
+                if not pointer.get("dispatchBundle"):
+                    raise CustodyRefused(f"work for {item['debtId']} has no durable dispatch bundle")
+                prompt = originalPrompt(
+                    self._custody(), item["debtId"], dispatchBundle=pointer["dispatchBundle"],
+                    dispatchId=item["dispatchId"],
+                )
+            except CustodyError as exc:
+                reason = exc.blocked()
+
+                def blockAdoption(_doc: dict[str, Any], record: dict[str, Any]) -> None:
+                    record["provenanceBlocked"] = reason
+
+                self._mutateRun(runId, blockAdoption, message="steward full adoption blocked")
+                return False, active_scan
         else:
             from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
 
@@ -3154,8 +3261,12 @@ class FullRunner:
                              "recorded for this work item"})
             return {"debtId": debtId, "result": "deferred"}
         try:
-            verified = verifyFromCustody(self.root, custody, debtId, bundleId=pointer["buildBundle"],
-                                         controller=self._controllerInstance())
+            # The ledger work item is the authority anchor: the chain must be the one it recorded.
+            verified = verifyFromCustody(
+                self.root, custody, debtId, bundleId=pointer["buildBundle"], controller=self._controllerInstance(),
+                pinBundle=pointer["buildBundle"], expectDispatchBundle=pointer.get("dispatchBundle"),
+                expectDispatchId=item.get("dispatchId"),
+            )
             result = verified.result
             publishVerdict(
                 self.root, custody, debtId, receiptPath=result.receipt_path,
@@ -3420,9 +3531,9 @@ class FullRunner:
                           + "; fix the failing sensor(s) and start a new run")
             elif record.get("provenanceBlocked"):
                 status = "blocked"
-                action = (f"{record['provenanceBlocked']}. Nothing was dispatched, so nothing is lost; repair the "
-                          "shared steward/evidence transport (remote reachable, push allowed) and start a new run. "
-                          "Never re-dispatch an old patch to recreate its authority.")
+                action = (f"{record['provenanceBlocked']}. Repair the shared steward/evidence transport (remote reachable, "
+                          "push allowed, original bundle present), then resume or start a new run. Pending work keeps "
+                          "its original authority; never re-dispatch an old patch to recreate it.")
             elif pending:
                 status = "awaiting-action"
                 action = (f"perform {len(pending)} pending action(s) "

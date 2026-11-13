@@ -54,6 +54,7 @@ from gaia_cli.steward.ledger import (
     LedgerUnavailable,
     validateRef,
 )
+from gaia_cli.steward.models import content_hash
 from gaia_cli.steward.receipts import ensure_local_state_path, run_id_matches
 
 
@@ -535,6 +536,7 @@ class Custody:
                 )
             cursor = parent
         links.reverse()
+        checkChain(links)
         return links
 
 
@@ -598,8 +600,16 @@ def authenticateDispatch(scanRaw: bytes, dispatchRaw: bytes, *, debtId: str) -> 
 
 
 def dispatchBundle(
-    *, debtId: str, scanRaw: bytes, dispatchRaw: bytes, writer: Mapping[str, Any]
+    *, debtId: str, scanRaw: bytes, dispatchRaw: bytes, writer: Mapping[str, Any], promptRaw: bytes | None = None,
 ) -> tuple[Bundle, dict[str, bytes]]:
+    """The original authority for one dispatch.
+
+    `promptRaw` is the exact builder prompt rendered from the packet at dispatch
+    time. Keeping it lets a lost prompt be restored byte for byte after the
+    original container is gone, instead of being re-rendered from today's policy.
+    `writer` is part of the bundle identity, so substituting it changes the id.
+    """
+
     facts = authenticateDispatch(scanRaw, dispatchRaw, debtId=debtId)
     if not facts["dispatchId"]:
         raise CustodyRefused("the dispatch receipt names no dispatch id")
@@ -607,14 +617,19 @@ def dispatchBundle(
         "scan-receipt": Artifact("scan-receipt", sha256Hex(scanRaw), len(scanRaw), f"{facts['scanReceiptId']}.json"),
         "dispatch-receipt": Artifact("dispatch-receipt", sha256Hex(dispatchRaw), len(dispatchRaw), f"{facts['dispatchReceiptId']}.json"),
     }
+    objects = {artifacts["scan-receipt"].sha256: scanRaw, artifacts["dispatch-receipt"].sha256: dispatchRaw}
+    if promptRaw is not None:
+        if not promptRaw.strip():
+            raise CustodyRefused("the builder prompt is empty")
+        artifacts["builder-prompt"] = Artifact("builder-prompt", sha256Hex(promptRaw), len(promptRaw), "builder-prompt.md")
+        objects[artifacts["builder-prompt"].sha256] = promptRaw
     identity = {
         "kind": "dispatch", "debtId": debtId, "dispatchId": facts["dispatchId"],
         "dispatchReceiptId": facts["dispatchReceiptId"], "scanReceiptId": facts["scanReceiptId"],
-        "sourceCommit": facts["sourceCommit"], "parent": None,
+        "sourceCommit": facts["sourceCommit"], "parent": None, "writer": dict(writer),
         "artifacts": {role: art.to_dict() for role, art in artifacts.items()},
     }
-    objects = {artifacts["scan-receipt"].sha256: scanRaw, artifacts["dispatch-receipt"].sha256: dispatchRaw}
-    return makeBundle(identity, {"createdAt": nowUtc(), "writer": dict(writer)}), objects
+    return makeBundle(identity, {"createdAt": nowUtc()}), objects
 
 
 def buildBundle(
@@ -653,40 +668,149 @@ def buildBundle(
         "kind": "build", "debtId": dispatch.bundle.debtId, "dispatchId": facts["dispatchId"],
         "dispatchReceiptId": facts["dispatchReceiptId"], "scanReceiptId": facts["scanReceiptId"],
         "sourceCommit": facts["sourceCommit"], "parent": dispatch.bundle.bundleId, "noChange": noChange,
+        "writer": dict(writer), "summary": summary,
         "artifacts": {role: art.to_dict() for role, art in artifacts.items()},
     }
-    meta = {"createdAt": nowUtc(), "writer": dict(writer), "summary": summary}
-    return makeBundle(identity, meta), objects
+    return makeBundle(identity, {"createdAt": nowUtc()}), objects
+
+
+def authenticateVerdict(receiptRaw: bytes, build: Loaded) -> dict[str, Any]:
+    """Prove a verification receipt judged THIS build, not merely some build of the same dispatch.
+
+    A receipt hashes to its own name, which only shows it was not edited. It says
+    nothing about which candidate it verified, so the binding is recomputed from
+    the build's own stored bytes: debt id, dispatch id, the diff hash and the
+    proof-transcript hash the canonical verifier recorded must equal the hashes of
+    the diff and proof in this build. Replaying an authentic `pending` receipt from
+    build A onto build B therefore fails. Run at publication, at every chain load
+    (remote retrieval) and again in `readiness`.
+    """
+
+    if build.bundle.kind != "build":
+        raise CustodyRefused("a verdict must be bound to a build bundle")
+    if build.bundle.identity.get("noChange"):
+        raise CustodyRefused("a no-change build has no patch, so there is nothing to bind a mechanical verdict to")
+    receipt = parseJsonObject(receiptRaw, "verification receipt")
+    artifact = receipt.get("artifact")
+    if receipt.get("action") != "verify" or not isinstance(artifact, dict):
+        raise CustodyRefused("the receipt is not a verification receipt")
+    receiptId = str(receipt.get("runId", ""))
+    if not run_id_matches(
+        receiptId, {"action": "verify", "scanReceiptId": receipt.get("scanReceiptId"), "artifact": artifact}
+    ):
+        raise CustodyRefused("the verification receipt no longer matches its own content hash")
+    identity = build.bundle.identity
+    if artifact.get("debtId") != identity.get("debtId"):
+        raise CustodyRefused("the verification receipt judged a different debt than this build")
+    if artifact.get("dispatchId") != identity.get("dispatchId"):
+        raise CustodyRefused("the verification receipt judged a different dispatch than this build")
+    try:
+        diffText = build.files["candidate-diff"].decode("utf-8")
+        proofText = build.files["proof-transcript"].decode("utf-8")
+    except (KeyError, UnicodeDecodeError) as exc:
+        raise CustodyRefused(f"the build's own patch or proof cannot be read for binding: {exc}") from exc
+    changeSet = artifact.get("changeSet")
+    proof = artifact.get("proof")
+    if not isinstance(changeSet, dict) or changeSet.get("diffHash") != content_hash(diffText):
+        raise CustodyRefused(
+            "the verification receipt verified a different candidate diff than this build's; it cannot be attached to it"
+        )
+    if not isinstance(proof, dict) or proof.get("transcriptHash") != content_hash(proofText):
+        raise CustodyRefused(
+            "the verification receipt verified a different proof transcript than this build's; it cannot be attached to it"
+        )
+    verdict = artifact.get("verdict")
+    if verdict not in ("pending", "reject", "escalate"):
+        raise CustodyRefused(f"a mechanical verification can only be pending, reject or escalate, not {verdict!r}")
+    return {
+        "receiptId": receiptId, "verdict": verdict,
+        "diffHash": changeSet["diffHash"], "transcriptHash": proof["transcriptHash"],
+    }
 
 
 def verdictBundle(
     *, build: Loaded, receiptRaw: bytes, writer: Mapping[str, Any]
 ) -> tuple[Bundle, dict[str, bytes]]:
-    """The recorded outcome of mechanical verification, tied to the build it judged."""
+    """The recorded outcome of mechanical verification, bound to the exact build it judged."""
 
-    if build.bundle.kind != "build":
-        raise CustodyRefused("a verdict bundle must descend from a build bundle")
-    receipt = parseJsonObject(receiptRaw, "verification receipt")
-    artifact = receipt.get("artifact")
-    if receipt.get("action") != "verify" or not isinstance(artifact, dict):
-        raise CustodyRefused("the receipt is not a verification receipt")
-    if artifact.get("dispatch_id", artifact.get("dispatchId")) != build.bundle.identity.get("dispatchId"):
-        raise CustodyRefused("the verification receipt judged a different dispatch than this build")
-    receiptId = str(receipt.get("runId", ""))
-    if not run_id_matches(receiptId, {"action": "verify", "scanReceiptId": receipt.get("scanReceiptId"), "artifact": artifact}):
-        raise CustodyRefused("the verification receipt no longer matches its own content hash")
-    verdict = str(artifact.get("verdict", ""))
-    art = Artifact("verification-receipt", sha256Hex(receiptRaw), len(receiptRaw), f"{receiptId}.json")
+    facts = authenticateVerdict(receiptRaw, build)
+    art = Artifact("verification-receipt", sha256Hex(receiptRaw), len(receiptRaw), f"{facts['receiptId']}.json")
     identity = {
         "kind": "verdict", "debtId": build.bundle.debtId,
         "dispatchId": build.bundle.identity.get("dispatchId"),
         "dispatchReceiptId": build.bundle.identity.get("dispatchReceiptId"),
         "scanReceiptId": build.bundle.identity.get("scanReceiptId"),
         "sourceCommit": build.bundle.identity.get("sourceCommit"), "parent": build.bundle.bundleId,
-        "verdict": verdict, "artifacts": {"verification-receipt": art.to_dict()},
+        "verdict": facts["verdict"], "writer": dict(writer),
+        # What the verdict was proven to cover, restated so the manifest itself names it.
+        "binds": {
+            "candidateDiff": build.bundle.artifacts["candidate-diff"]["sha256"],
+            "proofTranscript": build.bundle.artifacts["proof-transcript"]["sha256"],
+            "diffHash": facts["diffHash"], "transcriptHash": facts["transcriptHash"],
+        },
+        "artifacts": {"verification-receipt": art.to_dict()},
     }
-    meta = {"createdAt": nowUtc(), "writer": dict(writer), "verificationReceiptId": receiptId}
-    return makeBundle(identity, meta), {art.sha256: receiptRaw}
+    return makeBundle(identity, {"createdAt": nowUtc()}), {art.sha256: receiptRaw}
+
+
+def checkChain(links: list[Loaded]) -> None:
+    """Re-authenticate every dependency inside a loaded chain. Called on each retrieval, not only on publish."""
+
+    for previous, link in zip(links, links[1:]):
+        if link.bundle.parent != previous.bundle.bundleId:
+            raise CustodyRefused(f"{link.bundle.kind} bundle is not a child of the {previous.bundle.kind} before it")
+        for field in ("debtId", "dispatchId", "dispatchReceiptId", "scanReceiptId", "sourceCommit"):
+            if link.bundle.identity.get(field) != previous.bundle.identity.get(field):
+                raise CustodyRefused(f"{link.bundle.kind} bundle disagrees with its parent about {field}")
+        if link.bundle.kind == "verdict":
+            facts = authenticateVerdict(link.files["verification-receipt"], previous)
+            binds = link.bundle.identity.get("binds")
+            if binds is None:
+                raise CustodyRefused(
+                    "the verdict bundle predates verdict binding (it names no 'binds'); it cannot be trusted as "
+                    "bound to this build, so publish a fresh verdict from the build"
+                )
+            if (
+                link.bundle.identity.get("verdict") != facts["verdict"]
+                or not isinstance(binds, dict)
+                or binds.get("candidateDiff") != previous.bundle.artifacts["candidate-diff"]["sha256"]
+                or binds.get("proofTranscript") != previous.bundle.artifacts["proof-transcript"]["sha256"]
+                or binds.get("diffHash") != facts["diffHash"]
+                or binds.get("transcriptHash") != facts["transcriptHash"]
+            ):
+                raise CustodyRefused("the verdict bundle's binding does not match its build and receipt")
+        if link.bundle.kind == "build":
+            authenticateDispatch(
+                previous.files["scan-receipt"], previous.files["dispatch-receipt"], debtId=previous.bundle.debtId
+            )
+
+
+def requirePins(custody: Custody, links: list[Loaded], *, pinBundle: str | None, pinCommit: str | None) -> None:
+    """Check a chain against identifiers the caller obtained from somewhere the ref's writers cannot edit.
+
+    Content hashes prove a bundle's bytes were not altered; they cannot prove WHO
+    wrote the ref. What can be pinned is an identifier recorded elsewhere under a
+    different authority (the shared ledger, or the `ready` record posted by the
+    Lead on the pull request). `pinBundle` must be a full bundle id present in the
+    chain. `pinCommit` must still be an ancestor of the evidence tip, so a rewrite
+    or deletion of history after the pin was taken (force-push) is detected.
+    """
+
+    if pinBundle is not None:
+        if not SHA256.match(pinBundle):
+            raise CustodyRefused("a pinned bundle must be a full 64-hex bundle id")
+        if pinBundle not in {link.bundle.bundleId for link in links}:
+            raise CustodyRefused(f"the pinned bundle {pinBundle[:12]} is not part of the custody chain; refusing a substituted chain")
+    if pinCommit is not None:
+        if not FULL_COMMIT.match(pinCommit):
+            raise CustodyRefused("a pinned evidence commit must be a full commit id")
+        tip = links[-1].commit
+        known = custody.store.git(["cat-file", "-e", f"{pinCommit}^{{commit}}"], timeout=custody.store.localTimeout)
+        if known.returncode != 0 or not custody.store.isAncestor(pinCommit, tip):
+            raise CustodyRefused(
+                f"the pinned evidence commit {pinCommit[:12]} is not an ancestor of the current evidence tip {tip[:12]}; "
+                "history was rewritten or the ref was recreated"
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -739,6 +863,8 @@ class Restored:
 
 def restoreChain(
     custody: Custody, repoRoot: Path, debtId: str, *, bundleId: str | None, receiptsDirectory: Path, stateRoot: Path,
+    pinBundle: str | None = None, pinCommit: str | None = None,
+    expectDispatchBundle: str | None = None, expectDispatchId: str | None = None,
 ) -> Restored:
     """Retrieve and authenticate a chain, then lay the original bytes into this checkout.
 
@@ -750,6 +876,15 @@ def restoreChain(
     dispatch = links[0]
     if dispatch.bundle.kind != "dispatch":
         raise CustodyRefused("the evidence chain does not begin with a dispatch bundle")
+    requirePins(custody, links, pinBundle=pinBundle, pinCommit=pinCommit)
+    # Authority recorded elsewhere (the shared ledger's work item) must name THIS dispatch, before any byte is written.
+    if expectDispatchBundle is not None and dispatch.bundle.bundleId != expectDispatchBundle:
+        raise CustodyRefused(
+            f"the custody chain starts at dispatch bundle {dispatch.bundle.bundleId[:12]}, but the ledger recorded "
+            f"{expectDispatchBundle[:12]}; refusing a different dispatch"
+        )
+    if expectDispatchId is not None and dispatch.bundle.identity.get("dispatchId") != expectDispatchId:
+        raise CustodyRefused("the custody chain belongs to a different dispatch than the ledger's work item")
     facts = authenticateDispatch(dispatch.files["scan-receipt"], dispatch.files["dispatch-receipt"], debtId=debtId)
     source = facts["sourceCommit"]
     if source is not None:

@@ -31,6 +31,8 @@ from gaia_cli.steward.custody import (
     buildBundle,
     dispatchBundle,
     handoffRecord,
+    authenticateDispatch,
+    requirePins,
     restoreChain,
     verdictBundle,
 )
@@ -100,13 +102,16 @@ def localDispatch(root: Path, debtId: str, dispatchId: str | None = None) -> tup
 
 def publishDispatch(
     root: Path, custody: Custody, debtId: str, *, writer: Mapping[str, Any], dispatchId: str | None = None,
-    scanRaw: bytes | None = None, dispatchRaw: bytes | None = None,
+    scanRaw: bytes | None = None, dispatchRaw: bytes | None = None, prompt: str | None = None,
 ) -> PublishResult:
     """Make the original scan and dispatch receipts durable. Idempotent per receipt."""
 
     if scanRaw is None or dispatchRaw is None:
         scanRaw, dispatchRaw = localDispatch(root, debtId, dispatchId)
-    bundle, objects = dispatchBundle(debtId=debtId, scanRaw=scanRaw, dispatchRaw=dispatchRaw, writer=writer)
+    bundle, objects = dispatchBundle(
+        debtId=debtId, scanRaw=scanRaw, dispatchRaw=dispatchRaw, writer=writer,
+        promptRaw=prompt.encode("utf-8") if prompt is not None else None,
+    )
     return custody.publish(bundle, objects)
 
 
@@ -126,10 +131,11 @@ def acceptBuild(custody: Custody, debtId: str, *, bundleId: str | None = None, d
 def publishBuild(
     root: Path, custody: Custody, debtId: str, *, writer: Mapping[str, Any], summary: str, noChange: bool,
     diffPath: Path | None, proofPath: Path | None, dispatchBundleId: str | None = None,
+    dispatchId: str | None = None,
 ) -> PublishResult:
     if not summary or not summary.strip():
         raise CustodyRefused("a build bundle needs a non-empty summary")
-    dispatch = acceptBuild(custody, debtId, bundleId=dispatchBundleId)
+    dispatch = acceptBuild(custody, debtId, bundleId=dispatchBundleId, dispatchId=dispatchId)
     diffRaw = readBounded(diffPath, "candidate diff") if diffPath is not None else None
     proofRaw = readBounded(proofPath, "proof transcript") if proofPath is not None else None
     bundle, objects = buildBundle(
@@ -141,14 +147,22 @@ def publishBuild(
 # -- 4. independent verifier retrieves artifacts ---------------------------------
 
 
-def restore(root: Path, custody: Custody, debtId: str, *, bundleId: str | None = None) -> Restored:
+def restore(
+    root: Path, custody: Custody, debtId: str, *, bundleId: str | None = None, pinBundle: str | None = None,
+    pinCommit: str | None = None, expectDispatchBundle: str | None = None, expectDispatchId: str | None = None,
+) -> Restored:
     receipts, state = receiptsDirectory(root)
-    return restoreChain(custody, root, debtId, bundleId=bundleId, receiptsDirectory=receipts, stateRoot=state)
+    return restoreChain(
+        custody, root, debtId, bundleId=bundleId, receiptsDirectory=receipts, stateRoot=state,
+        pinBundle=pinBundle, pinCommit=pinCommit,
+        expectDispatchBundle=expectDispatchBundle, expectDispatchId=expectDispatchId,
+    )
 
 
 def verifyFromCustody(
     root: Path, custody: Custody, debtId: str, *, bundleId: str | None = None, controller: Any = None,
-    prompt: bool = False,
+    prompt: bool = False, pinBundle: str | None = None, pinCommit: str | None = None,
+    expectDispatchBundle: str | None = None, expectDispatchId: str | None = None,
 ) -> Verification:
     """Restore the original evidence from custody and run the canonical mechanical verifier on it.
 
@@ -164,7 +178,10 @@ def verifyFromCustody(
         render_verifier_prompt_for,
     )
 
-    restored = restore(root, custody, debtId, bundleId=bundleId)
+    restored = restore(
+        root, custody, debtId, bundleId=bundleId, pinBundle=pinBundle, pinCommit=pinCommit,
+        expectDispatchBundle=expectDispatchBundle, expectDispatchId=expectDispatchId,
+    )
     if restored.build is None:
         raise CustodyRefused("custody holds a dispatch for this debt but no build output to verify")
     if restored.diffPath is None or restored.proofPath is None:
@@ -209,7 +226,10 @@ def publishVerdict(
 # -- 6. before READY / PR handoff ---------------------------------------------------
 
 
-def readiness(custody: Custody, debtId: str, *, bundleId: str | None = None) -> dict[str, Any]:
+def readiness(
+    custody: Custody, debtId: str, *, bundleId: str | None = None, pinBundle: str | None = None,
+    pinCommit: str | None = None,
+) -> dict[str, Any]:
     """Re-read the whole chain from the remote. Anything missing or altered raises.
 
     A READY handoff needs a dispatch, a build with its patch and proof, and a
@@ -217,7 +237,8 @@ def readiness(custody: Custody, debtId: str, *, bundleId: str | None = None) -> 
     acceptance: that is the independent verifier's, recorded through the lane.
     """
 
-    links = custody.chain(debtId, bundleId)
+    links = custody.chain(debtId, bundleId)  # re-authenticates every link, including verdict-to-build binding
+    requirePins(custody, links, pinBundle=pinBundle, pinCommit=pinCommit)
     kinds = [link.bundle.kind for link in links]
     if kinds != ["dispatch", "build", "verdict"]:
         raise CustodyRefused(f"the evidence chain is incomplete ({' -> '.join(kinds)}); a handoff needs dispatch -> build -> verdict")
@@ -227,7 +248,36 @@ def readiness(custody: Custody, debtId: str, *, bundleId: str | None = None) -> 
     record = handoffRecord(links, custody.store.ref)
     record["mechanicalVerdict"] = verdict
     record["independentVerifierRequired"] = True
+    # Honest scope: integrity and binding are proven here; WHO may write the ref is a repository-permission question.
+    record["writerAuthorization"] = (
+        "not verified by this command: ref permissions are repository configuration. Pin the bundle ids and "
+        "evidence commit from the ledger or the Lead's PR handoff (--pin-bundle / --pin-commit)."
+    )
     return record
+
+
+def originalPrompt(custody: Custody, debtId: str, *, dispatchBundle: str, dispatchId: str) -> str:
+    """The exact builder prompt rendered when this work was dispatched, restored from custody.
+
+    Never re-renders and never consults current policy: if the original dispatch
+    cannot be authenticated, or it carries no preserved prompt, this raises and
+    the caller stays blocked.
+    """
+
+    tip = custody.store.snapshot()
+    loaded = custody.loadAt(tip, dispatchBundle, debtId)
+    if loaded.bundle.kind != "dispatch":
+        raise CustodyRefused("the ledger's dispatch pointer does not name a dispatch bundle")
+    if loaded.bundle.identity.get("dispatchId") != dispatchId:
+        raise CustodyRefused("the custody dispatch belongs to a different dispatch than this work item")
+    authenticateDispatch(loaded.files["scan-receipt"], loaded.files["dispatch-receipt"], debtId=debtId)
+    raw = loaded.files.get("builder-prompt")
+    if raw is None:
+        raise CustodyRefused(
+            "the original builder prompt was not preserved in this dispatch bundle; it will not be re-rendered "
+            "from current policy"
+        )
+    return raw.decode("utf-8")
 
 
 def blockedMessage(exc: CustodyError) -> str:

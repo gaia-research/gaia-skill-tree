@@ -512,3 +512,299 @@ def test_the_ledger_ref_is_untouched_by_custody(world: World) -> None:
     publishDispatch(world)
     heads = git(world.remote, "for-each-ref", "--format=%(refname)", "refs/heads")
     assert "refs/heads/steward/evidence" in heads and "refs/heads/steward/ledger" not in heads
+
+
+# ---------------------------------------------------------------------------
+# Codex finding 2: a verdict is bound to the exact build it judged
+# ---------------------------------------------------------------------------
+
+
+def secondBuild(world: World, result: Any, *, diff: str | None = None, proof: str | None = None) -> cu.PublishResult:
+    """A different candidate under the SAME dispatch (a retry, or a hostile substitute)."""
+
+    return publishBuild(world, result, diff=diff, proof=proof)
+
+
+def verifyBuild(world: World, result: Any, buildBundleId: str, root: Path | None = None) -> Any:
+    root = root or world.clone(f"verifier-{buildBundleId[:6]}")
+    return ops.verifyFromCustody(
+        root, world.custody(root), result.artifact.debt["id"], bundleId=buildBundleId, controller=world.controller,
+    )
+
+
+def test_a_pending_receipt_from_one_candidate_cannot_be_attached_to_another_under_the_same_dispatch(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    buildA = publishBuild(world, result)
+    buildB = secondBuild(world, result, diff=diffText().replace("new line", "a different line"))
+    assert buildA.bundleId != buildB.bundleId
+    verified = verifyBuild(world, result, buildA.bundleId)
+    assert verified.result.artifact.verdict == "pending"
+    cloud = world.clone("attacher")
+    with pytest.raises(CustodyRefused, match="different candidate diff"):
+        ops.publishVerdict(
+            cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+            buildBundleId=buildB.bundleId, writer={"role": "mechanical"},
+        )
+    # The same receipt IS accepted for the build it actually judged.
+    ok = ops.publishVerdict(
+        cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+        buildBundleId=buildA.bundleId, writer={"role": "mechanical"},
+    )
+    assert ok.published
+
+
+def test_a_receipt_for_a_different_proof_transcript_is_refused(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    buildA = publishBuild(world, result)
+    # Same diff, different (still valid) proof transcript.
+    altered = json.loads(transcript(len(result.artifact.proof)))
+    altered["entries"][0]["output"] = "different captured output"
+    buildB = secondBuild(world, result, proof=json.dumps(altered))
+    verified = verifyBuild(world, result, buildA.bundleId)
+    cloud = world.clone("attacher")
+    with pytest.raises(CustodyRefused, match="different proof transcript"):
+        ops.publishVerdict(
+            cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+            buildBundleId=buildB.bundleId, writer={"role": "mechanical"},
+        )
+
+
+def test_a_receipt_for_another_debt_is_refused(tmp_path: Path) -> None:
+    world = World(tmp_path, count=2)
+    first, second = world.debts
+    resultA = world.dispatch(first)
+    resultB = world.dispatch(second)
+    for result in (resultA, resultB):
+        publishDispatch(world, result)
+    buildA = publishBuild(world, resultA)
+    buildB = publishBuild(world, resultB)
+    verified = verifyBuild(world, resultA, buildA.bundleId)
+    cloud = world.clone("attacher")
+    with pytest.raises(CustodyRefused, match="different debt|different dispatch"):
+        ops.publishVerdict(
+            cloud, world.custody(cloud), second, receiptPath=verified.result.receipt_path,
+            buildBundleId=buildB.bundleId, writer={"role": "mechanical"},
+        )
+
+
+def forgeVerdict(world: World, result: Any, *, receiptFrom: Any, onto: cu.PublishResult) -> cu.PublishResult:
+    """Simulate a ref writer who bypasses the CLI: write a verdict bundle directly onto the remote."""
+
+    debt = result.artifact.debt["id"]
+    custody = world.custody(world.clone("forger"))
+    commit, built = custody.select(debt, "build", bundleId=onto.bundleId)
+    build = custody.loadAt(commit, built.bundleId, debt)
+    receiptRaw = receiptFrom.result.receipt_path.read_bytes()
+    art = cu.Artifact("verification-receipt", cu.sha256Hex(receiptRaw), len(receiptRaw), "forged.json")
+    identity = {
+        "kind": "verdict", "debtId": debt, "dispatchId": build.bundle.identity["dispatchId"],
+        "dispatchReceiptId": build.bundle.identity["dispatchReceiptId"],
+        "scanReceiptId": build.bundle.identity["scanReceiptId"],
+        "sourceCommit": build.bundle.identity["sourceCommit"], "parent": build.bundle.bundleId,
+        "verdict": "pending", "writer": {"role": "mechanical"},
+        "binds": {"candidateDiff": build.bundle.artifacts["candidate-diff"]["sha256"],
+                  "proofTranscript": build.bundle.artifacts["proof-transcript"]["sha256"],
+                  "diffHash": "0" * 64, "transcriptHash": "0" * 64},
+        "artifacts": {"verification-receipt": art.to_dict()},
+    }
+    return custody.publish(cu.makeBundle(identity, {"createdAt": cu.nowUtc()}), {art.sha256: receiptRaw})
+
+
+def test_a_forged_verdict_is_refused_on_remote_retrieval_and_at_readiness(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    buildA = publishBuild(world, result)
+    buildB = secondBuild(world, result, diff=diffText().replace("new line", "a different line"))
+    verifiedA = verifyBuild(world, result, buildA.bundleId)
+    forged = forgeVerdict(world, result, receiptFrom=verifiedA, onto=buildB)  # bypasses publishVerdict entirely
+    fresh = world.clone("reader")
+    with pytest.raises(CustodyRefused, match="binding does not match|different candidate diff"):
+        ops.readiness(world.custody(fresh), debt, bundleId=forged.bundleId)
+    with pytest.raises(CustodyRefused, match="binding does not match|different candidate diff"):
+        world.custody(fresh).chain(debt, forged.bundleId)
+    # Restoring the same chain for verification is refused too, so a forged verdict is never trusted downstream.
+    with pytest.raises(CustodyRefused, match="binding does not match|different candidate diff"):
+        ops.restore(fresh, world.custody(fresh), debt, bundleId=forged.bundleId)
+
+
+def test_a_verdict_bundle_whose_binding_fields_are_edited_is_refused(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    built = publishBuild(world, result)
+    verified = verifyBuild(world, result, built.bundleId)
+    cloud = world.clone("pub")
+    published = ops.publishVerdict(
+        cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+        buildBundleId=built.bundleId, writer={"role": "mechanical"},
+    )
+    path = cu.bundlePath(debt, published.bundleId)
+    custody = world.custody(world.clone("r"))
+    manifest = json.loads(custody.store.readFile(custody.store.snapshot(), path, limit=10**6))
+    manifest["identity"]["binds"]["diffHash"] = "f" * 64
+    corrupt(world, path, json.dumps(manifest).encode())
+    with pytest.raises(CustodyRefused, match="altered after publication"):
+        world.custody(world.clone("r2")).chain(debt)
+
+
+def test_a_no_change_build_cannot_carry_a_mechanical_verdict(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    real = publishBuild(world, result)
+    verified = verifyBuild(world, result, real.bundleId)
+    empty = ops.publishBuild(
+        world.cloudA, world.custody(world.cloudA), debt,
+        writer=ops.writerRecord(role="builder", agentId="b", model="haiku-5-5", effort="high"),
+        summary="nothing to do", noChange=True, diffPath=None, proofPath=None,
+    )
+    cloud = world.clone("pub")
+    with pytest.raises(CustodyRefused, match="no-change build"):
+        ops.publishVerdict(
+            cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+            buildBundleId=empty.bundleId, writer={"role": "mechanical"},
+        )
+
+
+def test_the_genuine_chain_still_reaches_readiness_after_binding(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    built = publishBuild(world, result)
+    verified = verifyBuild(world, result, built.bundleId)
+    cloud = world.clone("pub")
+    ops.publishVerdict(
+        cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+        buildBundleId=built.bundleId, writer={"role": "mechanical"},
+    )
+    record = ops.readiness(world.custody(world.clone("reader")), debt)
+    assert record["mechanicalVerdict"] == "pending" and record["independentVerifierRequired"] is True
+    assert "not verified by this command" in record["writerAuthorization"]
+
+
+# ---------------------------------------------------------------------------
+# Codex finding 3: writer metadata is part of the identity; pins bind to authority recorded elsewhere
+# ---------------------------------------------------------------------------
+
+
+def test_writer_metadata_cannot_be_substituted_without_changing_the_bundle_id(world: World) -> None:
+    published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    path = cu.bundlePath(debt, published.bundleId)
+    custody = world.custody(world.clone("r"))
+    manifest = json.loads(custody.store.readFile(custody.store.snapshot(), path, limit=10**6))
+    assert manifest["identity"]["writer"]["agentId"] == "lead-test"
+    manifest["identity"]["writer"] = {"role": "lead", "agentId": "someone-else"}
+    corrupt(world, path, json.dumps(manifest).encode())
+    with pytest.raises(CustodyRefused, match="altered after publication"):
+        world.custody(world.clone("r2")).chain(debt)
+
+
+def test_the_build_summary_and_writer_are_authenticated_identity(world: World) -> None:
+    _published, result = publishDispatch(world)
+    one = publishBuild(world, result)
+    other = ops.publishBuild(
+        world.cloudA, world.custody(world.cloudA), result.artifact.debt["id"],
+        writer=ops.writerRecord(role="builder", agentId="builder-2", model="haiku-5-5", effort="medium"),
+        summary="fix", noChange=False, diffPath=world.cloudA / "candidate.diff", proofPath=world.cloudA / "proof.json",
+    )
+    assert one.bundleId != other.bundleId  # same bytes, different claimed writer => a different bundle
+
+
+def completeChain(world: World) -> tuple[Any, str, cu.PublishResult, cu.PublishResult, cu.PublishResult]:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    built = publishBuild(world, result)
+    verified = verifyBuild(world, result, built.bundleId)
+    cloud = world.clone("pub")
+    verdict = ops.publishVerdict(
+        cloud, world.custody(cloud), debt, receiptPath=verified.result.receipt_path,
+        buildBundleId=built.bundleId, writer={"role": "mechanical"},
+    )
+    return result, debt, _published, built, verdict
+
+
+def test_pins_accept_the_recorded_chain_and_refuse_a_substituted_one(world: World) -> None:
+    result, debt, published, built, verdict = completeChain(world)
+    reader = world.custody(world.clone("reader"))
+    ok = ops.readiness(reader, debt, pinBundle=verdict.bundleId, pinCommit=verdict.commit)
+    assert ok["bundles"][-1]["bundleId"] == verdict.bundleId
+    with pytest.raises(CustodyRefused, match="not part of the custody chain"):
+        ops.readiness(reader, debt, pinBundle="a" * 64)
+    with pytest.raises(CustodyRefused, match="full 64-hex"):
+        ops.readiness(reader, debt, pinBundle="abc")
+
+
+def test_a_rewritten_history_is_detected_by_the_pinned_commit(world: World) -> None:
+    result, debt, published, built, verdict = completeChain(world)
+    pinned = verdict.commit
+    # A ref writer force-pushes an unrelated root commit carrying the same files (history rewrite).
+    work = world.tmp / "rewrite"
+    subprocess.run(["git", "clone", "-q", "--branch", "steward/evidence", str(world.remote), str(work)], check=True)
+    git(work, "checkout", "-q", "--orphan", "rewritten")
+    git(work, "add", "-A")
+    git(work, "commit", "-qm", "rewritten history")
+    git(work, "push", "-q", "--force", "origin", "rewritten:refs/heads/steward/evidence")
+    reader = world.custody(world.clone("reader"))
+    # Content is intact, so without a pin the rewrite is invisible...
+    assert ops.readiness(reader, debt)["mechanicalVerdict"] == "pending"
+    # ...and with the commit recorded elsewhere it is caught.
+    with pytest.raises(CustodyRefused, match="not an ancestor"):
+        ops.readiness(world.custody(world.clone("reader2")), debt, pinCommit=pinned)
+
+
+def test_the_ledger_recorded_dispatch_must_be_the_chains_dispatch(world: World) -> None:
+    published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    publishBuild(world, result)
+    cloud = world.clone("cloudB")
+    with pytest.raises(CustodyRefused, match="ledger recorded"):
+        ops.restore(cloud, world.custody(cloud), debt, expectDispatchBundle="b" * 64)
+    with pytest.raises(CustodyRefused, match="different dispatch"):
+        ops.restore(cloud, world.custody(cloud), debt, expectDispatchId="dispatch-not-this-one")
+    assert not (cloud / ".gaia" / "steward" / "receipts").exists(), "nothing is written before the binding is proven"
+
+
+def test_original_prompt_is_restored_byte_for_byte_and_missing_prompt_is_refused(world: World) -> None:
+    result = world.dispatch()
+    debt = result.artifact.debt["id"]
+    text = "# Tree Keeper dispatch\n\noriginal envelope text\n"
+    withPrompt = ops.publishDispatch(
+        world.cloudA, world.custody(world.cloudA), debt, writer=LEAD,
+        scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(), prompt=text,
+    )
+    cloud = world.clone("cloudB")
+    restored = ops.originalPrompt(
+        world.custody(cloud), debt, dispatchBundle=withPrompt.bundleId, dispatchId=result.artifact.dispatch_id,
+    )
+    assert restored == text
+    with pytest.raises(CustodyRefused, match="different dispatch"):
+        ops.originalPrompt(world.custody(cloud), debt, dispatchBundle=withPrompt.bundleId, dispatchId="dispatch-other")
+    bare = ops.publishDispatch(
+        world.cloudA, world.custody(world.cloudA), debt, writer={"role": "lead", "agentId": "other"},
+        scanRaw=result.scan.receipt_path.read_bytes(), dispatchRaw=result.receipt_path.read_bytes(),
+    )
+    with pytest.raises(CustodyRefused, match="not preserved"):
+        ops.originalPrompt(world.custody(cloud), debt, dispatchBundle=bare.bundleId, dispatchId=result.artifact.dispatch_id)
+
+
+def test_a_legacy_verdict_without_binding_is_refused_with_a_clear_reason(world: World) -> None:
+    _published, result = publishDispatch(world)
+    debt = result.artifact.debt["id"]
+    built = publishBuild(world, result)
+    verified = verifyBuild(world, result, built.bundleId)
+    custody = world.custody(world.clone("legacy"))
+    commit, buildBundle = custody.select(debt, "build", bundleId=built.bundleId)
+    build = custody.loadAt(commit, buildBundle.bundleId, debt)
+    receiptRaw = verified.result.receipt_path.read_bytes()
+    art = cu.Artifact("verification-receipt", cu.sha256Hex(receiptRaw), len(receiptRaw), "legacy.json")
+    identity = {  # the pre-binding (v1) verdict shape: no writer, no binds
+        "kind": "verdict", "debtId": debt, "dispatchId": build.bundle.identity["dispatchId"],
+        "dispatchReceiptId": build.bundle.identity["dispatchReceiptId"],
+        "scanReceiptId": build.bundle.identity["scanReceiptId"], "sourceCommit": build.bundle.identity["sourceCommit"],
+        "parent": build.bundle.bundleId, "verdict": "pending", "artifacts": {"verification-receipt": art.to_dict()},
+    }
+    legacy = custody.publish(cu.makeBundle(identity, {"createdAt": cu.nowUtc()}), {art.sha256: receiptRaw})
+    with pytest.raises(CustodyRefused, match="predates verdict binding"):
+        ops.readiness(world.custody(world.clone("r")), debt, bundleId=legacy.bundleId)
+    # The dispatch -> build chain it hangs from is still retrievable.
+    assert ops.restore(world.clone("r2"), world.custody(world.clone("r3")), debt, bundleId=built.bundleId).build is not None

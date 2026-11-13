@@ -152,3 +152,156 @@ def test_quiet_day_with_custody_enabled_is_a_clean_noop(tmp_path: Path) -> None:
     view = makeRunner(repo, GitRefLedgerStore(repo), [quiet], clock=Clock(), evidence="git").start("full")
     assert view.status == "completed" and actionTypes(view) == []
     assert "steward/evidence" not in bareBranches(bare)
+
+
+# ---------------------------------------------------------------------------
+# Codex finding 1: lost builder prompts come from the ORIGINAL dispatch, never a new one
+# ---------------------------------------------------------------------------
+
+from gaia_cli.steward.fullrun import HANDOFFHEADING  # noqa: E402
+from gaia_cli.steward.policy import POLICY_RELATIVE_PATH  # noqa: E402
+
+NARROWED = (
+    "      allowedPaths:\n        - tests/steward/**\n      allowedCommands:\n        - git status --short"
+)
+ORIGINAL = (
+    "      allowedPaths:\n        - scripts/**\n        - tests/steward/**\n      allowedCommands:\n        - git status --short"
+)
+
+
+def narrowPolicy(repo: Path) -> None:
+    policy = repo / POLICY_RELATIVE_PATH
+    text = policy.read_text()
+    assert ORIGINAL in text
+    policy.write_text(text.replace(ORIGINAL, NARROWED, 1))
+
+
+def dispatchReceipts(repo: Path) -> list[str]:
+    receipts = repo / ".gaia" / "steward" / "receipts"
+    if not receipts.is_dir():
+        return []
+    return sorted(p.name for p in receipts.glob("steward-*.json") if '"action": "dispatch"' in p.read_text())
+
+
+def body(prompt: str) -> str:
+    return prompt.split(HANDOFFHEADING, 1)[0]
+
+
+def test_ordinary_resume_restores_the_original_prompt_even_after_policy_and_debt_change(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path)
+    clock = Clock()
+    runner = runnerOn(repo, clock, evidence="git")
+    view = runner.start("full")
+    action = view.actions[0]
+    promptPath = repo / action["params"]["promptPath"]
+    original = promptPath.read_text()
+    debtId = action["params"]["debtId"]
+    receiptsBefore = dispatchReceipts(repo)
+    evidenceBefore = int(git(bare, "rev-list", "--count", "refs/heads/steward/evidence"))
+    attemptsBefore = load_lane(workOf(repo)["lane"], StewardPolicy.load(repo).lane).by_id(debtId).attempts
+
+    promptPath.unlink()  # the container lost its ignored .gaia/ prompt
+    narrowPolicy(repo)  # policy moved on between sessions
+
+    resumed = runnerOn(repo, clock, evidence="git")
+    resumedView = resumed.resume(view.runId)
+    assert actionTypes(resumedView) == ["agent.build"], resumedView.to_dict()
+    assert promptPath.read_text() == original, "the builder gets exactly the envelope it was dispatched under"
+    assert "- `scripts/**`" in original and "- `scripts/**`" in promptPath.read_text()
+    assert dispatchReceipts(repo) == receiptsBefore, "no new dispatch receipt was minted"
+    assert int(git(bare, "rev-list", "--count", "refs/heads/steward/evidence")) == evidenceBefore
+    lane = load_lane(workOf(repo)["lane"], StewardPolicy.load(repo).lane)
+    assert lane.by_id(debtId).attempts == attemptsBefore == 1
+
+
+def test_negative_control_without_custody_a_lost_prompt_is_re_rendered_from_todays_policy(tmp_path: Path) -> None:
+    """Documents the defect this guards against: the pre-custody path mints a new dispatch under changed policy."""
+
+    repo, _bare = makeFixture(tmp_path)
+    clock = Clock()
+    runner = runnerOn(repo, clock)
+    view = runner.start("full")
+    promptPath = repo / view.actions[0]["params"]["promptPath"]
+    original = promptPath.read_text()
+    receiptsBefore = dispatchReceipts(repo)
+    promptPath.unlink()
+    narrowPolicy(repo)
+    runnerOn(repo, clock).resume(view.runId)
+    assert promptPath.read_text() != original
+    assert "- `scripts/**`" not in promptPath.read_text(), "the re-rendered envelope silently lost an authorized path"
+    assert dispatchReceipts(repo) != receiptsBefore
+
+
+def test_adoption_after_the_original_container_disappears_uses_the_original_dispatch(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path)
+    clock = Clock()
+    view = runnerOn(repo, clock, evidence="git").start("full")
+    action = view.actions[0]
+    debtId = action["params"]["debtId"]
+    original = (repo / action["params"]["promptPath"]).read_text()
+    evidenceBefore = int(git(bare, "rev-list", "--count", "refs/heads/steward/evidence"))
+
+    shutil.rmtree(repo)  # cloud A is gone, and its run lease lapses
+    cloudB = cloneOf(bare, tmp_path / "cloudB")
+    narrowPolicy(cloudB)
+    clock.advance(hours=2)
+
+    second = runnerOn(cloudB, clock, evidence="git").start("full")
+    assert actionTypes(second) == ["agent.build"], second.to_dict()
+    adopted = second.actions[0]
+    assert adopted["params"]["dispatchId"] == action["params"]["dispatchId"]
+    adoptedPrompt = (cloudB / adopted["params"]["promptPath"]).read_text()
+    assert body(adoptedPrompt) == body(original), "adoption restores the original envelope, not today's"
+    assert "- `scripts/**`" in adoptedPrompt
+    assert dispatchReceipts(cloudB) == [], "the adopting container never issued a dispatch"
+    assert int(git(bare, "rev-list", "--count", "refs/heads/steward/evidence")) == evidenceBefore
+    document = workOf(cloudB)
+    assert load_lane(document["lane"], StewardPolicy.load(cloudB).lane).by_id(debtId).attempts == 1
+    assert document["work"][debtId]["evidence"]["dispatchBundle"]
+
+
+def test_lost_prompt_with_unavailable_custody_blocks_without_redispatching_then_recovers(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path)
+    git(repo, "remote", "add", "evcustody", str(bare))
+    clock = Clock()
+    view = runnerOn(repo, clock, evidence="git", evidence_remote="evcustody").start("full")
+    action = view.actions[0]
+    promptPath = repo / action["params"]["promptPath"]
+    original = promptPath.read_text()
+    promptPath.unlink()
+    git(repo, "remote", "set-url", "evcustody", str(tmp_path / "nowhere.git"))
+    narrowPolicy(repo)
+
+    blocked = runnerOn(repo, clock, evidence="git", evidence_remote="evcustody").resume(view.runId)
+    assert not promptPath.exists(), "no substitute prompt is written"
+    assert "BLOCKED: provenance unavailable" in blocked.nextAction
+    receiptsAfterBlock = dispatchReceipts(repo)
+    pending = [a for a in workOf(repo)["runs"][view.runId]["actions"] if a["status"] == "pending"]
+    assert pending and pending[0].get("recoveryBlocked")
+
+    # Repair the transport. The SAME run resumes, restores the original prompt and drops the block.
+    git(repo, "remote", "set-url", "evcustody", str(bare))
+    healed = runnerOn(repo, clock, evidence="git", evidence_remote="evcustody").resume(view.runId)
+    assert actionTypes(healed) == ["agent.build"], healed.to_dict()
+    assert promptPath.read_text() == original
+    assert "BLOCKED" not in healed.nextAction
+    assert dispatchReceipts(repo) == receiptsAfterBlock
+
+
+def test_adoption_with_unavailable_custody_is_blocked_and_never_falls_back_to_a_new_dispatch(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path)
+    clock = Clock()
+    view = runnerOn(repo, clock, evidence="git").start("full")
+    debtId = view.actions[0]["params"]["debtId"]
+    shutil.rmtree(repo)
+    cloudB = cloneOf(bare, tmp_path / "cloudB")
+    git(cloudB, "remote", "add", "evcustody", str(tmp_path / "nowhere.git"))  # custody unreachable from B
+    narrowPolicy(cloudB)
+    clock.advance(hours=2)
+    second = runnerOn(cloudB, clock, evidence="git", evidence_remote="evcustody").start("full")
+    assert "agent.build" not in actionTypes(second)
+    assert second.status == "blocked", second.to_dict()
+    assert "BLOCKED: provenance unavailable" in second.nextAction
+    assert dispatchReceipts(cloudB) == [], "no new dispatch was issued in place of the unreachable original"
+    document = workOf(cloudB)
+    assert load_lane(document["lane"], StewardPolicy.load(cloudB).lane).by_id(debtId).attempts == 1
