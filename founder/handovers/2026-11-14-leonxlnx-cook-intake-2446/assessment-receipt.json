@@ -1,0 +1,140 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-11-13T21:13:58.156194+00:00",
+  "candidateId": "leonxlnx/cook",
+  "candidate": {
+    "name": "cook",
+    "description": "Runs the Cook Loop for ambitious visual builds that must match reference images, screens or videos through long autonomous iteration. Use it for 3D worlds made in code (three.js, WebGL, shaders), code-rendered films, launch and motion videos, games and polished UI that must hold up next to references, especially runs of many hours or days while the user is away. Trigger when the user types /cook or $cook, says \"cook\", \"go cook\", \"let it cook\", \"iterate until it matches\", \"match the references\", \"99%\", \"99.9%\", \"9/10 minimum\" or \"at least 8h\", or attaches reference images and asks for a recreation in code. It runs one intake, then loops build, stills, zero-context critics and fixes against a numeric bar, and holds the final render until the user approves."
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/Leonxlnx/cook/blob/b23cac6fd9439dfddcab61b14808e7bf72549b46/SKILL.md",
+    "contentSha256": "110a9fe3a94c8d0b52c32ee3ed526d0ed4ea16d73ef9dd0c0d129dbbacf29585",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "110a9fe3a94c8d0b52c32ee3ed526d0ed4ea16d73ef9dd0c0d129dbbacf29585",
+  "semanticInputSha256": "03c3bf3ca241859f4efc2c5e6025beb2bea374f8cd8f7f08509324c67de9c600",
+  "catalogSha256": "4dab0bcccbc6a6f79229ddc01c5a41b6d540e407cdfb2114a40f81d07a6753f2",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "video-composition",
+      "name": "Video Composition",
+      "description": "Guiding agents to create, organize, and render code-defined video compositions using programmatic frameworks across the full workflow from scaffolding to render.",
+      "type": "fusion",
+      "prerequisites": [
+        "map-animation",
+        "timeline-animation",
+        "video-captions",
+        "video-interactivity",
+        "video-preview",
+        "video-rendering",
+        "video-saas",
+        "video-scaffolding"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.478191,
+      "matchTier": "weak"
+    },
+    {
+      "id": "video-preview",
+      "name": "video-preview",
+      "description": "Providing an interactive local preview or development studio environment for code-defined video compositions.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.465313,
+      "matchTier": "weak"
+    },
+    {
+      "id": "video-rendering",
+      "name": "video-rendering",
+      "description": "Automating the compilation, rendering, and export of code-defined video compositions into standard media formats.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.454368,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "f083f7dbedea2b3a88e334e174a714aaac2816b634092423b3968eb9d14e1ae1",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "video-composition"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "video-composition",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}
