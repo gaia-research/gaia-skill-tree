@@ -1,0 +1,31 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "obra - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 17-25, 108-136, 160, 235, 256, 302, 317 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/subagent-driven-development/SKILL.md (sha256 1baf70e307bde682c462513c86116333f1f066168c6710f45145bf5f0b00828d; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "A written plan whose tasks are largely independent, a harness with a subagent dispatch tool that accepts an explicit model choice, an isolated worktree, and the skill's bundled scripts, prompt templates and reference files installed. No pending step falls into the source's four stop categories. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+      "facet": "model-led",
+      "id": "controller-dispatch-and-review-loop",
+      "rationale": "The controller dispatches a fresh implementer per task and a task review after each, with the instruction 'Do not pause to check in with your human partner between tasks. Execute all tasks from the plan without stopping' (line 17) and 'A running plan does not wait on a human' (line 19). Structure bounds the autonomy: implementers are never dispatched in parallel (line 235), a task review covering both spec compliance and quality is mandatory (line 256), the controller may not move on with open Critical or Important issues (line 317), the fix loop has a round cap held in a reference file (line 302), and a ledger file is the recovery record across compaction (lines 108-126). Plausible failure modes: much of the procedure lives in reference files, prompts and scripts outside the inspected file, so the loop cannot run as written if they are absent; every task costs several subagent dispatches; a wrong controller ruling propagates through later tasks; harnesses without a per-dispatch model parameter cannot satisfy line 160. Falsified if controllers skip the per-task review or advance past open Critical findings."
+    },
+    {
+      "authority": {
+        "actor": "obra - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 27-31, 105 of obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/subagent-driven-development/SKILL.md (sha256 1baf70e307bde682c462513c86116333f1f066168c6710f45145bf5f0b00828d; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "During controller-led execution a step is irreversible or destructive, is security-sensitive, has a side effect outside the worktree (a merge, a push to a shared branch, a publish), or the plan is too broken to follow without guessing; or execution would begin on main/master. A person is reachable.",
+      "facet": "human-led",
+      "id": "four-stop-categories-and-main-branch-consent",
+      "rationale": "The source carries the same boundary sentence as its inline sibling: 'Four things stop you, and only these ... For those, stop and ask' (lines 27-31), and it forbids starting on main/master without the person's consent (line 105). Because implementer subagents act on briefs written by the controller, the boundary holds only if the controller's classification reaches those briefs; the inspected file does not show the implementer prompt, so whether subagents themselves stop on these categories is not established by this reading. Falsified if a dispatched implementer performs a merge, shared-branch push, publish or destructive operation that the controller did not first raise with the person."
+    }
+  ],
+  "declarationId": "arbor-i-seed.obra.subagent-driven-development.v1",
+  "declaredAt": "2026-11-10T18:23:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "1de89db6429470eefe80ab16c65e7742ad96b1155ba4d3aef38715293baacf2e",
+    "id": "obra/subagent-driven-development"
+  }
+}

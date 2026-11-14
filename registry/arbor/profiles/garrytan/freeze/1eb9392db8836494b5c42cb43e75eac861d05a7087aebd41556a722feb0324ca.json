@@ -1,0 +1,33 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "garrytan - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 1-30, 48-57, 68-77, 85, 93-94 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:freeze/SKILL.md (sha256 b3fd0406df9e7dc3c6522665a3205229beaadbe7bff82c94136fc51d76d054bd; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "benchmarkSources": [],
+      "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, the gstack distribution is installed under ~/.claude/skills/gstack, and a person supplies the directory to which edits are to be confined. Tools the hooks do not cover, shell commands included, are not constrained by this skill.",
+      "declarationId": "arbor-i-seed.garrytan.freeze.v1",
+      "declarationSource": "5eceafb88fa973e8812a11a72af50c3f8974782ae4a2dc4d5863bd3b7df1538d",
+      "declaredAt": "2026-11-10T18:23:00Z",
+      "facet": "human-led",
+      "id": "user-set-edit-boundary",
+      "interpretationSource": null,
+      "rationale": "The source asks the person for a directory (lines 48-51), records it through a shared state writer (lines 55-57), and registers PreToolUse hooks on Edit, Write and NotebookEdit that return a deny for any path outside the boundary (lines 68-73). It fails closed: 'a tool payload the hook cannot parse is DENIED' (line 76). The person sets the scope and the hook holds it, so the constraint does not depend on the model remembering it. The text states its own limits: 'This prevents accidental edits, not a security boundary - Bash or PowerShell commands like sed or Set-Content can still modify files outside the boundary' (line 93), and the boundary 'persists until explicitly removed' (line 85): 'ending or killing a conversation does not remove persisted state' (line 94). Plausible failure modes: a later session inherits a boundary nobody remembers setting and has its edits denied; an agent blocked by the boundary routes the same change through a shell command. Falsified if an Edit or Write outside the boundary succeeds in a session meeting the conditions; qualified by how often blocked edits reappear as shell writes.",
+      "support": "expert-declared"
+    }
+  ],
+  "inputDigest": "fdb7644fe84013d4911d5065338ca4ce19f61c0aa3a44c6a6f12df1ddb0b0786",
+  "schema": "gaia.arbor-profile/v1",
+  "skill": {
+    "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+    "id": "garrytan/freeze"
+  },
+  "sources": {
+    "benchmarkReceipts": [],
+    "declarations": [
+      "5eceafb88fa973e8812a11a72af50c3f8974782ae4a2dc4d5863bd3b7df1538d"
+    ],
+    "interpretations": []
+  }
+}

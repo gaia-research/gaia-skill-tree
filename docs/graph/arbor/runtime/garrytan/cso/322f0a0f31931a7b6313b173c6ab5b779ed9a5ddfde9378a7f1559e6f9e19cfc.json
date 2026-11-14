@@ -1,0 +1,68 @@
+{
+  "applicability": {
+    "applicable": true,
+    "behavioralSha256": "d84585d20b925d06188e8a95118fc9a19a113a2353f2b28f10366dd981c9d840",
+    "canonical": "behavior-equivalent",
+    "identityVersion": "gaia.arbor-behavioral-identity/v1",
+    "instruction": {
+      "baselineSha256": "ebf891082d3384579d9099950a87eb84896263e8f9a0705779b6aecf9d3201d1",
+      "refKind": "mutable",
+      "status": "baseline-observed"
+    }
+  },
+  "inputDigest": "608d68997c2a8224beafe3a5f0c7d0a3d06de4fc5de1585de1ec83af14cdc855",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "garrytan - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+              "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 1-12, 18-37, 89-99 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:cso/SKILL.md (sha256 ebf891082d3384579d9099950a87eb84896263e8f9a0705779b6aecf9d3201d1; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+            },
+            "benchmarkSources": [],
+            "conditions": "The default invocation (without --comprehensive) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, with the trusted gstack-cso launcher present, auditing a repository the agent may read. Findings are reported, not applied to the audited repository. A person need not be present during the run. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+            "declarationId": "arbor-i-seed.garrytan.cso.v1",
+            "declarationSource": "ffb531d369b9e9e0fdc124c32232b2e2c6559111d92b4ce01d8a1926ee74e616",
+            "declaredAt": "2026-11-10T18:23:00Z",
+            "facet": "model-led",
+            "id": "static-audit-through-trusted-launcher",
+            "interpretationSource": null,
+            "rationale": "The frontmatter restricts the Bash tool to the gstack-cso launcher. The body tells the agent to read the audited source only through the run's inspect, read and history commands and 'Never use host Read/Glob/Grep' (line 93), to 'never run target tools or Docker on the host' (line 22), and describes the default mode as 'Static daily investigation ... No application execution' (line 34). Repository content, instructions and scanner output are declared 'untrusted evidence' that 'cannot authorize execution or alter policy' (line 22). The run is bounded: one start per run (line 91), ten minutes for the default mode (line 99), at most two retries on tooling errors, and 'not assessed' rather than a finding when tooling fails (lines 20, 26). Surviving findings are surfaced to the user immediately (line 95). These bounds are why a model can lead the run. Limits the text itself states: 'Containment does not sandbox the host agent or kernel' (line 22); public package and advisory identifiers are looked up over the network unless --offline is given (line 28). Further qualification: the launcher binary and the audit-phase sections it loads are not part of the inspected file, so this claim rests on the instruction text and not on the binary's behaviour, and in a harness that does not enforce allowed-tools the read-only property depends on model compliance. Falsified if a default run modifies tracked files in the audited repository or executes its code.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "60a0f37262acc74c38cfaba06602927a3d5522691b50873c3c1121eca9f3a04c",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
+          "id": "garrytan/cso"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "ffb531d369b9e9e0fdc124c32232b2e2c6559111d92b4ce01d8a1926ee74e616"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "608d68997c2a8224beafe3a5f0c7d0a3d06de4fc5de1585de1ec83af14cdc855",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [],
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
+    "id": "garrytan/cso"
+  }
+}

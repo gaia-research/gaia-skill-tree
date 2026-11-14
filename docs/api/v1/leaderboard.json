@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T02:36:40Z",
+  "generatedAt": "2026-11-14T07:14:51Z",
   "distribution": {
     "total": 343,
     "S": 3,
@@ -8,7 +8,7 @@
     "C": 235,
     "ungraded": 7,
     "floor": 0,
-    "up": 7
+    "up": 6
   },
   "rows": [
     {
@@ -1058,8 +1058,8 @@
       "id": "theqtcompanyrnd/qt-qml-review",
       "trustMagnitude": 59.74,
       "grade": "B",
-      "level": "2★",
-      "storedStars": "2★",
+      "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 59.74
       },

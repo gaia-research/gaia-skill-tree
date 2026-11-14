@@ -500,14 +500,14 @@
     {
       "id": "theqtcompanyrnd/qt-qml-review",
       "name": "qt-qml-review",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 59.74,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "theqtcompanyrnd",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/theqtcompanyrnd/qt-qml-review.json"

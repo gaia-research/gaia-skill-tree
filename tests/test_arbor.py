@@ -341,10 +341,17 @@ def test_historical_sources_survive_canonical_evolution(tmp_path):
     canonical = root / "registry" / "nodes" / "basic" / "example-skill.json"
     canonical.write_bytes(b'{"id":"example-skill","type":"fusion","version":2}\n')
 
-    assert checkStore(root) == 2
+    # A behavioural canonical change is visible to the projection: check fails
+    # closed until replay, and replay never rewrites the historical profile.
+    with pytest.raises(ArborError, match="runtime is stale"):
+        checkStore(root)
     assert checkStore(root, declarationInput) == 1
     assert replay(root) == [profile]
+    assert checkStore(root) == 2
     assert profile.read_bytes() == originalProfile
+    runtime = readJson(runtimePath(root / "registry" / "arbor", "example-skill", SKILL_HASH))
+    assert runtime["applicability"]["applicable"] is False
+    assert runtime["applicability"]["canonical"] == "behavior-changed"
     assert importSource(declarationInput, root) == (stored, declarationDigest, False)
 
     changed = declaration()
@@ -695,6 +702,28 @@ def test_reversed_edge_pairs_are_distinct_and_edge_keys_include_declaration_iden
     assert edgeKey(pair, {"declarationSha256": firstDigest, "claimId": "same-claim"}, "stabilizes") != edgeKey(
         pair, {"declarationSha256": secondDigest, "claimId": "same-claim"}, "stabilizes"
     )
+
+
+def test_declared_edges_do_not_count_as_evaluated_pairs(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    _, declarationDigest, _ = importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root, pair))
+    importArborRecord(
+        root, tmp_path, "other.json", edgeDeclaration(root, edgePair(root, "edge-c", "edge-d"), "other-edge")
+    )
+    replay(root)
+    index = readJson(root / "registry" / "arbor" / "edges.json")
+    # Two authored hypotheses are two edges and zero evaluated pairs.
+    assert len(index["edges"]) == 2
+    assert index["coverage"] == {"pairsEvaluated": 0, "absenceMeaning": "not-evaluated"}
+    assert {edge["support"] for edge in index["edges"]} == {"expert-declared"}
+
+    importArborRecord(root, tmp_path, "observation.json", edgeObservation(declarationDigest, pair))
+    replay(root)
+    index = readJson(root / "registry" / "arbor" / "edges.json")
+    # An observation makes one pair evaluated; it still classifies nothing.
+    assert index["coverage"]["pairsEvaluated"] == 1
+    assert {edge["support"] for edge in index["edges"]} == {"expert-declared"}
 
 
 def test_parallel_edge_interpretations_are_rejected_until_superseded(tmp_path):
