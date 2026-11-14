@@ -2,7 +2,15 @@
 
 import sys
 
-from gaia_cli.arbor import ArborError, checkStore, importSource, replay
+from gaia_cli.arbor import (
+    ArborError,
+    checkStore,
+    importSource,
+    pinSubject,
+    recordObservation,
+    replay,
+    upstreamCheck,
+)
 
 
 def arborCommand(args):
@@ -22,7 +30,39 @@ def arborCommand(args):
             for path in paths:
                 print(path)
             return 0
-        print("ERROR: choose an Arbor operation: import, check, or replay", file=sys.stderr)
+        if args.arbor_command == "pin":
+            path, created = pinSubject(
+                args.skill_id, args.registry, args.content_sha256, args.from_git
+            )
+            print(f"{'Pinned' if created else 'Already pinned'} {args.skill_id} -> {path}")
+            return 0
+        if args.arbor_command == "observe-instruction":
+            path, record, created = recordObservation(
+                args.registry,
+                args.skill_id,
+                args.content_sha256,
+                "baseline",
+                args.commit,
+                expectedSha256=args.expect_sha256,
+            )
+            verb = "Recorded" if created else "Already recorded"
+            print(f"{verb} baseline sha256:{record['observed']['sha256']} -> {path}")
+            return 0
+        if args.arbor_command == "upstream-check":
+            report = upstreamCheck(args.registry, record=args.record)
+            drift = [entry for entry in report if entry["status"] != "unchanged"]
+            for entry in report:
+                suffix = f" (recorded {entry['recorded']})" if "recorded" in entry else ""
+                print(f"{entry['status']:<11} {entry['skill']}@{entry['contentSha256'][:12]}{suffix}")
+            print(f"{len(report)} observed subject(s), {len(drift)} drifted")
+            if drift and not args.record:
+                return 1
+            return 0
+        print(
+            "ERROR: choose an Arbor operation: import, check, replay, pin, "
+            "observe-instruction, or upstream-check",
+            file=sys.stderr,
+        )
         return 1
     except ArborError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

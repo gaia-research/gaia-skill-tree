@@ -3,11 +3,12 @@
   "$id": "gaia.arbor-runtime/v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "subject", "inputDigest", "lenses"],
+  "required": ["schema", "subject", "inputDigest", "applicability", "lenses"],
   "properties": {
     "schema": {"const": "gaia.arbor-runtime/v1"},
     "subject": {"$ref": "#/definitions/skill"},
     "inputDigest": {"$ref": "#/definitions/sha256"},
+    "applicability": {"$ref": "#/definitions/applicability"},
     "lenses": {
       "type": "object",
       "additionalProperties": false,
@@ -41,6 +42,28 @@
         {"$ref": "#/definitions/sha256"},
         {"type": "null"}
       ]
+    },
+    "applicability": {
+      "description": "Whether the pinned subject's Arbor knowledge applies to the current canonical skill. Computed only from committed pins, instruction observations and the current behavioural identity digest, so prestige-only canonical edits never change it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable", "identityVersion", "behavioralSha256", "canonical", "instruction"],
+      "properties": {
+        "applicable": {"type": "boolean"},
+        "identityVersion": {"const": "gaia.arbor-behavioral-identity/v1"},
+        "behavioralSha256": {"$ref": "#/definitions/digestOrNull"},
+        "canonical": {"enum": ["behavior-equivalent", "behavior-changed", "unpinned", "missing"]},
+        "instruction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "refKind", "baselineSha256"],
+          "properties": {
+            "status": {"enum": ["no-instruction-link", "immutable-ref", "mutable-ref-unobserved", "baseline-observed", "instruction-changed", "instruction-unavailable"]},
+            "refKind": {"enum": ["commit", "mutable", "none"]},
+            "baselineSha256": {"$ref": "#/definitions/digestOrNull"}
+          }
+        }
+      }
     },
     "claimsLens": {
       "type": "object",

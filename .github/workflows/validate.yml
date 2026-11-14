@@ -159,6 +159,14 @@ jobs:
         if: steps.gate.outputs.heavy == 'true'
         run: gaia dev validate --intake
 
+      - name: Check Arbor store and projection
+        if: steps.gate.outputs.heavy == 'true'
+        # Read-only: validates immutable sources and pins, and fails if
+        # registry/arbor/{profiles,runtime,edges.json} is stale against the
+        # current behavioural identity of every pinned subject (#2441).
+        # On failure run `gaia dev docs` (which replays registry/arbor) and commit.
+        run: gaia dev arbor check
+
       - name: Check generated docs
         if: steps.gate.outputs.heavy == 'true'
         # NOTE: `gaia dev docs --check` is NOT read-only. It regenerates the

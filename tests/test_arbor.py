@@ -341,10 +341,17 @@ def test_historical_sources_survive_canonical_evolution(tmp_path):
     canonical = root / "registry" / "nodes" / "basic" / "example-skill.json"
     canonical.write_bytes(b'{"id":"example-skill","type":"fusion","version":2}\n')
 
-    assert checkStore(root) == 2
+    # A behavioural canonical change is visible to the projection: check fails
+    # closed until replay, and replay never rewrites the historical profile.
+    with pytest.raises(ArborError, match="runtime is stale"):
+        checkStore(root)
     assert checkStore(root, declarationInput) == 1
     assert replay(root) == [profile]
+    assert checkStore(root) == 2
     assert profile.read_bytes() == originalProfile
+    runtime = readJson(runtimePath(root / "registry" / "arbor", "example-skill", SKILL_HASH))
+    assert runtime["applicability"]["applicable"] is False
+    assert runtime["applicability"]["canonical"] == "behavior-changed"
     assert importSource(declarationInput, root) == (stored, declarationDigest, False)
 
     changed = declaration()
