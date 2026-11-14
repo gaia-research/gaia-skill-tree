@@ -1,0 +1,88 @@
+{
+  "inputDigest": "0674f2565706396f3079c262b1bccbef963b9139776581b3bf00cbdbb50a91ec",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "garrytan - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+              "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 107, 161, 189, 225-258, 302-308, 388-397 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+            },
+            "benchmarkSources": [],
+            "conditions": "Work is about to be interrupted (before compaction, a hand-off or the end of a session) in a Claude Code session with the gstack distribution installed under ~/.claude/skills/gstack, inside a git repository. The agent may write under the gstack state root. Invocation must already be permitted by the user, the harness and applicable policy; this claim describes suitability under the stated conditions and grants no permission to invoke.",
+            "declarationId": "arbor-i-seed.garrytan.context-save.v1",
+            "declarationSource": "a1d64b5b17bd8c4fc04478f5fda50aaeaac612b50eed8e6fec8f852c7898960a",
+            "declaredAt": "2026-11-10T18:23:00Z",
+            "facet": "model-led",
+            "id": "state-capture-without-code-changes",
+            "interpretationSource": null,
+            "rationale": "The source carries a block 'HARD GATE: Do NOT implement code changes. This skill captures state only' (line 107) and the rule 'Never modify code. This skill only reads state and writes the context file' (line 391). It writes a new checkpoint file each time under the state root, never overwriting an earlier one (lines 244, 393-394), with the path computed in the shell so a user-supplied title cannot steer it (line 225). It tells the agent to 'Infer, don't interrogate' and to ask only if a title cannot be inferred (lines 396-397). It adds checks on its own content: every remaining-work item starts with a provenance status (line 161) and a claim about file contents needs a same-turn read (line 189). An append-only write outside the repository with no required question is what makes this suitable for a model to trigger. Plausible failure modes: the checkpoint is the model's own reconstruction of the conversation, so a decision it misremembers is saved as fact; a checkpoint taken after compaction can only record what survived; the shared startup section also writes logs and analytics; when the session started in a directory outside the repository the skill also leaves a pointer file there (lines 302-308). Falsified if a save modifies repository files; qualified by how much a checkpoint omits when taken late.",
+            "support": "expert-declared"
+          }
+        ],
+        "inputDigest": "4d3cbf221e0c0529aaef6f86e1756b7b91fb5be25b2bacd3b97321e1147a918b",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+          "id": "garrytan/context-save"
+        },
+        "sources": {
+          "benchmarkReceipts": [],
+          "declarations": [
+            "a1d64b5b17bd8c4fc04478f5fda50aaeaac612b50eed8e6fec8f852c7898960a"
+          ],
+          "interpretations": []
+        }
+      },
+      "sourceDigest": "6fd5c33b5e4ad4e40c4916cdcc12d6e5879093c804c953ad1a4f9340898b6046",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [
+        {
+          "authority": {
+            "actor": "garrytan - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+            "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 105, 225-258, 298-308; to 106, 142, 259-283, 318-326, 401-403) - from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+          },
+          "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction, so that a checkpoint exists. With no checkpoint the 'to' skill still runs, by a different route, and this relation does not apply.",
+          "declarationSource": "8be1933e971b0ce01aae7004d572109cdc58efbb0aa01a8e7df15a0fbcf82614",
+          "edgeKey": "e29e9d77b77ba167f2f034556c4760ed9cb98ed1e774f1c3996f320fd52756ec",
+          "interpretationSource": null,
+          "observationSources": [],
+          "pair": {
+            "from": {
+              "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+              "id": "garrytan/context-save"
+            },
+            "to": {
+              "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+              "id": "garrytan/context-restore"
+            }
+          },
+          "pairApplicable": true,
+          "relation": "unlocks",
+          "schema": "gaia.arbor-edge/v1",
+          "structuralOverlap": "not-evaluated",
+          "support": "expert-declared",
+          "target": {
+            "claimId": "restore-reads-what-save-wrote",
+            "declarationSha256": "8be1933e971b0ce01aae7004d572109cdc58efbb0aa01a8e7df15a0fbcf82614"
+          }
+        }
+      ],
+      "sourceDigest": "55a598dc1680ec049dd783619d1e8060b80da97f247405a4ede9b2d29c79e17b",
+      "status": "present"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+    "id": "garrytan/context-save"
+  }
+}
