@@ -89,6 +89,9 @@ Registry development commands (requires Verifier authorization):
   gaia dev verify <skill_id>
   gaia dev arbor import <record.json>
   gaia dev arbor replay
+  gaia dev arbor pin <skill_id> [--content-sha256 HEX] [--from-git REV]
+  gaia dev arbor observe-instruction <skill_id> --content-sha256 HEX --commit SHA [--expect-sha256 HEX]
+  gaia dev arbor upstream-check --record
 
 Read-only (no Verifier required):
   gaia dev list
@@ -96,6 +99,7 @@ Read-only (no Verifier required):
   gaia dev diff [ref]
   gaia dev validate [--intake] [--meta-sync] [--allow-missing-index]
   gaia dev arbor check [record.json]
+  gaia dev arbor upstream-check          # report-only; network
   gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
   gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
   gaia dev frontier meta-validate --record <record.json> --receipt <receipt.json> [--request <request.json>] [--artifact-root <dir>]
@@ -471,8 +475,54 @@ class DevCommand(Command):
         arbor_check.add_argument(
             "input", nargs="?", help="Optional record path; omit to check the complete store"
         )
+        arbor_check.add_argument(
+            "--require-history",
+            action="store_true",
+            help="Fail unless every historical pin can be re-derived from full git history (CI)",
+        )
         arbor_sub.add_parser(
             "replay", help="Recompute generated Arbor profiles from immutable sources"
+        )
+        arbor_pin = arbor_sub.add_parser(
+            "pin",
+            help=(
+                "Publish the behavioural identity pin for a subject's current canonical "
+                "bytes, or for a verified historical blob (--from-git)"
+            ),
+        )
+        arbor_pin.add_argument("skill_id")
+        arbor_pin.add_argument(
+            "--content-sha256", help="Require the pinned bytes to hash to this value"
+        )
+        arbor_pin.add_argument(
+            "--from-git", metavar="REV", help="Read the canonical record from this git revision"
+        )
+        arbor_observe = arbor_sub.add_parser(
+            "observe-instruction",
+            help=(
+                "Fetch and record the baseline upstream instruction bytes a subject's "
+                "declarations were read from (network)"
+            ),
+        )
+        arbor_observe.add_argument("skill_id")
+        arbor_observe.add_argument("--content-sha256", required=True)
+        arbor_observe.add_argument("--commit", required=True, help="Exact upstream commit read")
+        arbor_observe.add_argument(
+            "--expect-sha256",
+            required=True,
+            help="The sha256 a claim cites for these bytes; the fetch must match it",
+        )
+        arbor_upstream = arbor_sub.add_parser(
+            "upstream-check",
+            help=(
+                "Compare each observed baseline with what its mutable link serves now "
+                "(network; report-only unless --record)"
+            ),
+        )
+        arbor_upstream.add_argument(
+            "--record",
+            action="store_true",
+            help="Record drift as immutable observations (makes the subject inapplicable)",
         )
 
         dev_merge = dev_sub.add_parser(
@@ -1190,7 +1240,17 @@ class DevCommand(Command):
         readOnlyCheck = dev_cmd == "embed" and bool(getattr(args, "check", False))
         if not readOnlyCheck and (
             dev_cmd in MUTATING_DEV_COMMANDS
-            or (dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"})
+            or (
+                dev_cmd == "arbor"
+                and (
+                    getattr(args, "arbor_command", None)
+                    in {"import", "replay", "pin", "observe-instruction"}
+                    or (
+                        getattr(args, "arbor_command", None) == "upstream-check"
+                        and getattr(args, "record", False)
+                    )
+                )
+            )
         ):
             from gaia_cli.authz import require_operator
             operation = (
