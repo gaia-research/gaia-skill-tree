@@ -1,6 +1,6 @@
 # ARBOR I - Visual Design Language
 
-**Status:** North Star / pre-data design direction  
+**Status:** Tree-specific visual design canon / pre-complete-data direction; shared adaptive website composition ratified 2026-11-14 in [Gaia Multi-Tree Web Endgame](GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md). Arbor geometry/weather/semantics stay here. **Docs only; no visual release authorization.**  
 **Product:** Gaia Skill Tree  
 **Tree:** Arbor I  
 **Purpose:** Define the visual and interaction language for Arbor before the full capability graph and interaction-edge data are available.
@@ -398,6 +398,9 @@ Suggested interaction:
 ```
 
 This is not a theme switch.
+
+**2026-11-14 website-wide consequence:** Tree selection also changes the adaptive **homepage's story and supporting sections**, not only the Explorer projection. Yggdrasil IV remains the default entrance; Arbor may feature honest HH stamps, benchmark receipts and behavioral interaction highlights instead of Hall of Heroes, Trust leaderboard or Ascension Overdrive. The shared Gaia shell and selected Skill persist. The full section/scene contract, gold-stamped Blender ownership split, semantic material invariants and no-React-default stance are governed by [the web Endgame](GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md). Do not duplicate the same site rules here.
+
 
 It changes the governing projection.
 

@@ -462,6 +462,10 @@ Arbor belongs to Gaia Skill Tree because it is a Tree and index over Gaia capabi
 
 # 14. Web Doctrine
 
+**2026-11-14 founder amendment:** The canonical adaptive-homepage and cinematic multi-Tree website experience is governed by [Gaia Multi-Tree Web Endgame](GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md). Yggdrasil IV is default, Arbor is a separately authored world, and visitor travel maintains one Skill identity. Tree switching adapts the supporting sections and highlight reel (Yggdrasil Ascension/Trust is not an Arbor template), not merely CSS. A Tree's experience/presentation manifest remains separate from its canonical projection/index manifest.
+
+
+
 `gaiaskilltree.com` remains the canonical multi-Tree capability product.
 
 The frontend grows lenses rather than new top-level sites for every index.

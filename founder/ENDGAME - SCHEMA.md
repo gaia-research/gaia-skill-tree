@@ -409,6 +409,14 @@ This is what eventually makes frontend switching a projection change rather than
 
 ---
 
+## 12a. Website Experience Manifest is not an Index
+
+The proposed Tree **Projection Manifest** above is a data contract. The adaptive public website additionally needs a **Website Experience Manifest** describing a Tree's Blender visual canon/version and web scene reference, presentation tokens, homepage section lineup/order, inspect modules, route/deep-link behavior and low-motion fallback. See [Gaia Multi-Tree Web Endgame](GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md).
+
+This is a distinct **presentation contract**, not a new canonical source of Skill data or an index. It must not directly mint ranks, HH stamps, benchmark claims, behavioral edges or evidence grades. A site adapter must map these visuals to materialized, provenance-bearing projection fields, and fail honestly to unknown/unavailable. Evidence-grade materials retain their semantics across Tree ambient palettes. This separation lets future Trees change their worlds or storytelling without changing Skill identity, TrustMagnitude, HH calculations or graph-source governance.
+
+---
+
 # 13. Ownership Rules
 
 The following should be enforced conceptually and eventually in CI.
