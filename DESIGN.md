@@ -2,6 +2,16 @@
 
 > Brand personality, anti-references, and the accessibility baseline live in [`PRODUCT.md`](PRODUCT.md). This document is the visual-token + motion spec layer; the canonical glossary and banned-synonyms lint live in [`CONTEXT.md`](CONTEXT.md).
 
+## Multi-Tree website scope (founder ruling 2026-11-14)
+
+The established tokens and component contracts below remain normative for the surfaces that **own those semantics**. [Gaia Multi-Tree Web Endgame](founder/GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md) governs the adaptive website: Yggdrasil IV is the default; switching to Arbor or a future Tree changes the world scene and supporting narrative/sections, not only CSS. [Arbor's visual grammar](founder/ARBOR-DESIGN.md) remains independently authoritative for its angular, behavior-first instrument. **Do not apply Yggdrasil stars, prestige-sized nodes, rank medallions, golden Hall of Heroes or Ascension Overdrive to Arbor by default.**
+
+Three token/meaning layers must remain separate: **Gaia shell identity** (navigation, typography, Skill ID, provenance and accessibility); **Tree visual physics** (materials, ambient palette, hero/scene, sections, interactions); **semantic material identity** (Trust/evidence Gold, Platinum, Silver, Bronze, verified/contested states, contributor Honor Red and Yggdrasil rank/origin conventions). Ambient Arbor green must not recolor evidence grades or mean "good"; Ultra gold is a *temporary signal*, not a Yggdrasil rank/Origin material. Existing `--evidence-*` and `--ev-type-*` CSS tokens are semantic; old descriptions mapping evidence pills through `--rank-*` are historical guidance needing separate non-docs code/token reconciliation, not permission to conflate the axes.
+
+Preserve the specific and intentionally unusual rules below (e.g. rectangular metal evidence grades, challenge hallmark geometry, rank forks, medallion/origin marks, motion and reduced-motion behavior). Changes to the public site are founder-preview gated. This document update does not implement a theme adapter or migrate to React.
+
+---
+
 ## Repository Layout
 
 The visual system below applies to the public site, generated registry pages, and skill tree renders. Source files now live in the refactored Gaia layout:
