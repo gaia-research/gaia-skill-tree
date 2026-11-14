@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "mattpocock - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 1-7; to 1-30) - from: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grill-me/SKILL.md (sha256 caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637; the canonical record links ref 'main'); to: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "Both skills are candidates for the same need in one session, for example when a retrieval returns both for a request to stress-test a plan.",
+      "id": "redirect-carries-no-separate-behaviour",
+      "rationale": "The entire body of the 'from' skill is one instruction: 'Call the Skill tool with \"grilling\"' (line 7). It adds no procedure of its own, so loading both places one behaviour in context twice. The two differ only in who may trigger them: the 'from' skill's frontmatter sets disable-model-invocation: true and the 'to' skill's does not. That difference is an invocation boundary set by the source and enforced by the harness, not a behavioural one. Both canonical skills keep their identity, history and ownership: this relation records that the two share one behaviour at these pinned bytes, and it is no reason to merge, remove or re-curate either record. The canonical record of the 'from' skill still describes it as a lighter variant with its own procedure; the redirect is what its linked upstream file contains at the pinned commit. This is a reading of the two texts; no run has compared sessions with one against both. Falsified if a session with both loaded follows a procedure that a session with only the 'to' skill does not.",
+      "relation": "duplicates"
+    }
+  ],
+  "declarationId": "arbor-i-seed.edge.grill-me-duplicates-grilling.v1",
+  "declaredAt": "2026-11-10T18:23:00Z",
+  "pair": {
+    "from": {
+      "contentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
+      "id": "mattpocock/grill-me"
+    },
+    "to": {
+      "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+      "id": "mattpocock/grilling"
+    }
+  },
+  "schema": "gaia.arbor-edge-declaration/v1"
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-instruction-observation/v1",
+  "title": "Arbor instruction observation",
+  "description": "Immutable record that upstream instruction bytes behind a pinned subject's canonical link were fetched and hashed. A baseline observation records the bytes the subject's declarations were read from; a drift-check observation records what the link served later (or that it was unavailable). Observations never carry or change a claim; a drift-check whose bytes differ from the baseline makes the subject's Arbor knowledge inapplicable, fail-closed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "skill", "purpose", "instruction", "observed"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-instruction-observation/v1"},
+    "skill": {"$ref": "#/definitions/skill"},
+    "purpose": {"enum": ["baseline", "drift-check"]},
+    "instruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "path", "ref"],
+      "properties": {
+        "repository": {"$ref": "#/definitions/nonEmpty"},
+        "path": {"$ref": "#/definitions/nonEmpty"},
+        "ref": {"$ref": "#/definitions/nonEmpty"}
+      }
+    },
+    "observed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "commit", "sha256", "observedAt", "method"],
+      "properties": {
+        "status": {"enum": ["available", "unavailable"]},
+        "commit": {"anyOf": [{"type": "string", "pattern": "^[a-f0-9]{40}$"}, {"type": "null"}]},
+        "sha256": {"anyOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+        "observedAt": {"type": "string", "format": "date-time"},
+        "method": {"const": "raw-fetch-sha256"}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    }
+  }
+}

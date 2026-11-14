@@ -1374,12 +1374,34 @@ def build_arbor_projection(check: bool) -> bool:
     """Project immutable Arbor sources into the owned Class S artifact directory."""
 
     from gaia_cli.arbor import (
+        ArborError,
         assertManagedTree,
         buildArborProjection,
+        checkStore,
         managedChild,
         managedPath,
+        replay,
         serializeRecord,
     )
+
+    # One operation keeps every tracked Arbor output coherent (#2441): the
+    # registry projection (profiles, runtime, edges.json) and the published
+    # docs/graph/arbor copy. --check never writes; it fails on either drift.
+    registryStale = False
+    try:
+        checkStore(ROOT)
+    except ArborError as exc:
+        registryStale = True
+        if check:
+            print(f"diff registry/arbor ({exc})")
+        else:
+            replay(ROOT)
+            try:
+                checkStore(ROOT)
+            except ArborError as remaining:
+                # Replay cannot repair this (for example a missing pin). Fail
+                # loudly instead of reporting a clean regeneration.
+                raise RuntimeError(f"registry/arbor is invalid after replay: {remaining}") from remaining
 
     # --check must refuse an unsafe managed tree rather than inspect or clean
     # through a symlink. Write mode has the same refusal boundary.
@@ -1398,7 +1420,7 @@ def build_arbor_projection(check: bool) -> bool:
             if path.is_file() or path.is_symlink()
         }
     if actual == expected:
-        return False
+        return registryStale
     if check:
         missing = sorted(set(expected) - set(actual))
         extra = sorted(set(actual) - set(expected))
