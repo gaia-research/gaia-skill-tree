@@ -40,3 +40,11 @@ Reading: (1) the TM result stands as computed (126.75, Grade A); YouTube rows ar
 `approved on tm, check if its origin and it passes this gate. Once thats done, calibrate and take it until intake close. Thanks`
 
 Gate check run by the lead against live code: `promotion.checkUniqueBranchGate(cook, "4★")` → `{originPresent: True, tmThresholdMet: True, tm: 126.75, grade: "A", passed: True, branch: "unique"}`; `docs/graph/named/index.json` shows `origin: true` (derived by the build, never hand-set); cook is the only named skill with `genericSkillRef: reference-guided-visual-iteration`; `links.github` is a verified blob URL (200). Calibration to 4★ had already been applied through `gaia dev calibrate` (CLI pre-flight passed, `rank_up` logged) and re-verified by inspector; TM stamp refreshed via `calibrate-trust-magnitude`.
+
+---
+## Ruling 8 — merge rule and pause (2026-11-14, verbatim)
+`merge the fix when ci is green. Then proceed as usual`
+
+`pause, ill compact. We will resume later`
+
+Reading: PR #2457 (test fix) may be merged once its CI is green; then continue the intake to close as before. Founder then paused the session; no merge was performed after the pause.
