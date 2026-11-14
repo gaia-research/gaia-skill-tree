@@ -32,6 +32,23 @@
       ]
     },
     {
+      "id": "leonxlnx/cook",
+      "name": "cook",
+      "level": "4★",
+      "trustMagnitude": 126.75,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/cook.json"
+      },
+      "genericSkillRef": "reference-guided-visual-iteration"
+    },
+    {
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
       "level": "3★",
@@ -236,15 +253,15 @@
       "genericSkillRef": "design-system-extraction"
     }
   ],
-  "namedSkillsCount": 13,
+  "namedSkillsCount": 14,
   "topSkill": {
     "id": "leonxlnx/taste-skill",
     "level": "4★",
     "trustMagnitude": 174.68
   },
-  "prestigeScore": 815.14,
+  "prestigeScore": 941.89,
   "gradeDistribution": {
-    "A": 1,
+    "A": 2,
     "B": 2,
     "C": 10
   },

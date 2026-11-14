@@ -184,6 +184,7 @@
 | · [obra](../docs/u/obra/)/receiving-code-review | Fusion | 2★ | `/receiving-code-review` |
 | · /recursive-self-improvement | Fusion | — | `/recursive-self-improvement` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic | 4★ | `/refactor-code` |
+| · [leonxlnx](../docs/u/leonxlnx/)/cook | Fusion | 4★ | `/reference-guided-visual-iteration` |
 | · ████████/gaia-bot-curate | Fusion | — | `/registry-curation` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Fusion | 2★ | `/registry-entry-audit` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Fusion | 2★ | `/registry-health-scan` |
@@ -295,6 +296,7 @@
 | ◉ [latent-spaces](../docs/u/latent-spaces/)/brag | Unique Skill | 4★ | `/project-launch-video-production` |
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
+| ◉ [leonxlnx](../docs/u/leonxlnx/)/cook | Unique Skill | 4★ | `/reference-guided-visual-iteration` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
 | ◉ [emilkowalski](../docs/u/emilkowalski/)/animate | Unique Skill | 4★ | `/timeline-animation` |
 | ◉ [emilkowalski](../docs/u/emilkowalski/)/find-animation-opportunities | Unique Skill | 4★ | `/ui-audit` |

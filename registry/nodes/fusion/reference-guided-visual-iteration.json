@@ -1,0 +1,26 @@
+{
+  "id": "reference-guided-visual-iteration",
+  "name": "Reference-Guided Visual Iteration",
+  "type": "fusion",
+  "description": "Builds code-rendered visual work (3D scenes, video, games, UI) by repeatedly rendering stills, comparing them side by side with supplied reference images or video against a numeric per-dimension quality bar, scoring with independent fresh-context critics, and fixing the weakest dimension until the bar is met.",
+  "prerequisites": [
+    "code-generation",
+    "evaluate-output",
+    "vision-qa"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-14",
+  "updatedAt": "2026-11-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-14T02:22:55Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill reference-guided-visual-iteration"
+    }
+  ]
+}

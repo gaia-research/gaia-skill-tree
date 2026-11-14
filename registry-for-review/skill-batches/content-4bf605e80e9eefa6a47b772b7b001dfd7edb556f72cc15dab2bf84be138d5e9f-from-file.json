@@ -1,0 +1,63 @@
+{
+  "batchId": "content-4bf605e80e9eefa6a47b772b7b001dfd7edb556f72cc15dab2bf84be138d5e9f-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-11-14T01:41:06Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "reference-guided-visual-iteration",
+      "name": "Reference-Guided Visual Iteration",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "vision-qa",
+        "evaluate-output"
+      ],
+      "description": "Builds code-rendered visual work (3D scenes, video, games, UI) by repeatedly rendering stills, comparing them side by side with supplied reference images or video against a numeric per-dimension quality bar, scoring with independent fresh-context critics, and fixing the weakest dimension until the bar is met.",
+      "attribution": {
+        "upstream_author": "leonxlnx",
+        "skill_file_url": "https://github.com/Leonxlnx/cook/blob/main/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/Leonxlnx/cook",
+          "notes": "MIT-licensed, single contributor, created 2026-10-31; 386 stars and 30 forks per GitHub API on 2026-11-13 (a fork burst that day has unknown cause). Method and performance claims are author-reported and not independently verified. Pinned review revision b23cac6f."
+        }
+      ],
+      "named": {
+        "contributor": "leonxlnx",
+        "skill_name": "cook",
+        "links_github": "https://github.com/Leonxlnx/cook/blob/main/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "reference-guided-visual-iteration",
+      "targetSkillId": "scientific-visualization",
+      "score": 0.561,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "reference-guided-visual-iteration",
+      "targetSkillId": "evidence-attestation",
+      "score": 0.528,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "reference-guided-visual-iteration",
+      "targetSkillId": "interactive-mechanism-illustration",
+      "score": 0.507,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "submissionKey": "4bf605e80e9eefa6a47b772b7b001dfd7edb556f72cc15dab2bf84be138d5e9f"
+}
