@@ -1,0 +1,31 @@
+{
+  "intake": 2452,
+  "skill": "leonxlnx/cook",
+  "status": "PROPOSED — awaiting human evidence approval; nothing ingested",
+  "retrievedOn": "2026-11-14",
+  "rows": [
+    {"type": "repo-own", "source": "https://github.com/Leonxlnx/cook", "date": "2026-11-14", "commits": 1, "contributors": 1,
+     "notes": "MIT. Single commit b23cac6fd9439dfddcab61b14808e7bf72549b46 (2026-10-31) is the only commit on main; 1 API contributor; 0 releases; 0 open issues. Commit carries a Co-Authored-By trailer for an AI assistant."},
+    {"type": "github-stars-own", "source": "https://github.com/Leonxlnx/cook/blob/main/SKILL.md", "date": "2026-11-14", "stars": 410,
+     "notes": "410 stars and 33 forks via GitHub API on 2026-11-14 (386/30 on 2026-11-13). Counts are repo-level. 28 of 33 forks were created 2026-11-12 to 11-14 and 31 of 33 show no push after creation. The stargazer timeline endpoint returns 404, so star velocity is unverified."},
+    {"type": "self-attestation", "source": "https://github.com/Leonxlnx/cook", "date": "2026-11-14",
+     "notes": "Author-published skill repository (README names the author as maintainer)."},
+    {"type": "social-signal", "source": "https://www.youtube.com/watch?v=gaQpXmJt-C8", "date": "2026-11-12", "views": 19094, "likes": 303, "comments": 13,
+     "notes": "Third-party video by Mansel Scheffel (channel not affiliated with the author per description and links), uploaded 2026-11-12, 19,094 views at retrieval 2026-11-14 (yt-dlp). Video is about Cook; presenter describes his own run. Not evidence of cook's performance."},
+    {"type": "social-signal", "source": "https://www.youtube.com/watch?v=-bv2xKQzZio", "date": "2026-11-12", "views": 79665, "likes": 1829, "comments": 21,
+     "notes": "Third-party multi-tip video by AI LABS, uploaded 2026-11-12, 79,665 views at retrieval 2026-11-14 (yt-dlp). Cook is covered in the final segment (about 13:00 to end of a 15:21 video) and summarizes the author's published article. Not an independent evaluation of cook's results."}
+  ],
+  "excluded": [
+    {"source": "https://x.com/LexnLin/status/2116662591363690999", "why": "author-originated; views not visible"},
+    {"source": "https://skillsllm.com/skill/cook", "why": "directory listing, not a post/video (founder: skills.sh-style directories are not social-signal)"},
+    {"source": "https://www.skills.sh/leonxlnx/cook/cook", "why": "directory listing; also its note misstated the added date"},
+    {"source": "https://x.com/FinanceYF5/status/2120076109857632271", "why": "independent X post naming cook (thread about Leonxlnx's escapement film, 2026-11-10) but 562 views < 1000 floor, scores 0"},
+    {"source": "https://www.youtube.com/watch?v=2GUQ8YCnGaI", "why": "Jerry_AI breakdown of the author's X article, uploaded 2026-11-02, 727 views < 1000 floor"},
+    {"source": "https://www.youtube.com/watch?v=G-F5Qvy-7KM", "why": "uploaded 2026-08-14, predates cook (2026-10-31)"},
+    {"source": "https://www.reddit.com/r/ClaudeDesign/comments/1xmvu2g/9_claude_skills_for_bringing_designs_to_life_with/", "why": "browser-verified: lists the author's earshot skill, no mention of cook"}
+  ],
+  "caveats": ["Y1 and Y2 cover the same release and Y2 paraphrases the author's article: not two independent confirmations.",
+              "No peer review, arXiv paper or benchmark cites cook. Author-reported demo figures (45h, 55 subagents, ~11M tokens) are unverified.",
+              "Upstream references color_check.py which does not exist in the repo.",
+              "No Trust Magnitude, grade or rank is proposed here; appraisal happens after ingestion."]
+}

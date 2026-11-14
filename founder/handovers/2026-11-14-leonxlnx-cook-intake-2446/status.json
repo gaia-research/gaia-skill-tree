@@ -1,7 +1,7 @@
 {
   "run": "20261114-leonxlnx-cook",
-  "phase": 3,
-  "state": "intake-opened; awaiting maintainer intake:topology-approved",
+  "phase": 4,
+  "state": "evidence verified; evidence-ready; awaiting maintainer intake:evidence-approved",
   "updated": "2026-11-14",
   "tracking": "https://github.com/gaia-research/gaia-skill-tree/issues/2446",
   "intake": "https://github.com/gaia-research/gaia-skill-tree/issues/2452",
@@ -29,12 +29,17 @@
     "scout": {
       "path": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/ev-scout-packet.md",
       "sha256": "db421d9875f53dea701549de0c01f3e96025bab1203ba9a77de9d9f2e72ba9b7"
+    },
+    "evidence": {
+      "manifest": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/evidence/ingest-manifest.json",
+      "audit": "evidence/adversarial-audit.md",
+      "scout": "evidence/ev-scout.md"
     }
   },
   "outstandingHumanDecisions": [
-    "apply intake:topology-approved on #2452 (maintainer-only)"
+    "apply intake:evidence-approved on #2452 (maintainer-only) after reviewing evidence/ingest-manifest.json"
   ],
-  "nextCommand": "after label: workflow adds intake:evidence-review -> run /ev-pipeline for leonxlnx/cook; do NOT push another intake",
+  "nextCommand": "after intake:evidence-approved: workflow opens review/meta/intake-2452 draft PR; then /gaia-ingest-batch from evidence/ingest-manifest.json (gaia dev evidence ... --no-build per row, gaia dev build), /trust-appraise, human calibration approval, independent review, merge, /gaia-intake-close",
   "carrierBranch": "review/meta/leonxlnx--cook",
   "carrierCommit": "c2fde76b562628d9178badd02535da09b69dcc3e"
 }
