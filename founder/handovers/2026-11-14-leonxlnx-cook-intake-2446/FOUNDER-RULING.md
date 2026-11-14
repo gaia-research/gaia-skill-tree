@@ -26,3 +26,11 @@ Reading: route 2 (wire the protected authorization workflow). Opus is explicitly
 `read as well CONTRIBUTING.md. The idea is anyone can truly L4 approve a curation step. Then everything in the pipeline is required, including evidence seed, etc to increase its score. The gate in the repo is awakening the skill at 2 star up, not a strict L4 environment`
 
 Effect: the envelope/ratify ceremony is NOT the L4 route (the Opus verifier build was stopped; no PR). L4 = a recorded human topology decision; the substantive gate is the evidence pipeline that earns 2★+. CONTRIBUTING.md:71 ("L4 is independent human authority … verified authorization") and CURATION-CORE steps 4–5 contradict this and are stale.
+
+---
+## Rulings 5–6 — methodology and calibration (2026-11-14, verbatim)
+`how does 410 stars get 56? check the /trust-methodology-consult . Youtube is fine, this is trust signal. Get the most honest result, tm grade is rarely the deciding factor. Going through the pipeline correctly is . Tm is the result`
+
+`merge the playbook as is, then continue the ingest til the end`
+
+Reading: (1) the TM result stands as computed (126.75, Grade A); YouTube rows are valid trust signal. (2) PR #2456 merged as is (merge commit 69697dc). (3) "continue the ingest til the end" follows the lead's explicit proposal "apply 4★ … say 4★ and I'll proceed", so the lead reads it as approval of the recommended calibration (the G7 mapping of Grade A = 4★), subject to the CLI's own Star Bar / Origin pre-flight. If the founder meant otherwise, the level can be changed through `gaia dev calibrate` before merge.
