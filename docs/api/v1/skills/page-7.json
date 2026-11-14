@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "ruvnet/dual-collect",
+      "name": "Dual Collect",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-collect.json"
+      },
+      "genericSkillRef": "headless-worker-collect"
+    },
+    {
       "id": "ruvnet/dual-coordinate",
       "name": "Dual Coordinate",
       "level": "2★",
@@ -666,7 +683,7 @@
   ],
   "page": 7,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 338,
   "_links": {
     "self": "/api/v1/skills/page-7.json",
     "prev": "/api/v1/skills/page-6.json"

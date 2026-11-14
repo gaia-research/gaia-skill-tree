@@ -1918,6 +1918,16 @@
         "contributor": "addy-osmani"
       }
     ],
+    "reference-guided-visual-iteration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/cook",
+        "contributor": "leonxlnx"
+      }
+    ],
     "registry-curation": [
       {
         "origin": true,
@@ -2730,11 +2740,11 @@
     ]
   },
   "version": "9.4.0",
-  "generatedAt": "2026-11-10T21:22:22Z",
+  "generatedAt": "2026-11-14T02:36:40Z",
   "summary": {
-    "total": 342,
+    "total": 343,
     "S": 3,
-    "A": 45,
+    "A": 46,
     "B": 52,
     "C": 235,
     "ungraded": 7,
@@ -3477,6 +3487,26 @@
       },
       "origin": true,
       "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/cook",
+      "tm": 126.75,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.2,
+        "github-stars-own": 56.45,
+        "self-attestation": 5.0,
+        "social-signal": 64.1
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "garrytan/gbrain",

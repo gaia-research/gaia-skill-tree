@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/tdd.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "addy-osmani/api-and-interface-design",
       "name": "api-and-interface-design",
       "level": "2★",
@@ -832,28 +849,11 @@
         "self": "/api/v1/skills/garrytan/cross-modal-review.json"
       },
       "genericSkillRef": "adversarial-review"
-    },
-    {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "genericSkillRef": "security-audit"
     }
   ],
   "page": 3,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 338,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

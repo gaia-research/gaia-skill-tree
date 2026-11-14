@@ -857,6 +857,23 @@
       "genericSkillRef": "security-audit"
     },
     {
+      "id": "leonxlnx/cook",
+      "name": "cook",
+      "level": "4★",
+      "trustMagnitude": 126.75,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/cook.json"
+      },
+      "genericSkillRef": "reference-guided-visual-iteration"
+    },
+    {
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
@@ -1054,28 +1071,11 @@
         "self": "/api/v1/skills/obra/verification-before-completion.json"
       },
       "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "obra/executing-plans",
-      "name": "Executing Plans",
-      "level": "3★",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/executing-plans.json"
-      },
-      "genericSkillRef": "executing-plans"
     }
   ],
   "page": 1,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 338,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
@@ -2997,6 +2997,16 @@
         "redacted": false,
         "id": "addy-osmani/code-simplification",
         "contributor": "addy-osmani"
+      }
+    ],
+    "reference-guided-visual-iteration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/cook",
+        "contributor": "leonxlnx"
       }
     ],
     "registry-curation": [

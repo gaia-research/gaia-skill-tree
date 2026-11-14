@@ -6007,6 +6007,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "leonxlnx/cook": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/Leonxlnx/cook/blob/main/SKILL.md",
+        "owner": "Leonxlnx",
+        "repo": "cook",
+        "ref": "main",
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
+      },
+      "currentSkillContentSha256": "2d3cc67850266b01a175e104fdfe4a755fbcce0cafaa6f7e8a277a8ae5a67499",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "leonxlnx/gpt-tasteskill": {
       "state": "unknown",
       "reason": "not-observed",

@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "garrytan/daily-task-manager",
       "name": "daily-task-manager",
       "level": "2★",
@@ -832,28 +849,11 @@
         "self": "/api/v1/skills/garrytan/soul-audit.json"
       },
       "genericSkillRef": "interview-me"
-    },
-    {
-      "id": "garrytan/strategic-reading",
-      "name": "strategic-reading",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/strategic-reading.json"
-      },
-      "genericSkillRef": "document-analyst"
     }
   ],
   "page": 4,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 338,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

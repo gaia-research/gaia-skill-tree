@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/strategic-reading",
+      "name": "strategic-reading",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 120.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/strategic-reading.json"
+      },
+      "genericSkillRef": "document-analyst"
+    },
+    {
       "id": "garrytan/testing",
       "name": "testing",
       "level": "2★",
@@ -832,33 +849,11 @@
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
       },
       "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
-      "contributor": "disler",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      },
-      "genericSkillRef": "agent-fusion",
-      "suiteComponents": [
-        "disler/auto-review",
-        "disler/opinion",
-        "disler/plan-synthesis"
-      ]
     }
   ],
   "page": 5,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 338,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json",
