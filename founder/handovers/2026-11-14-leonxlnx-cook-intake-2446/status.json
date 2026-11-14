@@ -1,7 +1,7 @@
 {
   "run": "20261114-leonxlnx-cook",
-  "phase": 4,
-  "state": "evidence verified; evidence-ready; awaiting maintainer intake:evidence-approved",
+  "phase": 5,
+  "state": "ingested + appraised (TM 126.75, Grade A); awaiting founder calibration decision",
   "updated": "2026-11-14",
   "tracking": "https://github.com/gaia-research/gaia-skill-tree/issues/2446",
   "intake": "https://github.com/gaia-research/gaia-skill-tree/issues/2452",
@@ -37,9 +37,12 @@
     }
   },
   "outstandingHumanDecisions": [
-    "apply intake:evidence-approved on #2452 (maintainer-only) after reviewing evidence/ingest-manifest.json"
+    "calibration of leonxlnx/cook (band says 4\u2605; recommend 3\u2605 \u2014 see HANDOFF)"
   ],
-  "nextCommand": "after intake:evidence-approved: workflow opens review/meta/intake-2452 draft PR; then /gaia-ingest-batch from evidence/ingest-manifest.json (gaia dev evidence ... --no-build per row, gaia dev build), /trust-appraise, human calibration approval, independent review, merge, /gaia-intake-close",
+  "nextCommand": "gaia dev calibrate leonxlnx/cook <N\u2605> --no-build in .worktrees/intake-2452; then single build, scripts/review_meta_close.py stage/validate, push, independent review, merge, /gaia-intake-close",
   "carrierBranch": "review/meta/leonxlnx--cook",
-  "carrierCommit": "c2fde76b562628d9178badd02535da09b69dcc3e"
+  "carrierCommit": "c2fde76b562628d9178badd02535da09b69dcc3e",
+  "pr": "https://github.com/gaia-research/gaia-skill-tree/pull/2455",
+  "prBranch": "review/meta/intake-2452",
+  "worktree": ".worktrees/intake-2452 (uncommitted ingest: generic node, named skill, 5 evidence rows)"
 }

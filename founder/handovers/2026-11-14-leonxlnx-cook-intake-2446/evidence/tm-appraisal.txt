@@ -1,0 +1,61 @@
+
+=== leonxlnx/cook ===
+  Scope: effective named  Generic: resolved  Total: final  Registry rev: 36633a60f8471d677c6743c7a03ed8a7d47d0785
+  TM: 126.8  Grade: A
+  Fusion Score: 60.00  (yggdrasil-iii-v1; direct 3, transitive 3, depth 1, nested suites 0)
+  Fusion Score is structural only — it gates no rank and feeds no TM.
+  Type                     Score   Trust  Source
+  repo-own                   1.2          https://github.com/Leonxlnx/cook
+  github-stars-own          56.5          https://github.com/Leonxlnx/cook/blob/main/SKILL.md
+  self-attestation           5.0          https://github.com/Leonxlnx/cook
+  social-signal             16.5          https://www.youtube.com/watch?v=gaQpXmJt-C8
+  social-signal             47.6          https://www.youtube.com/watch?v=-bv2xKQzZio
+  By type: repo-own=1.2, github-stars-own=56.45, self-attestation=5.0, social-signal=64.1
+
+Loading skill maps from /Users/marcotiongson/gaia-skill-tree/.worktrees/intake-2452/registry/nodes + /Users/marcotiongson/gaia-skill-tree/.worktrees/intake-2452/registry/named...
+
+======================================================================
+Trust Magnitude Inspection: leonxlnx/cook
+File: registry/named/leonxlnx/cook.md
+======================================================================
+
+Trust Magnitude: 126.75 (grade: A)
+
+Effective pool (5 rows):
+  repo-own: https://github.com/Leonxlnx/cook
+    base 2.00 x weight 0.6 x freshness 1.00
+    = 1.20
+
+  github-stars-own: https://github.com/Leonxlnx/cook/blob/main/SKILL.md
+    base 56.45 x weight 1.0 x freshness 1.00
+    = 56.45
+
+  self-attestation: https://github.com/Leonxlnx/cook
+    base 10.00 x weight 0.5 x freshness 1.00
+    = 5.00
+
+  social-signal: https://www.youtube.com/watch?v=gaQpXmJt-C8
+    base 34.25 x weight 1.0 x freshness 1.00 x creator 1.0 x engagement 0.96
+    x plateau 0.50
+    = 16.50
+
+  social-signal: https://www.youtube.com/watch?v=-bv2xKQzZio
+    base 39.21 x weight 1.0 x freshness 1.00 x creator 1.0 x engagement 1.21
+    = 47.59
+
+
+--- Stars & Grade ---
+  Current stars:  2★ Named
+  Trust Grade:    A  (TM 126.75)
+  G7 Eff. stars:  4★ Extra  [up]
+
+--- Next Grade Analysis ---
+  Next grade: S
+  Points needed: 123.25
+  Most efficient type to add: verifier-attestation (30 TM per verifier, weight 1.5 = 45 raw)
+
+--- Sensitivity (in-memory, computeTrustMagnitude on a copy; no registry writes) ---
+all 5 rows                       TM=126.7 grade=A distinctTypes=4 witness=False
+without AI LABS video            TM=95.7  grade=B
+without both videos (Stage-1)    TM=62.7  grade=B
+without stars row                TM=70.3  grade=B
