@@ -20,3 +20,9 @@ How to proceed given the trusted route is not wired — see HANDOFF.md § Routes
 `2. Have Opus wire it. Merge after a code-review, thats my founder gate for today. Then fontinue with gaia full pipeline on cook.`
 
 Reading: route 2 (wire the protected authorization workflow). Opus is explicitly authorized for this task only (overrides the roster's "no Opus"). Founder gate for the verifier PR = independent code review passes, then lead merges. After merge, resume cook at HANDOFF Resume step 3. Reviewer must still perform the ceremony (trigger workflow + approve in the protected environment) — a chat approval is not the envelope. Admin setup of the `l4-human-review` environment is out of band.
+
+---
+## Ruling 4 — L4 philosophy (2026-11-14, verbatim)
+`read as well CONTRIBUTING.md. The idea is anyone can truly L4 approve a curation step. Then everything in the pipeline is required, including evidence seed, etc to increase its score. The gate in the repo is awakening the skill at 2 star up, not a strict L4 environment`
+
+Effect: the envelope/ratify ceremony is NOT the L4 route (the Opus verifier build was stopped; no PR). L4 = a recorded human topology decision; the substantive gate is the evidence pipeline that earns 2★+. CONTRIBUTING.md:71 ("L4 is independent human authority … verified authorization") and CURATION-CORE steps 4–5 contradict this and are stale.

@@ -1,11 +1,11 @@
 {
   "run": "20261114-leonxlnx-cook",
-  "phase": 2,
-  "state": "BLOCKED: L4 PENDING (ruling A recorded; trusted authorization verifier disabled)",
+  "phase": 3,
+  "state": "intake-opened; awaiting maintainer intake:topology-approved",
   "updated": "2026-11-14",
   "tracking": "https://github.com/gaia-research/gaia-skill-tree/issues/2446",
-  "intake": null,
-  "batchId": null,
+  "intake": "https://github.com/gaia-research/gaia-skill-tree/issues/2452",
+  "batchId": "content-4bf605e80e9eefa6a47b772b7b001dfd7edb556f72cc15dab2bf84be138d5e9f-from-file",
   "prs": [],
   "source": {
     "repo": "https://github.com/Leonxlnx/cook",
@@ -14,10 +14,27 @@
     "license": "MIT"
   },
   "artifacts": {
-    "packet": {"path": "registry-for-review/discovery-packets/leonxlnx-cook-4043b9f0b8bf9afc18f26cbf1f1b546d307b4457d648e1d0c4dfe3cc364924a9.json", "sha256": "2a630cbf1a8c610872db76ce18c9ad51c48233a19896d42f6641396c96e9d71e", "validator": "VALID discovery-packet-v2", "decision": "DEFER/PREFILL_AWAITING_WORKER (unmodified prefill output)"},
-    "assessment": {"path": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/assessment-receipt.json", "sha256": "6e5ae320e87b6645c98f9853dcb79bfe31a2b380277fbf83eed9acf4277852be", "authority": "advisory", "principles": "all unknown by design (--jev off)"},
-    "scout": {"path": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/ev-scout-packet.md", "sha256": "db421d9875f53dea701549de0c01f3e96025bab1203ba9a77de9d9f2e72ba9b7"}
+    "packet": {
+      "path": "registry-for-review/discovery-packets/leonxlnx-cook-4043b9f0b8bf9afc18f26cbf1f1b546d307b4457d648e1d0c4dfe3cc364924a9.json",
+      "sha256": "2a630cbf1a8c610872db76ce18c9ad51c48233a19896d42f6641396c96e9d71e",
+      "validator": "VALID discovery-packet-v2",
+      "decision": "DEFER/PREFILL_AWAITING_WORKER (unmodified prefill output)"
+    },
+    "assessment": {
+      "path": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/assessment-receipt.json",
+      "sha256": "6e5ae320e87b6645c98f9853dcb79bfe31a2b380277fbf83eed9acf4277852be",
+      "authority": "advisory",
+      "principles": "all unknown by design (--jev off)"
+    },
+    "scout": {
+      "path": "founder/handovers/2026-11-14-leonxlnx-cook-intake-2446/ev-scout-packet.md",
+      "sha256": "db421d9875f53dea701549de0c01f3e96025bab1203ba9a77de9d9f2e72ba9b7"
+    }
   },
-  "outstandingHumanDecisions": ["L4 topology (see L4-REVIEW.md)", "trusted authorization envelope for gaia dev ratify"],
-  "nextCommand": "gaia dev prefill leonxlnx/cook ... (only if catalog/source drifted), then gaia dev ratify <packet> --decision NEW_GENERIC --generic-id reference-guided-visual-iteration ... --authorization-envelope <human-issued-envelope> --acknowledge-human-review"
+  "outstandingHumanDecisions": [
+    "apply intake:topology-approved on #2452 (maintainer-only)"
+  ],
+  "nextCommand": "after label: workflow adds intake:evidence-review -> run /ev-pipeline for leonxlnx/cook; do NOT push another intake",
+  "carrierBranch": "review/meta/leonxlnx--cook",
+  "carrierCommit": "c2fde76b562628d9178badd02535da09b69dcc3e"
 }
