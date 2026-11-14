@@ -34,3 +34,9 @@ Effect: the envelope/ratify ceremony is NOT the L4 route (the Opus verifier buil
 `merge the playbook as is, then continue the ingest til the end`
 
 Reading: (1) the TM result stands as computed (126.75, Grade A); YouTube rows are valid trust signal. (2) PR #2456 merged as is (merge commit 69697dc). (3) "continue the ingest til the end" follows the lead's explicit proposal "apply 4★ … say 4★ and I'll proceed", so the lead reads it as approval of the recommended calibration (the G7 mapping of Grade A = 4★), subject to the CLI's own Star Bar / Origin pre-flight. If the founder meant otherwise, the level can be changed through `gaia dev calibrate` before merge.
+
+---
+## Ruling 7 — TM approval and gate check (2026-11-14, verbatim)
+`approved on tm, check if its origin and it passes this gate. Once thats done, calibrate and take it until intake close. Thanks`
+
+Gate check run by the lead against live code: `promotion.checkUniqueBranchGate(cook, "4★")` → `{originPresent: True, tmThresholdMet: True, tm: 126.75, grade: "A", passed: True, branch: "unique"}`; `docs/graph/named/index.json` shows `origin: true` (derived by the build, never hand-set); cook is the only named skill with `genericSkillRef: reference-guided-visual-iteration`; `links.github` is a verified blob URL (200). Calibration to 4★ had already been applied through `gaia dev calibrate` (CLI pre-flight passed, `rank_up` logged) and re-verified by inspector; TM stamp refreshed via `calibrate-trust-magnitude`.
