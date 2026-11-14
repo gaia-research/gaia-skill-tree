@@ -1,6 +1,214 @@
 {
-  "generatedAt": "2026-11-04T19:15:54Z",
+  "generatedAt": "2026-11-14T07:14:29Z",
   "skills": [
+    {
+      "id": "theqtcompanyrnd/qt-qml-review",
+      "name": "qt-qml-review",
+      "level": "3★",
+      "contributor": "theqtcompanyrnd",
+      "trustMagnitude": 59.74,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-11T02:55:58Z",
+      "_links": {
+        "self": "/api/v1/skills/theqtcompanyrnd/qt-qml-review.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "obra/test-driven-development",
+      "name": "test-driven-development",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 58.9,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-08T08:26:54Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/test-driven-development.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/postgres-adopt",
+      "name": "postgres-adopt",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 54.9,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-08T08:26:48Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/postgres-adopt.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/db-repair",
+      "name": "db-repair",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 54.9,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-08T08:26:24Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/db-repair.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T08:22:32Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/write-swift.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T08:20:54Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/review-animations.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T08:20:30Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/prototype.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T08:20:23Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/mobile-native.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T08:20:10Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/break-ui.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T07:17:59Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animation-performance.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "anthropics/creating-financial-models",
+      "name": "creating-financial-models",
+      "level": "4★",
+      "contributor": "anthropics",
+      "trustMagnitude": 127.83,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-08T07:17:47Z",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/creating-financial-models.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-07T20:29:22Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/improve-animations.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-07T20:28:41Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-07T20:28:29Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "level": "4★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-07T20:27:29Z",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate-expo.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "cathrynlavery/diagram-design",
+      "name": "diagram-design",
+      "level": "4★",
+      "contributor": "cathrynlavery",
+      "trustMagnitude": 132.67,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-07T20:27:24Z",
+      "_links": {
+        "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "latent-spaces/brag",
       "name": "brag",
@@ -43,7 +251,7 @@
       "name": "Code Simplification",
       "level": "4★",
       "contributor": "addy-osmani",
-      "trustMagnitude": 190.0,
+      "trustMagnitude": 189.9,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-10-29T16:34:49Z",
       "_links": {
@@ -87,32 +295,6 @@
         "self": "/api/v1/skills/wheresryan22/anatomy.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "hikari9/office-submit",
-      "name": "Office Submit",
-      "level": "2★",
-      "contributor": "hikari9",
-      "trustMagnitude": 24.34,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-10-08T21:36:55Z",
-      "_links": {
-        "self": "/api/v1/skills/hikari9/office-submit.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "hikari9/auto-office",
-      "name": "Auto Office",
-      "level": "3★",
-      "contributor": "hikari9",
-      "trustMagnitude": 88.97,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-10-08T21:36:52Z",
-      "_links": {
-        "self": "/api/v1/skills/hikari9/auto-office.json"
-      },
-      "previousLevel": "1★"
     }
   ],
   "_links": {
