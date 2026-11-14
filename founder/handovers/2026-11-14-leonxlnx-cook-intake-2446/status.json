@@ -1,7 +1,7 @@
 {
   "run": "20261114-leonxlnx-cook",
   "phase": 2,
-  "state": "BLOCKED: L4 PENDING",
+  "state": "BLOCKED: L4 PENDING (ruling A recorded; trusted authorization verifier disabled)",
   "updated": "2026-11-14",
   "tracking": "https://github.com/gaia-research/gaia-skill-tree/issues/2446",
   "intake": null,

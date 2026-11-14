@@ -20,3 +20,10 @@ No ratify, no `gaia push`, no intake issue/batch, no label changes, no registry/
 
 ## Notes
 Scratch upstream copy (untrusted, not committed): session scratchpad `cook-src/`; re-fetch with `gh api repos/Leonxlnx/cook/contents/<path>?ref=b23cac6f…`. Pi subagent preflight is not applicable in this Claude Code harness; the scout ran as a Haiku subagent (model override `haiku`) with no fallback. `generated-output/` is gitignored; tracked copies of status/scout/assessment live in this directory. `status.json` here mirrors `generated-output/curate-discovery/20261114-leonxlnx-cook/status.json`.
+
+## Update 2026-11-14 — ruling A received; trusted route unavailable
+Reviewer replied `A` (see `FOUNDER-RULING.md`). The protected-authorization verifier is intentionally disabled in code, so no envelope can be issued by anyone today; ratify/trusted push stay fail-closed. Status remains BLOCKED: L4 PENDING (authorization infrastructure), not a topology question.
+
+## Routes
+1. **Wait** for the protected authorization workflow to be wired, then resume at Resume step 3 (unchanged).
+2. **Unreviewed-proposal route** (documented in CURATION-CORE: ordinary YAML/issue-form submissions are proposals, not trusted post-L4 intake): submit one intake carrying ruling-A topology via the intake template/`gaia push --from-file skills.yml`; the maintainer-only `intake:topology-approved` label is then the human gate. Needs the reviewer's explicit OK because it departs from the "trusted L4 packet" requirement and must not duplicate any later trusted submission.
