@@ -1,0 +1,48 @@
+name: Arbor Upstream Drift Check
+
+# Offline CI cannot see a change to upstream instructions behind a mutable
+# link (#2441). This scheduled, read-only job fetches what each baselined
+# Arbor subject's link serves now and fails when any differs from the bytes
+# its declarations were read from, or is unavailable, or cannot be fetched.
+# It never writes: a maintainer records drift with
+# `gaia dev arbor upstream-check --record` on a review branch, then
+# `gaia dev docs`, which makes the affected knowledge inapplicable.
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  upstream:
+    name: Compare Arbor instruction baselines with upstream
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Report drift
+        run: |
+          status=0
+          gaia dev arbor upstream-check > upstream.txt 2>&1 || status=$?
+          cat upstream.txt
+          {
+            echo '## Arbor upstream drift check'
+            echo
+            echo '```'
+            cat upstream.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
