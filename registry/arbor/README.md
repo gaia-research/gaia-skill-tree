@@ -162,7 +162,8 @@ separately:
   upstream bytes behind the canonical `links.github` blob link. A *baseline*
   names the exact commit a declaration was read from; its fetched bytes must
   hash to `--expect-sha256`, and the exact `repository@commit:path (sha256 …)`
-  must be cited by one of the subject's immutable declarations, which `check`
+  must be cited by one of the subject's immutable declarations (a claim's
+  `authority.basis` containing `<owner>/<repo>@<40-hex commit>:<path> (sha256 <64-hex>)`), which `check`
   re-verifies offline (`gaia dev arbor observe-instruction`). A
   *drift-check* (`gaia dev arbor upstream-check --record`, network) records
   what a mutable link serves later, or that it is unavailable (HTTP 404).

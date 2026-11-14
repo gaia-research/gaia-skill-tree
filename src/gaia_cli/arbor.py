@@ -1106,7 +1106,7 @@ def historicalBlob(registryRoot: str | Path, skillId: str, contentSha256: str) -
         candidates = [f"registry/nodes/{kind}/{skillId}.json" for kind in ("basic", "fusion")]
     for relative in candidates:
         result = subprocess.run(
-            ["git", "-C", str(repo), "log", "--all", "--format=%H", "--", relative],
+            ["git", "-C", str(repo), "log", "--all", "--full-history", "--format=%H", "--", relative],
             capture_output=True,
             text=True,
         )
@@ -1259,7 +1259,8 @@ def validateBaselineCitation(record: dict, cited: set[tuple[str, str, str, str]]
     if expected not in cited:
         raise ArborError(
             f"baseline instruction observation for {record['skill']['id']} is not cited by any "
-            "of its immutable declarations (repository@commit:path and sha256 must match a claim basis)"
+            "of its immutable declarations; a claim's authority.basis must contain "
+            "`<owner>/<repo>@<40-hex commit>:<path> (sha256 <64-hex>)` for this exact link and bytes"
         )
 
 
