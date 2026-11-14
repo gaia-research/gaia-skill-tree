@@ -399,8 +399,8 @@ Arbor interaction means:
 
 > These capabilities alter one another during execution.
 
-An Arbor edge carries its evidence tier. Most edges begin as **declared**
-hypotheses (`expert-declared`): source-backed, stated with conditions, and
+An Arbor edge carries its evidence tier. An edge may begin as a **declared**
+hypothesis (`expert-declared`): source-backed, stated with conditions, and
 unmeasured. Only a focused observation plus an explicit governed interpretation
 makes an interaction **empirically** supported, and only research-owned
 acceptance makes it an earned outcome. A declared edge is never presented as

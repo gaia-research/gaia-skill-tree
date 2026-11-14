@@ -35,6 +35,22 @@ BASE_COMMIT = "a" * 40
 LATER_COMMIT = "b" * 40
 SOURCE_V1 = b"# Skill\nStep 1: read the code.\n"
 SOURCE_V2 = b"# Skill\nStep 1: rewrite everything.\n"
+V1_SHA = hashlib.sha256(SOURCE_V1).hexdigest()
+
+
+def immutableLink(skillId: str) -> str:
+    owner, slug = skillId.split("/")
+    return f"https://github.com/{owner}/skills/blob/{BASE_COMMIT}/{slug}/SKILL.md"
+
+
+def mutableLink(skillId: str) -> str:
+    owner, slug = skillId.split("/")
+    return f"https://github.com/{owner}/skills/blob/main/{slug}/SKILL.md"
+
+
+def citation(skillId: str, commit: str = BASE_COMMIT, sha: str = V1_SHA) -> str:
+    owner, slug = skillId.split("/")
+    return f"Read from {owner}/skills@{commit}:{slug}/SKILL.md (sha256 {sha}); unmeasured."
 
 
 def namedRecord(
@@ -49,7 +65,7 @@ def namedRecord(
     body: str = "## Usage\nRun it.\n",
 ) -> bytes:
     owner, slug = skillId.split("/")
-    link = link or f"https://github.com/{owner}/skills/blob/main/{slug}/SKILL.md"
+    link = link or immutableLink(skillId)
     timeline = timeline or [{"timestamp": "2026-06-01T00:00:00Z", "action": "named"}]
     evidence = evidence or [{"source": link, "type": "repo"}]
     lines = [
@@ -123,7 +139,14 @@ def write(root: Path, skillId: str, data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def declare(root: Path, tmpPath: Path, skillId: str, skillHash: str, declarationId: str = "d1") -> str:
+def declare(
+    root: Path,
+    tmpPath: Path,
+    skillId: str,
+    skillHash: str,
+    declarationId: str = "d1",
+    basis: str = "fixture",
+) -> str:
     record = {
         "schema": "gaia.arbor-expert-declaration/v1",
         "declarationId": declarationId,
@@ -135,7 +158,7 @@ def declare(root: Path, tmpPath: Path, skillId: str, skillHash: str, declaration
                 "facet": "model-led",
                 "conditions": "synthetic conditions",
                 "rationale": "synthetic rationale",
-                "authority": {"actor": "fixture", "basis": "fixture"},
+                "authority": {"actor": "fixture", "basis": basis},
             }
         ],
     }
@@ -267,10 +290,13 @@ def test_behavioural_canonical_edit_invalidates_and_check_fails_closed(tmp_path,
 
 def test_upstream_change_behind_mutable_link_is_recorded_and_fails_closed(tmp_path):
     root = store(tmp_path)
-    skillHash = write(root, "alice/review", namedRecord("alice/review"))
-    declare(root, tmp_path, "alice/review", skillHash)
+    skillHash = write(root, "alice/review", namedRecord("alice/review", link=mutableLink("alice/review")))
+    declare(root, tmp_path, "alice/review", skillHash, basis=citation("alice/review"))
     replay(root)
-    assert runtime(root, "alice/review", skillHash)["applicability"]["instruction"]["status"] == "mutable-ref-unobserved"
+    # Unknown upstream bytes behind a mutable link fail closed.
+    unobserved = runtime(root, "alice/review", skillHash)["applicability"]
+    assert unobserved["instruction"]["status"] == "mutable-ref-unobserved"
+    assert unobserved["applicable"] is False
 
     upstream = {(BASE_COMMIT, "review/SKILL.md"): SOURCE_V1, ("main", "review/SKILL.md"): SOURCE_V1}
     with pytest.raises(ArborError, match="not the cited"):
@@ -278,7 +304,7 @@ def test_upstream_change_behind_mutable_link_is_recorded_and_fails_closed(tmp_pa
                           fetch=fakeUpstream(upstream), expectedSha256="0" * 64)
     recordObservation(root, "alice/review", skillHash, "baseline", BASE_COMMIT,
                       fetch=fakeUpstream(upstream),
-                      expectedSha256=hashlib.sha256(SOURCE_V1).hexdigest(),
+                      expectedSha256=V1_SHA,
                       observedAt="2026-11-14T00:00:00Z")
     replay(root)
     assert checkStore(root) == 2
@@ -301,6 +327,11 @@ def test_upstream_change_behind_mutable_link_is_recorded_and_fails_closed(tmp_pa
     assert checkStore(root) == 2  # report-only run wrote nothing
 
     upstreamCheck(root, record=True, fetch=fakeUpstream(upstream), resolve=resolveTo(LATER_COMMIT))
+    observations = root / "registry" / "arbor" / "instruction-observations"
+    recorded = sorted(observations.rglob("*.json"))
+    # A second run on the same drift writes nothing new.
+    again = upstreamCheck(root, record=True, fetch=fakeUpstream(upstream), resolve=resolveTo(LATER_COMMIT))
+    assert "recorded" not in again[0] and sorted(observations.rglob("*.json")) == recorded
     with pytest.raises(ArborError, match="stale"):
         checkStore(root)
     replay(root)
@@ -308,12 +339,14 @@ def test_upstream_change_behind_mutable_link_is_recorded_and_fails_closed(tmp_pa
     assert status["applicable"] is False
     assert status["canonical"] == "behavior-equivalent"
     assert status["instruction"]["status"] == "instruction-changed"
+    # Applicability never upgrades or downgrades the claim's evidence tier.
+    claims = runtime(root, "alice/review", skillHash)["lenses"]["claims"]["profile"]["claims"]
+    assert {claim["support"] for claim in claims} == {"expert-declared"}
 
 
 def test_immutable_commit_link_needs_no_observation(tmp_path):
     root = store(tmp_path)
-    link = f"https://github.com/alice/skills/blob/{BASE_COMMIT}/review/SKILL.md"
-    skillHash = write(root, "alice/review", namedRecord("alice/review", link=link))
+    skillHash = write(root, "alice/review", namedRecord("alice/review"))
     declare(root, tmp_path, "alice/review", skillHash)
     replay(root)
     status = runtime(root, "alice/review", skillHash)["applicability"]
@@ -329,7 +362,7 @@ def test_canonical_instruction_link_change_invalidates(tmp_path):
     skillHash = write(root, "alice/review", namedRecord("alice/review"))
     declare(root, tmp_path, "alice/review", skillHash)
     write(root, "alice/review", namedRecord(
-        "alice/review", link="https://github.com/alice/skills/blob/main/review-v2/SKILL.md"
+        "alice/review", link=f"https://github.com/alice/skills/blob/{BASE_COMMIT}/review-v2/SKILL.md"
     ))
     replay(root)
     assert runtime(root, "alice/review", skillHash)["applicability"]["canonical"] == "behavior-changed"
@@ -340,14 +373,14 @@ def test_canonical_instruction_link_change_invalidates(tmp_path):
 
 def test_unavailable_upstream_is_recorded_and_fails_closed(tmp_path):
     root = store(tmp_path)
-    skillHash = write(root, "alice/review", namedRecord("alice/review"))
-    declare(root, tmp_path, "alice/review", skillHash)
+    skillHash = write(root, "alice/review", namedRecord("alice/review", link=mutableLink("alice/review")))
+    declare(root, tmp_path, "alice/review", skillHash, basis=citation("alice/review"))
     upstream = {(BASE_COMMIT, "review/SKILL.md"): SOURCE_V1}
     with pytest.raises(ArborError, match="unavailable"):
         recordObservation(root, "alice/review", skillHash, "baseline", LATER_COMMIT,
-                          fetch=fakeUpstream(upstream))
+                          fetch=fakeUpstream(upstream), expectedSha256=V1_SHA)
     recordObservation(root, "alice/review", skillHash, "baseline", BASE_COMMIT,
-                      fetch=fakeUpstream(upstream))
+                      fetch=fakeUpstream(upstream), expectedSha256=V1_SHA)
     report = upstreamCheck(root, record=True, fetch=fakeUpstream(upstream))
     assert report[0]["status"] == "unavailable"
     replay(root)
@@ -470,11 +503,12 @@ def test_forged_pin_for_current_bytes_is_rejected(tmp_path):
 
 def test_observation_must_match_pinned_link(tmp_path):
     root = store(tmp_path)
-    skillHash = write(root, "alice/review", namedRecord("alice/review"))
-    declare(root, tmp_path, "alice/review", skillHash)
+    skillHash = write(root, "alice/review", namedRecord("alice/review", link=mutableLink("alice/review")))
+    declare(root, tmp_path, "alice/review", skillHash, basis=citation("alice/review"))
     path, record, _created = recordObservation(
         root, "alice/review", skillHash, "baseline", BASE_COMMIT,
         fetch=fakeUpstream({(BASE_COMMIT, "review/SKILL.md"): SOURCE_V1}),
+        expectedSha256=V1_SHA,
         observedAt="2026-11-14T00:00:00Z",
     )
     record["instruction"]["path"] = "other/SKILL.md"
@@ -483,3 +517,95 @@ def test_observation_must_match_pinned_link(tmp_path):
     forged.write_bytes(json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode() + b"\n")
     with pytest.raises(ArborError, match="does not match the pinned link"):
         checkStore(root)
+
+
+# Review follow-ups -------------------------------------------------------------
+
+
+def test_forged_pin_for_historical_bytes_is_rejected_with_full_history(tmp_path):
+    root = store(tmp_path)
+    skillHash = write(root, "alice/review", namedRecord("alice/review"))
+    subprocess.run(["git", "init", "-q", str(root)], check=True)
+    subprocess.run(["git", "-C", str(root), "add", "registry/named"], check=True)
+    subprocess.run(
+        ["git", "-C", str(root), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "v1"],
+        check=True,
+    )
+    declare(root, tmp_path, "alice/review", skillHash)
+    replay(root)
+    assert checkStore(root, requireHistory=True) == 2
+
+    # A real historical pin re-derives from git history once bytes move on.
+    write(root, "alice/review", namedRecord("alice/review", level="3\u2605"))
+    assert checkStore(root, requireHistory=True) == 2
+
+    # A forged pin naming bytes that never existed is rejected.
+    forgedHash = "f" * 64
+    forged = {
+        "schema": "gaia.arbor-pin/v1",
+        "skill": {"id": "alice/review", "contentSha256": forgedHash},
+        "identity": {
+            "version": "gaia.arbor-behavioral-identity/v1",
+            "behavioralSha256": behavioralDigest("alice/review", namedRecord("alice/review")),
+        },
+        "instruction": readJson(pinPath(root / "registry" / "arbor", "alice/review", skillHash))["instruction"],
+    }
+    path = pinPath(root / "registry" / "arbor", "alice/review", forgedHash)
+    path.write_bytes(json.dumps(forged, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode() + b"\n")
+    with pytest.raises(ArborError, match="neither now nor in git history"):
+        checkStore(root)
+
+
+def test_historical_pin_without_history_is_an_error_only_when_required(tmp_path):
+    root = store(tmp_path)
+    skillHash = write(root, "alice/review", namedRecord("alice/review"))
+    declare(root, tmp_path, "alice/review", skillHash)
+    write(root, "alice/review", namedRecord("alice/review", level="3\u2605"))
+    replay(root)
+    assert checkStore(root) == 2
+    with pytest.raises(ArborError, match="without full git history"):
+        checkStore(root, requireHistory=True)
+
+
+def test_baseline_must_be_cited_by_an_immutable_declaration(tmp_path):
+    root = store(tmp_path)
+    skillHash = write(root, "alice/review", namedRecord("alice/review", link=mutableLink("alice/review")))
+    declare(root, tmp_path, "alice/review", skillHash)  # basis cites nothing
+    upstream = {(BASE_COMMIT, "review/SKILL.md"): SOURCE_V1}
+    with pytest.raises(ArborError, match="expect-sha256"):
+        recordObservation(root, "alice/review", skillHash, "baseline", BASE_COMMIT,
+                          fetch=fakeUpstream(upstream))
+    with pytest.raises(ArborError, match="not cited"):
+        recordObservation(root, "alice/review", skillHash, "baseline", BASE_COMMIT,
+                          fetch=fakeUpstream(upstream), expectedSha256=V1_SHA)
+
+
+def test_link_that_cannot_be_observed_fails_closed(tmp_path):
+    root = store(tmp_path)
+    skillHash = write(root, "alice/review", namedRecord(
+        "alice/review", link="https://gitlab.com/alice/skills/-/blob/main/review/SKILL.md"
+    ))
+    declare(root, tmp_path, "alice/review", skillHash)
+    replay(root)
+    status = runtime(root, "alice/review", skillHash)["applicability"]
+    assert status["instruction"] == {
+        "status": "instruction-unobservable", "refKind": "unobservable", "baselineSha256": None,
+    }
+    assert status["applicable"] is False
+
+
+def test_fetch_errors_are_reported_and_never_recorded(tmp_path):
+    root = store(tmp_path)
+    skillHash = write(root, "alice/review", namedRecord("alice/review", link=mutableLink("alice/review")))
+    declare(root, tmp_path, "alice/review", skillHash, basis=citation("alice/review"))
+    recordObservation(root, "alice/review", skillHash, "baseline", BASE_COMMIT,
+                      fetch=fakeUpstream({(BASE_COMMIT, "review/SKILL.md"): SOURCE_V1}),
+                      expectedSha256=V1_SHA)
+    before = sorted((root / "registry" / "arbor" / "instruction-observations").rglob("*.json"))
+
+    def broken(repository, ref, path):
+        raise ArborError("upstream fetch failed (503)")
+
+    report = upstreamCheck(root, record=True, fetch=broken)
+    assert report[0]["status"] == "error"
+    assert sorted((root / "registry" / "arbor" / "instruction-observations").rglob("*.json")) == before

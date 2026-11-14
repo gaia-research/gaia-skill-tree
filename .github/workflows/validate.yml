@@ -161,11 +161,13 @@ jobs:
 
       - name: Check Arbor store and projection
         if: steps.gate.outputs.heavy == 'true'
-        # Read-only: validates immutable sources and pins, and fails if
-        # registry/arbor/{profiles,runtime,edges.json} is stale against the
-        # current behavioural identity of every pinned subject (#2441).
-        # On failure run `gaia dev docs` (which replays registry/arbor) and commit.
-        run: gaia dev arbor check
+        # Read-only: validates immutable sources, re-derives every pin (current
+        # bytes or the matching blob in full git history; this job checks out
+        # fetch-depth 0), checks every baseline against the claim that cites
+        # it, and fails if registry/arbor/{profiles,runtime,edges.json} is
+        # stale against the behavioural identity of each pinned subject
+        # (#2441). On staleness run `gaia dev docs` and commit.
+        run: gaia dev arbor check --require-history
 
       - name: Check generated docs
         if: steps.gate.outputs.heavy == 'true'

@@ -1018,12 +1018,14 @@ def instructionLink(skillId: str, data: bytes) -> dict:
                 url = links["github"]
     match = GITHUB_BLOB_PATTERN.fullmatch(url) if url else None
     if match is None:
+        # A link that exists but is not a GitHub blob URL (a tree/ link, another
+        # host) cannot be observed, so it must not count as "no instructions".
         return {
             "url": url,
             "repository": None,
             "path": None,
             "ref": None,
-            "refKind": "none",
+            "refKind": "unobservable" if url else "none",
         }
     repository, ref, path = match.groups()
     return {
@@ -1075,17 +1077,76 @@ def currentCanonicalBytes(skillId: str, registryRoot: str | Path) -> bytes | Non
         return None
 
 
-def loadPins(registryRoot: str | Path) -> dict[tuple[str, str], dict]:
+def gitHistoryStatus(registryRoot: str | Path) -> str:
+    """Return ``full``, ``shallow`` or ``none`` for the repository holding the store."""
+
+    import subprocess
+
+    repo = repositoryRoot(registryRoot)
+    result = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "--is-shallow-repository"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or not (repo / ".git").exists():
+        return "none"
+    return "shallow" if result.stdout.strip() == "true" else "full"
+
+
+def historicalBlob(registryRoot: str | Path, skillId: str, contentSha256: str) -> bytes | None:
+    """Find the canonical record bytes hashing to ``contentSha256`` in git history."""
+
+    import subprocess
+
+    repo = repositoryRoot(registryRoot)
+    if "/" in skillId:
+        contributor, slug = skillId.split("/")
+        candidates = [f"registry/named/{contributor}/{slug}.md"]
+    else:
+        candidates = [f"registry/nodes/{kind}/{skillId}.json" for kind in ("basic", "fusion")]
+    for relative in candidates:
+        result = subprocess.run(
+            ["git", "-C", str(repo), "log", "--all", "--format=%H", "--", relative],
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            continue
+        seen: set[str] = set()
+        for commit in result.stdout.split():
+            blob = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", f"{commit}:{relative}"],
+                capture_output=True,
+                text=True,
+            )
+            objectId = blob.stdout.strip()
+            if blob.returncode != 0 or objectId in seen:
+                continue
+            seen.add(objectId)
+            data = subprocess.run(
+                ["git", "-C", str(repo), "cat-file", "blob", objectId], capture_output=True
+            ).stdout
+            if hashlib.sha256(data).hexdigest() == contentSha256:
+                return data
+    return None
+
+
+def loadPins(
+    registryRoot: str | Path, requireHistory: bool = False
+) -> dict[tuple[str, str], dict]:
     """Load every pin, rejecting misplaced, non-canonical or forged records.
 
-    A pin whose pinned bytes are still current is recomputed and must match
-    exactly; older pins were verified when they were published.
+    Every pin is re-derived from the bytes it names: the current canonical
+    file when it still hashes to the pin, otherwise the matching blob in git
+    history. Without full history an older pin cannot be re-derived; that is
+    an error when ``requireHistory`` is set (CI) and is skipped otherwise.
     """
 
     root = arborRoot(registryRoot)
     directory = managedChild(root, "pins")
     assertManagedTree(directory)
     pins: dict[tuple[str, str], dict] = {}
+    history: str | None = None
     if not directory.exists():
         return pins
     for path in sorted(directory.rglob("*.json")):
@@ -1101,14 +1162,57 @@ def loadPins(registryRoot: str | Path) -> dict[tuple[str, str], dict]:
             raise ArborError(f"Arbor pin is not canonically serialized: {path}")
         current = currentCanonicalBytes(skill["id"], registryRoot)
         if current is not None and hashlib.sha256(current).hexdigest() == skill["contentSha256"]:
-            if buildPin(skill["id"], current) != record:
-                raise ArborError(f"Arbor pin does not match its pinned canonical bytes: {path}")
+            pinned = current
+        else:
+            if history is None:
+                history = gitHistoryStatus(registryRoot)
+            if history != "full":
+                if requireHistory:
+                    raise ArborError(
+                        f"cannot verify historical Arbor pin {path} without full git history "
+                        f"(repository is {history}); fetch full history"
+                    )
+                pinned = None
+            else:
+                pinned = historicalBlob(registryRoot, skill["id"], skill["contentSha256"])
+                if pinned is None:
+                    raise ArborError(
+                        f"Arbor pin names bytes that exist neither now nor in git history: {path}"
+                    )
+        if pinned is not None and buildPin(skill["id"], pinned) != record:
+            raise ArborError(f"Arbor pin does not match its pinned canonical bytes: {path}")
         pins[(skill["id"], skill["contentSha256"])] = record
     return pins
 
 
+def citedInstructions(sources: dict[str, dict[str, dict]]) -> dict[tuple[str, str], set[tuple[str, str]]]:
+    """Map each subject to the (commit, sha256) pairs its immutable sources cite.
+
+    Claims cite ``<repository>@<commit>:<path> (sha256 <hex>)`` in
+    ``authority.basis``; only a citation of the subject's own pinned path
+    counts.
+    """
+
+    pattern = re.compile(
+        r"([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@([a-f0-9]{40}):(\S+?) \(sha256 ([a-f0-9]{64})"
+    )
+    cited: dict[tuple[str, str], set[tuple[str, str, str, str]]] = {}
+    for schemaId in (DECLARATION_SCHEMA, EDGE_DECLARATION_SCHEMA):
+        for record in sources.get(schemaId, {}).values():
+            subjects = admittedSubjects(schemaId, record)
+            for claim in record["claims"]:
+                for match in pattern.finditer(claim["authority"]["basis"]):
+                    for subject in subjects:
+                        cited.setdefault(
+                            (subject["id"], subject["contentSha256"]), set()
+                        ).add(match.groups())
+    return cited
+
+
 def loadObservations(
-    registryRoot: str | Path, pins: dict[tuple[str, str], dict]
+    registryRoot: str | Path,
+    pins: dict[tuple[str, str], dict],
+    sources: dict[str, dict[str, dict]] | None = None,
 ) -> dict[tuple[str, str], list[dict]]:
     root = arborRoot(registryRoot)
     directory = managedChild(root, "instruction-observations")
@@ -1116,6 +1220,7 @@ def loadObservations(
     grouped: dict[tuple[str, str], list[dict]] = {}
     if not directory.exists():
         return grouped
+    cited = citedInstructions(sources if sources is not None else allSourceRecords(registryRoot))
     for path in sorted(directory.rglob("*.json")):
         if path.is_symlink():
             raise ArborError(f"Arbor observation must not be a symlink: {path}")
@@ -1128,6 +1233,8 @@ def loadObservations(
             raise ArborError(f"Arbor instruction observation is not canonically serialized: {path}")
         validateObservation(record, pins)
         key = (record["skill"]["id"], record["skill"]["contentSha256"])
+        if record["purpose"] == "baseline":
+            validateBaselineCitation(record, cited.get(key, set()))
         grouped.setdefault(key, []).append(record)
     for key, records in grouped.items():
         baselines = {
@@ -1140,14 +1247,30 @@ def loadObservations(
     return grouped
 
 
+def validateBaselineCitation(record: dict, cited: set[tuple[str, str, str, str]]) -> None:
+    """A baseline must be the exact bytes an immutable source says it read."""
+
+    expected = (
+        record["instruction"]["repository"],
+        record["observed"]["commit"],
+        record["instruction"]["path"],
+        record["observed"]["sha256"],
+    )
+    if expected not in cited:
+        raise ArborError(
+            f"baseline instruction observation for {record['skill']['id']} is not cited by any "
+            "of its immutable declarations (repository@commit:path and sha256 must match a claim basis)"
+        )
+
+
 def validateObservation(record: dict, pins: dict[tuple[str, str], dict]) -> None:
     skill = record["skill"]
     pin = pins.get((skill["id"], skill["contentSha256"]))
     if pin is None:
         raise ArborError(f"instruction observation names an unpinned subject: {skill['id']}")
     instruction = pin["instruction"]
-    if instruction["refKind"] == "none":
-        raise ArborError(f"instruction observation for a subject with no instruction link: {skill['id']}")
+    if instruction["refKind"] in {"none", "unobservable"}:
+        raise ArborError(f"instruction observation for a subject with no observable instruction link: {skill['id']}")
     expected = {
         "repository": instruction["repository"],
         "path": instruction["path"],
@@ -1165,9 +1288,17 @@ def validateObservation(record: dict, pins: dict[tuple[str, str], dict]) -> None
         raise ArborError("a baseline instruction observation must be available")
 
 
-def identityState(registryRoot: str | Path) -> dict:
-    pins = loadPins(registryRoot)
-    return {"pins": pins, "observations": loadObservations(registryRoot, pins), "current": {}}
+def identityState(
+    registryRoot: str | Path,
+    sources: dict[str, dict[str, dict]] | None = None,
+    requireHistory: bool = False,
+) -> dict:
+    pins = loadPins(registryRoot, requireHistory)
+    return {
+        "pins": pins,
+        "observations": loadObservations(registryRoot, pins, sources),
+        "current": {},
+    }
 
 
 def subjectApplicability(subject: dict, state: dict, registryRoot: str | Path) -> dict:
@@ -1200,6 +1331,8 @@ def subjectApplicability(subject: dict, state: dict, registryRoot: str | Path) -
     )
     if refKind == "none":
         instructionStatus = "no-instruction-link"
+    elif refKind == "unobservable":
+        instructionStatus = "instruction-unobservable"
     elif any(
         item["purpose"] == "drift-check" and item["observed"]["status"] == "unavailable"
         for item in observations
@@ -1217,8 +1350,10 @@ def subjectApplicability(subject: dict, state: dict, registryRoot: str | Path) -
     else:
         instructionStatus = "mutable-ref-unobserved"
     return {
+        # Applicable only when the instructions are known: no link, an immutable
+        # commit link, or a mutable link with a verified baseline and no drift.
         "applicable": canonical == "behavior-equivalent"
-        and instructionStatus not in {"instruction-changed", "instruction-unavailable"},
+        and instructionStatus in {"no-instruction-link", "immutable-ref", "baseline-observed"},
         "identityVersion": IDENTITY_VERSION,
         "behavioralSha256": behavioral,
         "canonical": canonical,
@@ -1347,12 +1482,14 @@ def recordObservation(
     resolve=resolveCommit,
     expectedSha256: str | None = None,
     observedAt: str | None = None,
+    prefetched: tuple[bytes | None] | None = None,
 ) -> tuple[Path, dict, bool]:
     """Fetch, hash and immutably record one instruction observation.
 
-    A baseline names the exact commit the declarations were read from; the
-    bytes at that commit are fetched and, when ``expectedSha256`` is given
-    (for instance from a claim's cited basis), must hash to it.
+    A baseline names the exact commit a declaration was read from; its bytes
+    must hash to ``expectedSha256`` and that (commit, sha256) must be cited by
+    one of the subject's immutable declarations. ``prefetched`` lets a drift
+    check record exactly the bytes it compared.
     """
 
     pins = loadPins(registryRoot)
@@ -1360,12 +1497,16 @@ def recordObservation(
     if pin is None:
         raise ArborError(f"no Arbor pin for {skillId} at {contentSha256}; run `gaia dev arbor pin`")
     instruction = pin["instruction"]
-    if instruction["refKind"] == "none":
+    if instruction["refKind"] in {"none", "unobservable"}:
         raise ArborError(f"{skillId} has no GitHub blob instruction link to observe")
-    if purpose == "baseline" and not commit:
-        raise ArborError("a baseline observation needs the exact commit the declarations were read from")
+    if purpose == "baseline" and not (commit and COMMIT_PATTERN.fullmatch(commit)):
+        raise ArborError("a baseline observation needs the exact 40-hex commit the declarations were read from")
+    if purpose == "baseline" and not expectedSha256:
+        raise ArborError("a baseline observation needs --expect-sha256 (the sha256 the claim cites)")
     target = commit or instruction["ref"]
-    data = fetch(instruction["repository"], target, instruction["path"])
+    data = prefetched[0] if prefetched is not None else fetch(
+        instruction["repository"], target, instruction["path"]
+    )
     if data is None:
         if purpose == "baseline":
             raise ArborError(f"baseline instruction bytes are unavailable for {skillId} at {target}")
@@ -1393,6 +1534,9 @@ def recordObservation(
     }
     validateRecord(record, registryRoot)
     validateObservation(record, pins)
+    if purpose == "baseline":
+        cited = citedInstructions(allSourceRecords(registryRoot))
+        validateBaselineCitation(record, cited.get((skillId, contentSha256), set()))
     with storeLock(registryRoot):
         path = observationPath(arborRoot(registryRoot), record)
         created = publishImmutable(path, canonicalBytes(record) + b"\n")
@@ -1407,9 +1551,12 @@ def upstreamCheck(
 ) -> list[dict]:
     """Compare each observed baseline with what its mutable link serves now.
 
-    Report-only unless ``record``: then every drift (changed or unavailable
-    bytes) is recorded as an immutable drift-check observation, which makes the
-    subject inapplicable in the next replay. Unchanged results write nothing.
+    Each subject is fetched once. Status is ``unchanged``, ``changed``,
+    ``unavailable`` (the upstream says the file does not exist) or ``error``
+    (the fetch itself failed; nothing is concluded or recorded). Report-only
+    unless ``record``: then a changed or unavailable result is written as an
+    immutable drift-check observation, unless an identical drift result is
+    already recorded. Unchanged results write nothing.
     """
 
     state = identityState(registryRoot)
@@ -1422,22 +1569,35 @@ def upstreamCheck(
         if baseline is None or pin["instruction"]["refKind"] != "mutable":
             continue
         instruction = pin["instruction"]
-        data = fetch(instruction["repository"], instruction["ref"], instruction["path"])
+        entry = {"skill": key[0], "contentSha256": key[1]}
+        try:
+            data = fetch(instruction["repository"], instruction["ref"], instruction["path"])
+        except ArborError as exc:
+            report.append({**entry, "status": "error", "sha256": None, "error": str(exc)})
+            continue
         digest = None if data is None else hashlib.sha256(data).hexdigest()
         status = (
             "unavailable"
             if data is None
             else "unchanged" if digest == baseline["observed"]["sha256"] else "changed"
         )
-        entry = {"skill": key[0], "contentSha256": key[1], "status": status, "sha256": digest}
-        if record and status != "unchanged":
-            path, _record, _created = recordObservation(
-                registryRoot, key[0], key[1], "drift-check", None, fetch=fetch, resolve=resolve
-            )
-            entry["recorded"] = str(path)
+        entry.update({"status": status, "sha256": digest})
+        already = any(
+            item["purpose"] == "drift-check" and item["observed"]["sha256"] == digest
+            for item in observations
+        )
+        if record and status in {"changed", "unavailable"} and not already:
+            try:
+                path, _record, _created = recordObservation(
+                    registryRoot, key[0], key[1], "drift-check", None,
+                    fetch=fetch, resolve=resolve, prefetched=(data,),
+                )
+            except ArborError as exc:
+                entry.update({"status": "error", "error": str(exc)})
+            else:
+                entry["recorded"] = str(path)
         report.append(entry)
     return report
-
 
 def buildProfiles(
     declarations: dict[str, dict],
@@ -1481,7 +1641,7 @@ def buildEdgeEntries(
     """Project governed edge claims without reading structural registry relations."""
 
     validateSourceSet(sources, registryRoot)
-    state = state if state is not None else identityState(registryRoot)
+    state = state if state is not None else identityState(registryRoot, sources)
     declarations = sources[EDGE_DECLARATION_SCHEMA]
     observations = sources[EDGE_OBSERVATION_SCHEMA]
     interpretations = sources[EDGE_INTERPRETATION_SCHEMA]
@@ -1587,7 +1747,7 @@ def buildRuntime(
     """Build one aggregate per pinned subject, with HH deliberately absent."""
 
     sources = sources or allSourceRecords(registryRoot)
-    state = state if state is not None else identityState(registryRoot)
+    state = state if state is not None else identityState(registryRoot, sources)
     validateSourceSet(sources, registryRoot)
     profiles = buildProfiles(
         sources[DECLARATION_SCHEMA],
@@ -1754,7 +1914,7 @@ def buildArborArtifacts(
     sources: dict[str, dict[str, dict]] | None = None,
 ) -> tuple[dict, dict[Path, dict]]:
     sources = sources or allSourceRecords(registryRoot)
-    state = identityState(registryRoot)
+    state = identityState(registryRoot, sources)
     return (
         buildEdgeIndex(registryRoot, sources, state),
         buildRuntime(registryRoot, sources, state),
@@ -1947,7 +2107,11 @@ def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
     )
 
 
-def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) -> int:
+def checkStore(
+    registryRoot: str | Path,
+    inputPath: str | Path | None = None,
+    requireHistory: bool = False,
+) -> int:
     """Validate one input or immutable store integrity; returns checked file count.
 
     A standalone declaration not already stored also receives the current
@@ -1988,7 +2152,7 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
 
         sources = allSourceRecords(registryRoot)
         validateSourceSet(sources, registryRoot)
-        state = identityState(registryRoot)
+        state = identityState(registryRoot, sources, requireHistory)
         missingPins = sorted(sourceSubjects(sources) - set(state["pins"]))
         if missingPins:
             names = ", ".join(f"{skillId}@{skillHash[:12]}" for skillId, skillHash in missingPins)

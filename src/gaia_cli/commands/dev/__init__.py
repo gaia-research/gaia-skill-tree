@@ -475,6 +475,11 @@ class DevCommand(Command):
         arbor_check.add_argument(
             "input", nargs="?", help="Optional record path; omit to check the complete store"
         )
+        arbor_check.add_argument(
+            "--require-history",
+            action="store_true",
+            help="Fail unless every historical pin can be re-derived from full git history (CI)",
+        )
         arbor_sub.add_parser(
             "replay", help="Recompute generated Arbor profiles from immutable sources"
         )
@@ -503,7 +508,9 @@ class DevCommand(Command):
         arbor_observe.add_argument("--content-sha256", required=True)
         arbor_observe.add_argument("--commit", required=True, help="Exact upstream commit read")
         arbor_observe.add_argument(
-            "--expect-sha256", help="Refuse unless the fetched bytes hash to this value"
+            "--expect-sha256",
+            required=True,
+            help="The sha256 a claim cites for these bytes; the fetch must match it",
         )
         arbor_upstream = arbor_sub.add_parser(
             "upstream-check",

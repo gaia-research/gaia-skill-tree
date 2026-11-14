@@ -27,7 +27,7 @@
         "repository": {"type": ["string", "null"]},
         "path": {"type": ["string", "null"]},
         "ref": {"type": ["string", "null"]},
-        "refKind": {"enum": ["commit", "mutable", "none"]}
+        "refKind": {"enum": ["commit", "mutable", "unobservable", "none"]}
       }
     }
   },

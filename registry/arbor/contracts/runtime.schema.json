@@ -58,8 +58,8 @@
           "additionalProperties": false,
           "required": ["status", "refKind", "baselineSha256"],
           "properties": {
-            "status": {"enum": ["no-instruction-link", "immutable-ref", "mutable-ref-unobserved", "baseline-observed", "instruction-changed", "instruction-unavailable"]},
-            "refKind": {"enum": ["commit", "mutable", "none"]},
+            "status": {"enum": ["no-instruction-link", "immutable-ref", "mutable-ref-unobserved", "baseline-observed", "instruction-unobservable", "instruction-changed", "instruction-unavailable"]},
+            "refKind": {"enum": ["commit", "mutable", "unobservable", "none"]},
             "baselineSha256": {"$ref": "#/definitions/digestOrNull"}
           }
         }

@@ -1,6 +1,6 @@
 {
   "applicability": {
-    "applicable": true,
+    "applicable": false,
     "behavioralSha256": "50272136351894c4ee080d3916af4764f758dd4621de4a783e1a6178c6f818ba",
     "canonical": "behavior-equivalent",
     "identityVersion": "gaia.arbor-behavioral-identity/v1",

@@ -21,7 +21,9 @@ def arborCommand(args):
             print(f"{verb} Arbor source sha256:{digest} -> {path}")
             return 0
         if args.arbor_command == "check":
-            count = checkStore(args.registry, args.input)
+            count = checkStore(
+                args.registry, args.input, getattr(args, "require_history", False)
+            )
             print(f"Arbor check passed ({count} record{'s' if count != 1 else ''})")
             return 0
         if args.arbor_command == "replay":
@@ -53,9 +55,12 @@ def arborCommand(args):
             drift = [entry for entry in report if entry["status"] != "unchanged"]
             for entry in report:
                 suffix = f" (recorded {entry['recorded']})" if "recorded" in entry else ""
+                if entry.get("error"):
+                    suffix += f" ({entry['error']})"
                 print(f"{entry['status']:<11} {entry['skill']}@{entry['contentSha256'][:12]}{suffix}")
             print(f"{len(report)} observed subject(s), {len(drift)} drifted")
-            if drift and not args.record:
+            errors = [entry for entry in report if entry["status"] == "error"]
+            if errors or (drift and not args.record):
                 return 1
             return 0
         print(

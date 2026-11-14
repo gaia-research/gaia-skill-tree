@@ -1396,7 +1396,12 @@ def build_arbor_projection(check: bool) -> bool:
             print(f"diff registry/arbor ({exc})")
         else:
             replay(ROOT)
-            checkStore(ROOT)
+            try:
+                checkStore(ROOT)
+            except ArborError as remaining:
+                # Replay cannot repair this (for example a missing pin). Fail
+                # loudly instead of reporting a clean regeneration.
+                raise RuntimeError(f"registry/arbor is invalid after replay: {remaining}") from remaining
 
     # --check must refuse an unsafe managed tree rather than inspect or clean
     # through a symlink. Write mode has the same refusal boundary.
