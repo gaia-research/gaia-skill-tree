@@ -10,10 +10,10 @@ into claiming measurements:
 * the Hell-Heaven lens stays absent until an acceptance source exists;
 * replay never alters an immutable source.
 
-The store is copied to a temporary root first. The committed runtime and edge
-projections embed `pairApplicable`, which follows moving canonical bytes, so
-they are regenerated here instead of being compared byte-for-byte; freshness of
-the committed projections is `gaia dev arbor check` and the docs `--check`.
+The store is copied to a temporary root first. Since #2441 the committed runtime
+and edge projections follow only the behavioural identity of each pinned
+subject, so they are compared byte-for-byte with a fresh replay as well, and
+every seeded subject must carry a pin and a verified instruction baseline.
 """
 
 from __future__ import annotations
@@ -70,6 +70,12 @@ def store(tmp_path_factory):
 
     root = tmp_path_factory.mktemp("committed-arbor")
     shutil.copytree(REPO / "registry" / "arbor", root / "registry" / "arbor")
+    committedGenerated = {
+        **fileDigests(root / "registry" / "arbor" / "runtime"),
+        "edges.json": hashlib.sha256(
+            (root / "registry" / "arbor" / "edges.json").read_bytes()
+        ).hexdigest(),
+    }
     committed = allSourceRecords(REPO)
     for skillId in sorted(subjects(committed)):
         try:
@@ -92,6 +98,7 @@ def store(tmp_path_factory):
         "sources": allSourceRecords(root),
         "sourceDigestsBefore": before,
         "committedProfiles": committedProfiles,
+        "committedGenerated": committedGenerated,
     }
 
 
@@ -198,3 +205,21 @@ def test_every_edge_endpoint_sees_its_interaction_and_no_other(store):
         else:
             assert lens["status"] == "absent-no-accepted-record", subject
             assert keys == set()
+
+
+def test_committed_runtime_and_edges_match_a_fresh_replay(store):
+    fresh = {
+        **fileDigests(store["arbor"] / "runtime"),
+        "edges.json": hashlib.sha256((store["arbor"] / "edges.json").read_bytes()).hexdigest(),
+    }
+    assert fresh == store["committedGenerated"]
+
+
+def test_every_subject_is_pinned_and_seeded_subjects_have_a_baseline(store):
+    pins = {path.parent.relative_to(store["arbor"] / "pins").as_posix() for path in (store["arbor"] / "pins").rglob("*.json")}
+    assert subjects(store["sources"]) <= pins
+    for runtime in runtimes(store):
+        applicability = runtime["applicability"]
+        if runtime["subject"]["id"] != "obra/receiving-code-review":
+            # Every Arbor I seed subject cites the exact upstream bytes it was read from.
+            assert applicability["instruction"]["status"] == "baseline-observed", runtime["subject"]

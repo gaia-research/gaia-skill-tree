@@ -1,4 +1,15 @@
 {
+  "applicability": {
+    "applicable": true,
+    "behavioralSha256": "c5b5c33b0dc968e142517b30e353784fa12707c813a70b419365646146614f70",
+    "canonical": "behavior-equivalent",
+    "identityVersion": "gaia.arbor-behavioral-identity/v1",
+    "instruction": {
+      "baselineSha256": "f3dfed24accce14ad5d59a88f2f7f6aa21dc1b3b86416375b39268282807dfa3",
+      "refKind": "mutable",
+      "status": "baseline-observed"
+    }
+  },
   "inputDigest": "22e6baa50bda2b30cd578aab5e4536e24c3107c127b0e85226393d65a2e95016",
   "lenses": {
     "claims": {

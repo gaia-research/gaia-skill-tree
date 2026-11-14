@@ -207,7 +207,7 @@ Footgun history: commit `de3e77f7e` untracked both classes; auto-sync's `gaia de
 
 **Commit these (hard CI failures if missing):**
 - `docs/graph/gaia.json`, `docs/graph/named/index.json`, `docs/graph/gaia.gexf`, `docs/graph/gaia.svg` — Class S graph assets
-- `docs/graph/arbor/**` — Arbor projection, when `gaia dev docs` changes it. It moves whenever you edit a named record that is an endpoint of an Arbor edge (`registry/arbor/edges.json` lists them) or the subject of an accepted Hell-Heaven record: `pairApplicable` follows current canonical bytes and the `arbor-projection` step hard-fails `--check` if stale. Then also run `gaia dev arbor replay` and commit `registry/arbor/edges.json` + `registry/arbor/runtime/**`, which `gaia dev docs` does not regenerate.
+- `docs/graph/arbor/**` and `registry/arbor/{profiles,runtime,edges.json}` — Arbor projection, when `gaia dev docs` changes it. `gaia dev docs` regenerates both (#2441). They change only on a *behavioural* edit to a pinned Arbor subject (description, links, body, upstream version, structure, or any field not on the non-behavioural list in `registry/arbor/README.md`); prestige-only edits (evidence, timeline, level, trust, timestamps) change neither. `gaia dev arbor check` and `--check` hard-fail if either is stale.
 - `docs/api/v1/**` — contributor and skill JSON API files (new/changed contributors and skills)
 - `docs/u/<handle>/index.html` — per-user profile pages for new contributors
 - `docs/tree.md`, `docs/about.html`, `docs/index.html` stat blocks, `README.md` — registry-driven summary stats
