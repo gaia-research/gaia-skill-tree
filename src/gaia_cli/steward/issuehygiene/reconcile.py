@@ -21,7 +21,7 @@ from typing import Any, Mapping
 
 from gaia_cli.steward.issuehygiene.census import closedOnlyIncomplete, COMPLETE, Census, validateCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.questions import BINDINGS, decidedBindings
+from gaia_cli.steward.issuehygiene.questions import AMENDED_RESOLUTIONS, BASELINE_CHILDREN, BINDINGS, decidedBindings
 from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.issuehygiene.identity import Graph, Identity, buildGraph, classify, compareVersions, labelNames
 from gaia_cli.steward.issuehygiene.registryindex import (
@@ -958,7 +958,8 @@ def provenClosable(ctx: Context, draft: Draft) -> bool:
 def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> None:
     """Apply only the locked family dispositions, preserving bytes and unrelated questions."""
     for qid, record in decidedBindings(records).items():
-        resolution, _, numbers, suites = BINDINGS[qid]
+        _, _, numbers, suites = BINDINGS[qid]
+        resolution = str(record["resolution"])
         affected = set(numbers)
         for draft in ctx.drafts.values():
             repo = suiteRepo(draft.suite)
@@ -973,6 +974,8 @@ def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> N
             previous = len(affected)
             affected.update(draft.number for draft in ctx.drafts.values() if draft.parent in affected)
             changed = len(affected) != previous
+        baseline = BASELINE_CHILDREN.get(qid)
+        amended = resolution == AMENDED_RESOLUTIONS.get(qid)
         for number in sorted(affected & ctx.drafts.keys()):
             draft = ctx.drafts[number]
             if draft.state == STATE_NOT_EVALUATED:
@@ -983,6 +986,21 @@ def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> N
             draft.questions = [text for text in draft.questions if text not in locked]
             draft.evidence.append(ev("founder-decision", f"founder/steward/decisions/{record['id']}.json", None,
                                      f"Q-{qid[2:]}: {resolution}; founder authority linked in record"))
+            candidateKey = (draft.identity.candidateId or "").strip().lower()
+            if (
+                amended
+                and baseline is not None
+                and draft.kind == "child"
+                and baseline.get(draft.number) == candidateKey
+                and draft.proofRule == RULE_A1
+                and not draft.unknowns
+                and not draft.questions
+                and draft.authority != AUTH_C
+                and "upstream:needs-info" not in labelNames(draft.row)
+            ):
+                # Narrowly enumerated baseline child with an exact A1 registry/source proof proceeds
+                # to finalize() under the 2026-11-15 ruling; all other family items remain held.
+                continue
             draft.notProven.append(f"founder-lock:{qid}:{resolution}")
             # No lock grants closure, intake or release acceptance, even if an A proof existed.
             draft.proofRule = None
