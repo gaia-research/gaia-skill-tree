@@ -3,7 +3,7 @@
 **PR:** #2467 (<https://github.com/gaia-research/gaia-skill-tree/pull/2467>)
 **Base branch:** `dev/upstream-backlog-2026-11`
 **Feature branch:** `dev/upstream-backlog-authority-2026-11`
-**Status:** NARROW REPORTING-ARTIFACT CORRECTION — READY FOR NARROW TERRA CHECK (P0 NOT COMPLETE)
+**Status:** P0 PASS — final independent Terra receipt at exact feature HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d`; PR #2467 merged internally to integration as `bfed2d777b76448f6ede5d40e1a834050dff07d0`. P1 source inspection pending; no implementation started.
 
 ## Implementation
 
@@ -75,9 +75,14 @@
 - **Terra observation (`upstream-approve.yml:469`):** `upstream-approve.yml:469` honors authorized `skip-child-gate` with no GBrain-specific prohibition; otherwise open children gate sync. Fresh human `upstream:approved` alone does not guarantee GBrain version-only sync when held children remain open.
 - **Required before P4:** Independently establish a canonical allowed version-only route that retains held children and prohibits GBrain `skip-child-gate` bypass. This P0 patch does **not** modify workflows or implement that route.
 
-## Next Action
+## Final Terra PASS and internal merge receipt
 
-Final narrow independent Terra check of PR #2467 reporting-artifact correction (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), verifying the `BASELINE_UPSTREAM_METADATA.json` (`counts.frozen: 24`, per-record `frozen` flags, `entriesDigestSha256`), `CAMPAIGN.md`, `P0_HANDOFF.md`, and `COSTS.md` changes. Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
+- Final Terra verdict: **PASS, no findings**, independently reviewed at exact HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d`.
+- Code/tests/authority/POLICY/workflows/registry remain byte-identical to independently tested `11405f2dacaa2f6501039dbce3936106e0fb9bee`. Reused independent results: 932 issuehygiene + 64 founder/desk tests PASS; coverage PASS. These were not rerun for the doc/data-only final delta.
+- Final data checks: all 472 baseline Git metadata entries match canonical frozen IDs (24 frozen; digest `997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324`); 81-issue snapshot byte-identical to previously verified version. The conditional P4 workflow prerequisite remains. No live closure, P2 census, P4 route, or human approval is claimed.
+- PR #2467 merged internally to `dev/upstream-backlog-2026-11` as merge commit `bfed2d777b76448f6ede5d40e1a834050dff07d0`; fetched ref ancestry contains reviewed HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d` and baseline `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`. No merge to `main`.
+- New P1 worktree: `/data/data/com.termux/files/home/.gaia-worktrees/upstream-backlog-2026-11-p1`, branch `dev/upstream-backlog-watcher-2026-11`, base `bfed2d777b76448f6ede5d40e1a834050dff07d0`.
+- **Next action:** P1 AgentDB source inspection only. No watcher/CLI/source change until inspection; any contradiction returns to founder. No registry/artifact/issue action is authorized by this handoff.
 
 ## Baseline Snapshots (Initial P0 Evidence)
 

@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** Code and decision records at `11405f2dacaa2f6501039dbce3936106e0fb9bee` are independently verified by Terra (all 3 prior code/record findings fixed; 932 `issuehygiene` + 64 founder/desk tests PASS; coverage/diff check PASS; 71 synthetic baseline children yielded A1 proposals — not live closure proof). Terra's review of `4778b2a04de62f60df48f7a0a7df5c9aa943da22` confirmed all other doc/snapshot checks and returned `FINDINGS` solely for the `BASELINE_UPSTREAM_METADATA.json` / prose `0 frozen` claim (raw frontmatter flag vs canonical `gaia_cli.frozen.frozenIds`). Two routine correction rounds are exhausted; this narrow deterministic reporting-artifact correction updates only derived report data/prose using `gaia_cli.frozen.frozenIds` over baseline `9b4d9b98` Git objects (canonical count: **24**). **Final Terra narrow check is PENDING. P0 is not complete; P1 has not started.** See [PREFLIGHT.md](PREFLIGHT.md).
+- **Status:** P0 **PASS**: independent Terra final receipt on exact feature HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d`, no findings. PR #2467 merged internally to `dev/upstream-backlog-2026-11` as merge commit `bfed2d777b76448f6ede5d40e1a834050dff07d0`; feature and baseline `9b4d9b98` ancestry verified. Code/tests/authority/POLICY/workflows/registry remain byte-identical to independently tested `11405f2`; final doc/data checks passed (472 metadata entries; canonical frozen count 24; 81-issue snapshot byte-identical). No live closure, P2 census, P4 route, or human approval is claimed. **P1 source inspection PENDING; no watcher/CLI/registry source changes started.**
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -92,8 +92,8 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 | Phase | Lane | State |
 |---|---|---|
-| P0 | Authorize and baseline | Code/records at `11405f2` independently verified; narrow reporting-artifact correction (`frozen: 24`) delivered; final Terra narrow check pending |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | not started |
+| P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
+| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | source inspection PENDING; implementation not started |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
@@ -108,6 +108,14 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
 
 ## Execution log
+
+### 2026-11-15 — P0 final PASS and internal merge; P1 handoff
+
+- Terra final receipt: PASS, no findings, at exact reviewed HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d`. Tests are reused from the independent `11405f2` review (932 issuehygiene + 64 founder/desk PASS; coverage PASS); not rerun for documentation/data delta. Terra verified final delta and retained conditional P4 workflow prerequisite.
+- PR #2467: <https://github.com/gaia-research/gaia-skill-tree/pull/2467>, merged as a merge commit to `dev/upstream-backlog-2026-11`; merge SHA `bfed2d777b76448f6ede5d40e1a834050dff07d0`. Fetched integration ref and verified ancestry contains both `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d` and baseline `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`. No main merge/push.
+- Created isolated P1 worktree `/data/data/com.termux/files/home/.gaia-worktrees/upstream-backlog-2026-11-p1`, branch `dev/upstream-backlog-watcher-2026-11`, based exactly on fresh `origin/dev/upstream-backlog-2026-11` at `bfed2d777b76448f6ede5d40e1a834050dff07d0`.
+- P1 is **source inspection pending**. No CLI/watcher/source fix, registry mutation, generated artifact, or issue action has occurred. Any source contradiction must return to founder before code changes.
+- Latest canonical cost cutoff: $4.907920 mixed-method estimate; see [COSTS.md](COSTS.md). This snapshot excludes PR administration and P1 setup/work.
 
 ### 2026-11-15 — Terra review of `4778b2a` (FINDINGS) and narrow reporting-artifact correction
 
