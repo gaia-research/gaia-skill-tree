@@ -19,13 +19,16 @@ CLI Pre-Flight checks (per CLAUDE.md CLI Pre-Flight Rule):
 
 from __future__ import annotations
 
-import re
-import sys
 import datetime
+import json
+import re
+import stat
+import sys
 import urllib.parse
 from pathlib import Path
 from typing import Any
 
+from gaia_cli.canonicalTransaction import _atomic as _atomic_write_bytes
 from gaia_cli.commands.dev.helpers import (
     _find_named_file,
     _get_contributor,
@@ -42,28 +45,94 @@ from gaia_cli.frontmatter import (
 )
 
 # ---------------------------------------------------------------------------
-# Regex constants
+# Regex & validation constants
 # ---------------------------------------------------------------------------
 
 _VERSION_RE = re.compile(r"^v?\d+\.\d+\.\d+.*$")
-_RELEASE_URL_RE = re.compile(
-    r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/releases/tag/(?P<tag>.+)$"
-)
-_GITHUB_REPO_RE = re.compile(
-    r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)(?:/|$)"
-)
 _CANONICAL_REPO_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$")
+_DATE_TIME_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
+)
 
 # Ordered list of star levels so we can compare numerically.
 _STAR_LEVELS = ["1★", "2★", "3★", "4★", "5★", "6★"]
 
 
+def _is_valid_owner_repo(owner: str, repo: str) -> bool:
+    """Return True if owner and repo are valid non-dot GitHub identifiers."""
+    if not isinstance(owner, str) or not isinstance(repo, str):
+        return False
+    if not owner or not repo:
+        return False
+    if any(c.isspace() for c in owner) or any(c.isspace() for c in repo):
+        return False
+    if owner in {".", ".."} or repo in {".", ".."}:
+        return False
+    return bool(_CANONICAL_REPO_RE.fullmatch(f"{owner}/{repo}"))
+
+
+def _parse_release_source_url(source_url: str) -> tuple[str, str, str] | None:
+    """Parse a GitHub release tag URL into ``(owner, repo, decoded_tag)``.
+
+    Rejects whitespace, non-https schemes, non-github.com hosts, userinfo,
+    ports, literal queries (``?``), literal fragments (``#``), dot/dotdot
+    owner/repo segments, and empty tags.
+    """
+    if not isinstance(source_url, str) or not source_url:
+        return None
+    if any(c.isspace() for c in source_url):
+        return None
+    if "?" in source_url or "#" in source_url:
+        return None
+    parsed = urllib.parse.urlsplit(source_url)
+    if (
+        parsed.scheme != "https"
+        or parsed.netloc.lower() != "github.com"
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.port is not None
+        or parsed.query != ""
+        or parsed.fragment != ""
+    ):
+        return None
+
+    parts = parsed.path.lstrip("/").split("/", 4)
+    if len(parts) != 5 or parts[2] != "releases" or parts[3] != "tag":
+        return None
+    owner, repo, raw_tag = parts[0], parts[1], parts[4]
+    if not _is_valid_owner_repo(owner, repo):
+        return None
+    raw_tag = raw_tag.rstrip("/")
+    if not raw_tag:
+        return None
+    decoded_tag = urllib.parse.unquote(raw_tag)
+    if not decoded_tag or "\x00" in decoded_tag:
+        return None
+    return (owner, repo, decoded_tag)
+
+
 def _parse_owner_repo_from_url(url: str) -> str | None:
-    """Return 'owner/repo' extracted from a github.com URL, or None."""
-    m = _GITHUB_REPO_RE.match(url or "")
-    if m:
-        return f"{m.group('owner')}/{m.group('repo')}"
-    return None
+    """Return 'owner/repo' extracted from a parsed github.com URL, or None."""
+    if not isinstance(url, str) or not url or any(c.isspace() for c in url):
+        return None
+    parsed = urllib.parse.urlsplit(url)
+    if (
+        parsed.scheme != "https"
+        or parsed.netloc.lower() != "github.com"
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.port is not None
+    ):
+        return None
+    segments = [s for s in parsed.path.split("/") if s]
+    if len(segments) < 2:
+        return None
+    owner, repo = segments[0], segments[1]
+    if repo.endswith(".git"):
+        repo = repo[:-4]
+    if not _is_valid_owner_repo(owner, repo):
+        return None
+    return f"{owner}/{repo}"
 
 
 def _utc_now_iso() -> str:
@@ -89,35 +158,32 @@ def _pf_version_format(version: str) -> None:
 
 
 def _pf_source_url_format(source_url: str, version: str | None = None) -> None:
-    m = _RELEASE_URL_RE.match(source_url)
-    if not m:
+    parsed = _parse_release_source_url(source_url)
+    if not parsed:
         _fail_dev_preflight(
             f"Invalid --source-url: {source_url!r}. "
-            "Must be https://github.com/<owner>/<repo>/releases/tag/<tag>.",
+            "Must be https://github.com/<owner>/<repo>/releases/tag/<tag> "
+            "with no query, fragment, userinfo, or whitespace.",
             fix="Copy the URL directly from the GitHub Releases page.",
         )
         return
-    if version is not None:
-        url_tag = urllib.parse.unquote(m.group("tag")).rstrip("/")
-        if url_tag != version:
-            _fail_dev_preflight(
-                f"--source-url tag {url_tag!r} does not match --tag {version!r}. "
-                "Nothing was written.",
-                fix="Ensure --source-url points to the release tag matching --tag.",
-            )
+    _, _, url_tag = parsed
+    if version is not None and url_tag != version:
+        _fail_dev_preflight(
+            f"--source-url tag {url_tag!r} does not match --tag {version!r}. "
+            "Nothing was written.",
+            fix="Ensure --source-url points to the release tag matching --tag.",
+        )
 
 
 def _pf_repo_format(target_repo: str | None) -> None:
     if target_repo is None:
         return
-    if (
-        not isinstance(target_repo, str)
-        or any(c.isspace() for c in target_repo)
-        or not _CANONICAL_REPO_RE.fullmatch(target_repo)
-    ):
+    parts = target_repo.split("/") if isinstance(target_repo, str) else []
+    if len(parts) != 2 or not _is_valid_owner_repo(parts[0], parts[1]):
         _fail_dev_preflight(
             f"Invalid --repo: {target_repo!r}. "
-            "Must be <owner>/<repo> with no whitespace.",
+            "Must be <owner>/<repo> with valid identifiers and no whitespace.",
             fix="Provide a valid GitHub owner/repo such as ruvnet/agentdb.",
         )
 
@@ -125,14 +191,13 @@ def _pf_repo_format(target_repo: str | None) -> None:
 def _normalize_repo_for_comparison(repo: Any) -> str | None:
     """Normalize owner/repo for case-insensitive comparison.
 
-    Rejects non-strings, whitespace, and malformed owner/repo specifications.
+    Rejects non-strings, whitespace, dot/dotdot segments, and malformed
+    owner/repo specifications.
     """
     if not isinstance(repo, str):
         return None
-    if any(c.isspace() for c in repo):
-        return None
     parts = repo.split("/")
-    if len(parts) != 2 or not parts[0] or not parts[1]:
+    if len(parts) != 2 or not _is_valid_owner_repo(parts[0], parts[1]):
         return None
     return repo.lower()
 
@@ -250,6 +315,132 @@ def _pf_bootstrap_no_existing_block(skill_id: str, meta: dict, is_bootstrap: boo
 
 
 # ---------------------------------------------------------------------------
+# Canonical named-skill schema validation
+# ---------------------------------------------------------------------------
+
+
+def _resolve_named_skill_schema(registry_path: str) -> dict[str, Any]:
+    """Load namedSkill.schema.json from registry_path or bundled data."""
+    candidates = [
+        Path(registry_path) / "registry" / "schema" / "namedSkill.schema.json",
+        Path(__file__).resolve().parents[2]
+        / "data"
+        / "registry"
+        / "schema"
+        / "namedSkill.schema.json",
+    ]
+    for candidate in candidates:
+        if candidate.is_file():
+            try:
+                data = json.loads(candidate.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                _fail_dev_preflight(
+                    f"Cannot read namedSkill.schema.json at {candidate}: {exc}. "
+                    "Nothing was written.",
+                    fix="Ensure registry/schema/namedSkill.schema.json is valid JSON.",
+                )
+            if isinstance(data, dict) and isinstance(data.get("properties"), dict):
+                return data
+    _fail_dev_preflight(
+        "Cannot locate valid namedSkill.schema.json in registry or bundled data. "
+        "Nothing was written.",
+        fix="Ensure registry/schema/namedSkill.schema.json is present.",
+    )
+    raise AssertionError("unreachable")
+
+
+def _schema_format_checker():
+    import jsonschema
+
+    checker = jsonschema.FormatChecker()
+    if "date-time" not in checker.checkers:
+        @checker.checks("date-time", raises=(TypeError, ValueError))
+        def _check_date_time(value: object) -> bool:
+            if not isinstance(value, str):
+                return True
+            if not _DATE_TIME_RE.fullmatch(value):
+                return False
+            parsed = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return parsed.tzinfo is not None
+
+    if "uri" not in checker.checkers:
+        @checker.checks("uri", raises=(TypeError, ValueError))
+        def _check_uri(value: object) -> bool:
+            if not isinstance(value, str):
+                return True
+            if not value or any(c.isspace() for c in value):
+                return False
+            parsed = urllib.parse.urlsplit(value)
+            return bool(parsed.scheme and parsed.netloc)
+
+    return checker
+
+
+def _validate_proposed_named_record(registry_path: str, proposed_text: str) -> None:
+    """Validate proposed frontmatter, upstream block, and appended timeline event."""
+    try:
+        import jsonschema
+    except ImportError as exc:
+        _fail_dev_preflight(
+            f"jsonschema is required to validate proposed named skill record: {exc}. "
+            "Nothing was written.",
+            fix="Install jsonschema in the Python environment.",
+        )
+
+    schema = _resolve_named_skill_schema(registry_path)
+    _fence, new_fm_text, _body = split_frontmatter(proposed_text)
+    new_meta = load_yaml_simple(new_fm_text)
+    if not isinstance(new_meta, dict):
+        _fail_dev_preflight(
+            "Proposed frontmatter is not a YAML mapping. Nothing was written.",
+            fix="Check the named skill frontmatter syntax.",
+        )
+
+    missing = [req for req in schema.get("required", []) if req not in new_meta]
+    if missing:
+        _fail_dev_preflight(
+            f"Proposed named skill record is missing required schema field(s): "
+            f"{', '.join(missing)}. Nothing was written.",
+            fix="Ensure the named skill record satisfies namedSkill.schema.json required fields.",
+        )
+
+    checker = _schema_format_checker()
+    schema_meta = schema.get("$schema", "http://json-schema.org/draft-07/schema#")
+    defs = schema.get("definitions", {})
+    props = schema.get("properties", {})
+
+    def _validate_subschema(label: str, instance: Any, subschema: dict[str, Any]) -> None:
+        wrapped = {"$schema": schema_meta, "definitions": defs, **subschema}
+        validator = jsonschema.Draft7Validator(wrapped, format_checker=checker)
+        errors = sorted(validator.iter_errors(instance), key=lambda e: list(e.path))
+        if errors:
+            err = errors[0]
+            loc = ".".join(str(p) for p in err.path)
+            loc_str = f" at {loc}" if loc else ""
+            _fail_dev_preflight(
+                f"Proposed {label}{loc_str} violates namedSkill.schema.json: "
+                f"{err.message}. Nothing was written.",
+                fix="Provide schema-valid upstream metadata and contributor username.",
+            )
+
+    if "upstream" in props:
+        _validate_subschema("upstream", new_meta.get("upstream"), props["upstream"])
+
+    if "contributor" in props and "contributor" in new_meta:
+        _validate_subschema("contributor", new_meta.get("contributor"), props["contributor"])
+
+    timeline = new_meta.get("timeline")
+    if not isinstance(timeline, list) or not timeline:
+        _fail_dev_preflight(
+            "Proposed timeline must be a non-empty list. Nothing was written.",
+            fix="Check timeline serialization in the named skill file.",
+        )
+    timeline_event_schema = defs.get("timelineEvent")
+    if isinstance(timeline_event_schema, dict):
+        _validate_subschema("timeline[-1]", timeline[-1], timeline_event_schema)
+
+
+# ---------------------------------------------------------------------------
 # Core command
 # ---------------------------------------------------------------------------
 
@@ -356,6 +547,13 @@ def sync_upstream_command(args) -> None:
         "details": details,
     }
 
+    # --- Compose and schema-validate complete replacement BEFORE any write ---
+    new_text = upsert_top_level_block(raw_text, "upstream", new_upstream)
+    new_text = append_timeline_event(new_text, timeline_event)
+    _run_dev_preflights([
+        lambda: _validate_proposed_named_record(registry_path, new_text),
+    ])
+
     # --- Dry-run: print intended diff, no write ---
     if dry_run:
         import yaml  # pyyaml
@@ -366,12 +564,9 @@ def sync_upstream_command(args) -> None:
         print(yaml.dump(timeline_event, sort_keys=False, allow_unicode=True))
         return
 
-    # --- Atomic write: compose full content in memory first ---
-    new_text = upsert_top_level_block(raw_text, "upstream", new_upstream)
-    new_text = append_timeline_event(new_text, timeline_event)
-
-    # Single filesystem write — atomic from caller's perspective.
-    named_file.write_text(new_text, encoding="utf-8")
+    # --- Atomic same-directory temp + fsync + os.replace preserving mode ---
+    mode_bits = stat.S_IMODE(named_file.stat().st_mode)
+    _atomic_write_bytes(named_file, new_text.encode("utf-8"), mode_bits)
 
     # --- Success message ---
     old_str = old_version or "(none)"

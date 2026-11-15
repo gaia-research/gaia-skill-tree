@@ -1,6 +1,6 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-- **Status:** **READY FOR REVIEW** (P1 builder work complete; **NOT P1 complete** — awaiting independent Terra review, then authorized real-runner `Upstream Watcher` dry run `apply=false` exit 0 with empty `unknownEvidence`)
+- **Status:** **READY FOR REVIEW** (P1 correction round 1 complete; **NOT P1 complete** — awaiting independent Terra re-review, then authorized real-runner `Upstream Watcher` dry run `apply=false` exit 0 with empty `unknownEvidence`)
 - **PR:** <https://github.com/gaia-research/gaia-skill-tree/pull/2468> (draft, base `dev/upstream-backlog-2026-11`, head `dev/upstream-backlog-watcher-2026-11`)
 - **Base / Source Gate:** `7a86be4e757acc8d01c762b4fd924b7d37899ed2` (P0 merge `bfed2d777b76448f6ede5d40e1a834050dff07d0` + `P1_SOURCE_RECONNAISSANCE.md`)
 - **Implementation Commits:**
@@ -88,9 +88,10 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev update-name
 
 ## 4. Verification Results
 
-- `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q`: **952 passed** in 173.14s.
+- `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q`: **994 passed** in 201.54s (after P1 correction round 1; includes new atomicity, schema validation, parsed URL/repo, and watcher link-validation regressions).
 - `python3 tests/upstream_watcher/parity_2283.py`: **exit 0** (`stagedRowsEqualBatchRows: true`, `stagedRowsEqualDailyUnstagedRows: true`).
 - `git diff --check`: **exit 0** (clean).
+- Read-only `namedSkill.schema.json` validation of `registry/named/ruvnet/agentdb.md` (`upstream` block and `timeline[-2]` `upstream_synced` event): **0 errors**; `suiteRef: ruvnet/ruflo`, 5 `suiteComponents`, `level: 3★`, `trustMagnitude: 81.0` preserved.
 - `GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev validate`: 11/11 graph, schema, reference, named-skill, and suite checks passed; exited 1 solely on `Trust Magnitude consistency` because `registry/named-skills.json` is not built in this worktree (`gaia dev docs` regeneration is intentionally deferred to P7).
 
 ## 5. Limitations & Pending Gates
@@ -108,3 +109,26 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev update-name
   - `challenge_input`: `""`
   - `challenge_shadow`: `false`
   - `escalate_candidate`: `""`
+
+## 6. P1 Correction Round 1 — Terra Findings & Correction Receipt (2026-11-16)
+
+Independent Terra review of `98fd89e791dff1c4034e6dfc4dc68299abcb74a0` surfaced 4 findings (1 CRITICAL, 3 WARNING). All 4 were reproduced on isolated temporary fixtures before fixing and verified fixed after:
+
+1. **CRITICAL (`src/gaia_cli/commands/dev/sync_upstream.py` non-atomic write):**
+   - *Before:* `Path.write_text` truncated the target file on a simulated partial write after 20 bytes (`465` bytes → `20` bytes).
+   - *Fix:* Replaced `write_text` with canonical `gaia_cli.canonicalTransaction._atomic` (same-directory temp file + `fchmod` preserving original mode + `flush` + `os.fsync` + `os.replace` + directory fsync + temp unlink on failure).
+   - *After:* Injected partial temp write and failed `os.replace` both leave original bytes 100% unchanged with zero leftover temp files; original file mode (`0o640`) preserved.
+2. **WARNING (`src/gaia_cli/commands/dev/sync_upstream.py` missing schema validation):**
+   - *Before:* `--user invalid_name` and `--released-at not-a-timestamp` succeeded without error.
+   - *Fix:* Added `_validate_proposed_named_record` using `namedSkill.schema.json` (repo `registry/schema/namedSkill.schema.json` with bundled `src/gaia_cli/data/registry/schema/namedSkill.schema.json` fallback), `jsonschema.Draft7Validator`, and explicit RFC 3339 `date-time` / `uri` `FormatChecker` checks on proposed `upstream`, `contributor`, `required` fields, and appended `timeline[-1]` (`timelineEvent`) inside `_run_dev_preflights` before dry-run/write.
+   - *After:* `invalid_name`, `not-a-timestamp`, invalid `mode`, and missing required fields all exit 1 and leave original bytes unchanged.
+3. **WARNING (`src/gaia_cli/commands/dev/sync_upstream.py` regex-only URL/tag parsing):**
+   - *Before:* `--tag 'v2.0.0#bad' --source-url '.../v2.0.0#bad'` and `--repo neworg/..` succeeded.
+   - *Fix:* Replaced regex URL matching with `urllib.parse.urlsplit` in `_parse_release_source_url` and `_parse_owner_repo_from_url`, plus `_is_valid_owner_repo` rejecting `.` / `..`, whitespace, userinfo, ports, literal `?` / `#`, and malformed host/scheme, while percent-decoding valid release tags (`%23`, `%2F`).
+   - *After:* Literal `#bad`, `?foo=bar`, `neworg/..` exit 1 with original bytes unchanged; `v2.0.0%23hotfix` and `v2.0.0%2F1` succeed.
+4. **WARNING (`scripts/upstream_watcher/finder.py` prefix-only `parse_owner_repo`):**
+   - *Before:* `links.github = 'https://github.com/good/repo garbage'` with `upstream.repo = 'good/repo'` resolved to `('good', 'repo', ...)` instead of failing closed.
+   - *Fix:* Added `_validate_complete_github_url` and `_is_valid_owner_repo` in `resolve_suite_source` to validate scheme, host, userinfo, port, query, fragment, whitespace, and dot/dotdot segments before repo extraction, without falling back to `upstream.repo` on non-empty invalid `links.github`.
+   - *After:* Malformed `links.github` raises `UnknownEvidenceError` before any `fetch_json` poll; valid root/tree/blob/percent-encoded paths and empty/missing `links.github` fallback remain intact.
+
+- **Pending:** Independent Terra re-review of PR #2468, then authorized real-runner `Upstream Watcher` dry run (`apply=false`, exit 0, empty `unknownEvidence`).

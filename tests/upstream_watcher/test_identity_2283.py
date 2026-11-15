@@ -318,12 +318,28 @@ def test_empty_or_missing_links_github_falls_back_to_upstream_repo_for_gsd():
             assert res["mode"] == "components"
 
 
-@pytest.mark.parametrize("bad_link", ["https://gitlab.com/gsd-build/get-shit-done", "not-a-url"])
+@pytest.mark.parametrize(
+    "bad_link",
+    [
+        "https://gitlab.com/gsd-build/get-shit-done",
+        "not-a-url",
+        "https://github.com/good/repo garbage",
+        "https://github.com/good/repo\tgarbage",
+        "https://user@github.com/good/repo",
+        "https://github.com:8443/good/repo",
+        "https://github.com/good/..",
+        "https://github.com/good/.",
+        "https://github.com/../repo",
+        "https://github.com/good/repo?a=1",
+        "https://github.com/good/repo#frag",
+        "http://github.com/good/repo",
+    ],
+)
 def test_invalid_nonempty_links_github_does_not_fallback_and_fails_closed(bad_link):
     fm = {
-        "id": "gsd-build/get-shit-done",
+        "id": "good/repo",
         "links": {"github": bad_link},
-        "upstream": {"repo": "gsd-build/get-shit-done", "version": "v1.42.3"},
+        "upstream": {"repo": "good/repo", "version": "v1.42.3"},
     }
     with patch("scripts.upstream_watcher.watcher.fetch_json") as fetch:
         with pytest.raises(UnknownEvidenceError, match="invalid links.github"):
@@ -331,7 +347,10 @@ def test_invalid_nonempty_links_github_does_not_fallback_and_fails_closed(bad_li
         fetch.assert_not_called()
 
 
-@pytest.mark.parametrize("bad_repo", ["gsd-build/get shit done", "not-a-repo", "-bad/repo", "a/b/c"])
+@pytest.mark.parametrize(
+    "bad_repo",
+    ["gsd-build/get shit done", "not-a-repo", "-bad/repo", "a/b/c", "good/..", "good/.", "../repo"],
+)
 def test_fallback_invalid_upstream_repo_fails_closed(bad_repo):
     fm = {
         "id": "gsd-build/get-shit-done",
@@ -341,6 +360,24 @@ def test_fallback_invalid_upstream_repo_fails_closed(bad_repo):
         with pytest.raises(UnknownEvidenceError, match="invalid upstream.repo"):
             _poll_suite(fm, {}, False)
         fetch.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "valid_link,expected",
+    [
+        ("https://github.com/good/repo", ("good", "repo")),
+        ("https://github.com/good/repo/tree/main/skills", ("good", "repo")),
+        ("https://github.com/good/repo/blob/main/my%20dir/SKILL.md", ("good", "repo")),
+        ("https://github.com/good/repo/releases/tag/v1.0.0", ("good", "repo")),
+    ],
+)
+def test_valid_github_root_tree_blob_and_encoded_paths_preserved(valid_link, expected):
+    from scripts.upstream_watcher.finder import resolve_suite_source
+
+    fm = {"id": "good/repo", "links": {"github": valid_link}}
+    owner, repo, source_url = resolve_suite_source(fm)
+    assert (owner, repo) == expected
+    assert source_url == valid_link
 
 
 def test_c1_lock_preserved_even_with_empty_links_github_fallback():

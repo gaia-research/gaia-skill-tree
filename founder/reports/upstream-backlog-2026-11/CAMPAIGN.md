@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** P0 **PASS** (PR #2467 internally merged `bfed2d777b76448f6ede5d40e1a834050dff07d0`). **P1 builder READY FOR REVIEW** on draft PR #2468 (`dev/upstream-backlog-watcher-2026-11` -> `dev/upstream-backlog-2026-11`): source gate satisfied (`P1_SOURCE_RECONNAISSANCE.md`), `--repo` repoint + `upstream.repo` fallback implemented and tested (`952 passed`, `parity_2283.py` exit 0), and `ruvnet/agentdb` reconciled to `v3.10.0` via canonical CLI. **P1 NOT complete:** awaiting independent Terra review and then real-runner `apply=false` dry run (exit 0, empty `unknownEvidence`). No live closure, P2 census, P4 route, or human approval is claimed.
+- **Status:** P0 **PASS** (PR #2467 internally merged `bfed2d777b76448f6ede5d40e1a834050dff07d0`). **P1 correction round 1 READY FOR REVIEW** on draft PR #2468 (`dev/upstream-backlog-watcher-2026-11` -> `dev/upstream-backlog-2026-11`): source gate satisfied (`P1_SOURCE_RECONNAISSANCE.md`), `ruvnet/agentdb` reconciled to `v3.10.0` via canonical CLI (`da255f0`), and all 4 Terra review findings fixed and verified (`994 passed`, `parity_2283.py` exit 0, `git diff --check` exit 0, read-only `agentdb.md` schema check 0 errors). **P1 NOT complete:** awaiting independent Terra re-review and then real-runner `apply=false` dry run (exit 0, empty `unknownEvidence`). No live closure, P2 census, P4 route, or human approval is claimed.
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -108,6 +108,17 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
 
 ## Execution log
+
+### 2026-11-16 — P1 correction round 1 (READY FOR REVIEW; awaiting Terra re-review)
+
+- Addressed all 4 independent Terra findings on `98fd89e791dff1c4034e6dfc4dc68299abcb74a0` (1 CRITICAL, 3 WARNING):
+  1. Replaced `Path.write_text` in `src/gaia_cli/commands/dev/sync_upstream.py` with canonical `gaia_cli.canonicalTransaction._atomic` (same-directory temp + `fchmod` mode preservation + `flush`/`fsync` + `os.replace` + directory fsync + temp unlink on failure).
+  2. Added `namedSkill.schema.json` validation (`Draft7Validator` + explicit RFC 3339 `date-time` / `uri` `FormatChecker`) on proposed `upstream`, `contributor`, `required` fields, and `timeline[-1]` (`timelineEvent`) inside `_run_dev_preflights` before dry-run/write.
+  3. Replaced regex release URL/repo checks in `sync_upstream.py` with `urllib.parse.urlsplit` + `_is_valid_owner_repo` (rejecting query, fragment, userinfo, port, whitespace, `.` / `..`, while percent-decoding valid release tags such as `%23`, `%2F`).
+  4. Hardened `scripts/upstream_watcher/finder.py:resolve_suite_source` to validate complete `links.github` URLs before `parse_owner_repo` extraction, failing closed (`UnknownEvidenceError`) with zero GitHub polls on malformed non-empty links.
+- Preserved `registry/named/ruvnet/agentdb.md` (`da255f0ee136226be434fe486e1d07e3d547616b`) untouched; read-only `namedSkill.schema.json` validation of its `upstream` block and `upstream_synced` timeline entry passed with 0 errors.
+- Verified `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q` (**994 passed** in 201.54s), `python3 tests/upstream_watcher/parity_2283.py` (exit 0), and `git diff --check` (exit 0). See [P1_HANDOFF.md](P1_HANDOFF.md).
+- Pending: independent Terra re-review of PR #2468, followed by real-runner `Upstream Watcher` dry run (`apply=false`, exit 0, empty `unknownEvidence`). Cost checkpoint remains pending admin update after receipt.
 
 ### 2026-11-16 — P1 admin checkpoint after handoff (awaiting Terra; not P1 complete)
 

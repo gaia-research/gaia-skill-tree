@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import re
 import sys
+import urllib.parse
 from pathlib import Path
 from typing import Iterator
 
@@ -37,6 +38,56 @@ _STAR_RE = re.compile(r"(\d+)[★\*]")
 _CANONICAL_REPO_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$")
 
 
+def _is_valid_owner_repo(owner: str, repo: str) -> bool:
+    """Return True if owner and repo are valid non-dot GitHub identifiers."""
+    if not owner or not repo:
+        return False
+    if any(c.isspace() for c in owner) or any(c.isspace() for c in repo):
+        return False
+    if owner in {".", ".."} or repo in {".", ".."}:
+        return False
+    return bool(_CANONICAL_REPO_RE.fullmatch(f"{owner}/{repo}"))
+
+
+def _validate_complete_github_url(url: str) -> tuple[str, str] | None:
+    """Validate a complete GitHub URL before repo extraction.
+
+    Preserves valid GitHub root, tree/, blob/, and releases/ links (including
+    percent-encoded valid path segments), while rejecting raw whitespace,
+    trailing garbage, non-https schemes, non-github.com hosts, userinfo, ports,
+    queries, fragments, and dot/dotdot owner/repo segments.
+    """
+    if not isinstance(url, str) or not url or any(c.isspace() for c in url):
+        return None
+    if "?" in url or "#" in url:
+        return None
+    parsed_url = urllib.parse.urlsplit(url)
+    if (
+        parsed_url.scheme != "https"
+        or parsed_url.netloc.lower() != "github.com"
+        or parsed_url.username is not None
+        or parsed_url.password is not None
+        or parsed_url.port is not None
+        or parsed_url.query != ""
+        or parsed_url.fragment != ""
+    ):
+        return None
+
+    segments = [s for s in parsed_url.path.split("/") if s]
+    if len(segments) < 2 or any(seg in {".", ".."} for seg in segments):
+        return None
+    owner, repo = segments[0], segments[1]
+    if repo.endswith(".git"):
+        repo = repo[:-4]
+    if not _is_valid_owner_repo(owner, repo):
+        return None
+
+    extracted = parse_owner_repo(url)
+    if not extracted or extracted != (owner, repo):
+        return None
+    return (owner, repo)
+
+
 def resolve_suite_source(fm: dict) -> tuple[str, str, str] | None:
     """Resolve ``(owner, repo, source_url)`` for a suite skill.
 
@@ -51,8 +102,8 @@ def resolve_suite_source(fm: dict) -> tuple[str, str, str] | None:
 
     if gh_url is not None and str(gh_url).strip() != "":
         gh_str = str(gh_url).strip()
-        parsed = parse_owner_repo(gh_str)
-        if not parsed or not _CANONICAL_REPO_RE.fullmatch(f"{parsed[0]}/{parsed[1]}"):
+        parsed = _validate_complete_github_url(gh_str)
+        if not parsed:
             raise UnknownEvidenceError(
                 f"{skill_id}: invalid links.github={gh_url!r}; cannot derive owner/repo"
             )
@@ -62,11 +113,12 @@ def resolve_suite_source(fm: dict) -> tuple[str, str, str] | None:
         return None
 
     declared_str = str(declared)
-    if any(c.isspace() for c in declared_str) or not _CANONICAL_REPO_RE.fullmatch(declared_str):
+    parts = declared_str.split("/")
+    if len(parts) != 2 or not _is_valid_owner_repo(parts[0], parts[1]):
         raise UnknownEvidenceError(
             f"{skill_id}: invalid upstream.repo={declared!r}; cannot derive owner/repo"
         )
-    owner, repo = declared_str.split("/", 1)
+    owner, repo = parts
     return (owner, repo, f"https://github.com/{owner}/{repo}")
 
 
