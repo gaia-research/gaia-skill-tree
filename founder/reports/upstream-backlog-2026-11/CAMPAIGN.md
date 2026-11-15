@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** P0 **PASS**: independent Terra final receipt on exact feature HEAD `db7cac1e2529d4060418d8bddcc4fd1f742d1e9d`, no findings. PR #2467 merged internally to `dev/upstream-backlog-2026-11` as merge commit `bfed2d777b76448f6ede5d40e1a834050dff07d0`; feature and baseline `9b4d9b98` ancestry verified. Code/tests/authority/POLICY/workflows/registry remain byte-identical to independently tested `11405f2`; final doc/data checks passed (472 metadata entries; canonical frozen count 24; 81-issue snapshot byte-identical). No live closure, P2 census, P4 route, or human approval is claimed. **P1 source inspection PENDING; no watcher/CLI/registry source changes started.**
+- **Status:** P0 **PASS** (PR #2467 internally merged `bfed2d777b76448f6ede5d40e1a834050dff07d0`). **P1 builder READY FOR REVIEW** on draft PR #2468 (`dev/upstream-backlog-watcher-2026-11` -> `dev/upstream-backlog-2026-11`): source gate satisfied (`P1_SOURCE_RECONNAISSANCE.md`), `--repo` repoint + `upstream.repo` fallback implemented and tested (`952 passed`, `parity_2283.py` exit 0), and `ruvnet/agentdb` reconciled to `v3.10.0` via canonical CLI. **P1 NOT complete:** awaiting independent Terra review and then real-runner `apply=false` dry run (exit 0, empty `unknownEvidence`). No live closure, P2 census, P4 route, or human approval is claimed.
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -93,7 +93,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 | Phase | Lane | State |
 |---|---|---|
 | P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | source inspection PENDING; implementation not started |
+| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | builder **READY FOR REVIEW** on PR #2468; awaiting Terra review + real-runner `apply=false` dry run |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
@@ -108,6 +108,14 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
 
 ## Execution log
+
+### 2026-11-16 — P1 builder implementation & canonical AgentDB reconciliation (READY FOR REVIEW)
+
+- Source gate satisfied in [P1_SOURCE_RECONNAISSANCE.md](P1_SOURCE_RECONNAISSANCE.md) (`ruvnet/agentdb` `releases/latest` `v3.10.0` @ `2a8115de9ddbc672df4d725069b77228b43af53d`, `2026-11-10T19:45:36Z`; 5 `agentdb-*` components live in both `ruvnet/agentdb` and `ruvnet/ruflo` `v3.77.1`).
+- Implemented `gaia dev sync-upstream --repo <owner>/<repo>` (`src/gaia_cli/commands/dev/__init__.py`, `src/gaia_cli/commands/dev/sync_upstream.py`) and `upstream.repo` fallback when `links.github` is empty/missing (`scripts/upstream_watcher/finder.py`, `scripts/upstream_watcher/watcher.py`), with unit/regression tests (`tests/test_dev_upstream_verbs.py`, `tests/upstream_watcher/test_identity_2283.py`) at commit `232238bac8fc493fec3f04f80a803deeb7cf58f6`.
+- Executed canonical CLI reconciliation on `registry/named/ruvnet/agentdb.md` (`sync-upstream --repo ruvnet/agentdb --tag v3.10.0 ...` + `update-named --github-link .../README.md --no-build`) at commit `da255f0ee136226be434fe486e1d07e3d547616b`; preserved `suiteRef: ruvnet/ruflo`, all 5 `suiteComponents`, `level`, `trustMagnitude`, `evidence`, and prior timeline history.
+- Verified `pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q` (**952 passed**), `python3 tests/upstream_watcher/parity_2283.py` (exit 0), and `git diff --check` (exit 0). See [P1_HANDOFF.md](P1_HANDOFF.md).
+- Pending: independent Terra review on PR #2468, followed by real-runner `Upstream Watcher` dry run (`apply=false`) exiting 0 with empty `unknownEvidence`.
 
 ### 2026-11-15 — P0 final PASS and internal merge; P1 handoff
 

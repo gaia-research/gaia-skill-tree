@@ -522,6 +522,7 @@ Mutates `registry/named/<contributor>/<skill>.md`:
 - Atomic: both writes or neither.
 
 **Flags:**
+- `--repo <owner>/<repo>` — explicitly repoint `upstream.repo` to `<owner>/<repo>` (must match `--source-url` owner/repo). Records old+new repo and source/version provenance in the `upstream_synced` timeline event; allows syncing the same tag when the repository changes.
 - `--bootstrap` — first-time write. `previousValue` is null. Timeline event details reads `"first-run baseline"`.
 - `--dry-run` — prints the diff without writing.
 - `--user <handle>` — same as other `gaia dev timeline` verbs (uses actor identity for signed provenance in timeline `details`).
@@ -529,8 +530,9 @@ Mutates `registry/named/<contributor>/<skill>.md`:
 **Pre-flight validation** (per CLI Pre-Flight Rule):
 
 - `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`).
-- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL that matches the derived `upstream.repo`.
-- Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--force`.
+- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL whose tag matches `--tag` and whose owner/repo matches `--repo` (when provided), existing `upstream.repo` (when present without `--repo`), or `links.github` (when `upstream.repo` is absent).
+- When `links.github` is empty or missing in watcher polling, `resolve_suite_source` falls back to canonical `upstream.repo` (for example `gsd-build/get-shit-done`); non-empty invalid `links.github`, invalid `upstream.repo`, and contradictory identities remain fail-closed (`UnknownEvidenceError`).
+- Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--repo` changes the repository (or `--force`).
 - Refuses to write if the skill is not currently 2★+ (below the reward-artifact threshold).
 
 ### `gaia dev freeze <skill-id> --reason <text>`
