@@ -118,6 +118,68 @@ A Python wrapper hashed all **869** files recursively under `registry/named`, `r
 ## Remaining gates / delivery boundary
 
 - Independent Terra review of the schema repair and composed P1 stack; author has not declared an independent PASS.
-- Administrator opens the separate schema draft PR against the same integration branch. Existing P1 PR #2468 stays draft; this worker created no PR and merged neither integration nor main.
+- Schema draft [PR #2469](https://github.com/gaia-research/gaia-skill-tree/pull/2469) now exists against the same integration branch. Existing P1 PR #2468 stays draft; this worker created no PR and merged neither integration nor main.
 - Real-runner `apply=false` observation remains for the authorized operator **after** review. No workflow dispatch, upstream census, approval label, issue mutation, deployment or P2 activation was performed.
 - Class S regeneration remains deferred to P7/canonical gate. No trust engine/config/policy, ranks, evidence metrics, registry history, skill trees, frozen state or source links changed in this repair.
+
+## Terra ordinary-CLI compatibility finding — bounded continuation
+
+**READY FOR TERRA REVIEW; not P1 complete or runner approval.** Verified clean local and remote starting heads exactly as dispatched: P1 `1e4558fb27f3b4d7b7af1f9dd58b3a3753c7247e`, schema `dda4c21520168df90ae1dc602f59159be0542c25`. Both PRs #2468/#2469 remain drafts targeting `dev/upstream-backlog-2026-11`. Luna's administrative commit/history was retained. No nested agent, provider retry, model/config change, campaign logging, upstream recrawl or new PR.
+
+### One local compatibility inventory and diagnosis
+
+Reloaded trust-methodology-consult, the authority map, methodology base-formula/structural-role sections and persistence schemas; used graft for eligibility/frozen helpers, writer searches and consumer/caller tracing. The completed CPU-local inventory parsed all **472** named records, used `_pf_min_two_stars` and suite-aware `namedFrozenIds`/`preflightNamedSkillMutable`, and classified **128** below-threshold records, **24** frozen records, **320** eligible unfrozen records. Eligibility here is the command's named-record/rank/frozen surface, not a claim that every record has an actionable release or that source guards may be skipped. The current raw schema/production format checker found **2 invalid records / 2 errors**; 318 already conformed. No new health/curation census or network evidence collection was performed. The stored inventory paths/hashes were revalidated after repair: **320 records, zero schema errors**, with every hash unchanged. No additional corrupt shape was found in this bounded eligible surface; arbitrary other invalid data remains rejected.
+
+| Record | Exact failing persisted shape | Classification and existing authority |
+|---|---|---|
+| `google-deepmind/workflow-skill-creator` | `timeline[14]`, action `demote`, timestamp `2026-09-05T00:00:00Z`, `author: mbtiongson1`, string `notes`, `previousValue: 4★`, `newValue: 1★` | Legacy historical demotion provenance, not operator identity or approval. Current `timeline.py` emits `contributor`/`details`; no current writer producing `author`/`notes` was found. Retain the existing text, without guessing an authenticated contributor or rewriting history. |
+| `ruvnet/v3-ddd-architecture` | **Root** `role: variant` (string), not `evidence.role` | Active persisted RFC C-2 structural role. `registryMaps.buildMergedSkillMap:34–93` explicitly preserves it and documents the distinction from generated bucket-display role; `tests/test_registry_maps.py` already tests preservation. `structuralGraph.isVariant:89–103` and `trustMagnitude._gradedOriginCount:404–451` / `checkAGradedOriginsGte5:1321–1394` consume it. META structural inputs and methodology role-guard sections explicitly exclude variants. |
+
+The reported `evidence.role` premise was not reproduced: the stored evidence row has no role field. Current named/evidence/fuse writer searches found no producer for this stored root key; it is retained legacy structural inventory already supported by live read/compute contracts, not a new CLI flag or new evidence input. The TM engine **does not ignore the structural role**: it affects structural origin eligibility; fusion-recipe still contributes zero TM. No engine, role resolver, automatic Origin, scoring, diversity or gate semantics changed. `evidenceEntry` in **both** named and generic schemas is untouched; there is no reason to add `evidence.role`, a metric, generic root cache metadata, or generic evidence fields. Authority-map persistence symmetry for evidence is therefore preserved.
+
+### Minimal alignment and compatibility boundary
+
+- Named root `role` is a closed string enum `origin|variant`, grounded in the existing RFC structural contract; not an automatic Origin claim or generated display role.
+- Timeline `author`/`notes` is a bounded **legacy demotion shape**, not a general second actor interface: if either appears, both plus string `previousValue`/`newValue` are required, action must be `demote`, author must match human-handle syntax, notes must be nonempty text, and mixed `contributor`/`details` is rejected. Timestamp and all other event checks still apply. These keys are stored verbatim, never mapped into contributor identity, approval or authorization. No date/record-ID grandfather list or arbitrary historical validation exemption.
+- Canonical, bundled and public named-schema mirrors are identical. No runtime source change, normalization, `additionalProperties: true`, evidence widening, metric substitution or registry/history write.
+- New tests exercise both actual non-suite records copied into isolated fixtures, positive zero-write sync proposals, and unknown root/evidence fields, negative commits, invalid role/legacy author/date/new actor/release date/Git-ref cases. Schema tests additionally reject incomplete legacy pairs, mixed identities, unsupported actions, unknown keys and malformed values.
+
+### Before/after CLI proof and preservation
+
+Actual `gaia dev sync-upstream ... --dry-run` subprocesses, with the normal operator override for these explicitly authorized read-only probes, reproduced **exit 1** before repair for both records (exact `timeline.14` unexpected author/notes and root unexpected role errors). After the schema merge, both returned **exit 0**, printed `DRY RUN — no files written`, and preserved every record byte. Synthetic tag `v0.0.0-contract-probe`, timestamp `2026-11-01T00:00:00Z`, source URLs under the existing known repositories: these are **format-valid synthetic proposals, not observed releases, release approvals or an instruction to apply**. No network source lookup or `--force` occurred.
+
+Repro commands (set `PYTHONPATH=src` and the already-authorized `GAIA_OPERATOR_OVERRIDE=1` for each):
+
+```bash
+python3 -m gaia_cli.main dev sync-upstream google-deepmind/workflow-skill-creator \
+  --repo google-deepmind/science-skills --tag v0.0.0-contract-probe \
+  --source-url https://github.com/google-deepmind/science-skills/releases/tag/v0.0.0-contract-probe \
+  --released-at 2026-11-01T00:00:00Z --user mbtiongson1 --dry-run
+python3 -m gaia_cli.main dev sync-upstream ruvnet/v3-ddd-architecture \
+  --repo ruvnet/ruflo --tag v0.0.0-contract-probe \
+  --source-url https://github.com/ruvnet/ruflo/releases/tag/v0.0.0-contract-probe \
+  --released-at 2026-11-01T00:00:00Z --user mbtiongson1 --dry-run
+```
+
+The previously documented real AgentDB `v3.9.0` historical-release safe dry-run also returned **0** before and after, without re-fetching that release or changing the current `v3.10.0` record. Before/after each probe batch, all **869** named/node/tree files retained aggregate SHA-256 `fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7` (the same sorted path/NUL/bytes/NUL algorithm above). Individual hashes also retained:
+
+- Workflow-Skill-Creator: `f6f9574cea3519b6660623e679c95e3d7123b401783155d099d7eddaa99fbe75`.
+- V3 DDD Architecture: `f78a250b272a3095e250cab673215c97e73ab7b9939e79b541b3127a4c0f654d`.
+
+### Executed continuation checks
+
+| Check | Actual result |
+|---|---|
+| Required `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q` | **1015 passed**, 214.66s |
+| `python3 tests/upstream_watcher/parity_2283.py` | Exit **0**, both parity booleans **true** |
+| `PYTHONPATH=src:. python3 -m pytest tests/test_upstream_persistence_contract.py tests/test_named_persistence_contract.py tests/test_dev_named.py tests/test_calibrate_trust_magnitude.py tests/test_curation_authority_map.py tests/test_canonical_event_schema_contract.py tests/test_registry_maps.py tests/test_fusion_score.py tests/test_dev_timeline.py tests/test_trust_magnitude_consistency_frozen.py tests/test_trust_freshness.py -q` | **410 passed**, 31.98s; no duplicate file in this composed focused run |
+| Schema worktree: named persistence, registry maps, fusion score, authority map tests | **113 passed**, 6.35s |
+| Schema worktree, after commit: canonical event-schema contract | **73 passed**, 0.78s |
+| Stored 320-record eligible inventory, hashes and schema revalidation | **0 errors**, hashes unchanged |
+| Existing 23 watcher suites, immutable pre-P1 schema vs repaired schema | **254 → 0**; AgentDB **11 → 0** |
+| Bundled schema check / public mirror assertions / `git diff --check` | PASS |
+| Diff from resumed P1 head limited to named/node/tree data | Empty; five AgentDB components unchanged |
+
+Non-passes were not hidden: the first inventory attempt stopped at the first below-threshold record because the scratch classifier caught the wrong exception type; the corrected single completed inventory caught `DevPreflightError`. A combined shell command hit the tool's 30s search safety limit; the standalone probe batch subsequently completed. The first new timestamp-negative schema test exposed absent optional `date-time` support in plain `FormatChecker`; attempting to import P1's production checker into the standalone schema branch was invalid because that branch intentionally predates the helper. Removed that schema-branch dependency and tested the timestamp negative through the actual composed P1 preflight instead (all passed). No dependency/config was installed or changed.
+
+Schema update pushed at **`6bed0edf324d49e42cd8953351deaccaa733d22f`**, merged into P1 by own-feature merge commit **`ca564c0afcd8a911b7ea51b704a31861c2d5a721`**. This continuation report and P1 tests/contract doc are in the subsequent P1 commit; the delivered P1 SHA is the containing commit, returned in the handoff. Both commit identities remain the approved author. No integration/main merge, rebase or history rewrite. Full `dev validate` is **not** claimed green: the previously observed missing Class P index remains ungenerated. Independent Terra review and actual-runner observation remain outstanding; no P2 advance.

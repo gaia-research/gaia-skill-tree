@@ -21,6 +21,70 @@ def test_watcher_scope_validates_without_normalization():
         assert path.read_bytes() == before
 
 
+@pytest.fixture(params=[
+    ("google-deepmind/workflow-skill-creator", "google-deepmind/science-skills"),
+    ("ruvnet/v3-ddd-architecture", "ruvnet/ruflo"),
+])
+def legacySyncFixture(request, tmp_path):
+    skillId, repo = request.param
+    source = ROOT / "registry/named" / (skillId + ".md")
+    path = tmp_path / "registry/named" / (skillId + ".md")
+    path.parent.mkdir(parents=True)
+    path.write_bytes(source.read_bytes())
+    schema = tmp_path / "registry/schema/namedSkill.schema.json"
+    schema.parent.mkdir(parents=True)
+    schema.write_bytes((ROOT / "registry/schema/namedSkill.schema.json").read_bytes())
+    tag = "v0.0.0-contract-probe"  # Synthetic format probe, not a release claim.
+    args = SimpleNamespace(registry=str(tmp_path), skill_id=skillId, repo=repo, tag=tag,
+                           source_url=f"https://github.com/{repo}/releases/tag/{tag}",
+                           released_at="2026-11-01T00:00:00Z", user="mbtiongson1", dry_run=True)
+    return path, args
+
+
+def test_ordinary_sync_retains_legacy_bytes(legacySyncFixture, capsys):
+    from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+    path, args = legacySyncFixture
+    before = path.read_bytes()
+    sync_upstream_command(args)
+    assert "DRY RUN" in capsys.readouterr().out
+    assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize("corruption", [
+    "unknown-root", "unknown-evidence", "negative-metric", "invalid-role",
+    "legacy-author", "legacy-date", "invalid-actor", "invalid-ref", "invalid-release-date",
+])
+def test_legacy_compatibility_does_not_bypass_prospective_checks(legacySyncFixture, corruption):
+    from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+    path, args = legacySyncFixture
+    meta = yaml.safe_load(path.read_text().split("---", 2)[1])
+    if corruption == "unknown-root":
+        meta["unknownRoot"] = True
+    elif corruption == "unknown-evidence":
+        meta["evidence"][0]["role"] = "variant"  # Root compatibility is not evidence widening.
+    elif corruption == "negative-metric":
+        meta["evidence"][0]["commits"] = -1
+    elif corruption == "invalid-role":
+        meta["role"] = "champion"
+    elif corruption in ("legacy-author", "legacy-date"):
+        event = dict(action="demote", timestamp="2026-09-05T00:00:00Z", author="example",
+                     notes="Historical explanation.", previousValue="4★", newValue="1★")
+        event["author" if corruption == "legacy-author" else "timestamp"] = "bad user"
+        meta["timeline"].append(event)
+    elif corruption == "invalid-actor":
+        args.user = "arbitrary[bot]"
+    elif corruption == "invalid-ref":
+        args.tag = "v1..2"
+        args.source_url = f"https://github.com/{args.repo}/releases/tag/{args.tag}"
+    else:
+        args.released_at = "yesterday"
+    path.write_text("---\n" + yaml.safe_dump(meta, allow_unicode=True) + "---\nFixture body.\n")
+    before = path.read_bytes()
+    with pytest.raises(SystemExit):
+        sync_upstream_command(args)
+    assert path.read_bytes() == before
+
+
 def test_update_named_emitted_note_validates(tmp_path, monkeypatch):
     from gaia_cli.commands.dev.named import meta_update_named_command
     from gaia_cli.timeline import append_skill_event
