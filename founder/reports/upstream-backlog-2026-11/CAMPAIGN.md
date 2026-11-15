@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** PLAN APPROVED by the founder on 2026-11-15. **Execution has not started.** Roster, concurrency limits and budget come from the founder separately.
+- **Status:** Execution resumed with founder authorization on 2026-11-15; roster preflight passed after the explicit Opus provider change and supported no-fallback overrides. **P0 in progress; no registry or issue mutation yet.** See [PREFLIGHT.md](PREFLIGHT.md).
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -92,7 +92,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 | Phase | Lane | State |
 |---|---|---|
-| P0 | Authorize and baseline | Plan approved; roster and execution authorization pending |
+| P0 | Authorize and baseline | Preflight passed; integration branch created at verified main; scoped C2/C3 record/consumer amendment pending implementation and independent review |
 | P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | not started |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
@@ -103,10 +103,19 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 ## Pending founder inputs
 
-- Roster, model assignments, concurrency limits and budget.
-- Execution authorization.
-- During execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, an L4 page if P6 has rows, and the merge of the integration PR.
+- Roster and execution authority received in the founder's execution instruction; concurrency maximum four. The founder confirmed no budget ceiling and an available execution window.
+- Founder changed Opus to Antigravity and explicitly authorized resumption without fallbacks. No provider/model substitution is permitted. Details: [PREFLIGHT.md](PREFLIGHT.md).
+- Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
+
+## Execution log
+
+### 2026-11-15 — preflight and authorized resumption
+
+- Loaded the approved control/plan commit `692b807e198d8940df58fef8b5aaef1dcc29bbac` from draft planning PR #2466, the watcher contract including F3a, and the specified Steward lock, decision and issue-hygiene policy records.
+- Initial preflight stopped on Anthropic Opus authentication failure and an unintended inherited fallback. After the founder's provider change and resumption instruction, explicit empty fallback lists and zero retries were set on the four named campaign agents using supported agent definitions. Fresh Hydrogen and Antigravity Opus probes passed; actual child identity/effort records were verified. Luna and Terra probes passed independently. No harness code was changed.
+- Verified remote main is unchanged at `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`; created local `dev/upstream-backlog-2026-11` there. Isolated P0 feature branch `dev/upstream-backlog-authority-2026-11` carries the approved planning commit through a merge commit. The original dirty checkout is untouched.
+- P0 inspection found that Steward's current lock consumer recognizes only the original full-hold resolutions. Updating prose alone would not implement the limited release. A bounded amendment must preserve historical rulings, keep new/absent GBrain candidates and Addy migration held, and retain all existing proof and write switches. No policy switch, approval label, issue closure, registry mutation or generated-artifact rebuild has occurred.
 
 ## Landed
 
-Nothing yet.
+Nothing merged to the integration branch or main yet.
