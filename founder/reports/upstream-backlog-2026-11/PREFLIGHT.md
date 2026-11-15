@@ -40,6 +40,10 @@ Inspection of the installed resolver established the cause: `policy.ts` treats a
 - Handoff: PR URL, full commit SHA, repository-relative report, READY FOR REVIEW or BLOCKED; commands, actual results, limitations and next action. Harness sessions remain local; only sanitized summaries and measured usage enter campaign reports.
 - Maximum two routine correction rounds per PR. No expensive escalation without scope/risk justification.
 
+## Founder-approved execution timeout addendum — 2026-11-15
+
+The founder authorized virtually unlimited execution within a two-hour per-agent timeout, with no turn caps. Configuration was set to `defaultTimeoutMs: 7200000` and `timeout_ms: 7200000` on each of the four named campaign agents. No turn caps were added. Existing no-fallback and zero-retry settings were left unchanged; no model/provider configuration was changed for this timeout. A dry-run verified the effective `7200000` ms timeout. This supersedes the initial 30-minute work/review timeout values above for subsequent dispatches only; the historical initial setup is retained as recorded.
+
 ## Canonical phase ownership
 
 | Phase | Owner / mechanism |

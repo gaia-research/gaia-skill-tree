@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** Execution resumed with founder authorization on 2026-11-15; roster preflight passed after the explicit Opus provider change and supported no-fallback overrides. **P0 in progress; no registry or issue mutation yet.** See [PREFLIGHT.md](PREFLIGHT.md).
+- **Status:** P0 correction round 1 is committed and pushed at `11405f2dacaa2f6501039dbce3936106e0fb9bee`; the first independent Terra review returned FINDINGS on `6674c8268703f6137f8e4c8067e0be7ca73bd378`, and the corrected builder-reported checks are recorded below. Await independent second review. P0 is not PASS/complete; P1 has not started. See [PREFLIGHT.md](PREFLIGHT.md).
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -109,13 +109,13 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 ## Execution log
 
-### 2026-11-15 — P0 implementation delivered; independent review pending
+### 2026-11-15 — P0 correction round 1 delivered; second independent review pending
 
-- PR #2467: <https://github.com/gaia-research/gaia-skill-tree/pull/2467>, base `dev/upstream-backlog-2026-11`. Builder commit `6674c8268703f6137f8e4c8067e0be7ca73bd378` is pushed; the dedicated feature checkout is clean on `dev/upstream-backlog-authority-2026-11` at that exact SHA.
-- Builder reports the bounded C2/C3 record and issuehygiene consumer amendment plus regression coverage. As reported in [P0_HANDOFF.md](P0_HANDOFF.md), builder says 930 issuehygiene tests and 64 founder-record/desk tests passed; coverage checker and `git diff --check` passed. These are builder-reported, not independently certified here.
-- P0 is implemented but **awaiting independent Terra verification**; P0 is not complete. A separate detached verification worktree was prepared at `/data/data/com.termux/files/home/.gaia-worktrees/upstream-backlog-2026-11-terra-p0`, exactly `6674c8268703f6137f8e4c8067e0be7ca73bd378`.
-- Next gate: Terra independently reviews/verifies this commit, then P0 can be considered for integration-branch merge under the campaign authority. Keep PR #2467 draft. P1 has not begun; P2 census has not run.
-- Usage checkpoint cutoff and sanitized estimates: see [COSTS.md](COSTS.md). Canonical `/pi-cost` offline snapshot of the delivered parent session includes Hydrogen builder receipt; in-flight administration is not measured yet.
+- PR #2467: <https://github.com/gaia-research/gaia-skill-tree/pull/2467>, base `dev/upstream-backlog-2026-11`. Corrected builder commit `11405f2dacaa2f6501039dbce3936106e0fb9bee` is pushed; the dedicated campaign worktree is clean on `dev/upstream-backlog-authority-2026-11` at that exact SHA.
+- The first independent Terra review of `6674c8268703f6137f8e4c8067e0be7ca73bd378` returned **FINDINGS**, not approval: one critical reparented/new GBrain hold escape; warning C1 `upstream:needs-info` bypass; warning rewritten Addy historical text; and a conditional P4 dependency on a version-approval workflow route. The summarized receipt and correction mapping are in [P0_HANDOFF.md](P0_HANDOFF.md).
+- Builder reports correction round 1 at `11405f2dacaa2f6501039dbce3936106e0fb9bee`; reports 932 issuehygiene tests and 64 founder-record/desk tests passed, plus Steward coverage and `git diff --check`. These results are builder-reported, not independently certified.
+- P0 is **awaiting independent second Terra review**; do not mark P0 PASS/complete or P1 started. PR #2467 remains draft. P2 census has not run.
+- Usage checkpoint cutoff and sanitized estimates: see [COSTS.md](COSTS.md). The measured canonical snapshot includes the builder correction and first Terra review; current in-flight administration and further review are unavailable.
 
 ### 2026-11-15 — preflight and authorized resumption
 

@@ -77,4 +77,15 @@
 
 ## Next Action
 
-Independent Terra review/verification of PR #2467 correction round 1 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), followed by P1 watcher/CLI repairs once P0 is merged.
+Independent second Terra review/verification of PR #2467 correction round 1 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`). Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
+
+## Independent Terra receipt on builder commit `6674c8268703f6137f8e4c8067e0be7ca73bd378`
+
+**Verdict: FINDINGS.** This was an independent review/verification in the separate detached checkout. Terra independently ran and passed 930 `issuehygiene` tests and 64 founder-record/desk tests, plus the Steward coverage checker and `git diff --check`. The findings were:
+
+- **Critical — reparented/new GBrain hold escape:** family membership derived from parent suite alone could allow a new candidate reparented beneath a different GBrain family to escape the intended hold.
+- **Warning — C1 needs-info bypass:** the C1 technical-reconciliation path could become actionable before honoring the generic `upstream:needs-info` hold.
+- **Warning — Addy historical text rewrite:** decision-record wording changed existing historical text rather than preserving the prior ruling verbatim.
+- **Conditional P4 dependency:** a permitted version-only route needs resolution in the approval workflow; this observation was not a P0 source-change request.
+
+These are summarized findings, not a transcript or raw review prompt. Correction round 1 is recorded above. Builder reports the corrected `11405f2dacaa2f6501039dbce3936106e0fb9bee` passed 932 `issuehygiene` tests and 64 founder-record/desk tests, plus coverage and diff checks; all remain builder-reported until independent second review. P0 remains pending, not PASS or complete; P1 is not started.

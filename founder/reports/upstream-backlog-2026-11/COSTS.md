@@ -38,3 +38,19 @@ Sanitized totals below are grouped by date/provider/model/task. No tasks, prompt
 - Delivered mixed-method subtotal: **$2.596868** (Sol session-recorded cost plus priced worker estimates). Hydrogen rows aggregate three completed receipts; only the successful P0 builder receipt includes implementation work. This does not include current in-flight administration, whose usage is unavailable until delivery.
 - Failed initial probe reports zero measured usage; this does not establish zero provider billing. No speculative estimate is assigned to it.
 - Tool scope limitations still apply: `subagent_wait` receipts may be omitted and repeated native result records may double-count. This snapshot cannot certify provider charges. Actual billed cost remains unavailable.
+
+## 2026-11-15 — first Terra findings and correction-round-1 cutoff
+
+**Cutoff:** canonical `/pi-cost` v1.10.0 run offline with `--json` against the explicitly designated campaign parent session. This snapshot includes first Terra review of `6674c826`, builder correction round 1 at `11405f2`, and the completed administration represented in that session. It does not include future or currently in-flight administration/review. The designated session path and prompts are intentionally omitted from this public record.
+
+| Date | Provider / model | Task grouping | Input | Output | Cache read | Estimated USD |
+|---|---|---|---:|---:|---:|---:|
+| 2026-11-15 | openai / gpt-6.1-sol | lead campaign session | 162980 | 42467 | 8713216 | 1.621952 |
+| 2026-11-15 | antigravity / gemini-4-hydrogen | preflight + P0 builder + correction round 1 | 525172 | 75479 | 4533382 | 1.693854 |
+| 2026-11-15 | openai / gpt-6-luna | preflight + campaign administration/configuration | 98548 | 6441 | 532608 | 0.018401 |
+| 2026-11-15 | openai-codex / gpt-6.1-terra | roster probe + independent first review | 127136 | 4002 | 688640 | 0.181578 |
+| 2026-11-15 | antigravity / claude-opus-5-5 | readiness probe | 30958 | 502 | 30007 | 0.139873 |
+
+- **Measured mixed-method subtotal: $3.655659** (Sol's harness-recorded cost plus direct worker estimates). Canonical catalog provenance: LiteLLM public model-price catalog (`BerriAI/litellm`), fetched 2026-11-14T14:12:12Z, marked not stale by the offline tool; worker values are estimates from public rates, not invoice amounts.
+- The table groups the reported direct-worker work by model/task; cache-read tokens are separate from input and not summed into it. Cache-write count was zero in the report.
+- The previous mixed-method checkpoint was $2.596868; the current measured session snapshot is the authoritative cutoff here, not an additive invoice. Actual provider/subscription billing remains unknown. Any administration or independent second review still in flight is unavailable and is excluded; do not infer zero cost.
