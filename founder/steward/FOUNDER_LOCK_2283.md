@@ -83,3 +83,21 @@ patch. No release, registry governance change or campaign completion is claimed.
 ## C4 synchronization (founder ruling F7, 2026-11-08)
 
 The eight locks were recompiled from source with the release compiler gh-aw v0.92.6, and the founder pause is now encoded in source (generator `FOUNDERPAUSE`, top-level `if: ${{ false }}`, compiled to `activation.if: false`). The C4 strict-detection hardening is now in every lock. Activation is still not authorized (step 4 unchanged). Receipt and line-by-line audit: `founder/reports/steward-campaign-2026-11-05/F7_GHAW_RECOMPILE_RECEIPT.md`. The 24 missing job timeouts (activation, conclusion, steward_outcome) have no source setting in v0.92.6 and stay open as a gh-aw limitation.
+
+## November 15, 2026 amendment (C2 and C3 limited release)
+
+Authority: `founder/reports/upstream-backlog-2026-11/CAMPAIGN.md` (rulings 2 and 3, approved 2026-11-15),
+baseline scope in `founder/reports/upstream-backlog-2026-11/PLAN.md`. All historical #2283 rulings above
+remain preserved.
+
+- **Ruling 2 — GBrain family hold (C3, `issue-question-q-bfd37238.json`, resolution `records-and-version-sync-only`, previous `curation-deferred`):**
+  > As B, plus sync the version. New candidates and the breadth audit (#2276) remain held. (B: Close the children whose skill is in the registry, each with per-row proof and a receipt. No version sync, no new intake.)
+
+  Released scope in `issuehygiene`: only the 67 baseline `garrytan/*` children enumerated in `PLAN.md`, each ONLY when exact A1 registry/source proof independently establishes closure. Version-only sync of already-tracked records still requires fresh human umbrella approval. New/absent/alias-suspect GBrain candidates, breadth audit #2276, `skip-child-gate` on GBrain, and trust/rank changes remain held.
+
+- **Ruling 3 — Addy Osmani family hold (C2, `issue-question-q-2568173e.json`, resolution `records-and-version-sync-migration-deferred`, previous `migration-deferred`):**
+  > Close the four children with proof, sync the version under the existing identifiers.
+
+  Released scope in `issuehygiene`: only the four baseline `addy-osmani/*` children (`#2008`, `#2013`, `#2014`, `#2015`) enumerated in `PLAN.md`, each ONLY when exact A1 registry/source proof independently establishes closure, plus version-only sync under the existing published identifiers with fresh human umbrella approval. The `addy-osmani` to `addyosmani` handle migration and every rename of a published identifier remain held.
+
+- **Unchanged:** C1 (`q-08ecd62d`), C4 (`q-6720aecf`), `issueHygiene.writesEnabled: false`, and all existing proof-pipeline and receipt/write gates remain unchanged. Old full-hold resolutions remain supported fail-closed.

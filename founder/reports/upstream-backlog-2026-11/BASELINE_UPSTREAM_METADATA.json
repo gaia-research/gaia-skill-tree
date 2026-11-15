@@ -1,0 +1,4858 @@
+{
+  "schemaVersion": "upstream-backlog-baseline-metadata-v1",
+  "kind": "p0-registry-upstream-snapshot",
+  "sourceSHA": "9b4d9b98043140188f00b14d0ac8fa6bc02491b7",
+  "sourcePathPattern": "registry/named/**/*.md",
+  "frozenDefinition": "gaia_cli.frozen.frozenIds (src/gaia_cli/frozen.py)",
+  "counts": {
+    "totalNamedFiles": 472,
+    "withUpstreamBlock": 17,
+    "frozen": 24,
+    "installableTrue": 15,
+    "installableFalse": 30,
+    "installableUnset": 427,
+    "withLinksGithub": 445
+  },
+  "entriesDigestSha256": "997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324",
+  "entries": [
+    {
+      "namedID": "0xdarkmatter/pytest-patterns",
+      "path": "registry/named/0xdarkmatter/pytest-patterns.md",
+      "blobSha": "e4103c5afe7fc8400fe3b37d650ba64e39372670",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "Manavarya09/design-extract",
+      "path": "registry/named/Manavarya09/design-extract.md",
+      "blobSha": "bc7779768cc61b7a6db8610d4dcb87393553e6a4",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/Manavarya09/design-extract",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/agent-skills",
+      "path": "registry/named/addy-osmani/agent-skills.md",
+      "blobSha": "b306a87a435713bef97f5adfe5a4f3a248afb033",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/README.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T06:40:31Z",
+        "repo": "addyosmani/agent-skills",
+        "sourceUrl": "https://github.com/addyosmani/agent-skills/releases/tag/0.6.15",
+        "syncedAt": "2026-11-02T22:17:01Z",
+        "version": "0.6.15"
+      }
+    },
+    {
+      "namedID": "addy-osmani/api-and-interface-design",
+      "path": "registry/named/addy-osmani/api-and-interface-design.md",
+      "blobSha": "adb5c17bdada17b082e57796a793c641c93689e7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/api-and-interface-design/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/browser-testing-with-devtools",
+      "path": "registry/named/addy-osmani/browser-testing-with-devtools.md",
+      "blobSha": "36694e48ea0e2df84a536775880ee4ee1e93f1aa",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/browser-testing-with-devtools/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/ci-cd-and-automation",
+      "path": "registry/named/addy-osmani/ci-cd-and-automation.md",
+      "blobSha": "39353099a613e70f609e47d0e7a022d374d64d58",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/ci-cd-and-automation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/code-review-and-quality",
+      "path": "registry/named/addy-osmani/code-review-and-quality.md",
+      "blobSha": "e89f7fb8ed91e5fd382b199133f97425070cae06",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/code-simplification",
+      "path": "registry/named/addy-osmani/code-simplification.md",
+      "blobSha": "54002bc90b4be3ac3a12d1df73c8fb8fda875b9f",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/constraint-driven-development",
+      "path": "registry/named/addy-osmani/constraint-driven-development.md",
+      "blobSha": "8ba88425744436e0c48315a7a47334bbf39523df",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/constraint-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/context-engineering",
+      "path": "registry/named/addy-osmani/context-engineering.md",
+      "blobSha": "73fef5083789bce42007cb79786fe3b3eda9b660",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/debugging-and-error-recovery",
+      "path": "registry/named/addy-osmani/debugging-and-error-recovery.md",
+      "blobSha": "b5903de2b4039cfecd1e97108188a3e3ef283b59",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/deprecation-and-migration",
+      "path": "registry/named/addy-osmani/deprecation-and-migration.md",
+      "blobSha": "beb88d1706b7c8c493334865d1b97d62bf73c038",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/deprecation-and-migration/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/documentation-and-adrs",
+      "path": "registry/named/addy-osmani/documentation-and-adrs.md",
+      "blobSha": "60ff3f8ef6b40405cdf7ad5c589017f5320120b4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/documentation-and-adrs/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/doubt-driven-development",
+      "path": "registry/named/addy-osmani/doubt-driven-development.md",
+      "blobSha": "8ca8bd936e015a88e907f24c60bd8f1a2a43a24f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/doubt-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/frontend-ui-engineering",
+      "path": "registry/named/addy-osmani/frontend-ui-engineering.md",
+      "blobSha": "6f284bfa1380df8a10c9255c282353657f99a470",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/frontend-ui-engineering/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/git-workflow-and-versioning",
+      "path": "registry/named/addy-osmani/git-workflow-and-versioning.md",
+      "blobSha": "997f3a046dd94513275e50c817664f7d9544c0ea",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/idea-refine",
+      "path": "registry/named/addy-osmani/idea-refine.md",
+      "blobSha": "e722dd0a60c4018d0a0c31de61eb0d08e75388d2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/incremental-implementation",
+      "path": "registry/named/addy-osmani/incremental-implementation.md",
+      "blobSha": "15982fe57a23022eeef3f9feff4570f182b9bfaa",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/interview-me",
+      "path": "registry/named/addy-osmani/interview-me.md",
+      "blobSha": "e70a2cf03e32284d2333ea83d38433104f8e190f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/observability-and-instrumentation",
+      "path": "registry/named/addy-osmani/observability-and-instrumentation.md",
+      "blobSha": "d56b5331d7d9681a7ac3d96ca43b7027f6ac4816",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/observability-and-instrumentation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/performance-optimization",
+      "path": "registry/named/addy-osmani/performance-optimization.md",
+      "blobSha": "ca6fcdc90b22117b91141c7aa4312b61426b2504",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/planning-and-task-breakdown",
+      "path": "registry/named/addy-osmani/planning-and-task-breakdown.md",
+      "blobSha": "86307ce63868fc8ca99a9e72cea0fffcf340086b",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/security-and-hardening",
+      "path": "registry/named/addy-osmani/security-and-hardening.md",
+      "blobSha": "b3d9ecb633f57f929cd014279c36597927ea2ddd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/security-and-hardening/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/shipping-and-launch",
+      "path": "registry/named/addy-osmani/shipping-and-launch.md",
+      "blobSha": "1be6eec7dc87a993ea7490f20330f51eb7b6b195",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/source-driven-development",
+      "path": "registry/named/addy-osmani/source-driven-development.md",
+      "blobSha": "656fa4de5d6497f1b9732776104b667da1161411",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/source-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/spec-driven-development",
+      "path": "registry/named/addy-osmani/spec-driven-development.md",
+      "blobSha": "d60eeb646353584b2cea536dbbb00f0942a6bbdc",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "addy-osmani/test-driven-development",
+      "path": "registry/named/addy-osmani/test-driven-development.md",
+      "blobSha": "9bb75ca5d8c9b5fd0477fe273468c5afe9b50eaf",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "aj-geddes/causal-inference",
+      "path": "registry/named/aj-geddes/causal-inference.md",
+      "blobSha": "044d271e480e56f0bbbc8244ce6e940482434355",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "anthropic/pptx",
+      "path": "registry/named/anthropic/pptx.md",
+      "blobSha": "4afc7ced9a7333b4541840c733a5a8109f50f0bd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "anthropic/skill-creator",
+      "path": "registry/named/anthropic/skill-creator.md",
+      "blobSha": "9e48649b1b53f4dfe28fa09b45cb19dfdd8b816c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "anthropics/brand-guidelines",
+      "path": "registry/named/anthropics/brand-guidelines.md",
+      "blobSha": "51a7010c5b2538949c787f1cf9f692beaecca5cc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "anthropics/canvas-design",
+      "path": "registry/named/anthropics/canvas-design.md",
+      "blobSha": "58a4e94631cd9764429228889d17e27b76a435dc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "anthropics/creating-financial-models",
+      "path": "registry/named/anthropics/creating-financial-models.md",
+      "blobSha": "da5ad9bc557413bf19a188d677a5ac820f544172",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "aplaceforallmystuff/log-to-daily",
+      "path": "registry/named/aplaceforallmystuff/log-to-daily.md",
+      "blobSha": "9cbcb6388ef751adfb1f56e6bd1b16fd7ccb0be5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "arcmira/find-quotes",
+      "path": "registry/named/arcmira/find-quotes.md",
+      "blobSha": "8e8da5ead64e234ac76211a279591bf9c616bb11",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "ayghri/i-have-adhd",
+      "path": "registry/named/ayghri/i-have-adhd.md",
+      "blobSha": "021277f75cdddaa1ca5a421a1d6c69e96397f594",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "balukosuri/autoresearch-universal",
+      "path": "registry/named/balukosuri/autoresearch-universal.md",
+      "blobSha": "a68f296d53d7e1c1612956a54511f741a3b2445e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "bradautomates/watch",
+      "path": "registry/named/bradautomates/watch.md",
+      "blobSha": "f44bc063f4d4335a613b370f66e82ab4a36568b8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "browser-use/browser-harness",
+      "path": "registry/named/browser-use/browser-harness.md",
+      "blobSha": "1fa1fa7b23d64af3312459bdcb0d3563139b408c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/browser-use/browser-harness/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "browserbase/browse",
+      "path": "registry/named/browserbase/browse.md",
+      "blobSha": "939838d217dba6a99f7d429fdf3d48b2672efb1d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "caioribeiroclw-pixel/evidence-attestation",
+      "path": "registry/named/caioribeiroclw-pixel/evidence-attestation.md",
+      "blobSha": "0f63ad5acc78baf74f3842857ee1d48525df4e3c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "cathrynlavery/diagram-design",
+      "path": "registry/named/cathrynlavery/diagram-design.md",
+      "blobSha": "55c72e6267a3174906c9691366f82afa62090d78",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "cis2042/product-design-harness",
+      "path": "registry/named/cis2042/product-design-harness.md",
+      "blobSha": "c3dc9f83372c4a484915a6a579f5c60fea1928b3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/cis2042/ux3-product-design-harness/blob/7f9f724c5e31813d1c35767f9f454fe9a1e96891/skills/product-design-harness/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "citrolabs/ego-browser",
+      "path": "registry/named/citrolabs/ego-browser.md",
+      "blobSha": "cf976097b66666150e58b8a5acbe4e9eb36bbb22",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/citrolabs/ego-lite/blob/5ca3c36cba2240b8df2e22ba32127747029039d5/skills/ego-browser/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "dietrichgebert/ponytail",
+      "path": "registry/named/dietrichgebert/ponytail.md",
+      "blobSha": "af74d2ff80146cbbba8cc08dd38609c68e41f7f9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "disler/agent-fusion",
+      "path": "registry/named/disler/agent-fusion.md",
+      "blobSha": "c132852a339cd4d3af8de19e740eeb5e982008b4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/disler/fusion-harness/blob/main/README.md",
+      "upstream": null
+    },
+    {
+      "namedID": "disler/auto-review",
+      "path": "registry/named/disler/auto-review.md",
+      "blobSha": "5c3ab2d051b22b200374785fe6d459220a9bac73",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md",
+      "upstream": null
+    },
+    {
+      "namedID": "disler/opinion",
+      "path": "registry/named/disler/opinion.md",
+      "blobSha": "e2f294bbe0c6229b3ed80e6a401aa54f6fadd62b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md",
+      "upstream": null
+    },
+    {
+      "namedID": "disler/plan-synthesis",
+      "path": "registry/named/disler/plan-synthesis.md",
+      "blobSha": "b5e6fbb8050fa62e1e1d11e16ec6f047e036fae6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_FUSION_MERGE.md",
+      "upstream": null
+    },
+    {
+      "namedID": "dralgorhythm/compliance",
+      "path": "registry/named/dralgorhythm/compliance.md",
+      "blobSha": "1e79157ed05e46c5ad51e81e4752bcf21e2253e1",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/dralgorhythm/claude-agentic-framework/blob/99eb2c635c67ed35b8613a5a069f027a4d9558f6/.claude/skills/security/compliance/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/animate-expo",
+      "path": "registry/named/emilkowalski/animate-expo.md",
+      "blobSha": "f4e5df2c8d31fb22e68f5e036ec2a44ac32ee7f4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/animate",
+      "path": "registry/named/emilkowalski/animate.md",
+      "blobSha": "846fb62b2894f2a1cc445fe78d399f80bb986ef2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/animation-performance",
+      "path": "registry/named/emilkowalski/animation-performance.md",
+      "blobSha": "1be3c768bc73a7e2eaffbcf812a08bba5cde3160",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/apple-design",
+      "path": "registry/named/emilkowalski/apple-design.md",
+      "blobSha": "ffb5769850a874a3f0a69c4ebbfdff7a9ec60044",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/break-ui",
+      "path": "registry/named/emilkowalski/break-ui.md",
+      "blobSha": "9cd50851b876393b432c46276b9f7e3969f73018",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/emil-design-eng",
+      "path": "registry/named/emilkowalski/emil-design-eng.md",
+      "blobSha": "019b2078b18e68c350bd9dbc54bd1293fb1acac6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/emil-design-eng/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/find-animation-opportunities",
+      "path": "registry/named/emilkowalski/find-animation-opportunities.md",
+      "blobSha": "6a29576d69805c2ff84973277b1619d63ad12da2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/improve-animations",
+      "path": "registry/named/emilkowalski/improve-animations.md",
+      "blobSha": "ca4cc12e3b9e6f8beed92b8633c0cb0a213358c4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/mobile-native",
+      "path": "registry/named/emilkowalski/mobile-native.md",
+      "blobSha": "909de02926963cb94440e711b6a1c61e5a7aaf63",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/mobile-native/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/prototype",
+      "path": "registry/named/emilkowalski/prototype.md",
+      "blobSha": "2f9338e7c01cae95e49a2a50408697e52cce0ebf",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/review-animations",
+      "path": "registry/named/emilkowalski/review-animations.md",
+      "blobSha": "80aeee011b93bf1bd3f4cb72568b13b4302a001d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "emilkowalski/write-swift",
+      "path": "registry/named/emilkowalski/write-swift.md",
+      "blobSha": "3e0f80f77b71d65e0df70535ada69f344220c8ed",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/attendees",
+      "path": "registry/named/favorchurch/attendees.md",
+      "blobSha": "1be4397559c1a8fea6ff3b2376e7e1c038d36b85",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/count-checkin-by-church",
+      "path": "registry/named/favorchurch/count-checkin-by-church.md",
+      "blobSha": "9f7bb4b37bcb28b98fa77f68d63c31822e11a231",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/export-attendees",
+      "path": "registry/named/favorchurch/export-attendees.md",
+      "blobSha": "c620c5f2bbf14e651369bc806ff0f50d1de45db9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/financial-assistance",
+      "path": "registry/named/favorchurch/financial-assistance.md",
+      "blobSha": "0bf59f81c77f6f1b6629a45f67ff8e1f4afdfeed",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "path": "registry/named/favorchurch/resend-conference-emails-carefully-with-smtp.md",
+      "blobSha": "963fa508f74933c54955e96909065022cce407b6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/speak-like-favor",
+      "path": "registry/named/favorchurch/speak-like-favor.md",
+      "blobSha": "1d01eca82b7536d9831390cffb1bfe1156eb57a7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/ticket-transfer",
+      "path": "registry/named/favorchurch/ticket-transfer.md",
+      "blobSha": "bf8089ba449fd0bb10e59f947ee16e47cde273be",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/triage-conference",
+      "path": "registry/named/favorchurch/triage-conference.md",
+      "blobSha": "0ce3f113d19de32bcdec038b1e5a3a933393dd97",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "favorchurch/update-unique-churches",
+      "path": "registry/named/favorchurch/update-unique-churches.md",
+      "blobSha": "f2da1fe96799479bb0dd14515261685251a56c67",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-build-interact",
+      "path": "registry/named/firecrawl/firecrawl-build-interact.md",
+      "blobSha": "5ff9f900667185e69678cfa1c3eb3d12a7414a07",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-build-onboarding",
+      "path": "registry/named/firecrawl/firecrawl-build-onboarding.md",
+      "blobSha": "94df81efcbd57fac7ce1403860bfd2900960ed48",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-build-scrape",
+      "path": "registry/named/firecrawl/firecrawl-build-scrape.md",
+      "blobSha": "14491e10c7bd0793a3c750ddbff1fb49e4356271",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-scrape/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-build-search",
+      "path": "registry/named/firecrawl/firecrawl-build-search.md",
+      "blobSha": "3baf65b9a1b77692d9259867f7a7eb8159710cb7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-build",
+      "path": "registry/named/firecrawl/firecrawl-build.md",
+      "blobSha": "dd5e497d78f73e0aef9504a03197e95c0879a814",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-research-index",
+      "path": "registry/named/firecrawl/firecrawl-research-index.md",
+      "blobSha": "fcc7b323c36d5d93e117c14703c12e077ef8e287",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "firecrawl/firecrawl-skills",
+      "path": "registry/named/firecrawl/firecrawl-skills.md",
+      "blobSha": "e28c69deb5f0d80c69668cd18dca253e11f42537",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/firecrawl/firecrawl",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-06-19T15:09:30Z",
+        "repo": "firecrawl/firecrawl",
+        "sourceUrl": "https://github.com/firecrawl/firecrawl/releases/tag/v2.11.0",
+        "syncedAt": "2026-09-11T16:35:18Z",
+        "version": "v2.11.0"
+      }
+    },
+    {
+      "namedID": "gaia-research/ci-churn",
+      "path": "registry/named/gaia-research/ci-churn.md",
+      "blobSha": "890a7f4a8ced11138375ad903b97cd1e8ed11487",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gaia-research/cost",
+      "path": "registry/named/gaia-research/cost.md",
+      "blobSha": "2f30ccd4741b973fb87f6916f4d4f2bc6a545811",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/skill-cost/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gaia-research/fuse",
+      "path": "registry/named/gaia-research/fuse.md",
+      "blobSha": "414754e0a4c77ae034cb3938b429b931e65df6d8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gaiabot/gaia-triage",
+      "path": "registry/named/gaiabot/gaia-triage.md",
+      "blobSha": "9bc9d917c620b2d7836f456438dabc66c7ed4a27",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/academic-verify",
+      "path": "registry/named/garrytan/academic-verify.md",
+      "blobSha": "be25f41602f246662b6611a12369fbe09ce82cc8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/academic-verify/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/archive-crawler",
+      "path": "registry/named/garrytan/archive-crawler.md",
+      "blobSha": "6749280a1bb75bbbafa9387c0380b4a1af0647ce",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/archive-crawler/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/article-enrichment",
+      "path": "registry/named/garrytan/article-enrichment.md",
+      "blobSha": "f037c6a6a2b30992ac2b5f223dc342732d449808",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/ask-user",
+      "path": "registry/named/garrytan/ask-user.md",
+      "blobSha": "0aef29719a02aee89cc1f7edc9abea999a43e5e7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ask-user/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/benchmark-models",
+      "path": "registry/named/garrytan/benchmark-models.md",
+      "blobSha": "b6eb1d0384565bff2b14bc95a3b04331c88ef35e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/benchmark",
+      "path": "registry/named/garrytan/benchmark.md",
+      "blobSha": "99b705cd7848c63c215feac978759c14bf916d7e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/blog-ingest",
+      "path": "registry/named/garrytan/blog-ingest.md",
+      "blobSha": "95921db5ed16826d1f2877e20f76afa3b20eac96",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/blog-ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/book-mirror",
+      "path": "registry/named/garrytan/book-mirror.md",
+      "blobSha": "3e64aca2dd850d2405dd2106215f5d13b889936c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/book-mirror/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/brain-ingest-gate",
+      "path": "registry/named/garrytan/brain-ingest-gate.md",
+      "blobSha": "0da3f0564ca6eb0acaf2b029bee09a955283a1ce",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/brain-link-discipline",
+      "path": "registry/named/garrytan/brain-link-discipline.md",
+      "blobSha": "967327b63a7fdc0504b813856cecb757a731ac2e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/brain-ops",
+      "path": "registry/named/garrytan/brain-ops.md",
+      "blobSha": "bbf8e2b73ffd4e9aff8e78f58a5ca580457b3ca6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/brain-pdf",
+      "path": "registry/named/garrytan/brain-pdf.md",
+      "blobSha": "60bbc15a17ca7c43483f7937b567e54d3193ca7f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-pdf/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/brain-taxonomist",
+      "path": "registry/named/garrytan/brain-taxonomist.md",
+      "blobSha": "151819714f510c94bb9e5a613d21f6496298daf5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/briefing",
+      "path": "registry/named/garrytan/briefing.md",
+      "blobSha": "9a7991c4d580ed72a27350b33b47de7e149baee7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/briefing/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/browse",
+      "path": "registry/named/garrytan/browse.md",
+      "blobSha": "e7748965ff2e97c490d8e4e62cb70a4cb3fa2371",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/bulk-ingestion",
+      "path": "registry/named/garrytan/bulk-ingestion.md",
+      "blobSha": "084beac357368be330003a32bff49058c27aa9be",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/bulk-ingestion/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/canary",
+      "path": "registry/named/garrytan/canary.md",
+      "blobSha": "e37cfb28013d01f8a005415b4425f4690e6fc656",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/capture",
+      "path": "registry/named/garrytan/capture.md",
+      "blobSha": "918b067f9fe90d31182b460c8fa2a6f9b1c981af",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/careful",
+      "path": "registry/named/garrytan/careful.md",
+      "blobSha": "b800d672d5fdedc22717a2e1dedfe4e8c3f24c87",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/chat-connectors",
+      "path": "registry/named/garrytan/chat-connectors.md",
+      "blobSha": "58394c7444288429f1cfe5f9b963dc8f5ef4d7a5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/citation-fixer",
+      "path": "registry/named/garrytan/citation-fixer.md",
+      "blobSha": "803285975841faaf85425b0f37ef5b6ce3716ccd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/citation-fixer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/citation-graph-ingest",
+      "path": "registry/named/garrytan/citation-graph-ingest.md",
+      "blobSha": "c90a7e19ebd0c1709f49d0360e4da7fbc6bdd72c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/citation-graph-ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/codex",
+      "path": "registry/named/garrytan/codex.md",
+      "blobSha": "74bc36d41f28b03ca32245d507c7ec9d2f131a7e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/cold-start",
+      "path": "registry/named/garrytan/cold-start.md",
+      "blobSha": "b85019e82d51afccafcd1b57824db762b9785d44",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/company-brainify",
+      "path": "registry/named/garrytan/company-brainify.md",
+      "blobSha": "32fd3ae3e5d21613324ffbd262132c502c0ac7cb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/concept-synthesis",
+      "path": "registry/named/garrytan/concept-synthesis.md",
+      "blobSha": "3aa6b32ab3b1066b970c70c2d3eb8e413e56a7cf",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/context-audit",
+      "path": "registry/named/garrytan/context-audit.md",
+      "blobSha": "4d4296f1260d82de03539ddf9d73925f7174d7fc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/context-audit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/context-restore",
+      "path": "registry/named/garrytan/context-restore.md",
+      "blobSha": "0c795669e102663ec5f897f52791c0188179094a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/context-save",
+      "path": "registry/named/garrytan/context-save.md",
+      "blobSha": "1d5a53c18dfb293952e3582e236856d57269967a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/conversation-archive",
+      "path": "registry/named/garrytan/conversation-archive.md",
+      "blobSha": "d80adbe8e9bcf8800b95d8c2207a8df57e1bb38f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/conversation-archive/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/correction-pipeline",
+      "path": "registry/named/garrytan/correction-pipeline.md",
+      "blobSha": "58392f3a941b0c66891bfffe0a9024c1b05412fb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/cron-scheduler",
+      "path": "registry/named/garrytan/cron-scheduler.md",
+      "blobSha": "e418e3e6ebc86825667e9aa1d85dee0db3d65542",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cron-scheduler/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/cross-modal-review",
+      "path": "registry/named/garrytan/cross-modal-review.md",
+      "blobSha": "0619250fa8dabdda419515c23d071e436e40dfe5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cross-modal-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/cso",
+      "path": "registry/named/garrytan/cso.md",
+      "blobSha": "cec9511ad73165e4822f13d2fd57ecaf268557b7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/daily-task-manager",
+      "path": "registry/named/garrytan/daily-task-manager.md",
+      "blobSha": "d316e4b7508978b4bdb28732051e1a06b065834d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-manager/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/daily-task-prep",
+      "path": "registry/named/garrytan/daily-task-prep.md",
+      "blobSha": "f4daa27aac588554b9cf842755dc56647e6fa989",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-prep/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/data-loss-gate",
+      "path": "registry/named/garrytan/data-loss-gate.md",
+      "blobSha": "32e635177597ac5aa7dedc9710ea2933baa67f71",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/data-research",
+      "path": "registry/named/garrytan/data-research.md",
+      "blobSha": "77637b2f43999f832fc90e5ae17cd1f31d964ccc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/data-research/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/db-repair",
+      "path": "registry/named/garrytan/db-repair.md",
+      "blobSha": "12f52c76f8509d8fa4e436932e46383fc5106c7a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/db-repair/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/design-consultation",
+      "path": "registry/named/garrytan/design-consultation.md",
+      "blobSha": "6f16ee740d687493c0d231101bc5dac869ce0850",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/design-html",
+      "path": "registry/named/garrytan/design-html.md",
+      "blobSha": "c562338bff07b32e34025811058f2d37aac331d5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/design-review",
+      "path": "registry/named/garrytan/design-review.md",
+      "blobSha": "0ed2bb7e3c4f81e967f2a298505cda4b9675a6bc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/design-shotgun",
+      "path": "registry/named/garrytan/design-shotgun.md",
+      "blobSha": "ef8e966107c85d63a780b7911805e28c7368e073",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/devex-review",
+      "path": "registry/named/garrytan/devex-review.md",
+      "blobSha": "885deefd142cff9c49c5e8305a033f41e6adaca8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/document-generate",
+      "path": "registry/named/garrytan/document-generate.md",
+      "blobSha": "379ea9cfd5248739fbcf5233b16d11acdd06a78a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/document-release",
+      "path": "registry/named/garrytan/document-release.md",
+      "blobSha": "5f2d8216c3d180b507cc7f0a1c14166c46a54a76",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/draft-in-voice",
+      "path": "registry/named/garrytan/draft-in-voice.md",
+      "blobSha": "e23c630212cb49d2f8d309d745bdd0b0b9574999",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/draft-in-voice/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/eiirp",
+      "path": "registry/named/garrytan/eiirp.md",
+      "blobSha": "dfc573909befe98e88033b479cabdf0015be3c7e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/eiirp/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/enrich",
+      "path": "registry/named/garrytan/enrich.md",
+      "blobSha": "6f3e06db72e47d22ffb2f66d9c8870830797c8c2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/enrich/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/fact-check",
+      "path": "registry/named/garrytan/fact-check.md",
+      "blobSha": "9a892e68fd143d02d51ad6c073b62464c80cd603",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/freeze",
+      "path": "registry/named/garrytan/freeze.md",
+      "blobSha": "d8791a03f0e98881a5e4ae4d145b041119db04de",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/frontmatter-guard",
+      "path": "registry/named/garrytan/frontmatter-guard.md",
+      "blobSha": "b88da804aef8511fb464c689d6830547284c7823",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/functional-area-resolver",
+      "path": "registry/named/garrytan/functional-area-resolver.md",
+      "blobSha": "dcab5aa32feb48864c33f9ff617d0915d1e05cd4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/garrytan",
+      "path": "registry/named/garrytan/garrytan.md",
+      "blobSha": "c4c760fe725e2a8d3c85b094395e62945f195198",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-29T14:06:50Z",
+        "repo": "garrytan/gstack",
+        "sourceUrl": "https://github.com/garrytan/gstack/releases/tag/v1.91.318.0",
+        "syncedAt": "2026-11-02T22:17:40Z",
+        "version": "v1.91.318.0"
+      }
+    },
+    {
+      "namedID": "garrytan/gbrain-upgrade",
+      "path": "registry/named/garrytan/gbrain-upgrade.md",
+      "blobSha": "43aa357740dc4559a5b691817efbf833978fb4fa",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-upgrade/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/gbrain",
+      "path": "registry/named/garrytan/gbrain.md",
+      "blobSha": "f49ed79b8f8e74c28cf9e2b8777fc916fbf7268c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:21:48Z",
+        "repo": "garrytan/gbrain",
+        "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v0.60.531.0",
+        "syncedAt": "2026-11-02T22:17:05Z",
+        "version": "v0.60.531.0"
+      }
+    },
+    {
+      "namedID": "garrytan/google-loops",
+      "path": "registry/named/garrytan/google-loops.md",
+      "blobSha": "66792ec4650dd4e44ee8d6031f4fa6574943743f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/gstack-upgrade",
+      "path": "registry/named/garrytan/gstack-upgrade.md",
+      "blobSha": "3f8b06793237e824dce2de12d6cff94ef6c45b69",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/gstack",
+      "path": "registry/named/garrytan/gstack.md",
+      "blobSha": "359ce22bf721ddec58400442b31624a00ffab959",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/SKILL.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-29T14:06:50Z",
+        "repo": "garrytan/gstack",
+        "sourceUrl": "https://github.com/garrytan/gstack/releases/tag/v1.91.318.0",
+        "syncedAt": "2026-11-02T22:17:44Z",
+        "version": "v1.91.318.0"
+      }
+    },
+    {
+      "namedID": "garrytan/guard",
+      "path": "registry/named/garrytan/guard.md",
+      "blobSha": "694d1bab01161d2220324256956fad0005e0fa6f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/health",
+      "path": "registry/named/garrytan/health.md",
+      "blobSha": "a1da86f9b64fc90775b2d3deeb629940b1f2adb6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/health/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/idea-ingest",
+      "path": "registry/named/garrytan/idea-ingest.md",
+      "blobSha": "1860c22c65408ec110dfaf4f4db31a8730be0afb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/idea-lineage",
+      "path": "registry/named/garrytan/idea-lineage.md",
+      "blobSha": "7f8f4a75eb34e0e92cca89af1112cbede6b9ca04",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/idea-lineage/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/ingest",
+      "path": "registry/named/garrytan/ingest.md",
+      "blobSha": "39bfe6d555efc07d4a2118bf9e559a3b70a8aa61",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/investigate",
+      "path": "registry/named/garrytan/investigate.md",
+      "blobSha": "4753c301937f582a97713aa04c3a91de08df7041",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/land-and-deploy",
+      "path": "registry/named/garrytan/land-and-deploy.md",
+      "blobSha": "70b6c5ad5f46386bda16c63e60e1da6c426f6d0d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/landing-report",
+      "path": "registry/named/garrytan/landing-report.md",
+      "blobSha": "d332bb60df93f2e82a982989bd53e0230d7ebf14",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/learn",
+      "path": "registry/named/garrytan/learn.md",
+      "blobSha": "a25dcc9316aa925d019263246686d290dd0010b4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/make-pdf",
+      "path": "registry/named/garrytan/make-pdf.md",
+      "blobSha": "ff2c65eac1ca848a93b87dd8c5b7d134fac4d998",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/mcp-access",
+      "path": "registry/named/garrytan/mcp-access.md",
+      "blobSha": "3e587ecd54cc30d82ad5ef3de870b9920e3b357a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/measure-before-you-fix",
+      "path": "registry/named/garrytan/measure-before-you-fix.md",
+      "blobSha": "d66cd3e1f37e2a71d0ff84c3a616e419cffd8507",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/measure-before-you-fix/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/media-ingest",
+      "path": "registry/named/garrytan/media-ingest.md",
+      "blobSha": "262b0d41864181ae7c993319286378ff6f0ca410",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/meeting-ingestion",
+      "path": "registry/named/garrytan/meeting-ingestion.md",
+      "blobSha": "74aa90442d8bdfe6ba1f39b53e20bb3789389728",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/meeting-ingestion/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/minion-orchestrator",
+      "path": "registry/named/garrytan/minion-orchestrator.md",
+      "blobSha": "8aee7c183f28a52bb499cbe9821fb248e46060ab",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/minion-orchestrator/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/office-hours",
+      "path": "registry/named/garrytan/office-hours.md",
+      "blobSha": "7d393c50c15ab58638dd04dc143599af7e3377ee",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/open-gstack-browser",
+      "path": "registry/named/garrytan/open-gstack-browser.md",
+      "blobSha": "33ac3d1c9797d1781da811f719a25cb1b4446f2f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/pair-agent",
+      "path": "registry/named/garrytan/pair-agent.md",
+      "blobSha": "b31bbf4d3fcda063bfb4e47c3cbf2401bb8b573c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/perplexity-research",
+      "path": "registry/named/garrytan/perplexity-research.md",
+      "blobSha": "34514186a5b9d4a4ea8843cc938d443eb8e908c8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/plan-ceo-review",
+      "path": "registry/named/garrytan/plan-ceo-review.md",
+      "blobSha": "3f6cbae56be7da4289c5dff139e20ea4434c6d04",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/plan-design-review",
+      "path": "registry/named/garrytan/plan-design-review.md",
+      "blobSha": "f81b032de06ae6f952e2ab67c0961b8276d77049",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/plan-devex-review",
+      "path": "registry/named/garrytan/plan-devex-review.md",
+      "blobSha": "2f09cb93c93b3d0b0cd0df5707ce26e5b8f2b290",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/plan-eng-review",
+      "path": "registry/named/garrytan/plan-eng-review.md",
+      "blobSha": "6db8d227ebbe31016e3f8a73e01b10747e58725f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/plan-tune",
+      "path": "registry/named/garrytan/plan-tune.md",
+      "blobSha": "72dff3cb07b6a2b7de14554631c6d067a8509f3b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/postgres-adopt",
+      "path": "registry/named/garrytan/postgres-adopt.md",
+      "blobSha": "dac00e24d8779c34bfdefb448aae3257c98f2369",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/publish",
+      "path": "registry/named/garrytan/publish.md",
+      "blobSha": "f78d5bfbb08e723a1ae04835b21cfa9abfb512f3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/publish/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/qa-only",
+      "path": "registry/named/garrytan/qa-only.md",
+      "blobSha": "a956d75766500a5165c41497b84da22bcb0e5cd4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/qa",
+      "path": "registry/named/garrytan/qa.md",
+      "blobSha": "5724418e105620acd5eb44f59730962000c1aa08",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/query",
+      "path": "registry/named/garrytan/query.md",
+      "blobSha": "5dbf5d122f34c3a4e6fa05cd689efa77813ded9d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/remote-mcp",
+      "path": "registry/named/garrytan/remote-mcp.md",
+      "blobSha": "417e2635d2f8a52ca83207fef3e3caecabdd1ae4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/remote-mcp/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/repo-architecture",
+      "path": "registry/named/garrytan/repo-architecture.md",
+      "blobSha": "2f2fb9f81a2c8d07c20deda902e9dd80552e621d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/repo-architecture/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/reports",
+      "path": "registry/named/garrytan/reports.md",
+      "blobSha": "5d630bd5d0b262f8192ee92377448b3ac4e27c2f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/research-compendium",
+      "path": "registry/named/garrytan/research-compendium.md",
+      "blobSha": "3fad9ec8b9926448b517900b1eba53797c52dcf9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/research-compendium/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/resolve-before-asking",
+      "path": "registry/named/garrytan/resolve-before-asking.md",
+      "blobSha": "20595d247531b8fca8585ac782ccec2bc8916755",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/retro",
+      "path": "registry/named/garrytan/retro.md",
+      "blobSha": "5e9ba48f454bdc3c7de77a91250a983fa0b4f309",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/review",
+      "path": "registry/named/garrytan/review.md",
+      "blobSha": "cd42e60534ec9e8f273702097e6583234f5dd903",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/schema-author",
+      "path": "registry/named/garrytan/schema-author.md",
+      "blobSha": "6b4f6fcfbbe1956d2cdf8b5420c47a607409636c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/schema-unify",
+      "path": "registry/named/garrytan/schema-unify.md",
+      "blobSha": "af610b9064454477d4cf3b7933bafe28394b101b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/scrape",
+      "path": "registry/named/garrytan/scrape.md",
+      "blobSha": "5c5cb71c4f87ce5d16e9db81e3211e394d82b161",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/setup-browser-cookies",
+      "path": "registry/named/garrytan/setup-browser-cookies.md",
+      "blobSha": "db99e5ce94a98525fbf18e77a3250175e4d9c616",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/setup-deploy",
+      "path": "registry/named/garrytan/setup-deploy.md",
+      "blobSha": "7ab8dedba53e41a57ba55103deff8025516d6a54",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/setup-gbrain",
+      "path": "registry/named/garrytan/setup-gbrain.md",
+      "blobSha": "91f3b260d87560ad086e2381e2c94b105932167a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/ship",
+      "path": "registry/named/garrytan/ship.md",
+      "blobSha": "43a48e59dbb1c1cb8c4eba6f2a1c25280a90cb8c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/signal-detector",
+      "path": "registry/named/garrytan/signal-detector.md",
+      "blobSha": "db3f3ab9fd603f9bb47663dfaff8e4c5baa1ca3e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/signal-detector/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/skill-autobench",
+      "path": "registry/named/garrytan/skill-autobench.md",
+      "blobSha": "9bceea79645dd10ac476f21d8e7be22388456fc3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/skill-creator",
+      "path": "registry/named/garrytan/skill-creator.md",
+      "blobSha": "524131210d830e85b16f86117024f03b2f9f0171",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/skill-optimizer",
+      "path": "registry/named/garrytan/skill-optimizer.md",
+      "blobSha": "bd62ebe4da4a5edfd0d5202438f384379085b259",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/skill-optimizer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/skillify",
+      "path": "registry/named/garrytan/skillify.md",
+      "blobSha": "299fab2e317b9fcc5b9a81bef12a73f802c929fb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/skillpack-harvest",
+      "path": "registry/named/garrytan/skillpack-harvest.md",
+      "blobSha": "816c7387a5c810c28d5735c553c26ad1da03dfa2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-harvest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/smoke-test",
+      "path": "registry/named/garrytan/smoke-test.md",
+      "blobSha": "464a9538007001f9bc0087e60855a1eeaf3aabd3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/soul-audit",
+      "path": "registry/named/garrytan/soul-audit.md",
+      "blobSha": "bfb9af5cd543c84f43afc1937869b06ec38fd19c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/strategic-reading",
+      "path": "registry/named/garrytan/strategic-reading.md",
+      "blobSha": "e78773cd9fddf8f61194282fc9f8b3843c230403",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/strategic-reading/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/sync-gbrain",
+      "path": "registry/named/garrytan/sync-gbrain.md",
+      "blobSha": "a5d5f77b22b7a4a28864f523c054040d1afe8145",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/testing",
+      "path": "registry/named/garrytan/testing.md",
+      "blobSha": "b45ff42d259b582f4d651424187ba18c762c4c7c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/testing/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/two-tier-extraction",
+      "path": "registry/named/garrytan/two-tier-extraction.md",
+      "blobSha": "073654a955118511d1f5d3434438124e31befa93",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/two-tier-extraction/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/unfreeze",
+      "path": "registry/named/garrytan/unfreeze.md",
+      "blobSha": "b2e8aec932dc06e1fa8a8ef940e97c7b42475e0c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/voice-note-ingest",
+      "path": "registry/named/garrytan/voice-note-ingest.md",
+      "blobSha": "37d0f6dda082a6cab833b166aeea5c5e5643293f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "garrytan/webhook-transforms",
+      "path": "registry/named/garrytan/webhook-transforms.md",
+      "blobSha": "24b5acb5d943a97dd9105fa64cf60bb325376815",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/webhook-transforms/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "glincker/readme-generator",
+      "path": "registry/named/glincker/readme-generator.md",
+      "blobSha": "d012e1498736498f7ed4dbbf61fdbdfd4b245b38",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/alphafold-database-fetch-and-analyze",
+      "path": "registry/named/google-deepmind/alphafold-database-fetch-and-analyze.md",
+      "blobSha": "f477bda3ac4b42651b47f53a86aaf13bbf911b99",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/alphagenome-single-variant-analysis",
+      "path": "registry/named/google-deepmind/alphagenome-single-variant-analysis.md",
+      "blobSha": "a92577353e9ef082db69c8454ff55961122b9abd",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/chembl-database",
+      "path": "registry/named/google-deepmind/chembl-database.md",
+      "blobSha": "a85c4efc0ceef5af9c30a8013db436304f000414",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/clinical-trials-database",
+      "path": "registry/named/google-deepmind/clinical-trials-database.md",
+      "blobSha": "48042cc339eceb906b730009df1868ff49d06265",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/clinvar-database",
+      "path": "registry/named/google-deepmind/clinvar-database.md",
+      "blobSha": "8b6c1d01ac8d8fc5f9a9a7520e5861dd4330eb25",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/dbsnp-database",
+      "path": "registry/named/google-deepmind/dbsnp-database.md",
+      "blobSha": "9430a911a960924d0684bcaa4a2ab0333ca9d266",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/embl-ebi-ols",
+      "path": "registry/named/google-deepmind/embl-ebi-ols.md",
+      "blobSha": "ddb57b0a3cfaf658b17b289f2ff43959d832e052",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/encode-ccres-database",
+      "path": "registry/named/google-deepmind/encode-ccres-database.md",
+      "blobSha": "5ef12131c969a6cffc04291294a5a7fbb2129626",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/ensembl-database",
+      "path": "registry/named/google-deepmind/ensembl-database.md",
+      "blobSha": "43bbb1d4ba9a8c37095b54273ea6c86deae70c74",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/foldseek-structural-search",
+      "path": "registry/named/google-deepmind/foldseek-structural-search.md",
+      "blobSha": "92f66517a10adb0be2cf469bec5244a85c572e08",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/gnomad-database",
+      "path": "registry/named/google-deepmind/gnomad-database.md",
+      "blobSha": "7ff2fb47e4ef5e00d07f920e036dd989d428d391",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/gtex-database",
+      "path": "registry/named/google-deepmind/gtex-database.md",
+      "blobSha": "025e08a866676af37cda0ebc7f3b509005cfe428",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/human-protein-atlas-database",
+      "path": "registry/named/google-deepmind/human-protein-atlas-database.md",
+      "blobSha": "1c507e9151a6dbf5c3fd5f8def5f6c290b30168f",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/interpro-database",
+      "path": "registry/named/google-deepmind/interpro-database.md",
+      "blobSha": "a166d397f9d22d8a0c0833a7f9fcf10b17f63149",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/jaspar-database",
+      "path": "registry/named/google-deepmind/jaspar-database.md",
+      "blobSha": "1b17e29934006faa15f3d3732d11af68fbc75249",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/literature-search-arxiv",
+      "path": "registry/named/google-deepmind/literature-search-arxiv.md",
+      "blobSha": "0c6888e29bb3991790299cc7566b6f075c99cf87",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/literature-search-biorxiv",
+      "path": "registry/named/google-deepmind/literature-search-biorxiv.md",
+      "blobSha": "a37db2575db158e91da218154ef29974f1829c71",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/literature-search-europepmc",
+      "path": "registry/named/google-deepmind/literature-search-europepmc.md",
+      "blobSha": "de038a64bcee4579699a48a1ddec521dbbc1ed5c",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/literature-search-openalex",
+      "path": "registry/named/google-deepmind/literature-search-openalex.md",
+      "blobSha": "1528811ecf13f725ae0f38c3b1de79763f063471",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/ncbi-sequence-fetch",
+      "path": "registry/named/google-deepmind/ncbi-sequence-fetch.md",
+      "blobSha": "6ac46afa0b9686ce6d21c7b1ad2d34db6d71065b",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/openfda-database",
+      "path": "registry/named/google-deepmind/openfda-database.md",
+      "blobSha": "9bc83e0a0686c793a6103408e0918d6735570908",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/opentargets-database",
+      "path": "registry/named/google-deepmind/opentargets-database.md",
+      "blobSha": "489d708e3bc43c85ede9ee6819875b685e1bd92f",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/pdb-database",
+      "path": "registry/named/google-deepmind/pdb-database.md",
+      "blobSha": "7d88d31cb256a43ee0253faa50fb2e52475cdcb7",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/protein-sequence-msa",
+      "path": "registry/named/google-deepmind/protein-sequence-msa.md",
+      "blobSha": "122c19212d4d09f8f41a2f64e494409a5b104f63",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/protein-sequence-similarity-search",
+      "path": "registry/named/google-deepmind/protein-sequence-similarity-search.md",
+      "blobSha": "9e81e76440a7c51232f6849d2540be055413f56c",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/pubchem-database",
+      "path": "registry/named/google-deepmind/pubchem-database.md",
+      "blobSha": "7e6176578b6992bfa71b0463bab3ba0dfdea833c",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/pubmed-database",
+      "path": "registry/named/google-deepmind/pubmed-database.md",
+      "blobSha": "eb9337bfc98da46e4d3faad15ef3776dc69684b2",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/pymol",
+      "path": "registry/named/google-deepmind/pymol.md",
+      "blobSha": "5c4e342d48813b504f40f5a9a89c0932d9cdf361",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/quickgo-database",
+      "path": "registry/named/google-deepmind/quickgo-database.md",
+      "blobSha": "89cd88e845cb1acbede6ed8dc6524969383f1b8b",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/reactome-database",
+      "path": "registry/named/google-deepmind/reactome-database.md",
+      "blobSha": "9955cc39a056da53169e3deec5482f860ac60df3",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/string-database",
+      "path": "registry/named/google-deepmind/string-database.md",
+      "blobSha": "c61341a9a2ccb5e9a73577df6172f4ce5ab21d9e",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/ucsc-conservation-and-tfbs",
+      "path": "registry/named/google-deepmind/ucsc-conservation-and-tfbs.md",
+      "blobSha": "4cf7985c198ef457a01b272e408184323e47da17",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/unibind-database",
+      "path": "registry/named/google-deepmind/unibind-database.md",
+      "blobSha": "4658950a40ee8b4e2eb45cd48c1924169484c44e",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/uniprot-database",
+      "path": "registry/named/google-deepmind/uniprot-database.md",
+      "blobSha": "f9e01d99d28e5aad3f231283088ad0860e30708f",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/uv",
+      "path": "registry/named/google-deepmind/uv.md",
+      "blobSha": "d70a1cdaa58bacd240f706424962fe5efe56a9d4",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "google-deepmind/workflow-skill-creator",
+      "path": "registry/named/google-deepmind/workflow-skill-creator.md",
+      "blobSha": "429c2d197012bacad970d6b8585d4a7e7e1bc606",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gooseworks/browser-automation-notte",
+      "path": "registry/named/gooseworks/browser-automation-notte.md",
+      "blobSha": "45a719a5fc42884111185271340c0c307ab0f265",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gsd-build/get-shit-done",
+      "path": "registry/named/gsd-build/get-shit-done.md",
+      "blobSha": "a6ce07e15093fc41ea974fcaf8da9d4ed0722984",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": null,
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-05-16T04:36:09Z",
+        "repo": "gsd-build/get-shit-done",
+        "sourceUrl": "https://github.com/gsd-build/get-shit-done/releases/tag/v1.42.3",
+        "syncedAt": "2026-07-08T19:56:14Z",
+        "version": "v1.42.3"
+      }
+    },
+    {
+      "namedID": "gsd-build/gsd-discuss-phase",
+      "path": "registry/named/gsd-build/gsd-discuss-phase.md",
+      "blobSha": "5564d4d93a1ca038fe02b4e363dcc08fc63f6292",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gsd-build/gsd-execute-phase",
+      "path": "registry/named/gsd-build/gsd-execute-phase.md",
+      "blobSha": "7ade9cd7c7c6811f37597b81e6e84b247c689b7b",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gsd-build/gsd-plan-phase",
+      "path": "registry/named/gsd-build/gsd-plan-phase.md",
+      "blobSha": "cf1c38a8d0afb60d86ff95e7a411ba16436bb2d9",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-plan-phase/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gsd-build/gsd-ship",
+      "path": "registry/named/gsd-build/gsd-ship.md",
+      "blobSha": "881f7318bc74b9e61e7006977f2229232aae284b",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-ship/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "gsd-build/gsd-verify-work",
+      "path": "registry/named/gsd-build/gsd-verify-work.md",
+      "blobSha": "974befb2b33f7b24f09e404fadbca6d8aa36e888",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/embedded-captions",
+      "path": "registry/named/heygen-com/embedded-captions.md",
+      "blobSha": "b8ecbe607025ed78e68c9f4689c6413fae374208",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/faceless-explainer",
+      "path": "registry/named/heygen-com/faceless-explainer.md",
+      "blobSha": "0c45107405f9c8a844569b377ff278a45ae945cc",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/figma",
+      "path": "registry/named/heygen-com/figma.md",
+      "blobSha": "718a0581a6dda3527a4e74badd4fb113ca218a21",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/general-video",
+      "path": "registry/named/heygen-com/general-video.md",
+      "blobSha": "5220d69b93c1bb8da30f45e91859d89c1040d607",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/v0.8.60/skills/general-video/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-animation",
+      "path": "registry/named/heygen-com/hyperframes-animation.md",
+      "blobSha": "734177a3a36bd6933df9ba5318888595ed3db9af",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-audio",
+      "path": "registry/named/heygen-com/hyperframes-audio.md",
+      "blobSha": "917b5341dab8092cf6e4f2c22c26706124b9646f",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-cli",
+      "path": "registry/named/heygen-com/hyperframes-cli.md",
+      "blobSha": "14dcee28601152e8cf2c5c47e64d9a37f60aa734",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-core",
+      "path": "registry/named/heygen-com/hyperframes-core.md",
+      "blobSha": "a328ab4ccb2598cca01f17d90d06d8afc7217c3e",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-creative",
+      "path": "registry/named/heygen-com/hyperframes-creative.md",
+      "blobSha": "682293399b7d1ebc1853f7054e45c029fc73ee37",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-keyframes",
+      "path": "registry/named/heygen-com/hyperframes-keyframes.md",
+      "blobSha": "6c175c06669359a75d4aa7748f65da67ea7b3e43",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes-registry",
+      "path": "registry/named/heygen-com/hyperframes-registry.md",
+      "blobSha": "770e3b12d6874c65165d581c60f6e0c18e2a2349",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/hyperframes",
+      "path": "registry/named/heygen-com/hyperframes.md",
+      "blobSha": "5c4b15377512a051e82b8b899ac455105186036a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T21:24:31Z",
+        "repo": "heygen-com/hyperframes",
+        "sourceUrl": "https://github.com/heygen-com/hyperframes/releases/tag/v0.8.225",
+        "syncedAt": "2026-11-02T22:17:09Z",
+        "version": "v0.8.225"
+      }
+    },
+    {
+      "namedID": "heygen-com/media-use",
+      "path": "registry/named/heygen-com/media-use.md",
+      "blobSha": "2b5c6fe03d75dbe4a411cb515b22750e9036d5e3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/motion-graphics",
+      "path": "registry/named/heygen-com/motion-graphics.md",
+      "blobSha": "613ac6247a92d3b59f91e192559a1ced59011738",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/music-to-video",
+      "path": "registry/named/heygen-com/music-to-video.md",
+      "blobSha": "9189e40ea0eadf8f658e82ba3bbefb8606d61213",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/pr-to-video",
+      "path": "registry/named/heygen-com/pr-to-video.md",
+      "blobSha": "bd675cc9d3d13a2ae446e6e41db0c52cd9a2b9ab",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/product-launch-video",
+      "path": "registry/named/heygen-com/product-launch-video.md",
+      "blobSha": "45e47cb597c14c1b39eda49cd4978f271c569b63",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/remotion-to-hyperframes",
+      "path": "registry/named/heygen-com/remotion-to-hyperframes.md",
+      "blobSha": "807dfb65cd440bc2bb4d1d7a4593e2969bfa2553",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/slideshow",
+      "path": "registry/named/heygen-com/slideshow.md",
+      "blobSha": "166a3f0306970f297281e0df9dfc2a2d47f8043c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "heygen-com/talking-head-recut",
+      "path": "registry/named/heygen-com/talking-head-recut.md",
+      "blobSha": "d82d96e3f450e8cf90bcaf47427887226fa848d4",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "hikari9/auto-office",
+      "path": "registry/named/hikari9/auto-office.md",
+      "blobSha": "e9fb12b72d7ecf9e64214a6fec3613d319fb5abf",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "hikari9/office-submit",
+      "path": "registry/named/hikari9/office-submit.md",
+      "blobSha": "ed2f8e7efe066a56e5e428cd66b42039a757e96f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/hf-cli",
+      "path": "registry/named/huggingface/hf-cli.md",
+      "blobSha": "5833ae3999229699b75c2fd1e41c8886536be446",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/huggingface-datasets",
+      "path": "registry/named/huggingface/huggingface-datasets.md",
+      "blobSha": "5c34d5b192c37ba6f152ffba06432d3e571cbe50",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/huggingface-llm-trainer",
+      "path": "registry/named/huggingface/huggingface-llm-trainer.md",
+      "blobSha": "eab38d5c7b5ddce9f7d9439254253f6968686255",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/huggingface-papers",
+      "path": "registry/named/huggingface/huggingface-papers.md",
+      "blobSha": "efd6e64398c4e94b19c2a117cc96ca4edccfb02a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/huggingface-vision-trainer",
+      "path": "registry/named/huggingface/huggingface-vision-trainer.md",
+      "blobSha": "713a70928e18f7ed8f68702ad0df8b0d9fd46818",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "huggingface/transformers-js",
+      "path": "registry/named/huggingface/transformers-js.md",
+      "blobSha": "8b058b281a1f20afd44525ef593fa479e57ef48b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/database-engineer",
+      "path": "registry/named/intelligentcode-ai/database-engineer.md",
+      "blobSha": "721f375ef73e44ba8831b7d6568c7edb9648191c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/devops-engineer",
+      "path": "registry/named/intelligentcode-ai/devops-engineer.md",
+      "blobSha": "319c12c4ac257bf8a2ee798b1aa9ab97e8282e24",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/mcp-client",
+      "path": "registry/named/intelligentcode-ai/mcp-client.md",
+      "blobSha": "e631dc08fe61820c0e8ca1c43510d939a3719b87",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/parallel-execution",
+      "path": "registry/named/intelligentcode-ai/parallel-execution.md",
+      "blobSha": "4906742e486ee894fdc8eb2af9656812eaeca88b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/release",
+      "path": "registry/named/intelligentcode-ai/release.md",
+      "blobSha": "5bb7c7a2cfcb627a033357117268d09c4370bebb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/requirements-engineer",
+      "path": "registry/named/intelligentcode-ai/requirements-engineer.md",
+      "blobSha": "5f3eaf11273eee9184aa6b0ef78d8325bb7340e4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/security-engineer",
+      "path": "registry/named/intelligentcode-ai/security-engineer.md",
+      "blobSha": "bb56007a61cddd7f390bf3b0b25cc3737041a24e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "intelligentcode-ai/user-tester",
+      "path": "registry/named/intelligentcode-ai/user-tester.md",
+      "blobSha": "8ff4d15e2f8772532f4a1e85fb6ec51947cfa61f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "jpoutrin/create-plugin",
+      "path": "registry/named/jpoutrin/create-plugin.md",
+      "blobSha": "ea59d08ae7c3520ef76ddee8f21a8850e8351502",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/jpoutrin/product-forge/blob/main/plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "juliusbrussee/caveman",
+      "path": "registry/named/juliusbrussee/caveman.md",
+      "blobSha": "9a98a2f93546cf2f36fe02b3631daacb5ed3aa4c",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/deepchem",
+      "path": "registry/named/k-dense-ai/deepchem.md",
+      "blobSha": "cc7759f6b9dac87b8c03180ae82a5b107bde71f6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/pymc",
+      "path": "registry/named/k-dense-ai/pymc.md",
+      "blobSha": "fc0d4b90bc69fd7e6a27b9d9ac91fa11622290e0",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/pytorch-lightning",
+      "path": "registry/named/k-dense-ai/pytorch-lightning.md",
+      "blobSha": "f9d851bfcde421c1181dac0ada5f3c4f6b332c30",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/qiskit",
+      "path": "registry/named/k-dense-ai/qiskit.md",
+      "blobSha": "5ec1858019b61b249c6f23132f4b3d4449b4113a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/rdkit",
+      "path": "registry/named/k-dense-ai/rdkit.md",
+      "blobSha": "fc4f95d3f0a5835c10f496f85bcefeb0219d46f5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/scanpy",
+      "path": "registry/named/k-dense-ai/scanpy.md",
+      "blobSha": "ed6c8dcbd596120d315fecb9faec0b167865f111",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/scvi-tools",
+      "path": "registry/named/k-dense-ai/scvi-tools.md",
+      "blobSha": "8f3cbd93fcf73d1439d207b270fae9a4d240743d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/stable-baselines3",
+      "path": "registry/named/k-dense-ai/stable-baselines3.md",
+      "blobSha": "61b882e9cb3ab016b9c62fecd91b98cf733204ed",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/torch-geometric",
+      "path": "registry/named/k-dense-ai/torch-geometric.md",
+      "blobSha": "b5027c18ee06a5233505c571947e67ff8dc9ed1f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "k-dense-ai/transformers",
+      "path": "registry/named/k-dense-ai/transformers.md",
+      "blobSha": "f07f61e4b5ef24fc2094ac175c6f500e25bb92e2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "kishorkukreja/inventory-optimization",
+      "path": "registry/named/kishorkukreja/inventory-optimization.md",
+      "blobSha": "bd368fa45b985373f7e45d87aba0f55d31dec673",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "langgenius/backend-code-review",
+      "path": "registry/named/langgenius/backend-code-review.md",
+      "blobSha": "9b5b1c4ea4d6ffc4c738cbf388b1843d3fd54e4d",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "langgenius/component-refactoring",
+      "path": "registry/named/langgenius/component-refactoring.md",
+      "blobSha": "def3df5aa6ab13ca41ac465621de8693c1511eac",
+      "status": "awakened",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/how-to-write-component/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "langgenius/e2e-cucumber-playwright",
+      "path": "registry/named/langgenius/e2e-cucumber-playwright.md",
+      "blobSha": "bec47fcf94f78fa57ae6094a8e3de6dde5c72607",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "langgenius/frontend-code-review",
+      "path": "registry/named/langgenius/frontend-code-review.md",
+      "blobSha": "577b65f4c30218dc0c8e2c2dc89757e5b3bc12f1",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "langgenius/frontend-testing",
+      "path": "registry/named/langgenius/frontend-testing.md",
+      "blobSha": "b6b979ed53ea5640568ae540a47fec99b45676ca",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "laravel/upgrade-laravel-v13",
+      "path": "registry/named/laravel/upgrade-laravel-v13.md",
+      "blobSha": "3bb138d912e2018bae4228f1c7a8f751d0312d9e",
+      "status": "named",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "latent-spaces/brag",
+      "path": "registry/named/latent-spaces/brag.md",
+      "blobSha": "5e2d1ce84963003fbdf38ad9307c367ff4d8e536",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/brandkit",
+      "path": "registry/named/leonxlnx/brandkit.md",
+      "blobSha": "d0dfb5650107224c532e9bdc9e2783c1afd021f5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/brandkit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/brutalist-skill",
+      "path": "registry/named/leonxlnx/brutalist-skill.md",
+      "blobSha": "5877e6e451c2f58589fa3255dbd88cd5751b9302",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/brutalist-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/gpt-tasteskill",
+      "path": "registry/named/leonxlnx/gpt-tasteskill.md",
+      "blobSha": "8c2967497c62a7ea33f9d3bd891e70c1b1b2b8c3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/gpt-tasteskill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/image-to-code-skill",
+      "path": "registry/named/leonxlnx/image-to-code-skill.md",
+      "blobSha": "0e49f4c175c731780b441f1f0bef136c7bc4f5af",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/image-to-code/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/imagegen-frontend-mobile",
+      "path": "registry/named/leonxlnx/imagegen-frontend-mobile.md",
+      "blobSha": "a6be73c63e4ccf32caabad74f048afd90aa431f7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/imagegen-frontend-web",
+      "path": "registry/named/leonxlnx/imagegen-frontend-web.md",
+      "blobSha": "f28e7717b110b1f09aeb5ee0a007ed42284f7d1d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-web/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/minimalist-skill",
+      "path": "registry/named/leonxlnx/minimalist-skill.md",
+      "blobSha": "9380746b74d23a74e56c1717b656c5c95ddd1b7e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/minimalist-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/output-skill",
+      "path": "registry/named/leonxlnx/output-skill.md",
+      "blobSha": "31e829b5744598987e3094c1cc03533884467a53",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/redesign-skill",
+      "path": "registry/named/leonxlnx/redesign-skill.md",
+      "blobSha": "06b06503f00f084121037d097b429a9ac494c350",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/soft-skill",
+      "path": "registry/named/leonxlnx/soft-skill.md",
+      "blobSha": "98028380d196695058b6aa6f321b07892d47d8d3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/soft-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/stitch-skill",
+      "path": "registry/named/leonxlnx/stitch-skill.md",
+      "blobSha": "8af7820ff91f905aea86a792291b0b3b54571a13",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/stitch-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "leonxlnx/taste-skill",
+      "path": "registry/named/leonxlnx/taste-skill.md",
+      "blobSha": "c0e4e5764c50da9f87364d0540e495c1abb041cc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-24T23:44:17Z",
+        "repo": "Leonxlnx/taste-skill",
+        "sourceUrl": "https://github.com/Leonxlnx/taste-skill/releases/tag/v2.1.5",
+        "syncedAt": "2026-10-27T21:39:04Z",
+        "version": "v2.1.5"
+      }
+    },
+    {
+      "namedID": "leonxlnx/unlazy",
+      "path": "registry/named/leonxlnx/unlazy.md",
+      "blobSha": "f84137958b7f759cc1661c01f3dd550696fe9209",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "majiayu000/edge-model-compression",
+      "path": "registry/named/majiayu000/edge-model-compression.md",
+      "blobSha": "062b7488e0eaa9d9162122fc55cfaacf70a172d5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "martin-stepanoski/nielsen-heuristics-audit",
+      "path": "registry/named/martin-stepanoski/nielsen-heuristics-audit.md",
+      "blobSha": "b166a18d871f5b1eb1d150eca26503e742ac2894",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/ask-matt",
+      "path": "registry/named/mattpocock/ask-matt.md",
+      "blobSha": "b624ff5d37f0bd8d165ae4d2385bda0696ba1539",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/code-review",
+      "path": "registry/named/mattpocock/code-review.md",
+      "blobSha": "a90ba8a0028f3ef73cc5782e0cbe5f33c5619b33",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/codebase-design",
+      "path": "registry/named/mattpocock/codebase-design.md",
+      "blobSha": "c8f5a3cfece7efe26a0ab984dd1b517abd08d5db",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/diagnose",
+      "path": "registry/named/mattpocock/diagnose.md",
+      "blobSha": "9303183bae110aef70886e561d9908a0d815f17a",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/diagnosing-bugs",
+      "path": "registry/named/mattpocock/diagnosing-bugs.md",
+      "blobSha": "54fa2482e17168b899f5838a500671b7a12747ad",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/domain-modeling",
+      "path": "registry/named/mattpocock/domain-modeling.md",
+      "blobSha": "5d2040c625a5df63601150bad47e5e25da7f37a0",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/edit-article",
+      "path": "registry/named/mattpocock/edit-article.md",
+      "blobSha": "02ebf67fbbe3a567bb703621b40c188a2fa4637c",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/engineering",
+      "path": "registry/named/mattpocock/engineering.md",
+      "blobSha": "ba963254fa20cc5a08c89be197a23fe19b068e7f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/git-guardrails-claude-code",
+      "path": "registry/named/mattpocock/git-guardrails-claude-code.md",
+      "blobSha": "e1463b342afe079bcf92ade5a86bc3f6b6bfe362",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/grill-me",
+      "path": "registry/named/mattpocock/grill-me.md",
+      "blobSha": "1ce9467f2b91ed448bbafa275f9615310ecb06c3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/grill-with-docs",
+      "path": "registry/named/mattpocock/grill-with-docs.md",
+      "blobSha": "6e1864e47465b468663a9080194e7439d41c1892",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/grilling",
+      "path": "registry/named/mattpocock/grilling.md",
+      "blobSha": "9bb28dc7943e16b9a3b608e405cdb973d8f7032a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/handoff",
+      "path": "registry/named/mattpocock/handoff.md",
+      "blobSha": "295fca751f2e4cf85ff0ca07588f5f1605f5416f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/implement",
+      "path": "registry/named/mattpocock/implement.md",
+      "blobSha": "5ff700942015bed28ace343da3d58671914a9efb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/improve-codebase-architecture",
+      "path": "registry/named/mattpocock/improve-codebase-architecture.md",
+      "blobSha": "8e81e8e70d3327ba82b3890645d0882c8d097bdd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/migrate-to-shoehorn",
+      "path": "registry/named/mattpocock/migrate-to-shoehorn.md",
+      "blobSha": "011f04b5611da7714915554162cc805fe5518d9b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/misc",
+      "path": "registry/named/mattpocock/misc.md",
+      "blobSha": "0a3f467cc752f570e6ee6e00f35b7c78fe6e14b9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/obsidian-vault",
+      "path": "registry/named/mattpocock/obsidian-vault.md",
+      "blobSha": "bc9084f1be4592f1319679b7562a178a79ef3f08",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/personal",
+      "path": "registry/named/mattpocock/personal.md",
+      "blobSha": "191e12aff81f44ca97d699b469d835235c45f2fd",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/productivity",
+      "path": "registry/named/mattpocock/productivity.md",
+      "blobSha": "771a77e6a82e4f9b01ee8aae5fa09a167ca424b8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/prototype",
+      "path": "registry/named/mattpocock/prototype.md",
+      "blobSha": "de9246ef0b2814d44f3115c0550f041704cd3d22",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/research",
+      "path": "registry/named/mattpocock/research.md",
+      "blobSha": "141e907e02ce6fbd1f9cf144e2ee43aa473af4f2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/resolving-merge-conflicts",
+      "path": "registry/named/mattpocock/resolving-merge-conflicts.md",
+      "blobSha": "e5b057d03a2ee654bb64bc78e9a9533c635633ce",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/scaffold-exercises",
+      "path": "registry/named/mattpocock/scaffold-exercises.md",
+      "blobSha": "14f46b780a73135c14dfd06619700c75d0287652",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/setup-matt-pocock-skills",
+      "path": "registry/named/mattpocock/setup-matt-pocock-skills.md",
+      "blobSha": "57c325b856b221624712c5db87d05504ef95d862",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/setup-pre-commit",
+      "path": "registry/named/mattpocock/setup-pre-commit.md",
+      "blobSha": "68f1709f6f53385cff69786c5e1edcc6f1cabd3a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/skills",
+      "path": "registry/named/mattpocock/skills.md",
+      "blobSha": "f48ddeeb718626e56cd70c2283c5acd748bed89c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-29T10:27:41Z",
+        "repo": "mattpocock/skills",
+        "sourceUrl": "https://github.com/mattpocock/skills/releases/tag/v1.3.2",
+        "syncedAt": "2026-11-02T22:17:11Z",
+        "version": "v1.3.2"
+      }
+    },
+    {
+      "namedID": "mattpocock/tdd",
+      "path": "registry/named/mattpocock/tdd.md",
+      "blobSha": "64596873eb6ada0c29eebe3ebd8e963bbf27eaa4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/teach",
+      "path": "registry/named/mattpocock/teach.md",
+      "blobSha": "3fcf69c066348af98877277f53f4a14b11e69564",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/to-questionnaire",
+      "path": "registry/named/mattpocock/to-questionnaire.md",
+      "blobSha": "82a1b0998aa9ec67c9a6a5ceec4c73cd81127eb4",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/to-spec",
+      "path": "registry/named/mattpocock/to-spec.md",
+      "blobSha": "b034c5fe63669e5a95b64054a45340895f31e90f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/to-tickets",
+      "path": "registry/named/mattpocock/to-tickets.md",
+      "blobSha": "e532ca06728d930823dc127ccb0f29b48030a5e8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/triage",
+      "path": "registry/named/mattpocock/triage.md",
+      "blobSha": "7789d5e7ea81687b43ef629423446ed32c73ce2a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/ubiquitous-language",
+      "path": "registry/named/mattpocock/ubiquitous-language.md",
+      "blobSha": "adc0c5f036c96f92eb711854559cc137952644d2",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/wait-what",
+      "path": "registry/named/mattpocock/wait-what.md",
+      "blobSha": "4c1f8274e272e9be92c68b0ac95466b04452f34b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/wayfinder",
+      "path": "registry/named/mattpocock/wayfinder.md",
+      "blobSha": "94618db1b1eaf71775f93573b5e08891f773f17c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/wizard",
+      "path": "registry/named/mattpocock/wizard.md",
+      "blobSha": "4c614b29d2fc5f181cf506d2205d5f783cf1d22f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/write-a-skill",
+      "path": "registry/named/mattpocock/write-a-skill.md",
+      "blobSha": "724996ad96ebb70de9391d537e624d88ab5a614c",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/writing-for-agents",
+      "path": "registry/named/mattpocock/writing-for-agents.md",
+      "blobSha": "349b29a8de7bfe0b0bb1858cb71833de0894fe20",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mattpocock/zoom-out",
+      "path": "registry/named/mattpocock/zoom-out.md",
+      "blobSha": "3021297ca095551932f50f8298dff03202e2ff57",
+      "status": "named",
+      "frozen": true,
+      "installable": false,
+      "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-audit",
+      "path": "registry/named/mbtiongson1/gaia-audit.md",
+      "blobSha": "0ac50116eda9f5b07a5325f0da85af7303c2a325",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-bot-curate",
+      "path": "registry/named/mbtiongson1/gaia-bot-curate.md",
+      "blobSha": "2de76215a2b66609c9b035e696d1c4aa3e83c38a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-curate",
+      "path": "registry/named/mbtiongson1/gaia-curate.md",
+      "blobSha": "109af05d66ac9cf6cbf5839d9bfe2ee847557eda",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-curation-review",
+      "path": "registry/named/mbtiongson1/gaia-curation-review.md",
+      "blobSha": "cb56709682c10c4057dcddbac1f402c4e97599d0",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-docs-sync",
+      "path": "registry/named/mbtiongson1/gaia-docs-sync.md",
+      "blobSha": "38c49683b391148d2012cd0729e400486ee5fd01",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-draft-curate",
+      "path": "registry/named/mbtiongson1/gaia-draft-curate.md",
+      "blobSha": "24859a3a09059453d77cb4a70943f5ed66382db8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-integrity",
+      "path": "registry/named/mbtiongson1/gaia-integrity.md",
+      "blobSha": "16b7bdd51ca2502064373d7eee720286b110b23c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-meta-audit",
+      "path": "registry/named/mbtiongson1/gaia-meta-audit.md",
+      "blobSha": "efaf6d4f531b124a653ca57b0fb42f14b0f9408c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-preview",
+      "path": "registry/named/mbtiongson1/gaia-preview.md",
+      "blobSha": "f0beecd463a33ecd9a98ad7a4641dc2de24ff8fd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-triage",
+      "path": "registry/named/mbtiongson1/gaia-triage.md",
+      "blobSha": "c19c3c575726ca3622c02049a80456a418e07c0d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/gaia-wiki-sync",
+      "path": "registry/named/mbtiongson1/gaia-wiki-sync.md",
+      "blobSha": "2f5f2e34ac2352aad7d7a9af289354a511253e5b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mbtiongson1/graphify-triage",
+      "path": "registry/named/mbtiongson1/graphify-triage.md",
+      "blobSha": "412813eaa7449ed88c16c7495bb9a1c3ea9315b1",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mksglu/context-mode",
+      "path": "registry/named/mksglu/context-mode.md",
+      "blobSha": "c375199b1249b2af24a20c80185ba8ea009cba7c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "mvanhorn/last30days",
+      "path": "registry/named/mvanhorn/last30days.md",
+      "blobSha": "4be5dc10011379c2c884a7441eb54f0e281b8482",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "nateherkai/scroll-craft",
+      "path": "registry/named/nateherkai/scroll-craft.md",
+      "blobSha": "3406e2f59150225b39cef86715ed06b8800c3dbc",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "nextlevelbuilder/ui-ux-pro-max",
+      "path": "registry/named/nextlevelbuilder/ui-ux-pro-max.md",
+      "blobSha": "c8cc31e4390e201531d9c5faf7cead330a95cdfd",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "nexu-io/open-design",
+      "path": "registry/named/nexu-io/open-design.md",
+      "blobSha": "3c7a4b58d4efad3de447f6d595739d3157c25ceb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/nexu-io/open-design",
+      "upstream": null
+    },
+    {
+      "namedID": "nousresearch/feed-monitoring",
+      "path": "registry/named/nousresearch/feed-monitoring.md",
+      "blobSha": "cc6ec3db3799503b057a4275801687dc3cbd75fb",
+      "status": "named",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "nvidia/accelerated-computing-cudf",
+      "path": "registry/named/nvidia/accelerated-computing-cudf.md",
+      "blobSha": "6c0abdd7bc0af9b060169a08a79d94e93bb99fde",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/NVIDIA/skills/blob/main/skills/accelerated-computing-cudf/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/brainstorming",
+      "path": "registry/named/obra/brainstorming.md",
+      "blobSha": "a6bf460996e3165238a757a9f267186c01078de8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/dispatching-parallel-agents",
+      "path": "registry/named/obra/dispatching-parallel-agents.md",
+      "blobSha": "5862eee6697d7bbad2f964c931b7a7bc522dc95c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/executing-plans",
+      "path": "registry/named/obra/executing-plans.md",
+      "blobSha": "5a33d676151bbc4a46cbec6a56ff983e00128774",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/finishing-a-development-branch",
+      "path": "registry/named/obra/finishing-a-development-branch.md",
+      "blobSha": "6624c0b95109bd34879333a30684d846e08e5b10",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/receiving-code-review",
+      "path": "registry/named/obra/receiving-code-review.md",
+      "blobSha": "ce83726b1948e7c10d64d3c0cb2ba80b5a43140a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/requesting-code-review",
+      "path": "registry/named/obra/requesting-code-review.md",
+      "blobSha": "80f5ab83f64bedd68bd520aab3f3eb649d069fe9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/subagent-driven-development",
+      "path": "registry/named/obra/subagent-driven-development.md",
+      "blobSha": "074b2787f9137b8e6b1f97f92934c290f0a4e203",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/superpowers",
+      "path": "registry/named/obra/superpowers.md",
+      "blobSha": "46d285f96ff605768dd91e475696edf50ebb9f58",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-21T21:05:11Z",
+        "repo": "obra/superpowers",
+        "sourceUrl": "https://github.com/obra/superpowers/releases/tag/v7.0.1",
+        "syncedAt": "2026-10-27T21:38:54Z",
+        "version": "v7.0.1"
+      }
+    },
+    {
+      "namedID": "obra/systematic-debugging",
+      "path": "registry/named/obra/systematic-debugging.md",
+      "blobSha": "2645274b5e1641cbcbfc94d37bfc598c8bed6d30",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/test-driven-development",
+      "path": "registry/named/obra/test-driven-development.md",
+      "blobSha": "fb4b1650a82fc4cca5bc370e18fe876accddc2a3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/using-git-worktrees",
+      "path": "registry/named/obra/using-git-worktrees.md",
+      "blobSha": "e5be23d4657b283219a8106ea29521e9dc393051",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/verification-before-completion",
+      "path": "registry/named/obra/verification-before-completion.md",
+      "blobSha": "2859b2e8d32dfce3bc099a01a96b13e8e85deb4a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/writing-plans",
+      "path": "registry/named/obra/writing-plans.md",
+      "blobSha": "0c3522c8a1e2283c4951081b9016348d0b34df20",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "obra/writing-skills",
+      "path": "registry/named/obra/writing-skills.md",
+      "blobSha": "c3d6615153f49b27d87d0af76c01aeb981bb3d2a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/obra/superpowers/blob/v6.4.1/skills/writing-skills/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "omer-metin/synthetic-data",
+      "path": "registry/named/omer-metin/synthetic-data.md",
+      "blobSha": "dc543ac508a68b49b6a9952cc1493542de36263f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "oso95/scroll-world",
+      "path": "registry/named/oso95/scroll-world.md",
+      "blobSha": "99045717d4d11f038c030b613901455c337b5474",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "panniantong/agent-reach",
+      "path": "registry/named/panniantong/agent-reach.md",
+      "blobSha": "cd7b89f75903300ad903ee8a295d200b82eaae4c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "pbakaus/impeccable",
+      "path": "registry/named/pbakaus/impeccable.md",
+      "blobSha": "e32827822ab7bdf0c2e30165893e811641818d0f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "pexp13/sentiment-analysis",
+      "path": "registry/named/pexp13/sentiment-analysis.md",
+      "blobSha": "926b3a22ec833820a185e4691c5aea183b4b5861",
+      "status": "awakened",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-best-practices",
+      "path": "registry/named/remotion-dev/remotion-best-practices.md",
+      "blobSha": "0f17cd09affeb7b3e8a43895068f3fe835e7fd27",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-captions",
+      "path": "registry/named/remotion-dev/remotion-captions.md",
+      "blobSha": "d818c4a65d3f14e20451c12f5dc3ae0bbb31af80",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-create",
+      "path": "registry/named/remotion-dev/remotion-create.md",
+      "blobSha": "1694248a36e09ed77d63daa1b10ec1ed7781471e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-docs",
+      "path": "registry/named/remotion-dev/remotion-docs.md",
+      "blobSha": "e852dc9c8e88e6fb37cc35e06e959796c9c36659",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-interactivity",
+      "path": "registry/named/remotion-dev/remotion-interactivity.md",
+      "blobSha": "994613f238005c6ea4937a75b72a388d2a7f0352",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-maps",
+      "path": "registry/named/remotion-dev/remotion-maps.md",
+      "blobSha": "9f548b58da8eacc59aeaac278de9bba310f2e3d5",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-markup",
+      "path": "registry/named/remotion-dev/remotion-markup.md",
+      "blobSha": "e77a25ace969efda4d07c8ec97d7289466a62791",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-multimedia",
+      "path": "registry/named/remotion-dev/remotion-multimedia.md",
+      "blobSha": "5a6299b3849905c9dbe09cadf11f2c6a88bc257d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-render",
+      "path": "registry/named/remotion-dev/remotion-render.md",
+      "blobSha": "b40436ce49951404fa949302c0127b69e1faf132",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-saas",
+      "path": "registry/named/remotion-dev/remotion-saas.md",
+      "blobSha": "25e3ac805d669c35beaa50d7c089edd5e6ec8bd3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-studio",
+      "path": "registry/named/remotion-dev/remotion-studio.md",
+      "blobSha": "9816c3307795ec437a1732cd09a3d0e86ae458d3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "remotion-dev/remotion-upgrade",
+      "path": "registry/named/remotion-dev/remotion-upgrade.md",
+      "blobSha": "b6c456a55d91acf34f6361b2e88d16e8fdd18fe7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "rico-favor/implement-with-discernment",
+      "path": "registry/named/rico-favor/implement-with-discernment.md",
+      "blobSha": "aa5729cac703f94e67eaedf35ef2940361505777",
+      "status": "named",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb-advanced",
+      "path": "registry/named/ruvnet/agentdb-advanced.md",
+      "blobSha": "e1a2dfe2257c4990dfbaf1b5d7a622cd00bc2227",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb-learning",
+      "path": "registry/named/ruvnet/agentdb-learning.md",
+      "blobSha": "34a8020070e5d2c494c5a4e572cf052a4e76d0ba",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb-memory-patterns",
+      "path": "registry/named/ruvnet/agentdb-memory-patterns.md",
+      "blobSha": "71d4bbe2d4486f2070cea0da3a4bf97f051da91a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb-optimization",
+      "path": "registry/named/ruvnet/agentdb-optimization.md",
+      "blobSha": "0e77103d8a43197fad4c73ffc873ed767997f8e0",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb-vector-search",
+      "path": "registry/named/ruvnet/agentdb-vector-search.md",
+      "blobSha": "c0df98e585f0c9df7e7801b76f35a6d1ad16caee",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/agentdb",
+      "path": "registry/named/ruvnet/agentdb.md",
+      "blobSha": "456f43ed481315b9fd21a9bfd918bdbaea013a70",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:17Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/agentic-jujutsu",
+      "path": "registry/named/ruvnet/agentic-jujutsu.md",
+      "blobSha": "8985d74cdd4cbed8c47ba24dfe89c104b8f6c96d",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/browser",
+      "path": "registry/named/ruvnet/browser.md",
+      "blobSha": "b89d602245fefbfa0cdb406ead2798035869b1d7",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/dual-collect",
+      "path": "registry/named/ruvnet/dual-collect.md",
+      "blobSha": "62b87504c81f924fb7362f81b05f694171091df1",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/dual-coordinate",
+      "path": "registry/named/ruvnet/dual-coordinate.md",
+      "blobSha": "9aa9e6bc9931e9211c77fe56464347fdc5947c93",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/dual-mode",
+      "path": "registry/named/ruvnet/dual-mode.md",
+      "blobSha": "5169290678d2a17cd59f907e1eb9d422c927d73b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:20Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/dual-spawn",
+      "path": "registry/named/ruvnet/dual-spawn.md",
+      "blobSha": "e4de114a7464d8e2dc22f54c3bedb083e776df97",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/flow-nexus-neural",
+      "path": "registry/named/ruvnet/flow-nexus-neural.md",
+      "blobSha": "228a43a85f92554b6b05c5a3489b95a246a32c25",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/flow-nexus-platform",
+      "path": "registry/named/ruvnet/flow-nexus-platform.md",
+      "blobSha": "19c6f5419084256bea0a320d270b2e22b2d252a0",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/flow-nexus-swarm",
+      "path": "registry/named/ruvnet/flow-nexus-swarm.md",
+      "blobSha": "9e0bb006b1f96b2dcade1b4595c94614458d226e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/flow-nexus",
+      "path": "registry/named/ruvnet/flow-nexus.md",
+      "blobSha": "4b261042597731dfa4e7290d057efb9a30497c56",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:23Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/github-code-review",
+      "path": "registry/named/ruvnet/github-code-review.md",
+      "blobSha": "1fb611d8a28e249bf263d81091f4fd95c4b01a14",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/github-multi-repo",
+      "path": "registry/named/ruvnet/github-multi-repo.md",
+      "blobSha": "921ec75c431255237c38013b10968c18378b5294",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/github-project-management",
+      "path": "registry/named/ruvnet/github-project-management.md",
+      "blobSha": "6c3bd84e211e423699f4a145fb7e94ac99f85377",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/github-release-management",
+      "path": "registry/named/ruvnet/github-release-management.md",
+      "blobSha": "d81bdcd58f397152f7caaf4220627c55d37a7324",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/github-suite",
+      "path": "registry/named/ruvnet/github-suite.md",
+      "blobSha": "e976acc5a11d1a79d70d5c873adf20c4b2db6651",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:26Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/github-workflow-automation",
+      "path": "registry/named/ruvnet/github-workflow-automation.md",
+      "blobSha": "2a95476caea4d102e4004a726d5af58e69e60fe3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/hive-mind",
+      "path": "registry/named/ruvnet/hive-mind.md",
+      "blobSha": "00f30255d4a627dd6cdeaff48f256ab6909b6325",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/hooks-automation",
+      "path": "registry/named/ruvnet/hooks-automation.md",
+      "blobSha": "00ce03df9482021a2ea354669dded99e1fe631e8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/pair-programming",
+      "path": "registry/named/ruvnet/pair-programming.md",
+      "blobSha": "8b88c54e9456a59ae1207a3ee78e9f8cf253823b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/performance-analysis",
+      "path": "registry/named/ruvnet/performance-analysis.md",
+      "blobSha": "447f782c1ee8ed8ee025164b90f770e1b18add09",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/reasoningbank-agentdb",
+      "path": "registry/named/ruvnet/reasoningbank-agentdb.md",
+      "blobSha": "fc36a424a068d1a1ed580433afd91cbcbdb0919b",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/reasoningbank-intelligence",
+      "path": "registry/named/ruvnet/reasoningbank-intelligence.md",
+      "blobSha": "690df98be59e1010d9f69c99f289329b47a6063f",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/reasoningbank",
+      "path": "registry/named/ruvnet/reasoningbank.md",
+      "blobSha": "60da5e010d18097c6765e2f5a947befd2cf2cbf6",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:29Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/ruflo-v3",
+      "path": "registry/named/ruvnet/ruflo-v3.md",
+      "blobSha": "751adddf76e96f7391b55d916e1bbdbc4d9d2ad3",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:31Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/ruflo",
+      "path": "registry/named/ruvnet/ruflo.md",
+      "blobSha": "8703800d2a1490d19472eedef10698947d67b349",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": {
+        "mode": "components",
+        "releasedAt": "2026-10-31T22:06:47Z",
+        "repo": "ruvnet/ruflo",
+        "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.67.0",
+        "syncedAt": "2026-11-02T22:17:34Z",
+        "version": "v3.67.0"
+      }
+    },
+    {
+      "namedID": "ruvnet/skill-builder",
+      "path": "registry/named/ruvnet/skill-builder.md",
+      "blobSha": "6a50c34eb30fc9176481f5d3fa67fe1fd1bdc8af",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/sparc-methodology",
+      "path": "registry/named/ruvnet/sparc-methodology.md",
+      "blobSha": "543af90c6a449755079efaea04768f65ffbbcffb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/stream-chain",
+      "path": "registry/named/ruvnet/stream-chain.md",
+      "blobSha": "a9db6102e29b3562b89b71ea55db0e8f8cd5a0e8",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/swarm-advanced",
+      "path": "registry/named/ruvnet/swarm-advanced.md",
+      "blobSha": "a3c4dd91780bcdc930a6e7c16464343c190ee093",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/swarm-orchestration",
+      "path": "registry/named/ruvnet/swarm-orchestration.md",
+      "blobSha": "47d92fba3097bd1acb8db219b77624d58bfe635e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-cli-modernization",
+      "path": "registry/named/ruvnet/v3-cli-modernization.md",
+      "blobSha": "07ea14bcac8b271c28bbbb5e47a5494a4660c39c",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-core-implementation",
+      "path": "registry/named/ruvnet/v3-core-implementation.md",
+      "blobSha": "bc96993550944c907e6d1ccaffaa114802068b15",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-ddd-architecture",
+      "path": "registry/named/ruvnet/v3-ddd-architecture.md",
+      "blobSha": "26efeaa0849860d762cbf7ab0565a64f4fd3d82a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-integration-deep",
+      "path": "registry/named/ruvnet/v3-integration-deep.md",
+      "blobSha": "61a0578d8bb314b761997287e7f483e173ef6dfa",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-mcp-optimization",
+      "path": "registry/named/ruvnet/v3-mcp-optimization.md",
+      "blobSha": "0964307e18738ae00a95364888c4d909ad624c2a",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-memory-unification",
+      "path": "registry/named/ruvnet/v3-memory-unification.md",
+      "blobSha": "dc071c5f1e2bb8ac286ea907660116443c795678",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-performance-optimization",
+      "path": "registry/named/ruvnet/v3-performance-optimization.md",
+      "blobSha": "059df5d15bd8799b1d53efcdbef00cbbf29128fb",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-security-overhaul",
+      "path": "registry/named/ruvnet/v3-security-overhaul.md",
+      "blobSha": "a789b7dbd9ae8308e133e4b2d6710117896b1f42",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/v3-swarm-coordination",
+      "path": "registry/named/ruvnet/v3-swarm-coordination.md",
+      "blobSha": "1e72812be13a95fd055104251f2977f7dc46ab71",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/verification-quality",
+      "path": "registry/named/ruvnet/verification-quality.md",
+      "blobSha": "0ed73d731454ebf002bcc66b6048033a8e9fa646",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/worker-benchmarks",
+      "path": "registry/named/ruvnet/worker-benchmarks.md",
+      "blobSha": "f5fb5fffa5cda5aed2468c382944b8b8dc788b4e",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "ruvnet/worker-integration",
+      "path": "registry/named/ruvnet/worker-integration.md",
+      "blobSha": "53611cceea81048074a3a5d2b384554cc7c027be",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/ruvnet/ruflo",
+      "upstream": null
+    },
+    {
+      "namedID": "safishamsi/graphify",
+      "path": "registry/named/safishamsi/graphify.md",
+      "blobSha": "43d5fe5aa1202273fe74bcceb1393fa94ead0a75",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py",
+      "upstream": null
+    },
+    {
+      "namedID": "santifer/career-ops",
+      "path": "registry/named/santifer/career-ops.md",
+      "blobSha": "514bec3223894438bd74d8617be72fbda45f2059",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "sickn33/ai-dev-jobs-mcp",
+      "path": "registry/named/sickn33/ai-dev-jobs-mcp.md",
+      "blobSha": "7c037c32c217e3659f5cf580e437d93f01dbc5f2",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "sickn33/mcp-builder",
+      "path": "registry/named/sickn33/mcp-builder.md",
+      "blobSha": "1a8f9d5a06489df7a775132b5992103bd0d94a6a",
+      "status": "awakened",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "sickn33/n8n-mcp-tools-expert",
+      "path": "registry/named/sickn33/n8n-mcp-tools-expert.md",
+      "blobSha": "4ad0aed06ac1da7bdbd9ed3946e081e7723b0741",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "spring-ai/readme-generate",
+      "path": "registry/named/spring-ai/readme-generate.md",
+      "blobSha": "859e40da6ffddf701c56d8ec2e943b7b806e85f1",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "supabase/supabase-postgres-best-practices",
+      "path": "registry/named/supabase/supabase-postgres-best-practices.md",
+      "blobSha": "cd01640db1aa5979198dbf79ec999bc6daccc760",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "supabase/supabase",
+      "path": "registry/named/supabase/supabase.md",
+      "blobSha": "820dfd1ad0a10ced68fb51c127d806f305f07f01",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "theqtcompanyrnd/qt-qml-review",
+      "path": "registry/named/theqtcompanyrnd/qt-qml-review.md",
+      "blobSha": "86b4b2b115566d3165db41855e753519fd7291e2",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "trailhq/graft",
+      "path": "registry/named/trailhq/graft.md",
+      "blobSha": "716f25e6e53102527b55060375e5598780b56363",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "upsonic/unittest-generator",
+      "path": "registry/named/upsonic/unittest-generator.md",
+      "blobSha": "3e734f0cd71a501c79ac9456b9ce6893ff95aac2",
+      "status": "named",
+      "frozen": false,
+      "installable": false,
+      "linksGithub": null,
+      "upstream": null
+    },
+    {
+      "namedID": "vercel-labs/vercel-react-best-practices",
+      "path": "registry/named/vercel-labs/vercel-react-best-practices.md",
+      "blobSha": "b76f6227cce88cd53a174046367af8f7db62e617",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "vercel/find-skills",
+      "path": "registry/named/vercel/find-skills.md",
+      "blobSha": "fe548293686a5263c35267a5230dfae59116fc16",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "wheresryan22/anatomy",
+      "path": "registry/named/wheresryan22/anatomy.md",
+      "blobSha": "87c02280f31862e6a7d4f85a1baf810a44049bff",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/wheresryan22/anatomy/blob/main/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "xquik-dev/hermes-tweet",
+      "path": "registry/named/xquik-dev/hermes-tweet.md",
+      "blobSha": "00fd275b1cf4029ff38b8f5a4173f524b54d71de",
+      "status": "awakened",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/Xquik-dev/hermes-tweet/blob/master/skills/hermes-tweet/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "yonatangross/rag-retrieval",
+      "path": "registry/named/yonatangross/rag-retrieval.md",
+      "blobSha": "34dae984c1268daf7cdb9d37229af76b4e156b40",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "yylo-dev/ledger-tasks-yylo",
+      "path": "registry/named/yylo-dev/ledger-tasks-yylo.md",
+      "blobSha": "59999d371e04798e526229b657598733ba0f4b42",
+      "status": "named",
+      "frozen": false,
+      "installable": true,
+      "linksGithub": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "yylo-dev/plan-ledger-tasks-yylo",
+      "path": "registry/named/yylo-dev/plan-ledger-tasks-yylo.md",
+      "blobSha": "a7c7e7c104f9723c1d9f3bb9329fa5abede89cb9",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/plan-ledger-tasks-yylo/SKILL.md",
+      "upstream": null
+    },
+    {
+      "namedID": "zhaoxuya520/reverse-skill",
+      "path": "registry/named/zhaoxuya520/reverse-skill.md",
+      "blobSha": "56c58df5f3bebc644980c8e1fd0466fcfb62a3f1",
+      "status": "named",
+      "frozen": false,
+      "installable": null,
+      "linksGithub": "https://github.com/zhaoxuya520/reverse-skill/blob/main/skills/SKILL.md",
+      "upstream": null
+    }
+  ]
+}

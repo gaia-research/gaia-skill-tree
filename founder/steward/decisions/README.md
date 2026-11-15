@@ -63,13 +63,24 @@ use `id: issue-question-q-<hash>` and preserve the exact `issue-question/q-<hash
 target in both `links` and `evidence`, the source debt ID in `evidence`, affected
 issue links and the founder authority comment. No extra schema fields are used.
 
-`issuehygiene/questions.py` validates these mappings and recognizes only the four
-explicit resolutions. The sensor, dry-run CLI and closure executor's independent
-re-derivation all load them. Reconciliation removes only the answered question;
-unrelated new questions remain Class C. C1 permits a technical-only B proposal
-without closure or release acceptance. C2/C3/C4 and their held descendants are
-`held`/`none`, not actionable batches or closure proposals. A generic
-`upstream:needs-info` label also prevents a non-C item from becoming actionable.
+`issuehygiene/questions.py` validates these mappings and recognizes only the
+explicit resolutions defined for each family (preserving the original #2283
+resolutions and, for C2 and C3, their 2026-11-15 amended resolutions). The
+sensor, dry-run CLI and closure executor's independent re-derivation all load
+them. Reconciliation removes only the answered question; unrelated new questions
+remain Class C. C1 permits a technical-only B proposal without closure or
+release acceptance. Under the 2026-11-15 rulings (`CAMPAIGN.md` rulings 2 and 3),
+C2 (`records-and-version-sync-migration-deferred`) and C3
+(`records-and-version-sync-only`) release only the narrowly enumerated baseline
+children (`PLAN.md`: 67 `garrytan/*` children and 4 `addy-osmani/*` children)
+when exact A1 registry/source proof independently establishes closure; umbrellas,
+new/absent/alias-suspect GBrain candidates, breadth audit #2276,
+`skip-child-gate` on GBrain, and Addy handle migration/published-ID renames
+remain `held`/`none` (or Class C if an unrelated question exists). Old full-hold
+resolutions (`migration-deferred`, `curation-deferred`) remain supported
+fail-closed. C4 and its held descendants remain `held`/`none`, not actionable
+batches or closure proposals. A generic `upstream:needs-info` label also
+prevents any item from becoming actionable or A1-closable.
 The existing `founder/steward/FOUNDER_LOCK_2283.md` implementation boundary or
 any canonical lock record enables the complete lock contract: that marker document
 must be a file and all four mapped records must be finalized and valid. Missing or
