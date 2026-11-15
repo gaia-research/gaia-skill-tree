@@ -250,6 +250,25 @@
         }
       }
     },
+    "installable": {
+      "type": "boolean",
+      "description": "Whether installation is enabled. Canonical freeze and update-named writers persist this independently of rank."
+    },
+    "attribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Upstream source provenance retained from intake; not evidence strength or approval authority.",
+      "properties": {
+        "upstream_author": { "type": "string", "minLength": 1 },
+        "skill_file_url": { "type": "string", "format": "uri" },
+        "type": { "type": "string", "enum": ["self-made", "aggregator", "attributed", "abstract"] }
+      }
+    },
+    "trustMagnitudeInputHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 input fingerprint of the CLI-written Trust Magnitude cache (META §2.1c). Not evidence; matching current inputs is required for cache reuse."
+    },
     "trustMagnitude": {
       "type": "number",
       "minimum": 0,
@@ -323,6 +342,24 @@
           ],
           "description": "TRUE if a PR labeled apex-promotion exists with ≥2 distinct 4★+ verifier approvals from at least 2 distinct GitHub orgs (RFC §11.12.8). gaia promote rejects target_level==6★ at CLI layer; this predicate is set only by meta-guard.yml at merge time."
         },
+        "crossOrgVerifier": {
+          "type": ["boolean", "null"],
+          "description": "Engine/cache key for the feature-flagged cross-org verifier scaffold. Null means skipped; persistence does not activate a promotion predicate."
+        },
+        "systemWideCap": {
+          "type": ["boolean", "null"],
+          "description": "Engine/cache key for the feature-flagged system-wide cap scaffold. Null means skipped; persistence does not activate a promotion predicate."
+        },
+        "apexPromotionPrSignedBy": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+          "description": "Historical sign-off attribution (G7 RFC v3 ratification). Syntax alone is not authenticated approval."
+        },
+        "apexPromotionPrSignedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "Historical ISO date of the sign-off; not authenticated approval."
+        },
         "crossOrgVerifierGte2": {
           "type": [
             "boolean",
@@ -384,6 +421,11 @@
           "type": "string",
           "format": "uri",
           "description": "URL to the evidence source."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of the stargazer heartbeat metric refresh; provenance only, not evidence verification or freshness."
         },
         "evaluator": {
           "type": "string",
@@ -967,14 +1009,22 @@
             "migrate_evidence",
             "assertion_transition",
             "metric_refresh",
-            "reconcile_owner"
+            "reconcile_owner",
+            "migrate_trust_magnitude",
+            "recalibrate_trust_magnitude",
+            "note",
+            "suite_ref_set",
+            "installation_updated"
           ],
           "description": "The meta-action that occurred."
         },
         "contributor": {
           "type": "string",
-          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
-          "description": "The GitHub username responsible for the change."
+          "anyOf": [
+            { "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$" },
+            { "const": "github-actions[bot]" }
+          ],
+          "description": "Human GitHub handle or canonical GitHub Actions bot provenance. Syntax is not operator or approval authorization."
         },
         "details": {
           "type": "string",
@@ -988,7 +1038,7 @@
           "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
         },
         "newValue": {
-          "type": "string",
+          "type": ["string", "null"],
           "description": "The level/status after this event (e.g. '3★')."
         },
         "metaEpoch": {
@@ -1017,6 +1067,10 @@
         }
       },
       "allOf": [
+        {
+          "if": { "properties": { "newValue": { "type": "null" } }, "required": ["newValue"] },
+          "then": { "properties": { "action": { "const": "upstream_deprecated" } } }
+        },
         {
           "if": {
             "properties": {
