@@ -1,5 +1,12 @@
 # Campaign usage checkpoints
 
+## P1 repair delivery and administration — accounting unavailable
+
+- Worker/task: founder-authorized solo bounded named-persistence contract repair; `worker-sol-shared`, provider/model `openai-codex/gpt-6.1-sol`, medium; PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f` (lead-verified model/effort records).
+- Input/output/cache-read/cache-write counters: **UNAVAILABLE**. No cost estimate is asserted; actual billing is unknown. Campaign-complete usage/cost remains **UNAVAILABLE**.
+- Current admin/bookkeeping usage is in-flight/excluded; counters and billing are likewise unavailable. Do not infer zero cost or extrapolate from duration.
+- `$4.907920` remains the explicitly **P0-only partial** mixed-method checkpoint below; it is not a campaign total. No missing-session path was retried, no alternative session or pricing guess was substituted.
+
 ## 2026-11-16 — Opus repair availability attempts (usage/cost unavailable)
 
 - Assigned route/task: Antigravity `claude-opus-5-5-medium`, Luna, medium, bounded Opus solo contract repair. Initial inspection attempt `9bcbaac5` ran for 7m6s and failed before implementation; one continuation in retained same session `01a1e0d1-cf0d-763a-b69f-4d11ff461755` on the same configured route was refused with the same resource-unavailable diagnostic. No model/provider/effort change, fallback, nested agent, or further attempt.

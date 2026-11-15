@@ -2,9 +2,9 @@
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
-## Current P1 reassignment — founder-authorized (2026-11-16)
+## Current P1 builder/review state
 
-Founder states Opus is exhausted and reassigns Opus's repair role to the isolated `worker-sol-shared` builder (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to the founder; do not infer account quota, credits, or billing. Opus is retired from this assignment: no retry or fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is builder only, not reviewer. Existing repair authorization remains; no new authorization gate is pending. The pre-existing Terra finding and code/tests remain pre-repair and unchanged. Worker config static check is complete; **live preflight is pending**, and no Sol probe has been run. Sequence remains live preflight → authorized repair → independent Terra review → real-runner dry run. This reassignment supersedes the Opus-availability gate below without erasing that chronology.
+Founder-authorized role reassignment and solo implementation are complete. `worker-sol-shared` returned PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`, actual model `openai-codex/gpt-6.1-sol`, medium; lead verified actual model/effort records. Bounded schema repair, mirrors, persistence tests and watcher docs were delivered. Opus performed inspection only; no account billing/quota inference. Terra independent review is **PENDING**. Builder claims and tests remain BUILDER-REPORTED, not independently verified. Feature changes were merged only into the P1 feature branch for testing. Draft schema PR #2469 (`schema/upstream-contract-2026-11`) targets integration; P1 PR #2468 remains draft and depends on it. No real-runner dispatch, P1 completion, P2, writes, or release approval. This supersedes the old live-preflight-pending text below without deleting history.
 
 ## Authority and baseline
 

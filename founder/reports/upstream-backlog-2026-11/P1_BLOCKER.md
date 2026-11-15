@@ -1,6 +1,6 @@
 # P1 blocker — founder direction required
 
-**State:** REPAIR AUTHORIZED; WORKER-SOL-SHARED LIVE PREFLIGHT PENDING. P1 is incomplete. Founder states Opus is exhausted and reassigns Opus's repair role to isolated builder `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to the founder; no account billing/quota conclusion. Opus is retired from this assignment; no retry or fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is the builder, not reviewer. Existing repair authorization stands; no new founder authorization is pending. No live Sol probe has run. Next: worker-sol-shared live preflight, authorized repair, independent Terra review, then real-runner `apply=false` dry run. Preserve the Terra FINAL FINDINGS and pre-repair source/tests below unchanged.
+**Current state:** Founder-authorized worker-role reassignment and repair implementation are complete. `worker-sol-shared` actual model/effort verified: `openai-codex/gpt-6.1-sol`, medium, PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`. Delivered candidate is BUILDER-REPORTED; independent Terra review is **PENDING**. Prior Terra FINAL FINDINGS below are the pre-repair verdict, not a review of this candidate. P1 incomplete. Schema draft PR #2469 targets integration; feature integration for testing is only into the P1 feature branch. Next gate: Terra review; real-runner `apply=false` only after review. No P2, writes, or release approval.
 
 ## Verified checkpoint
 
