@@ -23,6 +23,7 @@ import datetime
 import json
 import re
 import stat
+import subprocess
 import sys
 import urllib.parse
 from pathlib import Path
@@ -36,7 +37,7 @@ from gaia_cli.commands.dev.helpers import (
     _fail_dev_preflight,
     preflightNamedSkillMutable,
 )
-from gaia_cli.registry import named_skills_dir
+from gaia_cli.registry import named_skills_dir, registry_schema_dir
 from gaia_cli.frontmatter import (
     load_yaml_simple,
     split_frontmatter,
@@ -149,12 +150,52 @@ def _utc_now_iso() -> str:
 # ---------------------------------------------------------------------------
 
 
+def _validate_git_tag_ref(tag: str, *, context: str = "--tag") -> None:
+    """Validate decoded tag against Git ref rules via ``git check-ref-format``."""
+    if not isinstance(tag, str) or not tag:
+        _fail_dev_preflight(
+            f"Invalid {context}: {tag!r}. Tag must be a non-empty string. "
+            "Nothing was written.",
+            fix="Provide a valid Git release tag.",
+        )
+    if "\x00" in tag or any(ord(ch) < 0x20 or ord(ch) == 0x7F for ch in tag):
+        _fail_dev_preflight(
+            f"Invalid {context}: {tag!r}. Tag contains NUL or control characters. "
+            "Nothing was written.",
+            fix="Provide a valid Git release tag without control characters.",
+        )
+    try:
+        result = subprocess.run(
+            ["git", "check-ref-format", f"refs/tags/{tag}"],
+            capture_output=True,
+            stdin=subprocess.DEVNULL,
+            timeout=10,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _fail_dev_preflight(
+            f"Git ref validator unavailable while checking {context} {tag!r}: {exc}. "
+            "Nothing was written.",
+            fix="Ensure `git` is installed and accessible on PATH.",
+        )
+    if result.returncode != 0:
+        _fail_dev_preflight(
+            f"Invalid Git tag ref for {context}: {tag!r} "
+            "(rejected by `git check-ref-format`). Nothing was written.",
+            fix=(
+                "Provide a valid Git tag name (no '..', spaces, control chars, "
+                "or invalid ref metacharacters)."
+            ),
+        )
+
+
 def _pf_version_format(version: str) -> None:
     if not _VERSION_RE.match(version):
         _fail_dev_preflight(
             f"Invalid version tag: {version!r}. Must match ^v?\\d+\\.\\d+\\.\\d+.*$",
             fix="Use a semver-style tag such as v1.2.3 or 1.2.3-beta.",
         )
+    _validate_git_tag_ref(version, context="--tag")
 
 
 def _pf_source_url_format(source_url: str, version: str | None = None) -> None:
@@ -168,6 +209,7 @@ def _pf_source_url_format(source_url: str, version: str | None = None) -> None:
         )
         return
     _, _, url_tag = parsed
+    _validate_git_tag_ref(url_tag, context="--source-url tag")
     if version is not None and url_tag != version:
         _fail_dev_preflight(
             f"--source-url tag {url_tag!r} does not match --tag {version!r}. "
@@ -320,33 +362,42 @@ def _pf_bootstrap_no_existing_block(skill_id: str, meta: dict, is_bootstrap: boo
 
 
 def _resolve_named_skill_schema(registry_path: str) -> dict[str, Any]:
-    """Load namedSkill.schema.json from registry_path or bundled data."""
-    candidates = [
-        Path(registry_path) / "registry" / "schema" / "namedSkill.schema.json",
-        Path(__file__).resolve().parents[2]
-        / "data"
-        / "registry"
-        / "schema"
-        / "namedSkill.schema.json",
-    ]
-    for candidate in candidates:
-        if candidate.is_file():
-            try:
-                data = json.loads(candidate.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError) as exc:
-                _fail_dev_preflight(
-                    f"Cannot read namedSkill.schema.json at {candidate}: {exc}. "
-                    "Nothing was written.",
-                    fix="Ensure registry/schema/namedSkill.schema.json is valid JSON.",
-                )
-            if isinstance(data, dict) and isinstance(data.get("properties"), dict):
-                return data
-    _fail_dev_preflight(
-        "Cannot locate valid namedSkill.schema.json in registry or bundled data. "
-        "Nothing was written.",
-        fix="Ensure registry/schema/namedSkill.schema.json is present.",
-    )
-    raise AssertionError("unreachable")
+    """Load and validate namedSkill.schema.json from the active canonical registry."""
+    import jsonschema
+    import jsonschema.validators
+
+    schema_path = Path(registry_schema_dir(registry_path)) / "namedSkill.schema.json"
+    if not schema_path.is_file():
+        _fail_dev_preflight(
+            f"Missing namedSkill.schema.json at {schema_path}. Nothing was written.",
+            fix="Ensure schema/namedSkill.schema.json is present in the active registry.",
+        )
+    try:
+        data = json.loads(schema_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        _fail_dev_preflight(
+            f"Cannot read namedSkill.schema.json at {schema_path}: {exc}. "
+            "Nothing was written.",
+            fix="Ensure schema/namedSkill.schema.json in the active registry is readable valid JSON.",
+        )
+    if not isinstance(data, dict):
+        _fail_dev_preflight(
+            f"Invalid namedSkill.schema.json at {schema_path}: schema must be a JSON object. "
+            "Nothing was written.",
+            fix="Ensure schema/namedSkill.schema.json is a valid JSON Schema object.",
+        )
+    try:
+        validator_cls = jsonschema.validators.validator_for(
+            data, default=jsonschema.Draft7Validator
+        )
+        validator_cls.check_schema(data)
+    except jsonschema.SchemaError as exc:
+        _fail_dev_preflight(
+            f"Invalid namedSkill.schema.json at {schema_path}: {exc.message}. "
+            "Nothing was written.",
+            fix="Fix the JSON Schema error in schema/namedSkill.schema.json.",
+        )
+    return data
 
 
 def _schema_format_checker():
@@ -377,9 +428,10 @@ def _schema_format_checker():
 
 
 def _validate_proposed_named_record(registry_path: str, proposed_text: str) -> None:
-    """Validate proposed frontmatter, upstream block, and appended timeline event."""
+    """Validate the entire composed proposed frontmatter + timeline against namedSkill.schema.json."""
     try:
         import jsonschema
+        import jsonschema.validators
     except ImportError as exc:
         _fail_dev_preflight(
             f"jsonschema is required to validate proposed named skill record: {exc}. "
@@ -396,48 +448,24 @@ def _validate_proposed_named_record(registry_path: str, proposed_text: str) -> N
             fix="Check the named skill frontmatter syntax.",
         )
 
-    missing = [req for req in schema.get("required", []) if req not in new_meta]
-    if missing:
-        _fail_dev_preflight(
-            f"Proposed named skill record is missing required schema field(s): "
-            f"{', '.join(missing)}. Nothing was written.",
-            fix="Ensure the named skill record satisfies namedSkill.schema.json required fields.",
-        )
-
     checker = _schema_format_checker()
-    schema_meta = schema.get("$schema", "http://json-schema.org/draft-07/schema#")
-    defs = schema.get("definitions", {})
-    props = schema.get("properties", {})
-
-    def _validate_subschema(label: str, instance: Any, subschema: dict[str, Any]) -> None:
-        wrapped = {"$schema": schema_meta, "definitions": defs, **subschema}
-        validator = jsonschema.Draft7Validator(wrapped, format_checker=checker)
-        errors = sorted(validator.iter_errors(instance), key=lambda e: list(e.path))
-        if errors:
-            err = errors[0]
-            loc = ".".join(str(p) for p in err.path)
-            loc_str = f" at {loc}" if loc else ""
-            _fail_dev_preflight(
-                f"Proposed {label}{loc_str} violates namedSkill.schema.json: "
-                f"{err.message}. Nothing was written.",
-                fix="Provide schema-valid upstream metadata and contributor username.",
-            )
-
-    if "upstream" in props:
-        _validate_subschema("upstream", new_meta.get("upstream"), props["upstream"])
-
-    if "contributor" in props and "contributor" in new_meta:
-        _validate_subschema("contributor", new_meta.get("contributor"), props["contributor"])
-
-    timeline = new_meta.get("timeline")
-    if not isinstance(timeline, list) or not timeline:
+    validator_cls = jsonschema.validators.validator_for(
+        schema, default=jsonschema.Draft7Validator
+    )
+    validator = validator_cls(schema, format_checker=checker)
+    errors = sorted(
+        validator.iter_errors(new_meta),
+        key=lambda e: ([str(p) for p in e.absolute_path], e.message),
+    )
+    if errors:
+        err = errors[0]
+        loc = ".".join(str(p) for p in err.absolute_path)
+        loc_str = f" at {loc}" if loc else " at root"
         _fail_dev_preflight(
-            "Proposed timeline must be a non-empty list. Nothing was written.",
-            fix="Check timeline serialization in the named skill file.",
+            f"Proposed named skill record{loc_str} violates namedSkill.schema.json: "
+            f"{err.message}. Nothing was written.",
+            fix="Ensure the composed named skill frontmatter and timeline satisfy namedSkill.schema.json.",
         )
-    timeline_event_schema = defs.get("timelineEvent")
-    if isinstance(timeline_event_schema, dict):
-        _validate_subschema("timeline[-1]", timeline[-1], timeline_event_schema)
 
 
 # ---------------------------------------------------------------------------

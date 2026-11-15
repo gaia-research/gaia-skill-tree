@@ -32,7 +32,6 @@ genericSkillRef: my-skill
 status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
-installable: true
 trustMagnitude: 20.0
 overallTrustGrade: C
 links:
@@ -52,7 +51,7 @@ _SKILL_MD_3STAR = _SKILL_MD_2STAR.replace("level: 2\u2605", "level: 3\u2605")
 _SKILL_MD_1STAR = _SKILL_MD_2STAR.replace("level: 2\u2605", "level: 1\u2605")
 
 _SKILL_MD_ALREADY_FROZEN = _SKILL_MD_2STAR.replace(
-    "installable: true", "installable: false"
+    "trustMagnitude: 20.0", "installable: false\ntrustMagnitude: 20.0"
 ).replace(
     "timeline: []",
     "timeline:\n- timestamp: '2026-02-01T00:00:00Z'\n  action: upstream_deprecated\n  details: removed upstream",
@@ -60,7 +59,7 @@ _SKILL_MD_ALREADY_FROZEN = _SKILL_MD_2STAR.replace(
 
 # installable: false alone (no public repo) is NOT frozen (gaia_cli.frozen).
 _SKILL_MD_NOT_INSTALLABLE = _SKILL_MD_2STAR.replace(
-    "installable: true", "installable: false"
+    "trustMagnitude: 20.0", "installable: false\ntrustMagnitude: 20.0"
 )
 
 _SKILL_MD_WITH_UPSTREAM = """\
@@ -74,7 +73,6 @@ genericSkillRef: my-skill
 status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
-installable: true
 trustMagnitude: 20.0
 overallTrustGrade: C
 links:
@@ -105,6 +103,8 @@ MOCKED_NOW = "2026-07-09T12:00:00Z"
 
 def _make_registry(tmp_path: Path, skill_content: str = _SKILL_MD_2STAR) -> tuple[str, Path]:
     """Create a minimal registry structure and return (registry_path, skill_file_path)."""
+    import shutil
+
     named_dir = tmp_path / "registry" / "named" / "testorg"
     named_dir.mkdir(parents=True)
     skill_file = named_dir / "my-skill.md"
@@ -113,6 +113,8 @@ def _make_registry(tmp_path: Path, skill_content: str = _SKILL_MD_2STAR) -> tupl
     schema_dir = tmp_path / "registry" / "schema"
     schema_dir.mkdir(parents=True)
     (schema_dir / "meta.json").write_text("{}", encoding="utf-8")
+    repo_schema = Path(__file__).resolve().parents[1] / "registry" / "schema" / "namedSkill.schema.json"
+    shutil.copy(repo_schema, schema_dir / "namedSkill.schema.json")
 
     return str(tmp_path), skill_file
 
@@ -669,7 +671,6 @@ class TestSyncUpstreamEndToEnd:
             "status: named\n"
             "level: 2\u2605\n"
             "description: Subprocess regression fixture for argparse clash test.\n"
-            "installable: true\n"
             "links:\n"
             "  github: https://github.com/fixture/skill/blob/main/skills/SKILL.md\n"
             "createdAt: '2026-01-01'\n"
@@ -681,6 +682,8 @@ class TestSyncUpstreamEndToEnd:
         schema_dir = tmp_path / "registry" / "schema"
         schema_dir.mkdir(parents=True)
         (schema_dir / "meta.json").write_text("{}", encoding="utf-8")
+        repo_schema = Path(__file__).resolve().parents[1] / "registry" / "schema" / "namedSkill.schema.json"
+        shutil.copy(repo_schema, schema_dir / "namedSkill.schema.json")
 
         env = {**os.environ, "GAIA_OPERATOR_OVERRIDE": "1"}
 
@@ -952,6 +955,9 @@ class TestSyncUpstreamRepoint:
         schema_dir = tmp_path / "registry" / "schema"
         schema_dir.mkdir(parents=True)
         (schema_dir / "meta.json").write_text("{}", encoding="utf-8")
+        import shutil
+        repo_schema = Path(__file__).resolve().parents[1] / "registry" / "schema" / "namedSkill.schema.json"
+        shutil.copy(repo_schema, schema_dir / "namedSkill.schema.json")
 
         env = {**os.environ, "GAIA_OPERATOR_OVERRIDE": "1", "PYTHONPATH": "src"}
         result = subprocess.run(
@@ -1232,3 +1238,183 @@ class TestSyncUpstreamHardening:
         fm = load_yaml_simple(fm_text)
         assert fm["upstream"]["version"] == tag
         assert fm["upstream"]["sourceUrl"] == encoded_url
+
+    def test_full_schema_rejects_empty_name_and_preserves_bytes(self, tmp_path):
+        """Empty name violates namedSkill.schema.json minLength: 1 and leaves bytes unchanged."""
+        empty_name_md = _SKILL_MD_2STAR.replace("name: My Skill", 'name: ""')
+        registry, skill_file = _make_registry(tmp_path, empty_name_md)
+        original_bytes = skill_file.read_bytes()
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes
+
+    @pytest.mark.parametrize(
+        "mutated_md",
+        [
+            _SKILL_MD_2STAR.replace("timeline: []", "unexpectedRootField: true\ntimeline: []"),
+            _SKILL_MD_2STAR.replace(
+                "description: A test named skill used in upstream-verbs unit tests.",
+                "description: too short",
+            ),
+            _SKILL_MD_2STAR.replace("createdAt: '2026-01-01'", "createdAt: 'not-a-date'"),
+        ],
+    )
+    def test_full_schema_rejects_root_and_field_violations_and_preserves_bytes(
+        self, tmp_path, mutated_md
+    ):
+        """Full proposed record validation catches root/field schema violations."""
+        registry, skill_file = _make_registry(tmp_path, mutated_md)
+        original_bytes = skill_file.read_bytes()
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes
+
+    def test_active_dot_gaia_registry_schema_custom_constraint(self, tmp_path):
+        """When .gaia/registry is active, its schema is used and enforced."""
+        import json
+        import shutil
+
+        gaia_reg = tmp_path / ".gaia" / "registry"
+        named_dir = gaia_reg / "named" / "testorg"
+        named_dir.mkdir(parents=True)
+        skill_file = named_dir / "my-skill.md"
+        skill_file.write_text(_SKILL_MD_2STAR, encoding="utf-8")
+        (gaia_reg / "gaia.json").write_text("{}", encoding="utf-8")
+
+        schema_dir = gaia_reg / "schema"
+        schema_dir.mkdir(parents=True)
+        repo_schema = (
+            Path(__file__).resolve().parents[1]
+            / "registry"
+            / "schema"
+            / "namedSkill.schema.json"
+        )
+        schema_data = json.loads(repo_schema.read_text(encoding="utf-8"))
+        # Custom constraint only in .gaia/registry/schema/namedSkill.schema.json
+        schema_data["properties"]["upstream"]["properties"]["version"]["pattern"] = "^release-.*$"
+        (schema_dir / "namedSkill.schema.json").write_text(
+            json.dumps(schema_data), encoding="utf-8"
+        )
+
+        # Also place an unrestrictive schema in registry/schema to prove it is NOT used
+        std_schema_dir = tmp_path / "registry" / "schema"
+        std_schema_dir.mkdir(parents=True)
+        shutil.copy(repo_schema, std_schema_dir / "namedSkill.schema.json")
+
+        original_bytes = skill_file.read_bytes()
+        args = _sync_args(
+            str(tmp_path),
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes
+
+    @pytest.mark.parametrize(
+        "schema_mode",
+        ["missing", "invalid_json", "invalid_schema_type"],
+    )
+    def test_missing_or_invalid_selected_schema_fails_closed(
+        self, tmp_path, schema_mode
+    ):
+        """Missing, unreadable, or invalid namedSkill.schema.json fails closed."""
+        registry, skill_file = _make_registry(tmp_path)
+        schema_file = tmp_path / "registry" / "schema" / "namedSkill.schema.json"
+        if schema_mode == "missing":
+            schema_file.unlink()
+        elif schema_mode == "invalid_json":
+            schema_file.write_text("{not valid json", encoding="utf-8")
+        elif schema_mode == "invalid_schema_type":
+            schema_file.write_text('{"type": 123}', encoding="utf-8")
+
+        original_bytes = skill_file.read_bytes()
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes
+
+    @pytest.mark.parametrize(
+        "bad_tag,encoded_tag",
+        [
+            ("v2.0.0..oops", "v2.0.0..oops"),
+            ("v2.0.0 bad", "v2.0.0%20bad"),
+            ("v2.0.0~1", "v2.0.0~1"),
+            ("v2.0.0^1", "v2.0.0^1"),
+            ("v2.0.0:1", "v2.0.0:1"),
+            ("v2.0.0*1", "v2.0.0*1"),
+            ("v2.0.0@{1}", "v2.0.0@{1}"),
+            ("v2.0.0.lock", "v2.0.0.lock"),
+            ("v2.0.0.", "v2.0.0."),
+            ("v2.0.0/", "v2.0.0%2F"),
+            ("v2.0.0\x00bad", "v2.0.0%00bad"),
+            ("v2.0.0\x01bad", "v2.0.0%01bad"),
+        ],
+    )
+    def test_rejects_invalid_git_ref_tags_and_preserves_bytes(
+        self, tmp_path, bad_tag, encoded_tag
+    ):
+        """Decoded tags rejected by git check-ref-format or control/NUL fail before write."""
+        registry, skill_file = _make_registry(tmp_path)
+        original_bytes = skill_file.read_bytes()
+        args = _sync_args(
+            registry,
+            tag=bad_tag,
+            source_url=f"https://github.com/neworg/new-repo/releases/tag/{encoded_tag}",
+            repo="neworg/new-repo",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes
+
+    def test_git_ref_validator_unavailable_fails_closed(self, tmp_path, monkeypatch):
+        """If git check-ref-format cannot execute, fail closed rather than skipping."""
+        import subprocess
+
+        registry, skill_file = _make_registry(tmp_path)
+        original_bytes = skill_file.read_bytes()
+
+        def _fail_git(*args, **kwargs):
+            raise FileNotFoundError("git not found")
+
+        monkeypatch.setattr(subprocess, "run", _fail_git)
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            released_at="2026-11-10T19:45:36Z",
+        )
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_bytes() == original_bytes

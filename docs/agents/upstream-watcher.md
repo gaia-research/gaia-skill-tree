@@ -529,8 +529,9 @@ Mutates `registry/named/<contributor>/<skill>.md`:
 
 **Pre-flight validation** (per CLI Pre-Flight Rule):
 
-- `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`).
-- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL whose tag matches `--tag` and whose owner/repo matches `--repo` (when provided), existing `upstream.repo` (when present without `--repo`), or `links.github` (when `upstream.repo` is absent).
+- `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`) and pass `git check-ref-format refs/tags/<tag>` (failing closed if `git` is unavailable).
+- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL whose decoded tag passes Git ref validation and matches `--tag`, and whose owner/repo matches `--repo` (when provided), existing `upstream.repo` (when present without `--repo`), or `links.github` (when `upstream.repo` is absent).
+- The entire composed proposed frontmatter and timeline is validated before any write against `namedSkill.schema.json` resolved from the same active canonical registry (`registry_schema_dir`), failing closed on missing, unreadable, or invalid schema.
 - When `links.github` is empty or missing in watcher polling, `resolve_suite_source` falls back to canonical `upstream.repo` (for example `gsd-build/get-shit-done`); non-empty invalid `links.github`, invalid `upstream.repo`, and contradictory identities remain fail-closed (`UnknownEvidenceError`).
 - Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--repo` changes the repository (or `--force`).
 - Refuses to write if the skill is not currently 2★+ (below the reward-artifact threshold).

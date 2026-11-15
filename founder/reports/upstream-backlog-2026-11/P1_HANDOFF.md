@@ -1,6 +1,6 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-- **Status:** **READY FOR REVIEW** (P1 correction round 1 complete; **NOT P1 complete** — awaiting independent Terra re-review, then authorized real-runner `Upstream Watcher` dry run `apply=false` exit 0 with empty `unknownEvidence`)
+- **Status:** **READY FOR REVIEW** (P1 correction round 2 of 2 complete; **NOT P1 complete** — awaiting final independent Terra re-review, then authorized real-runner `Upstream Watcher` dry run `apply=false` exit 0 with empty `unknownEvidence`)
 - **PR:** <https://github.com/gaia-research/gaia-skill-tree/pull/2468> (draft, base `dev/upstream-backlog-2026-11`, head `dev/upstream-backlog-watcher-2026-11`)
 - **Base / Source Gate:** `7a86be4e757acc8d01c762b4fd924b7d37899ed2` (P0 merge `bfed2d777b76448f6ede5d40e1a834050dff07d0` + `P1_SOURCE_RECONNAISSANCE.md`)
 - **Implementation Commits:**
@@ -88,10 +88,17 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev update-name
 
 ## 4. Verification Results
 
-- `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q`: **994 passed** in 201.54s (after P1 correction round 1; includes new atomicity, schema validation, parsed URL/repo, and watcher link-validation regressions).
+- `python3 -m pytest tests/upstream_watcher tests/test_upstream_approve_workflow.py tests/test_dev_upstream_verbs.py -q`: **1015 passed** in 180.51s (after P1 correction round 2; includes full-record schema validation, active `registry_schema_dir` resolution, `git check-ref-format` tag validation, atomicity, URL parsing, and watcher link-validation regressions).
 - `python3 tests/upstream_watcher/parity_2283.py`: **exit 0** (`stagedRowsEqualBatchRows: true`, `stagedRowsEqualDailyUnstagedRows: true`).
 - `git diff --check`: **exit 0** (clean).
-- Read-only `namedSkill.schema.json` validation of `registry/named/ruvnet/agentdb.md` (`upstream` block and `timeline[-2]` `upstream_synced` event): **0 errors**; `suiteRef: ruvnet/ruflo`, 5 `suiteComponents`, `level: 3★`, `trustMagnitude: 81.0` preserved.
+- Read-only **full-frontmatter** `namedSkill.schema.json` validation of `registry/named/ruvnet/agentdb.md` against `registry/schema/namedSkill.schema.json` (via `registry_schema_dir(".")` + `validator_for` + `_schema_format_checker()`): **11 pre-existing/legacy schema errors** (while `upstream` and `timeline[-2]` `upstream_synced` individually conform):
+  - `<root>`: `Additional properties are not allowed ('trustMagnitudeInputHash' was unexpected)`
+  - `apexGateStatus`: `Additional properties are not allowed ('crossOrgVerifier', 'systemWideCap' were unexpected)`
+  - `timeline.1.action`, `timeline.2.action`, `timeline.5.action`, `timeline.6.action`, `timeline.7.action`: `'migrate_trust_magnitude'` not in `timelineEvent.action` enum
+  - `timeline.11.action`: `'recalibrate_trust_magnitude'` not in `timelineEvent.action` enum
+  - `timeline.18.action`: `'note'` not in `timelineEvent.action` enum (emitted by `gaia dev update-named`)
+  - `timeline.9.contributor`, `timeline.14.contributor`: `'github-actions[bot]'` does not match `^[a-zA-Z0-9][a-zA-Z0-9-]*$`
+  - `registry/named/ruvnet/agentdb.md` (`da255f0ee136226be434fe486e1d07e3d547616b`) is preserved unchanged; under strict whole-record validation, future `sync-upstream` runs on `ruvnet/agentdb` will fail closed until those legacy fields/history are resolved by an authorized decision.
 - `GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev validate`: 11/11 graph, schema, reference, named-skill, and suite checks passed; exited 1 solely on `Trust Magnitude consistency` because `registry/named-skills.json` is not built in this worktree (`gaia dev docs` regeneration is intentionally deferred to P7).
 
 ## 5. Limitations & Pending Gates
@@ -132,3 +139,23 @@ Independent Terra review of `98fd89e791dff1c4034e6dfc4dc68299abcb74a0` surfaced 
    - *After:* Malformed `links.github` raises `UnknownEvidenceError` before any `fetch_json` poll; valid root/tree/blob/percent-encoded paths and empty/missing `links.github` fallback remain intact.
 
 - **Pending:** Independent Terra re-review of PR #2468, then authorized real-runner `Upstream Watcher` dry run (`apply=false`, exit 0, empty `unknownEvidence`).
+
+## 7. P1 Correction Round 2 (Final) — Terra Findings on `1a3e9b8` & Correction Receipt (2026-11-16)
+
+Independent Terra review of `1a3e9b8e2aa277415960fe5f0c8b9ac59451ffb8` (which re-verified round 1: 994 passed, parity both true, diff check PASS, atomic failure/mode/no-leaks, and old 4 findings fixed) surfaced 3 remaining WARNING findings. All 3 were reproduced on isolated temporary fixtures before fixing and verified fixed after:
+
+1. **WARNING (`src/gaia_cli/commands/dev/sync_upstream.py:393` — subset-only schema validation):**
+   - *Before:* `_validate_proposed_named_record` only checked `required` key presence plus `upstream`, `contributor`, and `timeline[-1]` subschemas; an isolated fixture with `name: ""` (violating `minLength: 1`) synced and wrote.
+   - *Fix:* Replaced subschema-only checks with full-record validation of the entire composed proposed frontmatter + timeline against `namedSkill.schema.json` using `jsonschema.validators.validator_for(schema, default=Draft7Validator)` and `_schema_format_checker()`. Updated test fixtures in `tests/test_dev_upstream_verbs.py` (`_SKILL_MD_2STAR`, `_SKILL_MD_WITH_UPSTREAM`, subprocess fixture) to be valid full records (removing non-schema `installable: true` while preserving `TestFreeze` coverage).
+   - *After:* Empty `name: ""`, unexpected root keys (`additionalProperties: false`), short `description` (`minLength: 10`), and invalid `createdAt` date format all exit 1 and leave original bytes unchanged.
+   - *Real-record diagnosis (`registry/named/ruvnet/agentdb.md`):* Read-only full-record validation against `registry/schema/namedSkill.schema.json` surfaces 11 pre-existing/legacy schema contradictions (`trustMagnitudeInputHash`, `apexGateStatus.crossOrgVerifier`/`systemWideCap`, `timeline` `migrate_trust_magnitude`/`recalibrate_trust_magnitude`/`note`/`github-actions[bot]`). Existing `ruvnet/agentdb` bytes (`da255f0ee136226be434fe486e1d07e3d547616b`) are preserved unchanged; no schema weakening or unauthorized grandfathering was added.
+2. **WARNING (`src/gaia_cli/commands/dev/sync_upstream.py:325` — schema lookup bypassed `registry_schema_dir()` and fell back to bundled schema):**
+   - *Before:* `_resolve_named_skill_schema` hardcoded `Path(registry_path) / "registry" / "schema" / "namedSkill.schema.json"` and silently fell back to bundled `data/registry/schema/namedSkill.schema.json`; an isolated `.gaia/registry` fixture with a custom `upstream.version` pattern (`^release-.*$`) succeeded with `v1.0.0`.
+   - *Fix:* Resolved `Path(registry_schema_dir(registry_path)) / "namedSkill.schema.json"` from the same active canonical registry as `named_skills_dir(registry_path)`, removed the silent bundled fallback, and added `validator_for(..., default=Draft7Validator).check_schema(data)` so missing, unreadable, non-object, or invalid JSON Schema files fail closed.
+   - *After:* `.gaia/registry` custom schema constraint is enforced; missing, invalid JSON, and invalid JSON Schema (`{"type": 123}`) all exit 1 with original bytes unchanged.
+3. **WARNING (`src/gaia_cli/commands/dev/sync_upstream.py:154` — decoded tag not validated against Git ref rules):**
+   - *Before:* `--tag v2.0.0..oops` and `--tag 'v2.0.0 bad'` (with `--source-url .../v2.0.0%20bad`) passed and wrote metadata.
+   - *Fix:* Added `_validate_git_tag_ref` using `subprocess.run(["git", "check-ref-format", f"refs/tags/{tag}"], capture_output=True, stdin=subprocess.DEVNULL, timeout=10, check=False)` after rejecting empty/NUL/control-character strings, failing closed if `git` is unavailable (`OSError` / `TimeoutExpired`), and calling it on both `--tag` and the percent-decoded `--source-url` tag.
+   - *After:* `v2.0.0..oops`, `v2.0.0 bad`, `~1`, `^1`, `:1`, `*1`, `@{1}`, `.lock`, trailing `.`, trailing `/`, NUL/control chars, and unavailable `git` all exit 1 with original bytes unchanged; valid percent-encoded tags (`v2.0.0%23hotfix` -> `v2.0.0#hotfix`, `v2.0.0%2F1` -> `v2.0.0/1`) continue to succeed.
+
+- **Pending:** Final independent Terra re-review of PR #2468, then authorized real-runner `Upstream Watcher` dry run (`apply=false`, exit 0, empty `unknownEvidence`). P1 is **not complete** until both gates pass.
