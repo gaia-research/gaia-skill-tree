@@ -1,5 +1,12 @@
 # Campaign usage checkpoints
 
+## 2026-11-16 — administrative stop checkpoint (campaign total unavailable)
+
+- Current checkpoint telemetry is unavailable; campaign-complete usage/cost remains **UNAVAILABLE**. No unrelated session selection, retry of the missing parent path, inference from UI/raw logs, or estimate was made.
+- Original interrupted P1 run and its resumed history inclusion are unverified; actual provider billing is unknown. The current in-flight bookkeeping task is excluded.
+- The known `$4.907920` checkpoint below is **P0-only and partial**, not campaign total. Do not extrapolate it to P1 or total cost. No private prompts, credentials, raw logs, or paths are included.
+
+
 No budget ceiling; active execution window confirmed by the founder. Values below are estimates, not confirmed invoices or subscription expenditure.
 
 ## 2026-11-15 — preflight / P0 start
