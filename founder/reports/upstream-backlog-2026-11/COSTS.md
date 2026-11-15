@@ -20,3 +20,21 @@ Source: installed canonical `/pi-cost` v1.10.0, `python3 ~/.pi/agent/skills/pi-c
 - Known canonical tool limitations: native `subagent_wait` receipts can be omitted and repeated native result records can double-count. No wait receipts or repeated result deliveries were intentionally used here. These numbers are not complete provider billing.
 - Actual billed cost: unavailable. No private prompts, transcripts, credentials, or raw logs are published.
 - In-flight worker usage is unavailable until its receipt is delivered; each push/PR update must state its accounting cutoff and replace this checkpoint with the next measured snapshot when available.
+
+## 2026-11-15 — P0 builder delivered; administration not yet delivered
+
+**Cutoff:** latest completed turns recorded in the parent session, through the delivered Hydrogen builder receipt for commit `6674c8268703f6137f8e4c8067e0be7ca73bd378`. Canonical command: `/pi-cost` v1.10.0 with `--offline --json` and the explicitly selected parent-session file. This is a session snapshot, not a complete billing ledger. Catalog provenance remains Gaia skill-cost / LiteLLM, source `BerriAI/litellm` model price catalog fetched `2026-11-14T14:12:12Z` (not stale at calculation).
+
+Sanitized totals below are grouped by date/provider/model/task. No tasks, prompts, transcripts, logs or private paths are included. Token counters are shown separately; cache reads are not added to input. Estimates use the catalog public rates for workers and the session-recorded harness cost for Sol.
+
+| Date | Provider / model | Task | Input | Output | Cache read | Estimate USD |
+|---|---|---|---:|---:|---:|---:|
+| 2026-11-15 | openai / gpt-6.1-sol | campaign administration (lead session) | 158796 | 34998 | 7577344 | 1.425306 |
+| 2026-11-15 | antigravity / gemini-4-hydrogen | readiness probes + P0 builder | 311839 | 45531 | 2663038 | 1.008968 |
+| 2026-11-15 | openai / gpt-6-luna | readiness probe | 18784 | 79 | 18432 | 0.002102 |
+| 2026-11-15 | openai-codex / gpt-6.1-terra | readiness probe (not P0 review) | 19302 | 75 | 18816 | 0.020618 |
+| 2026-11-15 | antigravity / claude-opus-5-5 | readiness probe | 30958 | 502 | 30007 | 0.139873 |
+
+- Delivered mixed-method subtotal: **$2.596868** (Sol session-recorded cost plus priced worker estimates). Hydrogen rows aggregate three completed receipts; only the successful P0 builder receipt includes implementation work. This does not include current in-flight administration, whose usage is unavailable until delivery.
+- Failed initial probe reports zero measured usage; this does not establish zero provider billing. No speculative estimate is assigned to it.
+- Tool scope limitations still apply: `subagent_wait` receipts may be omitted and repeated native result records may double-count. This snapshot cannot certify provider charges. Actual billed cost remains unavailable.
