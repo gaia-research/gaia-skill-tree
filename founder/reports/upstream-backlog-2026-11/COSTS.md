@@ -101,3 +101,10 @@ Sanitized totals below are grouped by date/provider/model/task. No tasks, prompt
 
 - **Measured mixed-method subtotal: $4.907920** (`$1.963168` Sol harness-recorded + `$2.944752` worker public-rate estimates).
 - **Rate provenance:** canonical offline LiteLLM catalog (`BerriAI/litellm`), fetched `2026-11-14T14:12:12Z`, `stale: false`. Estimates, not invoices; actual billing is unknown. Cache-read counters are separate from input and are not summed into input.
+
+## 2026-11-16 — P1 administrative checkpoint (campaign total unavailable)
+
+- **Cost cutoff:** this checkpoint. The required canonical `/pi-cost` v1.10.0 command was attempted offline with `--json` and the explicitly supplied parent-session path. The tool reported `no Pi session file found`; the specified path is unavailable in the local session store. No alternate file/session, current-session inference, retry, fallback, or price guess was used.
+- **Recorded usage by date/provider/model/task:** unavailable. Input, output, cache-read, cache-write and estimate fields are all unavailable because the required input session could not be read. No token counts or estimate are asserted here.
+- **Accounting limitation:** the original P1 Hydrogen run (`a1509601`) was interrupted; its retained session ended aborted without a normal handoff. No provider/credit error was recorded. The same Hydrogen session resumed after the founder's `continue`, but this canonical receipt-based estimate cannot demonstrate whether original-run or resume history is included. Accordingly, both that campaign usage and the campaign-complete mixed-method total are **UNAVAILABLE**; do not treat `$4.907920` above, the prior P0-only checkpoint, as a complete campaign cost or usage subtotal.
+- Builder P1 work and this administration are outside the prior P0 cutoff. Current in-flight administrative usage is excluded. Actual provider billing remains unknown. No private prompts, transcripts, credentials, raw logs, or local paths are published.
