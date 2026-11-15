@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** Code and decision records at `11405f2dacaa2f6501039dbce3936106e0fb9bee` are independently verified by Terra (all 3 prior code/record findings fixed; 932 `issuehygiene` + 64 founder/desk tests PASS; coverage/diff check PASS; 71 synthetic baseline children yielded A1 proposals — not live closure proof). Remaining Terra verdict on `11405f2` was FINDINGS solely for the stale doc date in `P0_HANDOFF.md` lines 11–12. Doc-only correction 2 and initial P0 baseline snapshots (`BASELINE_UPSTREAM_RECORDS.json`, `BASELINE_UPSTREAM_METADATA.json`) are delivered; **final Terra doc-only PASS is PENDING. P0 is not complete; P1 has not started.** See [PREFLIGHT.md](PREFLIGHT.md).
+- **Status:** Code and decision records at `11405f2dacaa2f6501039dbce3936106e0fb9bee` are independently verified by Terra (all 3 prior code/record findings fixed; 932 `issuehygiene` + 64 founder/desk tests PASS; coverage/diff check PASS; 71 synthetic baseline children yielded A1 proposals — not live closure proof). Terra's review of `4778b2a04de62f60df48f7a0a7df5c9aa943da22` confirmed all other doc/snapshot checks and returned `FINDINGS` solely for the `BASELINE_UPSTREAM_METADATA.json` / prose `0 frozen` claim (raw frontmatter flag vs canonical `gaia_cli.frozen.frozenIds`). Two routine correction rounds are exhausted; this narrow deterministic reporting-artifact correction updates only derived report data/prose using `gaia_cli.frozen.frozenIds` over baseline `9b4d9b98` Git objects (canonical count: **24**). **Final Terra narrow check is PENDING. P0 is not complete; P1 has not started.** See [PREFLIGHT.md](PREFLIGHT.md).
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -92,7 +92,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 | Phase | Lane | State |
 |---|---|---|
-| P0 | Authorize and baseline | Code/records at `11405f2` independently verified; doc-only correction 2 & baseline snapshots delivered; final Terra doc-only PASS pending |
+| P0 | Authorize and baseline | Code/records at `11405f2` independently verified; narrow reporting-artifact correction (`frozen: 24`) delivered; final Terra narrow check pending |
 | P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | not started |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
@@ -109,6 +109,14 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 ## Execution log
 
+### 2026-11-15 — Terra review of `4778b2a` (FINDINGS) and narrow reporting-artifact correction
+
+- **Independent Terra review on `4778b2a04de62f60df48f7a0a7df5c9aa943da22`:** confirmed doc-only delta (no code/test/decision/POLICY/workflow/registry changes), 81 snapshot IDs match `PLAN.md` and canonical census with valid digests, all 472 metadata Git paths/blobs/source fields match baseline `9b4d9b98`, historical date fix is correct, and cost privacy is clean. **Sole finding:** `BASELINE_UPSTREAM_METADATA.json` line 9 reported `0` frozen and all 472 entries `frozen: false` (inferred from absence of a frontmatter `frozen` flag, contradicting canonical `gaia_cli.frozen.frozenIds`), plus unqualified `0 frozen` in `CAMPAIGN.md` line 119 and `P0_HANDOFF.md` line 85.
+- **Routine correction limit:** the two routine correction rounds are exhausted. No code, policy, authority, workflow, or registry repair or scope expansion was performed; `11405f2` code and decision records remain untouched.
+- **Narrow reporting-artifact correction:** applied canonical `gaia_cli.frozen.frozenIds` (`src/gaia_cli/frozen.py`, including suite inheritance) to the 472 `registry/named/**/*.md` records parsed directly from baseline `9b4d9b98043140188f00b14d0ac8fa6bc02491b7` Git objects. Canonical count is **24** (all 24 self-frozen via `timeline:upstream_deprecated` with `installable: false`, including `garrytan/investigate` and `mattpocock/personal` whose 2 `suiteComponents` are also self-frozen; active capstones `mattpocock/productivity` and `mattpocock/skills` remain unfrozen). Updated `BASELINE_UPSTREAM_METADATA.json` (`counts.frozen: 24`, per-record `frozen` flags, `frozenDefinition: "gaia_cli.frozen.frozenIds (src/gaia_cli/frozen.py)"`, `entriesDigestSha256: 997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324`). `BASELINE_UPSTREAM_RECORDS.json` (81 issues) is unchanged.
+- **Gate:** Final Terra narrow check is **PENDING**. PR #2467 remains draft (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`). **P0 is not complete; P1 has not started.**
+- **Usage checkpoint:** see [COSTS.md](COSTS.md) (measured mixed-method cutoff **$4.417187**; in-flight narrow correction and pending Terra check excluded).
+
 ### 2026-11-15 — second Terra verification, baseline snapshots, and doc-only correction 2
 
 - **Independent Terra verification on `11405f2dacaa2f6501039dbce3936106e0fb9bee`:** all 3 prior code/record findings are fixed; 932 `issuehygiene` tests and 64 founder-record/desk tests PASS; `scripts/check_steward_coverage.py --check` PASS; `git diff --check` PASS. An independent synthetic probe of 71 baseline children using actual registry URLs yielded `A1` proposals (explicitly **not** live closure proof). C1 (`q-08ecd62d`), C4 (`q-6720aecf`), and `founder/steward/POLICY.yaml` (`issueHygiene.writesEnabled: false`) remain unchanged. The P4 `upstream-approve.yml:469` version-only workflow gap remains a recorded prerequisite, not permission to apply GBrain `skip-child-gate`.
@@ -116,7 +124,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - **Doc-only correction 2 & initial P0 baseline snapshots:**
   - Corrected `P0_HANDOFF.md` lines 11–12 to match the `#2283` baseline records without inventing historical dates, and recorded the second Terra receipt. No code, workflow, or decision-record files were modified.
   - Produced `BASELINE_UPSTREAM_RECORDS.json` for the exact **81** `PLAN.md` issues (6 umbrellas, 3 bootstraps, 72 appendix children) from the saved canonical `scripts/steward_issue_census.py` output (`249` open + `325` recentlyClosed; first closed baseline seeded at `728` because none was retrievable): **81 found** (`open` in `issues`), **0 missing**. Initial P0 evidence only — **not** a P2 watcher census and grants no closure proof.
-  - Produced `BASELINE_UPSTREAM_METADATA.json` from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
+  - Produced `BASELINE_UPSTREAM_METADATA.json` from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen *(superseded: raw frontmatter flag check; canonical `gaia_cli.frozen.frozenIds` count is **24**)*, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
 - **Gate:** Final independent Terra doc-only review is **PENDING**. PR #2467 remains draft (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`). **P0 is not complete; P1 has not started.**
 - **Usage checkpoint:** see [COSTS.md](COSTS.md) (measured mixed-method cutoff **$3.821332**; in-flight administration and Terra reviews excluded).
 

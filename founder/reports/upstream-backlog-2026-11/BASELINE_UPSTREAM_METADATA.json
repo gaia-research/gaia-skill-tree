@@ -3,16 +3,17 @@
   "kind": "p0-registry-upstream-snapshot",
   "sourceSHA": "9b4d9b98043140188f00b14d0ac8fa6bc02491b7",
   "sourcePathPattern": "registry/named/**/*.md",
+  "frozenDefinition": "gaia_cli.frozen.frozenIds (src/gaia_cli/frozen.py)",
   "counts": {
     "totalNamedFiles": 472,
     "withUpstreamBlock": 17,
-    "frozen": 0,
+    "frozen": 24,
     "installableTrue": 15,
     "installableFalse": 30,
     "installableUnset": 427,
     "withLinksGithub": 445
   },
-  "entriesDigestSha256": "156b598061b382619661c193e58efa25d4e2b22158fef1bc4f779645e9270da0",
+  "entriesDigestSha256": "997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324",
   "entries": [
     {
       "namedID": "0xdarkmatter/pytest-patterns",
@@ -29,7 +30,7 @@
       "path": "registry/named/Manavarya09/design-extract.md",
       "blobSha": "bc7779768cc61b7a6db8610d4dcb87393553e6a4",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/Manavarya09/design-extract",
       "upstream": null
@@ -1514,7 +1515,7 @@
       "path": "registry/named/garrytan/investigate.md",
       "blobSha": "4753c301937f582a97713aa04c3a91de08df7041",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md",
       "upstream": null
@@ -2491,7 +2492,7 @@
       "path": "registry/named/heygen-com/embedded-captions.md",
       "blobSha": "b8ecbe607025ed78e68c9f4689c6413fae374208",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md",
       "upstream": null
@@ -2501,7 +2502,7 @@
       "path": "registry/named/heygen-com/faceless-explainer.md",
       "blobSha": "0c45107405f9c8a844569b377ff278a45ae945cc",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md",
       "upstream": null
@@ -2521,7 +2522,7 @@
       "path": "registry/named/heygen-com/general-video.md",
       "blobSha": "5220d69b93c1bb8da30f45e91859d89c1040d607",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/v0.8.60/skills/general-video/SKILL.md",
       "upstream": null
@@ -2531,7 +2532,7 @@
       "path": "registry/named/heygen-com/hyperframes-animation.md",
       "blobSha": "734177a3a36bd6933df9ba5318888595ed3db9af",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md",
       "upstream": null
@@ -2541,7 +2542,7 @@
       "path": "registry/named/heygen-com/hyperframes-audio.md",
       "blobSha": "917b5341dab8092cf6e4f2c22c26706124b9646f",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md",
       "upstream": null
@@ -2561,7 +2562,7 @@
       "path": "registry/named/heygen-com/hyperframes-core.md",
       "blobSha": "a328ab4ccb2598cca01f17d90d06d8afc7217c3e",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md",
       "upstream": null
@@ -2571,7 +2572,7 @@
       "path": "registry/named/heygen-com/hyperframes-creative.md",
       "blobSha": "682293399b7d1ebc1853f7054e45c029fc73ee37",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md",
       "upstream": null
@@ -2581,7 +2582,7 @@
       "path": "registry/named/heygen-com/hyperframes-keyframes.md",
       "blobSha": "6c175c06669359a75d4aa7748f65da67ea7b3e43",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md",
       "upstream": null
@@ -2628,7 +2629,7 @@
       "path": "registry/named/heygen-com/motion-graphics.md",
       "blobSha": "613ac6247a92d3b59f91e192559a1ced59011738",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md",
       "upstream": null
@@ -2638,7 +2639,7 @@
       "path": "registry/named/heygen-com/music-to-video.md",
       "blobSha": "9189e40ea0eadf8f658e82ba3bbefb8606d61213",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md",
       "upstream": null
@@ -2648,7 +2649,7 @@
       "path": "registry/named/heygen-com/pr-to-video.md",
       "blobSha": "bd675cc9d3d13a2ae446e6e41db0c52cd9a2b9ab",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md",
       "upstream": null
@@ -2658,7 +2659,7 @@
       "path": "registry/named/heygen-com/product-launch-video.md",
       "blobSha": "45e47cb597c14c1b39eda49cd4978f271c569b63",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md",
       "upstream": null
@@ -2688,7 +2689,7 @@
       "path": "registry/named/heygen-com/talking-head-recut.md",
       "blobSha": "d82d96e3f450e8cf90bcaf47427887226fa848d4",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md",
       "upstream": null
@@ -2998,7 +2999,7 @@
       "path": "registry/named/langgenius/component-refactoring.md",
       "blobSha": "def3df5aa6ab13ca41ac465621de8693c1511eac",
       "status": "awakened",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/langgenius/dify/blob/main/.agents/skills/how-to-write-component/SKILL.md",
       "upstream": null
@@ -3128,7 +3129,7 @@
       "path": "registry/named/leonxlnx/output-skill.md",
       "blobSha": "31e829b5744598987e3094c1cc03533884467a53",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md",
       "upstream": null
@@ -3245,7 +3246,7 @@
       "path": "registry/named/mattpocock/diagnose.md",
       "blobSha": "9303183bae110aef70886e561d9908a0d815f17a",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
       "upstream": null
@@ -3275,7 +3276,7 @@
       "path": "registry/named/mattpocock/edit-article.md",
       "blobSha": "02ebf67fbbe3a567bb703621b40c188a2fa4637c",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
       "upstream": null
@@ -3385,7 +3386,7 @@
       "path": "registry/named/mattpocock/obsidian-vault.md",
       "blobSha": "bc9084f1be4592f1319679b7562a178a79ef3f08",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault",
       "upstream": null
@@ -3395,7 +3396,7 @@
       "path": "registry/named/mattpocock/personal.md",
       "blobSha": "191e12aff81f44ca97d699b469d835235c45f2fd",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": null,
       "upstream": null
@@ -3552,7 +3553,7 @@
       "path": "registry/named/mattpocock/ubiquitous-language.md",
       "blobSha": "adc0c5f036c96f92eb711854559cc137952644d2",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md",
       "upstream": null
@@ -3592,7 +3593,7 @@
       "path": "registry/named/mattpocock/write-a-skill.md",
       "blobSha": "724996ad96ebb70de9391d537e624d88ab5a614c",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md",
       "upstream": null
@@ -3612,7 +3613,7 @@
       "path": "registry/named/mattpocock/zoom-out.md",
       "blobSha": "3021297ca095551932f50f8298dff03202e2ff57",
       "status": "named",
-      "frozen": false,
+      "frozen": true,
       "installable": false,
       "linksGithub": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md",
       "upstream": null

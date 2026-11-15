@@ -3,7 +3,7 @@
 **PR:** #2467 (<https://github.com/gaia-research/gaia-skill-tree/pull/2467>)
 **Base branch:** `dev/upstream-backlog-2026-11`
 **Feature branch:** `dev/upstream-backlog-authority-2026-11`
-**Status:** DOC-ONLY CORRECTION 2 — READY FOR FINAL TERRA REVIEW (P0 NOT COMPLETE)
+**Status:** NARROW REPORTING-ARTIFACT CORRECTION — READY FOR NARROW TERRA CHECK (P0 NOT COMPLETE)
 
 ## Implementation
 
@@ -77,12 +77,12 @@
 
 ## Next Action
 
-Final independent Terra doc-only review of PR #2467 doc-only correction 2 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), verifying the `P0_HANDOFF.md`, `CAMPAIGN.md`, `COSTS.md`, `BASELINE_UPSTREAM_RECORDS.json`, and `BASELINE_UPSTREAM_METADATA.json` changes. Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
+Final narrow independent Terra check of PR #2467 reporting-artifact correction (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), verifying the `BASELINE_UPSTREAM_METADATA.json` (`counts.frozen: 24`, per-record `frozen` flags, `entriesDigestSha256`), `CAMPAIGN.md`, `P0_HANDOFF.md`, and `COSTS.md` changes. Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
 
 ## Baseline Snapshots (Initial P0 Evidence)
 
 - `founder/reports/upstream-backlog-2026-11/BASELINE_UPSTREAM_RECORDS.json`: extracted from the saved canonical `scripts/steward_issue_census.py` output (`steward-github-census-v1`, `fetchedAt: 2026-11-15T17:23:35Z`, 249 open + 325 recentlyClosed, first closed baseline seeded at 728 because no prior baseline was retrievable). Selects the exact **81** `PLAN.md` issues (6 umbrellas, 3 bootstraps, 72 appendix children): **81 found** (all `open` in `issues`), **0 missing**. Initial P0 evidence only — **NOT** a P2 watcher census, and grants **no** closure proof.
-- `founder/reports/upstream-backlog-2026-11/BASELINE_UPSTREAM_METADATA.json`: extracted from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
+- `founder/reports/upstream-backlog-2026-11/BASELINE_UPSTREAM_METADATA.json`: extracted from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen *(superseded: raw frontmatter flag check; canonical `gaia_cli.frozen.frozenIds` count is **24**, `entriesDigestSha256: 997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324`)*, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
 
 ## Independent Terra receipt on builder commit `6674c8268703f6137f8e4c8067e0be7ca73bd378` (First Review — Superseded by `11405f2dacaa2f6501039dbce3936106e0fb9bee`)
 
@@ -105,3 +105,16 @@ These are summarized findings, not a transcript or raw review prompt.
 - **Unchanged boundaries:** C1 (`q-08ecd62d`), C4 (`q-6720aecf`), and `founder/steward/POLICY.yaml` (`issueHygiene.writesEnabled: false`) remain unchanged.
 - **P4 prerequisite:** `upstream-approve.yml:469` version-only workflow gap remains a recorded prerequisite, not permission to apply GBrain `skip-child-gate`. No code, workflow, or decision records were modified in doc-only correction 2.
 - **Sole remaining finding:** `P0_HANDOFF.md` initial summary lines 11–12 still carried the contradictory `previous resolution (2026-11-04)` wording; corrected in doc-only correction 2. **Final Terra doc-only review is PENDING; P0 is not PASS/complete and P1 is not started.**
+
+## Independent Terra receipt on `4778b2a04de62f60df48f7a0a7df5c9aa943da22` and Narrow Reporting-Artifact Correction
+
+**Verdict on `4778b2a`: FINDINGS (solely `frozen` count/flags in `BASELINE_UPSTREAM_METADATA.json` and `0 frozen` prose).** Terra independently verified in the detached review worktree:
+- **Verified clean:** doc-only delta (no code/test/decision/POLICY/workflow/registry changes), 81 `BASELINE_UPSTREAM_RECORDS.json` IDs match `PLAN.md` and canonical census with valid digests, all 472 `BASELINE_UPSTREAM_METADATA.json` Git paths/blobs/source fields match baseline `9b4d9b98`, historical date fix is correct, and cost privacy is clean.
+- **Sole finding:** `BASELINE_UPSTREAM_METADATA.json` line 9 reported `0` frozen and all 472 entries `frozen: false` (inferred from absence of a frontmatter `frozen` flag, contradicting canonical `gaia_cli.frozen.frozenIds`), plus unqualified `0 frozen` in `CAMPAIGN.md` line 119 and `P0_HANDOFF.md` line 85.
+
+**Diagnostic & narrow correction status:**
+- **Routine limit:** the two routine correction rounds are exhausted; no code, policy, authority, workflow, or registry repair or scope expansion was performed. Reviewed code at `11405f2` remains untouched.
+- **Canonical recalculation:** applied `gaia_cli.frozen.frozenIds` (`src/gaia_cli/frozen.py`, including suite inheritance) to the 472 `registry/named/**/*.md` records parsed directly from baseline `9b4d9b98043140188f00b14d0ac8fa6bc02491b7` Git objects.
+- **Result:** **24** canonical frozen skills (all 24 self-frozen via `timeline:upstream_deprecated` with `installable: false`, including `garrytan/investigate` and `mattpocock/personal` whose 2 `suiteComponents` — `mattpocock/edit-article`, `mattpocock/obsidian-vault` — are also self-frozen; active capstones `mattpocock/productivity` and `mattpocock/skills` remain unfrozen).
+- **Updated artifacts:** `BASELINE_UPSTREAM_METADATA.json` (`counts.frozen: 24`, per-record `frozen` flags, `frozenDefinition: "gaia_cli.frozen.frozenIds (src/gaia_cli/frozen.py)"`, `entriesDigestSha256: 997c80e0b5d8df626817e43f26fbbb94ac3d1b854c3f93f5e1ac07185e75e324`), `CAMPAIGN.md`, `P0_HANDOFF.md`, and `COSTS.md`. `BASELINE_UPSTREAM_RECORDS.json` (81 issues) is untouched.
+- **Gate:** **Final PASS still pending; P0 not complete; P1 not started.**
