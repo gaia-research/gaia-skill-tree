@@ -1,6 +1,6 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT STATUS (2026-11-16): OPUS SOLO REPAIR AUTHORIZED — PAUSED ON ASSIGNED MODEL AVAILABILITY.** Founder instruction, verbatim: “worker-opus to solo the repair, then terra reviews. Authorized. continue”. This satisfies the prior contract-repair authorization gate. Do not execute until the configured Antigravity `claude-opus-5-5-medium` route is available or the founder explicitly approves a route/effort adjustment. No fallback or substitution. Opus retained session: `01a1e0d1-cf0d-763a-b69f-4d11ff461755`; no implementation changes or repair branch resulted from attempts. Terra FINAL remains **FINDINGS, not PASS**, at source SHA `60120a1ec7b24a31e7e9e0a5d75c337963993442`; Terra reviews after Opus repair. P1 is incomplete. See [P1_BLOCKER.md](P1_BLOCKER.md).
+> **CURRENT STATUS (2026-11-16): REPAIR AUTHORIZED; WORKER-SOL-SHARED LIVE PREFLIGHT PENDING.** Founder states Opus is exhausted and reassigns Opus's repair role to isolated builder `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to founder; do not infer billing/quota facts. Opus is retired from this assignment; no retry/fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is builder, not reviewer. Existing repair authorization remains; no new authorization gate is pending. Static worker config has been checked; no live Sol probe has run. Terra FINAL remains **FINDINGS, not PASS**, at pre-repair source SHA `60120a1ec7b24a31e7e9e0a5d75c337963993442`; no repair is claimed. Required sequence: live preflight, authorized repair, independent Terra review, then real-runner dry run. P1 is incomplete. See [P1_BLOCKER.md](P1_BLOCKER.md).
 
 ## Current Terra final receipt and correction to earlier schema diagnosis
 
@@ -117,7 +117,7 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev update-name
 
 - **Scope note:** `src/gaia_cli/commands/dev/__init__.py` received a 6-line `add_argument("--repo", ...)` addition in `DevCommand.configure` so the canonical CLI parser exposes `--repo`.
 - **No Class S / docs regeneration:** `gaia dev docs` and `scripts/build_docs.py` were not run (deferred to P7).
-- **Current pending gate:** assigned Opus route availability (or explicit founder-approved route/effort adjustment), then same-session bounded repair by Opus. Terra reviews the resulting repair. The real-runner dry run is only a later gate after review; P1 remains incomplete. No fallback or attempt while unavailable.
+- **Current pending gate:** worker-sol-shared live preflight, then its bounded repair under existing authorization. Terra independently reviews the resulting repair. Real-runner dry run is only a later gate after review; P1 remains incomplete. Opus is retired from this assignment; no retry/fallback to Opus or Hydrogen. No live Sol probe has occurred.
 - **Historical run parameters (not authorized to dispatch now):** `.github/workflows/upstream-watcher.yml` real-runner dry run with `apply=false` would need to confirm exit 0, empty `unknownEvidence`, `gsd-build/get-shit-done` visibility, and whether `#2278` recurs:
   - `apply`: `false`
   - `child_mode`: `fanout`

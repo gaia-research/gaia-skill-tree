@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** P0 **PASS** (PR #2467 internally merged `bfed2d777b76448f6ede5d40e1a834050dff07d0`). **OPUS SOLO REPAIR AUTHORIZED — PAUSED ON ASSIGNED MODEL AVAILABILITY** on existing draft PR #2468 (`dev/upstream-backlog-watcher-2026-11` -> `dev/upstream-backlog-2026-11`). Founder instruction, verbatim: “worker-opus to solo the repair, then terra reviews. Authorized. continue”. This grants the previously pending contract-repair authority; the pending action is now restoration of the assigned Antigravity `claude-opus-5-5-medium` route or explicit founder-approved route/effort adjustment. Opus made no implementation changes and no repair branch was created. Independent Terra FINAL at `60120a1ec7b24a31e7e9e0a5d75c337963993442` returned **FINDINGS, not PASS**. The exact finding and unchanged source evidence are retained below and in `P1_HANDOFF.md`/`P1_BLOCKER.md`. Two prior P1 correction rounds are exhausted; the newly authorized bounded repair is pending Opus availability, then Terra review. No fallback, provider/model/effort change, Hydrogen/lead code authorship, real-runner dispatch, P1 PASS/completion, P2 start, or write enablement. Historical pre-repair checks (1015 pytest, parity, diff check, isolated probes) are not post-repair verification. P2–P7 not started. Campaign-complete cost/usage unavailable; `$4.907920` remains only the earlier P0-only checkpoint (`COSTS.md`).
+- **Status:** P0 **PASS** (PR #2467 internally merged `bfed2d777b76448f6ede5d40e1a834050dff07d0`). Founder-authorized sole P1 repair worker is now `worker-sol-shared` (`openai-codex/gpt-6.1-sol:medium`) on existing draft PR #2468 (`dev/upstream-backlog-watcher-2026-11` -> `dev/upstream-backlog-2026-11`). Founder explicitly states Opus is exhausted and reassigns Opus's repair role to worker-sol-shared; attribute exhaustion to founder, without inferring account billing/quota facts. Opus is retired from this assignment; no retry or fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is the isolated builder, not reviewer. Existing repair authorization remains; no new founder authorization is pending. Static worker configuration is set to no fallbacks, zero retries, and 7200000 ms timeout. **LIVE PREFLIGHT PENDING**; no Sol probe has been run. Required sequence: worker-sol-shared live preflight, authorized repair, independent Terra review, then real-runner `apply=false` dry run. Terra FINAL at `60120a1ec7b24a31e7e9e0a5d75c337963993442` remains **FINDINGS, not PASS**; exact diagnosis and code/tests remain unchanged and pre-repair. No claim Sol probed/passed or Opus implemented a fix. No P1 PASS/completion, P2, or writes enabled. Campaign-complete cost/usage **UNAVAILABLE**; `$4.907920` remains P0-only partial (`COSTS.md`); P0 is not campaign-total.
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -93,7 +93,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 | Phase | Lane | State |
 |---|---|---|
 | P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **BLOCKED — founder direction required**; Terra FINAL FINDINGS at `60120a1`; rounds exhausted; no real-runner dispatch |
+| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **AUTHORIZED; LIVE PREFLIGHT PENDING** for worker-sol-shared; Terra FINAL FINDINGS at `60120a1`; repair, independent Terra review, and real-runner dry run still required |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
@@ -104,7 +104,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 ## Pending founder inputs
 
 - Roster and execution authority received in the founder's execution instruction; concurrency maximum four. The founder confirmed no budget ceiling and an available execution window.
-- Founder changed Opus to Antigravity and explicitly authorized resumption without fallbacks. No provider/model substitution is permitted. Details: [PREFLIGHT.md](PREFLIGHT.md).
+- **Superseded for P1 assignment:** Opus route restoration is no longer a gate. Founder says Opus is exhausted and reassigns the repair role to worker-sol-shared; no Opus/Hydrogen retry or fallback. Existing repair authorization stands. Worker-sol-shared live preflight remains pending. See [PREFLIGHT.md](PREFLIGHT.md).
 - Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
 
 ## Execution log
@@ -206,6 +206,12 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - `gaia dev validate`: scripts/validate.py 11/11 checks passed, but overall command exited 1 because generated `registry/named-skills.json` is absent for redaction/timeline/TM consistency checks. This is a known missing generated index; regeneration deferred until P7/canonical gates. Do not claim overall validation PASS or call the missing index a new regression.
 - No workaround permitted: do not remove/change permitted trust input hash/cache, evidence, trust schema/history, ranks, Origin, frozen records, or timelines; do not select/codify normalization, exemption, or validation policy. No source/schema/CLI/registry/generated changes, real-runner dispatch, or phase advancement. Next: bounded founder-authorized contract reconciliation, then only if directed, independent Terra review and a real-runner `apply=false` exit-0 / empty-`unknownEvidence` gate.
 - PR #2468 must remain draft, blocked, and unmerged, with its existing description updated to reflect this exact verdict and evidence. No new PR/issues/comments/labels/variables/closures/merges/main push/workflow dispatch.
+
+## 2026-11-16 — Founder reassigns authorized P1 repair to worker-sol-shared
+
+- Founder states Opus is exhausted and reassigns Opus's repair role to isolated `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to the founder; no account billing/quota facts are inferred. Opus is retired from this assignment; no retry/fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is builder, not reviewer. Existing repair authorization stands; authorization is not pending.
+- Static config is checked: `fallback_models: []`, `max_retries: 0`, `timeout_ms: 7200000`; no live Sol probe has run. **LIVE PREFLIGHT PENDING.** Required sequence: preflight → authorized repair → independent Terra review → real-runner `apply=false` dry run. Terra's existing pre-repair FINDINGS, source and tests remain unchanged; no claim that Sol passed or Opus implemented a fix.
+- Updated the four scoped reports and the existing draft PR #2468 body. No engineering, source, registry, workflow, or data changes. P0 remains partial only for cost; campaign total is unavailable.
 
 ## Landed
 

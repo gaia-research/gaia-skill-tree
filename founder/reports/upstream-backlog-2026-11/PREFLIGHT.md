@@ -2,6 +2,10 @@
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
+## Current P1 reassignment — founder-authorized (2026-11-16)
+
+Founder states Opus is exhausted and reassigns Opus's repair role to the isolated `worker-sol-shared` builder (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to the founder; do not infer account quota, credits, or billing. Opus is retired from this assignment: no retry or fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is builder only, not reviewer. Existing repair authorization remains; no new authorization gate is pending. The pre-existing Terra finding and code/tests remain pre-repair and unchanged. Worker config static check is complete; **live preflight is pending**, and no Sol probe has been run. Sequence remains live preflight → authorized repair → independent Terra review → real-runner dry run. This reassignment supersedes the Opus-availability gate below without erasing that chronology.
+
 ## Authority and baseline
 
 - Founder supplied the Sol / Terra / Luna / Hydrogen / Opus roster and a maximum concurrency of four in the execution instruction.
@@ -19,7 +23,8 @@ Installed harness: `@parke.dev/pi-subagent` 0.8.0, backend `pi`. Lead identity c
 | Lead / Sol | `openai/gpt-6.1-sol` | xhigh | Lead tools; code authorship delegated | Active lead session | Active founder window | PASS |
 | Small worker / `worker-luna` | `openai/gpt-6-luna` | medium | general; read/bash/edit/write only as individually scoped | Non-mutating file-read probe passed | Probe 180s; work 1800s | PASS |
 | Standard worker / `worker-hydrogen-medium` | `antigravity/gemini-4-hydrogen` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed | Probe 180s; work 1800s | PASS |
-| Escalation worker / `worker-opus` | `antigravity/claude-opus-5-5` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed after founder provider change | Probe 180s; work 1800s | PASS |
+| Escalation worker / `worker-opus` | `antigravity/claude-opus-5-5` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed after founder provider change | Probe 180s; work 1800s | Historical PASS; **retired from this assignment** by founder reassignment |
+| Current P1 builder / `worker-sol-shared` | `openai-codex/gpt-6.1-sol` | medium | isolated worker; scoped repair authoring only, not reviewer | Static config readback only; live preflight pending (not yet probed) | 7200s | **LIVE PREFLIGHT PENDING** |
 | Independent reviewer / `reviewer` | `openai-codex/gpt-6.1-terra` | high | review; read/grep/find/ls; no authoring | Independent fresh-context file-read probe passed | Probe 180s; review 1800s | PASS |
 
 Terra's read-only review persona cannot run shell tests. Required independent command re-execution will use a separately scoped, non-authoring Terra verification dispatch with explicit shell permission; review remains independent of the builder. A dry-run will precede that dispatch.
