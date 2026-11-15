@@ -54,3 +54,19 @@ Sanitized totals below are grouped by date/provider/model/task. No tasks, prompt
 - **Measured mixed-method subtotal: $3.655659** (Sol's harness-recorded cost plus direct worker estimates). Canonical catalog provenance: LiteLLM public model-price catalog (`BerriAI/litellm`), fetched 2026-11-14T14:12:12Z, marked not stale by the offline tool; worker values are estimates from public rates, not invoice amounts.
 - The table groups the reported direct-worker work by model/task; cache-read tokens are separate from input and not summed into it. Cache-write count was zero in the report.
 - The previous mixed-method checkpoint was $2.596868; the current measured session snapshot is the authoritative cutoff here, not an additive invoice. Actual provider/subscription billing remains unknown. Any administration or independent second review still in flight is unavailable and is excluded; do not infer zero cost.
+
+## 2026-11-15 — P0 census collection & doc-only correction 2 cutoff
+
+**Cutoff:** canonical `/pi-cost` v1.10.0 (`--offline --json`) run against the explicitly designated campaign parent session after delivery of the Luna P0 census collection receipts. Includes 59 completed lead turns and 13 direct worker receipts (no nested or explicit AGY receipts). Does **not** include the in-flight doc-only correction 2 / baseline-package administration or pending final Terra doc-only review. Private session path, prompts, and raw logs are omitted.
+
+| Date | Provider / model | Task grouping | Input | Output | Cache read | Estimated USD | Method |
+|---|---|---|---:|---:|---:|---:|---|
+| 2026-11-15 | openai / gpt-6.1-sol | lead campaign session (59 turns) | 170285 | 50051 | 9306496 | $1.771730 | Pi-recorded lead cost |
+| 2026-11-15 | antigravity / gemini-4-hydrogen | preflight + P0 builder + correction round 1 | 525172 | 75479 | 4533382 | $1.693854 | Canonical public-rate worker estimate |
+| 2026-11-15 | openai / gpt-6-luna | preflight + campaign admin + P0 census collection | 173739 | 10183 | 1183104 | $0.034296 | Canonical public-rate worker estimate |
+| 2026-11-15 | openai-codex / gpt-6.1-terra | roster probe + independent first review | 127136 | 4002 | 688640 | $0.181578 | Canonical public-rate worker estimate |
+| 2026-11-15 | antigravity / claude-opus-5-5 | readiness probe | 30958 | 502 | 30007 | $0.139873 | Canonical public-rate worker estimate |
+
+- **Measured mixed-method subtotal: $3.821332** (`$1.771730` Sol harness-recorded cost + `$2.049602` canonical public-rate worker estimates).
+- **Rate provenance:** Gaia `skill-cost` / `BerriAI/litellm` public model-price catalog, fetched `2026-11-14T14:12:12Z` (`stale: false` in offline check). Values are estimates only; actual provider/subscription billing remains unknown.
+- **Counters & caveats:** `cacheRead` is shown separately from `input`; `cacheWrite` was `0` across all rows. The initial failed `gemini-4-hydrogen:medium` probe reported `0` measured usage (provider billing remains unverified). In-flight administration (this doc-only correction 2 & baseline package) and subsequent Terra reviews are excluded until delivered; do not infer zero cost.

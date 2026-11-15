@@ -3,13 +3,13 @@
 **PR:** #2467 (<https://github.com/gaia-research/gaia-skill-tree/pull/2467>)
 **Base branch:** `dev/upstream-backlog-2026-11`
 **Feature branch:** `dev/upstream-backlog-authority-2026-11`
-**Status:** READY FOR REVIEW
+**Status:** DOC-ONLY CORRECTION 2 — READY FOR FINAL TERRA REVIEW (P0 NOT COMPLETE)
 
 ## Implementation
 
 1. **Decision records (`steward-decision-v1` schema preserved, no extra fields):**
-   - `founder/steward/decisions/issue-question-q-bfd37238.json` (GBrain C3): updated `resolution` to `records-and-version-sync-only`, preserved the original decision text, evidence, and `previous resolution (2026-11-04): curation-deferred` verbatim in `evidence`, and appended the verbatim 2026-11-15 card text (`Ruling 2, C. Lift for records and version-only sync`) and authority link `founder/reports/upstream-backlog-2026-11/CAMPAIGN.md`.
-   - `founder/steward/decisions/issue-question-q-2568173e.json` (Addy C2): updated `resolution` to `records-and-version-sync-migration-deferred`, preserved the original decision text, evidence, and `previous resolution (2026-11-04): migration-deferred` verbatim in `evidence`, and appended the verbatim 2026-11-15 card text (`Ruling 3, B. Records and version sync, migration still deferred`) and authority link `founder/reports/upstream-backlog-2026-11/CAMPAIGN.md`.
+   - `founder/steward/decisions/issue-question-q-bfd37238.json` (GBrain C3): updated `resolution` to `records-and-version-sync-only`, preserved the original baseline `9b4d9b98` decision text and evidence verbatim alongside `Previous resolution (#2283 baseline): curation-deferred` (see correction round 1 below; an earlier draft's ungrounded `2026-11-04` label was removed), and appended the verbatim 2026-11-15 card text (`Ruling 2, C. Lift for records and version-only sync`) and authority link `founder/reports/upstream-backlog-2026-11/CAMPAIGN.md`.
+   - `founder/steward/decisions/issue-question-q-2568173e.json` (Addy C2): updated `resolution` to `records-and-version-sync-migration-deferred`, preserved the original baseline `9b4d9b98` decision text and evidence verbatim alongside `Previous resolution (#2283 baseline): migration-deferred` (see correction round 1 below; an earlier draft's ungrounded `2026-11-04` label was removed), and appended the verbatim 2026-11-15 card text (`Ruling 3, B. Records and version sync, migration still deferred`) and authority link `founder/reports/upstream-backlog-2026-11/CAMPAIGN.md`.
    - `founder/steward/decisions/README.md` and `founder/steward/FOUNDER_LOCK_2283.md`: appended the scoped consumer contract and November 15, 2026 amendment while preserving all historical #2283 content.
 
 2. **Canonical Steward `issuehygiene` consumer (`questions.py` and `reconcile.py`):**
@@ -77,15 +77,31 @@
 
 ## Next Action
 
-Independent second Terra review/verification of PR #2467 correction round 1 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`). Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
+Final independent Terra doc-only review of PR #2467 doc-only correction 2 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), verifying the `P0_HANDOFF.md`, `CAMPAIGN.md`, `COSTS.md`, `BASELINE_UPSTREAM_RECORDS.json`, and `BASELINE_UPSTREAM_METADATA.json` changes. Do not start P1 before P0 has passed its independent gate and been merged under campaign authority.
 
-## Independent Terra receipt on builder commit `6674c8268703f6137f8e4c8067e0be7ca73bd378`
+## Baseline Snapshots (Initial P0 Evidence)
+
+- `founder/reports/upstream-backlog-2026-11/BASELINE_UPSTREAM_RECORDS.json`: extracted from the saved canonical `scripts/steward_issue_census.py` output (`steward-github-census-v1`, `fetchedAt: 2026-11-15T17:23:35Z`, 249 open + 325 recentlyClosed, first closed baseline seeded at 728 because no prior baseline was retrievable). Selects the exact **81** `PLAN.md` issues (6 umbrellas, 3 bootstraps, 72 appendix children): **81 found** (all `open` in `issues`), **0 missing**. Initial P0 evidence only — **NOT** a P2 watcher census, and grants **no** closure proof.
+- `founder/reports/upstream-backlog-2026-11/BASELINE_UPSTREAM_METADATA.json`: extracted from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
+
+## Independent Terra receipt on builder commit `6674c8268703f6137f8e4c8067e0be7ca73bd378` (First Review — Superseded by `11405f2dacaa2f6501039dbce3936106e0fb9bee`)
 
 **Verdict: FINDINGS.** This was an independent review/verification in the separate detached checkout. Terra independently ran and passed 930 `issuehygiene` tests and 64 founder-record/desk tests, plus the Steward coverage checker and `git diff --check`. The findings were:
 
-- **Critical — reparented/new GBrain hold escape:** family membership derived from parent suite alone could allow a new candidate reparented beneath a different GBrain family to escape the intended hold.
-- **Warning — C1 needs-info bypass:** the C1 technical-reconciliation path could become actionable before honoring the generic `upstream:needs-info` hold.
-- **Warning — Addy historical text rewrite:** decision-record wording changed existing historical text rather than preserving the prior ruling verbatim.
-- **Conditional P4 dependency:** a permitted version-only route needs resolution in the approval workflow; this observation was not a P0 source-change request.
+- **Critical — reparented/new GBrain hold escape:** family membership derived from parent suite alone could allow a new candidate reparented beneath a different GBrain family to escape the intended hold. *(Fixed in `11405f2dacaa2f6501039dbce3936106e0fb9bee`.)*
+- **Warning — C1 needs-info bypass:** the C1 technical-reconciliation path could become actionable before honoring the generic `upstream:needs-info` hold. *(Fixed in `11405f2dacaa2f6501039dbce3936106e0fb9bee`.)*
+- **Warning — Addy historical text rewrite:** decision-record wording changed existing historical text rather than preserving the prior ruling verbatim. *(Fixed in `11405f2dacaa2f6501039dbce3936106e0fb9bee`.)*
+- **Conditional P4 dependency:** a permitted version-only route needs resolution in the approval workflow; this observation was not a P0 source-change request. *(Recorded prerequisite; not implemented in P0.)*
 
-These are summarized findings, not a transcript or raw review prompt. Correction round 1 is recorded above. Builder reports the corrected `11405f2dacaa2f6501039dbce3936106e0fb9bee` passed 932 `issuehygiene` tests and 64 founder-record/desk tests, plus coverage and diff checks; all remain builder-reported until independent second review. P0 remains pending, not PASS or complete; P1 is not started.
+These are summarized findings, not a transcript or raw review prompt.
+
+## Independent Terra receipt on builder commit `11405f2dacaa2f6501039dbce3936106e0fb9bee` (Second Review)
+
+**Verdict: FINDINGS (solely stale doc date in `P0_HANDOFF.md` lines 11–12).** Terra independently reverified the code and decision records at `11405f2dacaa2f6501039dbce3936106e0fb9bee` in a separate detached checkout:
+
+- **Prior findings resolved:** all 3 prior code/record findings (reparented/new GBrain hold escape, C1 `upstream:needs-info` bypass, Addy historical text restoration) are fixed.
+- **Tests and checks:** 932 `issuehygiene` tests PASS, 64 founder-record/desk tests PASS, `scripts/check_steward_coverage.py --check` PASS, `git diff --check` PASS.
+- **Independent synthetic probe:** 71 synthetic baseline children using actual registry URLs yielded `A1` proposals (explicitly **not** live closure proof).
+- **Unchanged boundaries:** C1 (`q-08ecd62d`), C4 (`q-6720aecf`), and `founder/steward/POLICY.yaml` (`issueHygiene.writesEnabled: false`) remain unchanged.
+- **P4 prerequisite:** `upstream-approve.yml:469` version-only workflow gap remains a recorded prerequisite, not permission to apply GBrain `skip-child-gate`. No code, workflow, or decision records were modified in doc-only correction 2.
+- **Sole remaining finding:** `P0_HANDOFF.md` initial summary lines 11–12 still carried the contradictory `previous resolution (2026-11-04)` wording; corrected in doc-only correction 2. **Final Terra doc-only review is PENDING; P0 is not PASS/complete and P1 is not started.**

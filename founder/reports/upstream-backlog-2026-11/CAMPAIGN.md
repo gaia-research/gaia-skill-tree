@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Status:** P0 correction round 1 is committed and pushed at `11405f2dacaa2f6501039dbce3936106e0fb9bee`; the first independent Terra review returned FINDINGS on `6674c8268703f6137f8e4c8067e0be7ca73bd378`, and the corrected builder-reported checks are recorded below. Await independent second review. P0 is not PASS/complete; P1 has not started. See [PREFLIGHT.md](PREFLIGHT.md).
+- **Status:** Code and decision records at `11405f2dacaa2f6501039dbce3936106e0fb9bee` are independently verified by Terra (all 3 prior code/record findings fixed; 932 `issuehygiene` + 64 founder/desk tests PASS; coverage/diff check PASS; 71 synthetic baseline children yielded A1 proposals — not live closure proof). Remaining Terra verdict on `11405f2` was FINDINGS solely for the stale doc date in `P0_HANDOFF.md` lines 11–12. Doc-only correction 2 and initial P0 baseline snapshots (`BASELINE_UPSTREAM_RECORDS.json`, `BASELINE_UPSTREAM_METADATA.json`) are delivered; **final Terra doc-only PASS is PENDING. P0 is not complete; P1 has not started.** See [PREFLIGHT.md](PREFLIGHT.md).
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
 - **Review surface:** the founder decision page, <https://claude.ai/artifact/Wru54QS4QXn4zBu9YPfixd> (private to the founder). This file is the record; the page is not.
@@ -92,7 +92,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 
 | Phase | Lane | State |
 |---|---|---|
-| P0 | Authorize and baseline | Preflight passed; integration branch created at verified main; scoped C2/C3 record/consumer amendment pending implementation and independent review |
+| P0 | Authorize and baseline | Code/records at `11405f2` independently verified; doc-only correction 2 & baseline snapshots delivered; final Terra doc-only PASS pending |
 | P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | not started |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
@@ -108,6 +108,17 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Still founder-only during execution: `upstream:approved` on each refreshed umbrella (Superpowers first), the three repository variables for batching, issue-hygiene write enablement after required independent verification, an L4 page if P6 has rows, and the merge of the integration PR.
 
 ## Execution log
+
+### 2026-11-15 — second Terra verification, baseline snapshots, and doc-only correction 2
+
+- **Independent Terra verification on `11405f2dacaa2f6501039dbce3936106e0fb9bee`:** all 3 prior code/record findings are fixed; 932 `issuehygiene` tests and 64 founder-record/desk tests PASS; `scripts/check_steward_coverage.py --check` PASS; `git diff --check` PASS. An independent synthetic probe of 71 baseline children using actual registry URLs yielded `A1` proposals (explicitly **not** live closure proof). C1 (`q-08ecd62d`), C4 (`q-6720aecf`), and `founder/steward/POLICY.yaml` (`issueHygiene.writesEnabled: false`) remain unchanged. The P4 `upstream-approve.yml:469` version-only workflow gap remains a recorded prerequisite, not permission to apply GBrain `skip-child-gate`.
+- **Remaining Terra verdict on `11405f2`:** `FINDINGS` solely for the stale doc date (`previous resolution (2026-11-04)`) in `P0_HANDOFF.md` initial summary lines 11–12.
+- **Doc-only correction 2 & initial P0 baseline snapshots:**
+  - Corrected `P0_HANDOFF.md` lines 11–12 to match the `#2283` baseline records without inventing historical dates, and recorded the second Terra receipt. No code, workflow, or decision-record files were modified.
+  - Produced `BASELINE_UPSTREAM_RECORDS.json` for the exact **81** `PLAN.md` issues (6 umbrellas, 3 bootstraps, 72 appendix children) from the saved canonical `scripts/steward_issue_census.py` output (`249` open + `325` recentlyClosed; first closed baseline seeded at `728` because none was retrievable): **81 found** (`open` in `issues`), **0 missing**. Initial P0 evidence only — **not** a P2 watcher census and grants no closure proof.
+  - Produced `BASELINE_UPSTREAM_METADATA.json` from `registry/named/**/*.md` at approved `main` `9b4d9b98043140188f00b14d0ac8fa6bc02491b7`: **472** named files, **17** with `upstream` block, **0** frozen, **15** `installable: true`, **30** `installable: false`, **427** `installable` unset, **445** with `links.github`.
+- **Gate:** Final independent Terra doc-only review is **PENDING**. PR #2467 remains draft (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`). **P0 is not complete; P1 has not started.**
+- **Usage checkpoint:** see [COSTS.md](COSTS.md) (measured mixed-method cutoff **$3.821332**; in-flight administration and Terra reviews excluded).
 
 ### 2026-11-15 — P0 correction round 1 delivered; second independent review pending
 
