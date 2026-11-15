@@ -12,7 +12,7 @@ description: Complete AgentDB vector memory platform fused from 5 discipline ski
   — QUIC-synchronized distributed storage, pattern learning, memory design, optimization,
   and vector search.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/agentdb/blob/2a8115de9ddbc672df4d725069b77228b43af53d/README.md
 tags:
 - agentdb
 - vector-memory
@@ -20,7 +20,7 @@ tags:
 - ultimate
 - memory-platform
 createdAt: '2026-05-19'
-updatedAt: '2026-09-10'
+updatedAt: '2026-11-16'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/agentdb-advanced
@@ -137,6 +137,17 @@ timeline:
   previousValue: v3.63.5
   newValue: v3.67.0
   details: synced from https://github.com/ruvnet/ruflo/releases/tag/v3.67.0
+- timestamp: '2026-11-15T18:09:39Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: ruvnet/ruflo@v3.67.0
+  newValue: ruvnet/agentdb@v3.10.0
+  details: repointed from ruvnet/ruflo@v3.67.0 (https://github.com/ruvnet/ruflo/releases/tag/v3.67.0)
+    to ruvnet/agentdb@v3.10.0; synced from https://github.com/ruvnet/agentdb/releases/tag/v3.10.0
+- timestamp: '2026-11-15T18:09:53Z'
+  action: note
+  contributor: mbtiongson1
+  details: Updated GitHub link to https://github.com/ruvnet/agentdb/blob/2a8115de9ddbc672df4d725069b77228b43af53d/README.md
 trustMagnitude: 81.0
 overallTrustGrade: B
 apexGateStatus:
@@ -153,11 +164,11 @@ verification:
 trustMagnitudeInputHash: 46412b8a3f01d7d334b488720b26fd15c190b8655e54e4f1ce2d8c413f846d9f
 upstream:
   mode: components
-  releasedAt: '2026-10-31T22:06:47Z'
-  repo: ruvnet/ruflo
-  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.67.0
-  syncedAt: '2026-11-02T22:17:17Z'
-  version: v3.67.0
+  releasedAt: '2026-11-10T19:45:36Z'
+  repo: ruvnet/agentdb
+  sourceUrl: https://github.com/ruvnet/agentdb/releases/tag/v3.10.0
+  syncedAt: '2026-11-15T18:09:39Z'
+  version: v3.10.0
 ---
 ## Overview
 
