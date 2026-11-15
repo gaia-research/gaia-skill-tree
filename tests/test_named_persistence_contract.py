@@ -48,6 +48,63 @@ def test_canonical_event_vocabulary(action):
     validator().validate(data)
 
 
+@pytest.mark.parametrize("role", ["origin", "variant"])
+def test_persisted_structural_role_is_not_evidence(role):
+    data = record()
+    data["role"] = role
+    validator().validate(data)
+    assert "role" not in SCHEMA["definitions"]["evidenceEntry"]["properties"]
+    from gaia_cli.structuralGraph import isVariant
+    assert isVariant("example/tool", namedSkillMap={"example/tool": data}) is (role == "variant")
+
+
+def legacyDemotion():
+    return dict(timestamp="2026-09-05T00:00:00Z", action="demote", author="example",
+                notes="Historical demotion explanation.", previousValue="4★", newValue="1★")
+
+
+def test_legacy_demotion_provenance_is_retained_not_normalized():
+    data = record()
+    data["timeline"] = [legacyDemotion()]
+    before = copy.deepcopy(data)
+    validator().validate(data)
+    assert data == before
+    assert "contributor" not in data["timeline"][0]
+
+
+@pytest.mark.parametrize("patch", [
+    {"role": "champion"}, {"role": True}, {"role": {"type": "variant"}},
+    {"evidence": [{"type": "repo-own", "role": "variant"}]},
+])
+def test_structural_role_does_not_widen_evidence_or_accept_unknown_roles(patch):
+    data = record()
+    data.update(patch)
+    assert list(validator().iter_errors(data))
+
+
+@pytest.mark.parametrize("patch", [
+    {"author": "bad user"}, {"author": "other[bot]"}, {"author": ""},
+    {"notes": 123}, {"notes": ""}, {"action": "upstream_synced"},
+    {"action": "apex_pr_signed"}, {"newValue": None},
+    {"unknown": True}, {"contributor": "example"}, {"details": "ambiguous identity"},
+])
+def test_legacy_provenance_keeps_actor_action_and_field_bounds(patch):
+    data = record()
+    event = legacyDemotion()
+    event.update(patch)
+    data["timeline"] = [event]
+    assert list(validator().iter_errors(data))
+
+
+@pytest.mark.parametrize("missing", ["author", "notes", "previousValue", "newValue"])
+def test_legacy_provenance_requires_complete_pair_and_transition(missing):
+    data = record()
+    event = legacyDemotion()
+    del event[missing]
+    data["timeline"] = [event]
+    assert list(validator().iter_errors(data))
+
+
 def test_existing_provenance_shapes():
     data = record()
     data.update(installable=False, attribution=dict(type="self-made", upstream_author="Example",

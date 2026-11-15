@@ -37,6 +37,11 @@
       "type": "boolean",
       "description": "True if this contributor is the original creator of this skill bucket."
     },
+    "role": {
+      "type": "string",
+      "enum": ["origin", "variant"],
+      "description": "Persisted RFC C-2 structural role. Variant nodes are excluded from graded-origin and structural traversal counts (META structural inputs; registryMaps.buildMergedSkillMap). Not the generated bucket display role, automatic Origin assignment, or an evidence metric."
+    },
     "genericSkillRef": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
@@ -1026,6 +1031,16 @@
           ],
           "description": "Human GitHub handle or canonical GitHub Actions bot provenance. Syntax is not operator or approval authorization."
         },
+        "author": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+          "description": "Retained legacy demotion provenance only. Not converted into contributor identity, operator authorization, or authenticated approval."
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Retained legacy demotion explanation, paired with author; never replaces or rewrites historical text."
+        },
         "details": {
           "type": "string",
           "description": "Additional context or human-readable details."
@@ -1067,6 +1082,18 @@
         }
       },
       "allOf": [
+        {
+          "if": { "anyOf": [{ "required": ["author"] }, { "required": ["notes"] }] },
+          "then": {
+            "required": ["author", "notes", "previousValue", "newValue"],
+            "properties": {
+              "action": { "const": "demote" },
+              "previousValue": { "type": "string" },
+              "newValue": { "type": "string" }
+            },
+            "not": { "anyOf": [{ "required": ["contributor"] }, { "required": ["details"] }] }
+          }
+        },
         {
           "if": { "properties": { "newValue": { "type": "null" } }, "required": ["newValue"] },
           "then": { "properties": { "action": { "const": "upstream_deprecated" } } }
