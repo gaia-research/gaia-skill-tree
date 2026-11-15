@@ -1,5 +1,11 @@
 # Campaign usage checkpoints
 
+## 2026-11-16 — Opus repair availability attempts (usage/cost unavailable)
+
+- Assigned route/task: Antigravity `claude-opus-5-5-medium`, Luna, medium, bounded Opus solo contract repair. Initial inspection attempt `9bcbaac5` ran for 7m6s and failed before implementation; one continuation in retained same session `01a1e0d1-cf0d-763a-b69f-4d11ff461755` on the same configured route was refused with the same resource-unavailable diagnostic. No model/provider/effort change, fallback, nested agent, or further attempt.
+- Provider diagnostic: request failure at `daily-cloudcode-pa.googleapis.com`; configured runtime model `claude-opus-5-5-medium`; model unavailable now / resource exhausted. Provider explicitly said this is not necessarily an account quota wall. Account credit exhaustion and actual billing are unverified. Listing base `claude-opus-5-5` does not verify the configured medium route.
+- Tokens, cost, and session-complete accounting for these attempts are **UNAVAILABLE**. Do not infer zero cost, estimate from duration, substitute harness/UI prices, or claim campaign-total usage. The campaign-complete total remains **UNAVAILABLE**; `$4.907920` remains P0-only partial. Current bookkeeping is excluded.
+
 ## 2026-11-16 — administrative stop checkpoint (campaign total unavailable)
 
 - Current checkpoint telemetry is unavailable; campaign-complete usage/cost remains **UNAVAILABLE**. No unrelated session selection, retry of the missing parent path, inference from UI/raw logs, or estimate was made.

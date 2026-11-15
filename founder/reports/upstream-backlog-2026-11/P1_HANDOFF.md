@@ -1,6 +1,6 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT ADMINISTRATIVE STOP RECEIPT (2026-11-16): BLOCKED — FOUNDER DIRECTION REQUIRED.** The older round-2 READY FOR REVIEW text below is historical and superseded by independent Terra FINAL **FINDINGS, not PASS** at exact source SHA `60120a1ec7b24a31e7e9e0a5d75c337963993442`. Two correction rounds exhausted. Do not continue engineering or treat this as P1 complete. See [P1_BLOCKER.md](P1_BLOCKER.md).
+> **CURRENT STATUS (2026-11-16): OPUS SOLO REPAIR AUTHORIZED — PAUSED ON ASSIGNED MODEL AVAILABILITY.** Founder instruction, verbatim: “worker-opus to solo the repair, then terra reviews. Authorized. continue”. This satisfies the prior contract-repair authorization gate. Do not execute until the configured Antigravity `claude-opus-5-5-medium` route is available or the founder explicitly approves a route/effort adjustment. No fallback or substitution. Opus retained session: `01a1e0d1-cf0d-763a-b69f-4d11ff461755`; no implementation changes or repair branch resulted from attempts. Terra FINAL remains **FINDINGS, not PASS**, at source SHA `60120a1ec7b24a31e7e9e0a5d75c337963993442`; Terra reviews after Opus repair. P1 is incomplete. See [P1_BLOCKER.md](P1_BLOCKER.md).
 
 ## Current Terra final receipt and correction to earlier schema diagnosis
 
@@ -9,10 +9,10 @@
 - `scripts/validate.py:535` checks named records. `scripts/check_trust_magnitude_consistency.py:83` documents schema drift and checks selected fields/evidence/timeline shape; it does **not** normalize/validate the whole raw record. Actual AgentDB named check passed, raw-schema errors remain.
 - **Critical:** `src/gaia_cli/commands/dev/sync_upstream.py:457` whole raw-schema validation prevents safe sync: dry-run on actual AgentDB (record hash unchanged) is blocked, as is read-only scan of all **23** watcher-in-scope suites with invalid raw schemas; ordinary future approval-route sync is blocked. No real-runner dispatch. P1 incomplete; P2 onward not started.
 - `gaia dev validate`: `scripts/validate.py` 11/11 passed, but overall command exit 1 because generated `registry/named-skills.json` is absent for redaction/timeline/TM consistency checks. Regeneration is deferred to P7/canonical gates; do not claim overall validate PASS or treat this known missing generated index as a new regression.
-- No schema/CLI/writer/validator contract selected. Do not modify trust input hash/cache, evidence/trust schema/history, ranks, Origin, frozen records, timelines; no normalization/exemption workaround, further repair round, registry/source mutation, regeneration, runner dispatch, or phase advancement. Founder-authorized bounded contract reconciliation must precede any implementation. If authorized, require independent Terra and real-runner `apply=false` exit 0 with empty `unknownEvidence`.
+- No schema/CLI/writer/validator contract selected. Do not modify trust input hash/cache, evidence/trust schema/history, ranks, Origin, frozen records, or timelines except within the newly founder-authorized bounded Opus repair. No fallback, regeneration, runner dispatch, or phase advancement. The founder's latest instruction satisfies the previously pending authorization; execution now waits solely on the assigned Opus route or an explicit founder-approved route/effort adjustment. Terra reviews the repair; real-runner `apply=false` exit 0 with empty `unknownEvidence` remains a later gate.
 - Cost: campaign-complete usage/cost unavailable; prior `$4.907920` is P0-only, partial. Original interrupted/resumed run inclusion not verified; actual billing unknown. Current bookkeeping excluded. See `COSTS.md`.
 
-- **Status:** **READY FOR REVIEW** (P1 correction round 2 of 2 complete; **NOT P1 complete** — awaiting final independent Terra re-review, then authorized real-runner `Upstream Watcher` dry run `apply=false` exit 0 with empty `unknownEvidence`)
+- **Historical status at round-2 delivery:** **READY FOR REVIEW** (superseded by Terra FINAL FINDINGS below; not P1 complete). Current status and authority are stated at the top of this handoff.
 - **PR:** <https://github.com/gaia-research/gaia-skill-tree/pull/2468> (draft, base `dev/upstream-backlog-2026-11`, head `dev/upstream-backlog-watcher-2026-11`)
 - **Base / Source Gate:** `7a86be4e757acc8d01c762b4fd924b7d37899ed2` (P0 merge `bfed2d777b76448f6ede5d40e1a834050dff07d0` + `P1_SOURCE_RECONNAISSANCE.md`)
 - **Implementation Commits:**
@@ -117,8 +117,8 @@ GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 -m gaia_cli.main dev update-name
 
 - **Scope note:** `src/gaia_cli/commands/dev/__init__.py` received a 6-line `add_argument("--repo", ...)` addition in `DevCommand.configure` so the canonical CLI parser exposes `--repo`.
 - **No Class S / docs regeneration:** `gaia dev docs` and `scripts/build_docs.py` were not run (deferred to P7).
-- **Pending Gate 1:** Independent Terra review of PR #2468 on `dev/upstream-backlog-watcher-2026-11`.
-- **Pending Gate 2 (after Terra PASS):** Dispatch `.github/workflows/upstream-watcher.yml` on the real runner with `apply=false` to confirm exit 0, empty `unknownEvidence`, `gsd-build/get-shit-done` visibility, and whether `#2278` recurs:
+- **Current pending gate:** assigned Opus route availability (or explicit founder-approved route/effort adjustment), then same-session bounded repair by Opus. Terra reviews the resulting repair. The real-runner dry run is only a later gate after review; P1 remains incomplete. No fallback or attempt while unavailable.
+- **Historical run parameters (not authorized to dispatch now):** `.github/workflows/upstream-watcher.yml` real-runner dry run with `apply=false` would need to confirm exit 0, empty `unknownEvidence`, `gsd-build/get-shit-done` visibility, and whether `#2278` recurs:
   - `apply`: `false`
   - `child_mode`: `fanout`
   - `staging`: `inherit`
