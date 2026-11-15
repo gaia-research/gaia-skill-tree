@@ -34,8 +34,8 @@
 
 ## Validation Commands & Results
 
-- `python3 -m pytest tests/steward/issuehygiene -q` → **930 passed in 218.16s** (includes all 923 existing `issuehygiene` tests + 7 new regression tests in `tests/steward/issuehygiene/test_founder_locks_2026_11.py`).
-- `python3 -m pytest tests/steward/test_founder_records.py tests/steward/test_desk.py -q` → **64 passed in 4.37s** (validates all repository decision records against `steward-decision-v1` schema and desk classification).
+- `python3 -m pytest tests/steward/issuehygiene -q` → **932 passed in 235.08s** (includes all 923 existing `issuehygiene` tests + 9 regression tests in `tests/steward/issuehygiene/test_founder_locks_2026_11.py`).
+- `python3 -m pytest tests/steward/test_founder_records.py tests/steward/test_desk.py -q` → **64 passed in 4.41s** (validates all repository decision records against `steward-decision-v1` schema and desk classification).
 - `python3 scripts/check_steward_coverage.py --check` → **Steward coverage check: ok**.
 - `git diff --check` → **clean (exit 0)**.
 
@@ -56,6 +56,25 @@
 - `issueHygiene.writesEnabled` remains `false`; enabling Steward closure writes still requires the independent verification gate from `steward-issue-closure-authority.json`.
 - Version-only synchronization of already-tracked records still requires fresh human `upstream:approved` on refreshed umbrellas (P2/P4).
 
+## P0 Correction Round 1 (Addressing Terra Review Findings on `6674c826`)
+
+1. **CRITICAL `reconcile.py:964` — Independent normalized provenance & fail-closed membership:**
+   - **Before:** `applyFounderLocks` matched family membership using only `suiteRepo(draft.suite)` (parent-derived for children), so a new GBrain candidate (`#2500 garrytan/brand-new` with `garrytan/gbrain` evidence URL and matching registry record) reparented under `#2600 garrytan/gstack` resolved to `resolved A A1-child-curated close`.
+   - **Correction:** Added `_normRepo` and expanded `applyFounderLocks` to check normalized provenance across `suiteRepo(draft.suite)`, `draft.identity.evidenceRepo`, `draft.exact.upstreamRepo`, `draft.exact.github.repo`, and `BASELINE_CHILDREN[qid]` membership, without broadly holding unrelated proven `garrytan/gstack` work.
+   - **After (reproducer):** `#2500` -> `held none None keep`; `#2601` (proven `garrytan/gstack`) -> `resolved A A1-child-curated close`; reparented baseline `#1925` with exact `garrytan/gbrain` A1 proof -> `resolved A A1-child-curated close`; missing-URL `#1926` -> `held none`.
+2. **WARNING `reconcile.py:1015` — C1 `#1833` generic `upstream:needs-info` hold:**
+   - **Before:** C1 `technical-reconciliation-only` set `forcedC = True` and `authority = AUTH_B`, causing `finalize()` to return before checking `upstream:needs-info`; `#1833` carrying `upstream:needs-info` remained `actionable B`.
+   - **Correction:** `applyFounderLocks` now honors `upstream:needs-info` on `technical-reconciliation-only` (`state = held`, `authority = none`, `notProven += "upstream-needs-info-hold"`) while retaining `actionable B` when `upstream:needs-info` is absent. C1 (`q-08ecd62d`) and C4 (`q-6720aecf`) decision records remain byte-identical to baseline `9b4d9b98`.
+   - **After (reproducer):** `#1833` with `upstream:needs-info` -> `held none ['founder-lock:q-08ecd62d:technical-reconciliation-only', 'upstream-needs-info-hold']`; without `upstream:needs-info` -> `actionable B`.
+3. **WARNING C2/C3 decision JSON historical text restoration:**
+   - **Before:** `issue-question-q-2568173e.json` line 12 rewrote `'user-tree unlockedSkills and timeline history'` as `'user-tree unlocked IDs and immutable timeline history'`, both C2/C3 rewrote `whyItMatters`/`recommended`/`alternative`/`unblocks`, and both included an ungrounded `2026-11-04` date.
+   - **Correction:** Restored all original baseline `9b4d9b98` text verbatim in `issue-question-q-2568173e.json` and `issue-question-q-bfd37238.json`, removed the invented `2026-11-04` date (`Previous resolution (#2283 baseline): ...`), and appended the dated `2026-11-15` amendment inside the existing `steward-decision-v1` schema.
+
+## P4 Prerequisite (Recorded Observation — NOT Implemented in P0)
+
+- **Terra observation (`upstream-approve.yml:469`):** `upstream-approve.yml:469` honors authorized `skip-child-gate` with no GBrain-specific prohibition; otherwise open children gate sync. Fresh human `upstream:approved` alone does not guarantee GBrain version-only sync when held children remain open.
+- **Required before P4:** Independently establish a canonical allowed version-only route that retains held children and prohibits GBrain `skip-child-gate` bypass. This P0 patch does **not** modify workflows or implement that route.
+
 ## Next Action
 
-Independent Terra review of PR #2467 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), followed by P1 watcher/CLI repairs once P0 is merged.
+Independent Terra review/verification of PR #2467 correction round 1 (`dev/upstream-backlog-authority-2026-11` -> `dev/upstream-backlog-2026-11`), followed by P1 watcher/CLI repairs once P0 is merged.

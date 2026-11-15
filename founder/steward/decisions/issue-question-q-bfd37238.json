@@ -4,20 +4,20 @@
   "status": "decided",
   "resolution": "records-and-version-sync-only",
   "decision": "C3 / Q-bfd37238: GBrain is deferred for a dedicated founder curation-methodology session before intake. Amended 2026-11-15 (Ruling 2, C. Lift for records and version-only sync): As B, plus sync the version. New candidates and the breadth audit (#2276) remain held. (B: Close the children whose skill is in the registry, each with per-row proof and a receipt. No version sync, no new intake.)",
-  "whyItMatters": "The founder defer for new curation is final; the curation session and new intake work remain unfinished. Removing stale approval/skip labels must not make new candidates, breadth audit #2276 or skip-child-gate mechanically actionable.",
+  "whyItMatters": "The founder defer is final; the curation session and intake work are unfinished. Removing stale approval/skip labels must not make the same family mechanically actionable again.",
   "evidence": [
     "issue-question/q-bfd37238",
     "debt:issue_founder_decision:q-bfd37238:ac2f25b1b6af9db6",
     "Affected family: #1835; garrytan/gbrain umbrella and every existing child intake. Preserve payloads, comments, L4 gates, topology and history.",
     "Founder authority: #2283 comment 6640916880 explicitly forbids skip-child-gate, upstream acceptance, automatic admission and bulk child closure.",
     "Hygiene receipt 6640982938 removed upstream:approved, skip-child-gate and ready-for-agent and applied upstream:needs-info. Those labels represent a hold, not completed curation.",
-    "Previous resolution (2026-11-04): curation-deferred — C3 / Q-bfd37238: GBrain is deferred for a dedicated founder curation-methodology session before intake.",
+    "Previous resolution (#2283 baseline): curation-deferred — C3 / Q-bfd37238: GBrain is deferred for a dedicated founder curation-methodology session before intake.",
     "Founder ruling 2026-11-15 (d2-gbrain, choice c, C. Lift for records and version-only sync): As B, plus sync the version. New candidates and the breadth audit (#2276) remain held. (B: Close the children whose skill is in the registry, each with per-row proof and a receipt. No version sync, no new intake.) Authority: founder/reports/upstream-backlog-2026-11/CAMPAIGN.md (approved 2026-11-15).",
-    "Released scope: baseline 67 garrytan/* children enumerated in PLAN.md for A1 proof-based reconciliation only, and version-only sync of already-tracked records with fresh human umbrella approval. New/absent/alias-suspect GBrain candidates, breadth audit #2276, skip-child-gate on GBrain, and trust/rank changes remain held."
+    "Released scope (2026-11-15): baseline 67 garrytan/* children enumerated in PLAN.md for A1 proof-based reconciliation only, and version-only sync of already-tracked records with fresh human umbrella approval. New/absent/alias-suspect GBrain candidates, breadth audit #2276, skip-child-gate on GBrain, and trust/rank changes remain held."
   ],
-  "recommended": "Reconcile only the baseline 67 garrytan/* children with exact A1 proof and sync versions of already-tracked records with fresh human umbrella approval; keep new candidates, breadth audit #2276, skip-child-gate and trust/rank changes held.",
-  "alternative": "Wait without new intake, trust/rank mutation or bypassing any child/L4 gate. Do not re-ask the already locked defer decision.",
-  "unblocks": "Baseline 67 garrytan/* children with exact A1 proof and version-only sync of already-tracked records with fresh human umbrella approval; new candidates, breadth audit #2276, skip-child-gate and trust/rank changes remain held.",
+  "recommended": "Consume the explicit defer as a family-wide hold; preserve all children for the founder curation session. Amended 2026-11-15: reconcile only the baseline 67 garrytan/* children with exact A1 proof and sync versions of already-tracked records with fresh human umbrella approval; keep new candidates, breadth audit #2276, skip-child-gate and trust/rank changes held.",
+  "alternative": "Wait without intake, closure, trust/rank mutation or bypassing any child/L4 gate. Do not re-ask the already locked defer decision.",
+  "unblocks": "Hold reconciliation and preservation proof only; no intake or release acceptance. Amended 2026-11-15: also unblocks baseline 67 garrytan/* children with exact A1 proof and version-only sync of already-tracked records with fresh human umbrella approval; new candidates, breadth audit #2276, skip-child-gate and trust/rank changes remain held.",
   "links": [
     "issue-question/q-bfd37238",
     "https://github.com/gaia-research/gaia-skill-tree/issues/1835",

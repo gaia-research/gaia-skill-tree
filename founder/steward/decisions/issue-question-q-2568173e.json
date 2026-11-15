@@ -4,21 +4,21 @@
   "status": "decided",
   "resolution": "records-and-version-sync-migration-deferred",
   "decision": "C2 / Q-2568173e: the canonical GitHub handle is addyosmani; migration of published addy-osmani/* identities is deferred pending an independently audited plan. Amended 2026-11-15 (Ruling 3, B. Records and version sync, migration still deferred): Close the four children with proof, sync the version under the existing identifiers.",
-  "whyItMatters": "The founder canon lock is final, but implementation and compatibility approval are unfinished. Renaming published identifiers or accepting handle migration now would bypass the migration gate.",
+  "whyItMatters": "The founder canon lock is final, but implementation and compatibility approval are unfinished. Renaming published identifiers or accepting updates now would bypass the migration gate.",
   "evidence": [
     "issue-question/q-2568173e",
     "debt:issue_founder_decision:q-2568173e:749fb275800fe372",
     "Affected family: #2002; addyosmani/agent-skills and published addy-osmani/* suite/named identities and children.",
-    "Migration plan must inventory registry/named paths and IDs, suiteRef/suiteComponents and generic references, child issue suggested IDs and source URLs, user-tree unlocked IDs and immutable timeline history, projections, install/share clients and compatibility aliases or redirects.",
+    "Migration plan must inventory registry/named paths and IDs, suiteRef/suiteComponents and generic references, child issue suggested IDs and source URLs, user-tree unlockedSkills and timeline history, projections, install/share clients and compatibility aliases or redirects.",
     "Published surfaces include docs/graph and named indexes, docs/api/v1 contributor/skill URLs, docs/u profiles, badges and external links. Prove old/new ID resolution, redirects and no duplicate skills before migration approval.",
     "Founder authority: #2283 comment 6640916880; hygiene receipt 6640982938 preserves #2002 open with upstream:needs-info. No migration has been implemented by this record.",
-    "Previous resolution (2026-11-04): migration-deferred — C2 / Q-2568173e: the canonical GitHub handle is addyosmani; migration of published addy-osmani/* identities is deferred pending an independently audited plan.",
+    "Previous resolution (#2283 baseline): migration-deferred — C2 / Q-2568173e: the canonical GitHub handle is addyosmani; migration of published addy-osmani/* identities is deferred pending an independently audited plan.",
     "Founder ruling 2026-11-15 (d3-addy, choice b, B. Records and version sync, migration still deferred): Close the four children with proof, sync the version under the existing identifiers. Authority: founder/reports/upstream-backlog-2026-11/CAMPAIGN.md (approved 2026-11-15).",
-    "Released scope: baseline four addy-osmani/* children (#2008, #2013, #2014, #2015) for A1 proof-based reconciliation only, and version-only sync under existing published identifiers with fresh human umbrella approval. Handle migration (addy-osmani to addyosmani) and published-ID renames remain held."
+    "Released scope (2026-11-15): baseline four addy-osmani/* children (#2008, #2013, #2014, #2015) for A1 proof-based reconciliation only, and version-only sync under existing published identifiers with fresh human umbrella approval. Handle migration (addy-osmani to addyosmani) and published-ID renames remain held."
   ],
-  "recommended": "Enforce the migration hold and prepare an independently reviewed migration/compatibility plan; reconcile only the four baseline children with exact A1 proof and sync versions under existing identifiers with fresh human approval.",
-  "alternative": "Retain published addy-osmani/* identities unchanged until that plan is approved; no bulk rename, duplicate intake or handle migration.",
-  "unblocks": "Baseline four addy-osmani/* children (#2008, #2013, #2014, #2015) with exact A1 proof, version-only sync under existing identifiers with fresh human umbrella approval, and migration/compatibility audit; not handle migration or published-ID renames.",
+  "recommended": "Enforce the hold and prepare an independently reviewed migration/compatibility plan; do not re-adjudicate the handle. Amended 2026-11-15: reconcile only the four baseline children with exact A1 proof and sync versions under existing identifiers with fresh human approval.",
+  "alternative": "Retain published addy-osmani/* identities unchanged until that plan is approved; no bulk rename, duplicate intake, update acceptance or child closure. Amended 2026-11-15: retain published addy-osmani/* identities unchanged; no bulk rename, duplicate intake or handle migration.",
+  "unblocks": "Planning and compatibility audit only, not registry, suite, user-tree, API, badge or client migration. Amended 2026-11-15: also unblocks baseline four addy-osmani/* children (#2008, #2013, #2014, #2015) with exact A1 proof and version-only sync under existing identifiers with fresh human umbrella approval; not handle migration or published-ID renames.",
   "links": [
     "issue-question/q-2568173e",
     "https://github.com/gaia-research/gaia-skill-tree/issues/2002",

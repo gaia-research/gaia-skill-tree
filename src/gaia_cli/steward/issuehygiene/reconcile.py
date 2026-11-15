@@ -955,18 +955,34 @@ def provenClosable(ctx: Context, draft: Draft) -> bool:
 
 # ----------------------------------------------------------------- finalize
 
+def _normRepo(value: str | None) -> str | None:
+    if not value:
+        return None
+    cleaned = value.strip().lower()
+    if cleaned.endswith(".git"):
+        cleaned = cleaned[:-4]
+    return cleaned or None
+
+
 def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> None:
     """Apply only the locked family dispositions, preserving bytes and unrelated questions."""
     for qid, record in decidedBindings(records).items():
         _, _, numbers, suites = BINDINGS[qid]
         resolution = str(record["resolution"])
+        baseline = BASELINE_CHILDREN.get(qid)
+        suitesNorm = {norm for item in suites if (norm := _normRepo(item)) is not None}
         affected = set(numbers)
         for draft in ctx.drafts.values():
-            repo = suiteRepo(draft.suite)
+            repo = _normRepo(suiteRepo(draft.suite))
+            evidenceRepo = _normRepo(draft.identity.evidenceRepo)
+            exactUpstream = _normRepo(draft.exact.upstreamRepo) if draft.exact else None
+            exactGithub = _normRepo(draft.exact.github.repo) if draft.exact and draft.exact.github else None
             candidate = draft.identity.candidateId or ""
             # C2 covers the published contributor namespace, not unrelated similar handles.
-            contributorHeld = qid == "q-2568173e" and candidate.split("/", 1)[0] in ("addy-osmani", "addyosmani")
-            if draft.number in affected or repo in suites or contributorHeld:
+            contributorHeld = qid == "q-2568173e" and candidate.split("/", 1)[0].strip().lower() in ("addy-osmani", "addyosmani")
+            provenanceMatch = any(r in suitesNorm for r in (repo, evidenceRepo, exactUpstream, exactGithub) if r is not None)
+            baselineMatch = baseline is not None and draft.number in baseline
+            if draft.number in affected or provenanceMatch or contributorHeld or baselineMatch:
                 affected.add(draft.number)
         # Include descendants even when their suite cannot be derived from the payload.
         changed = True
@@ -974,7 +990,6 @@ def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> N
             previous = len(affected)
             affected.update(draft.number for draft in ctx.drafts.values() if draft.parent in affected)
             changed = len(affected) != previous
-        baseline = BASELINE_CHILDREN.get(qid)
         amended = resolution == AMENDED_RESOLUTIONS.get(qid)
         for number in sorted(affected & ctx.drafts.keys()):
             draft = ctx.drafts[number]
@@ -1013,9 +1028,15 @@ def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> N
                 draft.authority = AUTH_C
                 draft.state = STATE_AWAITING
             elif resolution == "technical-reconciliation-only" and number in numbers:
-                draft.forcedC = True  # preserve this bounded B classification through finalize
-                draft.authority = AUTH_B
-                draft.state = STATE_ACTIONABLE
+                if "upstream:needs-info" in labelNames(draft.row):
+                    draft.forcedC = True
+                    draft.authority = AUTH_NONE
+                    draft.state = STATE_HELD
+                    draft.notProven.append("upstream-needs-info-hold")
+                else:
+                    draft.forcedC = True  # preserve this bounded B classification through finalize
+                    draft.authority = AUTH_B
+                    draft.state = STATE_ACTIONABLE
             else:
                 draft.forcedC = True
                 draft.authority = AUTH_NONE

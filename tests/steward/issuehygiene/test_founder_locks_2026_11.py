@@ -68,8 +68,11 @@ def test_baseline_enumerations_match_plan_counts_and_records_preserve_history():
     c2 = records["issue-question-q-2568173e"]
     assert c3["resolution"] == "records-and-version-sync-only"
     assert c2["resolution"] == "records-and-version-sync-migration-deferred"
-    assert any("Previous resolution (2026-11-04): curation-deferred" in ev for ev in c3["evidence"])
-    assert any("Previous resolution (2026-11-04): migration-deferred" in ev for ev in c2["evidence"])
+    assert any("Previous resolution (#2283 baseline): curation-deferred" in ev for ev in c3["evidence"])
+    assert any("Previous resolution (#2283 baseline): migration-deferred" in ev for ev in c2["evidence"])
+    assert any("user-tree unlockedSkills and timeline history" in ev for ev in c2["evidence"])
+    assert c2["whyItMatters"].startswith("The founder canon lock is final, but implementation and compatibility approval are unfinished.")
+    assert c3["whyItMatters"].startswith("The founder defer is final; the curation session and intake work are unfinished.")
     assert any("New candidates and the breadth audit (#2276) remain held." in ev for ev in c3["evidence"])
     assert any("Close the four children with proof, sync the version under the existing identifiers." in ev for ev in c2["evidence"])
 
@@ -215,3 +218,54 @@ def test_amended_resolution_requires_campaign_authority_link_and_writes_stay_dis
     policy = yaml.safe_load((ROOT / "founder/steward/POLICY.yaml").read_text())
     assert policy["issueHygiene"]["writesEnabled"] is False
     assert set(BINDINGS) == {"q-08ecd62d", "q-2568173e", "q-bfd37238", "q-6720aecf"}
+
+
+def test_reparented_gbrain_child_held_by_provenance_without_holding_unrelated_gstack(tmp_path):
+    writeNamed(tmp_path, "garrytan/brand-new", skill("garrytan/brand-new", github=_gbrain_url("brand-new")))
+    writeNamed(tmp_path, "garrytan/gstack-ok", skill("garrytan/gstack-ok", github="https://github.com/garrytan/gstack/blob/main/skills/gstack-ok/SKILL.md"))
+    writeNamed(tmp_path, "garrytan/article-enrichment", skill("garrytan/article-enrichment", github=_gbrain_url("article-enrichment")))
+    writeNamed(tmp_path, "garrytan/case-new", skill("garrytan/case-new", github="https://github.com/GarryTan/GBrain/blob/main/skills/case-new/SKILL.md"))
+
+    source = [
+        umbrellaRow(2600, "garrytan/gstack", "v1.0.0"),
+        childRow(2500, "garrytan/brand-new", _gbrain_url("brand-new"), parent=2600),
+        childRow(2503, "garrytan/case-new", "https://github.com/GarryTan/GBrain/blob/main/skills/case-new/SKILL.md", parent=2600),
+        childRow(2601, "garrytan/gstack-ok", "https://github.com/garrytan/gstack/blob/main/skills/gstack-ok/SKILL.md", parent=2600),
+        childRow(1925, "garrytan/article-enrichment", _gbrain_url("article-enrichment"), parent=2600),
+        childRow(1926, "garrytan/ask-user", "not-a-github-url", parent=2600),
+    ]
+    manifest = _run(tmp_path, source)
+
+    # New GBrain candidates reparented under unrelated gstack must stay held by provenance.
+    for held_num in (2500, 2503, 1926):
+        entry = item(manifest, held_num)
+        assert (entry["state"], entry["authority"]) == ("held", "none")
+        assert entry["proposedTransition"]["action"] == "keep"
+
+    # Unrelated proven gstack work must NOT be broadly held.
+    gstack_ok = item(manifest, 2601)
+    assert (gstack_ok["state"], gstack_ok["authority"], gstack_ok["ruleId"]) == ("resolved", "A", "A1-child-curated")
+    assert gstack_ok["proposedTransition"]["action"] == "close"
+
+    # Enumerated baseline child with exact A1 GBrain proof still resolves even if reparented.
+    baseline_reparented = item(manifest, 1925)
+    assert (baseline_reparented["state"], baseline_reparented["authority"], baseline_reparented["ruleId"]) == ("resolved", "A", "A1-child-curated")
+    assert baseline_reparented["proposedTransition"]["action"] == "close"
+
+
+def test_c1_1833_honors_upstream_needs_info_hold_while_retaining_b_when_unheld(tmp_path):
+    held_manifest = _run(
+        tmp_path,
+        [umbrellaRow(1833, "ruvnet/agentdb", "v3.63.8", title="[upstream] ruvnet/ruflo → v3.63.8", labels=("upstream:release", "upstream:needs-info"))],
+    )
+    held_1833 = item(held_manifest, 1833)
+    assert (held_1833["state"], held_1833["authority"]) == ("held", "none")
+    assert held_1833["proposedTransition"]["action"] == "keep"
+    assert "upstream-needs-info-hold" in held_1833["notProven"]
+
+    unheld_manifest = _run(
+        tmp_path,
+        [umbrellaRow(1833, "ruvnet/agentdb", "v3.63.8", title="[upstream] ruvnet/ruflo → v3.63.8")],
+    )
+    unheld_1833 = item(unheld_manifest, 1833)
+    assert (unheld_1833["state"], unheld_1833["authority"]) == ("actionable", "B")
