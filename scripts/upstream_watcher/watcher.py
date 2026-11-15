@@ -83,7 +83,12 @@ from scripts.upstream_watcher.challenge_watch import (
     WatchBudget,
     run_challenge_watch,
 )
-from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
+from scripts.upstream_watcher.finder import (
+    compute_finding,
+    detect_mode,
+    iter_suite_skills,
+    resolve_suite_source,
+)
 from scripts.upstream_watcher import staging
 from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
@@ -219,15 +224,15 @@ def _poll_suite(
     skill_id = fm.get("id", "?")
     gh_url = (fm.get("links") or {}).get("github", "")
 
-    parsed = parse_owner_repo(gh_url)
-    if not parsed:
+    resolved = resolve_suite_source(fm)
+    if not resolved:
         print(
             f"  [warn] {skill_id} — cannot derive owner/repo from links.github={gh_url!r}; skipping.",
             file=sys.stderr,
         )
         return None
 
-    owner, repo = parsed
+    owner, repo, source_url_for_identity = resolved
     # A stored version belongs to its declared source, never to a newly relinked
     # repository by coincidence. Reconcile the baseline through the canonical CLI.
     declared = (fm.get("upstream") or {}).get("repo")
@@ -237,7 +242,7 @@ def _poll_suite(
     from scripts.upstream_watcher.live import GhError
 
     try:
-        validateReleaseSource({"skillId": skill_id, "sourceUrl": gh_url})
+        validateReleaseSource({"skillId": skill_id, "sourceUrl": source_url_for_identity})
     except GhError as exc:
         raise UnknownEvidenceError(str(exc)) from exc
 

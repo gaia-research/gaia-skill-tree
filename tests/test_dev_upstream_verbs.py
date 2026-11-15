@@ -128,6 +128,7 @@ def _sync_args(
     tag: str = "v1.1.0",
     source_url: str = "https://github.com/testorg/my-skill/releases/tag/v1.1.0",
     *,
+    repo: str | None = None,
     bootstrap: bool = False,
     released_at: str | None = None,
     mode: str = "components",
@@ -139,6 +140,7 @@ def _sync_args(
         skill_id=skill_id,
         tag=tag,
         source_url=source_url,
+        repo=repo,
         bootstrap=bootstrap,
         released_at=released_at,
         mode=mode,
@@ -728,3 +730,252 @@ class TestSyncUpstreamEndToEnd:
             f"Unexpected non-zero exit: returncode={result.returncode}\n"
             f"stdout={result.stdout}\nstderr={result.stderr}"
         )
+
+
+# ---------------------------------------------------------------------------
+# sync-upstream explicit --repo repoint
+# ---------------------------------------------------------------------------
+
+
+class TestSyncUpstreamRepoint:
+    def test_explicit_repoint_success_and_preserves_history(self, tmp_path):
+        """Explicit --repo repoints upstream.repo, logs old+new provenance, preserves old history."""
+        prior_content = _SKILL_MD_WITH_UPSTREAM.replace(
+            "timeline: []",
+            "suiteRef: testorg/parent-suite\n"
+            "timeline:\n"
+            "- timestamp: '2026-01-01T00:00:00Z'\n"
+            "  action: upstream_synced\n"
+            "  contributor: original-bot\n"
+            "  previousValue: null\n"
+            "  newValue: v1.0.0\n"
+            "  details: first-run baseline",
+        )
+        registry, skill_file = _make_registry(tmp_path, prior_content)
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+            repo="neworg/new-repo",
+            released_at="2026-11-10T19:45:36Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+
+        sync_upstream_command(args)
+
+        text = skill_file.read_text(encoding="utf-8")
+        _fence, fm_text, _body = split_frontmatter(text)
+        meta = load_yaml_simple(fm_text)
+
+        assert meta["upstream"]["repo"] == "neworg/new-repo"
+        assert meta["upstream"]["version"] == "v2.0.0"
+        assert meta["upstream"]["sourceUrl"] == "https://github.com/neworg/new-repo/releases/tag/v2.0.0"
+        assert meta["suiteRef"] == "testorg/parent-suite"
+        assert meta["level"] == "2★"
+        assert meta["origin"] is True
+        assert len(meta["timeline"]) == 2
+        # Prior history preserved verbatim
+        assert meta["timeline"][0]["contributor"] == "original-bot"
+        assert meta["timeline"][0]["newValue"] == "v1.0.0"
+        # New repoint event captures old+new repo and source/version provenance
+        ev = meta["timeline"][1]
+        assert ev["action"] == "upstream_synced"
+        assert ev["previousValue"] == "testorg/my-skill@v1.0.0"
+        assert ev["newValue"] == "neworg/new-repo@v2.0.0"
+        assert "testorg/my-skill" in ev["details"]
+        assert "neworg/new-repo" in ev["details"]
+        assert "https://github.com/testorg/my-skill/releases/tag/v1.0.0" in ev["details"]
+        assert "https://github.com/neworg/new-repo/releases/tag/v2.0.0" in ev["details"]
+
+    def test_same_tag_repoint_allowed_when_repo_changes(self, tmp_path):
+        """Repointing to a new repo with the same tag v1.0.0 succeeds."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v1.0.0",
+            repo="neworg/new-repo",
+            released_at="2026-11-10T19:45:36Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        sync_upstream_command(args)
+
+        text = skill_file.read_text(encoding="utf-8")
+        assert "repo: neworg/new-repo" in text
+        assert "testorg/my-skill@v1.0.0" in text
+        assert "neworg/new-repo@v1.0.0" in text
+
+    def test_same_tag_same_repo_with_flag_still_rejected(self, tmp_path):
+        """Passing --repo with the same repo and same version still rejects."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v1.0.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0",
+            repo="testorg/my-skill",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    def test_silent_repo_change_without_flag_rejected_even_if_links_changed(self, tmp_path):
+        """Without --repo, source-url cannot silently switch away from existing upstream.repo."""
+        content = _SKILL_MD_WITH_UPSTREAM.replace(
+            "https://github.com/testorg/my-skill/blob/main/skills/my-skill/SKILL.md",
+            "https://github.com/neworg/new-repo/blob/main/skills/my-skill/SKILL.md",
+        )
+        registry, skill_file = _make_registry(tmp_path, content)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    def test_mismatched_repo_and_source_url_rejected_atomically(self, tmp_path):
+        """--repo and --source-url pointing to different repos fail before any write."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/otherorg/other-repo/releases/tag/v2.0.0",
+            repo="neworg/new-repo",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    @pytest.mark.parametrize("bad_repo", ["not-a-repo", "owner/repo/extra", "owner /repo", "", "-bad/repo"])
+    def test_malformed_repo_rejected_atomically(self, tmp_path, bad_repo):
+        """Malformed --repo values are rejected before any write."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+            repo=bad_repo,
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    def test_source_url_tag_mismatch_rejected_atomically(self, tmp_path):
+        """--source-url tag must match --tag."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.1",
+            repo="neworg/new-repo",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    def test_repoint_dry_run_writes_nothing(self, tmp_path, capsys):
+        """--dry-run with --repo prints intended changes and writes nothing."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+            repo="neworg/new-repo",
+            dry_run=True,
+            released_at="2026-11-10T19:45:36Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        sync_upstream_command(args)
+
+        assert skill_file.read_text(encoding="utf-8") == original
+        captured = capsys.readouterr()
+        assert "DRY RUN" in captured.out
+        assert "neworg/new-repo" in captured.out
+
+    def test_frozen_record_protected_from_repoint(self, tmp_path):
+        """Frozen record refuses --repo repoint and writes nothing."""
+        frozen_with_upstream = _SKILL_MD_ALREADY_FROZEN.replace(
+            "createdAt: '2026-01-01'",
+            "upstream:\n"
+            "  mode: components\n"
+            "  repo: testorg/my-skill\n"
+            "  version: v1.0.0\n"
+            "createdAt: '2026-01-01'",
+        )
+        registry, skill_file = _make_registry(tmp_path, frozen_with_upstream)
+        original = skill_file.read_text(encoding="utf-8")
+        args = _sync_args(
+            registry,
+            tag="v2.0.0",
+            source_url="https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+            repo="neworg/new-repo",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+        assert skill_file.read_text(encoding="utf-8") == original
+
+    def test_cli_argparse_accepts_repo_flag(self, tmp_path):
+        """End-to-end CLI invocation accepts --repo on sync-upstream --dry-run."""
+        import os
+        import subprocess
+
+        named_dir = tmp_path / "registry" / "named" / "fixture"
+        named_dir.mkdir(parents=True)
+        skill_file = named_dir / "skill.md"
+        skill_file.write_text(
+            _SKILL_MD_WITH_UPSTREAM.replace("id: testorg/my-skill", "id: fixture/skill"),
+            encoding="utf-8",
+        )
+        schema_dir = tmp_path / "registry" / "schema"
+        schema_dir.mkdir(parents=True)
+        (schema_dir / "meta.json").write_text("{}", encoding="utf-8")
+
+        env = {**os.environ, "GAIA_OPERATOR_OVERRIDE": "1", "PYTHONPATH": "src"}
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "gaia_cli",
+                "--registry",
+                str(tmp_path),
+                "dev",
+                "sync-upstream",
+                "fixture/skill",
+                "--repo",
+                "neworg/new-repo",
+                "--tag",
+                "v2.0.0",
+                "--source-url",
+                "https://github.com/neworg/new-repo/releases/tag/v2.0.0",
+                "--dry-run",
+            ],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+        assert result.returncode == 0, result.stderr
+        assert "DRY RUN" in result.stdout
+        assert "neworg/new-repo" in result.stdout

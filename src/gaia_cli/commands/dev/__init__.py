@@ -1149,6 +1149,12 @@ class DevCommand(Command):
             help="GitHub releases URL: https://github.com/<owner>/<repo>/releases/tag/<tag>",
         )
         dev_sync_upstream.add_argument(
+            "--repo",
+            dest="repo",
+            default=None,
+            help="Explicitly repoint upstream.repo to <owner>/<repo> (must match --source-url)",
+        )
+        dev_sync_upstream.add_argument(
             "--bootstrap",
             action="store_true",
             default=False,

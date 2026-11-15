@@ -22,6 +22,7 @@ from __future__ import annotations
 import re
 import sys
 import datetime
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
@@ -46,11 +47,12 @@ from gaia_cli.frontmatter import (
 
 _VERSION_RE = re.compile(r"^v?\d+\.\d+\.\d+.*$")
 _RELEASE_URL_RE = re.compile(
-    r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/releases/tag/.+$"
+    r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/releases/tag/(?P<tag>.+)$"
 )
 _GITHUB_REPO_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)(?:/|$)"
 )
+_CANONICAL_REPO_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$")
 
 # Ordered list of star levels so we can compare numerically.
 _STAR_LEVELS = ["1★", "2★", "3★", "4★", "5★", "6★"]
@@ -86,12 +88,37 @@ def _pf_version_format(version: str) -> None:
         )
 
 
-def _pf_source_url_format(source_url: str) -> None:
-    if not _RELEASE_URL_RE.match(source_url):
+def _pf_source_url_format(source_url: str, version: str | None = None) -> None:
+    m = _RELEASE_URL_RE.match(source_url)
+    if not m:
         _fail_dev_preflight(
             f"Invalid --source-url: {source_url!r}. "
             "Must be https://github.com/<owner>/<repo>/releases/tag/<tag>.",
             fix="Copy the URL directly from the GitHub Releases page.",
+        )
+        return
+    if version is not None:
+        url_tag = urllib.parse.unquote(m.group("tag")).rstrip("/")
+        if url_tag != version:
+            _fail_dev_preflight(
+                f"--source-url tag {url_tag!r} does not match --tag {version!r}. "
+                "Nothing was written.",
+                fix="Ensure --source-url points to the release tag matching --tag.",
+            )
+
+
+def _pf_repo_format(target_repo: str | None) -> None:
+    if target_repo is None:
+        return
+    if (
+        not isinstance(target_repo, str)
+        or any(c.isspace() for c in target_repo)
+        or not _CANONICAL_REPO_RE.fullmatch(target_repo)
+    ):
+        _fail_dev_preflight(
+            f"Invalid --repo: {target_repo!r}. "
+            "Must be <owner>/<repo> with no whitespace.",
+            fix="Provide a valid GitHub owner/repo such as ruvnet/agentdb.",
         )
 
 
@@ -110,21 +137,48 @@ def _normalize_repo_for_comparison(repo: Any) -> str | None:
     return repo.lower()
 
 
-def _pf_source_url_matches_skill(source_url: str, meta: dict, skill_id: str) -> None:
-    """Ensure source-url owner/repo matches upstream.repo or links.github."""
+def _pf_source_url_matches_skill(
+    source_url: str,
+    meta: dict,
+    skill_id: str,
+    target_repo: str | None = None,
+) -> None:
+    """Ensure source-url owner/repo matches explicit --repo, upstream.repo, or links.github."""
     url_repo = _parse_owner_repo_from_url(source_url)
     if not url_repo:
         return  # already rejected by format check above
 
     norm_url_repo = _normalize_repo_for_comparison(url_repo)
 
-    # Acceptable: existing upstream.repo block
-    existing_upstream_repo = (meta.get("upstream") or {}).get("repo")
-    norm_existing = _normalize_repo_for_comparison(existing_upstream_repo)
-    if norm_url_repo and norm_existing and norm_existing == norm_url_repo:
+    if target_repo is not None:
+        norm_target = _normalize_repo_for_comparison(target_repo)
+        if norm_url_repo and norm_target and norm_url_repo == norm_target:
+            return
+        _fail_dev_preflight(
+            f"Source URL owner/repo {url_repo!r} does not match explicit --repo "
+            f"{target_repo!r}. Nothing was written.",
+            fix="Ensure --source-url points to the same GitHub repo as --repo.",
+        )
         return
 
-    # Acceptable: derived from links.github
+    # Acceptable when no --repo given: existing upstream.repo block (if present)
+    existing_upstream_repo = (meta.get("upstream") or {}).get("repo")
+    if existing_upstream_repo is not None:
+        norm_existing = _normalize_repo_for_comparison(existing_upstream_repo)
+        if norm_url_repo and norm_existing and norm_existing == norm_url_repo:
+            return
+        _fail_dev_preflight(
+            f"Source URL owner/repo {url_repo!r} does not match skill's upstream.repo "
+            f"({existing_upstream_repo!r}). Pass --repo to repoint explicitly. "
+            f"Nothing was written.",
+            fix=(
+                "Ensure --source-url points to the skill's existing upstream.repo, "
+                "or pass --repo <owner>/<repo> to repoint."
+            ),
+        )
+        return
+
+    # Acceptable when no upstream.repo exists: derived from links.github
     links_github = (meta.get("links") or {}).get("github", "")
     derived_repo = _parse_owner_repo_from_url(links_github)
     norm_derived = _normalize_repo_for_comparison(derived_repo)
@@ -142,11 +196,21 @@ def _pf_source_url_matches_skill(source_url: str, meta: dict, skill_id: str) -> 
     )
 
 
-def _pf_not_already_synced(version: str, meta: dict) -> None:
-    existing = (meta.get("upstream") or {}).get("version")
-    if existing and existing == version:
+def _pf_not_already_synced(
+    version: str,
+    meta: dict,
+    target_repo: str | None = None,
+) -> None:
+    existing_version = (meta.get("upstream") or {}).get("version")
+    existing_repo = (meta.get("upstream") or {}).get("repo")
+    is_repo_change = (
+        target_repo is not None
+        and _normalize_repo_for_comparison(target_repo)
+        != _normalize_repo_for_comparison(existing_repo)
+    )
+    if existing_version and existing_version == version and not is_repo_change:
         _fail_dev_preflight(
-            f"Skill already synced at version {existing!r}. "
+            f"Skill already synced at version {existing_version!r}. "
             "Use --force to re-record (not implemented in V1).",
             fix="Nothing was written. Bump the --tag value or omit --tag to check current state.",
         )
@@ -196,6 +260,7 @@ def sync_upstream_command(args) -> None:
     skill_id = args.skill_id.lstrip("/")
     version: str = args.tag
     source_url: str = args.source_url
+    target_repo: str | None = getattr(args, "repo", None)
     is_bootstrap: bool = getattr(args, "bootstrap", False)
     released_at: str | None = getattr(args, "released_at", None)
     mode: str = getattr(args, "mode", "components") or "components"
@@ -227,20 +292,28 @@ def sync_upstream_command(args) -> None:
     # --- Pre-flight validation ---
     _run_dev_preflights([
         lambda: preflightNamedSkillMutable(registry_path, skill_id),
+        lambda: _pf_repo_format(target_repo),
         lambda: _pf_version_format(version),
-        lambda: _pf_source_url_format(source_url),
-        lambda: _pf_source_url_matches_skill(source_url, meta, skill_id),
-        lambda: _pf_not_already_synced(version, meta),
+        lambda: _pf_source_url_format(source_url, version),
+        lambda: _pf_source_url_matches_skill(source_url, meta, skill_id, target_repo),
+        lambda: _pf_not_already_synced(version, meta, target_repo),
         lambda: _pf_min_two_stars(skill_id, meta),
         lambda: _pf_bootstrap_no_existing_block(skill_id, meta, is_bootstrap),
     ])
 
     # --- Compute new upstream block ---
     url_repo = _parse_owner_repo_from_url(source_url)
-    existing_repo = (meta.get("upstream") or {}).get("repo")
-    repo = existing_repo or url_repo or ""
+    existing_upstream = meta.get("upstream") or {}
+    existing_repo = existing_upstream.get("repo")
+    old_version: str | None = existing_upstream.get("version")
+    old_source_url: str | None = existing_upstream.get("sourceUrl")
+    repo = target_repo if target_repo is not None else (existing_repo or url_repo or "")
+    is_repoint = (
+        target_repo is not None
+        and _normalize_repo_for_comparison(target_repo)
+        != _normalize_repo_for_comparison(existing_repo)
+    )
 
-    old_version: str | None = (meta.get("upstream") or {}).get("version")
     synced_at = _utc_now_iso()
 
     new_upstream: dict[str, Any] = {
@@ -254,17 +327,32 @@ def sync_upstream_command(args) -> None:
 
     # --- Build timeline event ---
     contributor = user or _get_contributor()
-    details = (
-        "first-run baseline"
-        if is_bootstrap
-        else f"synced from {source_url}"
-    )
+    if is_repoint:
+        prev_val: str | None = (
+            f"{existing_repo}@{old_version}"
+            if (existing_repo and old_version)
+            else (existing_repo or old_version)
+        )
+        new_val = f"{repo}@{version}"
+        details = (
+            f"repointed from {existing_repo or '(none)'}@{old_version or '(none)'} "
+            f"({old_source_url or 'no sourceUrl'}) to {repo}@{version}; "
+            f"synced from {source_url}"
+        )
+    else:
+        prev_val = old_version
+        new_val = version
+        details = (
+            "first-run baseline"
+            if is_bootstrap
+            else f"synced from {source_url}"
+        )
     timeline_event: dict[str, Any] = {
         "timestamp": synced_at,
         "action": "upstream_synced",
         "contributor": contributor,
-        "previousValue": old_version,
-        "newValue": version,
+        "previousValue": prev_val,
+        "newValue": new_val,
         "details": details,
     }
 

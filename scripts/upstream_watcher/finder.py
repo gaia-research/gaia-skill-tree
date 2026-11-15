@@ -34,6 +34,40 @@ from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 # ---------------------------------------------------------------------------
 
 _STAR_RE = re.compile(r"(\d+)[★\*]")
+_CANONICAL_REPO_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$")
+
+
+def resolve_suite_source(fm: dict) -> tuple[str, str, str] | None:
+    """Resolve ``(owner, repo, source_url)`` for a suite skill.
+
+    Uses ``links.github`` when non-empty; falls back to ``upstream.repo`` ONLY
+    when ``links.github`` is empty or missing.  Raises ``UnknownEvidenceError``
+    if a non-empty ``links.github`` or fallback ``upstream.repo`` is malformed.
+    Returns ``None`` only when both are empty/missing.
+    """
+    skill_id = fm.get("id", "?")
+    gh_url = (fm.get("links") or {}).get("github")
+    declared = (fm.get("upstream") or {}).get("repo")
+
+    if gh_url is not None and str(gh_url).strip() != "":
+        gh_str = str(gh_url).strip()
+        parsed = parse_owner_repo(gh_str)
+        if not parsed or not _CANONICAL_REPO_RE.fullmatch(f"{parsed[0]}/{parsed[1]}"):
+            raise UnknownEvidenceError(
+                f"{skill_id}: invalid links.github={gh_url!r}; cannot derive owner/repo"
+            )
+        return (parsed[0], parsed[1], gh_str)
+
+    if declared is None or str(declared).strip() == "":
+        return None
+
+    declared_str = str(declared)
+    if any(c.isspace() for c in declared_str) or not _CANONICAL_REPO_RE.fullmatch(declared_str):
+        raise UnknownEvidenceError(
+            f"{skill_id}: invalid upstream.repo={declared!r}; cannot derive owner/repo"
+        )
+    owner, repo = declared_str.split("/", 1)
+    return (owner, repo, f"https://github.com/{owner}/{repo}")
 
 
 def _parse_star_level(level_str: str | None) -> int:
@@ -100,12 +134,14 @@ def detect_mode(fm: dict, registry_map: dict[str, dict]) -> str:
         Dict mapping skill-id → frontmatter for all known named skills.
         Used to look up component ``links.github`` URLs.
     """
-    suite_gh = (fm.get("links") or {}).get("github", "")
-    suite_parsed = parse_owner_repo(suite_gh)
-    if not suite_parsed:
+    try:
+        resolved = resolve_suite_source(fm)
+    except UnknownEvidenceError:
+        return "version-only"
+    if not resolved:
         return "version-only"
 
-    suite_owner, suite_repo = suite_parsed
+    suite_owner, suite_repo, _ = resolved
     components = fm.get("suiteComponents") or []
 
     for comp_id in components:
