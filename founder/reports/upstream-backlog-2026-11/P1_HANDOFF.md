@@ -1,6 +1,8 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT STATUS: BUILDER-REPORTED REPAIR DELIVERED; INDEPENDENT TERRA REVIEW PENDING.** Founder-authorized builder `worker-sol-shared` returned PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`, actual `openai-codex/gpt-6.1-sol`, medium (lead verified model/effort records). The bounded named persistence-schema compatibility repair, mirrors, tests and docs are delivered. Reported checks are builder-reported, not independent verification. The earlier Terra FINAL **FINDINGS** at `60120a1ec7b24a31e7e9e0a5d75c337963993442` describe the pre-repair source only. Terra review is pending; no Terra approval, P1 completion, real-runner dispatch, P2, writes, or release approval. Schema PR #2469 targets integration; feature stack was merged only into P1 for testing. See [P1_BLOCKER.md](P1_BLOCKER.md).
+> **CURRENT STATUS: PAUSED BY FOUNDER; NO FURTHER WORK UNTIL OPERATOR RESUMES; NO MERGES.** Source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was CANCELLED, exit 143, with NO FINAL VERDICT. Do not resume that attempt; do not claim independent PASS. PR #2468 and #2469 remain OPEN/DRAFT, integration-targeted. P0 was completed internally earlier; P2–P7 not started. No main merge, approval label, variable/write-switch change, closure, or merit/history mutation. No runner continuation while paused. See portable [RESUME.md](RESUME.md).
+
+The builder-reported repair and checks below remain attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Historical Terra findings are preserved, but are not a current final verdict on the latest candidate. Current independent-review gate is paused pending operator resumption.
 
 ## Current Terra final receipt and correction to earlier schema diagnosis
 

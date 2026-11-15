@@ -1,5 +1,9 @@
 # Campaign usage checkpoints
 
+## 2026-11-16 — founder pause preservation checkpoint
+
+Campaign-complete usage/cost remains **UNAVAILABLE** because of the parent-session/interrupt accounting gap. No pricing-tool retry, alternate session, estimate, or extrapolation was attempted. Actual billing is unknown. `$4.907920` remains P0-only partial, not a campaign total. This admin pause-preservation work is not separately metered here; do not infer zero cost. No prompts, transcripts, credentials, raw logs, or private personal data recorded.
+
 ## P1 repair delivery and administration — accounting unavailable
 
 - Worker/task: founder-authorized solo bounded named-persistence contract repair; `worker-sol-shared`, provider/model `openai-codex/gpt-6.1-sol`, medium; PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f` (lead-verified model/effort records).

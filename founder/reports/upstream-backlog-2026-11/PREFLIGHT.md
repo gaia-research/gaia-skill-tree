@@ -2,6 +2,10 @@
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
+## Current pause — 2026-11-16
+
+Founder pause is active: no further work until operator resumes; no merges, tests, reviews, repairs, runner continuation, new code branches, or automatic workflow dispatch. Current candidate heads are P1 `591264b3bc1d7607e1074411f1c0a77b541515d9` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, with PR #2468/#2469 OPEN/DRAFT to integration. Latest Terra attempt `caae8998` CANCELLED, exit 143, no verdict. Current roster pointer and complete portable resume sequence: [RESUME.md](RESUME.md). Sole current contract-repair role remains worker-sol-shared (`openai-codex/gpt-6.1-sol`, medium), independent reviewer Terra (`openai-codex/gpt-6.1-terra`, high); Opus is retired, no fallback or substitutions. Older preflight/pending claims below are historical and must not override this checkpoint.
+
 ## Current P1 builder/review state
 
 Founder-authorized role reassignment and solo implementation are complete. `worker-sol-shared` returned PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`, actual model `openai-codex/gpt-6.1-sol`, medium; lead verified actual model/effort records. Bounded schema repair, mirrors, persistence tests and watcher docs were delivered. Opus performed inspection only; no account billing/quota inference. Terra independent review is **PENDING**. Builder claims and tests remain BUILDER-REPORTED, not independently verified. Feature changes were merged only into the P1 feature branch for testing. Draft schema PR #2469 (`schema/upstream-contract-2026-11`) targets integration; P1 PR #2468 remains draft and depends on it. No real-runner dispatch, P1 completion, P2, writes, or release approval. This supersedes the old live-preflight-pending text below without deleting history.

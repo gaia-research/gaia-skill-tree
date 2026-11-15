@@ -1,8 +1,10 @@
-# P1 blocker — founder direction required
+# P1 blocker — paused pending final independent Terra verdict
 
-**Current state:** Founder-authorized worker-role reassignment and repair implementation are complete. `worker-sol-shared` actual model/effort verified: `openai-codex/gpt-6.1-sol`, medium, PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`. Delivered candidate is BUILDER-REPORTED; independent Terra review is **PENDING**. Prior Terra FINAL FINDINGS below are the pre-repair verdict, not a review of this candidate. P1 incomplete. Schema draft PR #2469 targets integration; feature integration for testing is only into the P1 feature branch. Next gate: Terra review; real-runner `apply=false` only after review. No P2, writes, or release approval.
+**Current status: PAUSED by founder; no further work until operator resumes; NO MERGES.** P1 source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was CANCELLED, exit 143, with NO FINAL VERDICT. Do not resume that attempt. Candidate is not independent PASS or P1 complete. Both PRs #2468/#2469 remain OPEN/DRAFT targeting integration; no main merge, approval labels, variables/write switches, closures, or merit/history changes. P2–P7 not started; no runner continuation while paused. P0 previously completed internally at integration SHA `bfed2d777b76448f6ede5d40e1a834050dff07d0`. Portable instructions: [RESUME.md](RESUME.md).
 
-## Verified checkpoint
+The current sole contract-repair role is `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium); Opus is retired. Independent reviewer is `reviewer` (`openai-codex/gpt-6.1-terra`, high). Full roster/config and precise evidence boundaries are in [RESUME.md](RESUME.md). Historical pre-repair findings below are retained as history, not asserted as the current final verdict.
+
+## Verified checkpoint (historical pre-pause details)
 
 - Dedicated worktree: `/data/data/com.termux/files/home/.gaia-worktrees/upstream-backlog-2026-11-p1`
 - Branch: `dev/upstream-backlog-watcher-2026-11`

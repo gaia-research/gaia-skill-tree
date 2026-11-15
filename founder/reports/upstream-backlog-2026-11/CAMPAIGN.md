@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Current status:** P0 PASS (PR #2467 internally merged to integration). P1 repair candidate delivered by founder-authorized `worker-sol-shared`; actual session/model/effort verified by lead. Terra independent review **PENDING**; candidate is BUILDER-REPORTED, not independently resolved or P1 complete. Draft PR #2468 remains open and depends on draft schema PR #2469. Feature/schema changes are not on integration or main. No P2, real-runner dispatch, writes, or release approval. Campaign cost/usage remains **UNAVAILABLE**; `$4.907920` is P0-only partial.
+- **Current status: PAUSED by founder; no further work until operator resumes; NO MERGES of any kind.** P0 completed internally previously (PR #2467 merged only to integration). P1 candidate is builder-delivered and awaits independent final Terra verdict; latest attempt `caae8998` CANCELLED, exit 143, NO FINAL VERDICT. PRs #2468/#2469 remain OPEN/DRAFT. P2–P7 not started. No main merge, approval label, variable/write-switch change, closure, or merit/history mutation. See portable [RESUME.md](RESUME.md). Campaign cost/usage remains UNAVAILABLE; `$4.907920` is P0-only partial.
 
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
@@ -94,7 +94,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 | Phase | Lane | State |
 |---|---|---|
 | P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **AUTHORIZED; LIVE PREFLIGHT PENDING** for worker-sol-shared; Terra FINAL FINDINGS at `60120a1`; repair, independent Terra review, and real-runner dry run still required |
+| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **PAUSED; awaiting independent final Terra verdict** on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; latest Terra attempt cancelled/no verdict; real-runner dry run not performed |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
@@ -222,6 +222,14 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Independent Terra review is **PENDING**. Real-runner `apply=false` remains after Terra; P2 and writes are not authorized. No Terra result was polled or awaited.
 - Cost/usage counters and estimate for worker and current administration are unavailable; actual billing unknown. `$4.907920` remains P0-only partial, not campaign total.
 
+## 2026-11-16 — Founder pause-preservation checkpoint
+
+- Founder directed: pause in resumable state, use the same roster unless otherwise specified, draft PRs if needed, and do not merge anything. **No further work until operator resumes.** No tests/review/repair/runner continuation, new code branches, or automatic workflow dispatch while paused.
+- P0 was completed internally earlier and remains merged only to integration at `bfed2d777b76448f6ede5d40e1a834050dff07d0`; no merge to main. P1 source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. P1 worktrees and pushed branches preserved. Latest Terra attempt `caae8998` CANCELLED, exit 143, no final verdict. Candidate is not independently PASS.
+- PR #2468 (`dev/upstream-backlog-watcher-2026-11`) and PR #2469 (`schema/upstream-contract-2026-11`) remain OPEN/DRAFT, target `dev/upstream-backlog-2026-11`; exact current heads recorded in [RESUME.md](RESUME.md). No PR readiness or merge action.
+- Portable next-step, roster, verification boundaries, branch safety, and accounting are documented in [RESUME.md](RESUME.md). This report-only commit is separate from source checkpoints and is not self-referenced.
+- Campaign-complete usage/cost unavailable; `$4.907920` is P0-only partial; actual billing unknown. P2–P7 not started. All authority gates preserved.
+
 ## Landed
 
-Nothing merged to the integration branch or main yet.
+P0 only: PR #2467 was previously merged to integration. No P1/schema changes merged to integration or main.
