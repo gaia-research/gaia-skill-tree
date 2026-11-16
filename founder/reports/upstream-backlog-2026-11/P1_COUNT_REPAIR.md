@@ -1,4 +1,14 @@
-# P1 bounded #2278 investigation — STOPPED, metadata correction limit reached
+# P1 bounded #2278 investigation — current state: metadata probe failed, decision required
+
+## 2026-11-16 actual second metadata-only run — failure, diagnostic only
+
+Run `43941667985` completed `failure` at exact feature head `fcde5d9324812276ea09029ae225089bdfbe3952`. Its diagnostic job ran; metadata-read step exited 3; upload succeeded; ordinary watcher, challenge-watch, and upstream-poll jobs skipped. Artifact ID `14262564894`, file SHA-256 `a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`, archive SHA-256 `f9963bc3b61082bc822d0709a536ea5f8a27c0829f148f06af731ebe9ad7829b`; downloaded outside repo to `${TMPDIR:-/tmp}/upstream-backlog-2026-11/run-43941667985/diagnostic-upstream-metadata.json`. Detailed sanitized receipt: [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md).
+
+Actual observations: repository aggregate was 252 both before and after; GraphQL before walks completed at 245 issues / 7 PRs, and after values were single-node samples (245 / 7), not full walks. REST traversal remained incomplete: one page of 100 issue-typed rows, then `unsafe-link-query` after HTTP 200. All 100 REST identities matched the complete GraphQL issue set; the remainder of that set was not in the one REST page. REST typed counts are null, not zero. No HTTP 403 or recorded permission error. No complete REST-vs-GraphQL PR identity comparison or before/after identity stability determination is possible. Cause of validator rejection, permissions, and original #2278 discrepancy remain unproven. This failure is a diagnostic nonhealthy result, not an infrastructure failure, code verdict, P1 acceptance, or root-cause finding.
+
+**STOP for Lead/founder decision.** One authorized correction and one actual diagnostic run have already occurred. No further code correction, permission increase, dispatch, retry, normal watcher run, merge, or phase advance is authorized by this receipt. No permission increase is justified by the observed HTTP-200 validator rejection alone. Proposed next step only: decide whether to authorize a separately bounded read-only review of continuation-query validation. Preserve original normal run 43896669237 and first metadata run 43927918189 and their hashes unchanged. Integration remains `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema remains `6bed0edf324d49e42cd8953351deaccaa733d22f`; P1 remains blocked, no merges.
+
+## Earlier correction-round history (retained below)
 
 ## 2026-11-17 metadata correction round 2 — independent Terra FINAL FINDINGS
 
@@ -608,4 +618,4 @@ Preflight verified clean feature worktree `dev/upstream-backlog-watcher-2026-11`
 
 Exact reviewed existing workflow inputs for the one experiment: `.github/workflows/upstream-watcher.yml` on feature ref; `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `skill_id=`, `challenge_watch=false`, `challenge_input=`, `challenge_shadow=false`, `escalate_candidate=`. All normal watcher steps must skip; challenge/upstream-poll dependents must remain skipped. Workflow permissions remain exactly `issues: write`, `contents: read` (implicit metadata read); no `pull-requests: read`, PAT, or permission changes. Expected artifact `DIAGNOSTIC-upstream-metadata-probe` / `generated-output/diagnostic-upstream-metadata.json`, explicitly diagnostic-only, acceptance-ineligible, P1-false. Combined inventory guard unchanged.
 
-At this checkpoint there is no new dispatch result yet. After one dispatch, record the single returned run identity/status and freeze the feature branch. Do not poll, sleep, monitor, or collect artifacts in this job; background monitor owns that. If submission response is uncertain, perform one read-only lookup by exact head/time; never repeat POST. P1 remains blocked until the diagnostic is assessed.
+Historical dispatch-time checkpoint; superseded by the actual run 43941667985 receipt at the top of this report and [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). The diagnostic failed; do not redispatch or monitor/poll further. P1 remains blocked pending Lead/founder decision.

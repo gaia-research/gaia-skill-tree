@@ -1,6 +1,12 @@
-# P1 blocker — STOPPED; metadata correction limit reached
+# P1 blocker — second metadata probe failed; STOP for Lead decision
 
-## 2026-11-17 current truth — Terra FINDINGS, P1 BLOCKED
+## 2026-11-16 current truth — actual run 43941667985, P1 BLOCKED
+
+Run `43941667985` at feature HEAD `fcde5d9324812276ea09029ae225089bdfbe3952` completed failure: metadata-only job ran, read step exited 3, artifact upload succeeded, ordinary jobs skipped. REST halted incomplete after 100 issue-typed rows at `unsafe-link-query` (HTTP 200). GraphQL before walks complete at 245 issues / 7 PRs; after samples only; REST typed counts unknown. No 403/permission error. Full visibility and cause remain unknown. See [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md).
+
+**STOP for Lead/founder decision.** The one authorized extra correction and one probe are used. No further correction, permission change, retry, dispatch, normal run, merge or phase advance is authorized. No permission increase is justified by the evidence alone. Proposed next step: decide whether to authorize bounded read-only review of continuation-query validation. Preserve original run 43896669237 and first metadata run 43927918189 unchanged; P1 blocked, PR #2468/#2469 OPEN/DRAFT, no merges.
+
+## Superseded checkpoint — 2026-11-17 Terra FINDINGS, P1 BLOCKED
 
 Terra independently reviewed exact feature HEAD `b614688657d34234472caaeef7069733647869df` (OpenAI Codex GPT-6.1 Terra, high) and returned **FINDINGS / issues_found, NOT PASS**. Two warnings: unstable GraphQL/repository counts can be reported as identity disagreement; missing authoritative repository identity can leave a named count read healthy. Full findings and run chronology: [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). Focused 122 passed; no full required regression/parity at this head. No second metadata run. First metadata run 43927918189 failed unsafe-link; original normal run 43896669237 failed 244/250. Historical unsafe-link cause and original PR-visibility cause UNKNOWN.
 
@@ -51,4 +57,4 @@ Preflight verified clean feature worktree `dev/upstream-backlog-watcher-2026-11`
 
 Exact reviewed existing workflow inputs for the one experiment: `.github/workflows/upstream-watcher.yml` on feature ref; `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `skill_id=`, `challenge_watch=false`, `challenge_input=`, `challenge_shadow=false`, `escalate_candidate=`. All normal watcher steps must skip; challenge/upstream-poll dependents must remain skipped. Workflow permissions remain exactly `issues: write`, `contents: read` (implicit metadata read); no `pull-requests: read`, PAT, or permission changes. Expected artifact `DIAGNOSTIC-upstream-metadata-probe` / `generated-output/diagnostic-upstream-metadata.json`, explicitly diagnostic-only, acceptance-ineligible, P1-false. Combined inventory guard unchanged.
 
-At this checkpoint there is no new dispatch result yet. After one dispatch, record the single returned run identity/status and freeze the feature branch. Do not poll, sleep, monitor, or collect artifacts in this job; background monitor owns that. If submission response is uncertain, perform one read-only lookup by exact head/time; never repeat POST. P1 remains blocked until the diagnostic is assessed.
+Historical dispatch-time checkpoint; superseded by current actual outcome at the top of this file and [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). The diagnostic failed; do not redispatch or monitor/poll further. P1 remains blocked pending Lead/founder decision.

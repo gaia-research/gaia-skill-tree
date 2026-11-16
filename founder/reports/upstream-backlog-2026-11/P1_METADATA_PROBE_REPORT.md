@@ -1,4 +1,12 @@
-# P1 metadata probe — run 43927918189
+# P1 metadata probe receipts
+
+## Current — run 43941667985
+
+**Failed diagnostic outcome; P1 remains BLOCKED.** Exact head `fcde5d9324812276ea09029ae225089bdfbe3952`; the metadata-only job exited 3 at `Read diagnostic metadata only`, uploaded artifact ID `14262564894`, and ordinary watcher/challenge/upstream-poll jobs were skipped. File SHA-256 `a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`; artifact archive SHA-256 `f9963bc3b61082bc822d0709a536ea5f8a27c0829f148f06af731ebe9ad7829b`. REST returned one 100-row first page, then halted on `unsafe-link-query` with HTTP 200; its complete typed counts are unknown. Before GraphQL walks completed at 245 issues + 7 PRs; after values are one-node samples only, with the same totals. All 100 sampled REST identities match the complete GraphQL issue set; this is subset compatibility, not full REST/GraphQL equivalence. No 403 or permission error was recorded. Cause of query rejection, full REST PR visibility, permission causality, and #2278 root cause remain unknown. Full sanitized receipt: [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). No further action is self-authorized.
+
+---
+
+## Preserved earlier actual run — 43927918189
 
 **Diagnostic only; acceptance-ineligible; P1 remains BLOCKED.** This receipt records the one previously dispatched run; it does not authorize or imply a retry, normal watcher run, permission change, repair, merge, or phase advancement.
 
