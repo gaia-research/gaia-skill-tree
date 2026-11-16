@@ -82,7 +82,11 @@ To validate a candidate's URLs before or without a full Phase 1 run, `evidence/s
 
 ## Canonical source URL by evidence type (#1787)
 
-Each evidence type has one canonical URL shape; using the wrong shape breaks that type's scoring inputs or collides with same-source dedup unexpectedly. See `docs/agents/curation-guidelines.md` §5 for the full table (repo-own, github-stars-own, proxy-containment, verifier-attestation, benchmark-result, arxiv, peer-review, self-attestation, social-signal, npm-downloads, fusion-recipe). Note: same-source dedup is `(type, url)`-keyed — two rows collapse only when they share BOTH the same `type` AND the same canonical URL; a `repo-own` row and a `github-stars-own` row at the identical URL are different keys and both count independently.
+Each evidence type has one canonical URL shape; using the wrong shape breaks that type's scoring inputs or collides with same-source dedup unexpectedly. See `docs/agents/curation-guidelines.md` §5 and [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md) for the full contract (repo-own, github-stars-own, proxy-containment, verifier-attestation, benchmark-result, arxiv, peer-review, self-attestation, social-signal, npm-downloads, fusion-recipe). Note:
+- Same-source dedup is `(type, url)`-keyed — two rows collapse only when they share BOTH the same `type` AND the same canonical URL; a `repo-own` row and a `github-stars-own` row at the identical URL are different keys and both count independently.
+- Under #2473, `social-signal` admits both eligible first-party (author/maintainer) and third-party demonstrations of the target skill (`sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day publication hold, 1,000-view floor, 3-row plateau, `creatorRelation` + `relevanceNote` provenance; reject unrelated uploads).
+- `proxy-containment` strictly requires a qualifying external, non-first-party repository (`externalStars >= 10000`, distinct `owner/repo` outside the skill's own/canonical/suite repository).
+- Never synthesize `self-attestation` rows to push a suite component past the 49.9 TM shared-repository cap.
 
 ## Completion Criteria
 

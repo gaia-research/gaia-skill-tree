@@ -31,9 +31,17 @@ rows:
 ```
 
 The manifest must state a source URL, Evidence Type, source-start date,
-verifiable numeric payload, factual notes, and attribution scope for every row.
+verifiable numeric payload, factual notes, and attribution scope for every row
+(see [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md)).
 Exclude any deferred candidate. Never infer an Evidence Type or a metric from a
-summary. For `benchmark-result`, attach the Phase 2B benchmark-source report and
+summary. Under #2473, both first-party and third-party `social-signal` rows
+demonstrating the target skill are eligible immediately (`sameAsAuthor = 1.0`,
+`publishCooldownDays = 0` — no 30-day hold), subject to target-skill relevance,
+provenance (`creatorRelation`, `relevanceNote`), `views >= 1000`, `(type, url)`
+dedup, and the 3-row plateau; `proxy-containment` strictly requires an external,
+non-first-party repository (`externalStars >= 10000`); and synthetic
+`self-attestation` rows must never be added to clear the 49.9 TM suite-component
+shared-repository cap. For `benchmark-result`, attach the Phase 2B benchmark-source report and
 human approval for the lane: `verified` rows need CI/verifier attestation plus
 `runAt`, `datasetHash`, and `benchmarkInputHash`; `reported` rows may be public
 claims or mirrored benchmark evidence approved by the human gate and do not need

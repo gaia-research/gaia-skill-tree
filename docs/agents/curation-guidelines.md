@@ -33,13 +33,13 @@ dedup (`(type, url)`-keyed — see §6 below) in unintended ways.
 |---|---|---|
 | `repo-own` | `https://github.com/owner/repo` | Repo root — commits/contributors counted from the repo API. |
 | `github-stars-own` | `https://github.com/owner/repo/blob/branch/subpath/SKILL.md` | Use the specific blob URL, not the repo root, in a multi-skill (suite) repo — one `github-stars-own` row per skill at its own blob URL avoids every skill in the suite colliding on the same `(type, url)` dedup key. |
-| `proxy-containment` | URL of the external project bundling the skill | Not the skill's own repo — the *container* project's URL. |
+| `proxy-containment` | URL of the external project bundling the skill | Strictly external (`externalStars >= 10000`, distinct `owner/repo` from the skill's contributor, own/canonical repo, and `suiteRef` repo) — never the skill's own repo. |
 | `verifier-attestation` | URL to the attestation record (PR review, issue comment, signed statement) | |
 | `benchmark-result` | URL to the published benchmark leaderboard/results page | Requires a `percentile` field alongside the URL — see §6 below. |
 | `arxiv` | `https://arxiv.org/abs/XXXX.XXXXX` | Abstract page, not the PDF. |
 | `peer-review` | URL to the written critique/review record | See #1418 multi-target peer-review partitioning for one URL covering several skills. |
-| `self-attestation` | Skill's own repo or a contributor declaration URL | Max 1 entry per skill; flat 10 magnitude regardless of URL content. |
-| `social-signal` | URL to the specific video/post | Not a channel/profile URL — the individual piece of content. |
+| `self-attestation` | Skill's own repo or a contributor declaration URL | Max 1 entry per skill; flat 10 magnitude regardless of URL content. Never add a synthetic `self-attestation` row solely to push a suite component past the 49.9 TM shared-repository cap. |
+| `social-signal` | URL to the specific video/post | Eligible first-party (author/maintainer) or third-party demonstration directly covering the target skill (not a channel/profile URL or unrelated upload); no 30-day publication hold (#2473). |
 | `npm-downloads` | `https://www.npmjs.com/package/<name>` | Package page; download counts fetched via the npm registry API, not scraped from this URL. |
 | `fusion-recipe` | N/A (structural) | Auto-derived for fused/Ultimate skills; never hand-added. |
 
@@ -62,6 +62,8 @@ are operational learnings and defer to that map.
 
 **CLI run path in worktrees**: In worktrees, `python3 -m gaia_cli` may resolve to the installed system version, not the worktree source. Use `PYTHONPATH=/path/to/worktree/src python3 -m gaia_cli` to ensure branch-local CLI (e.g. when testing a new flag from a pending branch).
 
-**social-signal view floor**: views < 1000 → score = 0. 10K views ≈ 32 score, and social-signal is hard-capped at 80 per skill (authority map §1).
+**social-signal eligibility, view floor, and no 30-day hold (#2473)**: Both first-party (author/maintainer) and third-party public demonstrations of the target skill are eligible (`sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day waiting window; see [curation authority map](curation-authority-map.md)). Each row must substantively demonstrate the skill (record `creatorRelation` and `relevanceNote`; reject unrelated uploads), clear the view floor (`views < 1000 → score = 0`; 10K views ≈ 32 score), and obey `(type, url)` dedup, the 3-row `1.0 / 0.5 / 0.25` same-creator/type plateau, and the 80 TM hard cap per skill.
+
+**proxy-containment vs social-signal and no synthetic self-attestation (#2473)**: `proxy-containment` strictly requires a qualifying external, non-first-party repository (`externalStars >= 10000`, distinct `owner/repo` from the skill's contributor, own/canonical repo, and `suiteRef` root). Never file a first-party repo or demo video as `proxy-containment`, and never add a synthetic `self-attestation` row to push a suite component past the 49.9 TM shared-repository baseline cap.
 
 **firecrawl-search as WebSearch fallback**: When WebSearch API is down, use `firecrawl search "<query>" -o .firecrawl/result.json --json`. Always write to `.firecrawl/` directory.

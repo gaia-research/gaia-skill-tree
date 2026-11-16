@@ -87,6 +87,4 @@ repro command (authority map §5):
 
 A high dry-run score is **not** promotion approval. Use this skill to surface evidence
 quality and TM bias before L4 human review, never to bypass review. `arxiv` rows with 0
-citations score 0 TM whatever their `trustNumber`. `social-signal` rows need verifiable view
-counts, and fabricated numbers inflate scores directly. 4★ strictly requires grade A
-(TM ≥ 100), and grade S (5★) needs an independent witness. Both rules are in authority map §3.
+citations score 0 TM whatever their `trustNumber`. `social-signal` rows admit both eligible first-party and third-party demonstrations of the target skill (`sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day hold, `views >= 1000` floor, `(type, url)` dedup, 3-row plateau, 80 TM cap; unrelated uploads do not qualify), need verifiable view counts (fabricated numbers inflate scores directly), and must record provenance (`creatorRelation`, `relevanceNote`). `proxy-containment` strictly requires a qualifying external, non-first-party repository (`externalStars >= 10000`), and synthetic `self-attestation` rows are never added to bypass the 49.9 TM suite-component shared-repository cap (#2473). 4★ strictly requires grade A (TM ≥ 100), and grade S (5★) needs an independent witness. Both rules are in authority map §3.
