@@ -1,4 +1,20 @@
-# P1 bounded #2278 investigation — BLOCKED, no source repair
+# P1 bounded #2278 investigation — STOPPED, metadata correction limit reached
+
+## 2026-11-17 metadata correction round 2 — independent Terra FINAL FINDINGS
+
+At exact feature HEAD `b614688657d34234472caaeef7069733647869df`, independent review by `openai-codex/gpt-6.1-terra` at high effort returned **FINDINGS / issues_found, NOT PASS**. The focused 122-case suite passed; pycompile, YAML parsing, and `git diff --check` passed. This does not erase or replace the findings, nor establish full required regression/parity at this SHA. The historical 1045-pass result at `65d4494...` is not a current full-regression claim. Do not run a third probe/round, source repair, normal run, dispatch, or merge.
+
+Two warnings remain:
+
+1. `scripts/upstream_watcher/metadata_probe.py:321`: identity comparisons can report `disagree` when GraphQL before/after counts are unstable, so observations are not comparable. A crafted run emitted both `issues-count-unstable` and `issues-identity-disagreement`; aggregate comparison at line 339 uses the before count despite unstable repository counts. Required future correction: mark comparisons UNKNOWN whenever required stability fails, while retaining the instability failure.
+2. `scripts/upstream_watcher/metadata_probe.py:190`: missing authoritative repository identity / matching full name does not fail the count read. A named-path walk with both missing can report `observations-agree-not-acceptance` with no failures. Numeric foreign aliases remain blocked, but missing identity must be unknown/nonhealthy for every path. Required future correction: validate authoritative identity on every repository count read, for named and numeric paths; invalid, missing, or mismatching identity fails closed.
+
+The new 122 cases do not cover these defects. No full required regression/parity run was performed at `b614688...` because independent review failed. Existing receipt chronology remains: normal acceptance run `43896669237` failed (244/250, `unknownEvidence` 1, `suites=[]`), raw 605-byte artifact SHA-256 `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`; first metadata actual run `43927918189` failed `unsafe-link`, artifact SHA-256 `85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`; neither was retroactively altered. No second metadata actual run was launched.
+
+Unchanged since the earlier verified checkpoint: workflow permissions/default job routing (`issues: write`, `contents: read`, no `pull-requests: read`); production `live.py`, shared census, CLI/schema, all 869 protected files, and artifact hashes. Historical unsafe-link cause and original PR visibility cause remain UNKNOWN. GraphQL remains partial samples, not a full census. No live API or dispatch was performed by the reviewer. `actionlint` unavailable. No permission grant, guard relaxation, issue write, variable activation, registry/merit/history change, merge, or P2 phase.
+
+**STOPPED — metadata2-round correction limit reached; await specific operator authorization.** Recommendation only (not granted): operator may authorize ONE additional targeted Sol-shared correction covering exactly the two findings above, followed by independent Terra re-review and full regression before any diagnostic dispatch. This does not authorize reset/unlimited rounds, permission increase, normal run, or merge. Preserve active Luna / Hydrogen / Sol-shared / Terra roster, medium Luna/worker effort, two-hour timeout, no fallback/retries/nested agents/turn caps; Opus retired. Campaign-complete usage/cost remains UNAVAILABLE; do not substitute P0 partial cost or investigate bulk costs.
+
 
 ## 2026-11-17 actual metadata probe receipt
 

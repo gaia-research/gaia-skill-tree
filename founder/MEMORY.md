@@ -15,6 +15,14 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 > [Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md), and the orchestrator rules.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
 
+## State Snapshot (2026-11-17, Upstream Backlog — STOPPED awaiting one specific correction authorization)
+
+- P1 feature branch `dev/upstream-backlog-watcher-2026-11` reviewed at exact HEAD `b614688657d34234472caaeef7069733647869df`; Terra `openai-codex/gpt-6.1-terra`, high returned FINDINGS / `issues_found`, NOT PASS. Full receipt: `founder/reports/upstream-backlog-2026-11/P1_COUNT_REPAIR.md`; campaign control/resume/blocker/preflight updated.
+- Two warnings: comparisons must be UNKNOWN when required GraphQL/repository count stability fails; every repository count read must fail closed for missing/invalid/mismatching authoritative identity (named and numeric paths). Focused 122 passed; no full regression/parity at b614. Historical 1045 pass at 65d4494 is not current.
+- Chronology preserved: acceptance run 43896669237 failed 244/250, artifact SHA `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`; first metadata run 43927918189 failed unsafe-link, artifact SHA `85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`. No second metadata run. Causes remain UNKNOWN.
+- **STOPPED — metadata2-round correction limit reached; await specific operator authorization.** Recommendation only: authorize ONE targeted Sol-shared correction for exactly these findings, Terra independent re-review and full regression before any diagnostic dispatch. No reset/unlimited rounds, probe, normal run, permission increase, merge, or P2. PR #2468/#2469 remain OPEN/DRAFT, base integration.
+- Roster: Luna/Hydrogen/Sol-shared/Terra, medium worker effort, 2h, no fallback/retries/nested agents/turn caps; Opus retired. Complete usage/cost UNAVAILABLE; no bulk investigation; P0 partial is not campaign total.
+
 ## State Snapshot (2026-11-16, Upstream Backlog — STOPPED at founder gate; #2278 refusal reproduced)
 
 ### TLDR

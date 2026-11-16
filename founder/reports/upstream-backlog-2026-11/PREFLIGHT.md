@@ -1,8 +1,10 @@
 # Execution preflight — 2026-11-15
 
-## 2026-11-17 bounded diagnostic preflight status
+## 2026-11-17 current status — STOPPED, metadata correction limit reached
 
-The current feature worktree is clean at `65d4494ecb21227c9b68e45e26b2ca622a040c72`, branch `dev/upstream-backlog-watcher-2026-11`, exact remote feature ref. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged. PR #2468/#2469 OPEN/DRAFT, base integration. Terra's independent focused review passed; full parent regression actual output was 1045 passed/184.10s with parity true. This does not establish cause or acceptance. Dispatch once only: existing workflow on feature ref with metadata_probe=true, apply=false, other inputs safe/default false/empty; normal watcher skipped. No permission changes, writes, merge, retry/fallback, or P1 acceptance. Pending actual run details; P1 BLOCKED. Worker-sol-shared sole, Terra independent, Opus retired; 2h/no-turn-cap constraints retained. Full cost unavailable; `$4.907920` P0-only partial.
+Feature branch `dev/upstream-backlog-watcher-2026-11` is at exact review HEAD `b614688657d34234472caaeef7069733647869df`. Independent Terra (`openai-codex/gpt-6.1-terra`, high) returned **FINDINGS / issues_found, NOT PASS**. Focused 122 passed, but no full required regression/parity at this HEAD; prior 1045-pass at `65d4494...` is historical. No second metadata run. See P1_COUNT_REPAIR.md for the findings and immutable chronology. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, and PR #2468/#2469 OPEN/DRAFT base integration remain protected.
+
+**STOPPED — metadata2-round correction limit reached; await specific operator authorization.** Proposed next action only: one additional targeted Sol-shared correction addressing exactly both findings, then independent Terra re-review and full regression before any diagnostic dispatch. No authorization already given. No probe/normal run, permission change, write, merge, or P2. Roster: Luna, Hydrogen, Sol-shared, Terra; medium worker effort, 2h/no-turn-cap, no fallback/retries/nested agents; Opus retired. Full campaign cost unavailable; no bulk cost investigation or P0 partial-as-total.
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
