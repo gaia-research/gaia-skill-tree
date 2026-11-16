@@ -2,7 +2,7 @@
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
-## Current status — independent Terra PASS; P1 real-runner pending (2026-11-17)
+## Current status — independent Terra PASS; P1 real-runner pending (2026-11-16)
 
 Fresh independent Terra review PASSed with no actionable findings at exact P1 source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; this is a code-review verdict, not founder release approval. The one P1 generic non-writing `apply=false` run is now authorized and pending dispatch. NO MERGES. PR #2468/#2469 remain OPEN/DRAFT to integration. No readiness, labels, variables, issue writes/closures, builds or P2–P7. Prior Terra cancellation `caae8998` remains historical and is not the current verdict. Roster pointer: [RESUME.md](RESUME.md). Worker and reviewer identities/effort remain as recorded; no fallback/substitution/retry. Older preflight claims below are historical.
 
