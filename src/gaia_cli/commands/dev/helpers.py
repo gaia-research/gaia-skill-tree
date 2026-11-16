@@ -302,6 +302,7 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         ("downloads", "--downloads", True),
         ("likes", "--likes", True),
         ("comments", "--comments", True),
+        ("external_stars", "--external-stars", True),
     )
     for attr, flag, allow_zero in numeric_fields:
         _preflight_non_negative(getattr(args, attr, None), flag, allow_zero=allow_zero)
@@ -321,6 +322,11 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
                 f"`{flag}` is only valid with `--type social-signal` or `--type engagement`; got `--type {evidence_type}`.",
                 fix=f"Use `--type social-signal` or `--type engagement`, or drop `{flag}` if this row is a different evidence type.",
             )
+    if getattr(args, "external_stars", None) is not None and evidence_type not in (None, "proxy-containment"):
+        _fail_dev_preflight(
+            f"`--external-stars` is only valid with `--type proxy-containment`; got `--type {evidence_type}`.",
+            fix="Use `--type proxy-containment`, or drop `--external-stars` if this row is a different evidence type.",
+        )
 
     percentile = getattr(args, "percentile", None)
     if percentile is not None and not (0 <= int(percentile) <= 100):
@@ -342,6 +348,13 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
                 fix="Provide the required numeric payload so the evidence row can produce a non-zero artifact score.",
             )
 
+    index = getattr(args, "index", None)
+    if evidence_type == "proxy-containment" and index is None and getattr(args, "external_stars", None) is None:
+        _fail_dev_preflight(
+            "`--type proxy-containment` requires --external-stars <count>.",
+            fix="Provide the external repository star count via --external-stars <count>.",
+        )
+
     for attr, flag in (("date", "--date"), ("source_started_at", "--source-started-at")):
         value = getattr(args, attr, None)
         if value is None:
@@ -351,7 +364,6 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         except ValueError:
             _fail_dev_preflight(f"{flag} must be ISO YYYY-MM-DD; got '{value}'.")
 
-    index = getattr(args, "index", None)
     patch_fields = (
         "trust",
         "evidence_type",
@@ -360,6 +372,10 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         "date",
         "stars",
         "views",
+        "downloads",
+        "likes",
+        "comments",
+        "external_stars",
         "citations",
         "reviewers",
         "commits",

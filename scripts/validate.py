@@ -57,6 +57,8 @@ _SRC = _REPO_ROOT / "src"
 if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
+from gaia_cli.validate import check_proxy_containment_policy
+
 if sys.platform == "win32":
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -134,6 +136,10 @@ def load_schema(schema_path):
 def validate_schema(graph, schema_dir, is_artifact=True):
     """Validate graph envelope and skill nodes against schemas."""
     errors = []
+    for skill in graph.get("skills", []):
+        for violation in check_proxy_containment_policy(skill):
+            errors.append(violation["message"])
+
     if not HAS_JSONSCHEMA:
         print("⚠  jsonschema not installed — skipping schema validation.")
         print("   Install with: pip install jsonschema")
@@ -579,6 +585,8 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
     md_files = [f for f in md_files if not f.endswith("index.json")]
 
     buckets = defaultdict(list)  # genericSkillRef -> list of parsed fm dicts
+    parsed_named = []
+    named_skills_by_id = {}
 
     for fp in md_files:
         rel = os.path.relpath(fp)
@@ -589,6 +597,10 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
         except (OSError, ValueError) as exc:
             errors.append(f"Named skill {rel}: cannot parse — {exc}")
             continue
+
+        parsed_named.append((rel, fm))
+        if isinstance(fm.get("id"), str) and fm.get("id"):
+            named_skills_by_id[fm["id"]] = fm
 
         # Required fields
         missing = [field for field in _NAMED_REQUIRED_FIELDS
@@ -661,6 +673,10 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
 
         if not missing and level in _NAMED_VALID_LEVELS:
             buckets[ref].append(fm)
+
+    for rel, fm in parsed_named:
+        for violation in check_proxy_containment_policy(fm, named_skills_by_id=named_skills_by_id):
+            errors.append(f"Named skill {rel}: {violation['message']}")
 
     # No Origin-uniqueness check on historical frontmatter: current Origin is
     # derived at build time (gaia_cli.origin, highest merit), ties share it, and

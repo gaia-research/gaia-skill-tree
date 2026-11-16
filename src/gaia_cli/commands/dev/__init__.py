@@ -892,6 +892,13 @@ class DevCommand(Command):
             help="Comment/reply count. Valid with --type social-signal or --type engagement.",
         )
         dev_evidence.add_argument(
+            "--external-stars",
+            dest="external_stars",
+            type=int,
+            metavar="N",
+            help="External repository star count. Only valid with --type proxy-containment.",
+        )
+        dev_evidence.add_argument(
             "--citations",
             type=int,
             metavar="N",

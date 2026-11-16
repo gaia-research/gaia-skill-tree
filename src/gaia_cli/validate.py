@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 from typing import Any
+from urllib.parse import urlparse
 
 
 # ---------------------------------------------------------------------------
@@ -94,4 +95,119 @@ def check_evidence_layer_policy(
                     f"has layer={row_layer!r} but type only allows {allowed}."
                 ),
             })
+    return violations
+
+
+# ---------------------------------------------------------------------------
+# Proxy-containment first-party rejection policy (#2473)
+# ---------------------------------------------------------------------------
+
+def normalize_github_repo(url: str | None) -> tuple[str, str] | None:
+    """Return lowercase ``(owner, repo)`` for a GitHub URL, or ``None``."""
+    if not url or not isinstance(url, str):
+        return None
+    raw = url.strip()
+    if not raw:
+        return None
+    if raw.startswith("git+"):
+        raw = raw[4:]
+    parsed = urlparse(raw)
+    host = parsed.netloc.lower()
+    if host.startswith("www."):
+        host = host[4:]
+    if host not in {"github.com", "raw.githubusercontent.com"}:
+        return None
+    parts = [p for p in parsed.path.split("/") if p]
+    if len(parts) < 2:
+        return None
+    owner = parts[0].strip().lower()
+    repo = parts[1].strip().lower()
+    if repo.endswith(".git"):
+        repo = repo[:-4]
+    if not owner or not repo:
+        return None
+    return (owner, repo)
+
+
+def _collect_first_party_repos(node: dict[str, Any]) -> set[tuple[str, str]]:
+    repos: set[tuple[str, str]] = set()
+    links = node.get("links")
+    if isinstance(links, dict):
+        for key in ("github", "repo", "canonicalRepo"):
+            repo = normalize_github_repo(links.get(key))
+            if repo is not None:
+                repos.add(repo)
+    top_canonical = normalize_github_repo(node.get("canonicalRepo"))
+    if top_canonical is not None:
+        repos.add(top_canonical)
+    return repos
+
+
+def check_proxy_containment_policy(
+    skill: dict[str, Any],
+    *,
+    named_skills_by_id: dict[str, dict[str, Any]] | None = None,
+    suite_skill: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    """Reject demonstrably first-party ``proxy-containment`` evidence rows.
+
+    A ``proxy-containment`` row requires genuine containment in a qualifying
+    external, non-first-party project. It is rejected when the ``source``
+    GitHub repo owner/repo matches:
+      - the skill's ``contributor`` (owner match),
+      - the skill's own ``links.github`` / ``links.repo`` / ``canonicalRepo``, or
+      - the referenced ``suiteRef`` capstone's root repository.
+    """
+    violations: list[dict[str, Any]] = []
+    evidence = skill.get("evidence") or []
+    skill_id = skill.get("id", "<unknown>")
+
+    first_party_owners: set[str] = set()
+    contributor = skill.get("contributor")
+    if isinstance(contributor, str) and contributor.strip():
+        first_party_owners.add(contributor.strip().lower())
+
+    first_party_repos = _collect_first_party_repos(skill)
+    resolved_suite = suite_skill
+    if resolved_suite is None and named_skills_by_id is not None:
+        suite_ref = skill.get("suiteRef")
+        if isinstance(suite_ref, str) and suite_ref in named_skills_by_id:
+            resolved_suite = named_skills_by_id[suite_ref]
+    if isinstance(resolved_suite, dict):
+        first_party_repos |= _collect_first_party_repos(resolved_suite)
+
+    for idx, row in enumerate(evidence):
+        if not isinstance(row, dict) or row.get("type") != "proxy-containment":
+            continue
+        source = row.get("source")
+        source_repo = normalize_github_repo(source)
+        if source_repo is None:
+            continue
+
+        matched_by: str | None = None
+        if source_repo[0] in first_party_owners:
+            matched_by = f"owner matches contributor {contributor!r}"
+        elif source_repo in first_party_repos:
+            matched_by = (
+                f"repository {source_repo[0]}/{source_repo[1]} matches "
+                "skill or suiteRef repository"
+            )
+
+        if matched_by is not None:
+            violations.append({
+                "error_code": "first-party-proxy-containment",
+                "skill_id": skill_id,
+                "evidence_index": idx,
+                "evidence_type": "proxy-containment",
+                "source": source,
+                "source_repo": f"{source_repo[0]}/{source_repo[1]}",
+                "matched_by": matched_by,
+                "message": (
+                    f"Evidence row {idx} (type='proxy-containment') on skill {skill_id!r} "
+                    f"points to first-party repository {source_repo[0]}/{source_repo[1]} "
+                    f"({matched_by}); proxy-containment requires an external, "
+                    "non-first-party project."
+                ),
+            })
+
     return violations

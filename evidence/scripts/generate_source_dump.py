@@ -110,7 +110,11 @@ def iterNamedSkillMeta(namedDir: str):
 
 
 def dedupeKey(entry: dict[str, Any]) -> tuple[str | None, str, str]:
-    normalizedType = normalizeEvidenceType(entry.get("type", "self-attestation"))
+    rawType = entry.get("type")
+    if rawType is None or not str(rawType).strip():
+        normalizedType = "untyped"
+    else:
+        normalizedType = normalizeEvidenceType(rawType)
     scope = entry.get("scope") or entry.get("layer") or entry.get("attributionScope") or "standalone"
     return (entry.get("source"), normalizedType, str(scope))
 
@@ -119,14 +123,18 @@ def normalizeEvidenceRow(
     entry: dict[str, Any], *, skipLiveStars: bool = False
 ) -> dict[str, Any]:
     row = dict(entry)
-    originalType = row.get("type", "self-attestation")
-    normalizedType = normalizeEvidenceType(originalType)
-    row["normalized_type"] = normalizedType
-    if str(originalType).strip() != normalizedType:
-        row["original_type"] = originalType
-    # Keep the author-supplied type field for traceability when it was an alias;
-    # consumers should use normalized_type for routing.
-    row.setdefault("type", originalType)
+    originalType = row.get("type")
+    if originalType is None or not str(originalType).strip():
+        row["normalized_type"] = "untyped"
+        row["untyped"] = True
+    else:
+        normalizedType = normalizeEvidenceType(originalType)
+        row["normalized_type"] = normalizedType
+        if str(originalType).strip() != normalizedType:
+            row["original_type"] = originalType
+        # Keep the author-supplied type field for traceability when it was an alias;
+        # consumers should use normalized_type for routing.
+        row.setdefault("type", originalType)
 
     src = row.get("source")
     repoPath = parseRepoPath(src)
@@ -283,7 +291,9 @@ def groupSkillsByEvidenceType(skills: list[dict[str, Any]]) -> dict[str, list[di
     for skill in skills:
         rowsByType: dict[str, list[dict[str, Any]]] = {evType: [] for evType in CANONICAL_EVIDENCE_TYPES}
         for row in skill.get("compiled_evidence") or []:
-            rowsByType[row["normalized_type"]].append(row)
+            normType = row.get("normalized_type")
+            if normType in rowsByType:
+                rowsByType[normType].append(row)
         for evType, rows in rowsByType.items():
             if rows:
                 typeSkill = dict(skill)
@@ -294,7 +304,13 @@ def groupSkillsByEvidenceType(skills: list[dict[str, Any]]) -> dict[str, list[di
 
 def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
     for i, row in enumerate(evList, 1):
-        normalizedType = row.get("normalized_type") or normalizeEvidenceType(row.get("type", "self-attestation"))
+        rawType = row.get("type")
+        if row.get("normalized_type"):
+            normalizedType = row["normalized_type"]
+        elif rawType is None or not str(rawType).strip():
+            normalizedType = "untyped"
+        else:
+            normalizedType = normalizeEvidenceType(rawType)
         f.write(f"#### E{i}: `{normalizedType}`\n")
         if row.get("original_type"):
             f.write(f"- **Original Type:** `{row.get('original_type')}`\n")
@@ -307,6 +323,24 @@ def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
             f.write(f"- **Verified Stars:** {row['stars_verified']:,} stars\n")
         elif row.get("trustNumber"):
             f.write(f"- **Trust Metric:** {row.get('trustNumber')}\n")
+        if row.get("views") is not None:
+            views = row["views"]
+            f.write(f"- **Views:** {views:,}\n" if isinstance(views, int) else f"- **Views:** {views}\n")
+        if row.get("likes") is not None:
+            likes = row["likes"]
+            f.write(f"- **Likes:** {likes:,}\n" if isinstance(likes, int) else f"- **Likes:** {likes}\n")
+        if row.get("comments") is not None:
+            comments = row["comments"]
+            f.write(f"- **Comments:** {comments:,}\n" if isinstance(comments, int) else f"- **Comments:** {comments}\n")
+        for field, label in (
+            ("creator", "Creator"),
+            ("creatorTier", "Creator Tier"),
+            ("creatorCategory", "Creator Category"),
+            ("provenance", "Provenance"),
+            ("attribution", "Attribution"),
+        ):
+            if row.get(field) is not None:
+                f.write(f"- **{label}:** {row[field]}\n")
         f.write(f"- **Description:** {row.get('notes', 'No notes.')}\n\n")
 
 
