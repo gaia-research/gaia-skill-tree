@@ -479,3 +479,120 @@ Proposed input/artifact are unchanged: existing workflow and feature ref,
 No production source-fix claim, P1 PASS, merge/phase advancement or permission
 causality claim. Stop after this round-2 handoff; return any new unresolved
 finding to the operator rather than begin a third routine correction.
+
+## 2026-11-17 — founder-authorized ONE extra targeted metadata correction
+
+**READY FOR TERRA AUTHORIZED-EXTRA-PASS REVIEW.** Earlier STOP/round-limit
+entries above remain the historical record. Lead relayed that the founder
+replied literally **`authorized`** to Lead's exact request for **one additional
+targeted Sol-shared correction** covering (1) unstable count comparisons becoming
+unknown and (2) absent/invalid/mismatched authoritative repository identity
+becoming unknown/nonhealthy for ALL paths, followed by independent Terra review
+and parent full regression before metadata-probe dispatch. This records the
+literal reply and relayed context, not an invented approval label or formal
+receipt. It is a specific exception after round 2, **not an unlimited reset**.
+Any new finding after this authorized pass returns to Lead/founder; this worker
+must STOP, not self-authorize another correction. No permission expansion,
+production completeness relaxation, ordinary watcher run/write or merge is
+included.
+
+### Preflight and implementation boundary
+
+Sole builder worker-sol-shared; actual runtime `PI_PROVIDER=openai-codex`,
+`PI_MODEL=gpt-6.1-sol`, `PI_REASONING_LEVEL=medium`. Expected dedicated P1 cwd,
+branch `dev/upstream-backlog-watcher-2026-11`, clean HEAD and explicit remote
+feature ref verified at `0a74a269a88c8881d7a82787f8cfd24998a2a1dc` (report-only
+after `b614688657d34234472caaeef7069733647869df`). Upstream tracking integration
+and its ahead count were retained, not treated as unsynced. Read current
+AGENTS/CLAUDE, graft guidance, complete watcher contract, live technical reports
+and diagnostic source/tests. Graft traced `count -> collect`; direct module,
+workflow and test inspection confirmed only the opt-in diagnostic module entry
+calls this collection path. No production/shared caller changes. Native local
+skills used; no relevant Skill Heaven surface was available or installed.
+No delegation, nested agents, fallback, retry, new branch or concurrent source
+writer was used by this worker.
+
+Only the diagnostic module, targeted tests and this append change:
+
+- Each fixed canonical repository GET now requires a positive **exact integer**
+  ID (no bool, float, string, zero or negative) and string `full_name` matching
+  the requested repository case-insensitively. Missing/malformed/mismatching
+  identity raises `invalid-repository-identity`; a changed trusted ID retains
+  `repository-identity-unstable`. No malformed value is coerced or trimmed.
+  Named paths do not bypass this check. A failed count observation is null/error,
+  never healthy numeric zero. Any failed bracketing repository observation makes
+  typed comparisons unknown as well; no trusted identity is learned from Links.
+- Typed identity comparisons require complete before GraphQL walks, valid after
+  count samples and equal corresponding before/after totals, in addition to
+  completed REST and valid bracketing repository observations. Issue-only or
+  PR-only churn yields `connection-count-unstable` unknown for that type, retaining
+  its existing `*-count-unstable` failure; the other stable type stays comparable.
+  Denied/partial/missing/invalid after samples yield `after-connection-unknown`,
+  not agreement/disagreement. Aggregate comparison requires both repository
+  count observations valid and equal; churn yields `repository-count-unstable`
+  unknown and retains the instability failure. Unknown remains nonhealthy.
+- After GraphQL remains **one-node count samples**, `complete=false`, never an
+  after-identity census. REST retained nodes can remain partial; typed counts
+  remain null/null until REST transport completion, with legitimate complete
+  empty 0/0 unchanged. Stable complete contradictions still disagree; stable
+  complete positive controls agree **only as observations**, not acceptance.
+  Diagnostic-only/acceptance-ineligible/P1-false/causality-unestablished flags,
+  trusted numeric alias binding, opaque cursor preservation and security guards
+  are unchanged.
+
+### Actual before/after verification
+
+The initial new regression selection against untouched module bytes produced
+**82 failed, 73 deselected in 4.45s**. It independently reproduced false
+agreement/disagreement on unstable typed/aggregate snapshots, absent/invalid
+repository identity on named and numeric paths, and unavailable after samples.
+After adding complementary repository-denial/count/changed-ID and stable-positive
+controls, an **in-memory** execution of exact HEAD0 module bytes (no checkout,
+source overwrite or reset) with the final new-test selection produced
+**89 failed, 3 passed, 73 deselected in 5.03s**. Three baseline controls already
+passed (two stable positives and denied-before with numeric-link refusal).
+
+Final on-disk corrected command:
+
+```sh
+python3 -m pytest tests/upstream_watcher/test_metadata_probe.py tests/upstream_watcher/test_watcher_workflows.py tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_list_truncation.py -q
+```
+
+**214 passed in 2.65s**: prior 122 plus 92 targeted cases. Identity matrices
+cover before/after named/numeric observations, missing ID/name/both, bool-as-int,
+float/string/nonpositive IDs, invalid/nonmatching names, denial and changed ID.
+Churn tests cover each type independently with both matching and mismatching
+REST identities, and repository aggregate churn where before either matches or
+differs. Stable positive named/numeric paginated controls retain partial after
+samples. Existing malicious-host/foreign-ID/userinfo/encoded-path/query/loop/
+cursor, partial/denied/null, complete-empty-zero and redaction tests all pass.
+`py_compile` on module/tests, explicit workflow YAML parse and `git diff --check`
+exit 0. `actionlint` unavailable, not claimed run. No long full suite or parity
+run by this child. Historical 1045 at `65d4494...` is **not** b614/new proof;
+there was no full-regression PASS at b614. Independent Terra PASS is pending;
+parent runs full required target plus parity via `bg_run` only after that PASS.
+
+### Protected state and stop
+
+All **869** raw protected named/node/tree files individually match HEAD0;
+sorted Path-object path/NUL/raw-bytes/NUL SHA-256 remains
+`fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+Original normal artifact remains **605 bytes**,
+`11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`;
+first metadata artifact remains **29657 bytes**,
+`85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`.
+Neither artifact nor its original receipt/report was edited. Exact diff allowlist
+confirms workflow/permissions/default routing, production `live.py` combined
+guard, shared census/helpers, schemas, CLI, registry, generated files, frozen
+history, metrics/trust/grades/Origin and policy byte-identical to HEAD0.
+Read-only origin checks confirm integration
+`bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema
+`6bed0edf324d49e42cd8953351deaccaa733d22f`; PRs 2468/2469 remain OPEN/DRAFT
+with integration base. No remote write API, issue/label/variable/config change,
+credential substitution, upstream polling, workflow dispatch/monitor, ordinary
+watcher run, rebase/reset/discard/merge or permission grant performed.
+
+**STOP for independent Terra review at the delivered exact SHA.** This is not
+Terra PASS, full regression PASS, dispatch permission, P1 acceptance, P2 census
+or root-cause proof. #2278 causality remains unknown; existing runner permission
+omission is not established as its cause. No further correction is self-authorized.

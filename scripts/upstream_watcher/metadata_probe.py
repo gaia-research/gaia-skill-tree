@@ -184,17 +184,17 @@ class Probe:
 
     def count(self):
         data, _ = self.read()
-        value = data.get("open_issues_count") if isinstance(data, dict) else None
+        repositoryId = data.get("id") if isinstance(data, dict) else None
+        if (not integer(repositoryId) or repositoryId == 0
+                or not isinstance(data.get("full_name"), str)
+                or data["full_name"].casefold() != self.repo.casefold()):
+            raise DiagnosticError("invalid-repository-identity")
+        if self.repositoryId is not None and self.repositoryId != repositoryId:
+            raise DiagnosticError("repository-identity-unstable")
+        self.repositoryId = repositoryId
+        value = data.get("open_issues_count")
         if not integer(value):
             raise DiagnosticError("missing-repository-count")
-        repositoryId = data.get("id")
-        if (integer(repositoryId) and repositoryId > 0
-                and isinstance(data.get("full_name"), str)
-                and data["full_name"].casefold() == self.repo.casefold()):
-            if self.repositoryId is not None and self.repositoryId != repositoryId:
-                raise DiagnosticError("repository-identity-unstable")
-            self.repositoryId = repositoryId
-        # Missing/invalid identity never authorizes a numeric alias.
         return value
 
     def connection(self, field, walk):
@@ -315,6 +315,9 @@ class Probe:
         }
         if not rest["complete"]:
             failures.append("rest-incomplete")
+        # Both fixed GET observations must be valid, including authoritative
+        # identity, even for named paths. A failed GET cannot confirm identity.
+        repositoryUnknown = any(r["errorClass"] for r in counts.values())
         comparisons = report["comparisons"] = {}
         for field in ("issues", "pullRequests"):
             before, after = report["before"][field], report["after"][field]
@@ -325,8 +328,14 @@ class Probe:
             comparison = comparisons[field + "Identities"] = {"status": "unknown", "reason": None}
             if not rest["complete"]:
                 comparison["reason"] = "rest-incomplete"
+            elif repositoryUnknown:
+                comparison["reason"] = "repository-observation-unknown"
             elif not before["complete"] or before["errorClass"]:
                 comparison["reason"] = "before-connection-incomplete"
+            elif after["errorClass"] or after["totalCount"] is None:
+                comparison["reason"] = "after-connection-unknown"
+            elif before["totalCount"] != after["totalCount"]:
+                comparison["reason"] = "connection-count-unstable"
             else:
                 same = {n["number"] for n in before["nodes"]} == {
                     n["number"] for n in rest["nodes"] if n["__typename"] == ("Issue" if field == "issues" else "PullRequest")}
@@ -338,8 +347,10 @@ class Probe:
         aggregate = comparisons["aggregateRest"] = {"status": "unknown", "reason": None}
         if not rest["complete"]:
             aggregate["reason"] = "rest-incomplete"
-        elif counts["before"]["errorClass"] or counts["before"]["value"] is None:
+        elif any(r["errorClass"] or r["value"] is None for r in counts.values()):
             aggregate["reason"] = "repository-count-unknown"
+        elif counts["before"]["value"] != counts["after"]["value"]:
+            aggregate["reason"] = "repository-count-unstable"
         else:
             same = counts["before"]["value"] == len(rest["nodes"])
             aggregate["status"] = "agree" if same else "disagree"

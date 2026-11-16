@@ -366,6 +366,161 @@ def test_alias_nonmonotonic_pages_and_cursor_loops_refused(following, cursor):
     assert report["status"] == "nonhealthy"
 
 
+@pytest.mark.parametrize("field", ["issues", "pullRequests"])
+@pytest.mark.parametrize("mismatch", [False, True])
+def test_unstable_typed_counts_make_identity_comparison_unknown(field, mismatch):
+    class Churn(Fixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if req.full_url.endswith("/graphql"):
+                body = json.loads(req.data)
+                if body["variables"]["size"] == 1 and field + "(" in body["query"]:
+                    data = json.loads(response.data)
+                    data["data"]["repository"][field]["totalCount"] += 1
+                    # Totals remain valid one-node samples, never after censuses.
+                    return Response(data)
+            if mismatch and "/issues?" in req.full_url:
+                rows = json.loads(response.data)
+                kind = "Issue" if field == "issues" else "PullRequest"
+                for row in rows:
+                    if ("pull_request" in row) == (kind == "PullRequest"):
+                        row["number"] += 1000
+                return Response(rows, response.headers)
+            return response
+    report = run(Churn(2, 2))
+    assert report["comparisons"][field + "Identities"] == {
+        "status": "unknown", "reason": "connection-count-unstable"}
+    other = "pullRequests" if field == "issues" else "issues"
+    assert report["comparisons"][other + "Identities"]["status"] == "agree"
+    assert field + "-count-unstable" in report["failures"]
+    assert field + "-identity-disagreement" not in report["failures"]
+    assert report["status"] == "nonhealthy"
+    assert not report["after"][field]["complete"]
+
+
+@pytest.mark.parametrize("beforeCount, afterCount", [(3, 4), (4, 3)])
+def test_unstable_repository_counts_make_aggregate_comparison_unknown(beforeCount, afterCount):
+    class AggregateChurn(Fixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if not req.full_url.endswith("/graphql") and "/issues?" not in req.full_url:
+                data = json.loads(response.data)
+                data["open_issues_count"] = beforeCount if self.counts == 1 else afterCount
+                return Response(data)
+            return response
+    report = run(AggregateChurn())
+    assert report["comparisons"]["aggregateRest"] == {
+        "status": "unknown", "reason": "repository-count-unstable"}
+    assert "repository-count-unstable" in report["failures"]
+    assert "aggregate-rest-disagreement" not in report["failures"]
+    assert report["status"] == "nonhealthy"
+
+
+@pytest.mark.parametrize("base", [Fixture, AliasFixture], ids=["named", "numeric"])
+@pytest.mark.parametrize("phase", ["before", "after"])
+@pytest.mark.parametrize("metadata", [
+    {}, {"full_name": "org/repo"}, {"id": 12345},
+    *[{"id": value, "full_name": "org/repo"} for value in (None, True, False, 0, -1, 12345.0, "12345")],
+    *[{"id": 12345, "full_name": value} for value in (None, True, 12345, "", "org/other", " org/repo", "org/repo/")],
+])
+def test_authoritative_identity_required_for_all_paths_and_count_reads(base, phase, metadata):
+    class InvalidRepository(base):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if not req.full_url.endswith("/graphql") and "/issues?" not in req.full_url:
+                if self.counts == (1 if phase == "before" else 2):
+                    return Response(dict(metadata, open_issues_count=101))
+            return response
+    report = run(InvalidRepository(100, 1))
+    assert report["repositoryCounts"][phase] == {
+        "value": None, "errorClass": "invalid-repository-identity"}
+    assert "repository-count-unknown" in report["failures"]
+    assert report["status"] == "nonhealthy"
+    assert all(c["status"] == "unknown" for c in report["comparisons"].values())
+    assert not any("disagreement" in f for f in report["failures"])
+    if base is AliasFixture and phase == "before":
+        assert not report["rest"]["complete"]
+        assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+    else:
+        assert report["rest"]["complete"]
+        assert report["restTypedCounts"] == {"Issue": 100, "PullRequest": 1}
+
+
+@pytest.mark.parametrize("field", ["issues", "pullRequests"])
+@pytest.mark.parametrize("fault", ["denied", "partial", "missing", "invalid-sample"])
+def test_unavailable_after_sample_makes_identity_comparison_unknown(field, fault):
+    class UnavailableSample(Fixture):
+        def open(self, req, timeout):
+            if req.full_url.endswith("/graphql"):
+                body = json.loads(req.data)
+                if body["variables"]["size"] == 1 and field + "(" in body["query"]:
+                    if fault == "denied":
+                        self.calls.append(req)
+                        raise HTTPError(req.full_url, 403, SECRET, {}, io.BytesIO(SECRET.encode()))
+                    if fault == "partial":
+                        self.calls.append(req)
+                        return Response({"data": {}, "errors": [{"message": SECRET}]})
+                    if fault == "missing":
+                        self.calls.append(req)
+                        return Response({"data": {"repository": {}}})
+                    response = super().open(req, timeout)
+                    data = json.loads(response.data)
+                    data["data"]["repository"][field]["nodes"] = []
+                    return Response(data)
+            return super().open(req, timeout)
+    report = run(UnavailableSample(2, 2))
+    assert report["comparisons"][field + "Identities"] == {
+        "status": "unknown", "reason": "after-connection-unknown"}
+    assert report["after"][field]["errorClass"]
+    assert field + "-unknown-or-incomplete" in report["failures"]
+    assert field + "-identity-disagreement" not in report["failures"]
+    assert report["status"] == "nonhealthy"
+
+
+@pytest.mark.parametrize("base", [Fixture, AliasFixture], ids=["named", "numeric"])
+@pytest.mark.parametrize("fault", ["denied-before", "denied-after", "missing-count-after", "changed-id-after"])
+def test_unconfirmed_repository_observation_never_confirms_comparisons(base, fault):
+    class UnconfirmedRepository(base):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if not req.full_url.endswith("/graphql") and "/issues?" not in req.full_url:
+                if self.counts == (1 if fault == "denied-before" else 2):
+                    if fault.startswith("denied"):
+                        raise HTTPError(req.full_url, 403, SECRET, {}, io.BytesIO(SECRET.encode()))
+                    data = json.loads(response.data)
+                    if fault == "missing-count-after":
+                        data.pop("open_issues_count")
+                    else:
+                        data["id"] += 1
+                    return Response(data)
+            return response
+    report = run(UnconfirmedRepository(100, 1))
+    assert report["status"] == "nonhealthy"
+    assert "repository-count-unknown" in report["failures"]
+    assert all(c["status"] == "unknown" for c in report["comparisons"].values())
+    assert not any("disagreement" in f for f in report["failures"])
+    if fault == "changed-id-after":
+        assert report["repositoryCounts"]["after"]["errorClass"] == "repository-identity-unstable"
+
+
+@pytest.mark.parametrize("base", [Fixture, AliasFixture], ids=["named", "numeric"])
+def test_stable_authoritative_identity_and_complete_observations_are_comparable(base):
+    class StableRepository(base):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if not req.full_url.endswith("/graphql") and "/issues?" not in req.full_url:
+                data = json.loads(response.data)
+                data["full_name"] = "ORG/REPO"
+                return Response(data)
+            return response
+    report = run(StableRepository(100, 1))
+    assert report["status"] == "observations-agree-not-acceptance"
+    assert report["failures"] == []
+    assert all(c["status"] == "agree" for c in report["comparisons"].values())
+    assert all(not c["complete"] and c["collectionMode"] == "count-sample"
+               for c in report["after"].values())
+
+
 def test_no_redirects():
     assert probe.NoRedirect().redirect_request(None, None, 302, SECRET, {}, "https://evil.example") is None
 
