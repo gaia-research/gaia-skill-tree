@@ -1,14 +1,10 @@
 # Upstream backlog campaign, November 2026 — control file
 
-## 2026-11-17 bounded metadata-probe checkpoint
+## 2026-11-17 bounded metadata-probe receipt — P1 BLOCKED
 
-**P1 remains BLOCKED.** The independent metadata-probe review and regression gates passed; neither is P1 acceptance or root-cause evidence. Diagnostic runner is pending. No diagnosis, permission increase, combined-contract change, repair, normal watcher acceptance, merge, issue write, variable/label change, or P2–P7 is authorized. Builder roster: worker-sol-shared sole; Terra independent reviewer; Opus retired. Full campaign cost unavailable; `$4.907920` remains P0-only partial; do not estimate.
+Run 43927918189 completed FAILURE on feature ref `dev/upstream-backlog-watcher-2026-11` at exact head `59ff427d914547a1935dbc1d3b7437d6c789158b`. Diagnostic job ran; normal watcher, challenge-watch and upstream-poll jobs skipped. Sanitized artifact receipt and file hash: [P1_METADATA_PROBE_REPORT.md](P1_METADATA_PROBE_REPORT.md). REST traversal failed incomplete with `unsafe-link`, so typed REST totals are null/unknown; before GraphQL completed at 245 issues + 7 PRs, while after GraphQL was one-node partial samples. Probe flags mark diagnostic-only, acceptance-ineligible, P1-false and causality not established. Root cause remains UNKNOWN; missing `pull-requests: read` is not proven causal. The run failure is not itself an explanation or permission to repair.
 
-Current P1 feature worktree is clean at `65d4494ecb21227c9b68e45e26b2ca622a040c72`, branch `dev/upstream-backlog-watcher-2026-11`, matching exact remote feature ref. Protected integration remains `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema remains `6bed0edf324d49e42cd8953351deaccaa733d22f`. PRs #2468/#2469 remain OPEN/DRAFT against integration. Do not merge or mark ready.
-
-Terra's independent focused metadata-probe review passed at exact `65d4494…`: 79 focused tests, including first-page and mid-page 403 unknown/null behavior, complete-empty zero, secret/raw projection controls; the watcher workflow's unchanged bodies/default behavior and existing permissions were preserved. Parent-reported full regression at that exact SHA: 1045 passed in 184.10s, parity true, missing arrays empty, transient behavior retained; parent verified actual output. The earlier 1042/53ce run is historical. Full `gaia dev validate` is still not green because generated Class P index is missing.
-
-Next authorized action: after confirming no active conflicting `upstream-watcher.yml` run, dispatch exactly once on the feature ref with `metadata_probe=true`, `apply=false`, and other inputs false/empty/default-safe; normal watcher must skip. Do not use a normal-run fallback, retry, permission changes, or issue/PR/registry writes. Then do one legitimate post-dispatch lookup and return run ID/URL/ref/SHA/inputs/status/artifact details. Root cause remains UNKNOWN until artifact inspection. See [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md) for the full boundary and receipt.
+No retry, follow-on/normal watcher run, permission change, contract change, repair, issue write, variable/label change, merge, or P2–P7 is authorized or performed. PRs #2468/#2469 remain OPEN/DRAFT. Feature local and remote ref was exact 59ff before report-only bookkeeping; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remain unchanged. Full campaign cost unavailable; `$4.907920` remains P0-only partial; do not estimate.
 
 Recovery entry point. Update it on every material state change.
 

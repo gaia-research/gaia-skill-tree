@@ -1,5 +1,9 @@
 # P1 bounded #2278 investigation — BLOCKED, no source repair
 
+## 2026-11-17 actual metadata probe receipt
+
+The single preauthorized diagnostic run 43927918189 completed FAILURE at exact feature head `59ff427d914547a1935dbc1d3b7437d6c789158b`. Its diagnostic job ran; normal watcher, challenge-watch and upstream-poll jobs skipped. The uploaded artifact is summarized with hash and provenance in [P1_METADATA_PROBE_REPORT.md](P1_METADATA_PROBE_REPORT.md). REST open-items traversal stopped incomplete with error class `unsafe-link`; typed REST counts remain null, not zero. Before GraphQL returned complete totals of 245 open issues and 7 open PRs; after GraphQL was sampled at one node per connection and was not a census. Artifact flags: diagnostic-only, acceptance-ineligible, P1-false, causality not established. The failure shows a sanitized continuation-link rejection, not why it happened. Permission omission remains a hypothesis, not confirmed cause. No retry, normal watcher, permission change, repair, contract relaxation or merge authorized/performed. Await Lead/founder decision; no next operation is self-authorized.
+
 ## Authority and scope
 
 Bounded repair attempt 1 following the founder's continuation, not a reset of an unlimited correction loop. The task relayed by Lead says the latest founder resume/continue response, after the explicit #2278 hard stop and authorization request, is being interpreted by Lead (as announced to the founder) as permission for the proposed bounded repair. This records that interpretation, not a verbatim founder quote, formal approval receipt, label, completeness waiver, or merge authorization.
