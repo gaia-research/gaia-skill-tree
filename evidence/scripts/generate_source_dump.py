@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import datetime
 import glob
 import json
 import os
@@ -122,11 +124,13 @@ def dedupeKey(entry: dict[str, Any]) -> tuple[str | None, str, str]:
 def normalizeEvidenceRow(
     entry: dict[str, Any], *, skipLiveStars: bool = False
 ) -> dict[str, Any]:
+    originalRow = copy.deepcopy(entry)
     row = dict(entry)
     originalType = row.get("type")
     if originalType is None or not str(originalType).strip():
         row["normalized_type"] = "untyped"
         row["untyped"] = True
+        row["_original_row"] = originalRow
     else:
         normalizedType = normalizeEvidenceType(originalType)
         row["normalized_type"] = normalizedType
@@ -170,9 +174,10 @@ def compileSkillEvidence(
         except ValueError as e:
             print(f"Warning: skipping {skillMeta.get('id')} evidence row: {e}")
             continue
-        if key in seen:
-            continue
-        seen.add(key)
+        if key[1] != "untyped":
+            if key in seen:
+                continue
+            seen.add(key)
         mergedEvidence.append(normalizeEvidenceRow(entry, skipLiveStars=skipLiveStars))
 
     skillMeta["compiled_evidence"] = mergedEvidence
@@ -317,6 +322,16 @@ def collectUntypedSkills(skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return untypedSkills
 
 
+def _jsonSafe(value: Any) -> Any:
+    if isinstance(value, (datetime.date, datetime.datetime)):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {str(k): _jsonSafe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_jsonSafe(v) for v in value]
+    return value
+
+
 def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]]) -> str | None:
     outPath = os.path.join(outputDir, "untyped_rows.md")
     if not untypedSkills:
@@ -336,12 +351,17 @@ def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]])
             writeSkillBlock(f, skill)
             f.write("### Raw Row Payloads\n\n")
             for idx, row in enumerate(skill.get("compiled_evidence") or [], 1):
-                raw = {
-                    k: v
-                    for k, v in row.items()
-                    if k not in ("normalized_type", "untyped")
-                }
-                f.write(f"#### Raw E{idx}\n```json\n{json.dumps(raw, indent=2, sort_keys=True, ensure_ascii=False)}\n```\n\n")
+                raw = row.get("_original_row")
+                if raw is None:
+                    raw = {
+                        k: v
+                        for k, v in row.items()
+                        if k not in ("normalized_type", "untyped", "_original_row")
+                    }
+                f.write(
+                    f"#### Raw E{idx}\n```json\n"
+                    f"{json.dumps(_jsonSafe(raw), indent=2, sort_keys=True, ensure_ascii=False)}\n```\n\n"
+                )
     return outPath
 
 

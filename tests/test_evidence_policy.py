@@ -609,6 +609,39 @@ def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_se
     assert cleared is None
     assert not Path(q_path).exists()
 
+    # End-to-end named-skill Markdown loading with unquoted YAML dates and
+    # two untyped rows sharing the same source: neither collapses, original row is preserved
+    named_dir = tmp_path / "named" / "acme"
+    named_dir.mkdir(parents=True)
+    (named_dir / "yaml-untyped.md").write_text(
+        "---\n"
+        "id: acme/yaml-untyped\n"
+        "name: yaml-untyped\n"
+        "contributor: acme\n"
+        "genericSkillRef: demo\n"
+        "evidence:\n"
+        "  - source: https://github.com/acme/yaml-untyped\n"
+        "    date: 2026-11-17\n"
+        "    commits: 10\n"
+        "    stars_verified: 42\n"
+        "  - source: https://github.com/acme/yaml-untyped\n"
+        "    date: 2026-11-17\n"
+        "    stars: 999\n"
+        "---\n",
+        encoding="utf-8",
+    )
+    compiled = gsd.compileNamedSkills(str(tmp_path / "named"), {}, skipLiveStars=True)
+    untyped_group = gsd.collectUntypedSkills(compiled)
+    assert len(untyped_group) == 1
+    assert len(untyped_group[0]["compiled_evidence"]) == 2
+    q_yaml = gsd.writeUntypedReviewQueue(str(tmp_path / "out"), untyped_group)
+    assert q_yaml is not None
+    q_yaml_text = Path(q_yaml).read_text(encoding="utf-8")
+    assert '"date": "2026-11-17"' in q_yaml_text
+    assert '"commits": 10' in q_yaml_text
+    assert '"stars": 999' in q_yaml_text
+    assert '"stars_verified": 42' in q_yaml_text
+
     social = {
         "type": "social-signal",
         "source": "https://www.youtube.com/watch?v=abc",
