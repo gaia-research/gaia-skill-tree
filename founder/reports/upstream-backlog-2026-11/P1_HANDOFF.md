@@ -1,10 +1,10 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT STATUS: PAUSED BY FOUNDER; NO FURTHER WORK UNTIL OPERATOR RESUMES; NO MERGES.** Source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was CANCELLED, exit 143, with NO FINAL VERDICT. Do not resume that attempt; do not claim independent PASS. PR #2468 and #2469 remain OPEN/DRAFT, integration-targeted. P0 was completed internally earlier; P2–P7 not started. No main merge, approval label, variable/write-switch change, closure, or merit/history mutation. No runner continuation while paused. See portable [RESUME.md](RESUME.md).
+> **CURRENT STATUS: RESUMED by operator for bounded administration only — final independent Terra verification PENDING; NO MERGES.** Source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was CANCELLED, exit 143, with NO FINAL VERDICT; history is preserved and no independent PASS is claimed. PR #2468/#2469 remain OPEN/DRAFT, integration-targeted. This resumption permits only the scoped reporting/PR-body updates and preparation—not execution—of P1's generic runner command. It does not permit dispatch, merges/ready status, labels, variables, issue writes/closures, builds, or P2–P7. P0 was completed internally earlier. See [RESUME.md](RESUME.md).
 
-The builder-reported repair and checks below remain attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Historical Terra findings are preserved, but are not a current final verdict on the latest candidate. Current independent-review gate is paused pending operator resumption.
+The builder-reported repair and checks below remain attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium); they are not independent certification. Historical Terra findings/cancellation are preserved, but are not a current final verdict on the latest candidate. Terra review is pending separately. The prepared P1 runner invocation is **NOT DISPATCHED** pending Terra PASS.
 
-## Current Terra final receipt and correction to earlier schema diagnosis
+## Historical Terra receipt on pre-repair source `60120a1` (not the current candidate verdict)
 
 - Tests at source `60120a1ec7b24a31e7e9e0a5d75c337963993442`: actual `1015` pytest passed; parity exit 0 with both staged-row equalities true; `git diff --check` passed. Isolated empty-name/root-crossfield/active `.gaia/registry` schema/missing-invalid schema/invalid Git refs/valid encoded `#` and `/` probes confirmed.
 - Correct count/classification: baseline `9b4d9b98043140188f00b14d0ac8fa6bc02491b7` and integration had **10**, not 11, AgentDB raw-schema errors: permitted `trustMagnitudeInputHash`; `apexGateStatus` unexpected `crossOrgVerifier` and `systemWideCap` (one); five `migrate_trust_magnitude` timeline actions; one `recalibrate_trust_magnitude`; two `github-actions[bot]` contributor values. P1 `da255f0` added the **11th**, a `note` timeline event (`registry/named/ruvnet/agentdb.md:148`; writer `src/gaia_cli/commands/dev/named.py:175` emits note). Older lines 94/151 below that called all 11 pre-existing are incorrect and superseded; retained builder reports are historical, not the final verdict.
@@ -21,6 +21,28 @@ The builder-reported repair and checks below remain attributed to `worker-sol-sh
   - `232238bac8fc493fec3f04f80a803deeb7cf58f6` — `feat(p1): add explicit --repo repoint to sync-upstream and upstream.repo fallback in watcher`
   - `da255f0ee136226be434fe486e1d07e3d547616b` — `chore(registry): reconcile ruvnet/agentdb source and v3.10.0 via canonical CLI`
   - Final docs/handoff commit on `dev/upstream-backlog-watcher-2026-11` (see `git log -1` / PR #2468 head)
+
+## Prepared P1 real-runner dry run — exact command; DO NOT EXECUTE before Terra PASS
+
+Workflow: `.github/workflows/upstream-watcher.yml`, workflow name `Upstream Watcher`, `workflow_dispatch`, intended ref `dev/upstream-backlog-watcher-2026-11` (the P1 feature branch; not default/integration). Confirm availability only with `gh workflow view upstream-watcher.yml --ref dev/upstream-backlog-watcher-2026-11`; no dispatch has been performed.
+
+```bash
+gh workflow run upstream-watcher.yml \
+  --ref dev/upstream-backlog-watcher-2026-11 \
+  -f apply=false \
+  -f child_mode=batch \
+  -f staging=off \
+  -f staging_bootstrap=false \
+  -f skill_id= \
+  -f challenge_watch=false \
+  -f challenge_input= \
+  -f challenge_shadow=false \
+  -f escalate_candidate=
+```
+
+These are the workflow's inputs/defaults except explicit `staging=off` to ensure this is a generic batch dry run, not staged P2/F3a. `apply=false` selects `--dry-run`; `child_mode=batch`; `staging_bootstrap=false`; all optional skill/challenge/escalation values are empty/false. Do not set/infer repository variables. **Not** the P2/F3a bootstrap (`child_mode=batch`, `staging=weekly`, `staging_bootstrap=true`, `apply=false`), which remains separate and gated by founder-set variables/authority.
+
+Expected runner behavior: workflow step invokes `scripts/upstream_watcher/watcher.py --child-mode batch --dry-run --report generated-output/upstream-watcher-report.json`; workflow artifact name is `upstream-watcher-report`. After a future authorized run, require workflow conclusion `success` (exit 0), download/read that artifact and verify top-level `unknownEvidence` is exactly `[]`, and confirm dryRun true with zero issues created/updated; investigate and stop on any discrepancy. Artifact is uploaded with `if: always()`, so inspect it even for failed runs. This command has not been run; no live report exists. `apply=false` guards watcher issue creation/update; no registry mutation is part of this workflow. Do not use `apply=true` or challenge-watch.
 
 ## 1. Summary of Changes
 

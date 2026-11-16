@@ -1,13 +1,13 @@
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
-**PAUSED by founder. No further work until the operator explicitly resumes. No merges of any kind.** This handoff is portable: an incoming orchestrator can continue from the Git state below without access to the private conversation or session. Preserve all worktrees and branches. Do not reset, discard, delete, or recreate them. The original dirty root checkout is off-limits.
+**RESUMED by operator for bounded P1 administration only — final independent Terra verification PENDING; NO MERGES.** The prior founder pause and its history (including Terra attempt `caae8998` cancelled, exit 143, no verdict) remain recorded below. This resumption overrides the pause only for specified report and existing draft-PR-body updates and preparing (not running) the exact P1 `apply=false` command. It does not authorize dispatch, merges/ready status, labels, variables, issue writes/closures, P2–P7, or any founder gate. Preserve every worktree and branch; do not reset, discard, delete or recreate. The original dirty root checkout is off-limits.
 
 ## Current state and stop boundary
 
 - P0 was completed internally on the integration branch previously; PR #2467 is already merged there. This does **not** authorize a merge to `main`.
-- P1 repair candidate is built and pushed, but awaits an independent final Terra verdict. Latest Terra attempt `caae8998` was **CANCELLED**, exited **143**, and supplied **NO FINAL VERDICT**. Do not resume that attempt; do not infer PASS or FAIL from its cancellation. A previous independent Terra report had findings in non-suite compatibility classification.
-- P2–P7 have not started. No real-runner `apply=false` observation has been performed after the current repair.
-- No main merge, approval label, repository variable/write-switch change, or closure was performed. No merit mutations or historical rewrites were performed; the original P1 canonical CLI's `upstream_synced` and note provenance appends remain preserved. The contract repair and pause changed no registry or history. The reported 869-hash comparison is a **pre-contract-repair checkpoint**, not a comparison against original `main`. No campaign workflow dispatch is permitted while paused.
+- P1 candidate is builder-delivered and remains awaiting an independent final Terra verdict on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was **CANCELLED**, exited **143**, and supplied **NO FINAL VERDICT**. Do not resume that attempt or infer PASS/FAIL. Terra is running independently; this admin task makes no monitoring/polling or independent-review claim.
+- P2–P7 have not started. No real-runner `apply=false` observation has been performed after the current repair. The exact P1 generic dry-run command is prepared in the handoff but **NOT DISPATCHED**; dispatch awaits Terra PASS.
+- No main merge, approval label, repository variable/write-switch change, issue write/closure, or merit mutation is authorized or performed. No historical rewrites; the original P1 canonical CLI's `upstream_synced` and note provenance appends remain preserved. The contract repair and prior pause changed no registry or history. The reported 869-hash comparison is a **pre-contract-repair checkpoint**, not a comparison against original `main`. Current resumption does not authorize any workflow dispatch; P1 run remains behind Terra PASS.
 - Both feature PRs are OPEN/DRAFT and target the integration branch. Do not mark ready, merge, rebase, squash, or create another PR.
 
 ## Exact Git inventory
@@ -45,12 +45,12 @@ On authorized resumption, the new harness should plan and live-verify the roster
 3. The current final Terra attempt `caae8998` was cancelled, exit 143, **no final verdict**. Candidate `591264…` / schema `6bed…` are not independently PASS.
 4. No actual real-runner `apply=false` run yet. Full `gaia dev validate` is not claimed green: its 11/11 `scripts/validate.py` checks passed, but the whole command exited 1 because generated Class P `registry/named-skills.json` is absent. Do not generate it during this pause.
 
-## Resume sequence (only after operator explicitly resumes)
+## Current bounded continuation (operator resumed administration only)
 
-1. Load `/gaia-orchestrator`, repository root rules, this `RESUME.md`, and the campaign controls. Verify current Git refs, PR state, worktree cleanliness, and roster/config. Preserve this pause state until an explicit resume instruction.
-2. Independently review exact source `591264b3bc1d7607e1074411f1c0a77b541515d9` with schema dependency `6bed0edf324d49e42cd8953351deaccaa733d22f`. Re-execute/verify required tests and the reported 410 focused tests, parity, schema mirrors, 320-record/23-suite local validation, SAFE CLI probes, and protected-file hash preservation. Confirm the root `role: variant` classification rather than accepting builder interpretation. Do not repeat upstream/backlog/evidence crawls.
-3. Only after independent PASS may an authorized operator consider real-runner dry-run with `apply=false`; require exit 0 and empty `unknownEvidence`. A `#2278` count/refusal or protected-contract conflict is a stop, not something to bypass. No workflow dispatch while campaign remains paused.
-4. P2/F3a activation requires founder-set repository variables. All founder labels, L4 decisions, issue-hygiene writes, and main-merge gates remain intact. The current pause instruction explicitly says **NO MERGES**; this handoff does not renew merge authorization. Do not progress into later lanes without required operator/founder authorization.
+1. Preserve the separate Terra review at pinned source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; do not monitor or poll it from this task. Wait for its independent PASS receipt before considering dispatch.
+2. Exact prepared P1 generic runner command is recorded in [P1_HANDOFF.md](P1_HANDOFF.md). It uses workflow `.github/workflows/upstream-watcher.yml`, explicit ref `dev/upstream-backlog-watcher-2026-11`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, empty/false remaining inputs. It is **NOT DISPATCHED**. On an authorized later run, require workflow exit 0 and inspect artifact `upstream-watcher-report` (`generated-output/upstream-watcher-report.json`) for `unknownEvidence: []`; also verify no issue/registry writes. Any nonzero exit or unknown evidence stops.
+3. This is not the P2/F3a bootstrap. That separate founder-controlled operation would use `child_mode=batch`, `staging=weekly`, `staging_bootstrap=true`, `apply=false` and require the repository variables and documented bootstrap gates. Do not perform it or set variables here.
+4. NO MERGES remains binding. No labels, repository variables, issue writes/closures, ready status, other workflow dispatch, P2–P7, or founder-gated action is authorized. P2–P7 remain not started.
 
 ## Canonical pointers and accounting
 

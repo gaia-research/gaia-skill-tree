@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Current status: PAUSED by founder; no further work until operator resumes; NO MERGES of any kind.** P0 completed internally previously (PR #2467 merged only to integration). P1 candidate is builder-delivered and awaits independent final Terra verdict; latest attempt `caae8998` CANCELLED, exit 143, NO FINAL VERDICT. PRs #2468/#2469 remain OPEN/DRAFT. P2–P7 not started. No main merge, approval label, variable/write-switch change, closure, or merit/history mutation. See portable [RESUME.md](RESUME.md). Campaign cost/usage remains UNAVAILABLE; `$4.907920` is P0-only partial.
+- **Current status: RESUMED by operator — final independent Terra verification PENDING; NO MERGES.** This resumption overrides only the administrative pause for the bounded report/PR-body update and preparation (not execution) of the P1 real-runner command. It does not authorize merge/ready status, labels, repository variables, issue writes/closures, workflow dispatch, P2–P7 or any other founder gate. P0 was completed internally previously (PR #2467 merged only to integration). P1 remains incomplete: Terra has not returned a final verdict on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; latest attempt `caae8998` CANCELLED, exit 143, NO FINAL VERDICT. PRs #2468/#2469 remain OPEN/DRAFT. P2–P7 not started. Campaign cost/usage remains UNAVAILABLE; `$4.907920` is P0-only partial. See [RESUME.md](RESUME.md).
 
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).
@@ -94,7 +94,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 | Phase | Lane | State |
 |---|---|---|
 | P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **PAUSED; awaiting independent final Terra verdict** on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; latest Terra attempt cancelled/no verdict; real-runner dry run not performed |
+| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **RESUMED for bounded administration; awaiting independent final Terra verdict** on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; latest Terra attempt cancelled/no verdict; prepared real-runner dry run NOT DISPATCHED |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
@@ -213,6 +213,13 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 - Founder states Opus is exhausted and reassigns Opus's repair role to isolated `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Attribute exhaustion to the founder; no account billing/quota facts are inferred. Opus is retired from this assignment; no retry/fallback to Opus or Hydrogen. Lead remains openai Sol; worker-sol-shared is builder, not reviewer. Existing repair authorization stands; authorization is not pending.
 - Static config is checked: `fallback_models: []`, `max_retries: 0`, `timeout_ms: 7200000`; no live Sol probe has run. **LIVE PREFLIGHT PENDING.** Required sequence: preflight → authorized repair → independent Terra review → real-runner `apply=false` dry run. Terra's existing pre-repair FINDINGS, source and tests remain unchanged; no claim that Sol passed or Opus implemented a fix.
 - Updated the four scoped reports and the existing draft PR #2468 body. No engineering, source, registry, workflow, or data changes. P0 remains partial only for cost; campaign total is unavailable.
+
+## 2026-11-17 — operator resumes bounded P1 administration; Terra pending
+
+- Operator instruction resumes only the administrative continuation while independent Terra review runs separately against pinned source `591264b3bc1d7607e1074411f1c0a77b541515d9` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f`. No independent review result is available or inferred here. The cancellation history below is preserved.
+- Verified the dedicated admin worktree is `dev/upstream-backlog-watcher-2026-11` at `1b4a539bda5f79b7f2e55a78a8430cd9ae6f5206`, clean before this report-only update. Source candidate, schema worktree, and integration ref are not to be modified.
+- Prepared—but did not dispatch—the P1 `apply=false` generic batch dry run on the workflow defined by `.github/workflows/upstream-watcher.yml`, on the explicit feature ref. It is not the P2/F3a weekly staging bootstrap (`child_mode=batch`, `staging=weekly`, `staging_bootstrap=true`, `apply=false`) and does not set or infer founder repository variables. Dispatch remains gated on Terra PASS.
+- NO MERGES. No ready status, labels, variables, issue writes/closures, workflow dispatch, builds, installs, or phase advancement. PR #2468/#2469 remain OPEN/DRAFT with integration bases. P2–P7 remain not started. Cost total remains unavailable; `$4.907920` is P0-only partial.
 
 ## P1 repair delivery and administration — Terra pending
 

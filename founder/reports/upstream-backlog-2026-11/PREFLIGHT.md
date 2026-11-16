@@ -2,9 +2,9 @@
 
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
 
-## Current pause — 2026-11-16
+## Current status — operator resumed bounded administration 2026-11-17 (prior pause history retained)
 
-Founder pause is active: no further work until operator resumes; no merges, tests, reviews, repairs, runner continuation, new code branches, or automatic workflow dispatch. Current candidate heads are P1 `591264b3bc1d7607e1074411f1c0a77b541515d9` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, with PR #2468/#2469 OPEN/DRAFT to integration. Latest Terra attempt `caae8998` CANCELLED, exit 143, no verdict. Current roster pointer and complete portable resume sequence: [RESUME.md](RESUME.md). Sole current contract-repair role remains worker-sol-shared (`openai-codex/gpt-6.1-sol`, medium), independent reviewer Terra (`openai-codex/gpt-6.1-terra`, high); Opus is retired, no fallback or substitutions. Older preflight/pending claims below are historical and must not override this checkpoint.
+Operator resumed bounded P1 administration only: final independent Terra verification PENDING; NO MERGES. Allowed scope is specified report/PR-body updates and preparing (not executing) the P1 generic `apply=false` command. This does not authorize runner dispatch, merge/ready status, labels, variables, issue writes/closures, builds, or P2–P7. Candidate heads remain P1 `591264b3bc1d7607e1074411f1c0a77b541515d9` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; PR #2468/#2469 OPEN/DRAFT to integration. Latest Terra attempt `caae8998` CANCELLED, exit 143, no verdict; history preserved, no independent PASS claimed. Terra is separate; no monitoring/polling here. Roster pointer: [RESUME.md](RESUME.md). Sole repair role worker-sol-shared (`openai-codex/gpt-6.1-sol`, medium); Terra reviewer (`openai-codex/gpt-6.1-terra`, high); Opus retired, no fallback/substitution/retry. Older preflight/pending claims below are historical and must not override this checkpoint.
 
 ## Current P1 builder/review state
 
