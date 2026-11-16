@@ -1,3 +1,34 @@
+## 2026-11-16 — Routine 076
+
+**Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` (main has moved `docs/en/` since the last routine), so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 076)" in 075: check the claiming walkthrough's `gaia dev add --named` flags in `named-skills.html` against `src/gaia_cli/commands/dev/__init__.py`.
+
+### What I did
+
+- Checked the walkthrough's `gaia dev add --named`, `--contributor`, `--generic-ref`, `--description`, `--extra-fields`, `gaia dev evidence --type/--trust/--notes` and `gaia dev calibrate` against the live argparse definitions. All flags exist. Calibrate level `2★` is in the allowed set.
+- Removed `"origin":true` from the `--extra-fields` JSON in step 3. `dev add` has no origin input in the walkthrough's path, and CLAUDE.md states Origin is derived by the build from merit and is never set by hand. Added a one-line note to the step 3 comment saying so.
+
+### Design decisions
+
+- One code block changed, one comment line extended. Layout unchanged.
+
+### Issues informed
+
+- None filed. The remaining `origin: true` frontmatter examples on `named-skills.html` (the "Origin and bucket" block, the naming-PR lifecycle step and the migration table) are outside this one-section pass. See Planned next.
+
+### Files
+
+- `docs/en/named-skills.html` (claiming walkthrough, step 3)
+- `docs/en/DOCS.md` (Page Map row 6 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 077)
+
+- CONTINUE the `named-skills.html` origin cleanup in one section: the "Origin and bucket" block (around L715–747) still shows `origin: true` as a frontmatter flag, and the naming-PR lifecycle step (around L786) says the PR writes `origin: true`. Rewrite both to say Origin is derived from merit (`gaia dev docs` after evidence changes), per CLAUDE.md § Origin is automatic. Do not touch the frozen-skill or migration-table rows in the same run.
+
+---
+
 ## 2026-11-13 — Routine 075
 
 **Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main`; continued on it, no new branch or PR.

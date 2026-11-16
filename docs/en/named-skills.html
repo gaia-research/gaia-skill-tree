@@ -915,10 +915,10 @@ gaia dev list --generic | grep web-scrape
 gaia dev add "Web Scrape" --type basic \
   --description "Drives a browser to scrape structured data from web pages"
 
-<span class="c"># 3. Add the Named Skill (writes registry/named/karpathy/web-scrape.md — never hand-edit it, per the Programmatic-First Policy)</span>
+<span class="c"># 3. Add the Named Skill (writes registry/named/karpathy/web-scrape.md — never hand-edit it, per the Programmatic-First Policy). Do not set origin here: the build derives Origin from merit.</span>
 gaia dev add "Web Scrape" --named --contributor karpathy --generic-ref web-scrape \
   --description "Firecrawl-backed deep scraper, first documented implementation" \
-  --extra-fields <span class="str">'{"origin":true,"links":{"github":"https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md"}}'</span>
+  --extra-fields <span class="str">'{"links":{"github":"https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md"}}'</span>
 
 <span class="c"># 4. Add evidence (Evidence Type + Trust Magnitude, not the deprecated --class)</span>
 gaia dev evidence karpathy/web-scrape \
