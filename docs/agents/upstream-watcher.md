@@ -423,6 +423,48 @@ The workflow's token scope is `issues: write` and `contents: read` (L5). The wat
 
 > **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state. `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented, and every scheduled run passes `--apply`, so the watcher creates and updates issues daily. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
 
+### Opt-in metadata-only runner diagnosis (#2278)
+
+`metadata_probe=true` on this existing workflow selects **only** the separate
+`metadata-probe` job. The entire `watcher` job is skipped; its dependent
+`challenge-watch` job is consequently skipped by the existing success dependency.
+The boolean defaults to false. Scheduled runs and ordinary manual runs retain
+all existing step bodies, inputs, permissions and write gates.
+
+The probe inherits the existing workflow `issues: write`, `contents: read`
+`GITHUB_TOKEN` context, with **no** additional grant (in particular no
+`pull-requests: read`). It uses only fixed repository GETs and read-only GraphQL
+queries, never watcher planning, upstream polling, issue writes or ledger code.
+Do not replace its token to make an observation succeed. Permission failures are
+observations, not permission-change authorization.
+
+After independent review, the designated operator may select the feature ref of
+`upstream-watcher.yml` with `metadata_probe=true`, `apply=false`, and all other
+inputs at defaults. This is probe preparation, not a dispatch or merge approval.
+No new workflow/default-branch merge is required by this diagnostic surface.
+
+Output: artifact **`DIAGNOSTIC-upstream-metadata-probe`**, containing only
+`diagnostic-upstream-metadata.json` (seven-day retention). It is **not** the normal
+watcher report, a frozen P2 census, or P1 acceptance. It declares
+`diagnosticOnly: true`, `acceptanceEligible: false`, `p1Pass: false` and
+`causality: not-established`. It records repository counts before/after, typed
+GraphQL counts/connection walks before REST and count samples after REST, minimal
+positive unique number/type/open-state projections, REST typed counts, sanitized
+request status/error classes and validated Link/request-id headers. Cursors are
+used only in memory; pageInfo records cursor presence, not cursor contents.
+Titles, bodies, comments, authors, raw responses, exceptions and auth are never
+written or printed. REST issue responses necessarily arrive transiently before
+projection; only the allowlisted metadata reaches the artifact.
+
+Limits: ten pages per walk, 100 items/page, 40 requests total, no retries,
+30 seconds/request, 240-second collection budget, four-MiB response cap and a
+six-minute job timeout. Redirects and foreign/noncanonical continuations are
+refused. Missing counts, denial/partial/error responses, duplicates, loops,
+unstable counts and identity/count disagreement remain `nonhealthy` (exit 3).
+Even `observations-agree-not-acceptance` (exit 0) is not a completeness waiver,
+an atomic snapshot, causal proof or permission to resume writes. The strict
+combined issue/PR production guard is unchanged.
+
 ### Run report and exit codes
 
 `--report FILE` writes JSON: `issuesCreated`, `issuesUpdated`, `suppressedDuplicates` (candidate rows suppressed as present, tracked or rejected), `duplicateOpenUmbrellas` (other open umbrellas per suite, listed for Steward and never written), `suppressedProcessed` (findings a closed issue already records, so nothing was created), `retainedCandidates` (total rows kept across touched umbrellas), `unknownEvidence`, `unavailable` (H2 and C9 H-B: suites skipped for the run, each with its `reason`, `permanent` with its HTTP status, or `tree-truncated`), `recordsReset` (M4: suites rebuilt by `--reset-records`) and `suites[]` (`suite`, `umbrella`, `newRows`, `totalRows`, `outcome`, where an ambiguous identity's outcome is `blocked-identity`). It is also written in dry-run.

@@ -3,6 +3,10 @@ name: Upstream Watcher
 on:
   workflow_dispatch:
     inputs:
+      metadata_probe:
+        description: "DIAGNOSTIC ONLY: read typed backlog metadata; skips all watcher jobs"
+        type: boolean
+        default: false
       skill_id:
         description: "Optional: single skill to poll (default = all suites)"
         required: false
@@ -55,6 +59,7 @@ permissions:
 
 jobs:
   watcher:
+    if: ${{ inputs.metadata_probe != true }}
     name: Poll upstream repos for new releases
     runs-on: ubuntu-latest
     steps:
@@ -193,6 +198,35 @@ jobs:
           name: upstream-watcher-report
           path: generated-output/upstream-watcher-report.json
           if-no-files-found: ignore
+
+  metadata-probe:
+    name: DIAGNOSTIC ONLY - typed backlog visibility
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    # Inherits exactly issues: write / contents: read; no additional grant.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read diagnostic metadata only
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m scripts.upstream_watcher.metadata_probe
+      - name: Upload DIAGNOSTIC ONLY metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DIAGNOSTIC-upstream-metadata-probe
+          path: generated-output/diagnostic-upstream-metadata.json
+          if-no-files-found: error
+          retention-days: 7
 
   # Opt-in challenge watch, kept out of the job above so the poll/issue job stays at contents: read. This is the only
   # job with contents: write, because the shared CAS ledger (GitRefLedgerStore) pushes the dedicated steward/ledger ref.

@@ -91,3 +91,121 @@ No source, tests, workflow, watcher contract, shared helper, or public signature
 - Registry/schema, CLI source, protected data, generated graph, frozen state, metrics/trust/grade/Origin and policy remain untouched. Original runner JSON SHA-256 rechecked identical. No merge/rebase/branch creation/force push/integration or main push, issue writes, labels, variables, closure, workflow dispatch, or live upstream crawl occurred.
 
 This report is a blocked diagnostic handoff, not builder-delivered source repair, new Terra PASS, runner PASS, P1 completion, or authority for phases P2-P7. Final commit/ref/clean-state receipt is returned in the builder handoff rather than inventing a self-referential commit hash in this file.
+
+## Metadata-only probe preparation — READY FOR TERRA PROBE REVIEW
+
+Lead subsequently authorized preparing a separately reviewed metadata-only runner
+probe in the **existing** workflow token context as a necessary nondestructive
+step in the founder-continued bounded diagnosis. This is Lead's operational scope
+decision, **not** a new founder quote, approval receipt, security grant or source
+completeness waiver. Dispatch remains Luna-only **after Terra PASS**. This worker
+has not dispatched anything. P1 is still blocked; root cause remains pending.
+The independent Terra PASS on baseline source `591264b3bc1d7607e1074411f1c0a77b541515d9`
+and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` is historical, not a PASS
+for this diagnostic addition. Runner `43896669237` remains FAILED.
+
+Preflight for this preparation: clean feature HEAD and remote feature ref
+`d15c83c2fa983df9db31762398d8f57a69c4caf6`. Same sole builder, no nested agent,
+model fallback, credentials change, upstream discovery, issue mutation or merge.
+Native repository guidance used; no relevant Skill Heaven surface was available
+or installed. Read current AGENTS/CLAUDE/graft, full watcher contract, preceding
+diagnosis, live count/parse path and transitive `_verified_open` callers before
+editing. Graft identified `list_issues`, `read_live`, issuer snapshots/create,
+batch planning/escalation and watcher entry; **none changes**. New runtime caller:
+only `metadata-probe` job invokes `python -m scripts.upstream_watcher.metadata_probe`.
+The new module imports only the standard library, never production watcher or
+shared Steward helpers. Existing production parsers are intentionally not reused:
+they carry raw response/error detail and production completeness semantics that
+must not be changed or accidentally exposed by diagnostic instrumentation.
+
+### Exact proposed operator input and output (not executed)
+
+Existing workflow: `.github/workflows/upstream-watcher.yml`; feature ref
+`dev/upstream-backlog-watcher-2026-11`; input **`metadata_probe=true`**,
+**`apply=false`**, all other inputs at defaults. Luna must verify the reviewed
+remote SHA before dispatch. Do not merge a new workflow to main or substitute a
+PAT/App credential. No dispatch permission is added by the implementation.
+
+Separate artifact: **`DIAGNOSTIC-upstream-metadata-probe`**, file
+`diagnostic-upstream-metadata.json`, uploaded even on diagnostic failure, retention
+seven days. This is not `upstream-watcher-report`, a new P2 census, P1 acceptance
+or a repair-success claim. Report always declares `diagnosticOnly: true`,
+`acceptanceEligible: false`, `p1Pass: false`, `causality: not-established`.
+Shape: `repositoryCounts.before/after` (value or null plus error class),
+`before/after.issues/pullRequests` (`totalCount`, safe `pages`, minimal `nodes`,
+`complete`, `errorClass`), `rest`, `restTypedCounts`, sanitized `requests`,
+`failures` and `status`. Before connections are bounded walks; after connections
+are one-node count/pageInfo samples, **not** a second identity census or atomic
+snapshot. PageInfo exposes cursor presence only; cursors remain in memory.
+
+Same workflow-level permissions **unchanged**: `issues: write`, `contents: read`.
+The new job has no permissions override and receives the same
+`secrets.GITHUB_TOKEN` via `GH_TOKEN`, never argv/artifact/log output. No
+`pull-requests: read`, `actions: write`, new secret, bot, config variable or auth
+probe endpoint is added. Existing challenge job's separate `contents: write`
+context remains unchanged and is never used by the probe.
+
+`metadata_probe` is a boolean default false. On explicit true the entire normal
+watcher job is skipped, including install/configure/cache/poll/plan/write/report
+steps; its challenge dependent is skipped by its unchanged implicit success gate.
+No probe input controls a shell fragment. With input false/absent, all normal
+step bodies and challenge job are identical; the schedule is still 06:00 UTC.
+Focused tests pin the entire original watcher job (except the new job-level skip)
+and the entire original challenge job by normalized YAML SHA-256.
+
+Fixed API surface: repository GET count, unfiltered REST open-items GET pages,
+and read-only GraphQL queries for each typed open connection. No mutations,
+upstream polling, issue actions or watcher planning code. REST bodies necessarily
+arrive transiently; the artifact contains only positive unique numbers, inferred
+REST or explicit GraphQL type, OPEN state, safe counts/pageInfo, HTTP status,
+fixed error classes and validated request-id/Link headers. No title/body/comment/
+author/raw node/raw exception is serialized or printed. Redirects, foreign paths,
+unexpected query keys, duplicate/looping continuations and malformed identities
+are refused. No retries: 10 pages/walk, 100 nodes/page, 40 requests, 30 seconds/
+request, 240-second collection budget, four-MiB response cap, six-minute job cap.
+
+Missing counts and denied/partial/error responses retain null/error rather than
+healthy zero. Unstable counts, truncated pages, duplicate identities, budget
+exhaustion and disagreement are `nonhealthy`, exit 3. Even an exit-0
+`observations-agree-not-acceptance` does not authorize acceptance or establish
+causality. The fixture tuple **244 REST issues / 0 REST PRs; aggregate 250;
+GraphQL 244+6** remains a nonhealthy observation; the production guard still
+refuses it. Probe output will inform the next bounded decision, not bypass it.
+
+### Actual local verification and immutability
+
+- Initial combined metadata/workflow focused run: **30 passed, 9 failed** in
+  0.95s because older workflow tests select the first YAML job. Moved the new
+  job after the unchanged watcher job rather than weaken those tests or alter
+  production behavior. Next same two-file run: **39 passed in 2.00s**.
+- Final command: `python3 -m pytest tests/upstream_watcher/test_metadata_probe.py tests/upstream_watcher/test_watcher_workflows.py tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_list_truncation.py -q`:
+  **76 passed in 2.13s**. No arbitrary timeout truncation or full-suite PASS claim.
+  Tests cover inherited permissions, exact unchanged normal jobs/default schedule,
+  opt-in routing/skip dependency, fixed GET/query surface, safe projection,
+  permission denial, partial payload, missing fields, malformed JSON, non-200,
+  loops, foreign links, duplicate identities, counts/churn and collection limits.
+- `python3 -m py_compile scripts/upstream_watcher/metadata_probe.py tests/upstream_watcher/test_metadata_probe.py`:
+  exit 0; YAML parsed in focused tests; `git diff --check`: exit 0.
+  `actionlint` is unavailable, not claimed run.
+- Existing offline `ConnectionRunner` reproduction rerun unchanged: exact refusal
+  for 244/250/(244,6)/(244,0), six GraphQL reads, `writes=[]`.
+- All **869** protected files byte-equal individually to both pre-contract
+  `1e7fcda223700cfbbe85cb790a1d55ed31b49fa0` and preparation HEAD `d15c83c...`.
+  Sorted **Path-object** recursive path/NUL/raw-bytes/NUL digest remains
+  `fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+  Sorting path strings instead gives `c583f237e1bdbb07fbdb6146c31dbd44f872cbb410f70ffa553074044a4ab554`
+  for both Git baseline and current bytes; these are ordering variants, not data
+  differences. Original runner JSON still **605 bytes**, SHA-256
+  `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`.
+- Git diff empty for `live.py`, shared Steward census/helper paths, registry,
+  CLI/schema, skill-trees and generated graph. Full changed-file allowlist is
+  workflow, one diagnostic module, one focused test, this append and narrow
+  watcher contract section. Production completeness rules remain byte-identical.
+- Read-only origin ref checks: integration
+  `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema
+  `6bed0edf324d49e42cd8953351deaccaa733d22f`; PRs 2468/2469 remain OPEN/DRAFT,
+  targeting integration. No PR administration performed.
+
+**Stop for a different agent, Terra, to review this diagnostic unit.** This is
+READY FOR TERRA PROBE REVIEW only, not implementation-repair-ready, a new Terra
+PASS, runner success, P1 done, phase advancement or permission escalation.
