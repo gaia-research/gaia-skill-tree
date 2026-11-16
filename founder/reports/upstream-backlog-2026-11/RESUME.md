@@ -1,5 +1,11 @@
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
+## 2026-11-17 checkpoint — diagnostic pending, P1 BLOCKED
+
+Feature worktree/branch is clean at exact `65d4494ecb21227c9b68e45e26b2ca622a040c72`, matching `origin/dev/upstream-backlog-watcher-2026-11`. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remain protected/unchanged. PR #2468 and #2469 remain OPEN/DRAFT against integration. No merge, readiness, label, variable, issue, registry, or permission change.
+
+Terra's independent focused probe review passed at exact 65d4494; parent full regression was 1045 passed/184.10s with parity true and empty missing arrays, verified by parent from actual output. This is review/regression only, not root-cause evidence or P1 acceptance. Diagnostic probe is the only pending authorized execution, once, with metadata_probe=true and apply=false; normal watcher skipped. P1 BLOCKED; root cause UNKNOWN until artifact. No fallback/retry/redispatch. Parent will monitor in background; this dispatching worker must return promptly and freeze branch. Cost complete UNAVAILABLE; `$4.907920` P0-only partial. Sole builder Sol-shared, Terra independent, Opus retired.
+
 **STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual run 43896669237 failed with exit 3 at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`. Preserve receipt at [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and exact JSON. `EXECUTOR_PROMPT.md` requires stop/return to founder: no investigation, repair, monitoring, rerun, or P2–P7. Await explicit founder authorization for bounded #2278 repair before any code change or redispatch. Terra code PASS is not runner PASS/P1 completion. PRs #2468/#2469 remain OPEN/DRAFT. Preserve prior history/worktrees.
 
 ## Current state and stop boundary

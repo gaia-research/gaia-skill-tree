@@ -1,5 +1,9 @@
 # P1 blocker — paused pending final independent Terra verdict
 
+## 2026-11-17 current truth
+
+P1 remains **BLOCKED**; metadata-only diagnostic pending, not root-cause repair. Terra's focused review at feature SHA `65d4494ecb21227c9b68e45e26b2ca622a040c72` passed; parent full regression verified 1045 passed/184.10s and parity true. These are not P1 acceptance. Root cause UNKNOWN until the diagnostic artifact. No permission increase, contract relaxation, normal watcher run, write, merge, or phase advancement. Exact authorized dispatch must be `metadata_probe=true`, `apply=false`, and normal watcher skipped. PRs #2468/#2469 remain OPEN/DRAFT. See P1_COUNT_REPAIR.md and RESUME.md.
+
 **STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual run 43896669237 failed (watcher step exit 3) at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; receipt [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md). Explicit `EXECUTOR_PROMPT.md` stop condition applies. No investigation, repair, monitoring, rerun, or P2–P7. Await explicit founder authorization for bounded #2278 repair before code/redispatch. Terra code PASS is not runner PASS/P1 completion. PRs #2468/#2469 OPEN/DRAFT. See [RESUME.md](RESUME.md).
 
 The current sole contract-repair role is `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium); Opus is retired. Independent reviewer is `reviewer` (`openai-codex/gpt-6.1-terra`, high). Full roster/config and precise evidence boundaries are in [RESUME.md](RESUME.md). Historical pre-repair findings below are retained as history, not asserted as the current final verdict.

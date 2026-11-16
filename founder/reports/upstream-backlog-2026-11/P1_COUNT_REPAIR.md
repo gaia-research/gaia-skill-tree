@@ -277,3 +277,53 @@ Existing runner permission context is still `contents: read`, `issues: write`,
 P1 is blocked. No issue writes, labels, variables, auth substitution, upstream
 crawl, workflow dispatch or merge. Stop for independent Terra re-review; this
 receipt grants no phase advancement or dispatch authority.
+
+## 2026-11-17 — independent probe review and regression PASS; diagnostic pending
+
+Authority remains the founder-continued bounded #2278 diagnosis as relayed by
+Lead. This does not create permission to expand permissions, change the
+combined contract, repair root cause, accept P1, use normal watcher execution,
+or proceed to P2. P1 is **BLOCKED** pending diagnostic artifact and subsequent
+explicit bounded decision.
+
+Current feature worktree is `dev/upstream-backlog-watcher-2026-11`, clean at
+`65d4494ecb21227c9b68e45e26b2ca622a040c72`, equal to the exact remote feature
+ref. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema
+`6bed0edf324d49e42cd8953351deaccaa733d22f` are unchanged. PR #2468 and #2469
+are OPEN/DRAFT, base `dev/upstream-backlog-2026-11`.
+
+Independent Terra high probe-only review at exact `65d4494…`: focused checks
+PASS, 2.79s. Crafted first-page and mid-pagination 403s return incomplete and
+nonhealthy with null/null typed REST totals; partial case retains 100 identities.
+Complete empty inventory yields 0/0. Secret/raw projection controls PASS.
+Workflow normal-job body remains unchanged other than the probe-mode skip;
+permissions unchanged (`issues: write`, `contents: read`), no PR read grant.
+Production `live.py` and shared census guard unchanged; no count-contract
+relaxation. Probe mode skips normal watcher paths, including challenge dependent.
+This PASS reviews diagnostic behavior, not actual runner visibility, P1, or
+root cause.
+
+Parent NON-AUTHOR `bg_run` `b84609b2` completed at exact `65d4494…`, exit 0:
+1045 passed in 184.10s, required full watcher/workflow/CLI command, parity both
+true, all missing arrays empty, transient retained. Parent read/parsed actual
+output and verified both booleans. Older 1042 at 53ce6ee is historical, not the
+current result. `gaia dev validate` / Class P full validation is still not
+claimed green because the generated index is missing.
+
+Authorized next step: after checking for a currently running conflicting
+Upstream Watcher run (none was observed at pre-dispatch check), dispatch exactly
+once using the existing workflow on `dev/upstream-backlog-watcher-2026-11` with
+`metadata_probe=true`, `apply=false`, and all other inputs safe/default
+false/empty. Normal watcher must skip. Do not use any unexpected-input
+workaround or normal-run fallback. If dispatch gate blocks, stop without retry.
+After dispatch, perform one legitimate lookup for run ID, URL, ref, head SHA,
+inputs, submission UTC, status; no `gh run watch`, polling, sleep loop, or long
+blocking command. Expected artifact name is
+`DIAGNOSTIC-upstream-metadata-probe`; report path in artifact is
+`generated-output/diagnostic-upstream-metadata.json` (artifact report filename
+`diagnostic-upstream-metadata.json`), diagnostic-only and acceptance-ineligible.
+Actual run and artifact are pending; cause UNKNOWN. Branch freezes after
+submission. PR drafts remain held; NO MERGES, issue/registry writes, permission,
+variable, label, or settings changes. Sole builder worker-sol-shared; Terra
+independent; Opus retired. No fallback/retry/nested agents; two-hour limit,
+no turn caps. Campaign-complete cost UNAVAILABLE; `$4.907920` is P0-only partial.

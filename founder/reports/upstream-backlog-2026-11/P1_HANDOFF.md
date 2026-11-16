@@ -1,5 +1,9 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
+## 2026-11-17 bounded metadata probe
+
+P1 remains **BLOCKED**; only the metadata-only diagnostic is pending. Terra independently passed the focused probe review at exact feature SHA `65d4494ecb21227c9b68e45e26b2ca622a040c72`; parent verified the full regression output as 1045 passed in 184.10s, parity true, missing arrays empty, transient rows retained. Earlier 1042/53ce result is historical. `gaia dev validate` remains non-green due to absent generated Class P index. No root cause/repair/acceptance is established; permission expansion is not authorized. Run only the existing workflow's `metadata_probe=true`, `apply=false` diagnostic once; do not execute normal watcher. Artifact expected: `DIAGNOSTIC-upstream-metadata-probe`, report `diagnostic-upstream-metadata.json`, diagnostic-only / acceptance-ineligible. Exact run details pending. See P1_COUNT_REPAIR.md. Feature branch must remain frozen after dispatch. PRs #2468/#2469 OPEN/DRAFT; no merges.
+
 > **STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual run 43896669237 failed (watcher step exit 3) at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`. See [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and exact JSON. `EXECUTOR_PROMPT.md` mandates stop and return to founder. No investigation, repair, monitoring, rerun or P2–P7. Await explicit founder authorization for bounded #2278 repair before code/redispatch. Terra code PASS is not actual-runner PASS/P1 completion. PRs #2468/#2469 remain OPEN/DRAFT.
 
 Builder reports below remain precisely attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Independent Terra now PASSed with no actionable findings at the pinned source/schema pair; historical findings/cancellation remain history, not the current verdict. The authorized P1 runner invocation is validated and **NOT YET DISPATCHED**.

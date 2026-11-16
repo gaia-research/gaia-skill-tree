@@ -1,5 +1,15 @@
 # Upstream backlog campaign, November 2026 — control file
 
+## 2026-11-17 bounded metadata-probe checkpoint
+
+**P1 remains BLOCKED.** The independent metadata-probe review and regression gates passed; neither is P1 acceptance or root-cause evidence. Diagnostic runner is pending. No diagnosis, permission increase, combined-contract change, repair, normal watcher acceptance, merge, issue write, variable/label change, or P2–P7 is authorized. Builder roster: worker-sol-shared sole; Terra independent reviewer; Opus retired. Full campaign cost unavailable; `$4.907920` remains P0-only partial; do not estimate.
+
+Current P1 feature worktree is clean at `65d4494ecb21227c9b68e45e26b2ca622a040c72`, branch `dev/upstream-backlog-watcher-2026-11`, matching exact remote feature ref. Protected integration remains `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema remains `6bed0edf324d49e42cd8953351deaccaa733d22f`. PRs #2468/#2469 remain OPEN/DRAFT against integration. Do not merge or mark ready.
+
+Terra's independent focused metadata-probe review passed at exact `65d4494…`: 79 focused tests, including first-page and mid-page 403 unknown/null behavior, complete-empty zero, secret/raw projection controls; the watcher workflow's unchanged bodies/default behavior and existing permissions were preserved. Parent-reported full regression at that exact SHA: 1045 passed in 184.10s, parity true, missing arrays empty, transient behavior retained; parent verified actual output. The earlier 1042/53ce run is historical. Full `gaia dev validate` is still not green because generated Class P index is missing.
+
+Next authorized action: after confirming no active conflicting `upstream-watcher.yml` run, dispatch exactly once on the feature ref with `metadata_probe=true`, `apply=false`, and other inputs false/empty/default-safe; normal watcher must skip. Do not use a normal-run fallback, retry, permission changes, or issue/PR/registry writes. Then do one legitimate post-dispatch lookup and return run ID/URL/ref/SHA/inputs/status/artifact details. Root cause remains UNKNOWN until artifact inspection. See [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md) for the full boundary and receipt.
+
 Recovery entry point. Update it on every material state change.
 
 - **Current status: STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual runner 43896669237 failed (step `Run upstream watcher`, exit 3) at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; see [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and preserved JSON. Explicit `EXECUTOR_PROMPT.md` stop condition controls: no investigation, repair, monitoring, rerun, or P2–P7. Await explicit founder authorization for bounded #2278 repair before any code/redispatch. Terra's code PASS is not runner PASS/P1 completion. PR #2468/#2469 OPEN/DRAFT. Cost unavailable campaign-wide; `$4.907920` P0-only partial.
