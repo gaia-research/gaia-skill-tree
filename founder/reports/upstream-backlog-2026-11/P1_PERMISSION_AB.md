@@ -197,3 +197,13 @@ not invented self-referentially here. The task's no-remote-writes boundary is
 honored conservatively: one local feature commit only, no push by this worker;
 parent retains any authorized push after review. Remote feature is therefore
 expected to remain at the preflight SHA until the parent acts.
+
+## Publication and paired-dispatch checkpoint — 2026-11-18
+
+The founder's latest **`proceed`** explicitly authorizes publication of the reviewed feature and exactly ONE diagnostic-only permission A/B run described above. This is distinct from a normal watcher run and does not grant permission-causality conclusions or P1 acceptance. The builder's earlier refusal to push is superseded by this explicit authorization.
+
+Local reviewed feature HEAD before report checkpoint: `bb94411d9ea831c06a46b004eed9d28394c06d21`; origin feature before push: `1a57a915fe02d45157da9e717fa7149a9f9e35d1` (ancestor). Report checkpoint itself must be committed under the explicitly approved identity `Marcus Rafael B. Tiongson <153011150+mbtiongson1@users.noreply.github.com>`, then feature and report commits pushed only to `refs/heads/dev/upstream-backlog-watcher-2026-11`. Protected integration remains `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema remains `6bed0edf324d49e42cd8953351deaccaa733d22f`.
+
+Required exact dispatch flags (current workflow input names verified): `permission_ab=true`, `metadata_probe=false`, `apply=false`, `challenge_watch=false`, `challenge_shadow=false`, `staging_bootstrap=false`, `child_mode=fanout`, `staging=off`, and empty `skill_id`, `challenge_input`, `escalate_candidate`. A/B takes precedence and skips all ordinary paths regardless of metadata flag. Expected separate artifact names are exactly `DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL` and `DIAGNOSTIC-upstream-metadata-permission-ab-TREATMENT`, each containing `diagnostic-upstream-metadata.json`. No normal watcher, metadata-probe-only, challenge, issue, registry or permission-setting action is authorized.
+
+At this checkpoint, the paired run is **PENDING** and no new decision is selected. P1 remains **BLOCKED**; permission causality is unproven. Parent should publish the report checkpoint, update existing draft PR bodies, submit exactly once, and return immediately for background monitoring. No ordinary watcher monitoring or merge.
