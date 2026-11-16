@@ -1,5 +1,9 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
+## Current checkpoint — authorized metadata-only diagnostic dispatch
+
+Founder authorized the canonical-reuse proposal. Source `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b` independently passed Terra high review with no findings (229 focused tests, 3.39s); separate non-author parent regression passed 1195 tests in 211.20s; parity both true, missing arrays empty, transient retained, clean Git/index/status, protected surfaces unchanged. Local historical JSON hashes checked against available files match; remote PR-ref/archive hashes were not independently rechecked. `gaia dev validate` remains non-green/unclaimed due missing Class P index. Inputs are metadata_probe=true, apply=false, child_mode=batch, staging=off, staging_bootstrap=false, remaining filters empty and challenge flags false. P1 remains BLOCKED pending diagnostic; original #2278 causality UNKNOWN. Integration/schema pinned at `bfed2d777b76448f6ede5d40e1a834050dff07d0` / `6bed0edf324d49e42cd8953351deaccaa733d22f`; PRs #2468/#2469 OPEN/DRAFT, no merge. See append-only dispatch receipt.
+
 ## Current next action — await canonical-reuse scope authorization
 
 Lead read-only proposal only (not granted authority): consider ONE bounded metadata-probe refactor reusing existing canonical read-only pagination/transport and removing independent query reconstruction; see [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). Exact rejected query and cause remain UNKNOWN; run 43941667985 failed and P1 remains BLOCKED. Await explicit founder authorization of this specific scope. No implementation, probe, permission change, normal run, or merge. PRs #2468/#2469 remain OPEN/DRAFT; feature HEAD `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897` clean, integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged.

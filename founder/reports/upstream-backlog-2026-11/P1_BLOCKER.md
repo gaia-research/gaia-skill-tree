@@ -1,4 +1,12 @@
-# P1 blocker — second metadata probe failed; STOP for Lead decision
+# P1 blocker — metadata remains pending; diagnostic-only, P1 blocked
+
+## Current checkpoint — authorized canonical-reuse experiment
+
+Founder explicitly authorized the bounded canonical-reuse proposal. Pinned source `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b` passed independent Terra high review (no findings; 229 focused tests in 3.39s) and separate non-author parent regression (1195 passed in 211.20s; parity true, missing arrays empty, transient retained, clean Git/index/status, protected surfaces unchanged). Local historical JSON hashes match locally available files; remote PR-ref/archive hashes not independently rechecked. Class P index absence prevents claiming overall `gaia dev validate` green. Workflow parameters: metadata_probe=true, apply=false, child_mode=batch, staging=off, staging_bootstrap=false, empty filters, challenge flags false. P1 remains BLOCKED pending metadata; no #2278 cause or permission-causality claim. Preserve all prior run receipts/hashes. See exact dispatch receipt below.
+
+---
+
+# Historical blocker — second metadata probe failed; STOP for Lead decision
 
 ## Current next action — await canonical-reuse scope authorization
 

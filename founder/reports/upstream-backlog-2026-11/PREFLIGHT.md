@@ -1,5 +1,9 @@
 # Execution preflight — 2026-11-15
 
+## Current checkpoint — canonical reuse verified; metadata-only run authorized once
+
+Founder authorization is specific to the bounded metadata-probe canonical reuse. At `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b`, Terra independently PASSed high/no findings (229 focused tests, 3.39s); independent non-author parent regression passed 1195 tests in 211.20s with both parity checks true, missing arrays empty, transient retained, clean status/index, and protected surfaces unchanged. Available local historical JSON hashes match; remote PR-ref/archive hashes were not independently rechecked. Class P named index is missing; overall `gaia dev validate` is not green. Metadata-only inputs: `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`; empty skill/challenge-input/escalate values; challenge flags false. P1 remains blocked pending actual diagnostic. Schema/integration refs unchanged; #2468/#2469 OPEN/DRAFT; no merges. Do not infer root or permission causality. See append-only dispatch receipt.
+
 ## 2026-11-17 current status — STOPPED, metadata correction limit reached
 
 Feature branch `dev/upstream-backlog-watcher-2026-11` is at exact review HEAD `b614688657d34234472caaeef7069733647869df`. Independent Terra (`openai-codex/gpt-6.1-terra`, high) returned **FINDINGS / issues_found, NOT PASS**. Focused 122 passed, but no full required regression/parity at this HEAD; prior 1045-pass at `65d4494...` is historical. No second metadata run. See P1_COUNT_REPAIR.md for the findings and immutable chronology. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, and PR #2468/#2469 OPEN/DRAFT base integration remain protected.

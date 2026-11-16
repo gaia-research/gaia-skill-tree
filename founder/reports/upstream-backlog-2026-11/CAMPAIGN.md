@@ -1,5 +1,13 @@
 # Upstream backlog campaign, November 2026 — control file
 
+## Current checkpoint — authorized canonical-reuse metadata probe (P1 BLOCKED)
+
+Founder explicitly authorized the specific canonical-reuse proposal. At pinned source `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b`, independent Terra high review PASSed with no findings (229 focused tests, 3.39s); independent non-author parent regression passed 1195 tests in 211.20s, parity both true, missing arrays empty, transient retained, clean Git/index/status, protected surfaces unchanged. Available local historical JSON hashes match; remote PR-ref/archive hashes were not independently rechecked. `gaia dev validate` remains not overall green because the Class P index is missing.
+
+Prepared reviewed metadata-only inputs: `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`; empty `skill_id`, `challenge_input`, `escalate_candidate`; false `challenge_watch` and `challenge_shadow`. Ordinary watcher/challenge jobs must skip. P1 remains BLOCKED pending actual metadata; this does not establish #2278 causality or permission causality. Preserve original run 43896669237 and metadata runs 43927918189 / 43941667985 and hashes unchanged. Original #2278 cause remains UNKNOWN.
+
+Checkpoint source HEAD `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b`; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema `6bed0edf324d49e42cd8953351deaccaa733d22f`. PRs #2468/#2469 OPEN/DRAFT, base integration. No merges. Campaign-complete cost UNAVAILABLE; `$4.907920` is P0-only partial. See final appended dispatch receipt for report-only commit and one-run identity.
+
 ## Current next action — await canonical-reuse scope authorization
 
 A read-only lead recommendation (not approval) is recorded in [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md): consider ONE bounded metadata-probe refactor reusing the existing canonical read-only pagination/transport, removing independent query reconstruction. Exact rejected query and cause remain UNKNOWN. Current feature HEAD is `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897`; clean. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remain unchanged. Run 43941667985 remains failed; P1 BLOCKED. Await explicit founder authorization of that specific scope; no implementation, probe, permission change, normal run, or merge. PRs #2468/#2469 remain OPEN/DRAFT.

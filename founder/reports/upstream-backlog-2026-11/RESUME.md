@@ -1,5 +1,9 @@
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
+## Current checkpoint — metadata-only dispatch authorized once; P1 remains blocked
+
+Founder authorized the bounded canonical-reuse refactor. Exact reviewed source `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b`: Terra independent high PASS/no findings, 229 focused tests/3.39s; separate non-author parent full regression 1195 passed/211.20s, parity true, missing arrays empty, transient retained, clean Git/index/status, protected surfaces unchanged. Local historical JSON hashes match available files; remote PR refs/archive hashes were not independently rechecked. `gaia dev validate` remains not overall green due missing Class P index. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; PRs #2468/#2469 OPEN/DRAFT to integration. Inputs: metadata_probe=true; apply=false; child_mode=batch; staging=off; staging_bootstrap=false; filters empty; challenge flags false. P1 still BLOCKED pending metadata. No causality/acceptance/permission claim; preserve all historical receipts. See exact appended dispatch receipt for current run ID and frozen-branch state.
+
 ## Current next action — await canonical-reuse scope authorization
 
 Read-only lead proposal only: consider ONE bounded metadata-probe refactor reusing existing canonical read-only pagination/transport and removing independent query reconstruction; see [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). This new scope is not authorized. Exact rejected query and cause remain UNKNOWN; P1 remains BLOCKED after failed run 43941667985. Current feature HEAD `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897` is clean; schema `6bed0edf324d49e42cd8953351deaccaa733d22f` and integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` unchanged. Await explicit founder authorization. No code, probe, permission change, normal run, or merge; PRs #2468/#2469 stay OPEN/DRAFT.
