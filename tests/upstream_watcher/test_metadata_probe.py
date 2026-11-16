@@ -218,7 +218,7 @@ def test_deadline_and_no_token_never_send_request():
     SECRET])
 def test_unsafe_links_are_not_serialized(link):
     with pytest.raises(probe.DiagnosticError):
-        probe.nextPage(link, "org/repo")
+        probe.validateLinks(link, "org/repo")
 
 
 class AliasFixture(Fixture):
@@ -230,8 +230,11 @@ class AliasFixture(Fixture):
         assert urlsplit(req.full_url).path == "/repos/org/repo/issues"
         query = parse_qs(urlsplit(req.full_url).query)
         page = int(query["page"][0])
-        if page > 1:
+        if "after" in query:
             assert query["after"] == [f"cursor-{page}"]
+        elif page > 1:
+            # Canonical terminal probe is independent offset paging, no cursor.
+            assert (page - 1) * 100 >= len(self.issues) + len(self.prs)
         if "Link" in response.headers:
             response.headers["Link"] = (
                 f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100'
@@ -289,17 +292,15 @@ def test_incomplete_graphql_and_missing_count_cannot_confirm_disagreement():
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=0", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&page=3", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&labels=x", "query"),
-    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&before=x", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=%GG", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&%61fter=x", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after", "query"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=", "cursor"),
     ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=%0Asecret", "cursor"),
-    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=https%3A%2F%2Fevil.example", "cursor"),
 ])
 def test_alias_security_rejections_have_safe_reason_classes(url, reason):
     with pytest.raises(probe.DiagnosticError) as caught:
-        probe.nextPage(f'<{url}>; rel="next"', "org/repo", 12345)
+        probe.validateLinks(f'<{url}>; rel="next"', "org/repo", 12345)
     assert str(caught.value) == "unsafe-link-" + reason
     assert "secret" not in str(caught.value)
 
@@ -307,20 +308,20 @@ def test_alias_security_rejections_have_safe_reason_classes(url, reason):
 @pytest.mark.parametrize("repositoryId", [None, 0, -1, True, "12345", 54321])
 def test_numeric_alias_needs_trusted_positive_repository_id(repositoryId):
     with pytest.raises(probe.DiagnosticError, match="^unsafe-link-repository-path$"):
-        probe.nextPage('<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2>; rel="next"',
-                       "org/repo", repositoryId)
+        probe.validateLinks('<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2>; rel="next"',
+                            "org/repo", repositoryId)
 
 
 def test_encoded_cursor_is_preserved_in_memory_only_and_all_relations_checked():
     url = "https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=Y3Vyc29y%2B%2F%3D"
-    page, projection, cursor = probe.nextPage(f'<{url}>; rel="next"', "org/repo", 12345)
-    assert page == 2 and cursor == "Y3Vyc29y+/="
-    assert "after" not in projection and cursor not in projection
+    # Security validation has no page/cursor/projection return. Canonical
+    # pagination, tested below through real Responses, owns those semantics.
+    assert probe.validateLinks(f'<{url}>; rel="next"', "org/repo", 12345) is None
     with pytest.raises(probe.DiagnosticError, match="^unsafe-link-repository-path$"):
-        probe.nextPage(f'<{url}>; rel="next", <https://api.github.com/repositories/999/issues?state=open&per_page=100&page=3>; rel="last"',
-                       "org/repo", 12345)
+        probe.validateLinks(f'<{url}>; rel="next", <https://api.github.com/repositories/999/issues?state=open&per_page=100&page=3>; rel="last"',
+                            "org/repo", 12345)
     with pytest.raises(probe.DiagnosticError, match="^duplicate-link-relation$"):
-        probe.nextPage(f'<{url}>; rel="next", <{url}>; rel="next"', "org/repo", 12345)
+        probe.validateLinks(f'<{url}>; rel="next", <{url}>; rel="next"', "org/repo", 12345)
 
 
 @pytest.mark.parametrize("metadata", [{"id": 999, "full_name": "org/other"},
@@ -341,7 +342,7 @@ def test_repository_get_identity_not_link_supplied_identity_binds_alias(metadata
 
 @pytest.mark.parametrize("following, cursor", [(1, "cursor-2"), (3, "cursor-2"), (2, "repeated")])
 def test_alias_nonmonotonic_pages_and_cursor_loops_refused(following, cursor):
-    class Loop(AliasFixture):
+    class Loop(Fixture):
         def open(self, req, timeout):
             response = super().open(req, timeout)
             if "/issues?" in req.full_url and "Link" in response.headers:
@@ -349,19 +350,10 @@ def test_alias_nonmonotonic_pages_and_cursor_loops_refused(following, cursor):
                 nxt = page + 1 if cursor == "repeated" else following
                 response.headers["Link"] = f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page={nxt}&after={cursor}>; rel="next"'
             return response
-    # AliasFixture's continuation assertion is for advancing cursors; this
-    # adapter checks a deliberately repeated cursor without that assertion.
-    if cursor == "repeated":
-        class Loop(Fixture):
-            def open(self, req, timeout):
-                response = super().open(req, timeout)
-                if "/issues?" in req.full_url and "Link" in response.headers:
-                    page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
-                    response.headers["Link"] = f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page={page + 1}&after=repeated>; rel="next"'
-                return response
     report = run(Loop(245, 7))
     assert report["rest"]["complete"] is False
-    assert report["rest"]["errorClass"] in ("loop-or-incomplete-page", "cursor-loop-or-invalid")
+    assert report["rest"]["errorClass"] in (
+        "canonical-pagination-refused", "duplicate-identity", "cursor-loop-or-invalid")
     assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
     assert report["status"] == "nonhealthy"
 
@@ -519,6 +511,157 @@ def test_stable_authoritative_identity_and_complete_observations_are_comparable(
     assert all(c["status"] == "agree" for c in report["comparisons"].values())
     assert all(not c["complete"] and c["collectionMode"] == "count-sample"
                for c in report["after"].values())
+
+
+class CanonicalCursorFixture(Fixture):
+    """A legitimate opaque cursor and server page marker, not offset numbering."""
+    continuation = ("https://api.github.com/repositories/12345/issues?per_page=100"
+                    "&state=open&page=7&after=opaque%3Acursor%2C2")
+
+    def open(self, req, timeout):
+        if "/issues?" not in req.full_url:
+            return super().open(req, timeout)
+        query = parse_qs(urlsplit(req.full_url).query)
+        if "after" in query:
+            assert query["after"] == ["opaque:cursor,2"]
+            assert query["page"] == ["7"]  # never reconstructed to page two
+            self.calls.append(req)
+            return Response([{"number": 101, "state": "open", "body": SECRET}])
+        response = super().open(req, timeout)
+        if query["page"] == ["1"]:
+            response.headers["Link"] = f'<{self.continuation}>; rel="next"'
+        return response
+
+
+def test_real_canonical_reader_and_response_called_without_acceptance(monkeypatch):
+    from scripts import steward_issue_census as census
+    from scripts.upstream_watcher import live
+    calls, responses = [], []
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("acceptance path must never run")
+
+    monkeypatch.setattr(live.LiveGh, "list_issues", forbidden)
+    monkeypatch.setattr(live.LiveGh, "_verified_open", forbidden)
+
+    def canonical(start, fetch, *args, **kwargs):
+        calls.append(start)
+        def observed(url):
+            response = fetch(url)
+            assert type(response) is census.Response
+            responses.append(url)
+            return response
+        return census.listAll(start, observed, *args, **kwargs)
+
+    monkeypatch.setattr(probe, "listAll", canonical)  # spy delegates; not a stub
+    fixture = CanonicalCursorFixture(101, 0)
+    report = run(fixture)
+    assert calls == ["https://api.github.com/repos/org/repo/issues?state=open&per_page=100&page=1"]
+    assert responses == [calls[0], CanonicalCursorFixture.continuation.replace(
+        "/repositories/12345/issues", "/repos/org/repo/issues"),
+        "https://api.github.com/repos/org/repo/issues?state=open&per_page=100&page=3"]
+    assert report["rest"]["complete"]
+    assert report["restTypedCounts"] == {"Issue": 101, "PullRequest": 0}
+    assert report["status"] == "observations-agree-not-acceptance"
+    assert "opaque" not in json.dumps(report)
+    assert "after=" not in json.dumps(report)
+
+
+@pytest.mark.parametrize("cursor", ["Y3Vyc29y%2B%2F%3D", "opaque%3Acursor%2C2",
+                                  "https%3A%2F%2Fevil.example"])
+def test_opaque_cursor_is_not_a_url_authority_or_query_reconstruction(cursor):
+    class Opaque(CanonicalCursorFixture):
+        continuation = ("https://api.github.com/repositories/12345/issues?state=open"
+                        f"&per_page=100&page=7&after={cursor}")
+        def open(self, req, timeout):
+            if "/issues?" in req.full_url and "after=" in req.full_url:
+                self.calls.append(req)
+                assert req.full_url == self.continuation.replace(
+                    "/repositories/12345/issues", "/repos/org/repo/issues")
+                return Response([{"number": 101, "state": "open"}])
+            return super().open(req, timeout)
+    report = run(Opaque(101, 0))
+    assert report["rest"]["complete"]
+    assert report["status"] == "observations-agree-not-acceptance"
+    assert cursor not in json.dumps(report)
+
+
+@pytest.mark.parametrize("fault", ["nonempty-probe", "redirect", "network", "foreign-id",
+                                  "foreign-prev", "filter", "oversized", "malformed",
+                                  "duplicate", "page-cap"])
+def test_canonical_adapter_failures_keep_partial_unknown_and_redacted(fault):
+    class Broken(Fixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if "/issues?" not in req.full_url:
+                return response
+            page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
+            if fault == "nonempty-probe" and page == 2:
+                response.headers.pop("Link", None)  # canonical must probe page 3
+            if page == 3:
+                if fault == "nonempty-probe":
+                    return Response([{"number": 1000, "state": "open"}])
+                if fault == "redirect":
+                    raise HTTPError(req.full_url, 302, SECRET,
+                                    {"Location": "https://evil.example/" + SECRET}, io.BytesIO())
+                if fault == "network":
+                    raise OSError(SECRET)
+                if fault in ("foreign-id", "foreign-prev", "filter"):
+                    target = "https://api.github.com/repositories/999/issues?state=open&per_page=100&page=4"
+                    if fault == "filter":
+                        target = target.replace("999", "12345") + "&assignee=" + SECRET
+                    response.headers["Link"] = f'<{target}>; rel="prev"' if fault == "foreign-prev" else f'<{target}>; rel="next"'
+                if fault == "oversized":
+                    response.data = b" " * (probe.MAX_BYTES + 1)
+                if fault == "malformed":
+                    return Response([{"number": True, "state": "open", "body": SECRET}])
+                if fault == "duplicate":
+                    return Response([{"number": 1, "state": "open", "body": SECRET}])
+            return response
+    report = run(Broken(1001 if fault == "page-cap" else 201, 0))
+    assert not report["rest"]["complete"]
+    assert report["rest"]["errorClass"]
+    assert len(report["rest"]["nodes"]) >= 100
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+    assert all(c["status"] == "unknown" for c in report["comparisons"].values())
+    assert report["status"] == "nonhealthy"
+    assert not any("disagreement" in f for f in report["failures"])
+
+
+def test_canonical_pagination_fields_are_not_bespoke_page_instructions():
+    # Previous links legitimately carry before; cursor-only next links need no
+    # offset page marker. Neither is an extra inventory filter or authority.
+    prefix = "https://api.github.com/repositories/12345/issues?state=open&per_page=100"
+    probe.validateLinks(f'<{prefix}&before=opaque%3Aprevious>; rel="prev", '
+                        f'<{prefix}&after=opaque%3Anext>; rel="next"', "org/repo", 12345)
+    for suffix in ("&assignee=someone", "&since=2026-01-01", "&labels=x",
+                   "&state=closed", "&after=x&before=y", "&after=x&after=y"):
+        with pytest.raises(probe.DiagnosticError, match="^unsafe-link-query$"):
+            probe.validateLinks(f'<{prefix}{suffix}>; rel="next"', "org/repo", 12345)
+
+
+def test_canonical_exception_text_and_diagnostics_never_escape(monkeypatch):
+    def broken(*args, **kwargs):
+        raise RuntimeError(SECRET + " https://evil.example/" + SECRET)
+    monkeypatch.setattr(probe, "listAll", broken)
+    report = run(Fixture())
+    assert report["rest"]["errorClass"] == "canonical-read-error"
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+
+
+def test_short_nonfinal_page_uses_watchers_extra_refusal():
+    class Short(Fixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if "/issues?" in req.full_url:
+                page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
+                if page == 1:
+                    response.data = json.dumps(json.loads(response.data)[:99]).encode()
+            return response
+    report = run(Short(101, 0))
+    assert report["rest"]["errorClass"] == "short-nonfinal-rest-page"
+    assert not report["rest"]["complete"]
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
 
 
 def test_no_redirects():

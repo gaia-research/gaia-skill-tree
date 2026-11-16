@@ -1,4 +1,4 @@
-"""Bounded, read-only runner visibility diagnosis. Never imports the watcher.
+"""Bounded, read-only runner visibility diagnosis. Never invokes the watcher.
 
 Only this module's fixed GETs and GraphQL query are issued. Response text, error
 messages, cursors and untrusted headers are never serialized. Not a census or an
@@ -12,8 +12,12 @@ from pathlib import Path
 import re
 import time
 from urllib.error import HTTPError
-from urllib.parse import parse_qs, urlencode, urlsplit
+from urllib.parse import parse_qs, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+from scripts.steward_issue_census import (
+    FetchError, Response, listAll, splitLinkValues, linkRelations, lowerHeaders,
+)
 
 API = "https://api.github.com"
 MAX_PAGES = 10
@@ -53,64 +57,66 @@ def identity(row, kind=None):
     return {"number": row["number"], "__typename": kind, "state": "OPEN"}
 
 
-def nextPage(link, repo, repositoryId=None):
-    """Bind EVERY link to this repository; return cursor only for in-memory use.
+def validateRestUrl(url, repo, repositoryId=None):
+    """Extra diagnostic security boundary, NOT a continuation selector/rewriter.
 
-    Like the census's canonical projection, request the named repository path,
-    not the numeric alias. Unlike its link-learned alias, require an id from the
-    fixed repository GET. Do not import its raw-error/production collection path.
+    listAll owns relation selection, numeric-path projection, cursor following,
+    URL-loop detection and terminal offset probes. Never rebuild its query.
     """
+    if len(url) > 8192 or re.search(r"[\x00-\x20\x7f]", url):
+        raise DiagnosticError("unsafe-link-encoding")
+    try:
+        parsed = urlsplit(url)
+    except ValueError:
+        raise DiagnosticError("unsafe-link-origin") from None
+    if parsed.scheme != "https" or parsed.netloc != "api.github.com" or "#" in url:
+        raise DiagnosticError("unsafe-link-origin")
+    allowed = {f"/repos/{repo}/issues"}
+    if integer(repositoryId) and repositoryId > 0:
+        allowed.add(f"/repositories/{repositoryId}/issues")
+    if parsed.path not in allowed:
+        raise DiagnosticError("unsafe-link-repository-path")
+    # Fixed unfiltered inventory: pagination values are opaque and are passed
+    # unchanged to canonical code, not interpreted as instructions to re-page.
+    if (re.search(r"%(?![0-9A-Fa-f]{2})", parsed.query)
+            or any(p.split("=", 1)[0] not in ("state", "per_page", "page", "after", "before")
+                   for p in parsed.query.split("&"))):
+        raise DiagnosticError("unsafe-link-query")
+    try:
+        query = parse_qs(parsed.query, keep_blank_values=True, strict_parsing=True,
+                         max_num_fields=5, errors="strict")
+    except (ValueError, UnicodeError):
+        raise DiagnosticError("unsafe-link-query") from None
+    if (query.get("state") != ["open"] or query.get("per_page") != ["100"]
+            or any(len(v) != 1 for v in query.values())
+            or ("page" in query and not re.fullmatch(r"[1-9][0-9]{0,5}", query["page"][0]))
+            or ("after" in query and "before" in query)):
+        raise DiagnosticError("unsafe-link-query")
+    for key in ("after", "before"):
+        if key in query and (not query[key][0] or len(query[key][0]) > 2048
+                             or re.search(r"[\x00-\x20\x7f]", query[key][0])):
+            raise DiagnosticError("unsafe-link-cursor")
+
+
+def validateLinks(link, repo, repositoryId=None):
+    """Validate all targets using canonical RFC parsing; expose no target/cursor."""
     if not link:
-        return None, None, None
+        return
     if len(link) > 16384:
         raise DiagnosticError("unsafe-link-size")
-    pages, relations = [], set()
-    nextNumber, nextCursor = None, None
-    for part in link.split(","):
-        match = re.fullmatch(r'\s*<([^<>]+)>;\s*rel="(next|prev|first|last)"\s*', part)
-        if not match:
+    values = splitLinkValues(link)
+    if not values:
+        raise DiagnosticError("invalid-link")
+    relations = set()
+    for url, params in values:
+        validateRestUrl(url, repo, repositoryId)
+        rels = linkRelations(params)
+        if not rels or any(rel not in ("next", "prev", "first", "last") for rel in rels):
             raise DiagnosticError("invalid-link")
-        url, rel = match.groups()
-        if re.search(r"[\x00-\x20\x7f]", url):
-            raise DiagnosticError("unsafe-link-encoding")
-        try:
-            parsed = urlsplit(url)
-        except ValueError:
-            raise DiagnosticError("unsafe-link-origin") from None
-        if parsed.scheme != "https" or parsed.netloc != "api.github.com" or "#" in url:
-            raise DiagnosticError("unsafe-link-origin")
-        allowed = {f"/repos/{repo}/issues"}
-        if integer(repositoryId) and repositoryId > 0:
-            allowed.add(f"/repositories/{repositoryId}/issues")
-        if parsed.path not in allowed:
-            raise DiagnosticError("unsafe-link-repository-path")
-        # Strict keys, singleton values and percent syntax; never discard an
-        # unexpected filter. Only the observed optional after cursor is allowed.
-        if (re.search(r"%(?![0-9A-Fa-f]{2})", parsed.query)
-                or any(p.split("=", 1)[0] not in ("state", "per_page", "page", "after")
-                       for p in parsed.query.split("&"))):
-            raise DiagnosticError("unsafe-link-query")
-        try:
-            query = parse_qs(parsed.query, keep_blank_values=True, strict_parsing=True,
-                             max_num_fields=4, errors="strict")
-        except (ValueError, UnicodeError):
-            raise DiagnosticError("unsafe-link-query") from None
-        if (set(query) not in ({"state", "per_page", "page"}, {"state", "per_page", "page", "after"})
-                or query["state"] != ["open"] or query["per_page"] != ["100"]
-                or len(query["page"]) != 1 or not re.fullmatch(r"[1-9][0-9]{0,5}", query["page"][0])):
-            raise DiagnosticError("unsafe-link-query")
-        cursor = query.get("after", [None])
-        if len(cursor) != 1 or (cursor[0] is not None and not re.fullmatch(r"[A-Za-z0-9+/=_-]{1,2048}", cursor[0])):
-            raise DiagnosticError("unsafe-link-cursor")
-        if rel in relations:
-            raise DiagnosticError("duplicate-link-relation")
-        relations.add(rel)
-        page = int(query["page"][0])
-        # Artifact projection deliberately omits the opaque cursor.
-        pages.append(f'<{API}/repos/{repo}/issues?state=open&per_page=100&page={page}>; rel="{rel}"')
-        if rel == "next":
-            nextNumber, nextCursor = page, cursor[0]
-    return nextNumber, ", ".join(pages), nextCursor
+        for rel in rels:
+            if rel in relations:
+                raise DiagnosticError("duplicate-link-relation")
+            relations.add(rel)
 
 
 class Probe:
@@ -124,8 +130,8 @@ class Probe:
         self.deadline = time.monotonic() + 240
         self.requests = []
 
-    def read(self, connection=None, cursor=None, size=100, page=None, after=None):
-        record = {"surface": connection or ("rest-items" if page else "rest-count"),
+    def read(self, connection=None, cursor=None, size=100, restUrl=None):
+        record = {"surface": connection or ("rest-items" if restUrl else "rest-count"),
                   "httpStatus": None, "errorClass": None}
         self.requests.append(record)
         try:
@@ -145,11 +151,9 @@ class Probe:
             else:
                 body, method = None, "GET"
                 url = f"{API}/repos/{self.repo}"
-                if page:
-                    query = {"state": "open", "per_page": 100, "page": page}
-                    if after is not None:
-                        query["after"] = after
-                    url += "/issues?" + urlencode(query)
+                if restUrl:
+                    validateRestUrl(restUrl, self.repo, self.repositoryId)
+                    url = restUrl
             req = Request(url, data=body, method=method, headers={
                 "Authorization": "Bearer " + self.token,
                 "Accept": "application/vnd.github+json", "Content-Type": "application/json",
@@ -158,20 +162,19 @@ class Probe:
                 record["httpStatus"] = response.status
                 if response.status != 200:
                     raise DiagnosticError("http-non-200")
-                if page:
-                    requestId = response.headers.get("X-GitHub-Request-Id", "")
+                headers = lowerHeaders(response.headers.items())
+                if restUrl:
+                    requestId = headers.get("x-github-request-id", "")
                     record["requestId"] = requestId if re.fullmatch(r"[A-Fa-f0-9:.-]{1,128}", requestId) else None
-                    following, safeLink, nextCursor = nextPage(response.headers.get("Link"), self.repo, self.repositoryId)
-                    record["link"] = safeLink
-                    record["nextPage"] = following
+                    # Raw headers exist only in the in-memory canonical Response.
+                    record["linkPresent"] = bool(headers.get("link"))
                 raw = response.read(MAX_BYTES + 1)
                 if len(raw) > MAX_BYTES:
                     raise DiagnosticError("response-too-large")
                 data = json.loads(raw)
                 if connection and (not isinstance(data, dict) or "errors" in data):
                     raise DiagnosticError("graphql-errors-or-partial")
-                # Private continuation state never enters requests/artifact.
-                return data, dict(record, _after=nextCursor) if page else record
+                return (Response(response.status, headers, raw.decode("utf-8")), record) if restUrl else (data, record)
         except HTTPError as exc:
             record["httpStatus"] = exc.code
             record["errorClass"] = "permission-denied" if exc.code in (401, 403) else "http-error"
@@ -255,33 +258,64 @@ class Probe:
 
     def rest(self):
         result = {"nodes": [], "complete": False, "errorClass": None}
-        page, seen, cursors, after = 1, set(), set(), None
-        try:
-            for _ in range(MAX_PAGES):
-                rows, record = self.read(page=page, after=after)
+        fetched = 0
+        cursors = set()
+        boundaryError = None
+
+        def fetch(url):
+            nonlocal fetched, boundaryError
+            record = None
+            try:
+                # Include the canonical end probe in this strict request bound.
+                if fetched >= MAX_PAGES:
+                    raise DiagnosticError("page-budget-exhausted")
+                fetched += 1
+                validateRestUrl(url, self.repo, self.repositoryId)
+                query = parse_qs(urlsplit(url).query)
+                for key in ("after", "before"):
+                    if key in query:
+                        marker = (key, query[key][0])
+                        if marker in cursors:
+                            raise DiagnosticError("cursor-loop-or-invalid")
+                        cursors.add(marker)
+                response, record = self.read(restUrl=url)
+                validateLinks(response.headers.get("link"), self.repo, self.repositoryId)
+                rows = json.loads(response.body)
                 if not isinstance(rows, list) or len(rows) > 100:
                     raise DiagnosticError("invalid-rest-page")
+                # Validate before canonical adoption; raw rows never enter output.
                 for row in rows:
-                    node = identity(row)
-                    if node["number"] in seen:
-                        raise DiagnosticError("duplicate-identity")
-                    seen.add(node["number"])
-                    result["nodes"].append(node)
-                following = record["nextPage"]
-                if following is None:
-                    result["complete"] = True  # transport end, NOT completeness acceptance
-                    return result
-                if following != page + 1 or len(rows) != 100:
-                    raise DiagnosticError("loop-or-incomplete-page")
-                after = record["_after"]
-                if after is not None:
-                    if after in cursors:
-                        raise DiagnosticError("cursor-loop-or-invalid")
-                    cursors.add(after)
-                page = following
-            raise DiagnosticError("page-budget-exhausted")
+                    identity(row)
+                record["rowCount"] = len(rows)
+                return response
+            except DiagnosticError as exc:
+                boundaryError = str(exc)  # only fixed diagnostic literals
+                if record is not None:
+                    record["errorClass"] = boundaryError
+                raise FetchError("diagnostic-read-refused") from None
+
+        try:
+            listing = listAll(f"{API}/repos/{self.repo}/issues?state=open&per_page=100&page=1", fetch)
+            seen = set()
+            for row in listing.rows:
+                node = identity(row)
+                if node["number"] in seen:
+                    raise DiagnosticError("duplicate-identity")
+                seen.add(node["number"])
+                result["nodes"].append(node)
+            if listing.reason:
+                # Canonical diagnostics may contain raw URLs. Never copy them,
+                # format exceptions, or expose its variable reason strings.
+                raise DiagnosticError(boundaryError or "canonical-pagination-refused")
+            # Same extra short-nonfinal-page rule as LiveGh._walk; no acceptance
+            # count or _verified_open/list_issues call is involved here.
+            if any(size != 100 for size in listing.pageSizes[:-1]):
+                raise DiagnosticError("short-nonfinal-rest-page")
+            result["complete"] = True  # transport end only, NOT acceptance
         except DiagnosticError as exc:
             result["errorClass"] = str(exc)
+        except Exception:
+            result["errorClass"] = "canonical-read-error"
         return result
 
     def collect(self):

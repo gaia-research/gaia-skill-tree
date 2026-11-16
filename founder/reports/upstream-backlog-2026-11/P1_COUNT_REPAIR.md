@@ -625,3 +625,149 @@ Preflight verified clean feature worktree `dev/upstream-backlog-watcher-2026-11`
 Exact reviewed existing workflow inputs for the one experiment: `.github/workflows/upstream-watcher.yml` on feature ref; `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `skill_id=`, `challenge_watch=false`, `challenge_input=`, `challenge_shadow=false`, `escalate_candidate=`. All normal watcher steps must skip; challenge/upstream-poll dependents must remain skipped. Workflow permissions remain exactly `issues: write`, `contents: read` (implicit metadata read); no `pull-requests: read`, PAT, or permission changes. Expected artifact `DIAGNOSTIC-upstream-metadata-probe` / `generated-output/diagnostic-upstream-metadata.json`, explicitly diagnostic-only, acceptance-ineligible, P1-false. Combined inventory guard unchanged.
 
 Historical dispatch-time checkpoint; superseded by the actual run 43941667985 receipt at the top of this report and [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). The diagnostic failed; do not redispatch or monitor/poll further. P1 remains blocked pending Lead/founder decision.
+
+## Founder-authorized bounded canonical-pagination reuse — builder handoff
+
+**READY FOR TERRA CANONICAL-REUSE REVIEW.** Lead's assignment relays the
+founder's latest literal **`proceed`** in response to Lead's specific request for
+ONE bounded diagnostic refactor: reuse existing canonical read-only pagination,
+retain trusted repository binding/unknown/security behavior, Sol-shared sole
+builder, independent Terra review, parent full regression, then ONE metadata-only
+run. This records the actual relayed reply/context, not a new approval label,
+formal receipt, permission increase, normal-run or merge authorization. Earlier
+STOP entries and failed-run receipts remain history. Any unresolved finding after
+review returns for diagnosis; no autonomous further source rounds are authorized.
+**P1 remains BLOCKED; original #2278 and permission causality remain UNKNOWN.**
+
+### Verified preflight and architecture
+
+Actual runtime: `PI_PROVIDER=openai-codex`, `PI_MODEL=gpt-6.1-sol`,
+`PI_REASONING_LEVEL=medium`; dedicated P1 cwd and feature branch
+`dev/upstream-backlog-watcher-2026-11`, clean HEAD and explicit origin feature
+ref both `f0cd91ce3d1379635e504413dbbb717271b5030c`. No fallback, retry,
+delegation, nested agent, new branch, tracking repair, reset/discard/rebase or
+merge. Integration's configured ahead count is normal and was not changed.
+Read AGENTS/CLAUDE (including organization dogfooding), graft, current campaign,
+resume, technical reports and complete watcher contract. Native relevant skills
+used; no unsupported Skill Heaven surface installed or global configuration
+changed. Graft traced the old `nextPage -> read -> count/connection/rest ->
+collect` chain and canonical `_walk`/`listAll` references before edits; its
+ambiguous bare `_walk` trace also returned an unrelated docs symbol, not assumed
+part of this diagnostic's runtime. The only runtime entry remains the existing
+opt-in metadata-probe job. No production/shared caller changes.
+
+The diagnostic now directly composes **unchanged `listAll`** with a bounded
+read-only fetch adapter returning the real existing census `Response` type.
+Canonical code alone selects next relations, follows server query/cursor bytes,
+projects numeric paths to the named path via existing `followable`, detects URL
+loops/incomplete pages and performs its cursor-free terminal offset probe.
+Removed the diagnostic's next-page selector, sequential-page rule, independent
+Link grammar and continuation-query reconstruction. No production `LiveGh`,
+shared census, public signature or completeness contract changed. No call to
+`list_issues`, `_verified_open`, watcher planning, polling or write paths.
+
+The adapter uses **canonical `splitLinkValues`/`linkRelations`/`lowerHeaders`**,
+not a new Link parser. Its additional security boundary validates EVERY parsed
+relation's exact HTTPS host/path against the requested named repository or the
+numeric ID obtained only from the fixed repository GET, never Link-supplied
+identity. Existing exact-positive-int/non-bool ID and matching-full-name checks
+on both bracketing count GETs remain untouched. Userinfo/ports/fragments,
+foreign IDs/paths, encoding tricks, extra inventory filters, duplicate fields or
+relations, invalid state/page size and malformed/bounded pagination values fail
+closed. `after`/`before` are canonical opaque pagination fields, not reconstructed
+instructions or newly observed query-shape exceptions; cursor values are never
+interpreted as URLs. Repeated requested cursors and bounded nontermination are
+refused. The adapter retains the watcher's extra malformed/duplicate identity
+and short-nonfinal-page checks. It never suppresses canonical rejection.
+
+Canonical diagnostics can contain raw URLs: only fixed safe diagnostic reason
+classes cross the boundary; raw Listing diagnostics and exception text never do.
+The artifact now emits `linkPresent` and safe `rowCount`/request ID observations,
+not invented/reconstructed Link URLs. Raw responses remain memory-only. REST
+incomplete totals remain null/null with retained partial identities; complete
+empty remains 0/0. Unavailable/unstable required observations still yield UNKNOWN
+comparisons plus nonhealthy failures. After GraphQL remains one-node samples,
+not an identity census. All diagnostic-only/acceptance-ineligible/P1-false/
+causality-unestablished markers are unchanged. Transport completion is never
+combined-inventory acceptance. The ten-REST-fetch bound now explicitly includes
+the canonical end probe; other request/byte/time limits and no-retry/no-redirect
+controls remain. Workflow bytes and existing permissions are unchanged.
+
+### Proven before/after and actual checks
+
+An offline in-memory execution of **exact HEAD0 module bytes** (no checkout or
+source rewrite), with a synthetic legitimate numeric-ID Link carrying a
+server-selected `page=7` and encoded opaque `after=opaque%3Acursor%2C2`, produced:
+
+- BEFORE bespoke reader: incomplete, `unsafe-link-cursor`, REST totals null/null.
+- UNCHANGED canonical `listAll` with actual `Response` objects: no reason,
+  101 rows, two pages, independent offset probe page 3, zero probe rows.
+- AFTER adapter: complete 101 issues / 0 PRs,
+  `observations-agree-not-acceptance` only. The exact server query bytes reached
+  the fetch unchanged except canonical numeric-to-named path projection.
+
+This fixture proves local pagination behavior, NOT the historical rejected query,
+actual runner visibility, permission causality, original #2278 cause or P1 repair.
+The historical rejected query was not captured and remains UNKNOWN.
+
+Final focused command (same requested four-file target as the prior 214 cases):
+
+```sh
+python3 -m pytest tests/upstream_watcher/test_metadata_probe.py tests/upstream_watcher/test_watcher_workflows.py tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_list_truncation.py -q
+```
+
+**229 passed in 4.40s.** Previous after-edit checkpoints: 212/228 focused cases
+passed. The two removed negative-only parameter rows (`before` on a previous
+link; URL-looking opaque cursor) are now covered by positive canonical-semantics
+controls, not silently relabelled to green: neither changes origin, path or
+filters; cursor text never becomes authority. Direct selector-return assertions
+were replaced because there is no diagnostic selector anymore. An actual-reader
+spy delegates to real `listAll`, asserts real `Response` objects and exact fetch
+URLs including terminal probe; production acceptance methods are patched to
+raise if called. New controls cover canonical terminal-probe refusal, redirects,
+network errors, foreign ID/previous relation, unsafe filters, oversized/malformed
+pages, duplicates, page cap, short nonfinal page, exception redaction and opaque
+cursor preservation. Prior stability/identity/unknown/null/empty/partial/
+permission/default-job/redaction cases remain exercised.
+
+`python3 -m py_compile` on module/tests, explicit workflow YAML parse and
+`git diff --check`: PASS. `actionlint` unavailable, not claimed run. No long
+full suite, parity, live probe, normal runner or workflow dispatch by this child.
+Terra review at the delivered SHA is PENDING; **only after Terra focused PASS**
+does the parent run required full regression/parity through `bg_run`. Prior
+214/Terra and parent 1180/237.67s at `8cb977a...` remain historical, not new-SHA
+PASS. Full `gaia dev validate`/Class P index validation remains unclaimed.
+
+### Protected bytes and handoff stop
+
+All **869** tracked raw named/node/tree files individually match HEAD0; sorted
+Path-object path/NUL/bytes/NUL digest reverified:
+`fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+Original normal-run JSON reverified **605 bytes**,
+`11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`.
+Second metadata scratch artifact reverified **40,048 bytes**,
+`a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`.
+First metadata scratch at the expected run directory was **UNAVAILABLE**, not
+reverified here; its preserved historical hash remains
+`85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`.
+No historical artifact or receipt was rewritten.
+
+Workflow byte SHA-256 remains
+`24f999d965b89c084b9a0ca40e5b95d43b01a8d2b82ebd006cfca2239f44a4fc`;
+`live.py` and `steward_issue_census.py` individually byte-equal HEAD0. Changed-file
+allowlist is only diagnostic module, focused tests, narrow diagnostic contract
+and this append. CLI/schema, registry, skill-trees, generated/frozen/history,
+metrics/trust/grade/Origin/evidence/policy remain unchanged. Read-only origin
+checks confirm integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema
+`6bed0edf324d49e42cd8953351deaccaa733d22f`, and PRs 2468/2469 OPEN/DRAFT with
+integration base. No remote API writes, labels, variables, issue closure,
+permissions/auth changes, production run, P2 census or merge performed.
+
+**STOP after targeted commit/push and handoff.** Independent Terra review,
+parent full regression and then the ONE metadata-only run belong to the parent/
+designated operator, not this worker. Same existing workflow/feature ref,
+`metadata_probe=true`, `apply=false`, other safe/default inputs; normal jobs must
+skip and separate `DIAGNOSTIC-upstream-metadata-probe` artifact remains required.
+No failure authorizes another source round, permission increase, normal run,
+acceptance, phase advance or merge. Luna owns later bulk campaign/PR/memory/cost
+bookkeeping; this worker has not changed those surfaces.

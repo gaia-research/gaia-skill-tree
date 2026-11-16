@@ -450,7 +450,7 @@ watcher report, a frozen P2 census, or P1 acceptance. It declares
 `causality: not-established`. It records repository counts before/after, typed
 GraphQL counts/connection walks before REST and count samples after REST, minimal
 positive unique number/type/open-state projections, REST typed counts, sanitized
-request status/error classes and validated Link/request-id headers. Cursors are
+request status/error classes, Link-presence flags and validated request IDs. Cursors are
 used only in memory; pageInfo records cursor presence, not cursor contents.
 Titles, bodies, comments, authors, raw responses, exceptions and auth are never
 written or printed. REST issue responses necessarily arrive transiently before
@@ -460,14 +460,27 @@ Diagnostic pagination accepts the exact named repository issues path or its
 numeric alias **only** when the positive integer ID and matching `full_name`
 were obtained from the fixed repository GET, never learned from a Link. Every
 relation must use HTTPS on exactly `api.github.com`, without userinfo, port,
-fragment or path encoding/traversal. Query keys are singleton `state=open`,
-`per_page=100`, positive canonical `page`, plus an optional bounded opaque
-`after` cursor. Other filters/cursor forms are refused. Continuations are
-reconstructed on the named path; the cursor is preserved only in memory and
-omitted from artifact Link projections. Sequential pages, full linked pages,
-unique identities and nonrepeating cursors remain mandatory. Safe fixed
-`unsafe-link-*` classes distinguish origin, repository/path, query, cursor and
-encoding rejections without retaining raw URLs.
+fragment or path encoding/traversal. A bounded read-only adapter delegates the
+walk to the **unchanged** `scripts.steward_issue_census.listAll` using real
+`Response` objects. The adapter uses the canonical RFC Link parser to validate
+all target bindings; `listAll` selects/follows server continuations, preserves query/cursor bytes,
+applies its existing numeric-to-named path projection, rejects incomplete/looping
+walks, and performs the independent cursor-free terminal offset probe. The probe
+no longer selects next pages or reconstructs continuation queries. A server page
+marker need not be the next offset number; opaque cursor values are not URLs or
+authority and are never interpreted/rebuilt by the diagnostic.
+
+The adapter additionally enforces this repository's trusted numeric ID on EVERY
+Link target before canonical code can learn an alias, the fixed unfiltered
+`state=open`/`per_page=100` inventory, singleton bounded pagination fields
+(`page`, `after`/`before`), no extra filters, and nonrepeating requested cursors.
+It uses the canonical parser, not a second Link grammar. Malformed queries,
+foreign bindings and unsafe encodings fail closed. Like `LiveGh._walk`, it
+refuses short nonfinal pages and malformed/duplicate positive identities. No
+`list_issues`, `_verified_open`, planning or write path is called. Canonical
+rejection is never suppressed, and raw canonical diagnostics/exception text are
+mapped to fixed safe reason classes, never serialized. Artifact headers now
+record only Link presence, not reconstructed Link URLs or cursors.
 
 `comparisons` labels identity/aggregate observations `agree`, `disagree`, or
 `unknown` with a fixed reason. Incomplete REST walks cannot establish either
@@ -479,7 +492,8 @@ empty walks legitimately yield zero). GraphQL `collectionMode=count-sample`
 after REST is explicitly partial, not a second census; only the complete before
 walk participates in identity comparison.
 
-Limits: ten pages per walk, 100 items/page, 40 requests total, no retries,
+Limits: ten REST fetches per walk **including** the canonical end probe (and ten
+pages per GraphQL walk), 100 items/page, 40 requests total, no retries,
 30 seconds/request, 240-second collection budget, four-MiB response cap and a
 six-minute job timeout. Redirects and foreign/noncanonical continuations are
 refused. Missing counts, denial/partial/error responses, duplicates, loops,
