@@ -1,5 +1,9 @@
 # P1 blocker — second metadata probe failed; STOP for Lead decision
 
+## Current next action — await canonical-reuse scope authorization
+
+Lead read-only proposal, not approval: consider ONE bounded metadata-probe refactor reusing the existing canonical read-only pagination/transport and removing query reconstruction. Details and source pointers: [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). Exact rejected query/cause UNKNOWN; P1 remains BLOCKED. Await explicit founder authorization of this specific scope; no implementation, probe, permission change, normal run, or merge. PRs #2468/#2469 remain OPEN/DRAFT. Current feature HEAD is `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897`; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged.
+
 ## 2026-11-16 current truth — actual run 43941667985, P1 BLOCKED
 
 Run `43941667985` at feature HEAD `fcde5d9324812276ea09029ae225089bdfbe3952` completed failure: metadata-only job ran, read step exited 3, artifact upload succeeded, ordinary jobs skipped. REST halted incomplete after 100 issue-typed rows at `unsafe-link-query` (HTTP 200). GraphQL before walks complete at 245 issues / 7 PRs; after samples only; REST typed counts unknown. No 403/permission error. Full visibility and cause remain unknown. See [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md).

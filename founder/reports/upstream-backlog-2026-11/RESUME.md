@@ -1,5 +1,9 @@
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
+## Current next action — await canonical-reuse scope authorization
+
+Read-only lead proposal only: consider ONE bounded metadata-probe refactor reusing existing canonical read-only pagination/transport and removing independent query reconstruction; see [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). This new scope is not authorized. Exact rejected query and cause remain UNKNOWN; P1 remains BLOCKED after failed run 43941667985. Current feature HEAD `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897` is clean; schema `6bed0edf324d49e42cd8953351deaccaa733d22f` and integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` unchanged. Await explicit founder authorization. No code, probe, permission change, normal run, or merge; PRs #2468/#2469 stay OPEN/DRAFT.
+
 ## Current checkpoint — 2026-11-16 second actual metadata probe failure; STOP
 
 Run `43941667985` completed failure at exact feature head `fcde5d9324812276ea09029ae225089bdfbe3952`. Diagnostic job ran; metadata-read step exited 3; artifact upload succeeded; all ordinary watcher/challenge/upstream-poll jobs skipped. The REST walk stopped after one 100-row page at `unsafe-link-query` despite HTTP 200. Before GraphQL walks completed at 245 issues / 7 PRs; after was one-node samples only; repository aggregate was 252 both before and after. REST type counts and complete identity comparison are unknown; no 403/permission error recorded. Detailed sanitized receipt: [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md); artifact 14262564894, file SHA-256 `a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`.

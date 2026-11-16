@@ -1,5 +1,9 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
+## Current next action — await canonical-reuse scope authorization
+
+Lead read-only proposal only (not granted authority): consider ONE bounded metadata-probe refactor reusing existing canonical read-only pagination/transport and removing independent query reconstruction; see [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md). Exact rejected query and cause remain UNKNOWN; run 43941667985 failed and P1 remains BLOCKED. Await explicit founder authorization of this specific scope. No implementation, probe, permission change, normal run, or merge. PRs #2468/#2469 remain OPEN/DRAFT; feature HEAD `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897` clean, integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged.
+
 ## Current gate — second actual metadata probe failed; STOP for Lead decision
 
 Run `43941667985` failed at exact feature HEAD `fcde5d9324812276ea09029ae225089bdfbe3952`: diagnostic-only job executed, metadata step exit 3, artifact uploaded; ordinary watcher, challenge-watch, and upstream-poll jobs skipped. REST collected one 100-row issue-typed page and then rejected the continuation as `unsafe-link-query` after HTTP 200. Before GraphQL typed walks completed (245 issues, 7 PRs); after values are samples only. Aggregate count 252 before/after. The first REST page's 100 identities match the complete before GraphQL issue set; this is not a full comparison. REST typed counts, REST PR visibility and identity stability are unknown. No 403/permission error occurred. Sanitized report and artifact hashes are in [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md).

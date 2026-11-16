@@ -1,5 +1,9 @@
 # Upstream backlog campaign, November 2026 — control file
 
+## Current next action — await canonical-reuse scope authorization
+
+A read-only lead recommendation (not approval) is recorded in [P1_COUNT_REPAIR.md](P1_COUNT_REPAIR.md): consider ONE bounded metadata-probe refactor reusing the existing canonical read-only pagination/transport, removing independent query reconstruction. Exact rejected query and cause remain UNKNOWN. Current feature HEAD is `d42c6c2f3c02b0ed239cb9176f6b84141ddf6897`; clean. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remain unchanged. Run 43941667985 remains failed; P1 BLOCKED. Await explicit founder authorization of that specific scope; no implementation, probe, permission change, normal run, or merge. PRs #2468/#2469 remain OPEN/DRAFT.
+
 ## 2026-11-16 current state — second metadata probe failed; STOP for Lead decision
 
 The single authorized metadata-only probe `43941667985` completed failure at feature HEAD `fcde5d9324812276ea09029ae225089bdfbe3952`: diagnostic job ran, metadata-read step exit 3, artifact upload succeeded; normal watcher, challenge-watch, and upstream-poll jobs skipped. Sanitized outcome and artifact provenance: [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). REST traversal stopped incomplete after 100 issue-typed rows on `unsafe-link-query` (HTTP 200); GraphQL before walks completed at 245 issues / 7 PRs, while after was sample-only. Aggregate 252 before/after; REST typed counts unknown. No 403/permission error. Root cause, validator classification correctness, full REST PR visibility, and permission causality remain unknown. This is not an infrastructure failure or P1 acceptance.
