@@ -90,6 +90,9 @@ class Fixture:
             return Response({"open_issues_count": len(self.issues) + len(self.prs) +
                              (1 if self.fault == "rest-unstable" and self.counts > 1 else 0)})
         page = int(req.full_url.rsplit("=", 1)[1])
+        if ((self.fault == "rest-denial-first" and page == 1)
+                or (self.fault == "rest-denial-mid" and page == 2)):
+            raise HTTPError(req.full_url, 403, SECRET, {}, io.BytesIO(SECRET.encode()))
         source = self.issues + ([] if self.omit else self.prs)
         rows = []
         for node in source[(page - 1) * 100:page * 100]:
@@ -132,6 +135,30 @@ def test_agreement_is_not_acceptance():
     assert report["restTypedCounts"] == {"Issue": 2, "PullRequest": 1}
 
 
+def test_complete_empty_rest_has_observed_zero_counts():
+    report = run(Fixture(0, 0))
+    assert report["rest"]["complete"] is True
+    assert report["rest"]["nodes"] == []
+    assert report["restTypedCounts"] == {"Issue": 0, "PullRequest": 0}
+    assert report["status"] == "observations-agree-not-acceptance"
+
+
+@pytest.mark.parametrize("fault, observed", [("rest-denial-first", 0), ("rest-denial-mid", 100)])
+def test_incomplete_rest_counts_are_unknown_not_zero_or_partial(fault, observed):
+    report = run(Fixture(99, 2, fault=fault))
+    assert report["rest"]["complete"] is False
+    assert report["rest"]["errorClass"] == "permission-denied"
+    # Mid-walk retains both types as partial observations, not aggregate counts.
+    assert len(report["rest"]["nodes"]) == observed
+    if observed:
+        assert {n["__typename"] for n in report["rest"]["nodes"]} == {"Issue", "PullRequest"}
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+    assert report["status"] == "nonhealthy"
+    assert "rest-incomplete" in report["failures"]
+    assert any(r["httpStatus"] == 403 and r["errorClass"] == "permission-denied"
+               for r in report["requests"])
+
+
 def test_actual_tuple_is_observation_not_acceptance():
     report = run(Fixture(244, 6, omit=True))
     assert report["repositoryCounts"]["before"]["value"] == 250
@@ -149,6 +176,8 @@ def test_failures_are_nonhealthy_and_redacted(fault):
     fixture = Fixture(fault=fault)
     report = run(fixture)
     assert report["status"] == "nonhealthy" and report["failures"]
+    if not report["rest"]["complete"]:
+        assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
     if fault in ("denial", "partial"):
         assert report["before"]["pullRequests"]["totalCount"] is None
         assert report["before"]["pullRequests"]["errorClass"]
@@ -158,8 +187,12 @@ def test_failures_are_nonhealthy_and_redacted(fault):
 
 
 def test_complete_pagination_and_page_budget():
-    assert run(Fixture(244, 6))["status"] == "observations-agree-not-acceptance"
+    complete = run(Fixture(244, 6))
+    assert complete["status"] == "observations-agree-not-acceptance"
+    assert complete["rest"]["complete"] is True
+    assert complete["restTypedCounts"] == {"Issue": 244, "PullRequest": 6}
     report = run(Fixture(1001, 0))
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
     assert report["status"] == "nonhealthy"
     assert report["before"]["issues"]["errorClass"] == "page-budget-exhausted"
 
@@ -170,7 +203,9 @@ def test_deadline_and_no_token_never_send_request():
         client = probe.Probe("org/repo", token, fixture)
         if expired:
             client.deadline = 0
-        assert client.collect()["status"] == "nonhealthy"
+        report = client.collect()
+        assert report["status"] == "nonhealthy"
+        assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
         assert not fixture.calls
 
 

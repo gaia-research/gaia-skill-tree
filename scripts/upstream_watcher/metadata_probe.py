@@ -256,8 +256,12 @@ class Probe:
         elif counts["before"]["value"] != counts["after"]["value"]:
             failures.append("repository-count-unstable")
         rest = report["rest"]
-        report["restTypedCounts"] = {kind: sum(n["__typename"] == kind for n in rest["nodes"])
-                                      for kind in ("Issue", "PullRequest")}
+        # Retained nodes are partial observations until the REST walk finishes.
+        # Never present an incomplete/denied walk as an observed aggregate zero.
+        report["restTypedCounts"] = {
+            kind: sum(n["__typename"] == kind for n in rest["nodes"]) if rest["complete"] else None
+            for kind in ("Issue", "PullRequest")
+        }
         if not rest["complete"]:
             failures.append("rest-incomplete")
         for field in ("issues", "pullRequests"):

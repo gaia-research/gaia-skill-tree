@@ -209,3 +209,71 @@ refuses it. Probe output will inform the next bounded decision, not bypass it.
 **Stop for a different agent, Terra, to review this diagnostic unit.** This is
 READY FOR TERRA PROBE REVIEW only, not implementation-repair-ready, a new Terra
 PASS, runner success, P1 done, phase advancement or permission escalation.
+
+## Metadata probe correction round 1 — READY FOR TERRA RE-REVIEW
+
+Independent Terra focused review at `53ce6eeb738dfea70ecd4684880ac5079043eab6`
+reported 76 focused tests passing, compilation/YAML/diff checks passing, and a
+warning: an incomplete or denied REST walk still emitted numeric
+`restTypedCounts`, including misleading zeroes after denial before page one.
+This is a diagnostic report-contract defect, not evidence for relaxing the
+production combined issue/PR completeness guard or identifying the root cause.
+
+Preflight verified the expected clean P1 worktree/feature branch and local/remote
+HEAD `53ce6eeb738dfea70ecd4684880ac5079043eab6`. Runtime environment verified
+`openai-codex/gpt-6.1-sol`, reasoning `medium`. Sole worker; no nested agents,
+fallback, concurrent writer, dispatch, merge or permission/configuration change.
+
+**Nullable contract:** `restTypedCounts` retains its two keys, `Issue` and
+`PullRequest`. Both values are JSON null (unknown) whenever `rest.complete` is
+false; numeric totals are emitted only for a completed REST transport walk.
+`rest.nodes` and sanitized request/page observations remain available but are
+partial when `complete` is false, never authoritative aggregate counts. A
+complete empty walk legitimately emits zero for both types. Completion here is
+still transport completion, not a census acceptance guarantee. Agreement remains
+`observations-agree-not-acceptance`; diagnostic-only/acceptance-ineligible/P1-false
+markers and safe projections remain unchanged. No new partial-count field,
+parser, engine, HTTP endpoint/query or request scope was added.
+
+Actual local checks after correction:
+
+- `python3 -m pytest tests/upstream_watcher/test_metadata_probe.py tests/upstream_watcher/test_watcher_workflows.py tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_list_truncation.py -q`:
+  **79 passed in 2.08s**. Added denial-before-first-page and mid-pagination 403
+  cases, complete-empty legitimate zero, accurate complete paginated typed totals,
+  plus null assertions for missing token, deadline, malformed/partial walks and
+  page-budget exhaustion. Redaction and acceptance-ineligibility checks apply.
+- In-memory baseline-versus-corrected negative controls (no source rewrite):
+  baseline first-page denial yielded `{Issue: 0, PullRequest: 0}`; mid-page denial
+  yielded `{Issue: 99, PullRequest: 1}`. Corrected cases both yielded null/null,
+  retained permission-denied/incomplete state and no secret projection. Mid-walk
+  retained 100 partial identities of both types.
+- Unchanged production control: 244 issues / zero PRs against aggregate 250 and
+  typed totals 244+6 still refused, six GraphQL reads and `writes=[]`. Complete
+  244+6 fixture still returned 250 rows with `writes=[]`.
+- `python3 -m py_compile scripts/upstream_watcher/metadata_probe.py tests/upstream_watcher/test_metadata_probe.py`
+  and `git diff --check`: exit 0. YAML parsed by focused workflow tests.
+  `actionlint` remains unavailable and is not claimed run.
+- Parent reports its full regression at **53ce6ee** terminated successfully:
+  **1042 passed in 223.59s**, parity both true, clean state. This is historical,
+  **not a post-correction full-suite PASS**. This child did not rerun the full
+  target; independent Terra re-review and parent post-review regression remain.
+
+Protected status: all **869** raw named/node/tree files individually byte-equal
+to `53ce6ee`; sorted Path-object path/NUL/bytes/NUL digest remains
+`fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+Original failure JSON remains **605 bytes**, SHA-256
+`11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`.
+Only diagnostic module, its tests and this append change. Workflow (including
+default skip routing, normal job bodies and permissions), production `live.py`,
+shared census helpers, schemas, registry, generated artifacts and original
+runner report remain byte-identical to `53ce6ee`; earlier report history retained.
+Read-only remote checks confirmed integration
+`bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema
+`6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged. PRs 2468/2469 remain
+OPEN/DRAFT targeting integration; no PR administration occurred.
+
+Existing runner permission context is still `contents: read`, `issues: write`,
+**no `pull-requests: read` grant**. Permission-related root cause remains unknown;
+P1 is blocked. No issue writes, labels, variables, auth substitution, upstream
+crawl, workflow dispatch or merge. Stop for independent Terra re-review; this
+receipt grants no phase advancement or dispatch authority.
