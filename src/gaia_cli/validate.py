@@ -185,18 +185,18 @@ def check_proxy_containment_policy(
         source = row.get("source")
         ext_stars = row.get("externalStars")
         if ext_stars is None:
-            if require_external_stars:
-                violations.append({
-                    "error_code": "proxy-containment-missing-external-stars",
-                    "skill_id": skill_id,
-                    "evidence_index": idx,
-                    "evidence_type": "proxy-containment",
-                    "source": source,
-                    "message": (
-                        f"Evidence row {idx} (type='proxy-containment') on skill {skill_id!r} "
-                        "is missing externalStars; proxy-containment requires externalStars >= 10000."
-                    ),
-                })
+            violations.append({
+                "error_code": "proxy-containment-missing-external-stars",
+                "severity": "error" if require_external_stars else "warning",
+                "skill_id": skill_id,
+                "evidence_index": idx,
+                "evidence_type": "proxy-containment",
+                "source": source,
+                "message": (
+                    f"Evidence row {idx} (type='proxy-containment') on skill {skill_id!r} "
+                    "is missing externalStars; proxy-containment requires externalStars >= 10000."
+                ),
+            })
         elif (
             isinstance(ext_stars, bool)
             or not isinstance(ext_stars, (int, float))
@@ -204,6 +204,7 @@ def check_proxy_containment_policy(
         ):
             violations.append({
                 "error_code": "proxy-containment-below-star-floor",
+                "severity": "error",
                 "skill_id": skill_id,
                 "evidence_index": idx,
                 "evidence_type": "proxy-containment",
@@ -231,6 +232,7 @@ def check_proxy_containment_policy(
         if matched_by is not None:
             violations.append({
                 "error_code": "first-party-proxy-containment",
+                "severity": "error",
                 "skill_id": skill_id,
                 "evidence_index": idx,
                 "evidence_type": "proxy-containment",

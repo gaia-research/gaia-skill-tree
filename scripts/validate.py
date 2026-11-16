@@ -138,7 +138,10 @@ def validate_schema(graph, schema_dir, is_artifact=True):
     errors = []
     for skill in graph.get("skills", []):
         for violation in check_proxy_containment_policy(skill):
-            errors.append(violation["message"])
+            if violation.get("severity") == "warning":
+                print(f"   ⚠  [WARN] {violation['message']}")
+            else:
+                errors.append(violation["message"])
 
     if not HAS_JSONSCHEMA:
         print("⚠  jsonschema not installed — skipping schema validation.")
@@ -676,7 +679,10 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
 
     for rel, fm in parsed_named:
         for violation in check_proxy_containment_policy(fm, named_skills_by_id=named_skills_by_id):
-            errors.append(f"Named skill {rel}: {violation['message']}")
+            if violation.get("severity") == "warning":
+                print(f"   ⚠  [WARN] Named skill {rel}: {violation['message']}")
+            else:
+                errors.append(f"Named skill {rel}: {violation['message']}")
 
     # No Origin-uniqueness check on historical frontmatter: current Origin is
     # derived at build time (gaia_cli.origin, highest merit), ties share it, and

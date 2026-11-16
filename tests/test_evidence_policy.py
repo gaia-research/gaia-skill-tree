@@ -366,6 +366,24 @@ def test_proxy_containment_external_star_threshold_and_cli_enforcement(tmp_path:
         )
     assert named_file.read_text(encoding="utf-8") == before
 
+    # Validator emits warning by default for missing externalStars, error when require_external_stars=True
+    missing_stars = {
+        "id": "acme/tool",
+        "contributor": "acme",
+        "evidence": [
+            {"type": "proxy-containment", "source": "https://github.com/external-org/legacy-container"}
+        ],
+    }
+    warn_violations = check_proxy_containment_policy(missing_stars)
+    assert len(warn_violations) == 1
+    assert warn_violations[0]["error_code"] == "proxy-containment-missing-external-stars"
+    assert warn_violations[0]["severity"] == "warning"
+
+    err_violations = check_proxy_containment_policy(missing_stars, require_external_stars=True)
+    assert len(err_violations) == 1
+    assert err_violations[0]["error_code"] == "proxy-containment-missing-external-stars"
+    assert err_violations[0]["severity"] == "error"
+
     # Validator rejects sub-10k externalStars on proxy-containment
     sub_floor = {
         "id": "acme/tool",
@@ -562,16 +580,34 @@ def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_se
     assert norm_untyped["normalized_type"] == "untyped"
     assert norm_untyped["untyped"] is True
 
-    # Untyped rows are written to untyped_rows.md rather than silently dropped
+    # Untyped rows are written to untyped_rows.md with full payload preserved,
+    # and a subsequent run with no untyped rows removes the stale queue.
+    rich_untyped = {
+        "source": "https://example.org/post",
+        "commits": 42,
+        "citations": 7,
+        "externalStars": 15000,
+        "evaluator": "mbtiongson1",
+        "creatorRelation": "first-party",
+    }
+    norm_rich = gsd.normalizeEvidenceRow(copy.deepcopy(rich_untyped), skipLiveStars=True)
     untyped_skill = {
         "id": "acme/untyped",
         "name": "untyped",
         "contributor": "acme",
-        "compiled_evidence": [norm_untyped],
+        "compiled_evidence": [norm_rich],
     }
     q_path = gsd.writeUntypedReviewQueue(str(tmp_path), gsd.collectUntypedSkills([untyped_skill]))
     assert q_path is not None
-    assert "https://example.org/post" in Path(q_path).read_text(encoding="utf-8")
+    q_text = Path(q_path).read_text(encoding="utf-8")
+    assert "https://example.org/post" in q_text
+    for field in ('"commits": 42', '"citations": 7', '"externalStars": 15000', '"evaluator": "mbtiongson1"', '"creatorRelation": "first-party"'):
+        assert field in q_text
+
+    # Consecutive clean run removes stale untyped_rows.md
+    cleared = gsd.writeUntypedReviewQueue(str(tmp_path), [])
+    assert cleared is None
+    assert not Path(q_path).exists()
 
     social = {
         "type": "social-signal",

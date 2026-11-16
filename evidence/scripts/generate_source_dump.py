@@ -318,10 +318,12 @@ def collectUntypedSkills(skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]]) -> str | None:
+    outPath = os.path.join(outputDir, "untyped_rows.md")
     if not untypedSkills:
+        if os.path.exists(outPath):
+            os.remove(outPath)
         return None
     os.makedirs(outputDir, exist_ok=True)
-    outPath = os.path.join(outputDir, "untyped_rows.md")
     print(f"Writing untyped evidence review queue {outPath} with {len(untypedSkills)} skills...")
     with open(outPath, "w", encoding="utf-8") as f:
         f.write("# Untyped Evidence Review Queue\n\n")
@@ -332,6 +334,14 @@ def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]])
         )
         for skill in untypedSkills:
             writeSkillBlock(f, skill)
+            f.write("### Raw Row Payloads\n\n")
+            for idx, row in enumerate(skill.get("compiled_evidence") or [], 1):
+                raw = {
+                    k: v
+                    for k, v in row.items()
+                    if k not in ("normalized_type", "untyped")
+                }
+                f.write(f"#### Raw E{idx}\n```json\n{json.dumps(raw, indent=2, sort_keys=True, ensure_ascii=False)}\n```\n\n")
     return outPath
 
 
