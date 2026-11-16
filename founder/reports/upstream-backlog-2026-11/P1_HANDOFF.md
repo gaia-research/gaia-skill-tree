@@ -1,8 +1,8 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT STATUS: RESUMED by operator for bounded administration only — final independent Terra verification PENDING; NO MERGES.** Source candidate `591264b3bc1d7607e1074411f1c0a77b541515d9`; schema candidate `6bed0edf324d49e42cd8953351deaccaa733d22f`. Latest Terra attempt `caae8998` was CANCELLED, exit 143, with NO FINAL VERDICT; history is preserved and no independent PASS is claimed. PR #2468/#2469 remain OPEN/DRAFT, integration-targeted. This resumption permits only the scoped reporting/PR-body updates and preparation—not execution—of P1's generic runner command. It does not permit dispatch, merges/ready status, labels, variables, issue writes/closures, builds, or P2–P7. P0 was completed internally earlier. See [RESUME.md](RESUME.md).
+> **CURRENT STATUS: REVIEW PASS — P1 REAL RUNNER PENDING; NO MERGES.** Fresh independent Terra code review passed with no actionable findings at exact source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; this is not founder release approval. One authorized generic non-writing P1 `apply=false` runner remains pending dispatch. PR #2468/#2469 remain OPEN/DRAFT, integration-targeted. No P2–P7, labels, variables, issue writes/closures, merge/ready status, or founder gate is authorized. See [RESUME.md](RESUME.md) and the independent receipt below.
 
-The builder-reported repair and checks below remain attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium); they are not independent certification. Historical Terra findings/cancellation are preserved, but are not a current final verdict on the latest candidate. Terra review is pending separately. The prepared P1 runner invocation is **NOT DISPATCHED** pending Terra PASS.
+Builder reports below remain precisely attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Independent Terra now PASSed with no actionable findings at the pinned source/schema pair; historical findings/cancellation remain history, not the current verdict. The authorized P1 runner invocation is validated and **NOT YET DISPATCHED**.
 
 ## Historical Terra receipt on pre-repair source `60120a1` (not the current candidate verdict)
 
@@ -22,9 +22,9 @@ The builder-reported repair and checks below remain attributed to `worker-sol-sh
   - `da255f0ee136226be434fe486e1d07e3d547616b` — `chore(registry): reconcile ruvnet/agentdb source and v3.10.0 via canonical CLI`
   - Final docs/handoff commit on `dev/upstream-backlog-watcher-2026-11` (see `git log -1` / PR #2468 head)
 
-## Prepared P1 real-runner dry run — exact command; DO NOT EXECUTE before Terra PASS
+## Prepared P1 real-runner dry run — exact command; dispatch once after final preflight (Terra PASS recorded)
 
-Workflow: `.github/workflows/upstream-watcher.yml`, workflow name `Upstream Watcher`, `workflow_dispatch`, intended ref `dev/upstream-backlog-watcher-2026-11` (the P1 feature branch; not default/integration). Confirm availability only with `gh workflow view upstream-watcher.yml --ref dev/upstream-backlog-watcher-2026-11`; no dispatch has been performed.
+Workflow: `.github/workflows/upstream-watcher.yml`, workflow name `Upstream Watcher`, `workflow_dispatch`, intended ref `dev/upstream-backlog-watcher-2026-11` (the P1 feature branch; not default/integration). Validated workflow inputs against the current definition with `gh workflow view upstream-watcher.yml --ref dev/upstream-backlog-watcher-2026-11`; no conflicting workflow run was listed at pre-dispatch check. Dispatch is the next authorized action; never retry after an uncertain response.
 
 ```bash
 gh workflow run upstream-watcher.yml \
