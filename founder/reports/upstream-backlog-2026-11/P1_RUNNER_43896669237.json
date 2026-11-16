@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-11-16T16:24:56Z",
+  "childMode": "batch",
+  "dryRun": true,
+  "issuesCreated": 0,
+  "issuesUpdated": 0,
+  "suppressedDuplicates": 0,
+  "retainedCandidates": 0,
+  "unknownEvidence": [
+    {
+      "source": "github-list",
+      "detail": "open issue listing not confirmed after 3 attempts: listed 244 open items, repository reports 250; connection counts changed or listing disagrees ((244, 6), (244, 6), (244, 0)) (refusing)",
+      "stopped": true
+    }
+  ],
+  "unavailable": [],
+  "recordsReset": [],
+  "duplicateOpenUmbrellas": [],
+  "suppressedProcessed": [],
+  "suites": []
+}

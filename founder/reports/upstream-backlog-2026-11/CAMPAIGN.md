@@ -2,7 +2,7 @@
 
 Recovery entry point. Update it on every material state change.
 
-- **Current status: REVIEW PASS — P1 real-runner pending; NO MERGES.** Independent Terra code review passed at exact source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; this is an independent CODE review, not founder release approval. The sole next gate is one authorized P1 generic non-writing `apply=false` runner; no P2–P7, labels, variables, issue writes/closures, or merges. PRs #2468/#2469 remain OPEN/DRAFT. See the appended 2026-11-17 execution receipt below. Cost remains UNAVAILABLE campaign-wide; `$4.907920` is P0-only partial.
+- **Current status: STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual runner 43896669237 failed (step `Run upstream watcher`, exit 3) at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; see [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and preserved JSON. Explicit `EXECUTOR_PROMPT.md` stop condition controls: no investigation, repair, monitoring, rerun, or P2–P7. Await explicit founder authorization for bounded #2278 repair before any code/redispatch. Terra's code PASS is not runner PASS/P1 completion. PR #2468/#2469 OPEN/DRAFT. Cost unavailable campaign-wide; `$4.907920` P0-only partial.
 
 - **Baseline:** `main` @ `9b4d9b98` (v9.5.0), snapshot 2026-11-15.
 - **Plan:** [PLAN.md](PLAN.md). **Executor prompt:** [EXECUTOR_PROMPT.md](EXECUTOR_PROMPT.md).

@@ -1,6 +1,6 @@
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
-**REVIEW PASS — P1 real-runner pending; NO MERGES.** Fresh independent Terra review passed with no actionable findings at exact source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`. This is a code-review verdict, not founder release approval. One P1 generic non-writing `apply=false` runner remains authorized/pending; no merge, P2–P7, labels, variables, issue writes/closures, or founder gate is authorized. Prior pause/cancellation history remains below. Preserve every worktree and branch; do not reset, discard, delete or recreate. The original dirty root checkout is off-limits.
+**STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual run 43896669237 failed with exit 3 at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`. Preserve receipt at [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and exact JSON. `EXECUTOR_PROMPT.md` requires stop/return to founder: no investigation, repair, monitoring, rerun, or P2–P7. Await explicit founder authorization for bounded #2278 repair before any code change or redispatch. Terra code PASS is not runner PASS/P1 completion. PRs #2468/#2469 remain OPEN/DRAFT. Preserve prior history/worktrees.
 
 ## Current state and stop boundary
 

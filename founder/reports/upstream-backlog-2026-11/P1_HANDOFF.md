@@ -1,6 +1,6 @@
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
-> **CURRENT STATUS: REVIEW PASS — P1 REAL RUNNER PENDING; NO MERGES.** Fresh independent Terra code review passed with no actionable findings at exact source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; this is not founder release approval. One authorized generic non-writing P1 `apply=false` runner remains pending dispatch. PR #2468/#2469 remain OPEN/DRAFT, integration-targeted. No P2–P7, labels, variables, issue writes/closures, merge/ready status, or founder gate is authorized. See [RESUME.md](RESUME.md) and the independent receipt below.
+> **STOPPED AT FOUNDER GATE — #2278 refusal reproduced; P1 blocked; NO MERGES.** Actual run 43896669237 failed (watcher step exit 3) at source `fa6ca42ab8c56ded58f340165388a69ae1957a7a`. See [P1_RUNNER_REPORT.md](P1_RUNNER_REPORT.md) and exact JSON. `EXECUTOR_PROMPT.md` mandates stop and return to founder. No investigation, repair, monitoring, rerun or P2–P7. Await explicit founder authorization for bounded #2278 repair before code/redispatch. Terra code PASS is not actual-runner PASS/P1 completion. PRs #2468/#2469 remain OPEN/DRAFT.
 
 Builder reports below remain precisely attributed to `worker-sol-shared` (`openai-codex/gpt-6.1-sol`, medium). Independent Terra now PASSed with no actionable findings at the pinned source/schema pair; historical findings/cancellation remain history, not the current verdict. The authorized P1 runner invocation is validated and **NOT YET DISPATCHED**.
 

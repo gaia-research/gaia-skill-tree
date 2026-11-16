@@ -15,6 +15,18 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 > [Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md), and the orchestrator rules.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
 
+## State Snapshot (2026-11-16, Upstream Backlog — STOPPED at founder gate; #2278 refusal reproduced)
+
+### TLDR
+- Actual P1 runner 43896669237 failed at `Run upstream watcher` (exit 3), source branch head `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; explicit `EXECUTOR_PROMPT.md` hard stop applies.
+- Evidence: `founder/reports/upstream-backlog-2026-11/P1_RUNNER_REPORT.md` and exact 605-byte JSON `P1_RUNNER_43896669237.json` (SHA-256 `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`). Open issue listing was not confirmed: 244 listed vs repository-reported 250 after three attempts. Fail-closed; no root cause inferred; suites empty, not a P2 census.
+- Independent Terra code PASS at source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remains a code review only, not runner PASS/P1 completion. Earlier Terra cancellation remains historical, not cancelled anew.
+- PR #2468 OPEN/DRAFT head `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; PR #2469 OPEN/DRAFT head `6bed0edf324d49e42cd8953351deaccaa733d22f`; both base `dev/upstream-backlog-2026-11`. No merges.
+- Feature branch clean at `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; remote feature head matches. Integration remote remains `bfed2d777b76448f6ede5d40e1a834050dff07d0` (24 commits ahead is normal); schema remote remains `6bed0edf324d49e42cd8953351deaccaa733d22f`.
+
+### Next action / hard boundary
+Await explicit founder authorization for bounded #2278 repair before any code change or redispatch. Recommendation only: retain Sol-shared as sole builder, Terra as independent reviewer, completeness fail-closed, and no issue writes/weekly variables/merit/registry changes or bypass. No investigation, monitoring, reruns, P2–P7, free closures, or merges during stop. Campaign-complete cost remains unavailable; `$4.907920` is P0-only partial, not total.
+
 ## State Snapshot (2026-11-15, Upstream Backlog — founder pause preserved; resumable)
 
 ### TLDR
