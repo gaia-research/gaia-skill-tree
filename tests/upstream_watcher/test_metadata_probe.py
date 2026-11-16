@@ -686,7 +686,7 @@ def test_workflow_optin_inheritance_and_unchanged_normal_jobs():
     assert trigger["schedule"] == [{"cron": "0 6 * * *"}]
     assert workflow["permissions"] == {"issues": "write", "contents": "read"}
     jobs = copy.deepcopy(workflow["jobs"])
-    assert jobs["watcher"].pop("if") == "${{ inputs.metadata_probe != true }}"
+    assert jobs["watcher"].pop("if") == "${{ inputs.metadata_probe != true && !inputs.permission_ab }}"
     # Exact entire normal job, including all step conditions, env and shell bodies.
     for name, expected in (("watcher", "b0fd80fef5e610dd12a337251d0d42708c6733ee77a0728dfa4f226a7ddfa56e"),
                            ("challenge-watch", "e05f40b376110af630fc9666d47a9a4e12dbecad2fe24f5fc96498422bb7d794")):
@@ -694,7 +694,7 @@ def test_workflow_optin_inheritance_and_unchanged_normal_jobs():
     assert jobs["challenge-watch"]["needs"] == "watcher"
     assert "always()" not in jobs["challenge-watch"]["if"]  # implicit success skips on skipped watcher
     diagnostic = jobs["metadata-probe"]
-    assert diagnostic["if"] == "${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true }}"
+    assert diagnostic["if"] == "${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true && !inputs.permission_ab }}"
     assert "permissions" not in diagnostic  # exact workflow-level inheritance, no grant
     assert diagnostic["timeout-minutes"] == 6
     steps = diagnostic["steps"]

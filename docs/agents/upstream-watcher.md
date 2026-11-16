@@ -425,7 +425,7 @@ The workflow's token scope is `issues: write` and `contents: read` (L5). The wat
 
 ### Opt-in metadata-only runner diagnosis (#2278)
 
-`metadata_probe=true` on this existing workflow selects **only** the separate
+`metadata_probe=true` (with `permission_ab=false`) on this existing workflow selects **only** the separate
 `metadata-probe` job. The entire `watcher` job is skipped; its dependent
 `challenge-watch` job is consequently skipped by the existing success dependency.
 The boolean defaults to false. Scheduled runs and ordinary manual runs retain
@@ -501,6 +501,43 @@ unstable counts and identity/count disagreement remain `nonhealthy` (exit 3).
 Even `observations-agree-not-acceptance` (exit 0) is not a completeness waiver,
 an atomic snapshot, causal proof or permission to resume writes. The strict
 combined issue/PR production guard is unchanged.
+
+### Opt-in diagnostic-only permission A/B (#2278)
+
+`permission_ab=true` on the **existing** workflow selects two independent jobs:
+`permission-ab-control` and `permission-ab-treatment`. It overrides all other
+inputs for routing: watcher and its challenge dependent are skipped even with
+`metadata_probe=false`, `apply=true`, escalation or challenge flags selected.
+Standalone `metadata-probe` is also skipped. Default false leaves scheduled,
+ordinary manual and standalone metadata-probe behavior unchanged. Native boolean
+true is required for the arms; malformed nonempty string selections fail closed
+without selecting an ordinary job. No event-string truthiness is used.
+
+Both arms check out `${{ github.repository }}` at `${{ github.sha }}`, run exactly
+`python -m scripts.upstream_watcher.metadata_probe`, and use their own job-scoped
+`GITHUB_TOKEN`. Control explicitly declares `issues: write`, `contents: read`;
+treatment declares exactly those plus **`pull-requests: read`**. This is solely a
+diagnostic treatment, **not** a production permission grant. Ordinary/global
+permission blocks are unchanged. No token is shared, minted or replaced; neither
+arm invokes planning or writes. The collector and its limits/schema are unchanged.
+
+Artifacts are **`DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL`** and
+**`DIAGNOSTIC-upstream-metadata-permission-ab-TREATMENT`**, each containing
+`diagnostic-upstream-metadata.json`, seven-day retention, upload `always()` even
+after exit 3. Separate jobs have no success dependency or fail-fast matrix; a
+nonhealthy control cannot prevent treatment. They are eligible concurrently but
+runner scheduling does not guarantee simultaneous observations or artifact delivery
+after infrastructure failure. No automated winner, P1 acceptance or causal verdict.
+Each report remains diagnostic-only, acceptance-ineligible, P1-false, causality
+not established. Compare only complete commensurate observations; time churn can
+make the pair INCONCLUSIVE. No automatic rerun.
+
+The founder's relayed literal `proceed` authorized this ONE bounded diagnostic A/B
+proposal only. Independent Terra review and parent full regression are required
+before the designated operator's one paired run. No normal watcher run, issue
+write, production permission expansion, P2 or merge is authorized. Technical
+preparation receipt: [`P1_PERMISSION_AB.md`](../../founder/reports/upstream-backlog-2026-11/P1_PERMISSION_AB.md).
+P1 remains BLOCKED pending separately authorized normal acceptance.
 
 ### Run report and exit codes
 

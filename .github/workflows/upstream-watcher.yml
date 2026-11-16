@@ -3,6 +3,10 @@ name: Upstream Watcher
 on:
   workflow_dispatch:
     inputs:
+      permission_ab:
+        description: "DIAGNOSTIC ONLY: paired permission A/B; skips ALL ordinary jobs regardless of other inputs"
+        type: boolean
+        default: false
       metadata_probe:
         description: "DIAGNOSTIC ONLY: read typed backlog metadata; skips all watcher jobs"
         type: boolean
@@ -59,7 +63,7 @@ permissions:
 
 jobs:
   watcher:
-    if: ${{ inputs.metadata_probe != true }}
+    if: ${{ inputs.metadata_probe != true && !inputs.permission_ab }}
     name: Poll upstream repos for new releases
     runs-on: ubuntu-latest
     steps:
@@ -201,7 +205,7 @@ jobs:
 
   metadata-probe:
     name: DIAGNOSTIC ONLY - typed backlog visibility
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true && !inputs.permission_ab }}
     runs-on: ubuntu-latest
     timeout-minutes: 6
     # Inherits exactly issues: write / contents: read; no additional grant.
@@ -224,6 +228,76 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DIAGNOSTIC-upstream-metadata-probe
+          path: generated-output/diagnostic-upstream-metadata.json
+          if-no-files-found: error
+          retention-days: 7
+
+  # Independent jobs: a nonhealthy control (exit 3) cannot gate/cancel treatment.
+  # Each gets its own job-scoped GITHUB_TOKEN. No outputs or credentials cross jobs.
+  # Explicit permissions replace workflow inheritance; metadata read is implicit.
+  permission-ab-control:
+    name: DIAGNOSTIC ONLY - permission A/B CONTROL
+    if: ${{ github.event_name == 'workflow_dispatch' && toJSON(inputs.permission_ab) == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read diagnostic metadata only
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m scripts.upstream_watcher.metadata_probe
+      - name: Upload DIAGNOSTIC ONLY metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL
+          path: generated-output/diagnostic-upstream-metadata.json
+          if-no-files-found: error
+          retention-days: 7
+
+  permission-ab-treatment:
+    name: DIAGNOSTIC ONLY - permission A/B TREATMENT
+    if: ${{ github.event_name == 'workflow_dispatch' && toJSON(inputs.permission_ab) == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      issues: write
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read diagnostic metadata only
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m scripts.upstream_watcher.metadata_probe
+      - name: Upload DIAGNOSTIC ONLY metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DIAGNOSTIC-upstream-metadata-permission-ab-TREATMENT
           path: generated-output/diagnostic-upstream-metadata.json
           if-no-files-found: error
           retention-days: 7
