@@ -12,7 +12,7 @@ from pathlib import Path
 import re
 import time
 from urllib.error import HTTPError
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 API = "https://api.github.com"
@@ -53,32 +53,64 @@ def identity(row, kind=None):
     return {"number": row["number"], "__typename": kind, "state": "OPEN"}
 
 
-def nextPage(link, repo):
-    """Validate EVERY continuation before projecting a canonical safe Link."""
+def nextPage(link, repo, repositoryId=None):
+    """Bind EVERY link to this repository; return cursor only for in-memory use.
+
+    Like the census's canonical projection, request the named repository path,
+    not the numeric alias. Unlike its link-learned alias, require an id from the
+    fixed repository GET. Do not import its raw-error/production collection path.
+    """
     if not link:
-        return None, None
-    pages = []
-    nextNumber = None
+        return None, None, None
+    if len(link) > 16384:
+        raise DiagnosticError("unsafe-link-size")
+    pages, relations = [], set()
+    nextNumber, nextCursor = None, None
     for part in link.split(","):
         match = re.fullmatch(r'\s*<([^<>]+)>;\s*rel="(next|prev|first|last)"\s*', part)
         if not match:
             raise DiagnosticError("invalid-link")
         url, rel = match.groups()
-        parsed = urlsplit(url)
-        query = parse_qs(parsed.query, keep_blank_values=True)
-        if (parsed.scheme != "https" or parsed.netloc != "api.github.com"
-                or parsed.path != f"/repos/{repo}/issues" or parsed.fragment
-                or set(query) != {"state", "per_page", "page"}
+        if re.search(r"[\x00-\x20\x7f]", url):
+            raise DiagnosticError("unsafe-link-encoding")
+        try:
+            parsed = urlsplit(url)
+        except ValueError:
+            raise DiagnosticError("unsafe-link-origin") from None
+        if parsed.scheme != "https" or parsed.netloc != "api.github.com" or "#" in url:
+            raise DiagnosticError("unsafe-link-origin")
+        allowed = {f"/repos/{repo}/issues"}
+        if integer(repositoryId) and repositoryId > 0:
+            allowed.add(f"/repositories/{repositoryId}/issues")
+        if parsed.path not in allowed:
+            raise DiagnosticError("unsafe-link-repository-path")
+        # Strict keys, singleton values and percent syntax; never discard an
+        # unexpected filter. Only the observed optional after cursor is allowed.
+        if (re.search(r"%(?![0-9A-Fa-f]{2})", parsed.query)
+                or any(p.split("=", 1)[0] not in ("state", "per_page", "page", "after")
+                       for p in parsed.query.split("&"))):
+            raise DiagnosticError("unsafe-link-query")
+        try:
+            query = parse_qs(parsed.query, keep_blank_values=True, strict_parsing=True,
+                             max_num_fields=4, errors="strict")
+        except (ValueError, UnicodeError):
+            raise DiagnosticError("unsafe-link-query") from None
+        if (set(query) not in ({"state", "per_page", "page"}, {"state", "per_page", "page", "after"})
                 or query["state"] != ["open"] or query["per_page"] != ["100"]
                 or len(query["page"]) != 1 or not re.fullmatch(r"[1-9][0-9]{0,5}", query["page"][0])):
-            raise DiagnosticError("unsafe-link")
+            raise DiagnosticError("unsafe-link-query")
+        cursor = query.get("after", [None])
+        if len(cursor) != 1 or (cursor[0] is not None and not re.fullmatch(r"[A-Za-z0-9+/=_-]{1,2048}", cursor[0])):
+            raise DiagnosticError("unsafe-link-cursor")
+        if rel in relations:
+            raise DiagnosticError("duplicate-link-relation")
+        relations.add(rel)
         page = int(query["page"][0])
+        # Artifact projection deliberately omits the opaque cursor.
         pages.append(f'<{API}/repos/{repo}/issues?state=open&per_page=100&page={page}>; rel="{rel}"')
         if rel == "next":
-            if nextNumber is not None:
-                raise DiagnosticError("duplicate-next-link")
-            nextNumber = page
-    return nextNumber, ", ".join(pages)
+            nextNumber, nextCursor = page, cursor[0]
+    return nextNumber, ", ".join(pages), nextCursor
 
 
 class Probe:
@@ -87,11 +119,12 @@ class Probe:
             raise DiagnosticError("invalid-repository")
         self.repo = repo
         self.token = token
+        self.repositoryId = None
         self.opener = opener or build_opener(NoRedirect())
         self.deadline = time.monotonic() + 240
         self.requests = []
 
-    def read(self, connection=None, cursor=None, size=100, page=None):
+    def read(self, connection=None, cursor=None, size=100, page=None, after=None):
         record = {"surface": connection or ("rest-items" if page else "rest-count"),
                   "httpStatus": None, "errorClass": None}
         self.requests.append(record)
@@ -113,7 +146,10 @@ class Probe:
                 body, method = None, "GET"
                 url = f"{API}/repos/{self.repo}"
                 if page:
-                    url += f"/issues?state=open&per_page=100&page={page}"
+                    query = {"state": "open", "per_page": 100, "page": page}
+                    if after is not None:
+                        query["after"] = after
+                    url += "/issues?" + urlencode(query)
             req = Request(url, data=body, method=method, headers={
                 "Authorization": "Bearer " + self.token,
                 "Accept": "application/vnd.github+json", "Content-Type": "application/json",
@@ -125,7 +161,7 @@ class Probe:
                 if page:
                     requestId = response.headers.get("X-GitHub-Request-Id", "")
                     record["requestId"] = requestId if re.fullmatch(r"[A-Fa-f0-9:.-]{1,128}", requestId) else None
-                    following, safeLink = nextPage(response.headers.get("Link"), self.repo)
+                    following, safeLink, nextCursor = nextPage(response.headers.get("Link"), self.repo, self.repositoryId)
                     record["link"] = safeLink
                     record["nextPage"] = following
                 raw = response.read(MAX_BYTES + 1)
@@ -134,7 +170,8 @@ class Probe:
                 data = json.loads(raw)
                 if connection and (not isinstance(data, dict) or "errors" in data):
                     raise DiagnosticError("graphql-errors-or-partial")
-                return data, record
+                # Private continuation state never enters requests/artifact.
+                return data, dict(record, _after=nextCursor) if page else record
         except HTTPError as exc:
             record["httpStatus"] = exc.code
             record["errorClass"] = "permission-denied" if exc.code in (401, 403) else "http-error"
@@ -150,10 +187,19 @@ class Probe:
         value = data.get("open_issues_count") if isinstance(data, dict) else None
         if not integer(value):
             raise DiagnosticError("missing-repository-count")
+        repositoryId = data.get("id")
+        if (integer(repositoryId) and repositoryId > 0
+                and isinstance(data.get("full_name"), str)
+                and data["full_name"].casefold() == self.repo.casefold()):
+            if self.repositoryId is not None and self.repositoryId != repositoryId:
+                raise DiagnosticError("repository-identity-unstable")
+            self.repositoryId = repositoryId
+        # Missing/invalid identity never authorizes a numeric alias.
         return value
 
     def connection(self, field, walk):
-        result = {"totalCount": None, "pages": [], "nodes": [], "complete": False, "errorClass": None}
+        result = {"totalCount": None, "pages": [], "nodes": [], "complete": False,
+                  "collectionMode": "walk" if walk else "count-sample", "errorClass": None}
         cursor, seen, cursors = None, set(), set()
         try:
             for _ in range(MAX_PAGES if walk else 1):
@@ -209,10 +255,10 @@ class Probe:
 
     def rest(self):
         result = {"nodes": [], "complete": False, "errorClass": None}
-        page, seen = 1, set()
+        page, seen, cursors, after = 1, set(), set(), None
         try:
             for _ in range(MAX_PAGES):
-                rows, record = self.read(page=page)
+                rows, record = self.read(page=page, after=after)
                 if not isinstance(rows, list) or len(rows) > 100:
                     raise DiagnosticError("invalid-rest-page")
                 for row in rows:
@@ -227,6 +273,11 @@ class Probe:
                     return result
                 if following != page + 1 or len(rows) != 100:
                     raise DiagnosticError("loop-or-incomplete-page")
+                after = record["_after"]
+                if after is not None:
+                    if after in cursors:
+                        raise DiagnosticError("cursor-loop-or-invalid")
+                    cursors.add(after)
                 page = following
             raise DiagnosticError("page-budget-exhausted")
         except DiagnosticError as exc:
@@ -264,18 +315,38 @@ class Probe:
         }
         if not rest["complete"]:
             failures.append("rest-incomplete")
+        comparisons = report["comparisons"] = {}
         for field in ("issues", "pullRequests"):
             before, after = report["before"][field], report["after"][field]
             if before["errorClass"] or after["errorClass"] or not before["complete"]:
                 failures.append(field + "-unknown-or-incomplete")
             elif before["totalCount"] != after["totalCount"]:
                 failures.append(field + "-count-unstable")
-            if {n["number"] for n in before["nodes"]} != {
-                n["number"] for n in rest["nodes"] if n["__typename"] == ("Issue" if field == "issues" else "PullRequest")
-            }:
-                failures.append(field + "-identity-disagreement")
-        if counts["before"]["value"] != len(rest["nodes"]):
-            failures.append("aggregate-rest-disagreement")
+            comparison = comparisons[field + "Identities"] = {"status": "unknown", "reason": None}
+            if not rest["complete"]:
+                comparison["reason"] = "rest-incomplete"
+            elif not before["complete"] or before["errorClass"]:
+                comparison["reason"] = "before-connection-incomplete"
+            else:
+                same = {n["number"] for n in before["nodes"]} == {
+                    n["number"] for n in rest["nodes"] if n["__typename"] == ("Issue" if field == "issues" else "PullRequest")}
+                comparison["status"] = "agree" if same else "disagree"
+                if not same:
+                    failures.append(field + "-identity-disagreement")
+            if comparison["status"] == "unknown":
+                failures.append(field + "-identity-comparison-unknown")
+        aggregate = comparisons["aggregateRest"] = {"status": "unknown", "reason": None}
+        if not rest["complete"]:
+            aggregate["reason"] = "rest-incomplete"
+        elif counts["before"]["errorClass"] or counts["before"]["value"] is None:
+            aggregate["reason"] = "repository-count-unknown"
+        else:
+            same = counts["before"]["value"] == len(rest["nodes"])
+            aggregate["status"] = "agree" if same else "disagree"
+            if not same:
+                failures.append("aggregate-rest-disagreement")
+        if aggregate["status"] == "unknown":
+            failures.append("aggregate-rest-comparison-unknown")
         if not failures:
             report["status"] = "observations-agree-not-acceptance"
         return report

@@ -456,6 +456,29 @@ Titles, bodies, comments, authors, raw responses, exceptions and auth are never
 written or printed. REST issue responses necessarily arrive transiently before
 projection; only the allowlisted metadata reaches the artifact.
 
+Diagnostic pagination accepts the exact named repository issues path or its
+numeric alias **only** when the positive integer ID and matching `full_name`
+were obtained from the fixed repository GET, never learned from a Link. Every
+relation must use HTTPS on exactly `api.github.com`, without userinfo, port,
+fragment or path encoding/traversal. Query keys are singleton `state=open`,
+`per_page=100`, positive canonical `page`, plus an optional bounded opaque
+`after` cursor. Other filters/cursor forms are refused. Continuations are
+reconstructed on the named path; the cursor is preserved only in memory and
+omitted from artifact Link projections. Sequential pages, full linked pages,
+unique identities and nonrepeating cursors remain mandatory. Safe fixed
+`unsafe-link-*` classes distinguish origin, repository/path, query, cursor and
+encoding rejections without retaining raw URLs.
+
+`comparisons` labels identity/aggregate observations `agree`, `disagree`, or
+`unknown` with a fixed reason. Incomplete REST walks cannot establish either
+disagreement; incomplete before GraphQL walks cannot establish typed identity
+disagreement, and unknown repository counts cannot establish aggregate
+disagreement. Unknown comparisons remain nonhealthy. Partial nodes remain
+partial, REST typed totals remain null until transport completion (complete
+empty walks legitimately yield zero). GraphQL `collectionMode=count-sample`
+after REST is explicitly partial, not a second census; only the complete before
+walk participates in identity comparison.
+
 Limits: ten pages per walk, 100 items/page, 40 requests total, no retries,
 30 seconds/request, 240-second collection budget, four-MiB response cap and a
 six-minute job timeout. Redirects and foreign/noncanonical continuations are

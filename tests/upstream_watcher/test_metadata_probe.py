@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 from urllib.error import HTTPError
+from urllib.parse import parse_qs, urlsplit
 
 import pytest
 import yaml
@@ -87,9 +88,10 @@ class Fixture:
                 raise RuntimeError(SECRET)
             if self.fault == "missing-rest-count":
                 return Response({"title": SECRET})
-            return Response({"open_issues_count": len(self.issues) + len(self.prs) +
+            return Response({"id": 12345, "full_name": "org/repo",
+                             "open_issues_count": len(self.issues) + len(self.prs) +
                              (1 if self.fault == "rest-unstable" and self.counts > 1 else 0)})
-        page = int(req.full_url.rsplit("=", 1)[1])
+        page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
         if ((self.fault == "rest-denial-first" and page == 1)
                 or (self.fault == "rest-denial-mid" and page == 2)):
             raise HTTPError(req.full_url, 403, SECRET, {}, io.BytesIO(SECRET.encode()))
@@ -217,6 +219,151 @@ def test_deadline_and_no_token_never_send_request():
 def test_unsafe_links_are_not_serialized(link):
     with pytest.raises(probe.DiagnosticError):
         probe.nextPage(link, "org/repo")
+
+
+class AliasFixture(Fixture):
+    """Observed public Link shape, synthetic id/cursor; never use a live token."""
+    def open(self, req, timeout):
+        response = super().open(req, timeout)
+        if "/issues?" not in req.full_url:
+            return response
+        assert urlsplit(req.full_url).path == "/repos/org/repo/issues"
+        query = parse_qs(urlsplit(req.full_url).query)
+        page = int(query["page"][0])
+        if page > 1:
+            assert query["after"] == [f"cursor-{page}"]
+        if "Link" in response.headers:
+            response.headers["Link"] = (
+                f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100'
+                f'&page={page + 1}&after=cursor-{page + 1}>; rel="next"')
+        return response
+
+
+def test_bound_numeric_alias_and_cursor_continuation():
+    fixture = AliasFixture(245, 7)
+    report = run(fixture)
+    assert report["rest"]["complete"] is True
+    assert report["restTypedCounts"] == {"Issue": 245, "PullRequest": 7}
+    assert report["status"] == "observations-agree-not-acceptance"
+    assert all("cursor-" not in json.dumps(r) for r in report["requests"])
+    assert report["after"]["issues"]["complete"] is False  # count sample only
+
+
+@pytest.mark.parametrize("fault", ["rest-denial-first", "rest-denial-mid", "foreign"])
+def test_incomplete_rest_comparisons_are_unknown(fault):
+    report = run(Fixture(99, 2, fault=fault))
+    assert not any("disagreement" in f for f in report["failures"])
+    assert report["comparisons"]["aggregateRest"] == {
+        "status": "unknown", "reason": "rest-incomplete"}
+    for field in ("issues", "pullRequests"):
+        assert report["comparisons"][field + "Identities"] == {
+            "status": "unknown", "reason": "rest-incomplete"}
+    assert report["status"] == "nonhealthy"
+
+
+def test_incomplete_graphql_and_missing_count_cannot_confirm_disagreement():
+    report = run(Fixture(fault="denial"))
+    assert "pullRequests-identity-disagreement" not in report["failures"]
+    assert report["comparisons"]["pullRequestsIdentities"] == {
+        "status": "unknown", "reason": "before-connection-incomplete"}
+    report = run(Fixture(fault="missing-rest-count"))
+    assert "aggregate-rest-disagreement" not in report["failures"]
+    assert report["comparisons"]["aggregateRest"] == {
+        "status": "unknown", "reason": "repository-count-unknown"}
+
+
+@pytest.mark.parametrize("url, reason", [
+    ("https://api.github.com/repositories/54321/issues?state=open&per_page=100&page=2", "repository-path"),
+    ("https://api.github.com/repositories/123450/issues?state=open&per_page=100&page=2", "repository-path"),
+    ("https://evil.example/repositories/12345/issues?state=open&per_page=100&page=2", "origin"),
+    ("http://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2", "origin"),
+    ("https://api.github.com:443/repositories/12345/issues?state=open&per_page=100&page=2", "origin"),
+    ("https://user:secret@api.github.com/repositories/12345/issues?state=open&per_page=100&page=2", "origin"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2#", "origin"),
+    ("https://api.github.com/repositories/12345/%2e%2e/issues?state=open&per_page=100&page=2", "repository-path"),
+    ("https://api.github.com/repos/org/repo/../other/issues?state=open&per_page=100&page=2", "repository-path"),
+    ("https://api.github.com/repositories/12345/issues/extra?state=open&per_page=100&page=2", "repository-path"),
+    ("https://api.github.com/repositories/12345/issues?state=closed&per_page=100&page=2", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=99&page=2", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=02", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=0", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&page=3", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&labels=x", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&before=x", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=%GG", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&%61fter=x", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after", "query"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=", "cursor"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=%0Asecret", "cursor"),
+    ("https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=https%3A%2F%2Fevil.example", "cursor"),
+])
+def test_alias_security_rejections_have_safe_reason_classes(url, reason):
+    with pytest.raises(probe.DiagnosticError) as caught:
+        probe.nextPage(f'<{url}>; rel="next"', "org/repo", 12345)
+    assert str(caught.value) == "unsafe-link-" + reason
+    assert "secret" not in str(caught.value)
+
+
+@pytest.mark.parametrize("repositoryId", [None, 0, -1, True, "12345", 54321])
+def test_numeric_alias_needs_trusted_positive_repository_id(repositoryId):
+    with pytest.raises(probe.DiagnosticError, match="^unsafe-link-repository-path$"):
+        probe.nextPage('<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2>; rel="next"',
+                       "org/repo", repositoryId)
+
+
+def test_encoded_cursor_is_preserved_in_memory_only_and_all_relations_checked():
+    url = "https://api.github.com/repositories/12345/issues?state=open&per_page=100&page=2&after=Y3Vyc29y%2B%2F%3D"
+    page, projection, cursor = probe.nextPage(f'<{url}>; rel="next"', "org/repo", 12345)
+    assert page == 2 and cursor == "Y3Vyc29y+/="
+    assert "after" not in projection and cursor not in projection
+    with pytest.raises(probe.DiagnosticError, match="^unsafe-link-repository-path$"):
+        probe.nextPage(f'<{url}>; rel="next", <https://api.github.com/repositories/999/issues?state=open&per_page=100&page=3>; rel="last"',
+                       "org/repo", 12345)
+    with pytest.raises(probe.DiagnosticError, match="^duplicate-link-relation$"):
+        probe.nextPage(f'<{url}>; rel="next", <{url}>; rel="next"', "org/repo", 12345)
+
+
+@pytest.mark.parametrize("metadata", [{"id": 999, "full_name": "org/other"},
+    {"id": "12345", "full_name": "org/repo"}, {"id": True, "full_name": "org/repo"},
+    {"id": 12345}, {"full_name": "org/repo"}])
+def test_repository_get_identity_not_link_supplied_identity_binds_alias(metadata):
+    class Unbound(AliasFixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if not req.full_url.endswith("/graphql") and "/issues?" not in req.full_url:
+                response = Response(dict(metadata, open_issues_count=101))
+            return response
+    report = run(Unbound(100, 1))
+    assert report["rest"]["errorClass"] == "unsafe-link-repository-path"
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+    assert not any("disagreement" in f for f in report["failures"])
+
+
+@pytest.mark.parametrize("following, cursor", [(1, "cursor-2"), (3, "cursor-2"), (2, "repeated")])
+def test_alias_nonmonotonic_pages_and_cursor_loops_refused(following, cursor):
+    class Loop(AliasFixture):
+        def open(self, req, timeout):
+            response = super().open(req, timeout)
+            if "/issues?" in req.full_url and "Link" in response.headers:
+                page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
+                nxt = page + 1 if cursor == "repeated" else following
+                response.headers["Link"] = f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page={nxt}&after={cursor}>; rel="next"'
+            return response
+    # AliasFixture's continuation assertion is for advancing cursors; this
+    # adapter checks a deliberately repeated cursor without that assertion.
+    if cursor == "repeated":
+        class Loop(Fixture):
+            def open(self, req, timeout):
+                response = super().open(req, timeout)
+                if "/issues?" in req.full_url and "Link" in response.headers:
+                    page = int(parse_qs(urlsplit(req.full_url).query)["page"][0])
+                    response.headers["Link"] = f'<https://api.github.com/repositories/12345/issues?state=open&per_page=100&page={page + 1}&after=repeated>; rel="next"'
+                return response
+    report = run(Loop(245, 7))
+    assert report["rest"]["complete"] is False
+    assert report["rest"]["errorClass"] in ("loop-or-incomplete-page", "cursor-loop-or-invalid")
+    assert report["restTypedCounts"] == {"Issue": None, "PullRequest": None}
+    assert report["status"] == "nonhealthy"
 
 
 def test_no_redirects():

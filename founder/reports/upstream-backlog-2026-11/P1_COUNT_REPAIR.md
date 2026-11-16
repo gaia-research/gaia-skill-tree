@@ -331,3 +331,135 @@ submission. PR drafts remain held; NO MERGES, issue/registry writes, permission,
 variable, label, or settings changes. Sole builder worker-sol-shared; Terra
 independent; Opus retired. No fallback/retry/nested agents; two-hour limit,
 no turn caps. Campaign-complete cost UNAVAILABLE; `$4.907920` is P0-only partial.
+
+## Metadata diagnostic correction ROUND 2 — READY FOR TERRA PROBE ROUND2 REVIEW
+
+This is the second and final routine probe-defect correction within Lead's
+separately approved metadata-only diagnosis under existing runner permissions.
+Round 1 corrected nullable REST totals; it was not permission or production
+repair. The intervening actual run failed as recorded above and in
+[P1_METADATA_PROBE_REPORT.md](P1_METADATA_PROBE_REPORT.md). This append does not
+rewrite that receipt, its artifact or its historical `unsafe-link` reason.
+No third correction iteration is authorized; unresolved findings return to the
+operator. **P1 remains BLOCKED, #2278 causality not established.**
+
+### Preflight and bounded evidence
+
+Sole worker-sol-shared; runtime verified `openai-codex/gpt-6.1-sol`, reasoning
+`medium`, Python 3.14.6; no delegation/fallback, dispatch or alternate credential.
+Expected P1 cwd, actual feature branch `dev/upstream-backlog-watcher-2026-11`,
+clean local HEAD and remote feature ref all verified at
+`70c11d1cc35deda47bd47dc629405488069c3d4e`. PRs 2468/2469 verified OPEN/DRAFT,
+base `dev/upstream-backlog-2026-11`; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`
+and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged. Native graft
+and local guidance used; no Skill Heaven client/configuration installed.
+
+One bounded **unauthenticated public** observation at
+`2026-11-16T18:57:29.366635+00:00` used two fixed GETs with redirects disabled:
+repository metadata (HTTP 200, ID `1221716703`, `full_name` matched the requested
+repository), then first open-items page **headers only** (HTTP 200; body not
+read; no continuation fetched). The single `next` Link had HTTPS and exact
+approved host, `/repositories/<matching-id>/issues`, and singleton query keys
+`state=open`, `per_page=100`, `page=2`, **`after` present**. Cursor contents/raw
+URLs are not reproduced here. No backlog body census, GraphQL connection walk,
+upstream crawl, user PAT, token fallback or runner execution was used.
+
+**Proven current probe defect:** the existing parser rejected that legitimate
+shape as `unsafe-link`: it required only the named path and exactly three query
+keys, so both the numeric alias and additional opaque `after` cursor were
+incompatible. Merely allowing the alias would not fix the observed case;
+discarding the cursor would change continuation semantics. This is current
+API/parser evidence, **not proof of the historical run's URL or rejection
+cause**; historical sanitized artifacts do not retain that URL. It is also not
+proof of permission causality, original #2278 cause, or complete REST visibility
+under the runner token.
+
+### Bounded correction and security binding
+
+Only `metadata_probe.py`, its focused tests, the narrow diagnostic contract
+section and this technical append change. The fixed repository GET's positive
+integer ID plus case-insensitive exact `full_name` match authorizes only that
+one numeric issues alias; the ID is never learned from Link content or hardcoded
+from the observation. Missing/invalid/mismatched identity does not authorize an
+alias; a subsequently changed trusted ID fails the count read. Named-path
+pagination remains supported.
+
+Every relation is validated before use: exact HTTPS `api.github.com` netloc,
+no userinfo/port/fragment, exact bound named/numeric path (no prefixes, encoded
+traversal or other endpoints), strict percent/query syntax, singleton fixed
+state/page-size and canonical positive page, optional bounded opaque `after`
+only. Unknown keys including `before`, duplicate relations, malformed values,
+nonmonotonic pages, short linked pages, duplicate identities and repeated
+cursors fail closed. The numeric link is projected to the fixed named endpoint,
+with the cursor preserved through `urlencode` in memory; artifact Link
+projections omit it. The existing census's named-path canonical projection was
+consulted, but its broader link-learned numeric-alias policy/raw-error helpers
+are not imported or changed. No production watcher planning/write path is
+imported. Safe granular rejection classes retain no raw URL or exception.
+Existing budgets, no redirects/retries, fixed GET/query surfaces and no-write
+behavior remain.
+
+**Proven reporting defect:** old code compared partial/denied lists against
+complete observations and emitted identity/aggregate disagreement. New
+`comparisons` explicitly records `unknown` plus `rest-incomplete`,
+`before-connection-incomplete`, or `repository-count-unknown` as applicable;
+only completed comparable observations can produce `disagree`. Unknown is still
+nonhealthy, not agreement. Complete contradictory observations still produce
+disagreement (including the 244+0 versus 244+6 fixture). Round-1 null/null totals
+and partial identities remain; complete empty REST yields legitimate 0/0.
+GraphQL results now explicitly name `collectionMode=walk` or `count-sample`;
+after samples remain `complete=false`, never whole-after identity censuses.
+Diagnostic-only/acceptance-ineligible/P1-false/causality-unestablished flags remain.
+
+Graft before source/edits traced `nextPage -> read -> count/connection/rest ->
+collect`; ambiguous bare `collect` tracing was reported as incomplete, not
+assumed exhaustive. Direct diagnostic module/test/workflow inspection confirms
+the runtime entry remains solely `python -m scripts.upstream_watcher.metadata_probe`
+in the opt-in job. Only internal diagnostic signatures change; production
+callers, shared Steward helpers, CLI and schemas have no changed blast radius.
+
+### Actual before/after verification and protected status
+
+- New regression selection **before module changes**: **5 failed, 30 deselected
+  in 0.41s**. Numeric alias plus cursor could not finish REST; incomplete REST
+  and denied GraphQL comparisons wrongly emitted disagreement. These are probe
+  defects, not a failing production success-contract assertion.
+- After correction, exact previous 79-test target plus 43 new cases:
+  `python3 -m pytest tests/upstream_watcher/test_metadata_probe.py tests/upstream_watcher/test_watcher_workflows.py tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_list_truncation.py -q`:
+  **122 passed in 1.75s**. Synthetic observed-shape 245+7 alias/cursor walk
+  completes as `observations-agree-not-acceptance`; cursor is not serialized.
+  Encoded base64-shaped cursor is preserved in memory. Negative controls cover
+  foreign IDs/hosts, userinfo/ports/fragments, encoded traversal, endpoint/prefix
+  confusion, malformed/duplicate queries, untrusted/missing identity binding,
+  all-relation validation, loops/nonmonotonic pages, missing counts, denial,
+  partial payload, null totals, complete empty zero, sampling and redaction.
+- `python3 -m py_compile scripts/upstream_watcher/metadata_probe.py tests/upstream_watcher/test_metadata_probe.py`
+  and `git diff --check`: exit 0; workflow YAML parsed by focused tests.
+  No long full suite run by this child. Previous Terra/parent 79/1045 PASS
+  remains historical, not review or full-regression PASS for this correction.
+- All **869** protected raw named/node/tree files retain sorted Path-object
+  path/NUL/bytes/NUL SHA-256
+  `fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+  Original normal-run artifact still **605 bytes**, SHA-256
+  `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`.
+  Actual diagnostic artifact still **29657 bytes**, SHA-256
+  `85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`.
+  Neither historical artifact nor receipt is edited. Individual Git-blob
+  comparisons also matched all 869 files to pre-edit `70c11d1`; a changed-file
+  allowlist check confirmed exactly the four diagnostic files listed above.
+- Workflow YAML (permissions/defaults/inputs/routing/normal jobs), production
+  `live.py`, shared census/helpers, schema, registry, CLI, generated artifacts,
+  policy and protected raw files unchanged. No permission grant, guard/contract
+  relaxation, branch creation/rebase/reset/discard/merge, issue/label/variable
+  change, token substitution, normal watcher run or dispatch performed.
+
+**Handoff only:** independent Terra focused review at the exact new commit is
+pending. Parent's independent full background regression follows only after
+Terra PASS. Any subsequent diagnostic needs the designated operator's applicable
+authorization and exact remote-SHA check; this worker does not dispatch.
+Proposed input/artifact are unchanged: existing workflow and feature ref,
+`metadata_probe=true`, `apply=false`, all other inputs safe/default;
+`DIAGNOSTIC-upstream-metadata-probe` / `diagnostic-upstream-metadata.json`.
+No production source-fix claim, P1 PASS, merge/phase advancement or permission
+causality claim. Stop after this round-2 handoff; return any new unresolved
+finding to the operator rather than begin a third routine correction.
