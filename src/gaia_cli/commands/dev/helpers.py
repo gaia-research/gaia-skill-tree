@@ -322,11 +322,18 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
                 f"`{flag}` is only valid with `--type social-signal` or `--type engagement`; got `--type {evidence_type}`.",
                 fix=f"Use `--type social-signal` or `--type engagement`, or drop `{flag}` if this row is a different evidence type.",
             )
-    if getattr(args, "external_stars", None) is not None and evidence_type not in (None, "proxy-containment"):
-        _fail_dev_preflight(
-            f"`--external-stars` is only valid with `--type proxy-containment`; got `--type {evidence_type}`.",
-            fix="Use `--type proxy-containment`, or drop `--external-stars` if this row is a different evidence type.",
-        )
+    ext_stars = getattr(args, "external_stars", None)
+    if ext_stars is not None:
+        if evidence_type not in (None, "proxy-containment"):
+            _fail_dev_preflight(
+                f"`--external-stars` is only valid with `--type proxy-containment`; got `--type {evidence_type}`.",
+                fix="Use `--type proxy-containment`, or drop `--external-stars` if this row is a different evidence type.",
+            )
+        if int(ext_stars) < 10_000:
+            _fail_dev_preflight(
+                f"`--external-stars` must be >= 10000 for proxy-containment; got {ext_stars!r}.",
+                fix="Proxy-containment requires an external container repository with at least 10,000 stars.",
+            )
 
     percentile = getattr(args, "percentile", None)
     if percentile is not None and not (0 <= int(percentile) <= 100):

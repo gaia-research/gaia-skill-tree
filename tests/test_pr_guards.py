@@ -30,7 +30,7 @@ def test_glob_star_stops_at_slash_and_doublestar_does_not():
 
 def test_selection_matches_old_workflow_triggers():
     assert names(["src/gaia_cli/main.py"]) == {"taxonomy-authority", "version-stamp"}
-    assert names(["CLAUDE.md"]) == {"rank-vocabulary", "lexicon"}
+    assert names(["CLAUDE.md"]) == {"rank-vocabulary", "lexicon", "evidence-policy"}
     assert names(["docs/js/skill-graph.js"]) == {"html-sink", "taxonomy-authority"}
     assert names(["docs/graph/gaia.json"]) == {"license"}
     assert names(["registry/nodes/x.json"]) == {"rank-vocabulary"}

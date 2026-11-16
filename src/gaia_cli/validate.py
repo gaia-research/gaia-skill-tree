@@ -148,15 +148,18 @@ def check_proxy_containment_policy(
     *,
     named_skills_by_id: dict[str, dict[str, Any]] | None = None,
     suite_skill: dict[str, Any] | None = None,
+    require_external_stars: bool = False,
 ) -> list[dict[str, Any]]:
-    """Reject demonstrably first-party ``proxy-containment`` evidence rows.
+    """Reject demonstrably first-party or sub-floor ``proxy-containment`` rows.
 
     A ``proxy-containment`` row requires genuine containment in a qualifying
-    external, non-first-party project. It is rejected when the ``source``
-    GitHub repo owner/repo matches:
-      - the skill's ``contributor`` (owner match),
-      - the skill's own ``links.github`` / ``links.repo`` / ``canonicalRepo``, or
-      - the referenced ``suiteRef`` capstone's root repository.
+    external, non-first-party project with at least 10,000 external stars.
+    It is rejected when:
+      - the ``source`` GitHub repo owner/repo matches the skill's
+        ``contributor``, its own ``links.github`` / ``links.repo`` /
+        ``canonicalRepo``, or its referenced ``suiteRef`` capstone repo;
+      - ``externalStars`` is supplied and is below ``10000``; or
+      - ``require_external_stars=True`` and ``externalStars`` is missing.
     """
     violations: list[dict[str, Any]] = []
     evidence = skill.get("evidence") or []
@@ -180,6 +183,38 @@ def check_proxy_containment_policy(
         if not isinstance(row, dict) or row.get("type") != "proxy-containment":
             continue
         source = row.get("source")
+        ext_stars = row.get("externalStars")
+        if ext_stars is None:
+            if require_external_stars:
+                violations.append({
+                    "error_code": "proxy-containment-missing-external-stars",
+                    "skill_id": skill_id,
+                    "evidence_index": idx,
+                    "evidence_type": "proxy-containment",
+                    "source": source,
+                    "message": (
+                        f"Evidence row {idx} (type='proxy-containment') on skill {skill_id!r} "
+                        "is missing externalStars; proxy-containment requires externalStars >= 10000."
+                    ),
+                })
+        elif (
+            isinstance(ext_stars, bool)
+            or not isinstance(ext_stars, (int, float))
+            or ext_stars < 10_000
+        ):
+            violations.append({
+                "error_code": "proxy-containment-below-star-floor",
+                "skill_id": skill_id,
+                "evidence_index": idx,
+                "evidence_type": "proxy-containment",
+                "source": source,
+                "external_stars": ext_stars,
+                "message": (
+                    f"Evidence row {idx} (type='proxy-containment') on skill {skill_id!r} "
+                    f"has externalStars={ext_stars!r}, below the 10,000 external-star floor."
+                ),
+            })
+
         source_repo = normalize_github_repo(source)
         if source_repo is None:
             continue

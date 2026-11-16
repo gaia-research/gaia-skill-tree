@@ -302,6 +302,39 @@ def groupSkillsByEvidenceType(skills: list[dict[str, Any]]) -> dict[str, list[di
     return groups
 
 
+def collectUntypedSkills(skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    untypedSkills: list[dict[str, Any]] = []
+    for skill in sorted(skills, key=lambda s: s["id"]):
+        untypedRows = [
+            row
+            for row in skill.get("compiled_evidence") or []
+            if row.get("untyped") or row.get("normalized_type") == "untyped"
+        ]
+        if untypedRows:
+            item = dict(skill)
+            item["compiled_evidence"] = untypedRows
+            untypedSkills.append(item)
+    return untypedSkills
+
+
+def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]]) -> str | None:
+    if not untypedSkills:
+        return None
+    os.makedirs(outputDir, exist_ok=True)
+    outPath = os.path.join(outputDir, "untyped_rows.md")
+    print(f"Writing untyped evidence review queue {outPath} with {len(untypedSkills)} skills...")
+    with open(outPath, "w", encoding="utf-8") as f:
+        f.write("# Untyped Evidence Review Queue\n\n")
+        f.write(
+            "These rows lacked an explicit `type` field and were NOT coerced to "
+            "`self-attestation` (#2473). Assign a canonical evidence type before "
+            "routing into `evidence/by-type/`.\n\n"
+        )
+        for skill in untypedSkills:
+            writeSkillBlock(f, skill)
+    return outPath
+
+
 def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
     for i, row in enumerate(evList, 1):
         rawType = row.get("type")
@@ -412,6 +445,8 @@ def writeSourceReport(
     typeGroups: dict[str, list[dict[str, Any]]],
     byTypeDirectory: str,
     legacyTiersEnabled: bool,
+    untypedSkills: list[dict[str, Any]] | None = None,
+    untypedPath: str | None = None,
 ) -> None:
     os.makedirs(os.path.dirname(reportPath) or ".", exist_ok=True)
     print(f"Writing master report to {reportPath}...")
@@ -438,6 +473,14 @@ def writeSourceReport(
             f.write(
                 f"- **{evType}:** {len(typeSkills)} skills with sources "
                 f"({typeRows} raw source entries)\n"
+            )
+        if untypedSkills:
+            untypedRows = sum(len(skill.get("compiled_evidence") or []) for skill in untypedSkills)
+            f.write(
+                f"- **untyped (review queue):** {len(untypedSkills)} skills with sources "
+                f"({untypedRows} raw source entries"
+                + (f" -> `{untypedPath}`" if untypedPath else "")
+                + ")\n"
             )
 
         f.write("\n## 2. Type-First Directory Index\n\n")
@@ -498,9 +541,11 @@ def buildSourceDump(
 
     typeGroups = groupSkillsByEvidenceType(skills)
     tierGroups = groupSkillsByTier(skills)
+    untypedSkills = collectUntypedSkills(skills)
 
     os.makedirs(outputDir, exist_ok=True)
     writeByTypePartitions(byTypeDirectory, typeGroups)
+    untypedPath = writeUntypedReviewQueue(outputDir, untypedSkills)
     if not noLegacyTiers:
         writeLegacyTierPartitions(outputDir, tierGroups)
     writeSourceReport(
@@ -510,8 +555,16 @@ def buildSourceDump(
         typeGroups=typeGroups,
         byTypeDirectory=byTypeDirectory,
         legacyTiersEnabled=not noLegacyTiers,
+        untypedSkills=untypedSkills,
+        untypedPath=untypedPath,
     )
-    return {"skills": skills, "typeGroups": typeGroups, "tierGroups": tierGroups}
+    return {
+        "skills": skills,
+        "typeGroups": typeGroups,
+        "tierGroups": tierGroups,
+        "untypedSkills": untypedSkills,
+        "untypedPath": untypedPath,
+    }
 
 
 def main() -> None:

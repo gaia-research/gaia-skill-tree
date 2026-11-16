@@ -38,15 +38,21 @@ def _preflight_proxy_containment(
         prospective_row = dict(ev_list[index])
         if evidence_type is not None:
             prospective_row["type"] = evidence_type
+        if "externalStars" in new_row:
+            prospective_row["externalStars"] = new_row["externalStars"]
     else:
         return
     prospective_skill = dict(skill_data)
     prospective_skill["evidence"] = [prospective_row]
-    violations = check_proxy_containment_policy(prospective_skill, suite_skill=suite_skill)
+    violations = check_proxy_containment_policy(
+        prospective_skill,
+        suite_skill=suite_skill,
+        require_external_stars=True,
+    )
     if violations:
         _fail_dev_preflight(
             violations[0]["message"],
-            fix="Provide an external, non-first-party project URL for `--type proxy-containment`.",
+            fix="Provide an external, non-first-party project URL and --external-stars >= 10000 for `--type proxy-containment`.",
         )
 
 

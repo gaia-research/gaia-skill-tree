@@ -124,6 +124,7 @@ GUARDS = [
             "docs/trust/leaderboard/leaderboard.js",
             "docs/js/tm-config.js",
             "evidence/README.md",
+            "CLAUDE.md",
             "META.md",
             "GOVERNANCE.md",
             "founder/steward/routines/trust-evidence-gap.md",

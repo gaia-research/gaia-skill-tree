@@ -366,6 +366,58 @@ def test_proxy_containment_external_star_threshold_and_cli_enforcement(tmp_path:
         )
     assert named_file.read_text(encoding="utf-8") == before
 
+    # Validator rejects sub-10k externalStars on proxy-containment
+    sub_floor = {
+        "id": "acme/tool",
+        "contributor": "acme",
+        "evidence": [
+            {"type": "proxy-containment", "source": "https://github.com/external-org/small", "externalStars": 9999}
+        ],
+    }
+    floor_violations = check_proxy_containment_policy(sub_floor)
+    assert len(floor_violations) == 1
+    assert floor_violations[0]["error_code"] == "proxy-containment-below-star-floor"
+
+    # CLI rejects --external-stars < 10000 and rejects --index conversion without >= 10000 stars
+    with pytest.raises(SystemExit):
+        meta_evidence_command(
+            _evidence_args(
+                str(root),
+                skill_id="acme/tool",
+                source="https://github.com/external-org/small",
+                evidence_type="proxy-containment",
+                external_stars=1,
+                notes="Below 10k floor",
+            )
+        )
+    assert named_file.read_text(encoding="utf-8") == before
+
+    # Add a repo-own row, then ensure --index conversion to proxy-containment without externalStars fails
+    meta_evidence_command(
+        _evidence_args(
+            str(root),
+            skill_id="acme/tool",
+            source="https://github.com/external-org/later-proxy",
+            evidence_type="repo-own",
+            commits=10,
+            contributors=1,
+            notes="Initial row",
+        )
+    )
+    before_index = named_file.read_text(encoding="utf-8")
+    with pytest.raises(SystemExit):
+        meta_evidence_command(
+            _evidence_args(
+                str(root),
+                skill_id="acme/tool",
+                source="https://github.com/external-org/later-proxy",
+                index=0,
+                evidence_type="proxy-containment",
+                notes="Missing externalStars on index conversion",
+            )
+        )
+    assert named_file.read_text(encoding="utf-8") == before_index
+
     # CLI accepts genuinely external container with --external-stars 20000
     meta_evidence_command(
         _evidence_args(
@@ -498,7 +550,7 @@ def test_social_safeguards_plateau_floor_engagement_and_cap():
     assert computeTrustMagnitude(over_cap) == pytest.approx(80.0, abs=1e-4)
 
 
-def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_self_attestation():
+def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_self_attestation(tmp_path: Path):
     ev_scripts = str(ROOT / "evidence" / "scripts")
     if ev_scripts not in sys.path:
         sys.path.insert(0, ev_scripts)
@@ -509,6 +561,17 @@ def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_se
     norm_untyped = gsd.normalizeEvidenceRow(copy.deepcopy(untyped), skipLiveStars=True)
     assert norm_untyped["normalized_type"] == "untyped"
     assert norm_untyped["untyped"] is True
+
+    # Untyped rows are written to untyped_rows.md rather than silently dropped
+    untyped_skill = {
+        "id": "acme/untyped",
+        "name": "untyped",
+        "contributor": "acme",
+        "compiled_evidence": [norm_untyped],
+    }
+    q_path = gsd.writeUntypedReviewQueue(str(tmp_path), gsd.collectUntypedSkills([untyped_skill]))
+    assert q_path is not None
+    assert "https://example.org/post" in Path(q_path).read_text(encoding="utf-8")
 
     social = {
         "type": "social-signal",
