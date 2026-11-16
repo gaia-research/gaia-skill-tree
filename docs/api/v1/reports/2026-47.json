@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-47",
+  "isoYear": 2026,
+  "isoWeek": 47,
+  "generatedAt": "2026-11-16T17:59:46Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "9.5.0",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "garrytan/gstack",
+          "name": "Founder Mode",
+          "contributor": "garrytan",
+          "level": "5★",
+          "trustMagnitude": 356.11,
+          "trustGrade": "S",
+          "trendingScore": 178.06,
+          "tmDelta": 356.11,
+          "isNew": true,
+          "url": "/named/#explorer/garrytan/gstack"
+        },
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "contributor": "safishamsi",
+          "level": "5★",
+          "trustMagnitude": 318.14,
+          "trustGrade": "S",
+          "trendingScore": 159.07,
+          "tmDelta": 318.14,
+          "isNew": true,
+          "url": "/named/#explorer/safishamsi/graphify"
+        },
+        {
+          "id": "mattpocock/skills",
+          "name": "Matt Pocock Skills",
+          "contributor": "mattpocock",
+          "level": "5★",
+          "trustMagnitude": 280.39,
+          "trustGrade": "S",
+          "trendingScore": 140.19,
+          "tmDelta": 280.39,
+          "isNew": true,
+          "url": "/named/#explorer/mattpocock/skills"
+        },
+        {
+          "id": "panniantong/agent-reach",
+          "name": "Agent Reach",
+          "contributor": "panniantong",
+          "level": "3★",
+          "trustMagnitude": 260.83,
+          "trustGrade": "A",
+          "trendingScore": 130.41,
+          "tmDelta": 260.83,
+          "isNew": true,
+          "url": "/named/#explorer/panniantong/agent-reach"
+        },
+        {
+          "id": "nextlevelbuilder/ui-ux-pro-max",
+          "name": "UI/UX Pro Max",
+          "contributor": "nextlevelbuilder",
+          "level": "4★",
+          "trustMagnitude": 227.51,
+          "trustGrade": "A",
+          "trendingScore": 113.75,
+          "tmDelta": 227.51,
+          "isNew": true,
+          "url": "/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "theqtcompanyrnd/qt-qml-review",
+          "name": "qt-qml-review",
+          "contributor": "theqtcompanyrnd",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 59.74,
+          "trustGrade": "B",
+          "ascendedAt": "2026-11-11T02:55:58Z",
+          "url": "/named/#explorer/theqtcompanyrnd/qt-qml-review"
+        },
+        {
+          "id": "obra/test-driven-development",
+          "name": "test-driven-development",
+          "contributor": "obra",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 58.9,
+          "trustGrade": "B",
+          "ascendedAt": "2026-11-08T08:26:54Z",
+          "url": "/named/#explorer/obra/test-driven-development"
+        },
+        {
+          "id": "garrytan/postgres-adopt",
+          "name": "postgres-adopt",
+          "contributor": "garrytan",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 54.9,
+          "trustGrade": "B",
+          "ascendedAt": "2026-11-08T08:26:48Z",
+          "url": "/named/#explorer/garrytan/postgres-adopt"
+        },
+        {
+          "id": "garrytan/db-repair",
+          "name": "db-repair",
+          "contributor": "garrytan",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 54.9,
+          "trustGrade": "B",
+          "ascendedAt": "2026-11-08T08:26:24Z",
+          "url": "/named/#explorer/garrytan/db-repair"
+        },
+        {
+          "id": "emilkowalski/write-swift",
+          "name": "write-swift",
+          "contributor": "emilkowalski",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 129.67,
+          "trustGrade": "A",
+          "ascendedAt": "2026-11-08T08:22:32Z",
+          "url": "/named/#explorer/emilkowalski/write-swift"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "knowledge-graph-build",
+          "implementations": 2,
+          "topTM": 318.14,
+          "skills": [
+            {
+              "id": "safishamsi/graphify",
+              "level": "5★",
+              "trustMagnitude": 318.14,
+              "trustGrade": "S",
+              "origin": true,
+              "url": "/named/#explorer/safishamsi/graphify"
+            },
+            {
+              "id": "garrytan/citation-graph-ingest",
+              "level": "2★",
+              "trustMagnitude": 49.9,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/citation-graph-ingest"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "ux-audit",
+          "implementations": 4,
+          "topTM": 227.51,
+          "skills": [
+            {
+              "id": "nextlevelbuilder/ui-ux-pro-max",
+              "level": "4★",
+              "trustMagnitude": 227.51,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+            },
+            {
+              "id": "garrytan/plan-design-review",
+              "level": "2★",
+              "trustMagnitude": 49.9,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-design-review"
+            },
+            {
+              "id": "garrytan/plan-devex-review",
+              "level": "2★",
+              "trustMagnitude": 49.9,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-devex-review"
+            },
+            {
+              "id": "garrytan/devex-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/devex-review"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "autonomous-web-research",
+          "implementations": 2,
+          "topTM": 205.75,
+          "skills": [
+            {
+              "id": "mvanhorn/last30days",
+              "level": "4★",
+              "trustMagnitude": 205.75,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/mvanhorn/last30days"
+            },
+            {
+              "id": "balukosuri/autoresearch-universal",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/balukosuri/autoresearch-universal"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-47/",
+    "json": "/api/v1/reports/2026-47.json",
+    "previous": "",
+    "archive": "/reports/"
+  }
+}
