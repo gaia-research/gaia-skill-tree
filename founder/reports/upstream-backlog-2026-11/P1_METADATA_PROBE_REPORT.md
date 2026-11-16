@@ -1,8 +1,14 @@
 # P1 metadata probe receipts
 
-## Current — run 43941667985
+## Current — run 43950071316
 
-**Failed diagnostic outcome; P1 remains BLOCKED.** Exact head `fcde5d9324812276ea09029ae225089bdfbe3952`; the metadata-only job exited 3 at `Read diagnostic metadata only`, uploaded artifact ID `14262564894`, and ordinary watcher/challenge/upstream-poll jobs were skipped. File SHA-256 `a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`; artifact archive SHA-256 `f9963bc3b61082bc822d0709a536ea5f8a27c0829f148f06af731ebe9ad7829b`. REST returned one 100-row first page, then halted on `unsafe-link-query` with HTTP 200; its complete typed counts are unknown. Before GraphQL walks completed at 245 issues + 7 PRs; after values are one-node samples only, with the same totals. All 100 sampled REST identities match the complete GraphQL issue set; this is subset compatibility, not full REST/GraphQL equivalence. No 403 or permission error was recorded. Cause of query rejection, full REST PR visibility, permission causality, and #2278 root cause remain unknown. Full sanitized receipt: [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). No further action is self-authorized.
+**Failed diagnostic outcome; P1 remains BLOCKED.** Exact feature head `a7cdb51158ef1b0383269478d2bb92d262f1f465`; diagnostic step exited 3, upload succeeded, and ordinary watcher/upstream-poll/challenge jobs were skipped. Artifact `14265604550`; file SHA-256 `fca80159c836ec44d1270268e2a3319963a16ef6aabba320a89731286b7567e0`; archive SHA-256 `88501e2aaf175928c2d66a1a629313812697e541be87f485d903c1ff439f2e05`. REST completed with 247 issue rows and 0 PR rows. Complete before GraphQL walks observed 247 issues / 7 PRs; after observations were one-node samples, not a census. Issue identities agreed; PR identities and aggregate comparisons disagreed. Counts were stable at the observed endpoints, but full identity stability is unknown. All 12 requests returned HTTP 200 with no error class; no 403/permission denial was observed. This is an observed API visibility discrepancy, not proof of permission causality, not a universal token-filter rule, and not #2278 root-cause proof. Detailed sanitized receipt: [P1_METADATA_PROBE_43950071316.md](P1_METADATA_PROBE_43950071316.md). **STOPPED AT PERMISSION DECISION — observed REST/GraphQL visibility gap; P1 BLOCKED.** Proposed next gate only: request specific founder approval for ONE controlled metadata-only permission A/B as detailed in `P1_COUNT_REPAIR.md`. This new security scope is not covered by prior 'proceed'; no implementation or dispatch.
+
+---
+
+## Preserved prior actual run — 43941667985
+
+The earlier diagnostic remained a failure and is preserved unchanged at [P1_METADATA_PROBE_43941667985.md](P1_METADATA_PROBE_43941667985.md). Its artifact and receipt hashes remain as previously recorded.
 
 ---
 

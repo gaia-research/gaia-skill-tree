@@ -15,6 +15,46 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 > [Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md), and the orchestrator rules.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
 
+## State Snapshot (2026-11-16, Upstream Backlog — third metadata diagnostic shows REST/GraphQL PR visibility discrepancy)
+
+### TLDR
+- Existing diagnostic run `43950071316` failed at exact expected feature HEAD `a7cdb51158ef1b0383269478d2bb92d262f1f465`; diagnostic read step exit 3, upload succeeded, ordinary jobs skipped. No workflow rerun or polling was performed.
+- Artifact `14265604550`; JSON SHA-256 `fca80159c836ec44d1270268e2a3319963a16ef6aabba320a89731286b7567e0`; archive SHA-256 `88501e2aaf175928c2d66a1a629313812697e541be87f485d903c1ff439f2e05`. Receipt: `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43950071316.md`.
+- REST completed 247 issue rows / 0 PR rows; complete before GraphQL walks observed 247 issues / 7 PRs. Issue identities agree; PR identities and aggregate disagree. Counts stable at observed endpoints, but after GraphQL was sampled, so full identity stability is unknown. All 12 requests HTTP 200; no permission denial observed. API visibility discrepancy confirmed; permission and #2278 causality unknown.
+- P1 remains BLOCKED and this diagnostic is acceptance-ineligible. Stop for Lead/founder decision. No further probe, normal run, permission/contract change, or merge authorized. Complete campaign cost remains unavailable.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| P1 diagnostic | Read existing run/artifact only; captured sanitized receipt and provenance. |
+| Reports | Updated current status pointers; historical receipts preserved. |
+| PRs / protected refs | #2468/#2469 remain OPEN/DRAFT; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged. |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/upstream-backlog-watcher-2026-11` | `a7cdb51158ef1b0383269478d2bb92d262f1f465` | Clean before report checkpoint; pending documentation commit/push. |
+| `dev/upstream-backlog-2026-11` | `bfed2d777b76448f6ede5d40e1a834050dff07d0` | Protected integration unchanged. |
+| `schema/upstream-contract-2026-11` | `6bed0edf324d49e42cd8953351deaccaa733d22f` | Unchanged. |
+
+### Issues + PRs touched
+- Read PR bodies #2468/#2469; both remain OPEN/DRAFT with integration base; no updates to PRs performed yet.
+
+### Routing — where things live now
+- Detailed current evidence: `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43950071316.md`; append-only artifact index: `P1_METADATA_PROBE_REPORT.md`.
+- Campaign control/resume/blocker/handoff/count-repair all point to this latest observed outcome.
+
+### Lessons / hazards preserved
+- Do not infer permission causality or universal token filtering from zero REST PR rows. API endpoints can return both issues and PRs; no 403 occurred.
+- Partial after GraphQL samples are not full identity censuses. P1 acceptance requires the normal acceptance workflow, not this diagnostic.
+
+### Open questions for next orchestrator
+- **STOPPED AT PERMISSION DECISION — observed REST/GraphQL visibility gap; P1 BLOCKED.** Proposed next gate: ask founder for specific approval of ONE controlled metadata-only permission A/B as described in `P1_COUNT_REPAIR.md`; this new security scope is not covered by prior 'proceed'. No implementation or dispatch absent approval.
+- Full campaign cost remains UNAVAILABLE; do not substitute P0 partial cost.
+
+### Token cost (this session)
+- Campaign-complete cost unavailable; no cost estimate made.
+
 ## State Snapshot (2026-11-16, Upstream Backlog — second metadata diagnostic failed; STOP for Lead decision)
 
 ### TLDR
