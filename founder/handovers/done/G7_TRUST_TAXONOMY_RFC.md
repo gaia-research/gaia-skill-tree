@@ -4,6 +4,8 @@
 **Date:** 2026-06-16
 **Author:** Orchestrator agent
 
+> **Historical Archive — Superseded in Part (#2473, 2026-11-17):** This handover is preserved as a historical engineering record. Active normative rules live in [`META.md`](../../../META.md), `registry/schema/meta.json`, and [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md). In particular, the §2.11 draft restrictions setting `social-signal` `sameAsAuthor = 0` and a 30-day publication cooldown (`publishCooldownDays = 30`) are **superseded by Issue [#2473](https://github.com/gaia-research/gaia-skill-tree/issues/2473)**: both first-party and third-party `social-signal` demonstrations of a target skill are eligible (`sameAsAuthor = 1.0`, `publishCooldownDays = 0`), while `proxy-containment` remains strictly external (`externalStars >= 10000`). Historical §2.11 text and tables below are retained verbatim for audit provenance.
+
 ---
 
 ## The Gate (layman's view)

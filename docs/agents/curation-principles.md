@@ -20,7 +20,8 @@ In Gaia architecture, **the versioned packaged JSON contract represents canonica
      - *Trust is not topology.*
 2. **Authority and Status of RFCs:**
    - Historical issues and unresolved RFCs (e.g., #1483 on product coupling, #1675 on context-mode retrieval, #1906 on probabilistic should vs. may, #1922 on assurance sensors) provide valuable context and debate history, but they **do not constitute active operational authority** until codified into the canonical schema or packaged JSON contract.
-   - When evaluating candidates, agents and curators must adhere to the codified principles in `principles.json` and normative rules in `META.md` / `GOVERNANCE.md`, rather than treating speculative or unmerged RFC suggestions as enforceable policy.
+   - When evaluating candidates, agents and curators must adhere to the codified principles in `principles.json`, normative rules in `META.md` / `GOVERNANCE.md`, and the canonical [curation authority map](curation-authority-map.md), rather than treating speculative or superseded RFC prose as enforceable policy.
+   - Ratified active policy in `META.md`, `GOVERNANCE.md`, `registry/schema/meta.json`, and [`curation-authority-map.md`](curation-authority-map.md) outranks historical draft clauses in [`founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md`](../../founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md) (including #2473: eligible first-party and third-party `social-signal` with no 30-day publication hold, and strictly external `proxy-containment`), while preserving all topology invariants below.
 
 ---
 

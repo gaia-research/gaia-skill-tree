@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import datetime
 import glob
 import json
 import os
@@ -110,7 +112,11 @@ def iterNamedSkillMeta(namedDir: str):
 
 
 def dedupeKey(entry: dict[str, Any]) -> tuple[str | None, str, str]:
-    normalizedType = normalizeEvidenceType(entry.get("type", "self-attestation"))
+    rawType = entry.get("type")
+    if rawType is None or not str(rawType).strip():
+        normalizedType = "untyped"
+    else:
+        normalizedType = normalizeEvidenceType(rawType)
     scope = entry.get("scope") or entry.get("layer") or entry.get("attributionScope") or "standalone"
     return (entry.get("source"), normalizedType, str(scope))
 
@@ -118,15 +124,21 @@ def dedupeKey(entry: dict[str, Any]) -> tuple[str | None, str, str]:
 def normalizeEvidenceRow(
     entry: dict[str, Any], *, skipLiveStars: bool = False
 ) -> dict[str, Any]:
+    originalRow = copy.deepcopy(entry)
     row = dict(entry)
-    originalType = row.get("type", "self-attestation")
-    normalizedType = normalizeEvidenceType(originalType)
-    row["normalized_type"] = normalizedType
-    if str(originalType).strip() != normalizedType:
-        row["original_type"] = originalType
-    # Keep the author-supplied type field for traceability when it was an alias;
-    # consumers should use normalized_type for routing.
-    row.setdefault("type", originalType)
+    originalType = row.get("type")
+    if originalType is None or not str(originalType).strip():
+        row["normalized_type"] = "untyped"
+        row["untyped"] = True
+        row["_original_row"] = originalRow
+    else:
+        normalizedType = normalizeEvidenceType(originalType)
+        row["normalized_type"] = normalizedType
+        if str(originalType).strip() != normalizedType:
+            row["original_type"] = originalType
+        # Keep the author-supplied type field for traceability when it was an alias;
+        # consumers should use normalized_type for routing.
+        row.setdefault("type", originalType)
 
     src = row.get("source")
     repoPath = parseRepoPath(src)
@@ -162,9 +174,10 @@ def compileSkillEvidence(
         except ValueError as e:
             print(f"Warning: skipping {skillMeta.get('id')} evidence row: {e}")
             continue
-        if key in seen:
-            continue
-        seen.add(key)
+        if key[1] != "untyped":
+            if key in seen:
+                continue
+            seen.add(key)
         mergedEvidence.append(normalizeEvidenceRow(entry, skipLiveStars=skipLiveStars))
 
     skillMeta["compiled_evidence"] = mergedEvidence
@@ -283,7 +296,9 @@ def groupSkillsByEvidenceType(skills: list[dict[str, Any]]) -> dict[str, list[di
     for skill in skills:
         rowsByType: dict[str, list[dict[str, Any]]] = {evType: [] for evType in CANONICAL_EVIDENCE_TYPES}
         for row in skill.get("compiled_evidence") or []:
-            rowsByType[row["normalized_type"]].append(row)
+            normType = row.get("normalized_type")
+            if normType in rowsByType:
+                rowsByType[normType].append(row)
         for evType, rows in rowsByType.items():
             if rows:
                 typeSkill = dict(skill)
@@ -292,9 +307,73 @@ def groupSkillsByEvidenceType(skills: list[dict[str, Any]]) -> dict[str, list[di
     return groups
 
 
+def collectUntypedSkills(skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    untypedSkills: list[dict[str, Any]] = []
+    for skill in sorted(skills, key=lambda s: s["id"]):
+        untypedRows = [
+            row
+            for row in skill.get("compiled_evidence") or []
+            if row.get("untyped") or row.get("normalized_type") == "untyped"
+        ]
+        if untypedRows:
+            item = dict(skill)
+            item["compiled_evidence"] = untypedRows
+            untypedSkills.append(item)
+    return untypedSkills
+
+
+def _jsonSafe(value: Any) -> Any:
+    if isinstance(value, (datetime.date, datetime.datetime)):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {str(k): _jsonSafe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_jsonSafe(v) for v in value]
+    return value
+
+
+def writeUntypedReviewQueue(outputDir: str, untypedSkills: list[dict[str, Any]]) -> str | None:
+    outPath = os.path.join(outputDir, "untyped_rows.md")
+    if not untypedSkills:
+        if os.path.exists(outPath):
+            os.remove(outPath)
+        return None
+    os.makedirs(outputDir, exist_ok=True)
+    print(f"Writing untyped evidence review queue {outPath} with {len(untypedSkills)} skills...")
+    with open(outPath, "w", encoding="utf-8") as f:
+        f.write("# Untyped Evidence Review Queue\n\n")
+        f.write(
+            "These rows lacked an explicit `type` field and were NOT coerced to "
+            "`self-attestation` (#2473). Assign a canonical evidence type before "
+            "routing into `evidence/by-type/`.\n\n"
+        )
+        for skill in untypedSkills:
+            writeSkillBlock(f, skill)
+            f.write("### Raw Row Payloads\n\n")
+            for idx, row in enumerate(skill.get("compiled_evidence") or [], 1):
+                raw = row.get("_original_row")
+                if raw is None:
+                    raw = {
+                        k: v
+                        for k, v in row.items()
+                        if k not in ("normalized_type", "untyped", "_original_row")
+                    }
+                f.write(
+                    f"#### Raw E{idx}\n```json\n"
+                    f"{json.dumps(_jsonSafe(raw), indent=2, sort_keys=True, ensure_ascii=False)}\n```\n\n"
+                )
+    return outPath
+
+
 def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
     for i, row in enumerate(evList, 1):
-        normalizedType = row.get("normalized_type") or normalizeEvidenceType(row.get("type", "self-attestation"))
+        rawType = row.get("type")
+        if row.get("normalized_type"):
+            normalizedType = row["normalized_type"]
+        elif rawType is None or not str(rawType).strip():
+            normalizedType = "untyped"
+        else:
+            normalizedType = normalizeEvidenceType(rawType)
         f.write(f"#### E{i}: `{normalizedType}`\n")
         if row.get("original_type"):
             f.write(f"- **Original Type:** `{row.get('original_type')}`\n")
@@ -307,6 +386,24 @@ def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
             f.write(f"- **Verified Stars:** {row['stars_verified']:,} stars\n")
         elif row.get("trustNumber"):
             f.write(f"- **Trust Metric:** {row.get('trustNumber')}\n")
+        if row.get("views") is not None:
+            views = row["views"]
+            f.write(f"- **Views:** {views:,}\n" if isinstance(views, int) else f"- **Views:** {views}\n")
+        if row.get("likes") is not None:
+            likes = row["likes"]
+            f.write(f"- **Likes:** {likes:,}\n" if isinstance(likes, int) else f"- **Likes:** {likes}\n")
+        if row.get("comments") is not None:
+            comments = row["comments"]
+            f.write(f"- **Comments:** {comments:,}\n" if isinstance(comments, int) else f"- **Comments:** {comments}\n")
+        for field, label in (
+            ("creator", "Creator"),
+            ("creatorTier", "Creator Tier"),
+            ("creatorCategory", "Creator Category"),
+            ("provenance", "Provenance"),
+            ("attribution", "Attribution"),
+        ):
+            if row.get(field) is not None:
+                f.write(f"- **{label}:** {row[field]}\n")
         f.write(f"- **Description:** {row.get('notes', 'No notes.')}\n\n")
 
 
@@ -378,6 +475,8 @@ def writeSourceReport(
     typeGroups: dict[str, list[dict[str, Any]]],
     byTypeDirectory: str,
     legacyTiersEnabled: bool,
+    untypedSkills: list[dict[str, Any]] | None = None,
+    untypedPath: str | None = None,
 ) -> None:
     os.makedirs(os.path.dirname(reportPath) or ".", exist_ok=True)
     print(f"Writing master report to {reportPath}...")
@@ -404,6 +503,14 @@ def writeSourceReport(
             f.write(
                 f"- **{evType}:** {len(typeSkills)} skills with sources "
                 f"({typeRows} raw source entries)\n"
+            )
+        if untypedSkills:
+            untypedRows = sum(len(skill.get("compiled_evidence") or []) for skill in untypedSkills)
+            f.write(
+                f"- **untyped (review queue):** {len(untypedSkills)} skills with sources "
+                f"({untypedRows} raw source entries"
+                + (f" -> `{untypedPath}`" if untypedPath else "")
+                + ")\n"
             )
 
         f.write("\n## 2. Type-First Directory Index\n\n")
@@ -464,9 +571,11 @@ def buildSourceDump(
 
     typeGroups = groupSkillsByEvidenceType(skills)
     tierGroups = groupSkillsByTier(skills)
+    untypedSkills = collectUntypedSkills(skills)
 
     os.makedirs(outputDir, exist_ok=True)
     writeByTypePartitions(byTypeDirectory, typeGroups)
+    untypedPath = writeUntypedReviewQueue(outputDir, untypedSkills)
     if not noLegacyTiers:
         writeLegacyTierPartitions(outputDir, tierGroups)
     writeSourceReport(
@@ -476,8 +585,16 @@ def buildSourceDump(
         typeGroups=typeGroups,
         byTypeDirectory=byTypeDirectory,
         legacyTiersEnabled=not noLegacyTiers,
+        untypedSkills=untypedSkills,
+        untypedPath=untypedPath,
     )
-    return {"skills": skills, "typeGroups": typeGroups, "tierGroups": tierGroups}
+    return {
+        "skills": skills,
+        "typeGroups": typeGroups,
+        "tierGroups": tierGroups,
+        "untypedSkills": untypedSkills,
+        "untypedPath": untypedPath,
+    }
 
 
 def main() -> None:

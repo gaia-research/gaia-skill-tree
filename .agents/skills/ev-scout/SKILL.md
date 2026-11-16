@@ -33,7 +33,11 @@ Explore several search angles and independent source families:
    and criticism or failure modes.
 2. **Named implementation:** source repo, specific `SKILL.md` blobs,
    releases, tests, CI/reproduction claims, independently authored reviews,
-   reported use, security findings, adoption or reproducible demonstrations.
+   eligible first-party or third-party `social-signal` demonstrations (videos,
+   walkthroughs, posts directly covering the skill; no 30-day publication hold),
+   external non-first-party `proxy-containment` repositories (>= 10,000 stars),
+   reported use, security findings, adoption or reproducible demonstrations
+   (see [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md) and #2473).
 3. **Comparison:** alternative architectures and negative findings that could
    falsify claimed benefits. Prefer disconfirming evidence when the first
    results are uniformly promotional.

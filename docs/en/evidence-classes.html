@@ -521,13 +521,13 @@
             </tr>
             <tr>
               <td><span class="type-pill">proxy-containment</span></td>
-              <td>The skill's artifact is bundled inside a separately-starred external project.</td>
-              <td>URL to the containing project. Max 3 entries per skill; magnitude plateaus on repeated entries.</td>
+              <td>The skill's artifact is genuinely contained in a separately-starred external, non-first-party project (≥ 10,000 external stars; a skill's own repo, canonical repo, suite repo, or demo video is ineligible).</td>
+              <td>URL to the external containing project (pass <code>--external-stars</code>). Max 3 entries per skill; magnitude plateaus on repeated entries. See <code>curation-authority-map.md</code>.</td>
             </tr>
             <tr>
               <td><span class="type-pill">social-signal</span></td>
-              <td>Creator/audience evidence — video views, engagement, topical authority from external creators.</td>
-              <td>URL to the video/post. Pass <code>--views</code>; a view-count floor applies before this counts toward any magnitude.</td>
+              <td>Eligible first-party and third-party creator/audience evidence — video views, engagement, and topical authority demonstrating the capability (no 30-day publication hold).</td>
+              <td>URL to the video/post. Pass <code>--views</code>; a 1,000-view floor, relevance/provenance check, 3-row plateau, and 80 TM cap apply.</td>
             </tr>
             <tr>
               <td><span class="type-pill">engagement</span></td>

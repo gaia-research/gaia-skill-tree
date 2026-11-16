@@ -162,5 +162,5 @@ Do not add or recommend a separate write-back helper. The earlier vendored
   "design" — see "The design principle you must not violate" above.
 - Do not hand-write `trustMagnitude` / `overallTrustGrade`, or recommend any write-back
   path other than `gaia dev calibrate-trust-magnitude`.
-- Do not re-derive the answer from memory. The methodology has been superseded
-  once already (2026-06-17, G7). Always re-read the page before acting.
+- Enforce #2473 social vs proxy eligibility and freshness boundaries from `docs/agents/curation-authority-map.md`: `social-signal` admits both first-party and third-party demonstrations of the target skill (`sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day publication hold, 1,000-view floor, relevance/provenance required, `(type, url)` dedup, 3-row plateau, 80 TM cap); `proxy-containment` strictly requires an external, non-first-party repository (`externalStars >= 10000`); and synthetic `self-attestation` is never used to push a suite component past the 49.9 TM shared-repository cap.
+- Do not re-derive the answer from memory. Active rules in `META.md`, `registry/schema/meta.json`, and `docs/agents/curation-authority-map.md` supersede historical draft clauses in `founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md`. Always re-read the authority map and methodology page before acting.

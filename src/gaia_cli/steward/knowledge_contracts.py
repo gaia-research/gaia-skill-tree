@@ -1,13 +1,14 @@
-"""Shared bounded semantic contract for active trust guidance.
+"""Shared bounded semantic contract for active trust and evidence-policy guidance.
 
-The authority map and active trust surfaces are explicit inputs. Historical
-archives, handovers, retrospectives, and unlisted generated/archive documents
-are intentionally outside this semantic scan; explicitly listed .claude mirrors
-are included.
+The authority map and active trust/evidence-policy surfaces are explicit inputs.
+Historical archives, handovers, retrospectives, and unlisted generated/archive
+documents are intentionally outside the retired-claim scan; explicitly listed
+.claude mirrors and schema/API metadata surfaces are included.
 """
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -24,6 +25,57 @@ TRUST_SURFACES = (
     ".claude/skills/trust-appraise/SKILL.md",
     ".claude/skills/trust-methodology-consult/SKILL.md",
     "docs/agents/curation-guidelines.md",
+)
+
+EVIDENCE_POLICY_SURFACES = (
+    *TRUST_SURFACES,
+    ".agents/skills/ev-scout/SKILL.md",
+    ".agents/skills/ev-discovery/SKILL.md",
+    ".agents/skills/ev-collection/SKILL.md",
+    ".agents/skills/ev-adversarial-audit/SKILL.md",
+    ".agents/skills/ev-pipeline/SKILL.md",
+    ".agents/skills/gaia-ingest/SKILL.md",
+    ".agents/skills/gaia-ingest-batch/SKILL.md",
+    ".claude/skills/ev-scout/SKILL.md",
+    ".claude/skills/ev-discovery/SKILL.md",
+    ".claude/skills/ev-collection/SKILL.md",
+    ".claude/skills/ev-adversarial-audit/SKILL.md",
+    ".claude/skills/ev-pipeline/SKILL.md",
+    ".claude/skills/gaia-ingest/SKILL.md",
+    ".claude/skills/gaia-ingest-batch/SKILL.md",
+    "docs/agents/curation-principles.md",
+    "evidence/README.md",
+    "CLAUDE.md",
+    "META.md",
+    "GOVERNANCE.md",
+    "docs/architecture/ecosystem-intelligence.md",
+    "founder/steward/routines/trust-evidence-gap.md",
+    "docs/en/evidence-classes.html",
+    "docs/codex/trust-methodology.html",
+    "docs/trust/leaderboard/leaderboard.js",
+)
+
+EVIDENCE_POLICY_CLAIM_ONLY_SURFACES = (
+    "docs/js/tm-config.js",
+)
+
+EVIDENCE_META_JSON_SURFACES = (
+    "registry/schema/meta.json",
+    "src/gaia_cli/data/registry/schema/meta.json",
+    "docs/schema/meta.json",
+)
+
+EVIDENCE_TYPES_API_SURFACE = "docs/api/v1/evidence-types.json"
+HISTORICAL_G7_RFC = "founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md"
+EVIDENCE_POLICY_FIXTURE = "tests/fixtures/evidence_policy_cases.json"
+REQUIRED_FIXTURE_CASE_IDS = (
+    "eligible-first-party-video",
+    "recent-third-party-video",
+    "unrelated-first-party-video-rejected-relevance",
+    "below-view-floor-video-scores-zero",
+    "first-party-proxy-containment-rejected",
+    "same-creator-plateau-and-same-type-url-dedup",
+    "suite-component-cap-no-synthetic-self-attestation",
 )
 
 # Keep these finite retired-claim predicates aligned with the authority-map
@@ -44,6 +96,12 @@ BANNED_PATTERNS = {
     "A merely the norm at 4-star": re.compile(r"norm for 4★"),
     "write-back helper usage": re.compile(r"python3?\s+\S*recompute_one_tm\.py"),
     "partial total called final": re.compile(r"inheritance disallowed(?!\")", re.I),
+    "social-signal first-party ban": re.compile(r"sameAsAuthor[\"']?\s*(?::|=)\s*0(?!\.)", re.I),
+    "social-signal 30-day publish cooldown": re.compile(
+        r"(?:publishCooldownDays[\"']?\s*(?::|=)\s*30\b|\b30-day\s+publish(?:ation)?\s+(?:cooldown|hold)\b)",
+        re.I,
+    ),
+    "social-signal external creators only": re.compile(r"from\s+external\s+creators", re.I),
 }
 
 
@@ -73,12 +131,12 @@ def _is_retired_warning_context(text: str, start: int, end: int) -> bool:
 
     # Denials must directly govern the match; quotes and code ticks alone are
     # not evidence. Clause boundaries prevent unrelated prose from exempting it.
-    if re.search(r"\b(?:do\s+not|don't|never|no|not|without)\b[^.!?;\n]{0,40}$", before, re.I):
+    if re.search(r"\b(?:do\s+not|don't|never|no|not|without|retired|superseded)\b[^.!?;\n]{0,60}$", before, re.I):
         return True
 
     return bool(
         re.search(
-            r"\b(?:is|was|has been|are|were|have been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated)\b",
+            r"\b(?:is|was|has been|are|were|have been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated|superseded)\b",
             after,
             re.I,
         )
@@ -130,4 +188,140 @@ def check_trust_guidance(repo_root: Path) -> list[dict[str, str]]:
                 "rule": "retired-trust-claim",
                 "detail": f"active trust guidance contains retired claim: {claim}",
             })
+    return violations
+
+
+def _extract_evidence_types(data: object, relative: str) -> list[dict[str, object]]:
+    if not isinstance(data, dict):
+        raise ValueError(f"expected JSON object in {relative}")
+    if relative == EVIDENCE_TYPES_API_SURFACE:
+        types = data.get("types")
+    else:
+        evidence = data.get("evidence")
+        types = evidence.get("types") if isinstance(evidence, dict) else None
+    if not isinstance(types, list):
+        raise ValueError(f"missing evidence types array in {relative}")
+    return [entry for entry in types if isinstance(entry, dict)]
+
+
+def check_evidence_policy(repo_root: Path) -> list[dict[str, str]]:
+    """Verify #2473 evidence-policy agreement across schema/API metadata and active surfaces.
+
+    Historical archives under founder/handovers/done/ are excluded from the
+    retired-claim scan; G7_TRUST_TAXONOMY_RFC.md is checked only for its top
+    supersession banner while preserving its historical §2.11 body.
+    """
+    violations = list(check_trust_guidance(repo_root))
+
+    authority_map = _read_required(repo_root, AUTHORITY_MAP)
+    for heading in ("## Social versus proxy eligibility", "## Freshness mechanisms"):
+        if heading not in authority_map:
+            violations.append({
+                "source": AUTHORITY_MAP,
+                "rule": "authority-map-section",
+                "detail": f"authority map missing required section {heading!r}",
+            })
+
+    extra_surfaces = [s for s in EVIDENCE_POLICY_SURFACES if s not in TRUST_SURFACES]
+    for relative in extra_surfaces:
+        text = _read_required(repo_root, relative)
+        if MAP_LINK not in text:
+            violations.append({
+                "source": relative,
+                "rule": "trust-authority-map-link",
+                "detail": f"active evidence-policy surface must reference {MAP_LINK}",
+            })
+        for claim in bannedClaims(text):
+            violations.append({
+                "source": relative,
+                "rule": "retired-trust-claim",
+                "detail": f"active evidence-policy surface contains retired claim: {claim}",
+            })
+
+    for relative in EVIDENCE_POLICY_CLAIM_ONLY_SURFACES:
+        text = _read_required(repo_root, relative)
+        for claim in bannedClaims(text):
+            violations.append({
+                "source": relative,
+                "rule": "retired-trust-claim",
+                "detail": f"active evidence-policy surface contains retired claim: {claim}",
+            })
+
+    rfc_text = _read_required(repo_root, HISTORICAL_G7_RFC)
+    rfc_banner = rfc_text.split("## The Gate", 1)[0]
+    if "#2473" not in rfc_banner or MAP_LINK not in rfc_banner:
+        violations.append({
+            "source": HISTORICAL_G7_RFC,
+            "rule": "historical-rfc-supersession-banner",
+            "detail": f"historical RFC must carry a top supersession banner linking #2473 and {MAP_LINK}",
+        })
+
+    json_surfaces = (*EVIDENCE_META_JSON_SURFACES, EVIDENCE_TYPES_API_SURFACE)
+    canonical_types: list[dict[str, object]] | None = None
+    for relative in json_surfaces:
+        raw_text = _read_required(repo_root, relative)
+        data = json.loads(raw_text)
+        types = _extract_evidence_types(data, relative)
+        if canonical_types is None:
+            canonical_types = types
+        elif types != canonical_types:
+            violations.append({
+                "source": relative,
+                "rule": "evidence-types-parity",
+                "detail": f"{relative} evidence types differ from {EVIDENCE_META_JSON_SURFACES[0]}",
+            })
+
+        by_id = {str(entry.get("id")): entry for entry in types}
+        social = by_id.get("social-signal")
+        if not isinstance(social, dict):
+            violations.append({
+                "source": relative,
+                "rule": "social-signal-definition",
+                "detail": "missing social-signal entry in evidence types",
+            })
+            continue
+
+        creator_mults = social.get("creatorMultipliers")
+        same_as_author = creator_mults.get("sameAsAuthor") if isinstance(creator_mults, dict) else None
+        if same_as_author != 1.0:
+            violations.append({
+                "source": relative,
+                "rule": "social-signal-same-as-author",
+                "detail": f"expected social-signal creatorMultipliers.sameAsAuthor == 1.0, got {same_as_author!r}",
+            })
+
+        cooldown = social.get("publishCooldownDays")
+        if cooldown != 0:
+            violations.append({
+                "source": relative,
+                "rule": "social-signal-publish-cooldown",
+                "detail": f"expected social-signal publishCooldownDays == 0, got {cooldown!r}",
+            })
+
+        for field_name in ("description", "notes"):
+            field_val = str(social.get(field_name) or "")
+            for claim in bannedClaims(field_val):
+                violations.append({
+                    "source": relative,
+                    "rule": "retired-trust-claim",
+                    "detail": f"social-signal.{field_name} contains retired claim: {claim}",
+                })
+
+    fixture_path = repo_root / EVIDENCE_POLICY_FIXTURE
+    if fixture_path.is_file():
+        fixture_data = json.loads(_read_required(repo_root, EVIDENCE_POLICY_FIXTURE))
+        cases = fixture_data.get("cases") if isinstance(fixture_data, dict) else None
+        case_ids = {
+            str(item.get("id"))
+            for item in (cases or [])
+            if isinstance(item, dict) and item.get("id")
+        }
+        missing_cases = [cid for cid in REQUIRED_FIXTURE_CASE_IDS if cid not in case_ids]
+        if missing_cases:
+            violations.append({
+                "source": EVIDENCE_POLICY_FIXTURE,
+                "rule": "evidence-policy-fixture-coverage",
+                "detail": f"missing required evidence policy fixture case(s): {missing_cases}",
+            })
+
     return violations

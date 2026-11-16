@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "1.0.0",
+  "issue": "#2473",
+  "authorityMap": "docs/agents/curation-authority-map.md",
+  "policySummary": {
+    "socialSignal": {
+      "sameAsAuthor": 1,
+      "publishCooldownDays": 0,
+      "viewFloor": 1000,
+      "cap": 80,
+      "plateau": [
+        1,
+        0.5,
+        0.25
+      ],
+      "maxEntriesPerSkill": 3,
+      "requiresRelevanceToTargetSkill": true,
+      "requiresProvenance": [
+        "creatorRelation",
+        "relevanceNote"
+      ]
+    },
+    "proxyContainment": {
+      "externalOnly": true,
+      "externalStarFloor": 10000,
+      "unverifiedWaivesExternalRequirement": false,
+      "validatorErrorCode": "first-party-proxy-containment"
+    },
+    "suiteComponentRepositoryBaseline": {
+      "combinedCapTm": 49.9,
+      "maxGradeFromBaselineAlone": "C",
+      "syntheticSelfAttestationForbidden": true
+    }
+  },
+  "cases": [
+    {
+      "id": "eligible-first-party-video",
+      "scenario": "Eligible first-party author demonstration video published within 30 days scores at 1.0x creator multiplier with no publication cooldown.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=firstparty10k",
+            "views": 10000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "publishAgeDays": 5,
+            "relevanceNote": "Official maintainer walkthrough demonstrating example/skill-walkthrough end-to-end."
+          }
+        ]
+      },
+      "expected": {
+        "qualified": true,
+        "publishCooldownApplied": false,
+        "creatorMultiplier": 1,
+        "trustMagnitude": 32,
+        "overallTrustGrade": "C"
+      }
+    },
+    {
+      "id": "recent-third-party-video",
+      "scenario": "Recent independent third-party demonstration video published 3 days ago is immediately eligible with no 30-day hold.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=thirdparty100k",
+            "views": 100000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "third-party",
+            "publishAgeDays": 3,
+            "relevanceNote": "Independent developer tutorial demonstrating example/skill-walkthrough on a real repo."
+          }
+        ]
+      },
+      "expected": {
+        "qualified": true,
+        "publishCooldownApplied": false,
+        "creatorMultiplier": 1,
+        "trustMagnitude": 40,
+        "overallTrustGrade": "C"
+      }
+    },
+    {
+      "id": "unrelated-first-party-video-rejected-relevance",
+      "scenario": "First-party video that does not substantively demonstrate or evaluate the target skill is rejected for relevance before ingestion.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "candidateRow": {
+          "type": "social-signal",
+          "source": "https://www.youtube.com/watch?v=company-keynote-unrelated",
+          "views": 50000,
+          "creatorRelation": "first-party",
+          "targetSkillDemonstrated": false,
+          "relevanceNote": "General company vlog that never invokes or evaluates example/skill-walkthrough."
+        }
+      },
+      "expected": {
+        "qualified": false,
+        "rejectionReason": "irrelevant-to-target-skill",
+        "trustMagnitude": 0
+      }
+    },
+    {
+      "id": "below-view-floor-video-scores-zero",
+      "scenario": "A social-signal video below the 1,000-view floor contributes 0.0 TM.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=sub1kviews",
+            "views": 999,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "relevanceNote": "Maintainer demo with 999 views (below 1,000-view floor)."
+          }
+        ]
+      },
+      "expected": {
+        "qualified": true,
+        "scoresPositiveTm": false,
+        "trustMagnitude": 0,
+        "overallTrustGrade": "ungraded"
+      }
+    },
+    {
+      "id": "first-party-proxy-containment-rejected",
+      "scenario": "A proxy-containment row pointing to the skill's own/contributor/suite repository is rejected as first-party even when unverified=true and stars >= 10,000.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "suiteRef": "example/suite-capstone",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "proxy-containment",
+            "source": "https://github.com/example/skill-walkthrough",
+            "externalStars": 25000,
+            "unverified": true
+          }
+        ]
+      },
+      "expected": {
+        "qualified": false,
+        "rejectionReason": "first-party-proxy-containment",
+        "validatorErrorCode": "first-party-proxy-containment"
+      }
+    },
+    {
+      "id": "same-creator-plateau-and-same-type-url-dedup",
+      "scenario": "Duplicate (type, canonical URL) rows collapse to the highest-scoring row, distinct social-signal rows decay along the 1.0/0.5/0.25 plateau, and cross-type rows at the repo URL do not collapse.",
+      "skill": {
+        "id": "example/skill-walkthrough",
+        "contributor": "example",
+        "links": {
+          "github": "https://github.com/example/skill-walkthrough/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=video-a",
+            "views": 10000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "relevanceNote": "Walkthrough part 1."
+          },
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=video-a",
+            "views": 1000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "relevanceNote": "Duplicate URL with lower view snapshot; collapses into video-a."
+          },
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=video-b",
+            "views": 10000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "relevanceNote": "Walkthrough part 2 (0.5x plateau)."
+          },
+          {
+            "type": "social-signal",
+            "source": "https://www.youtube.com/watch?v=video-c",
+            "views": 10000,
+            "creatorMultiplier": 1,
+            "creatorRelation": "first-party",
+            "relevanceNote": "Walkthrough part 3 (0.25x plateau)."
+          },
+          {
+            "type": "repo-own",
+            "source": "https://github.com/example/skill-walkthrough",
+            "commits": 816,
+            "contributors": 2
+          }
+        ]
+      },
+      "expected": {
+        "qualified": true,
+        "socialSignalTm": 56,
+        "repoOwnTm": 7.248,
+        "trustMagnitude": 63.248,
+        "overallTrustGrade": "B"
+      }
+    },
+    {
+      "id": "suite-component-cap-no-synthetic-self-attestation",
+      "scenario": "A suite component's shared suite-root github-stars-own + repo-own baseline is capped at 49.9 TM (Grade C), and synthetic self-attestation rows must never be added to bypass the 50.0 Grade B gate.",
+      "skill": {
+        "id": "example/suite-member",
+        "contributor": "example",
+        "suiteRef": "example/suite",
+        "links": {
+          "github": "https://github.com/example/suite/blob/main/skills/suite-member/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "github-stars-own",
+            "source": "https://github.com/example/suite/blob/main/skills/suite-member/SKILL.md",
+            "stars": 10000
+          },
+          {
+            "type": "repo-own",
+            "source": "https://github.com/example/suite",
+            "commits": 2000,
+            "contributors": 5
+          }
+        ]
+      },
+      "prohibitedSyntheticRow": {
+        "type": "self-attestation",
+        "source": "https://github.com/example/suite/blob/main/skills/suite-member/SKILL.md",
+        "reason": "Synthetic self-attestation added solely to push a 49.9 TM suite component over the 50.0 Grade B floor."
+      },
+      "expected": {
+        "qualified": false,
+        "rejectionReason": "synthetic-self-attestation-cap-bypass",
+        "baselineTrustMagnitude": 49.9,
+        "baselineOverallTrustGrade": "C"
+      }
+    }
+  ]
+}
