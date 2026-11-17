@@ -1,3 +1,9 @@
+# Current handoff — normal acceptance FAILED; STOP
+
+Run 44135214784 was the one authorized normal attempt and is consumed. Exact head `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`; watcher step failed exit 3; artifact upload succeeded. Actual report: dryRun true, batch, issuesCreated 3/issuesUpdated 4 (planned metrics), one stopped `github-write` unknown for `ruvnet/dual-mode` due to existing umbrella #1833 payload identity conflict. Diagnostic jobs and challenge-watch skipped. #2278 combined-inventory gate not established. Full sanitized receipt and hashes: [P1_NORMAL_ACCEPTANCE_44135214784.md](P1_NORMAL_ACCEPTANCE_44135214784.md). Stop for Lead/founder decision; no retry, permission/guard/source changes, P2, or merge. Full campaign cost unavailable.
+
+## Historical handoff (preserved; superseded where conflicting)
+
 # Current handoff — ordinary P1 acceptance pending
 
 The founder-authorized ordinary-only permission preparation is ready to publish; exactly ONE normal `apply=false` acceptance run is authorized after publication. Repeated authorization/continue replies mean one grant/run. P1 BLOCKED until actual report passes. Current expected local branch/head: `dev/upstream-backlog-watcher-2026-11` / `d176e98c8116c19efed40efeed9ef829b81f505e`, clean; prior remote feature ref `ef05149256f6091429f4f618bccaade3c3da7ee1` is ancestor. Tracking to integration/ahead is intentional. Terra corrected test PASS (238 focused); parent exact-head full regression 1204 passed in 196.33s, exit 0; parity true, missing arrays empty, transient retained. Offline normal-path dry-run passed with unknownEvidence empty and zero issue writes; not hosted acceptance. Full validate not green (Class P index missing); actionlint unavailable. Protected digest unchanged.

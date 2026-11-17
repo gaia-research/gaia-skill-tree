@@ -1,3 +1,9 @@
+# P1 blocker — authorized normal run FAILED; stop
+
+The one normal acceptance run (44135214784) is consumed. At exact feature SHA `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`, actual watcher step exited 3 and artifact upload succeeded. Report dryRun true; 3/4 issue counters are planned metrics; one stopped `github-write` unknown says `ruvnet/dual-mode` conflicts with umbrella #1833 payload identity. Combined inventory/#2278 gate is not established. See [P1_NORMAL_ACCEPTANCE_44135214784.md](P1_NORMAL_ACCEPTANCE_44135214784.md). P1 failed/blocked. Return to Lead/founder; no retry, new permissions, code/guard changes, P2, or merge.
+
+## Historical blocker record (preserved; superseded where conflicting)
+
 # P1 blocker — current ordinary acceptance pending; P1 blocked
 
 ## Current gate — one normal read-only acceptance run authorized

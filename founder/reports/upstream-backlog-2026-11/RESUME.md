@@ -1,3 +1,9 @@
+# Current resume instructions — FAILED run; stop for Lead/founder
+
+The single authorized normal run is consumed. Run 44135214784 failed at exact feature HEAD `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`; actual watcher step exit 3, report uploaded. Parsed artifact reports dryRun true, batch, 3/4 planned issue counters, and one stopped `github-write` unknown: `ruvnet/dual-mode` conflicts with existing umbrella #1833 payload identity. See [P1_NORMAL_ACCEPTANCE_44135214784.md](P1_NORMAL_ACCEPTANCE_44135214784.md) for full safe receipt and artifact hashes. The #2278 combined inventory gate is not established. Do not redispatch/retry, change code/permissions/guards, advance P2, or merge. Next action requires Lead/founder decision on the actual identity conflict. Cost campaign-wide unavailable.
+
+## Preserved historical recovery record (superseded where conflicting)
+
 # Current resume instructions — ordinary P1 acceptance pending
 
 One authorized publication and one normal read-only acceptance run. Current feature branch `dev/upstream-backlog-watcher-2026-11`, expected clean HEAD `d176e98c8116c19efed40efeed9ef829b81f505e`, remote feature ancestor `ef05149256f6091429f4f618bccaade3c3da7ee1`; integration tracking ahead is configured and must not be changed. Corrected Terra PASS (238 focused); parent exact-head full regression 1204 passed / 196.33s, exit 0, parity true, missing arrays empty, transient retained. Offline mixed-inventory normal dry-run succeeds with unknownEvidence empty and zero issue writes; not actual hosted acceptance. Full gaia validate is not green (Class P index missing); actionlint unavailable.

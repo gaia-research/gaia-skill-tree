@@ -1,3 +1,9 @@
+# Current operational checkpoint — ordinary P1 acceptance FAILED; STOP
+
+The one authorized normal run was consumed and failed: [run 44135214784](P1_NORMAL_ACCEPTANCE_44135214784.md), exact feature HEAD `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`. The actual ordinary watcher job failed at `Run upstream watcher` with exit 3; report upload succeeded; typed-backlog, both A/B diagnostics, and challenge-watch skipped. Artifact 14352241141 was downloaded and parsed: `dryRun=true`, childMode `batch`, report-planned issuesCreated 3/issuesUpdated 4, one stopped `github-write` unknown for `ruvnet/dual-mode` because umbrella #1833 payload identity conflicts. Combined-inventory/#2278 gate disposition is **not established**. P1 remains blocked/failed. No retry, new permissions, code/guard changes, P2, or merge. Stop for Lead/founder decision on this exact conflict. Cost complete unavailable; preserve history and old receipts.
+
+## Historical chronology (preserved; superseded where conflicting)
+
 # Current operational checkpoint — ordinary P1 acceptance pending
 
 The current scope is the single founder grant to publish the reviewed ordinary watcher-only `pull-requests: read` permission and run exactly one normal `apply=false` acceptance. Repeated `authorized`/`continue` replies are one grant/run. P1 remains BLOCKED pending actual hosted acceptance. Current branch is expected clean HEAD `d176e98c8116c19efed40efeed9ef829b81f505e`, remote feature ancestor `ef05149256f6091429f4f618bccaade3c3da7ee1`; configured tracking points to integration and is intentionally not repaired. Terra corrected test PASS (238 focused); parent exact-head full regression 1204 passed / 196.33s / exit 0, parity both true, missing arrays empty, transient retained. The offline real normal-path test reports exit 0, unknownEvidence empty, issue creates/updates zero; this is not the hosted acceptance. Class P index missing; no green full validate claim.

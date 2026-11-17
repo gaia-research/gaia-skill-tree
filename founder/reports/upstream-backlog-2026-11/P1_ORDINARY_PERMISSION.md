@@ -1,4 +1,10 @@
-## Current checkpoint — ordinary inventory P1 acceptance pending
+## Current checkpoint — ordinary P1 acceptance FAILED; STOP
+
+The one authorized normal run 44135214784 completed failure at exact feature SHA `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`. Watcher step exit 3; artifact uploaded. Parsed report has `dryRun=true`, `childMode=batch`, 3 created/4 updated planned counters, and one stopped `github-write` unknown for `ruvnet/dual-mode` because umbrella #1833 payload identity conflicts. Diagnostic visibility/A-B jobs and challenge-watch skipped. #2278 combined inventory gate disposition is not established. Detailed receipt: [P1_NORMAL_ACCEPTANCE_44135214784.md](P1_NORMAL_ACCEPTANCE_44135214784.md). P1 acceptance failed; run authority consumed. No retry, redispatch, permission/guard/source change, P2 or merge. Stop for Lead/founder decision on this new exact blocker.
+
+## Historical chronology (preserved; superseded wherever it conflicts)
+
+# Current checkpoint — ordinary inventory P1 acceptance pending
 
 Founder-authorized scope: publish the reviewed ordinary watcher-only PR-read permission and execute exactly ONE normal `apply=false` acceptance run. The repeated `authorized` replies plus `continue` are a single grant/run. No issue writes, P2, variables, labels, merges, further probes, permission expansion, or guard relaxation. P1 remains BLOCKED until the actual hosted report passes. Historical content below is preserved, but prior instructions describing metadata permission A/B/canonical-reuse as the current next action are superseded by this checkpoint; those were historical scope/results, not this acceptance run.
 
