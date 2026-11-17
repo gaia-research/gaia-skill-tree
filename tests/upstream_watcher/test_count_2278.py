@@ -50,6 +50,7 @@ def test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes(monke
     from scripts.lib import named_iterator
     from scripts.upstream_watcher import watcher
     from scripts.upstream_watcher.batch import plan_suite
+    from scripts.upstream_watcher import envelope
     import socket
     import urllib.request
 
@@ -61,8 +62,8 @@ def test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes(monke
         'suiteComponents: [garrytan/component]\n'
         'links:\n  github: https://github.com/garrytan/gbrain\n'
         'upstream:\n  repo: garrytan/gbrain\n  version: v0\n---\n', encoding="utf-8")
-    # A pending bootstrap also exercises create_issues(apply=False), not just
-    # the idempotent update plan. Bootstrap proposals do not increment batch metrics.
+    # A pending bootstrap is an explicit per-named envelope finding, not a
+    # separate single-ID writer. Its planned create must remain in the metrics.
     (named / "pending.md").write_text(
         '---\nid: garrytan/pending\nname: Pending\nlevel: "2★"\n'
         'suiteComponents: [garrytan/component]\n'
@@ -94,7 +95,8 @@ def test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes(monke
     finding = watcher._poll_suite(fm, watcher._build_registry_map(), False)
     plan = plan_suite(finding, {"issues": [], "closedUmbrellas": []}, {})
     rows = mixedRows()
-    rows[0].update(title=plan["title"], body=plan["body"], labels=[{"name": "upstream:release"}])
+    native = envelope.build("garrytan/gbrain", [plan["payload"]], watcher._build_registry_map())
+    rows[0].update(title=envelope.title(native), body=envelope.render(native), labels=[{"name": "upstream:release"}])
     # This PR masquerades as an unfinished release umbrella. If read_live fails
     # to exclude it, it becomes a duplicate/identity candidate in the real plan.
     rows[-1].update(title=plan["title"], body="", labels=[{"name": "upstream:release"}])
@@ -124,18 +126,20 @@ def test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes(monke
     report = json.loads(report_path.read_text())
     assert report["dryRun"] is True
     assert report["unknownEvidence"] == []
-    assert report["issuesCreated"] == report["issuesUpdated"] == 0
-    assert len(report["suites"]) == 1
-    suite = report["suites"][0]
+    assert (report["issuesCreated"], report["issuesUpdated"]) == (1, 0)
+    assert len(report["suites"]) == 2
+    suite = next(row for row in report["suites"] if row["skillId"] == "garrytan/gbrain")
     assert (suite["suite"], suite["umbrella"], suite["outcome"]) == (
         "garrytan/gbrain", rows[0]["number"], "noop")
     assert report["duplicateOpenUmbrellas"] == []
     output = capsys.readouterr()
     assert "2 finding(s)" in output.err
     assert "garrytan/pending" in output.out and "Bootstrap" in output.out
-    assert "[dry-run] Would create issue: '[upstream:bootstrap] garrytan/pending" in output.err
+    pending = next(p for p in report["repositories"] if p["repository"] == "garrytan/pending")
+    assert pending["payload"]["findings"][0]["findingType"] == "bootstrap"
+    assert pending["outcome"] == "planned"
     assert len(release_reads) == 3  # fixture preparation + two real normal polls
-    assert runner.graphql == 10  # exact (218 issues, 5 PRs) bracketing batch/bootstrap walks
+    assert runner.graphql == 2  # exact typed (218 issues, 5 PRs) before/after the shared complete inventory
     assert mutations == runner.writes == []
 
 

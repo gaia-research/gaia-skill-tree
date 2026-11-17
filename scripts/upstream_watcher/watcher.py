@@ -90,8 +90,7 @@ from scripts.upstream_watcher.finder import (
     resolve_suite_source,
 )
 from scripts.upstream_watcher import staging
-from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
-from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
+from scripts.upstream_watcher.batch import new_report
 from scripts.upstream_watcher.live import (
     LiveGh,
     SuiteUnavailable,
@@ -109,7 +108,15 @@ from scripts.upstream_watcher.name_drift import check_name_drift
 
 def _build_registry_map(root: Path | None = None) -> dict[str, dict]:
     """Return a dict mapping skill-id → frontmatter for all named skills."""
-    return {fm["id"]: fm for _, fm in iter_named_skills(root=root) if fm.get("id")}
+    authority = {}
+    for _path, fm in iter_named_skills(root=root):
+        identifier = fm.get("id")
+        if not identifier:
+            continue
+        if identifier in authority:
+            raise ValueError(f"duplicate canonical named identity: {identifier}")
+        authority[identifier] = fm
+    return authority
 
 
 # ---------------------------------------------------------------------------
@@ -582,9 +589,12 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if args.escalate:
-        result, code = escalate_candidate(args.escalate, LiveGh(), apply=apply)
-        print(json.dumps(result, indent=2, ensure_ascii=False))
-        return code
+        # A repository-only candidate selector cannot select a named sibling.
+        # Do not route it into the legacy single-ID escalation writer.
+        print(json.dumps({"candidate": args.escalate, "dryRun": not apply,
+                          "outcome": "unknown", "writeReadiness": False,
+                          "detail": "repository envelopes require an exact named candidate selector; legacy escalation cannot prove the target and is read-only"}))
+        return 3
 
     batch_mode = args.child_mode == "batch"
     try:
@@ -674,54 +684,17 @@ def main(argv: list[str] | None = None) -> int:
             f"{challenge_result.active_count} active challenge(s) monitored."
         )
 
-    if not batch_mode:
-        report = new_report()
-        report["childMode"] = "fanout"
-        report["dryRun"] = not apply
-        report["unavailable"] = unavailable
-        summaries: list[dict] = []
-        if apply:
-            try:
-                summaries = create_issues(full_findings, apply=True, verbose=verbose)
-            except IdempotencyLookupError as exc:
-                # Fail closed: every duplicate check ran before the first write, so nothing was created.
-                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc)})
-                _write_report(report, args.report)
-                print(f"[watcher] Unknown evidence, no issues written: {exc}", file=sys.stderr)
-                return 3
-            except UmbrellaWriteError as exc:
-                # M10: an umbrella write failed. Its children were not written, and later suites stop.
-                report["unknownEvidence"].append({"source": "github-write", "detail": str(exc)})
-                _write_report(report, args.report)
-                print(f"[watcher] Umbrella write failed, run stopped: {exc}", file=sys.stderr)
-                return 3
-        report["issuesCreated"] = sum(1 for row in summaries if row.get("umbrella") and not row.get("updated"))
-        report["issuesUpdated"] = sum(1 for row in summaries if row.get("updated"))
-        _write_report(report, args.report)
-        if apply:
-            print(f"[watcher] Issue creation complete. {len(summaries)} finding(s) processed.")
-        return 0
-
-    # The staging kwarg is passed only when staging is on, so the default call is exactly the deployed one.
-    stagingKwargs = {"staging": stagingConfig} if stagingConfig.active else {}
-    report, code = run_batch(
-        full_findings, LiveGh(), apply=apply, reset_records=args.reset_records, **stagingKwargs
+    # Repository envelopes are the normal release path in every child mode.
+    # Unsupported fanout/staging execution is an explicit read-only hold, never
+    # a fallback to a single-ID writer or a repo-only legacy journal.
+    from scripts.upstream_watcher.repository_batch import run_repository_batch
+    report, code = run_repository_batch(
+        full_findings, LiveGh(), apply=apply, authority=registry_map,
+        mode=args.child_mode, staging=stagingConfig, reset_records=args.reset_records,
     )
     report["unavailable"] = unavailable
-    # The bootstrap pass runs unless a GitHub read or write stopped the batch. A record-level failure on one
-    # suite does not stop it (H2), and the exit code is still 3 at the end.
-    if not batch_stopped(report):
-        bootstrap = [finding for finding in full_findings if finding["finding_type"] == "bootstrap"]
-        if bootstrap:
-            try:
-                create_issues(bootstrap, apply=apply, verbose=verbose)
-            except IdempotencyLookupError as exc:
-                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc), "stopped": True})
-                code = 3
-            except UmbrellaWriteError as exc:
-                # L4: a bootstrap write GitHub refused is unknown evidence, not an uncaught crash.
-                report["unknownEvidence"].append({"source": "github-write", "detail": str(exc), "stopped": True})
-                code = 3
+    # Bootstrap observations share the same verified-repository envelope and
+    # exact per-named approval scope. Never run the old per-suite bootstrap writer.
     _write_report(report, args.report)
     print(json.dumps({k: report[k] for k in ("issuesCreated", "issuesUpdated", "suppressedDuplicates",
                                              "retainedCandidates", "unknownEvidence")},

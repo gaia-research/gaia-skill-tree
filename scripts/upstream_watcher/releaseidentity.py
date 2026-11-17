@@ -38,6 +38,9 @@ def validateUmbrellaIdentity(finding: dict, issue: dict, *, generated: bool = Fa
             payload = json.loads(match.group(1))
         except (ValueError, TypeError):
             pass
+    from scripts.upstream_watcher.envelope import is_envelope
+    if is_envelope(payload):
+        raise GhError("repository envelope requires the repository planner; legacy single-ID writer is read-only")
     prior = payload.get("skillId") if isinstance(payload, dict) else None
     incoming = finding.get("skillId")
     if generated and not all(

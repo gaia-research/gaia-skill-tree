@@ -9,6 +9,18 @@ on:
         description: "Issue number to re-run approve logic on"
         required: true
         type: string
+      named_skill_id:
+        description: "Exact canonical named ID in the repository envelope (explicit per-named approval)"
+        required: false
+        type: string
+      finding_sha256:
+        description: "Exact named finding SHA-256 reviewed, not the repository envelope digest"
+        required: false
+        type: string
+      approved_source_url:
+        description: "Exact release source URL of that named finding"
+        required: false
+        type: string
       refire:
         # D3: upstream-close-children sets this when it re-fires an approved umbrella. A bot actor is
         # accepted only with refire=true, and then only when the latest upstream:approved labeler is a Verifier.
@@ -67,14 +79,21 @@ jobs:
           LABELER_ID: ${{ github.event.sender.id }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           # No guard writes on unrelated, malformed or unreadable issues, even
           # when someone applies skip-child-gate to them.
           OWNED=$(gh issue view "$ISSUE_NUMBER" --json title,body,labels | python3 -c '
           import json, sys
-          from scripts.upstream_watcher.approval import owned_upstream_issue
-          print("true" if owned_upstream_issue(json.load(sys.stdin)) else "false")
+          from scripts.upstream_watcher.approval import owned_upstream_issue, extract_payload, verify_repository_target
+          from scripts.upstream_watcher.envelope import is_envelope
+          issue = json.load(sys.stdin)
+          payload, _ = extract_payload(issue.get("body"))
+          owned = is_envelope(payload) and owned_upstream_issue(issue, allow_envelope=True)
+          if owned:
+              verify_repository_target(issue, require_selection=False, require_approved=False)
+          print("true" if owned else "false")
           ') || exit 1
           if [ "$OWNED" != true ]; then
             echo "Not a proven upstream umbrella/bootstrap; no label or comment writes."
@@ -110,6 +129,15 @@ jobs:
     # 3. Manually dispatched or re-run (retry path)
     if: >-
       (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && ((github.event_name == 'issues' && ( (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved') || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved')) )) || github.event_name == 'workflow_dispatch')
+
+    # These are untrusted selectors, never actor/approval authority. The existing
+    # Verifier/allowlist guard still runs before extraction and any sync.
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      INPUT_REFIRE: ${{ inputs.refire }}
+      NAMED_SKILL_ID: ${{ inputs.named_skill_id }}
+      FINDING_SHA256: ${{ inputs.finding_sha256 }}
+      APPROVED_SOURCE_URL: ${{ inputs.approved_source_url }}
 
     steps:
       # M9: no ${{ }} expression inside a run block. Every value reaches the shell through env,
@@ -185,6 +213,25 @@ jobs:
       # (workflow_dispatch by a Bot) is accepted only with refire=true and only when the most recent
       # upstream:approved label was applied by an allowlisted actor or a Verifier. L1: a denial removes
       # upstream:approved, as the reject guard does.
+      - name: Verify repository-envelope selection before any approval-path write
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          gh issue view "$ISSUE_NUMBER" --json body,title > "$RUNNER_TEMP/selection-preflight.json"
+          python3 - "$RUNNER_TEMP/selection-preflight.json" <<'PY'
+          import json, sys
+          from scripts.upstream_watcher.approval import workflow_payload, verify_repository_target, PayloadError
+          view = json.load(open(sys.argv[1], encoding="utf-8"))
+          try:
+              workflow_payload(view.get("body"), title=view.get("title"))
+              verify_repository_target(view)
+          except PayloadError as exc:
+              print(f"::error::Read-only approval hold: {exc}", file=sys.stderr)
+              sys.exit(1)
+          PY
+
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ steps.issue.outputs.actor }}
@@ -212,7 +259,7 @@ jobs:
           OWNED=$(printf '%s' "$LIVE_ISSUE" | python3 -c '
           import json, sys
           from scripts.upstream_watcher.approval import owned_upstream_issue
-          print("true" if owned_upstream_issue(json.load(sys.stdin)) else "false")
+          print("true" if owned_upstream_issue(json.load(sys.stdin), allow_envelope=True) else "false")
           ') || {
             echo "::error::Could not parse ownership proof for issue #${ISSUE_NUMBER}. No approval-path writes were made."
             exit 1
@@ -337,7 +384,7 @@ jobs:
         run: |
           set -euo pipefail
           BODY_FILE="$RUNNER_TEMP/umbrella-body.md"
-          if ! gh issue view "$ISSUE_NUMBER" --json body --jq '.body' > "$BODY_FILE"; then
+          if ! gh issue view "$ISSUE_NUMBER" --json body,title > "$BODY_FILE"; then
             gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Payload parse failure.** Could not read the umbrella body. Cannot proceed with sync." || true
             echo "::error::Could not read the umbrella body."
             exit 1
@@ -346,10 +393,10 @@ jobs:
           PARSED=$(python3 - "$BODY_FILE" <<'PY'
           import json, os, sys
           sys.path.insert(0, os.getcwd())
-          from scripts.upstream_watcher.approval import PayloadError, extract_payload
-          body = open(sys.argv[1], encoding="utf-8").read()
+          from scripts.upstream_watcher.approval import PayloadError, workflow_payload
+          view = json.load(open(sys.argv[1], encoding="utf-8"))
           try:
-              payload, digest = extract_payload(body)
+              payload, digest = workflow_payload(view.get("body"), title=view.get("title"))
           except PayloadError as exc:
               print(json.dumps({"error": str(exc)}))
               sys.exit(0)
@@ -368,12 +415,15 @@ jobs:
           DIGEST=$(echo "$PARSED" | jq -r '.digest')
           echo "payload=$PAYLOAD_JSON" >> $GITHUB_OUTPUT
           echo "payload_sha256=$DIGEST" >> $GITHUB_OUTPUT
+          echo "repository_envelope=true" >> $GITHUB_OUTPUT
 
           SKILL_ID=$(echo "$PAYLOAD_JSON" | jq -r '.skillId')
           NEW_VERSION=$(echo "$PAYLOAD_JSON" | jq -r '.newVersion')
           SOURCE_URL=$(echo "$PAYLOAD_JSON" | jq -r '.sourceUrl')
           RELEASED_AT=$(echo "$PAYLOAD_JSON" | jq -r '.releasedAt')
-          MODE=$(echo "$PAYLOAD_JSON" | jq -r '.mode')
+          MODE=$(echo "$PAYLOAD_JSON" | jq -r 'if .findingType == "bootstrap" then "bootstrap" else .mode end')
+          SYNC_MODE=$(echo "$PAYLOAD_JSON" | jq -r '.mode')
+          echo "sync_mode=$SYNC_MODE" >> $GITHUB_OUTPUT
 
           echo "skill_id=$SKILL_ID" >> $GITHUB_OUTPUT
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -433,7 +483,7 @@ jobs:
             echo "The approval record already covers payload ${PAYLOAD_SHA}."
             exit 0
           fi
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -z "${NAMED_SKILL_ID:-}" ]; then
             gh issue comment "$ISSUE_NUMBER" \
               --body "⚠️ **Sync refused: the approval record does not cover this payload.** The umbrella payload (digest ${PAYLOAD_SHA}) is not the one a reviewer approved. Re-apply upstream:approved after review." || true
             echo "::error::No approval covers payload ${PAYLOAD_SHA}. Nothing was synced."
@@ -452,6 +502,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           REPO: ${{ github.repository }}
+          SELECTED_PAYLOAD: ${{ steps.payload.outputs.payload }}
         run: |
           set -euo pipefail
 
@@ -491,6 +542,17 @@ jobs:
           fi
 
           UMBRELLA_BODY=$(gh issue view "$ISSUE_NUMBER" --json body --jq '.body') || fail_closed "Could not read the umbrella body."
+          # The shared legacy lookup reads ONLY the selected member's row links,
+          # never the root envelope's siblings. Unscoped old cross-links remain a
+          # conservative gate; they do not authorize or settle any sibling.
+          if [ -n "${SELECTED_PAYLOAD:-}" ]; then
+            UMBRELLA_BODY=$(python3 - <<'PY'
+          import json, os
+          from scripts.upstream_watcher.batch import payload_block
+          print(payload_block(json.loads(os.environ["SELECTED_PAYLOAD"])))
+          PY
+            ) || fail_closed "The exact selected named payload could not be read."
+          fi
 
           # Deterministic lookup (no search). Same block as upstream-close-children.yml.
           LOOKUP_RC=0
@@ -655,7 +717,7 @@ jobs:
           set -euo pipefail
           VIEW_FILE="$RUNNER_TEMP/umbrella-view.json"
           COMMENTS_FILE="$RUNNER_TEMP/umbrella-recheck-comments.json"
-          if ! gh issue view "$ISSUE_NUMBER" --json state,labels,body > "$VIEW_FILE" \
+          if ! gh issue view "$ISSUE_NUMBER" --json state,labels,body,title > "$VIEW_FILE" \
              || ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
             echo "::error::Could not re-read #${ISSUE_NUMBER} before the sync. Nothing was synced."
             exit 1
@@ -664,7 +726,7 @@ jobs:
           PROBLEMS=$(python3 - "$VIEW_FILE" "$COMMENTS_FILE" <<'PY'
           import json, os, sys
           sys.path.insert(0, os.getcwd())
-          from scripts.upstream_watcher.approval import PayloadError, decode_pages, extract_payload, latest_approval_sha
+          from scripts.upstream_watcher.approval import PayloadError, decode_pages, workflow_payload, latest_approval_sha, verify_repository_target
           view = json.load(open(sys.argv[1], encoding="utf-8"))
           problems = []
           if view.get("state") != "OPEN":
@@ -672,7 +734,8 @@ jobs:
           if "upstream:approved" not in [label["name"] for label in view.get("labels", [])]:
               problems.append("it no longer carries upstream:approved")
           try:
-              _payload, digest = extract_payload(view.get("body"))
+              _payload, digest = workflow_payload(view.get("body"), title=view.get("title"))
+              verify_repository_target(view)
           except PayloadError as exc:
               problems.append(str(exc))
           else:
@@ -739,7 +802,7 @@ jobs:
           echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
           echo "remote_sha=$REMOTE_SHA" >> "$GITHUB_OUTPUT"
 
-      # ── Hotfix 2: bootstrap mode uses --bootstrap flag; --version renamed to --tag
+      # Exact selected release pin; bootstrap retains the detected sync mode.
       - name: Run gaia dev sync-upstream
         if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
@@ -749,6 +812,7 @@ jobs:
           SOURCE_URL: ${{ steps.payload.outputs.source_url }}
           RELEASED_AT: ${{ steps.payload.outputs.released_at }}
           MODE: ${{ steps.payload.outputs.mode }}
+          SYNC_MODE: ${{ steps.payload.outputs.sync_mode }}
         run: |
           set -euo pipefail
           if [ "$MODE" = "bootstrap" ]; then
@@ -756,6 +820,7 @@ jobs:
               --tag "$NEW_VERSION" \
               --source-url "$SOURCE_URL" \
               --released-at "$RELEASED_AT" \
+              --mode "$SYNC_MODE" \
               --bootstrap \
               --user "github-actions[bot]"
           else
@@ -881,6 +946,7 @@ jobs:
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           UNRESOLVED: ${{ steps.unresolved.outputs.count }}
           FROZEN: ${{ steps.freeze.outputs.frozen_count }}
+          REPOSITORY_ENVELOPE: ${{ steps.payload.outputs.repository_envelope }}
         run: |
           set -euo pipefail
           # L4: the PR body states what the freeze step actually did.
@@ -902,7 +968,7 @@ jobs:
           else
             # Fixes closes the umbrella on merge only when no candidate row is still owed a
             # decision. Otherwise Refs keeps it open so those rows stay tracked (#2131).
-            if [ "${UNRESOLVED:-0}" -gt 0 ]; then
+            if [ "${UNRESOLVED:-0}" -gt 0 ] || [ "${REPOSITORY_ENVELOPE:-}" = "true" ]; then
               CLOSE_BLOCK="Refs #${ISSUE_NUMBER}
 
           Umbrella stays open: ${UNRESOLVED} unresolved candidate row(s). This PR references the umbrella and does not close it."
@@ -933,6 +999,7 @@ jobs:
           PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
           PR_URL: ${{ steps.pr.outputs.pr_url }}
           UNRESOLVED: ${{ steps.unresolved.outputs.count }}
+          REPOSITORY_ENVELOPE: ${{ steps.payload.outputs.repository_envelope }}
         run: |
           # Avoid duplicate comments if PR link was already posted on umbrella
           # Fail closed: a failed comment lookup must not read as "not yet commented" and post a duplicate.
@@ -945,7 +1012,7 @@ jobs:
             echo "PR link already commented on umbrella #${ISSUE_NUMBER}."
             exit 0
           fi
-          if [ "${UNRESOLVED:-0}" -gt 0 ]; then
+          if [ "${UNRESOLVED:-0}" -gt 0 ] || [ "${REPOSITORY_ENVELOPE:-}" = "true" ]; then
             CLOSE_NOTE="Umbrella stays open: ${UNRESOLVED} unresolved candidate row(s). The PR references it (Refs) and does not close it."
           else
             CLOSE_NOTE="Auto-closes this umbrella on merge (Fixes #${ISSUE_NUMBER} is in the PR body)."
@@ -965,6 +1032,11 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && ((github.event_name == 'issues' && ( (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved') || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved')) )) || github.event_name == 'workflow_dispatch')
 
     steps:
+      - name: Repository-envelope compatibility hold
+        run: |
+          echo "::error::Legacy approval consumer is read-only. Use the hardened workflow with exact named selectors. Legacy migration requires separate approval."
+          exit 1
+
       - name: Resolve issue number and actor
         id: issue
         env:

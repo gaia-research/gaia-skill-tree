@@ -28,6 +28,11 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'upstream:child') || contains(github.event.issue.labels.*.name, 'upstream:release'))
 
     steps:
+      - name: Repository-envelope compatibility hold
+        run: |
+          echo "::error::Repository envelopes require exact named selectors. This automatic refire/cascade consumer is read-only for envelopes and legacy migration holds."
+          exit 1
+
       - name: Checkout trusted main
         uses: actions/checkout@v4
         with:
@@ -397,6 +402,11 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && (contains(github.event.issue.labels.*.name, 'upstream:child') || contains(github.event.issue.labels.*.name, 'upstream:release'))
 
     steps:
+      - name: Repository-envelope compatibility hold
+        run: |
+          echo "::error::Legacy cascade consumer is read-only; no repository envelope or legacy migration hold may be mutated or implicitly approved."
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:

@@ -1,3 +1,7 @@
+# Current status — paused partial implementation; not reviewed
+
+The partial repo-envelope implementation is now present in the feature worktree but is **PAUSED / PARTIAL / UNREVIEWED / NOT EXECUTION-READY**. Prior statements below describing an unresolved design assessment remain historical; they are not a current claim that implementation has not started. User pause overrides standing code-only continuation authority until resumed. Exact source scope and unfinished items are in [NEW_P1_PARTIAL_REVIEW_PAUSE.md](NEW_P1_PARTIAL_REVIEW_PAUSE.md). No complete focused-test verdict, independent Terra review, full regression/parity, or normal acceptance exists for the new diff. Preserve policy JSON verbatim and all protected data; do not dispatch or migrate.
+
 # P1 identity-selection assessment
 
 ## Founder choices — verbatim record; implementation authorized/active

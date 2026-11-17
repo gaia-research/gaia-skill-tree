@@ -1,3 +1,7 @@
+# Current checkpoint — P1 paused with partial source; unreviewed (admin publication)
+
+User explicitly paused code work and requested publication of the current partial source for review. Status is **PAUSED / PARTIAL / UNREVIEWED / NOT EXECUTION-READY**. The old policy's standing code-only authorization is not a continuation authorization under this pause. The full exact checkpoint, changed-path list, unfinished work, session/process check limits, and digest-scheme correction are in [NEW_P1_PARTIAL_REVIEW_PAUSE.md](NEW_P1_PARTIAL_REVIEW_PAUSE.md). Current new diff has no complete focused-test summary, no independent Terra review, no full parent regression/parity, and no normal acceptance. Old Terra 238/parent 1204 at d176 apply to an earlier protocol/diff only. Preserve the partial source bytes as-is. No workflow run, migration/data write, P2–P7, ready/review transition, or merge.
+
 # 2026-11-20 — identity policy choices ratified; code implementation authorized/active
 
 The founder's exact JSON is recorded in [P1_IDENTITY_FOUNDER_DECISIONS.json](P1_IDENTITY_FOUNDER_DECISIONS.json), bound to packet `upstream-identity-founder-2026-11`, source commit `0769c2e2216cd4a38e3e121bbdc874956d599c71`, and the known #1833 body SHA-256. Both flat choices and nested decisions match: `repo_envelope` and `preserve_plan`. The packet JSON is the verbatim record; no metadata was added.
@@ -163,7 +167,7 @@ Founder message approving the plan, 2026-11-15 (verbatim):
 | Phase | Lane | State |
 |---|---|---|
 | P0 | Authorize and baseline | PASS; PR #2467 internally merged to integration (`bfed2d7`), final Terra PASS at `db7cac1e` |
-| P1 | Repair the watcher (AgentDB, `links.github` fallback, #2278 dry run) | **RESUMED for bounded administration; awaiting independent final Terra verdict** on source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; latest Terra attempt cancelled/no verdict; prepared real-runner dry run NOT DISPATCHED |
+| P1 | Watcher / repo-envelope identity | **PAUSED / PARTIAL / UNREVIEWED / NOT EXECUTION-READY**; current 15-path diff listed in `NEW_P1_PARTIAL_REVIEW_PAUSE.md`; no current focused verdict, independent Terra review, full regression/parity, or acceptance |
 | P2 | Batch mode, then one dry-run census | not started |
 | P3 | Record reconciliation (81 records) | not started |
 | P4 | Version sync through the approval workflow | not started |
