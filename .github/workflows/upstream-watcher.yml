@@ -66,6 +66,10 @@ jobs:
     if: ${{ inputs.metadata_probe != true && !inputs.permission_ab }}
     name: Poll upstream repos for new releases
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+      pull-requests: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4

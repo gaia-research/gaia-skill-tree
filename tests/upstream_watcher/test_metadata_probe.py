@@ -687,7 +687,12 @@ def test_workflow_optin_inheritance_and_unchanged_normal_jobs():
     assert workflow["permissions"] == {"issues": "write", "contents": "read"}
     jobs = copy.deepcopy(workflow["jobs"])
     assert jobs["watcher"].pop("if") == "${{ inputs.metadata_probe != true && !inputs.permission_ab }}"
-    # Exact entire normal job, including all step conditions, env and shell bodies.
+    # Newly authorized ordinary inventory read scope; preserve the old entire
+    # job hash after removing ONLY this explicit permission map.
+    assert jobs["watcher"].pop("permissions") == {
+        "issues": "write", "contents": "read", "pull-requests": "read",
+    }
+    # Exact remaining normal job, including all step conditions, env and shell bodies.
     for name, expected in (("watcher", "b0fd80fef5e610dd12a337251d0d42708c6733ee77a0728dfa4f226a7ddfa56e"),
                            ("challenge-watch", "e05f40b376110af630fc9666d47a9a4e12dbecad2fe24f5fc96498422bb7d794")):
         assert hashlib.sha256(yaml.safe_dump(jobs[name], sort_keys=True).encode()).hexdigest() == expected

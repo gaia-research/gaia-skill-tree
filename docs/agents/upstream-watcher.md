@@ -419,7 +419,17 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 
 The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. Its default manual dispatch and daily scheduled run use `fanout`; `--child-mode batch` is opt-in and requires the staged v2 rollout controls described above. The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
 
-The workflow's token scope is `issues: write` and `contents: read` (L5). The watcher never pushes, opens PRs or dispatches workflows.
+The workflow-level token scope remains `issues: write` and `contents: read` (L5).
+The ordinary inventory job **`watcher`** explicitly declares exactly those grants
+plus **`pull-requests: read`** (metadata read is implicit). The separate founder
+authorization permits this one job-scoped read bit for mixed issue/PR inventory,
+not PR writes or a relaxed combined-count proof. Explicit job permissions replace
+inheritance, so both old grants are retained. `apply=false` still selects
+`--dry-run` and makes no issue writes despite the retained issue-write capability.
+The watcher never pushes, opens PRs or dispatches workflows. Independent Terra
+review, parent full regression and ONE designated-operator normal read-only P1
+run remain pending; this change is not P1 acceptance or merge/release authority.
+See [`P1_ORDINARY_PERMISSION.md`](../../founder/reports/upstream-backlog-2026-11/P1_ORDINARY_PERMISSION.md).
 
 > **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state. `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented, and every scheduled run passes `--apply`, so the watcher creates and updates issues daily. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
 
@@ -429,7 +439,9 @@ The workflow's token scope is `issues: write` and `contents: read` (L5). The wat
 `metadata-probe` job. The entire `watcher` job is skipped; its dependent
 `challenge-watch` job is consequently skipped by the existing success dependency.
 The boolean defaults to false. Scheduled runs and ordinary manual runs retain
-all existing step bodies, inputs, permissions and write gates.
+all existing step bodies, inputs and write gates. The separately authorized
+ordinary-job permission delta is documented above; standalone probe inheritance
+is unchanged.
 
 The probe inherits the existing workflow `issues: write`, `contents: read`
 `GITHUB_TOKEN` context, with **no** additional grant (in particular no
@@ -517,8 +529,9 @@ Both arms check out `${{ github.repository }}` at `${{ github.sha }}`, run exact
 `python -m scripts.upstream_watcher.metadata_probe`, and use their own job-scoped
 `GITHUB_TOKEN`. Control explicitly declares `issues: write`, `contents: read`;
 treatment declares exactly those plus **`pull-requests: read`**. This is solely a
-diagnostic treatment, **not** a production permission grant. Ordinary/global
-permission blocks are unchanged. No token is shared, minted or replaced; neither
+diagnostic treatment, **not itself** a production permission grant. Global
+permissions remain unchanged; the separate later ordinary-job authorization
+above adds the same read bit only to `watcher`. No token is shared, minted or replaced; neither
 arm invokes planning or writes. The collector and its limits/schema are unchanged.
 
 Artifacts are **`DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL`** and
@@ -534,8 +547,10 @@ make the pair INCONCLUSIVE. No automatic rerun.
 
 The founder's relayed literal `proceed` authorized this ONE bounded diagnostic A/B
 proposal only. Independent Terra review and parent full regression are required
-before the designated operator's one paired run. No normal watcher run, issue
-write, production permission expansion, P2 or merge is authorized. Technical
+before the designated operator's one paired run. That diagnostic authorization
+alone grants no normal watcher run, issue write, production permission expansion,
+P2 or merge. The separate later ordinary read-scope grant and pending single normal
+read-only acceptance run are documented above. Technical
 preparation receipt: [`P1_PERMISSION_AB.md`](../../founder/reports/upstream-backlog-2026-11/P1_PERMISSION_AB.md).
 P1 remains BLOCKED pending separately authorized normal acceptance.
 
