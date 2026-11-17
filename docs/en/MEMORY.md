@@ -1,3 +1,37 @@
+## 2026-11-17 — Routine 077
+
+**Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` again, so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 077)" in 076: the `origin: true` cleanup on `named-skills.html`, in the "Origin and bucket" block and the naming-PR lifecycle step only.
+
+### What I did
+
+- "Origin & variants" paragraph: replaced "one implementation carries the `origin: true` flag" with the derivation rule from CLAUDE.md. Origin is the highest published level, then highest Trust Magnitude. Tied top contenders all hold it. Added that Origin is built, not set by hand, and that changing it means raising merit and running `gaia dev docs`.
+- Frontmatter example: removed the `origin: true` line.
+- Lifecycle step 3: removed `origin: true` from the naming-PR description and added that the build derives Origin. I also removed the sentence "The contributor becomes the Origin Contributor permanently." That sentence contradicts build-derived Origin, because the holder can change when merit changes. Weekly editor: check that the "claim is permanent" wording in the Claiming section (around L895) gets the same treatment in a later run.
+
+### Design decisions
+
+- Prose and one code line changed. Layout and classes unchanged.
+- Left the migration table (`origin: https://…` → `origin: false`) and the frozen-skill rows untouched, per the Planned-next scope.
+
+### Issues informed
+
+- None filed. Docs-only correction against CLAUDE.md § Origin is automatic.
+
+### Files
+
+- `docs/en/named-skills.html` (Origin paragraph, frontmatter example, lifecycle step 3)
+- `docs/en/DOCS.md` (Page Map row 6 status and routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 078)
+
+- ROTATE to the least-recently-touched page: `skill-hierarchy.html` (row 4, last routine 028). Check its Type/Branch wording against `CONTEXT.md` § Taxonomy v6 and fix one section only.
+- Carry-over for a later run on `named-skills.html`: the migration table row (around L1019, `origin: https://…` → `origin: false`) and the "Claiming" section line that says the claim is permanent (around L895). Both still describe Origin as a frontmatter flag or a fixed grant.
+
+---
+
 ## 2026-11-16 — Routine 076
 
 **Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` (main has moved `docs/en/` since the last routine), so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
