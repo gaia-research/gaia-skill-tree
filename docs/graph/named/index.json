@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10",
+  "generatedAt": "2026-11-14",
   "originStandings": {
     "adaptive-pattern-learning": [
       {
@@ -6152,6 +6152,88 @@
         }
       },
       {
+        "id": "theqtcompanyrnd/qt-qml-review",
+        "name": "qt-qml-review",
+        "contributor": "theqtcompanyrnd",
+        "origin": false,
+        "genericSkillRef": "code-review-pipeline",
+        "status": "named",
+        "level": "3★",
+        "description": "Invoke when the user asks to review, check, audit, or look over Qt6 QML code -- or suggest before committing. Runs deterministic linting (48+ rules) then deep-analysis agents (scaled to the size of the change) covering bindings, layout, loaders, delegates, states, and performance. Optionally invokes system qmllint for type-level checks. Reports only high-confidence issues (>80/100) with structured mitigations. Read-only -- never modifies code.",
+        "title": "Qt Qml Review",
+        "links": {
+          "github": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-03",
+            "type": "github-stars-own",
+            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+            "stars": 509,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-03",
+        "updatedAt": "2026-11-11",
+        "timeline": [
+          {
+            "timestamp": "2026-11-02T21:55:09Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill theqtcompanyrnd/qt-qml-review"
+          },
+          {
+            "timestamp": "2026-11-02T22:02:27Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-02T22:16:27Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 59.74, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-11T02:55:58Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "trustMagnitude": 59.74,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "ed807409962743c9bee03fc0a04ba727089140e287c78f396b689cfb0a6d9f53",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "addy-osmani/code-review-and-quality",
         "name": "Code Review and Quality",
         "contributor": "addy-osmani",
@@ -6491,82 +6573,6 @@
         },
         "type": "fusion",
         "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 60.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 3,
-          "transitiveCount": 3,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "theqtcompanyrnd/qt-qml-review",
-        "name": "qt-qml-review",
-        "contributor": "theqtcompanyrnd",
-        "origin": false,
-        "genericSkillRef": "code-review-pipeline",
-        "status": "named",
-        "level": "2★",
-        "description": "Invoke when the user asks to review, check, audit, or look over Qt6 QML code -- or suggest before committing. Runs deterministic linting (48+ rules) then deep-analysis agents (scaled to the size of the change) covering bindings, layout, loaders, delegates, states, and performance. Optionally invokes system qmllint for type-level checks. Reports only high-confidence issues (>80/100) with structured mitigations. Read-only -- never modifies code.",
-        "title": "Qt Qml Review",
-        "links": {
-          "github": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-11-03",
-            "type": "github-stars-own",
-            "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
-            "stars": 509,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-11-03",
-        "updatedAt": "2026-11-03",
-        "timeline": [
-          {
-            "timestamp": "2026-11-02T21:55:09Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill theqtcompanyrnd/qt-qml-review"
-          },
-          {
-            "timestamp": "2026-11-02T22:02:27Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-11-02T22:16:27Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 59.74, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 59.74,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "ed807409962743c9bee03fc0a04ba727089140e287c78f396b689cfb0a6d9f53",
-        "type": "fusion",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",

@@ -3,8 +3,136 @@
   "schema": "gaia.arbor-runtime-index/v1",
   "subjects": [
     {
+      "applicable": true,
+      "behavioralSha256": "882ae739aaa69691e034a2b60612f871d53b2d9fd55fcf87ed80a2de05565713",
+      "contentSha256": "c05a190b4edd61039ebfba00cf6db26a977ff383e613da529a84778850262d7f",
+      "id": "addy-osmani/source-driven-development"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "0e0de06ef55a916b69314565d5d0a50d06535c28d37640f2e3b24f6fa87d4b4c",
+      "contentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
+      "id": "caioribeiroclw-pixel/evidence-attestation"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "c5b5c33b0dc968e142517b30e353784fa12707c813a70b419365646146614f70",
+      "contentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
+      "id": "garrytan/careful"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "a33ea9cb7815e4aaec4b22550c587e7dda484a344a72e35070e2ad4e8985bf77",
+      "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+      "id": "garrytan/context-restore"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "b9e40ce9d5e72d2375e313185095e88e6980bdad0fb7112a624577d622cfd636",
+      "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+      "id": "garrytan/context-save"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "d84585d20b925d06188e8a95118fc9a19a113a2353f2b28f10366dd981c9d840",
+      "contentSha256": "322f0a0f31931a7b6313b173c6ab5b779ed9a5ddfde9378a7f1559e6f9e19cfc",
+      "id": "garrytan/cso"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "676f4b37098f3ac14426c150844fa06a1e3085636a93e6caed327a1ea60250b8",
+      "contentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+      "id": "garrytan/freeze"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "e4c1b0ca2b04b68bcfc155335c8dca38b7521df6e1bfe5f692f4e6426984c13c",
+      "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+      "id": "garrytan/guard"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "31eb186d04abf9237fcf592b70c3e92e138c74e2073254d798849566ea4486cd",
+      "contentSha256": "3e4638a7937f1bd8ffcb8985ee09988d0910ed2626402cdf24993d1b03652d16",
+      "id": "garrytan/land-and-deploy"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "f4879228c3c71960098f7b81cc2c0f57e121fbc85143ebfe70df55aa75886ca1",
+      "contentSha256": "266f1bbb6ce9f0036e0af82e91b94b50ad6200d42d81d4b8ef078bc1ebf7f26f",
+      "id": "garrytan/qa-only"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "ccd5d7bde1313e889fcfb6818e3157d30f6fec3fbdb80d790f9be4954dc06a32",
+      "contentSha256": "6e15d39020bdc2abfa38e513203be05e8583c59f14f82cf4fe14d0422cc13396",
+      "id": "garrytan/qa"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "02c126392d9f7f3a1278a85465874c4cf900cda2529b460bda19b722840184cd",
+      "contentSha256": "df77b1351da3886ab547a226d8d0b33a00842bca1e541b805b4e0169e7453972",
+      "id": "mattpocock/diagnosing-bugs"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "81f5033f4a26941252287b16c4db83637491d0689ceb2270573673b2d4bb11b7",
+      "contentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
+      "id": "mattpocock/grill-me"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "9ad075a0676e63a2f9cf3255375b3f98e4eda0253ed1b0c777c77b79ec131a8c",
+      "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+      "id": "mattpocock/grilling"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "86d08660b66d500399f739f23633381e6f3b2914bb79c701957d0a18f4eac726",
+      "contentSha256": "fb23458098bb2eea695a906fe8b554be9bdbdda851fc1d87682ec23b80f1cff8",
+      "id": "mattpocock/handoff"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "deac6f7b00ec4a669d5ed7086e15002b69308201761539a55890afaf8ebaa125",
+      "contentSha256": "eb07fcf50aea873ffa809407798eedb586193f7636950d27a457bfc61b7fa7f8",
+      "id": "mattpocock/wayfinder"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "70594ef32e77abccbbd13eafac770a7d5790099d98a727dc51ccaef09c6fbeb7",
+      "contentSha256": "4b88547826efb8a6e989119a49267a85107bdd349d0de77ed71aa679923932b9",
+      "id": "obra/brainstorming"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "5915c13cd763950da8e6f26d7bbce09a4f024edc14e1867a3b9d61293348d43c",
+      "contentSha256": "17b6dbb5903798fd3cc06871b95e4c7ce16763dcc5182b8da5114845b9469b7a",
+      "id": "obra/executing-plans"
+    },
+    {
+      "applicable": false,
+      "behavioralSha256": "50272136351894c4ee080d3916af4764f758dd4621de4a783e1a6178c6f818ba",
       "contentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
       "id": "obra/receiving-code-review"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "bcffa30f3adc56da0e7880defc0f5451476b599fe344904d3ad949d41a1b368c",
+      "contentSha256": "1de89db6429470eefe80ab16c65e7742ad96b1155ba4d3aef38715293baacf2e",
+      "id": "obra/subagent-driven-development"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "0239acee1f7679dfddf3e0a280420e596ac8465c2d421b14f47fc419732440a7",
+      "contentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
+      "id": "obra/systematic-debugging"
+    },
+    {
+      "applicable": true,
+      "behavioralSha256": "adcfd7878624974bbef37fc9aa1fb6383c05622fdda9bc1bb20360d5f4dfd57f",
+      "contentSha256": "c5a7509a90d254f630fde69d1a1dbf05e3c238bcd113b5257e642094a6d27326",
+      "id": "obra/verification-before-completion"
     }
   ]
 }

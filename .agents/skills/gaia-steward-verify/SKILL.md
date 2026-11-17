@@ -31,6 +31,13 @@ gaia steward verify DEBT_ID --diff candidate.diff --proof proof.json
 Exit `1` (reject) and `3` (escalate) are final for this attempt. Exit `0` means
 only that the machine did not object.
 
+On an ephemeral cloud host the builder's files are gone. With custody on
+(`GAIA_STEWARD_EVIDENCE=git`) run `gaia steward evidence verify DEBT_ID` instead: it
+retrieves the ORIGINAL receipts, diff and proof from `steward/evidence`, authenticates
+them, runs the same mechanical verifier and publishes the verdict. If it prints
+`BLOCKED: provenance unavailable`, stop and report that. Never dispatch again to make
+a verification possible.
+
 ## Output
 
 ```bash

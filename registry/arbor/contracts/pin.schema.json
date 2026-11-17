@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-pin/v1",
+  "title": "Arbor subject pin",
+  "description": "Immutable identity record for one exact canonical skill byte string. It is derived deterministically from those bytes when the subject is admitted (or backfilled from a verified historical blob), and records the behavioural identity digest used to decide whether later canonical bytes are behaviour-equivalent. It carries no claim, observation, interpretation or prestige.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "skill", "identity", "instruction"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-pin/v1"},
+    "skill": {"$ref": "#/definitions/skill"},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "behavioralSha256"],
+      "properties": {
+        "version": {"const": "gaia.arbor-behavioral-identity/v1"},
+        "behavioralSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "instruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "repository", "path", "ref", "refKind"],
+      "properties": {
+        "url": {"type": ["string", "null"]},
+        "repository": {"type": ["string", "null"]},
+        "path": {"type": ["string", "null"]},
+        "ref": {"type": ["string", "null"]},
+        "refKind": {"enum": ["commit", "mutable", "unobservable", "none"]}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    }
+  }
+}

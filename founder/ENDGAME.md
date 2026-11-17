@@ -397,9 +397,21 @@ Yggdrasil fusion means:
 
 Arbor interaction means:
 
-> These capabilities empirically alter one another during execution.
+> These capabilities alter one another during execution.
 
-They must remain separate graph semantics.
+An Arbor edge carries its evidence tier. An edge may begin as a **declared**
+hypothesis (`expert-declared`): source-backed, stated with conditions, and
+unmeasured. Only a focused observation plus an explicit governed interpretation
+makes an interaction **empirically** supported, and only research-owned
+acceptance makes it an earned outcome. A declared edge is never presented as
+observed, never grants an invocation permission, and never confers a
+Hell-Heaven stamp.
+
+They must remain separate graph semantics. A Yggdrasil composition may be the
+*reason* someone hypothesises an Arbor interaction (for example, a fusion of
+grilling and ubiquitous language), but the structural edge never becomes an
+observed behavioural edge by itself (reconciled 2026-11-14, #2440; see
+`registry/arbor/README.md` § Doctrine).
 
 A pair may have both kinds of edges.
 

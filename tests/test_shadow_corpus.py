@@ -20,6 +20,14 @@ from gaia_cli.fusionScore import computeFusionScore
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PINNED_TIME = dt.datetime(2026, 10, 25, 0, 0, 0, tzinfo=dt.timezone.utc)
 
+# The live-corpus census flags any evidence date later than its evaluation time
+# as a "future-date" anomaly. A frozen pin therefore turns every row ingested
+# from a source that started after the pin (for example a repository created
+# after 2026-10-25) into a false CI failure. For full-corpus checks the reference
+# clock is the later of the pin and the real clock, so only dates that are
+# genuinely in the future are flagged. Synthetic-repo tests keep PINNED_TIME.
+corpusCensusTime = max(PINNED_TIME, dt.datetime.now(dt.timezone.utc))
+
 
 def independentCorpusCounts() -> dict[str, Any]:
     """Count the corpus directly (census scope: registry/named/**/*.md, registry/nodes/**/*.json).
@@ -110,7 +118,7 @@ def test_output_path_safeguards_allow_ignored_and_external_paths(tmp_path: Path)
 
 def test_census_full_corpus_statuses_and_counts() -> None:
     """Census must load every record and reconcile yaml.safe_load vs load_yaml_simple."""
-    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
+    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=corpusCensusTime)
 
     expected = independentCorpusCounts()
     assert census.totalNamedFiles == expected["named"]
@@ -406,7 +414,7 @@ def test_cli_shadow_command_writes_into_scratch(tmp_path: Path) -> None:
 def test_full_corpus_containment_and_zero_canonical_mutation() -> None:
     """Full-corpus census and shadow evaluation must leave zero canonical changes."""
     beforeManifest = sc.buildFileDigestManifest(REPO_ROOT)
-    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
+    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=corpusCensusTime)
 
     expected = independentCorpusCounts()
     assert census.totalNamedFiles == expected["named"]

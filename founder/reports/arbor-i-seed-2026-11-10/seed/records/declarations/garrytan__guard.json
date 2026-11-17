@@ -1,0 +1,21 @@
+{
+  "claims": [
+    {
+      "authority": {
+        "actor": "garrytan - owner of the canonical skill and of the repository its instructions are in (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which read those instructions, chose the facet and wrote the claim.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from lines 1-38, 47-50, 61-73, 83-84 of garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:guard/SKILL.md (sha256 74417889d310a0c62cf0be65a88e056ee4709b8fcea20c73e33b323f39e8956c; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "An interactive Claude Code session in which skill-declared PreToolUse hooks run, with the gstack careful and freeze skill directories both installed under ~/.claude/skills/gstack, a person who supplies the edit boundary, and a person who can answer permission prompts.",
+      "facet": "human-led",
+      "id": "combined-command-and-edit-guard",
+      "rationale": "The source describes itself as 'the combination of /careful + /freeze in a single command' (line 47). Its frontmatter registers the careful checking script on Bash and PowerShell and the freeze checking script on Edit, Write and NotebookEdit (lines 1-38), and its setup asks the person for the directory and records it through the same shared state writer (lines 61-70). It adds no behaviour of its own: it points to /careful for the pattern list and to /freeze for boundary enforcement (lines 83-84). The person-owned decisions are therefore the two its components carry: the boundary, and each flagged command. It inherits both components' stated limits and adds a dependency: 'Both must be installed' (line 50). It also tells the agent not to claim the boundary is active if the state writer fails (line 73). Falsified under the same observations as its two components."
+    }
+  ],
+  "declarationId": "arbor-i-seed.garrytan.guard.v1",
+  "declaredAt": "2026-11-10T18:23:00Z",
+  "schema": "gaia.arbor-expert-declaration/v1",
+  "skill": {
+    "contentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
+    "id": "garrytan/guard"
+  }
+}

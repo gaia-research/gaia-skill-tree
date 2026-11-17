@@ -4,6 +4,97 @@
     "pairsEvaluated": 0
   },
   "edgeSetVersion": "gaia.arbor-edge/v1",
-  "edges": [],
+  "edges": [
+    {
+      "authority": {
+        "actor": "mattpocock - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 1-7; to 1-30) - from: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grill-me/SKILL.md (sha256 caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637; the canonical record links ref 'main'); to: mattpocock/skills@4ae2317ddb22b046e26455e4f9c9b3aaaf62212d:skills/productivity/grilling/SKILL.md (sha256 a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "Both skills are candidates for the same need in one session, for example when a retrieval returns both for a request to stress-test a plan.",
+      "declarationSource": "84143e10c1aacff724885b3541187ba39f0c2ccda2008e4b0668698d1213fe71",
+      "edgeKey": "16b9586c7de948b37be37feabf5b048e54d2dbe4830bd29ef219d4ffe27232e9",
+      "interpretationSource": null,
+      "observationSources": [],
+      "pair": {
+        "from": {
+          "contentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
+          "id": "mattpocock/grill-me"
+        },
+        "to": {
+          "contentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
+          "id": "mattpocock/grilling"
+        }
+      },
+      "pairApplicable": true,
+      "relation": "duplicates",
+      "schema": "gaia.arbor-edge/v1",
+      "structuralOverlap": "not-evaluated",
+      "support": "expert-declared",
+      "target": {
+        "claimId": "redirect-carries-no-separate-behaviour",
+        "declarationSha256": "84143e10c1aacff724885b3541187ba39f0c2ccda2008e4b0668698d1213fe71"
+      }
+    },
+    {
+      "authority": {
+        "actor": "garrytan - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 105, 225-258, 298-308; to 106, 142, 259-283, 318-326, 401-403) - from: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-save/SKILL.md (sha256 8c182dd16eb524d41d8ece5497bd261ebb0cd65ff0d5e97d9a9dc236cf7b0e77; the canonical record links ref 'main'); to: garrytan/gstack@ee3bae40284a90c281ddf5b45f67e23a452c15a7:context-restore/SKILL.md (sha256 86e2a4ac539fee58f0a81c0c80c065373df5779886151ab71b28cd8927b7989a; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "The same project, on the same machine or a machine sharing the gstack state root, where a save has been made in an earlier session or before compaction, so that a checkpoint exists. With no checkpoint the 'to' skill still runs, by a different route, and this relation does not apply.",
+      "declarationSource": "8be1933e971b0ce01aae7004d572109cdc58efbb0aa01a8e7df15a0fbcf82614",
+      "edgeKey": "e29e9d77b77ba167f2f034556c4760ed9cb98ed1e774f1c3996f320fd52756ec",
+      "interpretationSource": null,
+      "observationSources": [],
+      "pair": {
+        "from": {
+          "contentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
+          "id": "garrytan/context-save"
+        },
+        "to": {
+          "contentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
+          "id": "garrytan/context-restore"
+        }
+      },
+      "pairApplicable": true,
+      "relation": "unlocks",
+      "schema": "gaia.arbor-edge/v1",
+      "structuralOverlap": "not-evaluated",
+      "support": "expert-declared",
+      "target": {
+        "claimId": "restore-reads-what-save-wrote",
+        "declarationSha256": "8be1933e971b0ce01aae7004d572109cdc58efbb0aa01a8e7df15a0fbcf82614"
+      }
+    },
+    {
+      "authority": {
+        "actor": "obra - owner of both canonical skills, whose instructions contain the cross-reference this relation reads (primary attribution). Supporting author: Claude (Anthropic AI agent), Claude Code cloud session session_018A6ag6h5SknkmTL7oGeeuJ, which named the relation and wrote its conditions and caveats.",
+        "basis": "Evidence tier: source-declared (projected support: expert-declared). Read from the two skills' instructions (lines: from 17-20, 190-210; to 197-198) - from: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/systematic-debugging/SKILL.md (sha256 51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202; the canonical record links ref 'main'); to: obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7:skills/executing-plans/SKILL.md (sha256 deaf176fa179827e80f2ea3101db3ea90fdf562ebef340eba761e4687940f5f5; the canonical record links ref 'main'). The classification, the conditions and the wording are the supporting author's reading of those instructions; the skill owner did not write, review or endorse them. Not benchmark-observed: no receipt, telemetry or runtime observation exists. Not governed-interpreted: no curator interpretation exists. Governance: in the review its decision log dates 2026-11-11 (a local date; the log reached this session on 2026-11-10 UTC, before this record was declared) the project owner (mbtiongson1) ruled that every canonical skill is an Arbor subject and set this attribution pattern; that ruling does not ratify this claim's text. Quotations were checked against the cited bytes after normalising punctuation and markdown emphasis, and the draft was revised after one independent agent review. Record: founder/reports/arbor-i-seed-2026-11-10/HANDOFF.md."
+      },
+      "conditions": "During plan execution under the 'to' skill, a step's observed output does not match the plan because the code is wrong, and the 'from' skill is available to load.",
+      "declarationSource": "fc54d204470d4db7c8d75dc3a754e9a4ac747f74a1a04efde02976ce554658ef",
+      "edgeKey": "e4783566b559c9da79007a2bd0607cb25b8803f631b4180dbb06e7b9c24da932",
+      "interpretationSource": null,
+      "observationSources": [],
+      "pair": {
+        "from": {
+          "contentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
+          "id": "obra/systematic-debugging"
+        },
+        "to": {
+          "contentSha256": "17b6dbb5903798fd3cc06871b95e4c7ce16763dcc5182b8da5114845b9469b7a",
+          "id": "obra/executing-plans"
+        }
+      },
+      "pairApplicable": true,
+      "relation": "recovers",
+      "schema": "gaia.arbor-edge/v1",
+      "structuralOverlap": "not-evaluated",
+      "support": "expert-declared",
+      "target": {
+        "claimId": "named-recovery-route-when-code-is-wrong",
+        "declarationSha256": "fc54d204470d4db7c8d75dc3a754e9a4ac747f74a1a04efde02976ce554658ef"
+      }
+    }
+  ],
   "schema": "gaia.arbor-edge-index/v1"
 }

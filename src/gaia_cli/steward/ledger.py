@@ -588,6 +588,15 @@ class GitRefLedgerStore:
         tree = self.plumb(
             ["mktree"], stdin=f"100644 blob {blob}\t{LEDGER_FILENAME}\n".encode("utf-8")
         )
+        return self.publishTree(expected, tree, message)
+
+    def publishTree(self, expected: str | None, tree: str, message: str) -> str:
+        """Commit `tree` on top of `expected` and fast-forward-push it. The one CAS tail.
+
+        Shared with the evidence-custody store so both stores keep exactly one
+        compare-and-swap implementation: no force, no lease option.
+        """
+
         # The nonce keeps two writers that read the same version and wrote the
         # same bytes from producing the identical commit: the second push must
         # still be a conflict, not a silent no-op.

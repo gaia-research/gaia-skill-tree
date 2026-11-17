@@ -35,6 +35,9 @@ HH_OBSERVATION_REF_SCHEMA = "gaia.hh-observation-ref/v1"
 HH_ACCEPTANCE_SCHEMA = "gaia.hh-acceptance/v1"
 RUNTIME_SCHEMA = "gaia.arbor-runtime/v1"
 RUNTIME_INDEX_SCHEMA = "gaia.arbor-runtime-index/v1"
+PIN_SCHEMA = "gaia.arbor-pin/v1"
+INSTRUCTION_OBSERVATION_SCHEMA = "gaia.arbor-instruction-observation/v1"
+IDENTITY_VERSION = "gaia.arbor-behavioral-identity/v1"
 
 PRESTIGE_KEYS = {
     "grade",
@@ -111,6 +114,8 @@ SCHEMA_FILES = {
     HH_OBSERVATION_REF_SCHEMA: "hh-observation-ref.schema.json",
     HH_ACCEPTANCE_SCHEMA: "hh-acceptance.schema.json",
     RUNTIME_SCHEMA: "runtime.schema.json",
+    PIN_SCHEMA: "pin.schema.json",
+    INSTRUCTION_OBSERVATION_SCHEMA: "instruction-observation.schema.json",
 }
 SOURCE_DIRECTORIES = {
     DECLARATION_SCHEMA: "declarations",
@@ -426,6 +431,14 @@ def importSource(inputPath: str | Path, registryRoot: str | Path) -> tuple[Path,
         buildEdgeEntries(sources, registryRoot)
         buildRuntime(registryRoot, sources)
 
+        if not destination.is_file():
+            # Admission verified these bytes as current, so their pin is exact.
+            for subject in admittedSubjects(schemaId, record):
+                publishPin(
+                    registryRoot,
+                    subject["id"],
+                    canonicalSkillPath(subject["id"], registryRoot).read_bytes(),
+                )
         created = publishImmutable(destination, canonicalBytes(record) + b"\n")
         return destination, digest, created
 
@@ -848,6 +861,745 @@ def currentEndpointMatches(endpoint: dict, registryRoot: str | Path) -> bool:
     return hashlib.sha256(path.read_bytes()).hexdigest() == endpoint["contentSha256"]
 
 
+# --- Behavioural identity, subject pins and instruction observations (#2441) ---
+#
+# A source record pins ``contentSha256`` of the whole canonical skill file. That
+# file also carries prestige and history (evidence, timeline, level, trust), so
+# exact-byte matching made Arbor knowledge go dark on every curation edit, while
+# a change to upstream instructions behind a mutable link left it applicable.
+#
+# The pinned hash stays the immutable identity of every source record. What
+# changes is how the *projection* decides applicability:
+#
+# * A pin (``registry/arbor/pins/<id>/<contentSha256>.json``) records, once, the
+#   behavioural identity digest of the pinned bytes: the canonical record with
+#   prestige/history fields removed. Unknown fields stay in the digest, so a new
+#   field fails closed (invalidates) rather than being silently ignored.
+# * The current canonical bytes are reduced the same way. Equal digests mean the
+#   pinned knowledge still describes this skill; otherwise it is inapplicable.
+# * Upstream instruction bytes behind a mutable link are tracked by immutable
+#   instruction observations. A drift-check whose bytes differ from the baseline
+#   (or that found the upstream unavailable) makes the subject inapplicable.
+#
+# Because the projection reads only the behavioural digest, a prestige-only edit
+# no longer changes any generated Arbor file, and a behavioural edit changes it
+# deterministically (and is caught by ``gaia dev arbor check``).
+
+# Fields that describe standing, provenance-of-standing or history. Anything not
+# listed here is treated as behavioural, so new or unknown fields fail closed.
+NONBEHAVIORAL_NAMED_KEYS = frozenset(
+    {
+        "apexGateStatus",
+        "attribution",
+        "catalogRef",
+        "createdAt",
+        "evidence",
+        "level",
+        "name",
+        "origin",
+        "overallTrustGrade",
+        "provisional",
+        "provisionalUntil",
+        "status",
+        "tags",
+        "timeline",
+        "title",
+        "trustMagnitude",
+        "trustMagnitudeInputHash",
+        "updatedAt",
+        "verification",
+    }
+)
+NONBEHAVIORAL_NODE_KEYS = frozenset(
+    {
+        "createdAt",
+        "derivatives",
+        "evidence",
+        "knownAgents",
+        "name",
+        "status",
+        "timeline",
+        "title",
+        "updatedAt",
+        "verification",
+    }
+)
+# Bookkeeping inside a behavioural block (the release identity stays).
+NONBEHAVIORAL_UPSTREAM_KEYS = frozenset({"syncedAt"})
+GITHUB_BLOB_PATTERN = re.compile(
+    r"^https://github\.com/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)/blob/([^/]+)/(.+)$"
+)
+COMMIT_PATTERN = re.compile(r"^[a-f0-9]{40}$")
+
+
+def _jsonable(value: object) -> object:
+    if isinstance(value, dict):
+        return {str(key): _jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_jsonable(item) for item in value]
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    return str(value)
+
+
+def splitFrontmatter(data: bytes) -> tuple[dict, str] | None:
+    """Parse a named-skill markdown record; ``None`` when it has no frontmatter."""
+
+    import yaml
+
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+    if not text.startswith("---\n"):
+        return None
+    end = text.find("\n---", 4)
+    if end < 0:
+        return None
+    try:
+        frontmatter = yaml.safe_load(text[4:end])
+    except yaml.YAMLError:
+        return None
+    if not isinstance(frontmatter, dict):
+        return None
+    closing = text.find("\n", end + 1)
+    body = "" if closing < 0 else text[closing + 1:]
+    return _jsonable(frontmatter), body
+
+
+def behavioralView(skillId: str, data: bytes) -> object:
+    """Return the behavioural part of one canonical record (fail closed).
+
+    Unparseable bytes are returned whole, so any change to them still counts as
+    a behavioural change.
+    """
+
+    if "/" in skillId:
+        parsed = splitFrontmatter(data)
+        if parsed is None:
+            return {"raw": hashlib.sha256(data).hexdigest()}
+        frontmatter, body = parsed
+        kept = {
+            key: value
+            for key, value in frontmatter.items()
+            if key not in NONBEHAVIORAL_NAMED_KEYS
+        }
+        if isinstance(kept.get("upstream"), dict):
+            kept["upstream"] = {
+                key: value
+                for key, value in kept["upstream"].items()
+                if key not in NONBEHAVIORAL_UPSTREAM_KEYS
+            }
+        return {"frontmatter": kept, "body": body}
+    try:
+        record = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {"raw": hashlib.sha256(data).hexdigest()}
+    if not isinstance(record, dict):
+        return {"raw": hashlib.sha256(data).hexdigest()}
+    return {
+        key: value for key, value in record.items() if key not in NONBEHAVIORAL_NODE_KEYS
+    }
+
+
+def behavioralDigest(skillId: str, data: bytes) -> str:
+    return contentDigest([IDENTITY_VERSION, skillId, behavioralView(skillId, data)])
+
+
+def instructionLink(skillId: str, data: bytes) -> dict:
+    """Describe the canonical instruction link (``links.github``) of these bytes."""
+
+    url = None
+    if "/" in skillId:
+        parsed = splitFrontmatter(data)
+        if parsed is not None:
+            links = parsed[0].get("links")
+            if isinstance(links, dict) and isinstance(links.get("github"), str):
+                url = links["github"]
+    match = GITHUB_BLOB_PATTERN.fullmatch(url) if url else None
+    if match is None:
+        # A link that exists but is not a GitHub blob URL (a tree/ link, another
+        # host) cannot be observed, so it must not count as "no instructions".
+        return {
+            "url": url,
+            "repository": None,
+            "path": None,
+            "ref": None,
+            "refKind": "unobservable" if url else "none",
+        }
+    repository, ref, path = match.groups()
+    return {
+        "url": url,
+        "repository": repository,
+        "path": path,
+        "ref": ref,
+        "refKind": "commit" if COMMIT_PATTERN.fullmatch(ref) else "mutable",
+    }
+
+
+def buildPin(skillId: str, data: bytes) -> dict:
+    return {
+        "schema": PIN_SCHEMA,
+        "skill": {"id": skillId, "contentSha256": hashlib.sha256(data).hexdigest()},
+        "identity": {
+            "version": IDENTITY_VERSION,
+            "behavioralSha256": behavioralDigest(skillId, data),
+        },
+        "instruction": instructionLink(skillId, data),
+    }
+
+
+def pinPath(root: Path, skillId: str, skillHash: str) -> Path:
+    if not SKILL_ID_PATTERN.fullmatch(skillId):
+        raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
+    if not re.fullmatch(r"[a-f0-9]{64}", skillHash):
+        raise ArborError(f"invalid Arbor skill hash: {skillHash!r}")
+    return managedChild(root, "pins", *Path(*skillId.split("/")).parts, f"{skillHash}.json")
+
+
+def observationPath(root: Path, record: dict) -> Path:
+    skill = record["skill"]
+    if not SKILL_ID_PATTERN.fullmatch(skill["id"]):
+        raise ArborError(f"unsafe Arbor skill id: {skill['id']!r}")
+    return managedChild(
+        root,
+        "instruction-observations",
+        *Path(*skill["id"].split("/")).parts,
+        skill["contentSha256"],
+        f"{contentDigest(record)}.json",
+    )
+
+
+def currentCanonicalBytes(skillId: str, registryRoot: str | Path) -> bytes | None:
+    try:
+        return canonicalSkillPath(skillId, registryRoot).read_bytes()
+    except ArborError:
+        return None
+
+
+def gitHistoryStatus(registryRoot: str | Path) -> str:
+    """Return ``full``, ``shallow`` or ``none`` for the repository holding the store."""
+
+    import subprocess
+
+    repo = repositoryRoot(registryRoot)
+    result = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "--is-shallow-repository"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or not (repo / ".git").exists():
+        return "none"
+    return "shallow" if result.stdout.strip() == "true" else "full"
+
+
+def historicalBlob(registryRoot: str | Path, skillId: str, contentSha256: str) -> bytes | None:
+    """Find the canonical record bytes hashing to ``contentSha256`` in git history."""
+
+    import subprocess
+
+    repo = repositoryRoot(registryRoot)
+    if "/" in skillId:
+        contributor, slug = skillId.split("/")
+        candidates = [f"registry/named/{contributor}/{slug}.md"]
+    else:
+        candidates = [f"registry/nodes/{kind}/{skillId}.json" for kind in ("basic", "fusion")]
+    for relative in candidates:
+        result = subprocess.run(
+            ["git", "-C", str(repo), "log", "--all", "--full-history", "--format=%H", "--", relative],
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            continue
+        seen: set[str] = set()
+        for commit in result.stdout.split():
+            blob = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", f"{commit}:{relative}"],
+                capture_output=True,
+                text=True,
+            )
+            objectId = blob.stdout.strip()
+            if blob.returncode != 0 or objectId in seen:
+                continue
+            seen.add(objectId)
+            data = subprocess.run(
+                ["git", "-C", str(repo), "cat-file", "blob", objectId], capture_output=True
+            ).stdout
+            if hashlib.sha256(data).hexdigest() == contentSha256:
+                return data
+    return None
+
+
+def loadPins(
+    registryRoot: str | Path, requireHistory: bool = False
+) -> dict[tuple[str, str], dict]:
+    """Load every pin, rejecting misplaced, non-canonical or forged records.
+
+    Every pin is re-derived from the bytes it names: the current canonical
+    file when it still hashes to the pin, otherwise the matching blob in git
+    history. Without full history an older pin cannot be re-derived; that is
+    an error when ``requireHistory`` is set (CI) and is skipped otherwise.
+    """
+
+    root = arborRoot(registryRoot)
+    directory = managedChild(root, "pins")
+    assertManagedTree(directory)
+    pins: dict[tuple[str, str], dict] = {}
+    history: str | None = None
+    if not directory.exists():
+        return pins
+    for path in sorted(directory.rglob("*.json")):
+        if path.is_symlink():
+            raise ArborError(f"Arbor pin must not be a symlink: {path}")
+        record = readJson(path)
+        if validateRecord(record, registryRoot) != PIN_SCHEMA:
+            raise ArborError(f"wrong Arbor record type in {path}")
+        skill = record["skill"]
+        if path != pinPath(root, skill["id"], skill["contentSha256"]):
+            raise ArborError(f"Arbor pin is stored at the wrong path: {path}")
+        if path.read_bytes() != canonicalBytes(record) + b"\n":
+            raise ArborError(f"Arbor pin is not canonically serialized: {path}")
+        current = currentCanonicalBytes(skill["id"], registryRoot)
+        if current is not None and hashlib.sha256(current).hexdigest() == skill["contentSha256"]:
+            pinned = current
+        else:
+            if history is None:
+                history = gitHistoryStatus(registryRoot)
+            if history != "full":
+                if requireHistory:
+                    raise ArborError(
+                        f"cannot verify historical Arbor pin {path} without full git history "
+                        f"(repository is {history}); fetch full history"
+                    )
+                pinned = None
+            else:
+                pinned = historicalBlob(registryRoot, skill["id"], skill["contentSha256"])
+                if pinned is None:
+                    raise ArborError(
+                        f"Arbor pin names bytes that exist neither now nor in git history: {path}"
+                    )
+        if pinned is not None and buildPin(skill["id"], pinned) != record:
+            raise ArborError(f"Arbor pin does not match its pinned canonical bytes: {path}")
+        pins[(skill["id"], skill["contentSha256"])] = record
+    return pins
+
+
+def citedInstructions(sources: dict[str, dict[str, dict]]) -> dict[tuple[str, str], set[tuple[str, str]]]:
+    """Map each subject to the (commit, sha256) pairs its immutable sources cite.
+
+    Claims cite ``<repository>@<commit>:<path> (sha256 <hex>)`` in
+    ``authority.basis``; only a citation of the subject's own pinned path
+    counts.
+    """
+
+    pattern = re.compile(
+        r"([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@([a-f0-9]{40}):(\S+?) \(sha256 ([a-f0-9]{64})"
+    )
+    cited: dict[tuple[str, str], set[tuple[str, str, str, str]]] = {}
+    for schemaId in (DECLARATION_SCHEMA, EDGE_DECLARATION_SCHEMA):
+        for record in sources.get(schemaId, {}).values():
+            subjects = admittedSubjects(schemaId, record)
+            for claim in record["claims"]:
+                for match in pattern.finditer(claim["authority"]["basis"]):
+                    for subject in subjects:
+                        cited.setdefault(
+                            (subject["id"], subject["contentSha256"]), set()
+                        ).add(match.groups())
+    return cited
+
+
+def loadObservations(
+    registryRoot: str | Path,
+    pins: dict[tuple[str, str], dict],
+    sources: dict[str, dict[str, dict]] | None = None,
+) -> dict[tuple[str, str], list[dict]]:
+    root = arborRoot(registryRoot)
+    directory = managedChild(root, "instruction-observations")
+    assertManagedTree(directory)
+    grouped: dict[tuple[str, str], list[dict]] = {}
+    if not directory.exists():
+        return grouped
+    cited = citedInstructions(sources if sources is not None else allSourceRecords(registryRoot))
+    for path in sorted(directory.rglob("*.json")):
+        if path.is_symlink():
+            raise ArborError(f"Arbor observation must not be a symlink: {path}")
+        record = readJson(path)
+        if validateRecord(record, registryRoot) != INSTRUCTION_OBSERVATION_SCHEMA:
+            raise ArborError(f"wrong Arbor record type in {path}")
+        if path != observationPath(root, record):
+            raise ArborError(f"Arbor instruction observation is stored at the wrong path: {path}")
+        if path.read_bytes() != canonicalBytes(record) + b"\n":
+            raise ArborError(f"Arbor instruction observation is not canonically serialized: {path}")
+        validateObservation(record, pins)
+        key = (record["skill"]["id"], record["skill"]["contentSha256"])
+        if record["purpose"] == "baseline":
+            validateBaselineCitation(record, cited.get(key, set()))
+        grouped.setdefault(key, []).append(record)
+    for key, records in grouped.items():
+        baselines = {
+            item["observed"]["sha256"]
+            for item in records
+            if item["purpose"] == "baseline"
+        }
+        if len(baselines) > 1:
+            raise ArborError(f"conflicting Arbor instruction baselines for {key[0]}")
+    return grouped
+
+
+def validateBaselineCitation(record: dict, cited: set[tuple[str, str, str, str]]) -> None:
+    """A baseline must be the exact bytes an immutable source says it read."""
+
+    expected = (
+        record["instruction"]["repository"],
+        record["observed"]["commit"],
+        record["instruction"]["path"],
+        record["observed"]["sha256"],
+    )
+    if expected not in cited:
+        raise ArborError(
+            f"baseline instruction observation for {record['skill']['id']} is not cited by any "
+            "of its immutable declarations; a claim's authority.basis must contain "
+            "`<owner>/<repo>@<40-hex commit>:<path> (sha256 <64-hex>)` for this exact link and bytes"
+        )
+
+
+def validateObservation(record: dict, pins: dict[tuple[str, str], dict]) -> None:
+    skill = record["skill"]
+    pin = pins.get((skill["id"], skill["contentSha256"]))
+    if pin is None:
+        raise ArborError(f"instruction observation names an unpinned subject: {skill['id']}")
+    instruction = pin["instruction"]
+    if instruction["refKind"] in {"none", "unobservable"}:
+        raise ArborError(f"instruction observation for a subject with no observable instruction link: {skill['id']}")
+    expected = {
+        "repository": instruction["repository"],
+        "path": instruction["path"],
+        "ref": instruction["ref"],
+    }
+    if record["instruction"] != expected:
+        raise ArborError(
+            f"instruction observation does not match the pinned link of {skill['id']}"
+        )
+    observed = record["observed"]
+    available = observed["status"] == "available"
+    if available != (observed["sha256"] is not None and observed["commit"] is not None):
+        raise ArborError("an available observation needs commit and sha256; an unavailable one has neither")
+    if record["purpose"] == "baseline" and not available:
+        raise ArborError("a baseline instruction observation must be available")
+
+
+def identityState(
+    registryRoot: str | Path,
+    sources: dict[str, dict[str, dict]] | None = None,
+    requireHistory: bool = False,
+) -> dict:
+    pins = loadPins(registryRoot, requireHistory)
+    return {
+        "pins": pins,
+        "observations": loadObservations(registryRoot, pins, sources),
+        "current": {},
+    }
+
+
+def subjectApplicability(subject: dict, state: dict, registryRoot: str | Path) -> dict:
+    """Decide whether knowledge pinned to ``subject`` applies to the current skill."""
+
+    skillId = subject["id"]
+    pin = state["pins"].get((skillId, subject["contentSha256"]))
+    if skillId not in state["current"]:
+        data = currentCanonicalBytes(skillId, registryRoot)
+        state["current"][skillId] = (
+            None
+            if data is None
+            else (hashlib.sha256(data).hexdigest(), behavioralDigest(skillId, data))
+        )
+    current = state["current"][skillId]
+    behavioral = pin["identity"]["behavioralSha256"] if pin else None
+    refKind = pin["instruction"]["refKind"] if pin else "none"
+    if current is None:
+        canonical = "missing"
+    elif pin is None:
+        # Without a pin only exact bytes can be trusted; check() requires pins.
+        canonical = "behavior-equivalent" if current[0] == subject["contentSha256"] else "unpinned"
+    else:
+        canonical = "behavior-equivalent" if current[1] == behavioral else "behavior-changed"
+
+    observations = state["observations"].get((skillId, subject["contentSha256"]), [])
+    baseline = next(
+        (item["observed"]["sha256"] for item in observations if item["purpose"] == "baseline"),
+        None,
+    )
+    if refKind == "none":
+        instructionStatus = "no-instruction-link"
+    elif refKind == "unobservable":
+        instructionStatus = "instruction-unobservable"
+    elif any(
+        item["purpose"] == "drift-check" and item["observed"]["status"] == "unavailable"
+        for item in observations
+    ):
+        instructionStatus = "instruction-unavailable"
+    elif baseline is not None and any(
+        item["purpose"] == "drift-check" and item["observed"]["sha256"] != baseline
+        for item in observations
+    ):
+        instructionStatus = "instruction-changed"
+    elif refKind == "commit":
+        instructionStatus = "immutable-ref"
+    elif baseline is not None:
+        instructionStatus = "baseline-observed"
+    else:
+        instructionStatus = "mutable-ref-unobserved"
+    return {
+        # Applicable only when the instructions are known: no link, an immutable
+        # commit link, or a mutable link with a verified baseline and no drift.
+        "applicable": canonical == "behavior-equivalent"
+        and instructionStatus in {"no-instruction-link", "immutable-ref", "baseline-observed"},
+        "identityVersion": IDENTITY_VERSION,
+        "behavioralSha256": behavioral,
+        "canonical": canonical,
+        "instruction": {
+            "status": instructionStatus,
+            "refKind": refKind,
+            "baselineSha256": baseline,
+        },
+    }
+
+
+def admittedSubjects(schemaId: str, record: dict) -> list[dict]:
+    if schemaId == DECLARATION_SCHEMA:
+        return [record["skill"]]
+    if schemaId == EDGE_DECLARATION_SCHEMA:
+        return [record["pair"]["from"], record["pair"]["to"]]
+    if schemaId == HH_ACCEPTANCE_SCHEMA:
+        return [record["subject"]]
+    return []
+
+
+def sourceSubjects(sources: dict[str, dict[str, dict]]) -> set[tuple[str, str]]:
+    subjects: set[tuple[str, str]] = set()
+    for schemaId in (DECLARATION_SCHEMA, EDGE_DECLARATION_SCHEMA, HH_ACCEPTANCE_SCHEMA):
+        for record in sources.get(schemaId, {}).values():
+            for subject in admittedSubjects(schemaId, record):
+                subjects.add((subject["id"], subject["contentSha256"]))
+    return subjects
+
+
+def publishPin(registryRoot: str | Path, skillId: str, data: bytes) -> tuple[Path, bool]:
+    record = buildPin(skillId, data)
+    validateRecord(record, registryRoot)
+    path = pinPath(arborRoot(registryRoot), skillId, record["skill"]["contentSha256"])
+    return path, publishImmutable(path, canonicalBytes(record) + b"\n")
+
+
+def gitBlob(registryRoot: str | Path, revision: str, path: Path) -> bytes:
+    import subprocess
+
+    repo = repositoryRoot(registryRoot)
+    relative = path.relative_to(repo).as_posix()
+    result = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{revision}:{relative}"],
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        raise ArborError(
+            f"cannot read {relative} at {revision}: {result.stderr.decode(errors='replace').strip()}"
+        )
+    return result.stdout
+
+
+def pinSubject(
+    skillId: str,
+    registryRoot: str | Path,
+    contentSha256: str | None = None,
+    fromGit: str | None = None,
+) -> tuple[Path, bool]:
+    """Publish the pin for current bytes, or for a verified historical blob."""
+
+    with storeLock(registryRoot):
+        path = canonicalSkillPath(skillId, registryRoot)
+        data = gitBlob(registryRoot, fromGit, path) if fromGit else path.read_bytes()
+        actual = hashlib.sha256(data).hexdigest()
+        if contentSha256 is not None and actual != contentSha256:
+            raise ArborError(
+                f"{skillId} bytes{' at ' + fromGit if fromGit else ''} hash to {actual}, not {contentSha256}"
+            )
+        return publishPin(registryRoot, skillId, data)
+
+
+def fetchInstruction(repository: str, ref: str, path: str) -> bytes | None:
+    """Fetch raw upstream bytes; ``None`` when the upstream says they do not exist."""
+
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+
+    url = (
+        f"https://raw.githubusercontent.com/{repository}/"
+        f"{urllib.parse.quote(ref, safe='')}/{urllib.parse.quote(path)}"
+    )
+    try:
+        with urllib.request.urlopen(url, timeout=30) as response:
+            return response.read()
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return None
+        raise ArborError(f"upstream fetch failed ({exc.code}) for {url}") from exc
+    except urllib.error.URLError as exc:
+        raise ArborError(f"upstream fetch failed for {url}: {exc.reason}") from exc
+
+
+def resolveCommit(repository: str, ref: str) -> str:
+    import urllib.error
+    import urllib.request
+
+    request = urllib.request.Request(
+        f"https://api.github.com/repos/{repository}/commits/{ref}",
+        headers={"Accept": "application/vnd.github.sha"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            sha = response.read().decode("ascii").strip()
+    except (urllib.error.URLError, UnicodeDecodeError) as exc:
+        raise ArborError(f"cannot resolve {repository}@{ref} to a commit") from exc
+    if not COMMIT_PATTERN.fullmatch(sha):
+        raise ArborError(f"cannot resolve {repository}@{ref} to a commit")
+    return sha
+
+
+def utcNow() -> str:
+    from datetime import timezone
+
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def recordObservation(
+    registryRoot: str | Path,
+    skillId: str,
+    contentSha256: str,
+    purpose: str,
+    commit: str | None,
+    fetch=fetchInstruction,
+    resolve=resolveCommit,
+    expectedSha256: str | None = None,
+    observedAt: str | None = None,
+    prefetched: tuple[bytes | None] | None = None,
+) -> tuple[Path, dict, bool]:
+    """Fetch, hash and immutably record one instruction observation.
+
+    A baseline names the exact commit a declaration was read from; its bytes
+    must hash to ``expectedSha256`` and that (commit, sha256) must be cited by
+    one of the subject's immutable declarations. ``prefetched`` lets a drift
+    check record exactly the bytes it compared.
+    """
+
+    pins = loadPins(registryRoot)
+    pin = pins.get((skillId, contentSha256))
+    if pin is None:
+        raise ArborError(f"no Arbor pin for {skillId} at {contentSha256}; run `gaia dev arbor pin`")
+    instruction = pin["instruction"]
+    if instruction["refKind"] in {"none", "unobservable"}:
+        raise ArborError(f"{skillId} has no GitHub blob instruction link to observe")
+    if purpose == "baseline" and not (commit and COMMIT_PATTERN.fullmatch(commit)):
+        raise ArborError("a baseline observation needs the exact 40-hex commit the declarations were read from")
+    if purpose == "baseline" and not expectedSha256:
+        raise ArborError("a baseline observation needs --expect-sha256 (the sha256 the claim cites)")
+    target = commit or instruction["ref"]
+    data = prefetched[0] if prefetched is not None else fetch(
+        instruction["repository"], target, instruction["path"]
+    )
+    if data is None:
+        if purpose == "baseline":
+            raise ArborError(f"baseline instruction bytes are unavailable for {skillId} at {target}")
+        observed = {"status": "unavailable", "commit": None, "sha256": None}
+    else:
+        digest = hashlib.sha256(data).hexdigest()
+        if expectedSha256 is not None and digest != expectedSha256:
+            raise ArborError(
+                f"{skillId} instruction bytes at {target} hash to {digest}, not the cited {expectedSha256}"
+            )
+        resolved = commit if commit and COMMIT_PATTERN.fullmatch(commit) else resolve(
+            instruction["repository"], target
+        )
+        observed = {"status": "available", "commit": resolved, "sha256": digest}
+    record = {
+        "schema": INSTRUCTION_OBSERVATION_SCHEMA,
+        "skill": {"id": skillId, "contentSha256": contentSha256},
+        "purpose": purpose,
+        "instruction": {
+            "repository": instruction["repository"],
+            "path": instruction["path"],
+            "ref": instruction["ref"],
+        },
+        "observed": {**observed, "observedAt": observedAt or utcNow(), "method": "raw-fetch-sha256"},
+    }
+    validateRecord(record, registryRoot)
+    validateObservation(record, pins)
+    if purpose == "baseline":
+        cited = citedInstructions(allSourceRecords(registryRoot))
+        validateBaselineCitation(record, cited.get((skillId, contentSha256), set()))
+    with storeLock(registryRoot):
+        path = observationPath(arborRoot(registryRoot), record)
+        created = publishImmutable(path, canonicalBytes(record) + b"\n")
+    return path, record, created
+
+
+def upstreamCheck(
+    registryRoot: str | Path,
+    record: bool = False,
+    fetch=fetchInstruction,
+    resolve=resolveCommit,
+) -> list[dict]:
+    """Compare each observed baseline with what its mutable link serves now.
+
+    Each subject is fetched once. Status is ``unchanged``, ``changed``,
+    ``unavailable`` (the upstream says the file does not exist) or ``error``
+    (the fetch itself failed; nothing is concluded or recorded). Report-only
+    unless ``record``: then a changed or unavailable result is written as an
+    immutable drift-check observation, unless an identical drift result is
+    already recorded. Unchanged results write nothing.
+    """
+
+    state = identityState(registryRoot)
+    report = []
+    for key, observations in sorted(state["observations"].items()):
+        baseline = next(
+            (item for item in observations if item["purpose"] == "baseline"), None
+        )
+        pin = state["pins"][key]
+        if baseline is None or pin["instruction"]["refKind"] != "mutable":
+            continue
+        instruction = pin["instruction"]
+        entry = {"skill": key[0], "contentSha256": key[1]}
+        try:
+            data = fetch(instruction["repository"], instruction["ref"], instruction["path"])
+        except ArborError as exc:
+            report.append({**entry, "status": "error", "sha256": None, "error": str(exc)})
+            continue
+        digest = None if data is None else hashlib.sha256(data).hexdigest()
+        status = (
+            "unavailable"
+            if data is None
+            else "unchanged" if digest == baseline["observed"]["sha256"] else "changed"
+        )
+        entry.update({"status": status, "sha256": digest})
+        already = any(
+            item["purpose"] == "drift-check" and item["observed"]["sha256"] == digest
+            for item in observations
+        )
+        if record and status in {"changed", "unavailable"} and not already:
+            try:
+                path, _record, _created = recordObservation(
+                    registryRoot, key[0], key[1], "drift-check", None,
+                    fetch=fetch, resolve=resolve, prefetched=(data,),
+                )
+            except ArborError as exc:
+                entry.update({"status": "error", "error": str(exc)})
+            else:
+                entry["recorded"] = str(path)
+        report.append(entry)
+    return report
+
 def buildProfiles(
     declarations: dict[str, dict],
     receipts: dict[str, dict],
@@ -883,11 +1635,14 @@ def buildProfiles(
 
 
 def buildEdgeEntries(
-    sources: dict[str, dict[str, dict]], registryRoot: str | Path
+    sources: dict[str, dict[str, dict]],
+    registryRoot: str | Path,
+    state: dict | None = None,
 ) -> list[dict]:
     """Project governed edge claims without reading structural registry relations."""
 
     validateSourceSet(sources, registryRoot)
+    state = state if state is not None else identityState(registryRoot, sources)
     declarations = sources[EDGE_DECLARATION_SCHEMA]
     observations = sources[EDGE_OBSERVATION_SCHEMA]
     interpretations = sources[EDGE_INTERPRETATION_SCHEMA]
@@ -930,7 +1685,7 @@ def buildEdgeEntries(
                 "interpretationSource": interpretationDigest,
                 "structuralOverlap": "not-evaluated",
                 "pairApplicable": all(
-                    currentEndpointMatches(endpoint, registryRoot)
+                    subjectApplicability(endpoint, state, registryRoot)["applicable"]
                     for endpoint in (
                         declaration["pair"]["from"],
                         declaration["pair"]["to"],
@@ -945,9 +1700,10 @@ def buildEdgeEntries(
 def buildEdgeIndex(
     registryRoot: str | Path,
     sources: dict[str, dict[str, dict]] | None = None,
+    state: dict | None = None,
 ) -> dict:
     sources = sources or allSourceRecords(registryRoot)
-    entries = buildEdgeEntries(sources, registryRoot)
+    entries = buildEdgeEntries(sources, registryRoot, state)
     # Coverage describes observed pairs, not the number of authored claims.
     pairs = {
         pairKey(observation["pair"])
@@ -987,10 +1743,12 @@ def runtimePath(root: Path, skillId: str, skillHash: str) -> Path:
 def buildRuntime(
     registryRoot: str | Path,
     sources: dict[str, dict[str, dict]] | None = None,
+    state: dict | None = None,
 ) -> dict[Path, dict]:
     """Build one aggregate per pinned subject, with HH deliberately absent."""
 
     sources = sources or allSourceRecords(registryRoot)
+    state = state if state is not None else identityState(registryRoot, sources)
     validateSourceSet(sources, registryRoot)
     profiles = buildProfiles(
         sources[DECLARATION_SCHEMA],
@@ -1002,7 +1760,7 @@ def buildRuntime(
         (profile["skill"]["id"], profile["skill"]["contentSha256"]): profile
         for profile in profiles.values()
     }
-    edgeEntries = buildEdgeEntries(sources, registryRoot)
+    edgeEntries = buildEdgeEntries(sources, registryRoot, state)
     activeAcceptances = activeTips(
         sources[HH_ACCEPTANCE_SCHEMA],
         lambda record: (
@@ -1025,7 +1783,8 @@ def buildRuntime(
     runtimes: dict[Path, dict] = {}
     for subjectId, subjectHash in sorted(subjects):
         subject = {"id": subjectId, "contentSha256": subjectHash}
-        subjectMatches = currentEndpointMatches(subject, registryRoot)
+        applicability = subjectApplicability(subject, state, registryRoot)
+        subjectMatches = applicability["applicable"]
         profile = profileBySubject.get((subjectId, subjectHash))
         if profile is None:
             claimsLens = {
@@ -1139,6 +1898,7 @@ def buildRuntime(
             "schema": RUNTIME_SCHEMA,
             "subject": subject,
             "inputDigest": digestSourceSet(subjectSourceDigests),
+            "applicability": applicability,
             "lenses": {
                 "claims": claimsLens,
                 "hellHeaven": hhLens,
@@ -1155,7 +1915,11 @@ def buildArborArtifacts(
     sources: dict[str, dict[str, dict]] | None = None,
 ) -> tuple[dict, dict[Path, dict]]:
     sources = sources or allSourceRecords(registryRoot)
-    return buildEdgeIndex(registryRoot, sources), buildRuntime(registryRoot, sources)
+    state = identityState(registryRoot, sources)
+    return (
+        buildEdgeIndex(registryRoot, sources, state),
+        buildRuntime(registryRoot, sources, state),
+    )
 
 
 def buildArborProjection(registryRoot: str | Path) -> dict[str, dict]:
@@ -1166,8 +1930,14 @@ def buildArborProjection(registryRoot: str | Path) -> dict[str, dict]:
         str(path.relative_to(managedChild(arborRoot(registryRoot), "runtime"))): runtime
         for path, runtime in runtimes.items()
     }
+    # Consumers join on skill id and read ``applicable``; they never need to
+    # recompute the exact pinned hash of the current canonical file.
     subjects = [
-        runtime["subject"]
+        {
+            **runtime["subject"],
+            "applicable": runtime["applicability"]["applicable"],
+            "behavioralSha256": runtime["applicability"]["behavioralSha256"],
+        }
         for _path, runtime in sorted(runtimeRecords.items())
     ]
     projection = {
@@ -1338,7 +2108,11 @@ def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
     )
 
 
-def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) -> int:
+def checkStore(
+    registryRoot: str | Path,
+    inputPath: str | Path | None = None,
+    requireHistory: bool = False,
+) -> int:
     """Validate one input or immutable store integrity; returns checked file count.
 
     A standalone declaration not already stored also receives the current
@@ -1379,6 +2153,13 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
 
         sources = allSourceRecords(registryRoot)
         validateSourceSet(sources, registryRoot)
+        state = identityState(registryRoot, sources, requireHistory)
+        missingPins = sorted(sourceSubjects(sources) - set(state["pins"]))
+        if missingPins:
+            names = ", ".join(f"{skillId}@{skillHash[:12]}" for skillId, skillHash in missingPins)
+            raise ArborError(
+                f"Arbor subjects have no pin: {names}; run `gaia dev arbor pin`"
+            )
         expectedProfiles = buildProfiles(
             sources[DECLARATION_SCHEMA],
             sources[RECEIPT_SCHEMA],
@@ -1392,9 +2173,9 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
             raise ArborError("generated Arbor profile set is stale; run `gaia dev arbor replay`")
         for path, profile in expectedProfiles.items():
             stored = readJson(path)
-            validateRecord(stored, registryRoot)
             if stored != profile:
                 raise ArborError(f"generated Arbor profile is stale: {path}")
+            validateRecord(stored, registryRoot)
 
         edgePath = managedChild(arborRoot(registryRoot), "edges.json")
         runtimeRoot = managedChild(arborRoot(registryRoot), "runtime")
@@ -1407,9 +2188,9 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
                 raise ArborError("generated Arbor runtime set is stale; run `gaia dev arbor replay`")
             for path, runtime in expectedRuntimes.items():
                 stored = readJson(path)
-                validateRecord(stored, registryRoot)
                 if stored != runtime:
                     raise ArborError(f"generated Arbor runtime is stale: {path}")
+                validateRecord(stored, registryRoot)
         return (
             sum(len(records) for records in sources.values())
             + len(expectedProfiles)
