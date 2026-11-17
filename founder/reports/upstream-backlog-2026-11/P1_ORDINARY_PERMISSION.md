@@ -136,3 +136,54 @@ Expected ordinary artifact: `upstream-watcher-report`, not a diagnostic artifact
 Verify actual run head equals the published reviewed SHA and inspect actual exit,
 unknown evidence and zero create/update metrics. This worker stops before dispatch.
 Local commit SHA is supplied in the handoff, not self-referentially invented here.
+
+## Terra correction — offline normal-path integration after local `3cc9d1b`
+
+Terra correctly found that the earlier 237-test receipt did **not** prove mixed
+inventory through a normal run: `test_normal_acceptance_flags_invoke_existing_batch_dry_run_only`
+executes only the shell argument builder with Python stubbed, and the existing
+`test_count_2278.py` mixed-row test exercises `LiveGh` separately. Those tests and
+all historical receipts remain unchanged; neither is integrated-path proof.
+
+Added exactly one test:
+`tests/upstream_watcher/test_count_2278.py::test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes`.
+It invokes real `watcher.main --child-mode batch --dry-run --verbose --report ...`
+against temporary on-disk named frontmatter (only the default registry directory
+is redirected). Release JSON is supplied at `watcher.fetch_json`; `subprocess.run`
+is replaced with a guarded transport delegating to existing `ConnectionRunner` /
+`RestGhRunner`. The real `LiveGh` constructor replaces conftest's default fake.
+No list method, normal entry, poll, count guard, planner, issuer or dry-run logic
+is stubbed. Unexpected urllib/socket network calls fail immediately.
+
+The existing raw 218 Issue + 5 PR fixture retains combined metadata count 226,
+requiring real typed-count fallback and repeated complete walks. Ten GraphQL
+read queries bracket batch/bootstrap inventory reads. One PR masquerades as an
+unfinished release umbrella; `duplicateOpenUmbrellas=[]` and the actual issue's
+`noop` suite outcome demonstrate it did not become an issue candidate. A real
+v0→v1 update poll reaches the planner against an existing current umbrella, while
+a second, pending bootstrap reaches the real issuer's `[dry-run] Would create
+issue` branch. This is not an empty-registry/zero-findings test.
+
+Actual report: exit 0, `dryRun=true`, `unknownEvidence=[]`, `issuesCreated=0`,
+`issuesUpdated=0`; transport mutation spy and fake transport writes both remain
+empty. API writes and `gh issue create/edit/comment` fail the test; GraphQL POST
+read queries are permitted. Batch metrics count planned creates/updates too, so
+the update is deliberately idempotent; the pending bootstrap exercises the
+would-create dry-run branch without inventing report fields or metric semantics.
+This proves offline path integration, **not** `GITHUB_TOKEN` permission behavior,
+not a red/green comparison of old permissions, and not hosted P1 acceptance.
+
+Verification (same five-file command above, now including the new test): target
+**1 passed in 0.29s**; focused **238 passed in 4.82s**, including the existing
+1,536 routing combinations, negative cases and YAML checks. `python3 -m py_compile
+ tests/upstream_watcher/test_count_2278.py tests/upstream_watcher/test_permission_ab_workflow.py
+ tests/upstream_watcher/test_metadata_probe.py` and `git diff --check` passed.
+Fixture-development failures were corrected before this final green receipt;
+no full suite or hosted workflow ran. Workflow and production paths are byte
+identical to `3cc9d1b0fbcc45ef9776d6a872c33423ad9009cc`; all 869 protected raw files
+match that commit individually and retain digest
+`fbe0843d2fcb303538918ed4ffe38b0898fcd096cf91b023548eb3cb8bdbe3d7`.
+Protected cached integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and local/origin
+schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remain unchanged. This local test-only
+correction awaits Terra re-review; parent full regression and the ONE later
+operator-owned normal acceptance run remain pending. No push or dispatch.

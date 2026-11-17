@@ -46,6 +46,99 @@ def test_metadata_disagreement_requires_exact_typed_counts_and_two_full_walks():
     assert runner.writes == []
 
 
+def test_normal_batch_dry_run_accepts_mixed_inventory_without_issue_writes(monkeypatch, tmp_path, capsys):
+    from scripts.lib import named_iterator
+    from scripts.upstream_watcher import watcher
+    from scripts.upstream_watcher.batch import plan_suite
+    import socket
+    import urllib.request
+
+    # Configure a real on-disk named registry, not a replacement iterator/index.
+    named = tmp_path / "named"
+    named.mkdir()
+    (named / "suite.md").write_text(
+        '---\nid: garrytan/gbrain\nname: Gbrain\nlevel: "2★"\n'
+        'suiteComponents: [garrytan/component]\n'
+        'links:\n  github: https://github.com/garrytan/gbrain\n'
+        'upstream:\n  repo: garrytan/gbrain\n  version: v0\n---\n', encoding="utf-8")
+    # A pending bootstrap also exercises create_issues(apply=False), not just
+    # the idempotent update plan. Bootstrap proposals do not increment batch metrics.
+    (named / "pending.md").write_text(
+        '---\nid: garrytan/pending\nname: Pending\nlevel: "2★"\n'
+        'suiteComponents: [garrytan/component]\n'
+        'links:\n  github: https://github.com/garrytan/pending\n---\n', encoding="utf-8")
+    monkeypatch.setattr(named_iterator, "_DEFAULT_NAMED_DIR", named)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("unexpected network/transport")
+
+    monkeypatch.setattr(socket.socket, "connect", forbidden)
+    monkeypatch.setattr(socket.socket, "connect_ex", forbidden)
+    monkeypatch.setattr(urllib.request, "urlopen", forbidden)
+    release_reads = []
+
+    def release_response(url, **kwargs):
+        repo = url.removeprefix("https://api.github.com/repos/").removesuffix("/releases/latest")
+        assert repo in ("garrytan/gbrain", "garrytan/pending")
+        assert url == f"https://api.github.com/repos/{repo}/releases/latest"
+        assert kwargs == {"strict": True}
+        release_reads.append(url)
+        return {"tag_name": "v1", "published_at": "2026-10-21T10:00:00Z",
+                "html_url": f"https://github.com/{repo}/releases/tag/v1"}
+
+    monkeypatch.setattr(watcher, "fetch_json", release_response)
+    # A real update finding (v0 -> v1), already represented by an open umbrella:
+    # plan it as noop, not an empty-registry/zero-findings pass. Report metrics
+    # count *planned* creates/updates too, so fresh work would not report zero.
+    fm = watcher._build_registry_map()["garrytan/gbrain"]
+    finding = watcher._poll_suite(fm, watcher._build_registry_map(), False)
+    plan = plan_suite(finding, {"issues": [], "closedUmbrellas": []}, {})
+    rows = mixedRows()
+    rows[0].update(title=plan["title"], body=plan["body"], labels=[{"name": "upstream:release"}])
+    # This PR masquerades as an unfinished release umbrella. If read_live fails
+    # to exclude it, it becomes a duplicate/identity candidate in the real plan.
+    rows[-1].update(title=plan["title"], body="", labels=[{"name": "upstream:release"}])
+    runner = ConnectionRunner(rows, open_count=226)
+    mutations = []
+
+    def transport(args, **kwargs):
+        assert args[:2] == ["gh", "api"] or args[1:3] in (
+            ["issue", "create"], ["issue", "edit"], ["issue", "comment"])
+        query = next((arg for arg in args if arg.startswith("query=")), "")
+        method_flag = next((flag for flag in ("--method", "-X") if flag in args), None)
+        method = args[args.index(method_flag) + 1] if method_flag else "GET"
+        graphql_read = args[2] == "graphql" and query.removeprefix("query=").lstrip().startswith("query")
+        has_fields = any(flag in args for flag in ("-f", "-F", "--field", "--raw-field", "--input"))
+        if args[1] != "api" or "mutation" in query.lower() or (
+                (method != "GET" or has_fields) and not graphql_read):
+            mutations.append(args)
+            raise AssertionError("dry-run attempted a mutation")
+        return runner(args, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", transport)
+    # Undo only conftest's default fake constructor; retain the real LiveGh,
+    # pagination/count guard, read_live PR filtering, planner and dry-run logic.
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    report_path = tmp_path / "report.json"
+    assert watcher.main(["--child-mode", "batch", "--dry-run", "--verbose", "--report", str(report_path)]) == 0
+    report = json.loads(report_path.read_text())
+    assert report["dryRun"] is True
+    assert report["unknownEvidence"] == []
+    assert report["issuesCreated"] == report["issuesUpdated"] == 0
+    assert len(report["suites"]) == 1
+    suite = report["suites"][0]
+    assert (suite["suite"], suite["umbrella"], suite["outcome"]) == (
+        "garrytan/gbrain", rows[0]["number"], "noop")
+    assert report["duplicateOpenUmbrellas"] == []
+    output = capsys.readouterr()
+    assert "2 finding(s)" in output.err
+    assert "garrytan/pending" in output.out and "Bootstrap" in output.out
+    assert "[dry-run] Would create issue: '[upstream:bootstrap] garrytan/pending" in output.err
+    assert len(release_reads) == 3  # fixture preparation + two real normal polls
+    assert runner.graphql == 10  # exact (218 issues, 5 PRs) bracketing batch/bootstrap walks
+    assert mutations == runner.writes == []
+
+
 def test_actual_issue_and_pr_totals_cannot_be_swapped_even_with_matching_combined_count():
     runner = ConnectionRunner(mixedRows(), counts=[(217, 6)] * 20, open_count=226)
     with pytest.raises(GhError, match="counts changed or listing disagrees"):
