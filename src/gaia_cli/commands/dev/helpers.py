@@ -322,6 +322,19 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
                 f"`{flag}` is only valid with `--type social-signal` or `--type engagement`; got `--type {evidence_type}`.",
                 fix=f"Use `--type social-signal` or `--type engagement`, or drop `{flag}` if this row is a different evidence type.",
             )
+    for attr, flag in (("creator_relation", "--creator-relation"), ("relevance_note", "--relevance-note")):
+        if getattr(args, attr, None) is not None and evidence_type not in (None, "social-signal"):
+            _fail_dev_preflight(
+                f"`{flag}` is only valid with `--type social-signal`; got `--type {evidence_type}`.",
+                fix=f"Use `--type social-signal`, or drop `{flag}` if this row is a different evidence type.",
+            )
+    for attr, flag in (("creator", "--creator"), ("relevance_note", "--relevance-note")):
+        val = getattr(args, attr, None)
+        if val is not None and not str(val).strip():
+            _fail_dev_preflight(
+                f"`{flag}` must be a non-empty string.",
+                fix=f"Provide a non-empty value for `{flag}`.",
+            )
     ext_stars = getattr(args, "external_stars", None)
     if ext_stars is not None:
         if evidence_type not in (None, "proxy-containment"):
@@ -382,6 +395,9 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         "downloads",
         "likes",
         "comments",
+        "creator",
+        "creator_relation",
+        "relevance_note",
         "external_stars",
         "citations",
         "reviewers",

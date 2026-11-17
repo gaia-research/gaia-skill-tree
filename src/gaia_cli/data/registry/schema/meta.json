@@ -295,7 +295,7 @@
         },
         "viewFloor": 1000,
         "publishCooldownDays": 0,
-        "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80. sameAsAuthor: 1.0 removes identity-based rejection (not a bonus or automatic eligibility), and publishCooldownDays: 0 confirms ordinary curation has no publication waiting window. Existing safeguards remain active: 1,000-view floor, engagement ratio, same-source (type, url) dedup, same-creator plateau (1.0x/0.5x/0.25x regardless of slot), and the 80 hard cap. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
+        "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80.0 per skill. sameAsAuthor: 1.0 removes identity-based rejection (not a bonus or automatic eligibility), and publishCooldownDays: 0 confirms ordinary curation has no publication waiting window. Existing safeguards remain active: 1,000-view floor, engagement ratio, same-source (type, url) dedup, per-creator 3-row plateau (1.0x/0.5x/0.25x per creator; rows without creator collapse into _unknown), and the 80.0 TM hard cap per skill. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
       },
       {
         "id": "npm-downloads",

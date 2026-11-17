@@ -464,6 +464,24 @@
           "type": "integer",
           "minimum": 0
         },
+        "creator": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Creator or channel identifier for social-signal/engagement deduplication and plateau grouping."
+        },
+        "creatorRelation": {
+          "type": "string",
+          "enum": [
+            "first-party",
+            "third-party"
+          ],
+          "description": "Provenance relation between the evidence creator and the skill author/maintainer (#2473)."
+        },
+        "relevanceNote": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verification note explaining how the social-signal source substantively demonstrates or evaluates the target skill (#2473)."
+        },
         "externalStars": {
           "type": "integer",
           "minimum": 0

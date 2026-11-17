@@ -56,6 +56,25 @@ def _preflight_proxy_containment(
         )
 
 
+def _preflight_social_provenance_index(
+    ev_list: list,
+    index: int | None,
+    evidence_type: str | None,
+    args,
+) -> None:
+    if index is None or not (0 <= index < len(ev_list)):
+        return
+    effective_type = evidence_type if evidence_type is not None else ev_list[index].get("type")
+    if effective_type == "social-signal":
+        return
+    for attr, flag in (("creator_relation", "--creator-relation"), ("relevance_note", "--relevance-note")):
+        if getattr(args, attr, None) is not None:
+            _fail_dev_preflight(
+                f"`{flag}` is only valid with `--type social-signal`; target row #{index} has type {effective_type!r}.",
+                fix=f"Use `--type social-signal`, or drop `{flag}` when updating a non-social-signal row.",
+            )
+
+
 def _preflight_benchmark_percentile(args) -> None:
     """Backward-compatible wrapper for the shared evidence preflight."""
     _run_dev_preflights([
@@ -215,6 +234,12 @@ def meta_evidence_command(args):
         evidence["likes"] = args.likes
     if getattr(args, "comments", None) is not None:
         evidence["comments"] = args.comments
+    if getattr(args, "creator", None) is not None:
+        evidence["creator"] = args.creator
+    if getattr(args, "creator_relation", None) is not None:
+        evidence["creatorRelation"] = args.creator_relation
+    if getattr(args, "relevance_note", None) is not None:
+        evidence["relevanceNote"] = args.relevance_note
     if getattr(args, "external_stars", None) is not None:
         evidence["externalStars"] = args.external_stars
     if getattr(args, "citations", None) is not None:
@@ -340,6 +365,12 @@ def meta_evidence_command(args):
             entry["likes"] = args.likes
         if getattr(args, "comments", None) is not None:
             entry["comments"] = args.comments
+        if getattr(args, "creator", None) is not None:
+            entry["creator"] = args.creator
+        if getattr(args, "creator_relation", None) is not None:
+            entry["creatorRelation"] = args.creator_relation
+        if getattr(args, "relevance_note", None) is not None:
+            entry["relevanceNote"] = args.relevance_note
         if getattr(args, "external_stars", None) is not None:
             entry["externalStars"] = args.external_stars
         if getattr(args, "citations", None) is not None:
@@ -426,6 +457,12 @@ def meta_evidence_command(args):
                 evidence_type,
                 suite_skill=suite_skill,
             ),
+            lambda: _preflight_social_provenance_index(
+                meta.get("evidence") or [],
+                index,
+                evidence_type,
+                args,
+            ),
         ])
         restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
@@ -467,6 +504,12 @@ def meta_evidence_command(args):
                 index,
                 evidence,
                 evidence_type,
+            ),
+            lambda: _preflight_social_provenance_index(
+                data.get("evidence") or [],
+                index,
+                evidence_type,
+                args,
             ),
         ])
         restampBefore = _restampSnapshot(args)

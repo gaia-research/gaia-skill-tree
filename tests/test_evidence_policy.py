@@ -108,6 +108,9 @@ def _evidence_args(root: str, *, skill_id: str, source: str, **overrides) -> Sim
         downloads=None,
         likes=None,
         comments=None,
+        creator=None,
+        creator_relation=None,
+        relevance_note=None,
         benchmark_id=None,
         score=None,
         unit=None,
@@ -657,3 +660,95 @@ def test_generate_source_dump_preserves_social_metrics_and_does_not_fabricate_se
     assert norm_social["comments"] == 15
     assert norm_social["creator"] == "theo"
     assert norm_social["creatorRelation"] == "first-party"
+
+
+def test_schemas_accept_social_provenance_fields():
+    import jsonschema
+
+    ev_row = {
+        "type": "social-signal",
+        "source": "https://www.youtube.com/watch?v=demo2473",
+        "evaluator": "mbtiongson1",
+        "date": "2026-11-17",
+        "views": 10000,
+        "creator": "theo",
+        "creatorRelation": "third-party",
+        "relevanceNote": "Substantive walkthrough of the target skill.",
+    }
+    named_schema = json.loads((ROOT / "registry" / "schema" / "namedSkill.schema.json").read_text(encoding="utf-8"))
+    named_doc = {
+        "id": "acme/tool",
+        "name": "tool",
+        "contributor": "acme",
+        "origin": True,
+        "genericSkillRef": "demo-generic",
+        "status": "named",
+        "level": "2★",
+        "description": "Test skill with social provenance fields.",
+        "evidence": [ev_row],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-17",
+    }
+    jsonschema.validate(instance=named_doc, schema=named_schema)
+
+    skill_schema = json.loads((ROOT / "registry" / "schema" / "skill.schema.json").read_text(encoding="utf-8"))
+    skill_doc = {
+        "id": "demo-generic",
+        "name": "Demo Generic",
+        "type": "basic",
+        "description": "Generic skill with social provenance fields.",
+        "prerequisites": [],
+        "derivatives": [],
+        "knownAgents": ["claude-code"],
+        "status": "validated",
+        "evidence": [ev_row],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-17",
+        "version": "1.0.0",
+    }
+    jsonschema.validate(instance=skill_doc, schema=skill_schema)
+
+
+def test_distinct_creators_keep_separate_plateau_slots():
+    # 1,000 views -> log10(1000) * 8 = 24.0 raw score per row
+    rows_with_creators = [
+        {"type": "social-signal", "source": "https://youtu.be/a1", "views": 1000, "creator": "alice", "lastVerified": "2026-11-17"},
+        {"type": "social-signal", "source": "https://youtu.be/a2", "views": 1000, "creator": "alice", "lastVerified": "2026-11-17"},
+        {"type": "social-signal", "source": "https://youtu.be/a3", "views": 1000, "creator": "alice", "lastVerified": "2026-11-17"},
+        {"type": "social-signal", "source": "https://youtu.be/b1", "views": 1000, "creator": "bob", "lastVerified": "2026-11-17"},
+    ]
+    rows_without_creators = [
+        {"type": "social-signal", "source": f"https://youtu.be/u{i}", "views": 1000, "lastVerified": "2026-11-17"}
+        for i in range(4)
+    ]
+    # Distinct creators: alice gets 24*(1 + 0.5 + 0.25) = 42.0, bob gets 24*1.0 = 24.0 -> 66.0
+    assert computeTrustMagnitude({"id": "example/tool", "evidence": rows_with_creators}, evaluationAtUTC=EVAL_NOW) == pytest.approx(66.0, abs=1e-4)
+    # Without creator: all 4 collapse into _unknown, 4th row gets 0 -> 42.0
+    assert computeTrustMagnitude({"id": "example/tool", "evidence": rows_without_creators}, evaluationAtUTC=EVAL_NOW) == pytest.approx(42.0, abs=1e-4)
+
+
+def test_generate_source_dump_renders_creator_relation_and_relevance_note():
+    import io
+    sys.path.insert(0, str(ROOT / "evidence" / "scripts"))
+    import generate_source_dump as gsd
+
+    buf = io.StringIO()
+    gsd.writeEvidenceRows(
+        buf,
+        [
+            {
+                "type": "social-signal",
+                "source": "https://www.youtube.com/watch?v=demo2473",
+                "date": "2026-11-17",
+                "views": 10000,
+                "creator": "theo",
+                "creatorRelation": "first-party",
+                "relevanceNote": "Author walkthrough of the skill",
+                "notes": "Demo video",
+            }
+        ],
+    )
+    rendered = buf.getvalue()
+    assert "**Creator:** theo" in rendered
+    assert "**Creator Relation:** first-party" in rendered
+    assert "**Relevance Note:** Author walkthrough of the skill" in rendered

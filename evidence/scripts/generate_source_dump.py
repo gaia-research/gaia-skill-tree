@@ -397,6 +397,8 @@ def writeEvidenceRows(f, evList: list[dict[str, Any]]) -> None:
             f.write(f"- **Comments:** {comments:,}\n" if isinstance(comments, int) else f"- **Comments:** {comments}\n")
         for field, label in (
             ("creator", "Creator"),
+            ("creatorRelation", "Creator Relation"),
+            ("relevanceNote", "Relevance Note"),
             ("creatorTier", "Creator Tier"),
             ("creatorCategory", "Creator Category"),
             ("provenance", "Provenance"),
