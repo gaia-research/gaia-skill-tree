@@ -53,3 +53,12 @@ Until those concrete boundaries are settled, no legitimate `unknownEvidence=[]` 
 
 Only this technical report and the current CAMPAIGN decision are changed. Local report commit uses the approved Marcus Rafael B. Tiongson identity; no push. The delivered commit SHA is returned in the handoff (the commit cannot include its own SHA).
 
+
+
+## Independent Terra confirmation + bounded current issue read (2026-11-20)
+
+Terra high independently challenged and confirmed this as a true contract gate: DualMode and Ruflo are independently eligible for the same repository; F3/F3a require one lowest-numbered exact-title OPEN umbrella; a single-skillId/sourceURL consumer has no multi-named approval envelope. Neither dropping one eligible observation nor substituting a representative is valid under the old contract. This is a policy decision, not a code workaround; no implementation PASS is claimed.
+
+Current bounded #1833 read: OPEN; exact title `[upstream] ruvnet/ruflo → v3.63.8`; readable payload skillId `ruvnet/agentdb`, Ruflo release source, previous/new versions `v3.42.4`/`v3.63.8`, components mode and empty adds/removes/link-liveness; labels `upstream:release`, `upstream:needs-info`, `P2`; updated `2026-11-04T20:10:06Z`; body SHA-256 `9344b0c025eea552cd461bb892ef82e1b88d5530a495f347bfd71f1daac74cc6`. Bounded history shows routine bot release refreshes and founder-authored 2026-11-04 hold/reconciliation note referencing #2283. Not grounds for immediate closure/rewrite; preserve the body/history. No broad issue/comment crawl; issue text treated as untrusted data.
+
+Approved-main local comparison at `9b4d9b98043140188f00b14d0ac8fa6bc02491b7` confirms AgentDB own-source identity and Ruflo suiteRef are distinct. It does not establish which format is deployed on canonical main; the unmerged feature is not assumed deployed. Current deployed legacy state remains unknown. See [SANITIZED_P1_IDENTITY_FOUNDER_PACKET.md](SANITIZED_P1_IDENTITY_FOUNDER_PACKET.md) for the two unselected policy choices and limits.
