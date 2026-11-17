@@ -1,6 +1,142 @@
 {
   "skills": [
     {
+      "id": "garrytan/skill-autobench",
+      "name": "skill-autobench",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-autobench.json"
+      },
+      "genericSkillRef": "skill-performance-benchmarking"
+    },
+    {
+      "id": "garrytan/skill-creator",
+      "name": "skill-creator",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-creator.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "garrytan/skill-optimizer",
+      "name": "skill-optimizer",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-optimizer.json"
+      },
+      "genericSkillRef": "prompt-optimization"
+    },
+    {
+      "id": "garrytan/skillify",
+      "name": "Skillify",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skillify.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "garrytan/skillpack-harvest",
+      "name": "skillpack-harvest",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skillpack-harvest.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "garrytan/smoke-test",
+      "name": "smoke-test",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/smoke-test.json"
+      },
+      "genericSkillRef": "automated-testing"
+    },
+    {
+      "id": "garrytan/soul-audit",
+      "name": "soul-audit",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/soul-audit.json"
+      },
+      "genericSkillRef": "interview-me"
+    },
+    {
+      "id": "garrytan/strategic-reading",
+      "name": "strategic-reading",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 120.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/strategic-reading.json"
+      },
+      "genericSkillRef": "document-analyst"
+    },
+    {
       "id": "garrytan/testing",
       "name": "testing",
       "level": "2★",
@@ -443,6 +579,40 @@
       "genericSkillRef": "skill-authoring"
     },
     {
+      "id": "t3dotgg/file-pr",
+      "name": "file-pr",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "t3dotgg",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/file-pr.json"
+      },
+      "genericSkillRef": "pull-request-authoring"
+    },
+    {
+      "id": "t3dotgg/leaving-pr-comments",
+      "name": "leaving-pr-comments",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "t3dotgg",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/leaving-pr-comments.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
       "id": "aj-geddes/causal-inference",
       "name": "causal-inference",
       "level": "2★",
@@ -679,186 +849,11 @@
         "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
       },
       "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "mattpocock/grilling",
-      "name": "Grilling",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grilling.json"
-      },
-      "genericSkillRef": "design-review"
-    },
-    {
-      "id": "mattpocock/implement",
-      "name": "Implement",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/implement.json"
-      },
-      "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "mattpocock/migrate-to-shoehorn",
-      "name": "Migrate to Shoehorn",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
-      },
-      "genericSkillRef": "refactor-code"
-    },
-    {
-      "id": "mattpocock/resolving-merge-conflicts",
-      "name": "Resolving Merge Conflicts",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 234.64,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
-      },
-      "genericSkillRef": "git-integration"
-    },
-    {
-      "id": "mattpocock/scaffold-exercises",
-      "name": "Scaffold Exercises",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "mattpocock/setup-pre-commit",
-      "name": "Setup Pre-Commit",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "mattpocock/writing-for-agents",
-      "name": "Writing For Agents",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "firecrawl/firecrawl-build",
-      "name": "firecrawl-build",
-      "level": "2★",
-      "trustMagnitude": 39.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build.json"
-      },
-      "genericSkillRef": "browser-automation"
-    },
-    {
-      "id": "ruvnet/verification-quality",
-      "name": "Verification Quality",
-      "level": "2★",
-      "trustMagnitude": 38.66,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
-      "contributor": "disler",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      },
-      "genericSkillRef": "agent-fusion",
-      "suiteComponents": [
-        "disler/auto-review",
-        "disler/opinion",
-        "disler/plan-synthesis"
-      ]
     }
   ],
   "page": 5,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 347,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json",

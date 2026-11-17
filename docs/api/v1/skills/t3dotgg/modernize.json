@@ -1,0 +1,131 @@
+{
+  "id": "t3dotgg/modernize",
+  "name": "modernize",
+  "contributor": "t3dotgg",
+  "level": "3★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 83.83,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/t3dotgg/modernize.json",
+    "contributor": "/api/v1/contributors/t3dotgg.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 244.72,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 15,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
+  "title": "Modernize",
+  "genericSkillRef": "stale-pr-reconciliation",
+  "origin": true,
+  "description": "Reassesses an aging pull request against current base-branch architecture and competing changes to recommend rebase-and-verify, rework, or closure.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/t3dotgg/tstack",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-18",
+      "type": "repo-own",
+      "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+      "commits": 6,
+      "contributors": 1,
+      "sourceStartedAt": "2026-10-24"
+    },
+    {
+      "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-18",
+      "type": "github-stars-own",
+      "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+      "stars": 4033,
+      "skillCountInRepo": 9,
+      "sourceStartedAt": "2026-10-24",
+      "grade": "A"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-18",
+      "type": "social-signal",
+      "notes": "First-party Theo walkthrough of modernize stale-PR reconciliation (24:07-25:30) in 'These 3 skills changed my life'.",
+      "views": 247982,
+      "likes": 3059,
+      "comments": 168,
+      "creator": "@theo",
+      "creatorRelation": "first-party",
+      "relevanceNote": "First-party Theo walkthrough of modernize stale-PR reconciliation (24:07-25:30) in 'These 3 skills changed my life'.",
+      "sourceStartedAt": "2026-10-26",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:05:22Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill t3dotgg/modernize"
+    },
+    {
+      "timestamp": "2026-11-17T16:46:17Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-11-17T16:48:15Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-17T16:50:42Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-11-17T17:15:21Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-11-17T18:21:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 83.83, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-17T18:36:21Z",
+      "action": "installation_updated",
+      "contributor": "mbtiongson1",
+      "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/modernize.md"
+    },
+    {
+      "timestamp": "2026-11-17T18:55:36Z",
+      "action": "installation_updated",
+      "contributor": "mbtiongson1",
+      "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/modernize.md"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md"
+  }
+}

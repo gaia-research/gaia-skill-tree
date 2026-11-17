@@ -25,7 +25,7 @@
   },
   "title": "The Rigorous Revision",
   "genericSkillRef": "receiving-code-review",
-  "origin": true,
+  "origin": false,
   "description": "Processes code review feedback with technical rigor and verification before implementation — questioning unclear feedback and confirming fixes with tests rather than blindly applying suggestions.",
   "tags": [
     "code-review",

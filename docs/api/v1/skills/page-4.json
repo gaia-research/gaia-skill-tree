@@ -1,6 +1,142 @@
 {
   "skills": [
     {
+      "id": "garrytan/company-brainify",
+      "name": "company-brainify",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/company-brainify.json"
+      },
+      "genericSkillRef": "company-knowledge-management"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "genericSkillRef": "concept-synthesis"
+    },
+    {
+      "id": "garrytan/context-audit",
+      "name": "context-audit",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-audit.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan/conversation-archive",
+      "name": "conversation-archive",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/conversation-archive.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+      "id": "garrytan/correction-pipeline",
+      "name": "correction-pipeline",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/correction-pipeline.json"
+      },
+      "genericSkillRef": "error-interpretation"
+    },
+    {
+      "id": "garrytan/cron-scheduler",
+      "name": "cron-scheduler",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cron-scheduler.json"
+      },
+      "genericSkillRef": "workflow-automation"
+    },
+    {
+      "id": "garrytan/cross-modal-review",
+      "name": "cross-modal-review",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cross-modal-review.json"
+      },
+      "genericSkillRef": "adversarial-review"
+    },
+    {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "garrytan/daily-task-manager",
       "name": "daily-task-manager",
       "level": "2★",
@@ -713,147 +849,11 @@
         "self": "/api/v1/skills/garrytan/signal-detector.json"
       },
       "genericSkillRef": "personal-knowledge-management"
-    },
-    {
-      "id": "garrytan/skill-autobench",
-      "name": "skill-autobench",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 100.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skill-autobench.json"
-      },
-      "genericSkillRef": "skill-performance-benchmarking"
-    },
-    {
-      "id": "garrytan/skill-creator",
-      "name": "skill-creator",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skill-creator.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "garrytan/skill-optimizer",
-      "name": "skill-optimizer",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skill-optimizer.json"
-      },
-      "genericSkillRef": "prompt-optimization"
-    },
-    {
-      "id": "garrytan/skillify",
-      "name": "Skillify",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skillify.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "garrytan/skillpack-harvest",
-      "name": "skillpack-harvest",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skillpack-harvest.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "garrytan/smoke-test",
-      "name": "smoke-test",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/smoke-test.json"
-      },
-      "genericSkillRef": "automated-testing"
-    },
-    {
-      "id": "garrytan/soul-audit",
-      "name": "soul-audit",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/soul-audit.json"
-      },
-      "genericSkillRef": "interview-me"
-    },
-    {
-      "id": "garrytan/strategic-reading",
-      "name": "strategic-reading",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/strategic-reading.json"
-      },
-      "genericSkillRef": "document-analyst"
     }
   ],
   "page": 4,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 347,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

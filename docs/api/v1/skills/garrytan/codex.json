@@ -25,7 +25,7 @@
   },
   "title": "Gstack Codex — Multi-Agent Code Debate",
   "genericSkillRef": "multi-agent-debate",
-  "origin": true,
+  "origin": false,
   "description": "Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden design flaws before code lands.",
   "tags": [
     "multi-agent-debate",

@@ -405,6 +405,34 @@
       ]
     },
     {
+      "id": "t3dotgg/tstack",
+      "name": "tstack",
+      "level": "4★",
+      "trustMagnitude": 172.41,
+      "overallTrustGrade": "A",
+      "fusionScore": 307.7,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/tstack.json"
+      },
+      "genericSkillRef": "pr-lifecycle-orchestration",
+      "suiteComponents": [
+        "t3dotgg/babysit-pr",
+        "t3dotgg/council",
+        "t3dotgg/file-pr",
+        "t3dotgg/full-send",
+        "t3dotgg/full-stop",
+        "t3dotgg/leaving-pr-comments",
+        "t3dotgg/modernize",
+        "t3dotgg/sol-loop",
+        "t3dotgg/takeover"
+      ]
+    },
+    {
       "id": "heygen-com/hyperframes",
       "name": "HyperFrames",
       "level": "4★",
@@ -617,6 +645,23 @@
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
       },
       "genericSkillRef": "format-output"
+    },
+    {
+      "id": "t3dotgg/council",
+      "name": "council",
+      "level": "4★",
+      "trustMagnitude": 129.9,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/council.json"
+      },
+      "genericSkillRef": "multi-agent-debate"
     },
     {
       "id": "emilkowalski/animate",
@@ -857,6 +902,57 @@
       "genericSkillRef": "security-audit"
     },
     {
+      "id": "t3dotgg/full-send",
+      "name": "full-send",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 234.64,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-send.json"
+      },
+      "genericSkillRef": "autonomous-pr-delivery"
+    },
+    {
+      "id": "t3dotgg/full-stop",
+      "name": "full-stop",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 234.64,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-stop.json"
+      },
+      "genericSkillRef": "merge-ready-pr-delivery"
+    },
+    {
+      "id": "t3dotgg/sol-loop",
+      "name": "sol-loop",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 220.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/sol-loop.json"
+      },
+      "genericSkillRef": "receiving-code-review"
+    },
+    {
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
@@ -962,120 +1058,11 @@
         "self": "/api/v1/skills/obra/writing-plans.json"
       },
       "genericSkillRef": "writing-plans"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "trustMagnitude": 109.92,
-      "overallTrustGrade": "A",
-      "fusionScore": 60.0,
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      },
-      "genericSkillRef": "web-scrape"
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "trustMagnitude": 102.4,
-      "overallTrustGrade": "A",
-      "fusionScore": 326.49,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "genericSkillRef": "engineering-discipline",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/grill-with-docs",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "trustMagnitude": 102.4,
-      "overallTrustGrade": "A",
-      "fusionScore": 272.11,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/wait-what",
-        "mattpocock/write-a-skill"
-      ]
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "name": "Verification Before Completion",
-      "level": "3★",
-      "trustMagnitude": 97.81,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/verification-before-completion.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "obra/executing-plans",
-      "name": "Executing Plans",
-      "level": "3★",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/executing-plans.json"
-      },
-      "genericSkillRef": "executing-plans"
     }
   ],
   "page": 1,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 347,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
@@ -1275,6 +1262,16 @@
         "redacted": false,
         "id": "hikari9/auto-office",
         "contributor": "hikari9"
+      }
+    ],
+    "autonomous-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-send",
+        "contributor": "t3dotgg"
       }
     ],
     "autonomous-web-research": [
@@ -1924,27 +1921,11 @@
     "finishing-a-development-branch": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
-        "id": "addy-osmani/shipping-and-launch",
-        "contributor": "addy-osmani"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "garrytan/ship",
-        "contributor": "garrytan"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "gsd-build/gsd-ship",
-        "contributor": "gsd-build"
+        "id": "t3dotgg/takeover",
+        "contributor": "t3dotgg"
       }
     ],
     "firecrawl": [
@@ -2577,6 +2558,16 @@
         "contributor": "ruvnet"
       }
     ],
+    "merge-ready-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-stop",
+        "contributor": "t3dotgg"
+      }
+    ],
     "molecular-databases": [
       {
         "origin": true,
@@ -2610,11 +2601,11 @@
     "multi-agent-debate": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/codex",
-        "contributor": "garrytan"
+        "id": "t3dotgg/council",
+        "contributor": "t3dotgg"
       }
     ],
     "multi-agent-orchestration-v": [
@@ -2807,6 +2798,26 @@
         "contributor": "garrytan"
       }
     ],
+    "pr-ci-monitoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/babysit-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
+    "pr-lifecycle-orchestration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/tstack",
+        "contributor": "t3dotgg"
+      }
+    ],
     "prd-generation": [
       {
         "origin": true,
@@ -2923,6 +2934,16 @@
         "contributor": "mattpocock"
       }
     ],
+    "pull-request-authoring": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/file-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
     "quantum-circuit-programming": [
       {
         "origin": true,
@@ -2982,11 +3003,11 @@
     "receiving-code-review": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "obra/receiving-code-review",
-        "contributor": "obra"
+        "id": "t3dotgg/sol-loop",
+        "contributor": "t3dotgg"
       }
     ],
     "refactor-code": [
@@ -3345,6 +3366,16 @@
         "redacted": false,
         "id": "addy-osmani/api-and-interface-design",
         "contributor": "addy-osmani"
+      }
+    ],
+    "stale-pr-reconciliation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/modernize",
+        "contributor": "t3dotgg"
       }
     ],
     "static-artwork-design": [

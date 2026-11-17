@@ -1,6 +1,115 @@
 {
   "skills": [
     {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "trustMagnitude": 109.92,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "firecrawl",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      },
+      "genericSkillRef": "web-scrape"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 102.4,
+      "overallTrustGrade": "A",
+      "fusionScore": 326.49,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 102.4,
+      "overallTrustGrade": "A",
+      "fusionScore": 272.11,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what",
+        "mattpocock/write-a-skill"
+      ]
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "trustMagnitude": 97.81,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
+      "id": "obra/executing-plans",
+      "name": "Executing Plans",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/executing-plans.json"
+      },
+      "genericSkillRef": "executing-plans"
+    },
+    {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
       "level": "3★",
@@ -137,6 +246,23 @@
       "genericSkillRef": "vertical-slice-planning"
     },
     {
+      "id": "t3dotgg/takeover",
+      "name": "takeover",
+      "level": "3★",
+      "trustMagnitude": 92.9,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/takeover.json"
+      },
+      "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
@@ -229,6 +355,23 @@
       ]
     },
     {
+      "id": "t3dotgg/modernize",
+      "name": "modernize",
+      "level": "3★",
+      "trustMagnitude": 83.83,
+      "overallTrustGrade": "B",
+      "fusionScore": 244.72,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/modernize.json"
+      },
+      "genericSkillRef": "stale-pr-reconciliation"
+    },
+    {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "3★",
@@ -244,6 +387,23 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       },
       "genericSkillRef": "web-search"
+    },
+    {
+      "id": "t3dotgg/babysit-pr",
+      "name": "babysit-pr",
+      "level": "3★",
+      "trustMagnitude": 81.01,
+      "overallTrustGrade": "B",
+      "fusionScore": 244.72,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/babysit-pr.json"
+      },
+      "genericSkillRef": "pr-ci-monitoring"
     },
     {
       "id": "garrytan/retro",
@@ -734,147 +894,11 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
       },
       "genericSkillRef": "creative-direction"
-    },
-    {
-      "id": "heygen-com/hyperframes-keyframes",
-      "name": "Hyperframes Keyframes",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/motion-graphics",
-      "name": "Motion Graphics",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/music-to-video",
-      "name": "Music To Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/music-to-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/pr-to-video",
-      "name": "Pr To Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/product-launch-video",
-      "name": "Product Launch Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/talking-head-recut",
-      "name": "Talking Head Recut",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "genericSkillRef": "format-output"
-    },
-    {
-      "id": "mattpocock/tdd",
-      "name": "TDD",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/tdd.json"
-      },
-      "genericSkillRef": "test-driven-development"
     }
   ],
   "page": 2,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 347,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",
