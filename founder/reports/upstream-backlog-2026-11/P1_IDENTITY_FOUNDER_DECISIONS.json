@@ -1,0 +1,11 @@
+{
+  "packetId": "upstream-identity-founder-2026-11",
+  "shared_source_model": "repo_envelope",
+  "legacy_transition": "preserve_plan",
+  "sourceCommit": "0769c2e2216cd4a38e3e121bbdc874956d599c71",
+  "issueBodySha256": "9344b0c025eea552cd461bb892ef82e1b88d5530a495f347bfd71f1daac74cc6",
+  "decisions": {
+    "shared_source_model": "repo_envelope",
+    "legacy_transition": "preserve_plan"
+  }
+}

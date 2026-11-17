@@ -1,4 +1,12 @@
-# Current decision — authorized code-only identity-selection assessment
+# 2026-11-20 — identity policy choices ratified; code implementation authorized/active
+
+The founder's exact JSON is recorded in [P1_IDENTITY_FOUNDER_DECISIONS.json](P1_IDENTITY_FOUNDER_DECISIONS.json), bound to packet `upstream-identity-founder-2026-11`, source commit `0769c2e2216cd4a38e3e121bbdc874956d599c71`, and the known #1833 body SHA-256. Both flat choices and nested decisions match: `repo_envelope` and `preserve_plan`. The packet JSON is the verbatim record; no metadata was added.
+
+Ratified contract: one canonical open umbrella per upstream repository; versioned repo-envelope with separate exact per-named finding identities, provenance/digests/carry-forward; per-named approval and sync scope. One suite approval never authorizes siblings, C1/C2/C3, L4, frozen/held records, or GBrain. AgentDB's own release source remains distinct from Ruflo despite its suiteRef. Preserve #1833 body/history unchanged; any actual migration requires a lossless, payload-hash-bound, deployment-ordered plan. New code may plan/report known legacy holds; actual writes for affected held repository/repositories stay blocked pending specific migration approval. Unknown/corrupt claimed targets still fail closed.
+
+This ratifies contract direction, not L4 approval, migration receipt, issue/data writes, permission/schema/trust/P2/merge authority. Standing code-only authority (`Same pattern will need no authorization from me`) covers implementation plus independent Terra review and full regression without routine reapproval. The existing single conditional ordinary `apply=false` allowance remains unconsumed and may be used only if review/full regression and all safety/data gates permit. Successful planning is not write-readiness; do not promise P1 PASS before an actual normal run. No code implementation has yet been performed in this recording step. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, and OPEN/DRAFT PRs #2468/#2469 remain unchanged. No issue closure/relabel/title/body edit, migration, registry/trust write, or merge authorized.
+
+## Prior code-only authority (verbatim)
 
 Founder (verbatim):
 

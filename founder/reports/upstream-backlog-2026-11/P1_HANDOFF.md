@@ -1,4 +1,10 @@
-# Current handoff — normal acceptance FAILED; STOP
+# Current handoff — policy choices ratified; code implementation authorized/active; P1 blocked
+
+Exact founder choices are stored in [P1_IDENTITY_FOUNDER_DECISIONS.json](P1_IDENTITY_FOUNDER_DECISIONS.json), with no invented fields: `repo_envelope` and `preserve_plan`, bound to packet ID, source commit `0769c2e2216cd4a38e3e121bbdc874956d599c71`, and known #1833 body SHA-256. Contract: one repository umbrella; versioned envelope with separate exact named identities/provenance/digests/carry-forward, per-named approval/sync. No sibling or C1/C2/C3/L4/frozen/held-GBrain authorization; AgentDB source remains distinct from Ruflo despite suiteRef. #1833 body/history stays unchanged; actual migration must be lossless, payload-hash-bound and deployment-ordered. Affected held-repository actual writes wait for specific migration approval; unknown/corrupt targets fail closed.
+
+Standing code-only authority covers implementation, independent Terra review and full regression without routine reapproval. No code implementation yet in this recording step. Conditional single normal `apply=false` allowance remains unconsumed and gated by review/full regression/all safety and data requirements. Planning success is not write-readiness; do not promise P1 PASS before actual normal run. No issue/data/registry/trust/schema/permission/P2/merge authority. Integration/schema refs and OPEN/DRAFT PRs #2468/#2469 unchanged.
+
+## Preserved failed-run receipt (historical)
 
 Run 44135214784 was the one authorized normal attempt and is consumed. Exact head `f6198ef9e7d5cf88bd4ebd44895f37c9a036251b`; watcher step failed exit 3; artifact upload succeeded. Actual report: dryRun true, batch, issuesCreated 3/issuesUpdated 4 (planned metrics), one stopped `github-write` unknown for `ruvnet/dual-mode` due to existing umbrella #1833 payload identity conflict. Diagnostic jobs and challenge-watch skipped. #2278 combined-inventory gate not established. Full sanitized receipt and hashes: [P1_NORMAL_ACCEPTANCE_44135214784.md](P1_NORMAL_ACCEPTANCE_44135214784.md). Stop for Lead/founder decision; no retry, permission/guard/source changes, P2, or merge. Full campaign cost unavailable.
 

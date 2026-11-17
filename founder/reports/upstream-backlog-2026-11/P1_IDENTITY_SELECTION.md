@@ -1,6 +1,14 @@
 # P1 identity-selection assessment
 
-## Authority recorded before substantive edits
+## Founder choices — verbatim record; implementation authorized/active
+
+The founder submitted exact JSON, stored without added metadata in [P1_IDENTITY_FOUNDER_DECISIONS.json](P1_IDENTITY_FOUNDER_DECISIONS.json). Packet `upstream-identity-founder-2026-11`; source commit `0769c2e2216cd4a38e3e121bbdc874956d599c71` is the historical packet-preparation source, not implementation HEAD; #1833 body SHA-256 `9344b0c025eea552cd461bb892ef82e1b88d5530a495f347bfd71f1daac74cc6`. Flat and nested decisions match exactly.
+
+Ratified: one canonical open umbrella per upstream repository, with versioned repo-envelope retaining separate exact per-named finding identities/provenance/digests/carry-forward and per-named approval/sync scope. One approved suite never authorizes siblings, C1/C2/C3, L4, frozen/held GBrain. AgentDB owns its release source distinct from Ruflo despite suiteRef. Preserve #1833 body/history unchanged; any actual migration requires a lossless, payload-hash-bound, deployment-ordered plan. New code may plan/report known legacy holds, while actual writes for affected held repositories remain blocked pending specific migration approval. Unknown/corrupt claimed targets still fail closed.
+
+This is contract-direction ratification, not L4 approval or operational migration receipt. Standing code-only authority covers implementation plus independent Terra review and full regression without routine reapproval. Implementation has not yet occurred in this recording step. Conditional single normal `apply=false` allowance remains unconsumed and gated by review/full regression/all safety and data requirements. Successful planning is not write-readiness; do not promise P1 PASS before an actual normal run. No issue changes/closure/relabel, migration, registry/trust/schema/permission/P2/merge authority. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, and OPEN/DRAFT PRs #2468/#2469 remain unchanged.
+
+## Previous bounded assessment checkpoint
 
 Founder (verbatim):
 
