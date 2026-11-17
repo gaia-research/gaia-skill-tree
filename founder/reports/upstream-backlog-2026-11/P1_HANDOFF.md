@@ -1,3 +1,13 @@
+# Current handoff — ordinary P1 acceptance pending
+
+The founder-authorized ordinary-only permission preparation is ready to publish; exactly ONE normal `apply=false` acceptance run is authorized after publication. Repeated authorization/continue replies mean one grant/run. P1 BLOCKED until actual report passes. Current expected local branch/head: `dev/upstream-backlog-watcher-2026-11` / `d176e98c8116c19efed40efeed9ef829b81f505e`, clean; prior remote feature ref `ef05149256f6091429f4f618bccaade3c3da7ee1` is ancestor. Tracking to integration/ahead is intentional. Terra corrected test PASS (238 focused); parent exact-head full regression 1204 passed in 196.33s, exit 0; parity true, missing arrays empty, transient retained. Offline normal-path dry-run passed with unknownEvidence empty and zero issue writes; not hosted acceptance. Full validate not green (Class P index missing); actionlint unavailable. Protected digest unchanged.
+
+Publish 3cc+d176 and report checkpoint; update existing #2468/#2469 bodies preserving DRAFT/OPEN/no-merge. Then one dispatch only on feature ref after no-conflict check with `apply=false`, `metadata_probe=false`, `permission_ab=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `challenge_watch=false`, `challenge_shadow=false`, and empty skill/challenge/escalation inputs. No variables/labels/issue writes/P2/merges/extra probes. On uncertain submit do not repeat; one bounded read or UNKNOWN. Record run ID/URL/ref/full head/UTC/inputs/individual initial statuses; only report skips actually observed. Stop immediately for background monitor, no poll/artifacts/post-dispatch commit. Acceptance requires exit 0, artifact `upstream-watcher-report`, unknownEvidence empty, issue creates/updates zero. P1 remains BLOCKED until then.
+
+---
+
+## Historical handoff (preserved; superseded where conflicting)
+
 # P1 Handoff — Watcher & CLI Technical Reconciliation
 
 ## Latest observed outcome — run 43950071316; stop at decision gate

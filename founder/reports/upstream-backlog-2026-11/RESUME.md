@@ -1,3 +1,13 @@
+# Current resume instructions — ordinary P1 acceptance pending
+
+One authorized publication and one normal read-only acceptance run. Current feature branch `dev/upstream-backlog-watcher-2026-11`, expected clean HEAD `d176e98c8116c19efed40efeed9ef829b81f505e`, remote feature ancestor `ef05149256f6091429f4f618bccaade3c3da7ee1`; integration tracking ahead is configured and must not be changed. Corrected Terra PASS (238 focused); parent exact-head full regression 1204 passed / 196.33s, exit 0, parity true, missing arrays empty, transient retained. Offline mixed-inventory normal dry-run succeeds with unknownEvidence empty and zero issue writes; not actual hosted acceptance. Full gaia validate is not green (Class P index missing); actionlint unavailable.
+
+Publish reviewed local feature commits plus report checkpoint, update existing #2468/#2469 bodies while preserving content and OPEN/DRAFT/no-merge. Check no conflicting normal run; dispatch `.github/workflows/upstream-watcher.yml` once on feature branch: apply=false, metadata_probe=false, permission_ab=false, child_mode=batch, staging=off, staging_bootstrap=false, challenge_watch=false, challenge_shadow=false, skill_id=, challenge_input=, escalate_candidate=. No variables, labels, issue writes, other probes, P2, merges. If uncertain POST: never retry; one bounded lookup by head/time or record UNKNOWN. After submit, record run identity, exact head/ref/time/inputs/initial individual states and only observed skips, then STOP for background monitoring: no polling, sleeps, artifacts or post-dispatch commit; freeze branch. Acceptance needs successful exit, `upstream-watcher-report` artifact, unknownEvidence empty, issue creates/updates zero. Any failure stops without rerun or permission/guard change. P1 BLOCKED meanwhile.
+
+---
+
+## Preserved historical recovery record (superseded where conflicting)
+
 # Upstream Backlog Campaign — Resumable Pause Handoff
 
 ## Latest observed outcome — run 43950071316; P1 BLOCKED

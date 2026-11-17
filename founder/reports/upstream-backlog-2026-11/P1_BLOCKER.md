@@ -1,4 +1,14 @@
-# P1 blocker — metadata remains pending; diagnostic-only, P1 blocked
+# P1 blocker — current ordinary acceptance pending; P1 blocked
+
+## Current gate — one normal read-only acceptance run authorized
+
+The founder authorized publication of the reviewed ordinary-inventory `watcher` job permission preparation and exactly one normal `apply=false` acceptance run. Repeated `authorized`/`continue` replies are one grant/run. This is not the historical metadata permission A/B and cannot be multiplied into additional runs. Current feature HEAD expected: `d176e98c8116c19efed40efeed9ef829b81f505e`; branch `dev/upstream-backlog-watcher-2026-11`; remote feature tip `ef05149256f6091429f4f618bccaade3c3da7ee1` is ancestor; configured integration tracking/ahead is normal and must not be repaired. Terra corrected integration-test PASS (238 focused); parent exact-head full regression 1204 passed / 196.33s / exit 0, parity true, missing arrays empty, transient retained. Offline normal-path mixed inventory is green but is not hosted acceptance. Class P index missing; full validate not green. P1 is BLOCKED until actual hosted report passes.
+
+Publish reviewed commits and report-only checkpoint; update existing #2468/#2469 bodies preserving content and OPEN/DRAFT/no-merge. Then dispatch exactly once after no-conflict check with `apply=false`, `metadata_probe=false`, `permission_ab=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `challenge_watch=false`, `challenge_shadow=false`, `skill_id=''`, `challenge_input=''`, `escalate_candidate=''`. No issue writes, P2, variables, labels, other probes, merges, or guard/permission changes. Uncertain POST: never repeat; one bounded lookup by new head/time, otherwise UNKNOWN. Record actual ID/URL/ref/full head/UTC/inputs/initial per-job states and only observed skips; stop for background monitor with no polling/artifact collection/post-dispatch commit. Acceptance requires exit 0, normal report artifact, `unknownEvidence=[]`, issue creates/updates both zero. Any failure stops.
+
+---
+
+## Historical blocker record (preserved; superseded where conflicting)
 
 ## Latest observation — run 43950071316; P1 BLOCKED
 

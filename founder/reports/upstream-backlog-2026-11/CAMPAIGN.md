@@ -1,3 +1,13 @@
+# Current operational checkpoint — ordinary P1 acceptance pending
+
+The current scope is the single founder grant to publish the reviewed ordinary watcher-only `pull-requests: read` permission and run exactly one normal `apply=false` acceptance. Repeated `authorized`/`continue` replies are one grant/run. P1 remains BLOCKED pending actual hosted acceptance. Current branch is expected clean HEAD `d176e98c8116c19efed40efeed9ef829b81f505e`, remote feature ancestor `ef05149256f6091429f4f618bccaade3c3da7ee1`; configured tracking points to integration and is intentionally not repaired. Terra corrected test PASS (238 focused); parent exact-head full regression 1204 passed / 196.33s / exit 0, parity both true, missing arrays empty, transient retained. The offline real normal-path test reports exit 0, unknownEvidence empty, issue creates/updates zero; this is not the hosted acceptance. Class P index missing; no green full validate claim.
+
+Next: publish reviewed 3cc+d176 plus report-only checkpoint; update existing #2468/#2469 draft bodies preserving status/content; one normal dispatch only after no-conflict check. Exact inputs: apply=false, metadata_probe=false, permission_ab=false, child_mode=batch, staging=off, staging_bootstrap=false, challenge_watch=false, challenge_shadow=false, skill_id/challenge_input/escalate_candidate empty. No issue writes/P2/vars/labels/merges/probes. On uncertain POST, never repeat; one bounded lookup or UNKNOWN. Record run id/URL/ref/head/UTC/inputs/initial observed job states and stop immediately for background monitor—no polling/artifact collection/post-dispatch commits. Acceptance requires exit 0, normal report artifact, unknownEvidence=[], issue creates/updates zero. Any failure stops. P1 BLOCKED; PRs OPEN/DRAFT; schema/integration refs unchanged.
+
+---
+
+## Historical chronology (preserved; superseded where conflicting)
+
 # Upstream backlog campaign, November 2026 — control file
 
 ## Latest checkpoint — run 43950071316; stop for Lead/founder decision
