@@ -660,8 +660,8 @@
       <section class="section" id="what-is">
         <h2 class="section-title">What is a Named Skill?</h2>
         <div class="section-body">
-          <p>A <strong>Named Skill</strong> is a canonical registry skill that has been claimed by a real contributor with at least Grade C (Bronze) evidence. At the moment of naming, the skill ranks up to <strong>2★ (Named)</strong> and the contributor becomes its <strong>Origin Contributor</strong> — a permanent, auditable record in the graph.</p>
-          <p>Named Skills display in <strong style="color:#dc2626;">honor red</strong> in the CLI and the Atlas. The Origin Contributor field is one-per-skill and immutable after the naming PR merges — re-attribution requires a maintainer decision with a timeline event.</p>
+          <p>A <strong>Named Skill</strong> is a canonical registry skill that has been claimed by a real contributor with at least Grade C (Bronze) evidence. At the moment of naming, the skill ranks up to <strong>2★ (Named)</strong> and the contributor is recorded as its author. Whether it holds its bucket's <strong>Origin</strong> depends on merit, not on being first.</p>
+          <p>Named Skills display in <strong style="color:#dc2626;">honor red</strong> in the CLI and the Atlas. Origin is not a permanent title. The build re-derives it from merit, so another implementation can take it by earning a higher level or Trust Magnitude.</p>
         </div>
 
         <div class="callout origin">
@@ -891,7 +891,7 @@ gaia dev verify skill-id <span class="flag">--index</span> 0   <span class="c">#
       <section class="section" id="claiming">
         <h2 class="section-title">Claiming a Named Skill</h2>
         <div class="section-body">
-          <p>Claiming attaches your GitHub identity to a canonical skill as its Origin Contributor. The claim is permanent — re-attribution requires a maintainer decision. Do not claim skills you did not originate.</p>
+          <p>Claiming attaches your GitHub identity to a canonical skill as its named author. Origin is not part of the claim; the build derives it from merit. Do not claim skills you did not originate.</p>
         </div>
 
         <h3>What you need</h3>
@@ -1015,7 +1015,7 @@ links:
             <tr><td>links.repo</td><td>Rename to <code>links.github</code></td></tr>
             <tr><td>links.docs</td><td>Rename to <code>links.github</code> (strip any <code>#fragment</code>)</td></tr>
             <tr><td>links.arxiv</td><td>Add <code>links.github</code> alongside — keep arxiv</td></tr>
-            <tr><td>origin: https://…</td><td>Move URL to <code>links.github</code>, set <code>origin: false</code></td></tr>
+            <tr><td>origin: https://…</td><td>Move URL to <code>links.github</code>, then drop the key. <code>origin</code> is historical, not authoritative</td></tr>
           </tbody>
         </table>
 

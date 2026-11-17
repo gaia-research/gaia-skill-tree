@@ -5151,3 +5151,18 @@ Both pages directly address #637 and #254.
 
 - `docs/en/contributing.html` — CONTRIBUTING.md distilled for the web
 - `docs/en/named-skills.html` — deep dive into claiming origin, evidence submission, and the naming PR flow
+
+
+---
+
+## Editor's entry — week of 2026-11-17 (PR #2436, routines 071–077)
+
+Shipped the week's dailies as one PR. Merged `origin/main` (v9.5.0); version chips already match.
+
+**What users must adapt:** Origin is no longer described as permanent or immutable. It is derived from merit and can move. Claiming a Named Skill records authorship only. `origin` frontmatter is historical, not authoritative.
+
+**Cut or changed:** four stale "permanent Origin" lines in `named-skills.html` (intro, callout, claiming, migration table row).
+
+**Stale cleared:** DOCS.md row 6 is now Current; the 077 "Planned next" item is done.
+
+**How:** solo pass, no subagents. Dailies 071-077 reviewed by diff; scans for new hex and banned words clean on the added lines.
