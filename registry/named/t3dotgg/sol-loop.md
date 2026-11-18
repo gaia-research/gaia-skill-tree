@@ -1,0 +1,146 @@
+---
+id: t3dotgg/sol-loop
+name: sol-loop
+contributor: t3dotgg
+origin: false
+genericSkillRef: receiving-code-review
+status: named
+level: 4★
+description: Iterative code-review loop that addresses reviewer and review-bot feedback
+  with technical verification until all threads and checks converge.
+createdAt: '2026-11-17'
+updatedAt: '2026-11-18'
+title: Sol Loop
+links:
+  github: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md
+suiteRef: t3dotgg/tstack
+timeline:
+- timestamp: '2026-11-17T14:04:29Z'
+  action: add
+  contributor: mbtiongson1
+  details: Added named skill t3dotgg/sol-loop
+- timestamp: '2026-11-17T14:26:18Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)'
+- timestamp: '2026-11-17T14:27:20Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-11-17T14:28:23Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type:
+    social-signal)'
+- timestamp: '2026-11-17T14:29:32Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type:
+    social-signal)'
+- timestamp: '2026-11-17T14:30:36Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type:
+    social-signal)'
+- timestamp: '2026-11-17T17:13:59Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 4★
+- timestamp: '2026-11-17T18:20:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 124.01, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-11-17T18:34:50Z'
+  action: installation_updated
+  contributor: mbtiongson1
+  details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/sol-loop.md'
+- timestamp: '2026-11-17T18:53:15Z'
+  action: installation_updated
+  contributor: mbtiongson1
+  details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/sol-loop.md'
+evidence:
+- source: https://github.com/t3dotgg/tstack
+  evaluator: mbtiongson1
+  date: '2026-11-17'
+  type: repo-own
+  notes: Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a
+    (capped with github-stars-own at 49.90 TM).
+  commits: 6
+  contributors: 1
+  sourceStartedAt: '2026-10-24'
+- source: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-11-17'
+  type: github-stars-own
+  notes: Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under
+    suiteRef).
+  stars: 4033
+  skillCountInRepo: 9
+  sourceStartedAt: '2026-10-24'
+  grade: A
+- source: https://www.youtube.com/watch?v=5Bmp9cz1JN8
+  evaluator: mbtiongson1
+  date: '2026-11-17'
+  type: social-signal
+  notes: First-party Theo deep dive on sol-loop review loop (03:48) in 'These 3 skills
+    changed my life'.
+  views: 247982
+  likes: 3059
+  comments: 168
+  creator: '@theo'
+  creatorRelation: first-party
+  relevanceNote: First-party Theo deep dive on sol-loop review loop (03:48) in 'These
+    3 skills changed my life'.
+  sourceStartedAt: '2026-10-26'
+  grade: B
+- source: https://www.youtube.com/watch?v=SY_woOjzlW4
+  evaluator: mbtiongson1
+  date: '2026-11-17'
+  type: social-signal
+  notes: Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation)
+    invoking 'sol loop' by exact skill name (01:03:52).
+  views: 50968
+  likes: 441
+  comments: 10
+  creator: '@theo'
+  creatorRelation: first-party
+  relevanceNote: Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo
+    creation) invoking 'sol loop' by exact skill name (01:03:52).
+  sourceStartedAt: '2026-10-14'
+  grade: C
+- source: https://www.youtube.com/watch?v=GGrvSnpPTGo
+  evaluator: mbtiongson1
+  date: '2026-11-17'
+  type: social-signal
+  notes: Third-party Better Stack breakdown of sol-loop (02:54, 04:06, 06:14).
+  views: 38821
+  likes: 433
+  comments: 45
+  creator: '@betterstack'
+  creatorRelation: third-party
+  relevanceNote: Third-party Better Stack breakdown of sol-loop (02:54, 04:06, 06:14).
+  sourceStartedAt: '2026-11-12'
+  grade: B
+verification:
+  firstEvidenceAt: '2026-11-17T14:26:12Z'
+trustMagnitude: 124.01
+overallTrustGrade: A
+trustMagnitudeInputHash: 90f1b5709eda9d9d605843385d25e18293a7ec5217d0d3ad77a08d0b405abd61
+---
+
+## Installation
+Install `sol-loop` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:
+
+```bash
+git clone https://github.com/t3dotgg/tstack
+git -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a
+mkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex
+cp -R tstack/skills/sol-loop ~/.claude/skills/
+```
+
+### Dependencies & Requirements
+- Requires subagent execution on another provider's model (e.g., `delegate_task` in T3 Code or equivalent harness).
+
+Upstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md
