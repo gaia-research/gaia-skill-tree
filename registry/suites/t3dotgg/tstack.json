@@ -1,0 +1,22 @@
+{
+  "id": "t3dotgg/tstack",
+  "name": "Tstack",
+  "contributor": "t3dotgg",
+  "description": "",
+  "version": "1.0.0",
+  "capstone": "t3dotgg/tstack",
+  "suites": [],
+  "standalones": [
+    "t3dotgg/babysit-pr",
+    "t3dotgg/council",
+    "t3dotgg/file-pr",
+    "t3dotgg/full-send",
+    "t3dotgg/full-stop",
+    "t3dotgg/leaving-pr-comments",
+    "t3dotgg/modernize",
+    "t3dotgg/sol-loop",
+    "t3dotgg/takeover"
+  ],
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17"
+}

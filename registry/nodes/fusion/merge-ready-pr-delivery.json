@@ -1,0 +1,26 @@
+{
+  "id": "merge-ready-pr-delivery",
+  "name": "Merge-Ready PR Delivery",
+  "type": "fusion",
+  "description": "Executes full post-implementation verification, iterative review, PR creation, and CI/review monitoring to green, disables auto-merge, and halts at the human merge gate.",
+  "prerequisites": [
+    "finishing-a-development-branch",
+    "receiving-code-review",
+    "verification-before-completion"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:38Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill merge-ready-pr-delivery"
+    }
+  ]
+}

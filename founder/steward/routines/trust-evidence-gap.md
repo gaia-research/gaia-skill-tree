@@ -53,12 +53,15 @@ annotates it and writes an immutable receipt under the ignored
 - **Per candidate**, the receipt records URL, publication date, attribution,
   freshness (`fresh` ≤ 365 days, `aging` ≤ 1095, else `stale`, `unknown` if
   undated), duplicate status (against the skill's existing effective evidence
-  and earlier candidates, by canonical URL) and admissibility with reasons.
+  and earlier candidates, by `(evidenceType, canonical URL)`) and admissibility with reasons.
+  These discovery age classes are descriptive Steward annotations only; they are
+  distinct from normal curation eligibility and TM decay, and impose no 30-day
+  publication hold on newly published first-party or third-party `social-signal`
+  demonstrations (see [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md) and #2473).
 - **Admissibility is an annotation, never an admission.** `admissible-candidate`
   means a Verifier may propose it. Repository stars, self-attestation, social
-  signal and `benchmark-result` rows are `needs-review` with the reason stated
-  (stars are not proof of capability by default; benchmark rows are
-  catalog-gated).
+  signal, `proxy-containment` and `benchmark-result` rows are `needs-review` with the reason stated
+  (stars are not proof of capability by default; `social-signal` needs verified relevance, first-/third-party provenance, and view floor >= 1,000 with no author-identity ban or publication hold; `proxy-containment` requires external, non-first-party containment >= 10k stars; benchmark rows are catalog-gated).
 - **Strict schema.** A log carrying an admission, a level or a trust value is
   rejected, not ignored.
 

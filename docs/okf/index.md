@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (156)
+### Basic Skills (157)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -105,6 +105,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Prompt Injection Defense](/skills/basic/prompt-injection-defense.md) - Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.
 * [Protein Structure Analysis](/skills/basic/protein-structure-analysis.md) - Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.
 * [Proteomic Data Retrieval](/skills/basic/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
+* [Pull Request Authoring](/skills/basic/pull-request-authoring.md) - Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request.
 * [Quantum Circuit Programming](/skills/basic/quantum-circuit-programming.md) - Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.
 * [Question Answer](/skills/basic/question-answer.md) - Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.
 * [Questionnaire Generation](/skills/basic/questionnaire-generation.md) - Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.

@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — jules  ·  generated 2026-11-14
+GAIA SKILL TREE — jules  ·  generated 2026-11-17
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -155,7 +155,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ addy-osmani/performance-optimization  [2★]
   │  └─ · · ruvnet/swarm-advanced  [2★]
   │     ├─ · ○ ruvnet/swarm-orchestration  [2★]
-  │     └─ · · garrytan/codex  [2★]
+  │     └─ · · t3dotgg/council  [4★]
   │        ├─ · ○ /self-critique
   │        ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
   │        └─ · ○ /chain-of-thought

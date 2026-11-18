@@ -1,0 +1,563 @@
+{
+  "batchId": "content-df4916e37ca1dfdbb014f27d384a53c69280890b9261ea317f57cdfa478499e5-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-11-16T19:54:23Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "pr-lifecycle-orchestration",
+      "name": "PR Lifecycle Orchestration",
+      "type": "fusion",
+      "prerequisites": [
+        "finishing-a-development-branch",
+        "format-output",
+        "multi-agent-debate",
+        "receiving-code-review"
+      ],
+      "description": "Orchestrates the end-to-end pull request lifecycle from authoring and structured review comments through multi-agent debate, iterative reviewer loops, CI/review-bot monitoring, stale-PR reconciliation, branch takeover, and human-gated or autonomous merge delivery. Post-authorization gaia dev fuse wires all nine component generics (adding autonomous-pr-delivery, merge-ready-pr-delivery, pr-ci-monitoring, pull-request-authoring, and stale-pr-reconciliation).",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+          "notes": "Suite capstone L4 amendment superseding #2470 (t3dotgg/tstack@11e37a74d0a6868c121cd0910ab2b3bd9873b92a, MIT, 4,023 stars / 308 forks, 6 commits, 1 contributor t3dotgg; README.md sha256=682afc278d4a; no root SKILL.md exists). Suite manifest + suiteComponents (9) + 9-prereq fusion wired via gaia dev fuse post-authorization."
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "capstone",
+        "componentCandidateIds": [
+          "t3dotgg/full-send",
+          "t3dotgg/full-stop",
+          "t3dotgg/sol-loop",
+          "t3dotgg/takeover",
+          "t3dotgg/babysit-pr",
+          "t3dotgg/leaving-pr-comments",
+          "t3dotgg/council",
+          "t3dotgg/file-pr",
+          "t3dotgg/modernize"
+        ]
+      },
+      "attributionScope": "suite-wide",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "tstack",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "autonomous-pr-delivery",
+      "name": "Autonomous PR Delivery",
+      "type": "fusion",
+      "prerequisites": [
+        "finishing-a-development-branch",
+        "receiving-code-review",
+        "verification-before-completion"
+      ],
+      "description": "Drives post-implementation delivery end-to-end: proves behavior in a real runtime, runs iterative code review, authors and monitors the pull request through CI/review checks, and merges autonomously when clean.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+          "notes": "Founder L4 NEW_GENERIC (fusion) 'autonomous-pr-delivery' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "full-send",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "merge-ready-pr-delivery",
+      "name": "Merge-Ready PR Delivery",
+      "type": "fusion",
+      "prerequisites": [
+        "finishing-a-development-branch",
+        "receiving-code-review",
+        "verification-before-completion"
+      ],
+      "description": "Executes full post-implementation verification, iterative review, PR creation, and CI/review monitoring to green, disables auto-merge, and halts at the human merge gate.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+          "notes": "Founder L4 NEW_GENERIC (fusion) 'merge-ready-pr-delivery' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "full-stop",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "receiving-code-review",
+      "name": "Receiving Code Review",
+      "type": "fusion",
+      "prerequisites": [
+        "requesting-code-review",
+        "verification-before-completion"
+      ],
+      "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+          "notes": "Founder L4 MAP to existing canonical generic 'receiving-code-review' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "sol-loop",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "type": "fusion",
+      "prerequisites": [
+        "code-review-pipeline",
+        "diff-content"
+      ],
+      "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+          "notes": "Founder L4 MAP to existing canonical generic 'finishing-a-development-branch' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "takeover",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "pr-ci-monitoring",
+      "name": "PR CI Monitoring",
+      "type": "fusion",
+      "prerequisites": [
+        "receiving-code-review",
+        "workflow-automation"
+      ],
+      "description": "Monitors an open pull request via stateful event watching across CI checks, review threads, and base-branch drift, distinguishing real defects from flakes and keeping the branch up to date.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+          "notes": "Founder L4 NEW_GENERIC (fusion) 'pr-ci-monitoring' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "babysit-pr",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "format-output",
+      "name": "Format Output",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+          "notes": "Founder L4 MAP to existing canonical generic 'format-output' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "leaving-pr-comments",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "multi-agent-debate",
+      "name": "Multi-Agent Debate",
+      "type": "fusion",
+      "prerequisites": [
+        "chain-of-thought",
+        "evaluate-output",
+        "self-critique"
+      ],
+      "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+          "notes": "Founder L4 MAP to existing canonical generic 'multi-agent-debate' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "council",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "pull-request-authoring",
+      "name": "Pull Request Authoring",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+          "notes": "Founder L4 NEW_GENERIC (basic) 'pull-request-authoring' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "file-pr",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "stale-pr-reconciliation",
+      "name": "Stale PR Reconciliation",
+      "type": "fusion",
+      "prerequisites": [
+        "git-diff-risk-analysis",
+        "git-integration"
+      ],
+      "description": "Reassesses an aging pull request against current base-branch architecture and competing changes to recommend rebase-and-verify, rework, or closure.",
+      "attribution": {
+        "upstream_author": "t3dotgg",
+        "skill_file_url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+          "notes": "Founder L4 NEW_GENERIC (fusion) 'stale-pr-reconciliation' (suite component of t3dotgg/tstack, superseding"
+        }
+      ],
+      "suite": {
+        "suiteId": "t3dotgg/tstack",
+        "role": "component"
+      },
+      "attributionScope": "suite-component",
+      "named": {
+        "contributor": "t3dotgg",
+        "skill_name": "modernize",
+        "links_github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "pr-lifecycle-orchestration",
+      "targetSkillId": "multi-agent-orchestration-v",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pr-lifecycle-orchestration",
+      "targetSkillId": "founder-mode-orchestration",
+      "score": 0.654,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pr-lifecycle-orchestration",
+      "targetSkillId": "multi-node-orchestration",
+      "score": 0.64,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "autonomous-pr-delivery",
+      "targetSkillId": "autonomous-debug",
+      "score": 0.684,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "autonomous-pr-delivery",
+      "targetSkillId": "scientific-discovery",
+      "score": 0.679,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "autonomous-pr-delivery",
+      "targetSkillId": "autonomous-web-research",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "merge-ready-pr-delivery",
+      "targetSkillId": "memory-pattern-design",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "merge-ready-pr-delivery",
+      "targetSkillId": "reward-modeling",
+      "score": 0.474,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "merge-ready-pr-delivery",
+      "targetSkillId": "code-review-pipeline",
+      "score": 0.465,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "receiving-code-review",
+      "targetSkillId": "receiving-code-review",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "receiving-code-review",
+      "targetSkillId": "requesting-code-review",
+      "score": 0.837,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "receiving-code-review",
+      "targetSkillId": "video-preview",
+      "score": 0.647,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "finishing-a-development-branch",
+      "targetSkillId": "finishing-a-development-branch",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "finishing-a-development-branch",
+      "targetSkillId": "test-driven-development",
+      "score": 0.528,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "finishing-a-development-branch",
+      "targetSkillId": "full-stack-developer",
+      "score": 0.52,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pr-ci-monitoring",
+      "targetSkillId": "feed-monitoring",
+      "score": 0.71,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pr-ci-monitoring",
+      "targetSkillId": "brainstorming",
+      "score": 0.621,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pr-ci-monitoring",
+      "targetSkillId": "cli-modernization",
+      "score": 0.606,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "format-output",
+      "targetSkillId": "format-output",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "format-output",
+      "targetSkillId": "evaluate-output",
+      "score": 0.643,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "format-output",
+      "targetSkillId": "structured-output",
+      "score": 0.6,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "multi-agent-debate",
+      "targetSkillId": "multi-agent-debate",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "multi-agent-debate",
+      "targetSkillId": "multi-agent-orchestration-v",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "multi-agent-debate",
+      "targetSkillId": "agent-eval",
+      "score": 0.571,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pull-request-authoring",
+      "targetSkillId": "skill-authoring",
+      "score": 0.649,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pull-request-authoring",
+      "targetSkillId": "vision-qa",
+      "score": 0.596,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "pull-request-authoring",
+      "targetSkillId": "release-automation",
+      "score": 0.55,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "stale-pr-reconciliation",
+      "targetSkillId": "optical-character-recognition",
+      "score": 0.615,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "stale-pr-reconciliation",
+      "targetSkillId": "tool-creation",
+      "score": 0.556,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "stale-pr-reconciliation",
+      "targetSkillId": "cultural-localization",
+      "score": 0.545,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "submissionKey": "df4916e37ca1dfdbb014f27d384a53c69280890b9261ea317f57cdfa478499e5"
+}

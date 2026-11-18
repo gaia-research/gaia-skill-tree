@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gsd-build  ·  generated 2026-11-14
+GAIA SKILL TREE — gsd-build  ·  generated 2026-11-17
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -57,7 +57,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
-  ├─ ✓ · addy-osmani/shipping-and-launch  [2★]
+  ├─ ✓ · t3dotgg/takeover  [3★]
   │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · addy-osmani/ci-cd-and-automation  [2★]
@@ -84,7 +84,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /structured-output
   │  └─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   ├─ · ○ garrytan/retro  [3★]
-  ├─ · · garrytan/codex  [2★]
+  ├─ · · t3dotgg/council  [4★]
   │  ├─ · ○ /self-critique
   │  ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
   │  └─ · ○ /chain-of-thought
@@ -129,13 +129,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
-  ├─ ✓ · addy-osmani/shipping-and-launch  [2★]
+  ├─ ✓ · t3dotgg/takeover  [3★]
   │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ emilkowalski/write-swift  [4★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [2★]
   │  └─ · ○ /diff-content  (↑ see above)
-  ├─ · · obra/receiving-code-review  [2★]
+  ├─ · · t3dotgg/sol-loop  [4★]
   │  ├─ · · obra/requesting-code-review  [2★]
   │  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  │  └─ · · obra/dispatching-parallel-agents  [2★]  (↑ see above)
@@ -155,6 +155,55 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /tool-use  (↑ see above)
   ├─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   └─ ✓ · obra/writing-plans  [4★]  (↑ see above)
+
+· ◆ t3dotgg/tstack  [4★]
+  ├─ · · t3dotgg/full-send  [4★]
+  │  ├─ ✓ · t3dotgg/takeover  [3★]
+  │  │  ├─ · · garrytan/plan-eng-review  [3★]
+  │  │  │  ├─ · ○ emilkowalski/write-swift  [4★]
+  │  │  │  ├─ · ○ /diff-content
+  │  │  │  └─ · ○ garrytan/benchmark  [2★]
+  │  │  └─ · ○ /diff-content  (↑ see above)
+  │  ├─ · · t3dotgg/sol-loop  [4★]
+  │  │  ├─ · · obra/requesting-code-review  [2★]
+  │  │  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  │  └─ · · obra/dispatching-parallel-agents  [2★]
+  │  │  │     ├─ · ○ /plan-decompose
+  │  │  │     └─ · ○ ████████/parallel-execution
+  │  │  └─ ✓ · obra/verification-before-completion  [3★]
+  │  │     ├─ · ○ /code-execution
+  │  │     └─ · ○ /self-critique
+  │  └─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
+  ├─ · · t3dotgg/full-stop  [4★]
+  │  ├─ ✓ · t3dotgg/takeover  [3★]  (↑ see above)
+  │  ├─ · · t3dotgg/sol-loop  [4★]  (↑ see above)
+  │  └─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
+  ├─ · · t3dotgg/sol-loop  [4★]  (↑ see above)
+  ├─ ✓ · t3dotgg/takeover  [3★]  (↑ see above)
+  ├─ · · t3dotgg/babysit-pr  [3★]
+  │  ├─ · · t3dotgg/sol-loop  [4★]  (↑ see above)
+  │  └─ · · garrytan/cron-scheduler  [2★]
+  │     ├─ · ○ /plan-decompose  (↑ see above)
+  │     ├─ · ○ /tool-use
+  │     └─ · ○ ████████/hf-cli
+  ├─ · ○ ayghri/i-have-adhd  [4★]
+  ├─ · · t3dotgg/council  [4★]
+  │  ├─ · ○ /self-critique  (↑ see above)
+  │  ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
+  │  └─ · ○ /chain-of-thought
+  ├─ · ○ t3dotgg/file-pr  [2★]
+  └─ · · t3dotgg/modernize  [3★]
+     ├─ · ○ ruvnet/agentic-jujutsu  [2★]
+     └─ · · addy-osmani/git-workflow-and-versioning  [2★]
+        ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+        ├─ · ○ ruvnet/github-multi-repo  [2★]
+        ├─ · · addy-osmani/ci-cd-and-automation  [2★]
+        │  ├─ · · garrytan/cron-scheduler  [2★]  (↑ see above)
+        │  └─ · ○ /code-execution  (↑ see above)
+        ├─ · · garrytan/daily-task-manager  [2★]
+        │  ├─ · ○ ████████/hf-cli  (↑ see above)
+        │  └─ · ○ mattpocock/triage  [3★]
+        └─ · · garrytan/cron-scheduler  [2★]  (↑ see above)
 
 ✓ ◆ addy-osmani/agent-skills  [4★]
   ├─ ✓ · obra/brainstorming  [4★]
@@ -177,7 +226,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
-  └─ ✓ · addy-osmani/shipping-and-launch  [2★]
+  └─ ✓ · t3dotgg/takeover  [3★]
      ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
@@ -190,9 +239,43 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  · ◉ t3dotgg/full-send  [4★]
+    ├─ ✓ · t3dotgg/takeover  [3★]
+    │  ├─ · · garrytan/plan-eng-review  [3★]
+    │  │  ├─ · ○ emilkowalski/write-swift  [4★]
+    │  │  ├─ · ○ /diff-content
+    │  │  └─ · ○ garrytan/benchmark  [2★]
+    │  └─ · ○ /diff-content  (↑ see above)
+    ├─ · · t3dotgg/sol-loop  [4★]
+    │  ├─ · · obra/requesting-code-review  [2★]
+    │  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+    │  │  └─ · · obra/dispatching-parallel-agents  [2★]
+    │  │     ├─ · ○ /plan-decompose
+    │  │     └─ · ○ ████████/parallel-execution
+    │  └─ ✓ · obra/verification-before-completion  [3★]
+    │     ├─ · ○ /code-execution
+    │     └─ · ○ /self-critique
+    └─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   ✓ ◉ obra/brainstorming  [4★]
     ├─ · ○ ████████/requirements-engineer
     └─ · ○ garrytan/office-hours  [3★]
+  · ◉ t3dotgg/full-stop  [4★]
+    ├─ ✓ · t3dotgg/takeover  [3★]
+    │  ├─ · · garrytan/plan-eng-review  [3★]
+    │  │  ├─ · ○ emilkowalski/write-swift  [4★]
+    │  │  ├─ · ○ /diff-content
+    │  │  └─ · ○ garrytan/benchmark  [2★]
+    │  └─ · ○ /diff-content  (↑ see above)
+    ├─ · · t3dotgg/sol-loop  [4★]
+    │  ├─ · · obra/requesting-code-review  [2★]
+    │  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+    │  │  └─ · · obra/dispatching-parallel-agents  [2★]
+    │  │     ├─ · ○ /plan-decompose
+    │  │     └─ · ○ ████████/parallel-execution
+    │  └─ ✓ · obra/verification-before-completion  [3★]
+    │     ├─ · ○ /code-execution
+    │     └─ · ○ /self-critique
+    └─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   ✓ ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
     │  ├─ ✓ · obra/writing-plans  [4★]
