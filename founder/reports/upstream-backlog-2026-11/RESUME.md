@@ -1,4 +1,8 @@
-# Current resume instructions — P1 paused; partial source unreviewed
+# Current resume instructions — P1 resumed at L2; partial source still unreviewed
+
+The founder resumed the task and confirmed tier-first routing: L1 Luna shared for very bounded work; **L2 Hydrogen by default**; L3 Terra shared; L4 Argon; L5 Opus medium only exceptionally. Resume code-only implementation and offline verification, with independent Terra review afterward. The previous pause is historical, not the current continuation gate. See [P1_RESUMPTION_ROSTER.md](P1_RESUMPTION_ROSTER.md) for the exact ruling, current boundaries, and deferred branch-update plan. Remain on the existing base while `integration/tstack-suite-2472` is unlanded. P1 is still PARTIAL / UNREVIEWED / NOT EXECUTION-READY; no migration, issue/data writes, P2–P7, or merges. The worker must not dispatch workflows or push privileged partial source.
+
+## Historical pause checkpoint (superseded only as to continuation and roster)
 
 **PAUSED / PARTIAL / UNREVIEWED / NOT EXECUTION-READY.** User's explicit pause overrides the previously recorded standing code-only continuation authority for now. Do not dispatch, test, build, mutate data, or advance phases under this checkpoint. Review [NEW_P1_PARTIAL_REVIEW_PAUSE.md](NEW_P1_PARTIAL_REVIEW_PAUSE.md) for exact changed paths, scope and unfinished work. Current 15-path source is preserved byte-for-byte; no complete focused test verdict, independent Terra review, full regression/parity, or acceptance exists for it. Old d176-era results do not validate the current diff. #1833 remains untouched; no migration execution or legacy-data approval. P2–P7 and merges remain paused. The recovered partial accounting snapshot is [COST_PAUSE_2026-11-18.md](COST_PAUSE_2026-11-18.md) and [COST_PAUSE_2026-11-18.json](COST_PAUSE_2026-11-18.json); it does not constitute a complete campaign or lane total.
 
