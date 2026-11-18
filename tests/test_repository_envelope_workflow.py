@@ -225,4 +225,3 @@ def test_b_approval_receipt_does_not_cover_selected_a(tmp_path):
         world(issue, comment_rows=comments), {**env, "PAYLOAD_SHA": env["FINDING_SHA256"]}, cwd=root)
     assert result.code != 0 and "no approval record covers this payload" in result.output
     assert not any(c[0] in {"pr", "workflow"} for c in result.calls)
-
