@@ -1,3 +1,37 @@
+## 2026-11-18 — Routine 078
+
+**Branch:** `docs/routines/071` (open draft PR #2436, not merged). Continued on it; no new branch or PR. `git rebase origin/main` conflicted again in `DOCS.md`, `MEMORY.md` and `faq.html` (the branch replays older commits onto the newer release stamps), so I aborted it and committed on the branch tip. The branch already contains `origin/main`.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 078)" in 077: ROTATE to `skill-hierarchy.html` and check its Type/Branch wording against `CONTEXT.md` § Taxonomy v6.
+
+### What I did
+
+- Type/Branch check: the Basic, Fusion, Unique branch and Suite branch cards match Taxonomy v6. Branch is Suite from 2★ with `suiteComponents`. The Extra/Ultimate/Apex ladder words and the ◆ glyph render at 4★+. No edit needed there.
+- Named Skills section: the paragraph that said the contributor "becomes the Origin Contributor … shown in honor red" now says claiming records authorship and does not grant Origin.
+- Same section, second paragraph: replaced "only one holds current Origin per bucket … approved review can move it" with the build rule. Origin goes to the highest published level, then the highest Trust Magnitude. Tied top contenders all hold it. Raising merit moves Origin.
+
+### Design decisions
+
+- Prose only. Layout, classes and nav are unchanged.
+- The Origin rule follows `CLAUDE.md` § Origin is automatic. It does not restate the rule as a how-to.
+
+### Issues informed
+
+- None filed. The page had no defect that needed a tracker.
+
+### Files
+
+- `docs/en/skill-hierarchy.html` (Named Skills section, two paragraphs)
+- `docs/en/DOCS.md` (Page Map row 4: status and routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 079)
+
+- ROTATE to `mcp-server.html` (row 9, last substantive routine 045, the oldest in the map). Check the `summon` tool description and the standalone-MCP note against the current `skill-heaven` plugin contract. Fix one section only.
+- Carry-over for `named-skills.html`: the "Claiming" line that says the claim is permanent (around L895) and the migration table row (around L1019, `origin: https://…` → `origin: false`). Both still describe Origin as a fixed grant.
+
+---
+
 ## 2026-11-17 — Routine 077
 
 **Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` again, so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
