@@ -412,13 +412,13 @@ def main(argv: list[str] | None = None) -> int:
         "--child-mode",
         choices=("batch", "fanout"),
         default="fanout",
-        help="fanout (default): deployed children. batch: opt-in umbrella batch record.",
+        help="batch: repository-envelope writer. fanout (default): read-only planned; --apply held fail-closed (exit 4) until rollout.",
     )
     parser.add_argument(
         "--escalate",
         metavar="CANDIDATE_ID",
         default=None,
-        help="Create or adopt one intake child for batch row CANDIDATE_ID, then exit.",
+        help="Held fail-closed (exit 3) under repository-envelope until exact named-selector escalation is added.",
     )
     parser.add_argument(
         "--report",

@@ -28,11 +28,6 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'upstream:child') || contains(github.event.issue.labels.*.name, 'upstream:release'))
 
     steps:
-      - name: Repository-envelope compatibility hold
-        run: |
-          echo "::error::Repository envelopes require exact named selectors. This automatic refire/cascade consumer is read-only for envelopes and legacy migration holds."
-          exit 1
-
       - name: Checkout trusted main
         uses: actions/checkout@v4
         with:
@@ -81,6 +76,21 @@ jobs:
             echo "Umbrella #${UMBRELLA_NUMBER} is not open+approved. No action needed."
             exit 0
           fi
+
+          UMBRELLA_VIEW=$(gh issue view "$UMBRELLA_NUMBER" --json number,title,body,state,labels) || {
+            echo "::error::Could not read umbrella #${UMBRELLA_NUMBER} for compatibility check."
+            exit 1
+          }
+          printf '%s' "$UMBRELLA_VIEW" | python3 -c '
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, verify_unaffected_legacy_target
+          try:
+              verify_unaffected_legacy_target(json.load(sys.stdin))
+          except PayloadError as exc:
+              print(f"::error::Read-only compatibility hold for #{os.environ.get(\"UMBRELLA_NUMBER\")}: {exc}", file=sys.stderr)
+              sys.exit(1)
+          '
 
           # Check if ALL sibling upstream:child issues for this umbrella are now closed.
           # Same deterministic lookup as upstream-approve.yml. A failed lookup must not be
@@ -209,14 +219,22 @@ jobs:
           [[ "$UMBRELLA_NUMBER" =~ ^[1-9][0-9]*$ ]] || exit 1
           # An explicit dispatch receives no issue event body. Re-read current
           # state, labels and payload; never cascade from a bare number alone.
-          VIEW=$(gh issue view "$UMBRELLA_NUMBER" --json title,body,state,labels) || exit 1
+          VIEW=$(gh issue view "$UMBRELLA_NUMBER" --json number,title,body,state,labels) || exit 1
           OWNED=$(printf '%s' "$VIEW" | python3 -c '
-          import json, sys
-          from scripts.upstream_watcher.approval import owned_upstream_issue
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, verify_unaffected_legacy_target
           row = json.load(sys.stdin)
           labels = {item.get("name") for item in row.get("labels", [])}
-          print("true" if row.get("state") == "CLOSED" and "upstream:rejected" in labels
-                and owned_upstream_issue(row) else "false")
+          if row.get("state") != "CLOSED" or "upstream:rejected" not in labels:
+              print("false")
+              sys.exit(0)
+          try:
+              verify_unaffected_legacy_target(row)
+          except PayloadError as exc:
+              print(f"::error::Read-only compatibility hold: {exc}", file=sys.stderr)
+              sys.exit(1)
+          print("true")
           ') || exit 1
           if [ "$OWNED" != true ]; then
             echo "Not a closed, proven upstream family; no cascade writes."

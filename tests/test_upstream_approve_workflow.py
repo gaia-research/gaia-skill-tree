@@ -1828,8 +1828,8 @@ def test_unrelated_issue_dispatch_by_unauthorized_actor_makes_no_writes(tmp_path
 def test_staged_close_children_dispatch_checks_out_trusted_main_not_dispatch_ref():
     doc = yaml.safe_load(CLOSE_CHILDREN_PATH.read_text(encoding="utf-8"))
     steps = doc["jobs"]["close-children"]["steps"]
-    assert steps[0]["name"] == "Repository-envelope compatibility hold"
-    checkout = next(s for s in steps if s.get("name") == "Checkout trusted main")
+    checkout = steps[0]
+    assert checkout.get("name") == "Checkout trusted main"
     assert checkout["uses"] == "actions/checkout@v4"
     assert checkout["with"]["ref"] == "main"
     assert checkout["with"]["fetch-depth"] == 1

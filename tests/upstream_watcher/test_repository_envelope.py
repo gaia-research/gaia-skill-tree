@@ -318,5 +318,49 @@ def test_real_normal_transport_keeps_siblings_and_own_source_with_legacy_hold(mo
 def test_unsupported_fanout_execution_is_explicit_hold_not_legacy_fallback():
     gh = FakeGh()
     report, code = run(gh, apply=True, mode="fanout")
-    assert code == 0 and not report["writeReadiness"] and gh.writes == []
-    assert report["repositories"][0]["executionHold"]
+    assert code == 4 and not report["writeReadiness"] and gh.writes == []
+    assert report["executionHold"] and report["repositories"][0]["executionHold"]
+    assert report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0
+    dry_report, dry_code = run(gh, apply=False, mode="fanout")
+    assert dry_code == 0 and not dry_report["writeReadiness"] and dry_report["executionHold"]
+    assert dry_report["actualIssuesCreated"] == 0 and dry_report["actualIssuesUpdated"] == 0
+
+
+def test_shallow_clone_fetches_pinned_historical_authority_and_missing_pin_fails_closed(monkeypatch, tmp_path):
+    import subprocess
+    origin = tmp_path / "origin"
+    origin.mkdir()
+    def git(cwd, *args):
+        return subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True)
+    git(origin, "init", "-b", "main")
+    git(origin, "config", "user.name", "Test")
+    git(origin, "config", "user.email", "test@example.com")
+    named_file = origin / "registry/named/owner/nested.md"
+    named_file.parent.mkdir(parents=True)
+    named_file.write_text(
+        '---\nid: owner/nested\nname: Nested\nlinks:\n  github: https://github.com/owner/repo\n---\n',
+        encoding="utf-8",
+    )
+    git(origin, "add", ".")
+    git(origin, "commit", "-m", "pin")
+    pinned = git(origin, "rev-parse", "HEAD").stdout.strip()
+    named_file.write_text(
+        '---\nid: owner/nested\nname: Nested\nlinks:\n  github: https://github.com/owner/nested\n---\n',
+        encoding="utf-8",
+    )
+    git(origin, "add", ".")
+    git(origin, "commit", "-m", "move")
+    shallow = tmp_path / "shallow"
+    git(tmp_path, "clone", "--depth=1", f"file://{origin}", str(shallow))
+    monkeypatch.setattr(rb, "ROOT", shallow)
+    monkeypatch.setattr(rb, "plan_policy", lambda: {
+        "planPolicyVersion": 1, "planOnly": True,
+        "directionRecord": "founder/reports/upstream-backlog-2026-11/P1_IDENTITY_FOUNDER_DECISIONS.json",
+        "historicalAuthorityCommit": pinned,
+    })
+    with pytest.raises(PayloadError, match="unavailable"):
+        rb.historical_authority("owner/nested")
+    # Bounded exact-pin fetch recovers the historical blob without broadening to unrelated refs.
+    git(shallow, "fetch", "--depth=1", "--no-tags", "origin", pinned)
+    loaded = rb.historical_authority("owner/nested")
+    assert loaded["owner/nested"]["links"]["github"] == "https://github.com/owner/repo"

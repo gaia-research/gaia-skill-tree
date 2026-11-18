@@ -42,6 +42,10 @@ def historical_authority(identifier):
     result = subprocess.run(["git", "show", f"{commit}:registry/named/{identifier}.md"],
                             capture_output=True, text=True, timeout=10, cwd=ROOT)
     if result.returncode:
+        probe = subprocess.run(["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+                               capture_output=True, text=True, timeout=10, cwd=ROOT)
+        if probe.returncode:
+            raise PayloadError(f"pinned historical authority commit {commit} is unavailable in local checkout")
         return {}
     try:
         _, front, _ = split_frontmatter(result.stdout)
@@ -308,12 +312,14 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
     single-ID writers or ambiguous repo-only journals. Native unstaged batch is
     the supported envelope writer; all modes can inspect lossless plans.
     """
+    operational_hold = bool(reset_records) or mode != "batch" or (staging is not None and staging.active)
+    hold_reason = ("fanout-records-reset-or-legacy-repository-journal-requires-scoped-upgrade"
+                   if operational_hold else None)
     report = batch.new_report()
     report.update(childMode=mode, dryRun=not apply, protocol="repository-envelope-v2",
-                  repositories=[], knownLegacyHolds=[], writeReadiness=True,
+                  repositories=[], knownLegacyHolds=[], writeReadiness=not operational_hold,
+                  executionHold=hold_reason, actualIssuesCreated=0, actualIssuesUpdated=0,
                   observedFindings=copy.deepcopy(findings))
-    if mode != "batch" or reset_records or (staging is not None and staging.active):
-        report["writeReadiness"] = False
     if staging is not None and staging.active:
         from scripts.upstream_watcher.staging import Journal
         journal = Journal.load(staging.journalPath, staging.bootstrap, staging.initialized)
@@ -346,10 +352,9 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
         return report, 3
     for plan in plans:
         outcome = "planned"
-        operational_hold = bool(reset_records) or mode != "batch" or (staging is not None and staging.active)
         if operational_hold:
             plan["writeReadiness"] = False
-            plan["executionHold"] = "fanout-records-reset-or-legacy-repository-journal-requires-scoped-upgrade"
+            plan["executionHold"] = hold_reason
         if not plan["writeReadiness"]:
             outcome = "held"
         elif plan["action"] in {"noop", "suppressed-processed"}:
@@ -373,11 +378,15 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
         if plan["duplicates"]:
             report["duplicateOpenUmbrellas"].append({"suite": plan["repository"],
                 "canonical": plan["umbrella"], "duplicates": plan["duplicates"]})
-        # Counters remain logical plans even when migration holds prevent writes.
+        # Logical planned counters vs actual physical mutator counters.
         if plan["action"] == "create" and outcome in {"planned", "held", "created"}:
             report["issuesCreated"] += 1
         if plan["action"] == "update" and outcome in {"planned", "held", "updated"}:
             report["issuesUpdated"] += 1
+        if outcome == "created":
+            report["actualIssuesCreated"] += 1
+        if outcome == "updated":
+            report["actualIssuesUpdated"] += 1
         logical_members = (plan["payload"] or {}).get("findings", [])
         report["retainedCandidates"] += sum(len(f.get("candidates", [])) for f in logical_members)
         report["suppressedDuplicates"] += sum(
@@ -387,4 +396,6 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
                 "umbrella": plan["umbrella"], "totalRows": finding["totalRows"],
                 "newRows": len(finding["newRows"]), "carriedForward": len(finding["carried"]), "outcome": outcome,
                 "sourceUrl": finding["sourceUrl"], "newVersion": finding["newVersion"]})
+    if apply and operational_hold:
+        return report, 4
     return report, 0

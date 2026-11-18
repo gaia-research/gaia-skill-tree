@@ -192,6 +192,79 @@ def verify_repository_target(issue: dict, *, require_selection: bool = True, req
     return True
 
 
+def verify_unaffected_legacy_target(issue: dict) -> bool:
+    """Prove *issue* is an isolated single-named legacy target unaffected by
+    repository-envelope, shared-source, or #1833-style migration holds.
+    """
+    from scripts.upstream_watcher import batch, envelope
+    from scripts.upstream_watcher.evidence import title_suite_and_version
+    from scripts.upstream_watcher.live import GhError, LiveGh, canonical_umbrellas, umbrella_suite
+    from scripts.upstream_watcher.repository_batch import read_repository_live
+
+    if not owned_upstream_issue(issue, allow_envelope=False):
+        raise PayloadError("issue is not a valid single-ID legacy upstream target")
+    payload, _ = extract_payload(issue.get("body"))
+    identifier = payload.get("skillId")
+    authority = named_authority()
+    repo = envelope.authority_repository(identifier, authority)
+    if envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion")) != repo:
+        raise PayloadError("legacy target source disagrees with current named authority")
+    siblings = 0
+    for name in authority:
+        try:
+            if envelope.authority_repository(name, authority) == repo:
+                siblings += 1
+        except PayloadError:
+            continue
+    if siblings != 1:
+        raise PayloadError("shared-source repository requires repository-envelope handling")
+
+    gh = LiveGh(repo=os.environ.get("REPO") or None)
+    try:
+        live = read_repository_live(gh)
+    except (GhError, OSError, ValueError, TypeError, KeyError) as exc:
+        raise PayloadError(f"legacy target live state unavailable: {exc}") from exc
+    found = canonical_umbrellas(live["issues"], repo)
+    if found.ambiguous or found.duplicates:
+        raise PayloadError("repository has ambiguous or duplicate open umbrellas")
+    for other in live["issues"] + live["closedUmbrellas"]:
+        labels = batch.label_names(other)
+        if "upstream:release" not in labels and "upstream:bootstrap" not in labels:
+            continue
+        title = other.get("title") or ""
+        claimed = "upstream:release" in labels and umbrella_suite(title) == repo
+        if "upstream:bootstrap" in labels:
+            parsed_boot = title_suite_and_version(title, "bootstrap")
+            if parsed_boot and parsed_boot[0] == identifier.lower():
+                claimed = True
+        parsed_other = batch.parse_payload(other.get("body"))
+        if isinstance(parsed_other, dict):
+            if envelope.is_envelope(parsed_other):
+                if parsed_other.get("repository") == repo or any(
+                    isinstance(f, dict) and f.get("skillId") == identifier
+                    for f in (parsed_other.get("findings") or [])
+                ):
+                    claimed = True
+            elif parsed_other.get("skillId") == identifier:
+                claimed = True
+            else:
+                try:
+                    if envelope.release_repository(parsed_other.get("sourceUrl"), parsed_other.get("newVersion")) == repo:
+                        claimed = True
+                except PayloadError:
+                    pass
+        if not claimed:
+            continue
+        other_payload, _ = extract_payload(other.get("body"))
+        if envelope.is_envelope(other_payload):
+            raise PayloadError("repository has an active or historical repository envelope")
+        if other_payload.get("skillId") != identifier:
+            raise PayloadError("repository has a conflicting named identity in history")
+        if envelope.release_repository(other_payload.get("sourceUrl"), other_payload.get("newVersion")) != repo:
+            raise PayloadError("repository history has a conflicting release source")
+    return True
+
+
 def owned_upstream_issue(issue: dict, *, allow_envelope: bool = False) -> bool:
     """Prove upstream umbrella/bootstrap ownership before any label-guard write."""
     from scripts.upstream_watcher.evidence import title_suite_and_version, suite_of

@@ -90,6 +90,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Fetch pinned historical authority commit
+        run: |
+          set -euo pipefail
+          COMMIT=$(python3 -c 'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])')
+          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then
+            git fetch --depth=1 --no-tags origin "$COMMIT"
+          fi
+          git cat-file -e "${COMMIT}^{commit}"
+
       # Staged batching switch (#2283). Present only when staging resolves to weekly; with the repository variable
       # UPSTREAM_BATCH_STAGING unset (the default) these two steps are skipped and the job is exactly as before.
       # The journal is required state, not a convenience: a cache miss or eviction FAILS CLOSED (every suite held,

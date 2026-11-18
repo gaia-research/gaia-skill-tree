@@ -158,7 +158,8 @@ def test_new_inputs_do_not_change_actor_authority_or_permissions():
     assert names.index("Check approval covers this payload") < names.index("Run gaia dev sync-upstream")
     assert doc["permissions"] == {"issues": "write", "contents": "write", "pull-requests": "write"}
     assert "permissions" not in job
-    assert doc["jobs"]["legacy-approve"]["steps"][0]["name"] == "Repository-envelope compatibility hold"
+    legacy_names = [s.get("name") for s in doc["jobs"]["legacy-approve"]["steps"]]
+    assert legacy_names.index("Verify unaffected legacy target") < legacy_names.index("Check labeler is a Verifier")
     assert names.index("Verify repository-envelope selection before any approval-path write") < names.index("Check labeler is a Verifier")
 
 
@@ -225,3 +226,54 @@ def test_b_approval_receipt_does_not_cover_selected_a(tmp_path):
         world(issue, comment_rows=comments), {**env, "PAYLOAD_SHA": env["FINDING_SHA256"]}, cwd=root)
     assert result.code != 0 and "no approval record covers this payload" in result.output
     assert not any(c[0] in {"pr", "workflow"} for c in result.calls)
+
+
+def test_unaffected_legacy_target_passes_and_shared_or_envelope_targets_fail_closed(tmp_path):
+    root, issue, payload, env = fixture_tree(tmp_path)
+    solo_meta = {"id": "fixture/solo", "name": "Fixture Solo", "contributor": "fixture",
+                 "title": "The Fixture Solo", "genericSkillRef": "fixture-solo", "status": "named", "origin": True,
+                 "level": "2★", "description": "Isolated single-named legacy fixture.",
+                 "links": {"github": "https://github.com/fixture/solo-repo/blob/main/SKILL.md"},
+                 "createdAt": "2026-01-01", "updatedAt": "2026-01-01", "timeline": [],
+                 "upstream": {"repo": "fixture/solo-repo", "version": "v1.0.0", "mode": "version-only",
+                     "sourceUrl": "https://github.com/fixture/solo-repo/releases/tag/v1.0.0",
+                     "releasedAt": "2026-01-01T00:00:00Z", "syncedAt": "2026-01-01T00:00:00Z"}}
+    (root / "registry/named/fixture/solo.md").write_text(
+        "---\n" + yaml.safe_dump(solo_meta, allow_unicode=True) + "---\n\nSolo fixture.\n")
+    solo_payload = {"payloadVersion": 2, "skillId": "fixture/solo", "previousVersion": "v1.0.0",
+                    "newVersion": "v2.0.0", "releasedAt": "2026-11-20T00:00:00Z",
+                    "sourceUrl": "https://github.com/fixture/solo-repo/releases/tag/v2.0.0",
+                    "mode": "version-only", "componentAdds": [], "componentRemoves": [],
+                    "linkLiveness": [], "nameDrift": [], "candidates": []}
+    solo_issue = {"number": 200, "state": "open", "title": "[upstream] fixture/solo-repo → v2.0.0",
+                  "body": "<!-- gaia-upstream-payload\n" + json.dumps(solo_payload) + "\n-->",
+                  "labels": [{"name": "upstream:release"}, {"name": "upstream:rejected"}]}
+    ok = run_step(phase(tmp_path, "legacy-ok"), step("Verify unaffected legacy target", "legacy-approve"),
+        world(solo_issue), {**env, "ISSUE_NUMBER": "200"}, cwd=root)
+    assert ok.code == 0, ok.output
+    # Shared-source single-ID legacy payload and repository envelopes both fail closed.
+    shared_payload = {**solo_payload, "skillId": "fixture/a",
+                      "sourceUrl": "https://github.com/fixture/repository/releases/tag/v2.0.0"}
+    shared_issue = {"number": 201, "state": "open", "title": "[upstream] fixture/repository → v2.0.0",
+                    "body": "<!-- gaia-upstream-payload\n" + json.dumps(shared_payload) + "\n-->",
+                    "labels": [{"name": "upstream:release"}, {"name": "upstream:rejected"}]}
+    for bad_num, bad_issue in [("201", shared_issue), ("100", issue)]:
+        bad = run_step(phase(tmp_path, f"legacy-hold-{bad_num}"),
+            step("Verify unaffected legacy target", "legacy-approve"),
+            world(bad_issue), {**env, "ISSUE_NUMBER": bad_num}, cwd=root)
+        assert bad.code != 0 and "Traceback" not in bad.output
+        assert not any(c[:2] in (["issue", "edit"], ["issue", "comment"], ["issue", "close"]) for c in bad.calls)
+
+
+def test_watcher_workflow_fetches_pinned_commit_without_altering_diagnostics_or_permissions():
+    doc = yaml.safe_load((ROOT / ".github/workflows/upstream-watcher.yml").read_text())
+    assert doc["permissions"] == {"issues": "write", "contents": "read"}
+    watcher_job = doc["jobs"]["watcher"]
+    assert watcher_job["permissions"] == {"issues": "write", "contents": "read", "pull-requests": "read"}
+    names = [s.get("name") for s in watcher_job["steps"]]
+    assert "Fetch pinned historical authority commit" in names
+    assert names.index("Checkout") < names.index("Fetch pinned historical authority commit") < names.index("Run upstream watcher")
+    assert "Fetch pinned historical authority commit" not in [
+        s.get("name") for s in doc["jobs"]["metadata-probe"]["steps"]]
+    assert "Fetch pinned historical authority commit" not in [
+        s.get("name") for s in doc["jobs"]["permission-ab-control"]["steps"]]

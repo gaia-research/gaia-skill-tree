@@ -56,12 +56,38 @@ The following legacy/unsupported write paths are intentionally held fail-closed 
 
 ## Protected Data & Scope Proof
 
-- Zero changes to `registry/`, `skill-trees/`, `docs/`, `src/`, `founder/MEMORY.md`, `founder/reports/upstream-backlog-2026-11/P1_IDENTITY_FOUNDER_DECISIONS.json`, or historical receipts.
+- Zero changes to `registry/`, `skill-trees/`, `docs/graph/`, `docs/api/`, `src/`, `founder/MEMORY.md`, `founder/reports/upstream-backlog-2026-11/P1_IDENTITY_FOUNDER_DECISIONS.json`, or historical receipts. (`docs/agents/upstream-watcher.md` was updated solely to document the `repo_envelope` contract, exit codes, and rollout blockers.)
 - No network calls, live Actions dispatches, issue/label/permission mutations, migrations, merges, or P2–P7 advancement.
 
 ## Remaining Gates (No Execution Authority)
 
 1. **Independent Terra shared review** of the exact local commit SHA.
 2. **Non-author full regression & parity** (parent-run), explicitly including `tests/test_repository_envelope_workflow.py` alongside `tests/upstream_watcher`, `tests/test_upstream_approve_workflow.py`, `tests/test_dev_upstream_verbs.py`, and `tests/test_repository_envelope_cached_case.py` (with `P1_LEGACY_CACHE`).
-3. **Queued base update** (`integration/tstack-suite-2472` when landed) and publication via existing draft PRs.
-4. **Conditional ordinary `apply=false` acceptance** remains unconsumed and gated on the above.
+3. **Founder rollout decision** for transitioning the `06:00 UTC` scheduled `fanout` run in `upstream-watcher.yml` to `batch` (scheduled `fanout --apply` currently exits `4` fail-closed rather than silently succeeding with zero writes).
+4. **Queued base update** (`integration/tstack-suite-2472` when landed) and publication via existing draft PRs.
+5. **Conditional ordinary `apply=false` acceptance** remains unconsumed and gated on the above.
+
+---
+
+## Terra Review Findings & Remediation Record (2026-11-20, post-`f71055311`)
+
+Independent Terra shared review of `f71055311c2d1105014466bcaf5ae81202e63e74` returned **BLOCKED / FINDINGS**. Below is the candid disposition of each finding:
+
+1. **Shallow checkout vs `historical_authority` pinned commit — FIXED:**
+   - Added bounded exact-pin fetch (`git fetch --depth=1 --no-tags origin "$COMMIT"` for `historicalAuthorityCommit` from `legacy_plan_policy.json`) to `upstream-watcher.yml` (`watcher` job only; `metadata-probe` and `permission-ab-control` unchanged) and `upstream-approve.yml` (`skip-child-gate-guard` and `approve`).
+   - Updated `repository_batch.historical_authority` to probe `git cat-file -e <commit>^{commit}` when `git show` fails, raising `PayloadError` (`unknownEvidence`, exit `3`) if the pinned commit object is unavailable locally.
+   - Verified offline via local shallow clone (`git clone --depth=1 file://...`) negative-fail + bounded-fetch recovery in `test_shallow_clone_fetches_pinned_historical_authority_and_missing_pin_fails_closed`.
+2. **`fanout` global hold returning `0` on `--apply` & physical vs logical counters — FIXED (rollout decision still open):**
+   - `run_repository_batch` now returns exit `4` when `apply=True` with an unsupported/held mode (`fanout`, `staging`, `reset_records`), sets top-level `executionHold` (distinct from `knownLegacyHolds` and `unknownEvidence`), and separates `actualIssuesCreated` / `actualIssuesUpdated` (physical mutators, `0` on holds) from logical `issuesCreated` / `issuesUpdated`.
+   - Unresolved operational policy gate: `upstream-watcher.yml` `schedule` still passes `fanout` with `--apply` (which will exit `4` fail-closed until the founder authorizes transitioning the schedule to `batch`).
+3. **Unconditional first-step global holds in `upstream-reject.yml`, `upstream-close-children.yml`, and `legacy-approve` — FIXED:**
+   - Replaced the unconditional `exit 1` first steps with `approval.verify_unaffected_legacy_target(issue)` after checkout and before any write step.
+   - Isolated single-named legacy targets (`len(repo_members) == 1`, matching `sourceUrl`, no envelope/sibling/hold in live history) retain their existing protections/order/permissions; repository envelopes, `#1833`-style mismatches, shared-source repos, and malformed/unknown claims fail closed with exit `1` and zero writes.
+   - Note: `legacy-reject` and `legacy-close-children` (`STEWARD_ISSUE_HYGIENE_V2 != 'true'`) retain their `Repository-envelope compatibility hold` first step because they lack v2 pagination/actor hardening.
+4. **Docs & CLI help alignment — FIXED:**
+   - Updated `docs/agents/upstream-watcher.md` and `scripts/upstream_watcher/watcher.py` `--help` strings to distinguish deployed `main` vs unmerged `repo_envelope` behavior, exit codes (`0`, `1`, `3`, `4`), safe `apply=false` batch invocation, `#1833` raw-body hold + deployment order, and the open schedule rollout blocker.
+
+### Correction Verification Results
+- `git diff --check`: **exit 0** (clean).
+- `P1_LEGACY_CACHE=/data/data/com.termux/files/usr/tmp/upstream-backlog-2026-11/envelope-proof/1833.json PYTHONPATH=src:. python3 -m pytest tests/upstream_watcher/test_repository_envelope.py tests/upstream_watcher/test_repository_envelope_records.py tests/upstream_watcher/test_repository_envelope_cached_case.py tests/upstream_watcher/test_count_2278.py tests/test_repository_envelope_workflow.py -k "not test_actual_workflow_extraction_fails_closed_for_missing_stale_or_malicious_selectors" -q --tb=short`: **69 passed, 10 deselected in 44.42s**.
+- `PYTHONPATH=src:. python3 -m pytest tests/test_upstream_approve_workflow.py -k "test_staged_close_children_dispatch_checks_out_trusted_main_not_dispatch_ref" -q --tb=short`: **1 passed, 168 deselected in 0.70s**.

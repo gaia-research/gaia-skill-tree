@@ -66,6 +66,15 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - name: Fetch pinned historical authority commit
+        run: |
+          set -euo pipefail
+          COMMIT=$(python3 -c 'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])')
+          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then
+            git fetch --depth=1 --no-tags origin "$COMMIT"
+          fi
+          git cat-file -e "${COMMIT}^{commit}"
+
       - name: Build the base named-skills index
         run: |
           set -euo pipefail
@@ -196,6 +205,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch pinned historical authority commit
+        run: |
+          set -euo pipefail
+          COMMIT=$(python3 -c 'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])')
+          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then
+            git fetch --depth=1 --no-tags origin "$COMMIT"
+          fi
+          git cat-file -e "${COMMIT}^{commit}"
 
       # registry/named-skills.json is a gitignored Class P artifact, so it never exists in a fresh
       # checkout. Without this build the guard below read a missing index as "bootstrap" and
@@ -1032,11 +1050,6 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && ((github.event_name == 'issues' && ( (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved') || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved')) )) || github.event_name == 'workflow_dispatch')
 
     steps:
-      - name: Repository-envelope compatibility hold
-        run: |
-          echo "::error::Legacy approval consumer is read-only. Use the hardened workflow with exact named selectors. Legacy migration requires separate approval."
-          exit 1
-
       - name: Resolve issue number and actor
         id: issue
         env:
@@ -1069,6 +1082,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Verify unaffected legacy target
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          VIEW=$(gh issue view "$ISSUE_NUMBER" --json number,title,body,state,labels)
+          printf '%s' "$VIEW" | python3 -c '
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, verify_unaffected_legacy_target
+          try:
+              verify_unaffected_legacy_target(json.load(sys.stdin))
+          except PayloadError as exc:
+              print(f"::error::Read-only legacy compatibility hold: {exc}", file=sys.stderr)
+              sys.exit(1)
+          '
 
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
       - name: Check labeler is a Verifier
