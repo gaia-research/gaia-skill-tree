@@ -39,14 +39,14 @@ def _preflight_proxy_containment(
         if evidence_type is not None:
             prospective_row["type"] = evidence_type
         if "externalStars" in new_row:
-            if prospective_row.get("type") != "proxy-containment":
-                _fail_dev_preflight(
-                    f"`--external-stars` is only valid with `--type proxy-containment`; target row #{index} has type {prospective_row.get('type')!r}.",
-                    fix="Use `--type proxy-containment`, or drop `--external-stars` when updating a non-proxy-containment row.",
-                )
             prospective_row["externalStars"] = new_row["externalStars"]
     else:
         return
+    if "externalStars" in new_row and prospective_row.get("type") != "proxy-containment":
+        _fail_dev_preflight(
+            f"`--external-stars` is only valid with `--type proxy-containment`; target row has type {prospective_row.get('type')!r}.",
+            fix="Use `--type proxy-containment`, or drop `--external-stars` when writing a non-proxy-containment row.",
+        )
     prospective_skill = dict(skill_data)
     prospective_skill["evidence"] = [prospective_row]
     violations = check_proxy_containment_policy(

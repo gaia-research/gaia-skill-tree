@@ -453,6 +453,19 @@ def test_proxy_containment_external_star_threshold_and_cli_enforcement(tmp_path:
         )
     assert named_file.read_text(encoding="utf-8") == before_index
 
+    # CLI rejects --external-stars on append without --type proxy-containment
+    with pytest.raises(SystemExit):
+        meta_evidence_command(
+            _evidence_args(
+                str(root),
+                skill_id="acme/tool",
+                source="https://github.com/external-org/untyped-stars",
+                external_stars=20000,
+                notes="Reject externalStars on untyped append row",
+            )
+        )
+    assert named_file.read_text(encoding="utf-8") == before_index
+
     # CLI accepts genuinely external container with --external-stars 20000
     meta_evidence_command(
         _evidence_args(
