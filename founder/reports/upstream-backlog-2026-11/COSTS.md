@@ -1,3 +1,19 @@
+# 2026-11-18 recovered pause snapshot — partial accounting, not campaign cost
+
+**Engineering remains PAUSED.** See [COST_PAUSE_2026-11-18.md](COST_PAUSE_2026-11-18.md) and its exact structured companion [COST_PAUSE_2026-11-18.json](COST_PAUSE_2026-11-18.json). Snapshot `2026-11-18T00:05:58.690198+00:00`; pricing used catalog fetched `2026-11-14T14:12:12Z` (not stale). Parent-linked inventory: 96 run/task records, 82 unique child sessions after resume deduplication; 2 raw logs and 80 digest-only sessions. Missing cache counters are `null`, not zero. Main-session raw log is unavailable.
+
+Retained input/output components: **6,826,431 input + 874,445 output = 7,700,876** (cache components are absent for digest sessions, so this is not total processed tokens). Canonical public-price known-component subtotal: **$12.78678478**; this is not spend, invoice, complete campaign total, or a lower bound. Complete campaign and each model-lane total remain unavailable/null. Complete-cache raw-log subset is **$0.03808308**, not representative. Historical **$4.907920** P0-only partial is not added. The earlier incomplete placeholder-cutoff JSON is superseded and was not published. Current admin/reporting turns after this snapshot are excluded. Do not infer billing or missing counters as zero.
+
+| Exact pricing key / effort | Unique sessions | Retained input | Retained output | Known priced components USD |
+|---|---:|---:|---:|---:|
+| `claude-opus-5-5` / medium | 2 | 256,726 | 21,365 | 1.454204 |
+| `gemini/gemini-4-hydrogen` / medium | 11 | 1,595,249 | 263,399 | 4.368366 |
+| `gpt-6-luna` / medium | 39 | 2,557,161 | 282,642 | 0.41582878 |
+| `gpt-6.1-sol` / medium | 14 | 1,375,796 | 244,020 | 5.191792 |
+| `gpt-6.1-terra` / high | 16 | 1,041,499 | 63,019 | 1.356594 |
+
+The source had complete campaign/lane totals explicitly `null`; session records preserve `retained_token_components` and `missing_token_fields`. It links 96 run/task records to 82 unique child sessions, deduplicating three resumes. The cost gap is specifically that the root raw log is unavailable and 80 retained digests omit cache counters—not an unknown inventory. No Pi UI/harness dollar totals were substituted; worker pricing uses the canonical helper and exact model keys/public catalog. No prompt, transcript, credential, issue body, or header data is included.
+
 # Campaign usage checkpoints
 
 ## 2026-11-16 — founder pause preservation checkpoint

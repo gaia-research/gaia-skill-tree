@@ -1,0 +1,2841 @@
+{
+  "catalog_meta": {
+    "fetched_at": "2026-11-14T14:12:12Z",
+    "model_count": 4068,
+    "note": "Pruned using gaia-research/skill-cost's catalog schema for pi-cost.",
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "source_repo": "https://github.com/BerriAI/litellm",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"
+  },
+  "catalog_rates_by_group": {
+    "claude-opus-5-5": {
+      "cache_read": 2e-07,
+      "cache_write": 5e-06,
+      "input": 4e-06,
+      "output": 2e-05,
+      "provider": "anthropic"
+    },
+    "gemini/gemini-4-hydrogen": {
+      "cache_read": 7.5e-08,
+      "cache_write": null,
+      "input": 1.5e-06,
+      "output": 7.5e-06,
+      "provider": "gemini"
+    },
+    "gpt-6-luna": {
+      "cache_read": 1e-08,
+      "cache_write": 1.25e-07,
+      "input": 1e-07,
+      "output": 5e-07,
+      "provider": "openai"
+    },
+    "gpt-6.1-sol": {
+      "cache_read": 1e-07,
+      "cache_write": 2.5e-06,
+      "input": 2e-06,
+      "output": 1e-05,
+      "provider": "openai"
+    },
+    "gpt-6.1-terra": {
+      "cache_read": 5e-08,
+      "cache_write": 1.25e-06,
+      "input": 1e-06,
+      "output": 5e-06,
+      "provider": "openai"
+    }
+  },
+  "catalog_stale": false,
+  "complete_campaign_total_usd": null,
+  "component_pricing_utc": "2026-11-18T00:08:02.669711+00:00",
+  "digest_sessions": 80,
+  "groups": [
+    {
+      "catalog_model_key": "claude-opus-5-5",
+      "digest_sessions": 2,
+      "estimated_complete_lane_cost_usd": null,
+      "known_input": 256726,
+      "known_output": 21365,
+      "known_priced_components_usd": 1.454204,
+      "raw_sessions": 0,
+      "sessions": 2,
+      "sessions_missing_cache": 2,
+      "thinking": "medium",
+      "unpriced_models": []
+    },
+    {
+      "catalog_model_key": "gemini/gemini-4-hydrogen",
+      "digest_sessions": 11,
+      "estimated_complete_lane_cost_usd": null,
+      "known_input": 1595249,
+      "known_output": 263399,
+      "known_priced_components_usd": 4.368366,
+      "raw_sessions": 0,
+      "sessions": 11,
+      "sessions_missing_cache": 11,
+      "thinking": "medium",
+      "unpriced_models": []
+    },
+    {
+      "catalog_model_key": "gpt-6-luna",
+      "digest_sessions": 37,
+      "estimated_complete_lane_cost_usd": null,
+      "known_input": 2557161,
+      "known_output": 282642,
+      "known_priced_components_usd": 0.41582877999999995,
+      "raw_sessions": 2,
+      "sessions": 39,
+      "sessions_missing_cache": 37,
+      "thinking": "medium",
+      "unpriced_models": []
+    },
+    {
+      "catalog_model_key": "gpt-6.1-sol",
+      "digest_sessions": 14,
+      "estimated_complete_lane_cost_usd": null,
+      "known_input": 1375796,
+      "known_output": 244020,
+      "known_priced_components_usd": 5.191792,
+      "raw_sessions": 0,
+      "sessions": 14,
+      "sessions_missing_cache": 14,
+      "thinking": "medium",
+      "unpriced_models": []
+    },
+    {
+      "catalog_model_key": "gpt-6.1-terra",
+      "digest_sessions": 16,
+      "estimated_complete_lane_cost_usd": null,
+      "known_input": 1041499,
+      "known_output": 63019,
+      "known_priced_components_usd": 1.356594,
+      "raw_sessions": 0,
+      "sessions": 16,
+      "sessions_missing_cache": 16,
+      "thinking": "high",
+      "unpriced_models": []
+    }
+  ],
+  "important_interpretation": "Known-price-parts subtotal is NOT worker/campaign/billing total. Missing caches are None, never imputed as zero; canonical price_worker.total remains unavailable for incomplete sessions. The subtotal includes only known rated components.",
+  "known_input_tokens": 6826431,
+  "known_io_tokens": 7700876,
+  "known_output_tokens": 874445,
+  "known_priced_components_subtotal_usd": 12.78678478,
+  "limits": [
+    "Raw transcripts were distilled; old digests omit cacheRead/cacheWrite, so those worker sessions cannot be correctly repriced. Digest input/output counters are retained token components, not full processed-token totals.",
+    "All worker money shown is from canonical price_worker and exact cached public catalog rates; digest/harness/UI monetary totals are not substituted.",
+    "Same child session across resumes counted once; native aggregate delivery receipts not added.",
+    "No readable root usage log, incomplete old worker cache telemetry, and errors prevent a complete campaign cost. Historical P0-only $4.907920 is not added.",
+    "Includes reporting/admin usage retained at this snapshot, not future reporting turns or provider billing."
+  ],
+  "main_session_status": "raw log unavailable per prior canonical invocation; not repriced",
+  "missing_sessions": 0,
+  "priced_raw_or_complete_token_subset_usd": 0.03808308,
+  "raw_sessions": 2,
+  "related_run_task_records": 96,
+  "report_type": "Retained campaign usage and known public-price components; incomplete total; no provider invoice",
+  "scope": "All retained native campaign links rooted at the exact parent session key; not a complete billing claim",
+  "sessions": [
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.035388,
+        "output": 0.00825
+      },
+      "known_price_parts_subtotal_usd": 0.043638,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 23592,
+        "output": 1100
+      },
+      "session_id": "01a1dfe8-8bac-77b4-b387-0c9dfa4a64a1",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.019302,
+        "output": 0.000375
+      },
+      "known_price_parts_subtotal_usd": 0.019677,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 19302,
+        "output": 75
+      },
+      "session_id": "01a1dfe9-3fe7-73f3-b768-4fd502283e71",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0018784,
+        "output": 3.95e-05
+      },
+      "known_price_parts_subtotal_usd": 0.0019179,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 18784,
+        "output": 79
+      },
+      "session_id": "01a1dfe9-4005-70f9-bd1f-322111f20df1",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 1,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0,
+        "output": 0
+      },
+      "known_price_parts_subtotal_usd": 0.0,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen:medium",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 0,
+        "output": 0
+      },
+      "session_id": "01a1dfe9-64c7-7027-ad9b-8147466e8232",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.034533,
+        "output": 0.0054825
+      },
+      "known_price_parts_subtotal_usd": 0.0400155,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 23022,
+        "output": 731
+      },
+      "session_id": "01a1e001-55c9-74ea-90fe-c81c033e347f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.123832,
+        "output": 0.01004
+      },
+      "known_price_parts_subtotal_usd": 0.133872,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "claude-opus-5-5",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 30958,
+        "output": 502
+      },
+      "session_id": "01a1e001-f480-733b-9a6c-65ead05bfe31",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 33,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.3978375,
+        "output": 0.32775
+      },
+      "known_price_parts_subtotal_usd": 0.7255875,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 265225,
+        "output": 43700
+      },
+      "session_id": "01a1e009-d0fc-7415-a4f5-4bf35fda493e",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 10,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0056153999999999996,
+        "output": 0.0025195
+      },
+      "known_price_parts_subtotal_usd": 0.0081349,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 56154,
+        "output": 5039
+      },
+      "session_id": "01a1e017-cb60-72a6-8662-a302301e0021",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 6,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.002361,
+        "output": 0.0006615
+      },
+      "known_price_parts_subtotal_usd": 0.0030225,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 23610,
+        "output": 1323
+      },
+      "session_id": "01a1e01a-a130-7679-a7f7-8157d4dbb405",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 10,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.107834,
+        "output": 0.019635000000000003
+      },
+      "known_price_parts_subtotal_usd": 0.127469,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 107834,
+        "output": 3927
+      },
+      "session_id": "01a1e01c-445c-76f2-89c8-bae85e3c7fab",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 34,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.3199995,
+        "output": 0.22461
+      },
+      "known_price_parts_subtotal_usd": 0.5446095,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 213333,
+        "output": 29948
+      },
+      "session_id": "01a1e022-e67c-73e4-b45b-917127c0fdf9",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 11,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.075311,
+        "output": 0.01725
+      },
+      "known_price_parts_subtotal_usd": 0.092561,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 75311,
+        "output": 3450
+      },
+      "session_id": "01a1e031-a061-751f-a18f-31870596fbd8",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 22,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0078826,
+        "output": 0.003897
+      },
+      "known_price_parts_subtotal_usd": 0.0117796,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 78826,
+        "output": 7794
+      },
+      "session_id": "01a1e031-a077-751d-a3b8-bc8e3280cd13",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 11,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0026552999999999998,
+        "output": 0.0007695
+      },
+      "known_price_parts_subtotal_usd": 0.0034247999999999995,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 26553,
+        "output": 1539
+      },
+      "session_id": "01a1e038-b524-7582-a8c2-25a242e447e7",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 11,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0048638,
+        "output": 0.0011015
+      },
+      "known_price_parts_subtotal_usd": 0.0059653,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 48638,
+        "output": 2203
+      },
+      "session_id": "01a1e03b-6573-74b2-9a67-0760afbc6faf",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 20,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.1416225,
+        "output": 0.1760325
+      },
+      "known_price_parts_subtotal_usd": 0.317655,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 94415,
+        "output": 23471
+      },
+      "session_id": "01a1e03e-a025-7443-b9e7-0a4b21d4af94",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 16,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.050969999999999994,
+        "output": 0.021805
+      },
+      "known_price_parts_subtotal_usd": 0.07277499999999999,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 50970,
+        "output": 4361
+      },
+      "session_id": "01a1e042-8284-74f5-9ac7-79ef42998769",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 21,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.1398915,
+        "output": 0.1468575
+      },
+      "known_price_parts_subtotal_usd": 0.28674900000000003,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 93261,
+        "output": 19581
+      },
+      "session_id": "01a1e047-f1db-742c-a382-562b4d3c16ef",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 7,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.023587,
+        "output": 0.014455
+      },
+      "known_price_parts_subtotal_usd": 0.038042,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 23587,
+        "output": 2891
+      },
+      "session_id": "01a1e04b-2c71-77ba-ad23-f4d1ba5b01d2",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 33,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0067689,
+        "output": 0.0062445
+      },
+      "known_price_parts_subtotal_usd": 0.0130134,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 67689,
+        "output": 12489
+      },
+      "session_id": "01a1e04d-8605-7742-8217-157de30c0ab7",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 20,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.193368,
+        "output": 0.1421325
+      },
+      "known_price_parts_subtotal_usd": 0.3355005,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 128912,
+        "output": 18951
+      },
+      "session_id": "01a1e054-bac1-7331-8f59-38ff03a1eb7f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 75,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.4100325,
+        "output": 0.3347025
+      },
+      "known_price_parts_subtotal_usd": 0.744735,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 273355,
+        "output": 44627
+      },
+      "session_id": "01a1e059-99a5-764b-a182-357f51c5b7ce",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 13,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0055908,
+        "output": 0.002555
+      },
+      "known_price_parts_subtotal_usd": 0.0081458,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 55908,
+        "output": 5110
+      },
+      "session_id": "01a1e072-a64e-7243-ab9f-df804a066481",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 53,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.188557,
+        "output": 0.10697000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.295527,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 188557,
+        "output": 21394
+      },
+      "session_id": "01a1e076-8adf-75c1-899d-93c7c7297971",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 63,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.4798695,
+        "output": 0.3243225
+      },
+      "known_price_parts_subtotal_usd": 0.804192,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 319913,
+        "output": 43243
+      },
+      "session_id": "01a1e08e-3cb6-732e-bb37-24d929229b5a",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 43,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.2403315,
+        "output": 0.2853525
+      },
+      "known_price_parts_subtotal_usd": 0.525684,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gemini-4-hydrogen",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 160221,
+        "output": 38047
+      },
+      "session_id": "01a1e0b4-c486-7765-a628-77f2b6c04828",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 13,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0067627,
+        "output": 0.0033255
+      },
+      "known_price_parts_subtotal_usd": 0.0100882,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 67627,
+        "output": 6651
+      },
+      "session_id": "01a1e0c6-5d00-73fa-ab21-e4340a23a5b4",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 49,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.903072,
+        "output": 0.41726
+      },
+      "known_price_parts_subtotal_usd": 1.320332,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "claude-opus-5-5",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 225768,
+        "output": 20863
+      },
+      "session_id": "01a1e0d1-cf0d-763a-b69f-4d11ff461755",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 21,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.006902999999999999,
+        "output": 0.0042415
+      },
+      "known_price_parts_subtotal_usd": 0.011144499999999998,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 69030,
+        "output": 8483
+      },
+      "session_id": "01a1e0dc-534d-7402-aa90-47febf80a252",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 21,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0048046,
+        "output": 0.0043545
+      },
+      "known_price_parts_subtotal_usd": 0.0091591,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 48046,
+        "output": 8709
+      },
+      "session_id": "01a1e0e4-c501-7177-ba68-e7c4f7c31edb",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.040214,
+        "output": 0.0022
+      },
+      "known_price_parts_subtotal_usd": 0.042414,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 20107,
+        "output": 220
+      },
+      "session_id": "01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 71,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.369322,
+        "output": 0.16209
+      },
+      "known_price_parts_subtotal_usd": 0.531412,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 184661,
+        "output": 16209
+      },
+      "session_id": "01a1e0eb-b064-7780-b053-4f9fcf9e15eb",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 18,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0076646,
+        "output": 0.0032645
+      },
+      "known_price_parts_subtotal_usd": 0.0109291,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 76646,
+        "output": 6529
+      },
+      "session_id": "01a1e0fd-af76-725b-a312-a69d1652dd68",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 49,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.17130399999999998,
+        "output": 0.12265000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.293954,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 85652,
+        "output": 12265
+      },
+      "session_id": "01a1e106-63be-7228-af14-d645b9c3da2f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 30,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.007617499999999999,
+        "output": 0.007764999999999999
+      },
+      "known_price_parts_subtotal_usd": 0.015382499999999999,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 76175,
+        "output": 15530
+      },
+      "session_id": "01a1e11c-58b8-707c-9e13-47e0a74815d0",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 8,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0029987,
+        "output": 0.0008839999999999999
+      },
+      "known_price_parts_subtotal_usd": 0.0038826999999999998,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 29987,
+        "output": 1768
+      },
+      "session_id": "01a1e124-8119-709b-89d6-a74adb1723c0",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 25,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.011226,
+        "output": 0.0064725
+      },
+      "known_price_parts_subtotal_usd": 0.0176985,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 112260,
+        "output": 12945
+      },
+      "session_id": "01a1e4dd-6b75-7426-baee-69ef722a2314",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 12,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.085433,
+        "output": 0.024105
+      },
+      "known_price_parts_subtotal_usd": 0.109538,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 85433,
+        "output": 4821
+      },
+      "session_id": "01a1e4e6-9b32-77f2-bf48-5190dd2eadb7",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 45,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0116175,
+        "output": 0.009178
+      },
+      "known_price_parts_subtotal_usd": 0.0207955,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 116175,
+        "output": 18356
+      },
+      "session_id": "01a1e4f0-5ad0-736d-a1c1-6f2c83fb3d05",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 2,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.002152,
+        "output": 0.00021449999999999998
+      },
+      "known_price_parts_subtotal_usd": 0.0023664999999999997,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 21520,
+        "output": 429
+      },
+      "session_id": "01a1e512-3bdd-7154-a76e-59f85a376370",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 6,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0040657,
+        "output": 0.0008795
+      },
+      "known_price_parts_subtotal_usd": 0.0049452,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 40657,
+        "output": 1759
+      },
+      "session_id": "01a1e52e-2920-758e-b282-2f7b4660c1df",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 20,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0027407,
+        "output": 0.0031999999999999997
+      },
+      "known_price_parts_subtotal_usd": 0.0059407,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 27407,
+        "output": 6400
+      },
+      "session_id": "01a1e535-6525-743e-a6b1-b0b3d9f4003b",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 30,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.21473399999999998,
+        "output": 0.09865
+      },
+      "known_price_parts_subtotal_usd": 0.313384,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 107367,
+        "output": 9865
+      },
+      "session_id": "01a1e560-8865-755d-bce9-82e97ec6c93f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 31,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.19561199999999998,
+        "output": 0.16605
+      },
+      "known_price_parts_subtotal_usd": 0.361662,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 97806,
+        "output": 16605
+      },
+      "session_id": "01a1e573-e3b3-752b-bd48-31021c5792f5",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 12,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.048796,
+        "output": 0.009605
+      },
+      "known_price_parts_subtotal_usd": 0.058401,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 48796,
+        "output": 1921
+      },
+      "session_id": "01a1e580-2f69-75a1-9e50-bcec3588df03",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 18,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.09210399999999999,
+        "output": 0.04948
+      },
+      "known_price_parts_subtotal_usd": 0.141584,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 46052,
+        "output": 4948
+      },
+      "session_id": "01a1e584-57ae-749d-bd25-021c81887599",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 6,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.055271,
+        "output": 0.009855000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.065126,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 55271,
+        "output": 1971
+      },
+      "session_id": "01a1e588-743b-7658-b442-c5a55d71472a",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 23,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0089407,
+        "output": 0.0038664999999999997
+      },
+      "known_price_parts_subtotal_usd": 0.0128072,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 89407,
+        "output": 7733
+      },
+      "session_id": "01a1e594-08f3-737f-911f-ecd98656aa33",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 25,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0097748,
+        "output": 0.005905
+      },
+      "known_price_parts_subtotal_usd": 0.0156798,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 97748,
+        "output": 11810
+      },
+      "session_id": "01a1e5ae-2db7-7044-82ef-1c3d2e79a16d",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 31,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.17122199999999999,
+        "output": 0.15226
+      },
+      "known_price_parts_subtotal_usd": 0.323482,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 85611,
+        "output": 15226
+      },
+      "session_id": "01a1e5b7-8529-72e7-9104-a3b6b06d71f9",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 8,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.033306999999999996,
+        "output": 0.013045000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.046352,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 33307,
+        "output": 2609
+      },
+      "session_id": "01a1e5c0-7c93-71c5-9888-dbdfe9b8c883",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 23,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.008273599999999999,
+        "output": 0.005874
+      },
+      "known_price_parts_subtotal_usd": 0.0141476,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 82736,
+        "output": 11748
+      },
+      "session_id": "01a1e5c3-ee9f-7661-8f2f-2df1f19ece79",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 29,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.176368,
+        "output": 0.09653
+      },
+      "known_price_parts_subtotal_usd": 0.272898,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 88184,
+        "output": 9653
+      },
+      "session_id": "01a1e5cd-0643-77b4-b3e6-ab316cb6a5df",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 6,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.067281,
+        "output": 0.010495
+      },
+      "known_price_parts_subtotal_usd": 0.077776,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 67281,
+        "output": 2099
+      },
+      "session_id": "01a1e5d3-b595-76a5-9626-29b41ba7f923",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 19,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0064843999999999995,
+        "output": 0.0031639999999999997
+      },
+      "known_price_parts_subtotal_usd": 0.0096484,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 64844,
+        "output": 6328
+      },
+      "session_id": "01a1e5dc-4d5c-7769-bd78-7fa14df16239",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 43,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0109757,
+        "output": 0.0080845
+      },
+      "known_price_parts_subtotal_usd": 0.0190602,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 109757,
+        "output": 16169
+      },
+      "session_id": "01a1e5e3-8ed3-74a9-aae6-e478bc59c1be",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 12,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0047445,
+        "output": 0.0013265
+      },
+      "known_price_parts_subtotal_usd": 0.006071,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 47445,
+        "output": 2653
+      },
+      "session_id": "01a1e5f0-c10f-712a-a5aa-5d99029f6124",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 9,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0026287999999999997,
+        "output": 0.000705
+      },
+      "known_price_parts_subtotal_usd": 0.0033337999999999996,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 26288,
+        "output": 1410
+      },
+      "session_id": "01a1e5f2-c29e-74a2-9db7-544fdc6af7a7",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 31,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.29242399999999996,
+        "output": 0.16926000000000002
+      },
+      "known_price_parts_subtotal_usd": 0.461684,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 146212,
+        "output": 16926
+      },
+      "session_id": "01a1e5f7-d3b5-76ce-8296-8b94240cb776",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 7,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.057035999999999996,
+        "output": 0.011250000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.068286,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 57036,
+        "output": 2250
+      },
+      "session_id": "01a1e601-9d6b-73e2-ad57-01b92dd84907",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 19,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0083093,
+        "output": 0.0032059999999999996
+      },
+      "known_price_parts_subtotal_usd": 0.0115153,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 83093,
+        "output": 6412
+      },
+      "session_id": "01a1e608-ae9c-7321-8d83-4077c1db7465",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 21,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0064928,
+        "output": 0.004314999999999999
+      },
+      "known_price_parts_subtotal_usd": 0.0108078,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 64928,
+        "output": 8630
+      },
+      "session_id": "01a1e60e-d09b-7522-8ff9-b61e7da57523",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 21,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.005624199999999999,
+        "output": 0.002578
+      },
+      "known_price_parts_subtotal_usd": 0.0082022,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 56242,
+        "output": 5156
+      },
+      "session_id": "01a1e640-d3cb-707a-9a47-927ed0f6e438",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 29,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.174392,
+        "output": 0.12760000000000002
+      },
+      "known_price_parts_subtotal_usd": 0.30199200000000004,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 87196,
+        "output": 12760
+      },
+      "session_id": "01a1e64d-d230-756c-875c-d48ba0d88a8a",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 8,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.020399999999999998,
+        "output": 0.010275000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.030675,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 20400,
+        "output": 2055
+      },
+      "session_id": "01a1e657-0762-711d-a96c-150ac16c2f47",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 20,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.011629299999999999,
+        "output": 0.0067504999999999996
+      },
+      "known_price_parts_subtotal_usd": 0.018379799999999998,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 116293,
+        "output": 13501
+      },
+      "session_id": "01a1e65f-423d-745a-8187-61248ebc6de8",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 14,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0051401,
+        "output": 0.002913
+      },
+      "known_price_parts_subtotal_usd": 0.0080531,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 51401,
+        "output": 5826
+      },
+      "session_id": "01a1e66d-2cda-77c1-a79d-7fac17370b74",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 28,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.16522199999999998,
+        "output": 0.07414000000000001
+      },
+      "known_price_parts_subtotal_usd": 0.239362,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 82611,
+        "output": 7414
+      },
+      "session_id": "01a1e9ec-cae8-73ed-ad66-c499082a525a",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 16,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.109569,
+        "output": 0.021005000000000003
+      },
+      "known_price_parts_subtotal_usd": 0.130574,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 109569,
+        "output": 4201
+      },
+      "session_id": "01a1e9f2-75c0-736c-a74b-d0746061694c",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 50,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.166154,
+        "output": 0.08217
+      },
+      "known_price_parts_subtotal_usd": 0.248324,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 83077,
+        "output": 8217
+      },
+      "session_id": "01a1e9f6-a6a9-7371-8ae0-c62bf19801a5",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 20,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0084523,
+        "output": 0.0043335
+      },
+      "known_price_parts_subtotal_usd": 0.0127858,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 84523,
+        "output": 8667
+      },
+      "session_id": "01a1ea7e-ef82-725b-831e-aa7ab8567b28",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 23,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0084397,
+        "output": 0.003922
+      },
+      "known_price_parts_subtotal_usd": 0.0123617,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 84397,
+        "output": 7844
+      },
+      "session_id": "01a1ea87-a35a-764c-a48a-968d4f6b4ceb",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 10,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.049637999999999995,
+        "output": 0.015605
+      },
+      "known_price_parts_subtotal_usd": 0.065243,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 49638,
+        "output": 3121
+      },
+      "session_id": "01a1ea90-99e9-75d9-8738-8aed6e07b770",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 24,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0090411,
+        "output": 0.005447
+      },
+      "known_price_parts_subtotal_usd": 0.0144881,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 90411,
+        "output": 10894
+      },
+      "session_id": "01a1ea97-b9f6-73d3-80ca-9ee9fddecde5",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 26,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.17676999999999998,
+        "output": 0.056170000000000005
+      },
+      "known_price_parts_subtotal_usd": 0.23293999999999998,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 88385,
+        "output": 5617
+      },
+      "session_id": "01a1eaa8-f6ee-724c-8862-0880c7c24e57",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 8,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.049207,
+        "output": 0.009365
+      },
+      "known_price_parts_subtotal_usd": 0.058572,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-terra",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 49207,
+        "output": 1873
+      },
+      "session_id": "01a1eab0-38bf-74ab-81c2-c597ddb417ef",
+      "thinking": "high",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 17,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0069717,
+        "output": 0.004552
+      },
+      "known_price_parts_subtotal_usd": 0.0115237,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 69717,
+        "output": 9104
+      },
+      "session_id": "01a1eab9-7e87-75eb-8949-e8b55f673bc6",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 18,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0070586,
+        "output": 0.0040265
+      },
+      "known_price_parts_subtotal_usd": 0.0110851,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 70586,
+        "output": 8053
+      },
+      "session_id": "01a1eac1-5c59-7140-a037-cf429973289f",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 16,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.0072799,
+        "output": 0.0027784999999999997
+      },
+      "known_price_parts_subtotal_usd": 0.010058399999999999,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 72799,
+        "output": 5557
+      },
+      "session_id": "01a1eb02-8e6a-7416-ab78-579596305eba",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 160,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "input": 0.34575,
+        "output": 1.08095
+      },
+      "known_price_parts_subtotal_usd": 1.4267,
+      "metered_events": 0,
+      "missing_token_fields": [
+        "cacheRead",
+        "cacheWrite"
+      ],
+      "model": "gpt-6.1-sol",
+      "priced_subset_usd": 0.0,
+      "pricing_unavailable": [],
+      "provenance": "log_derived_digest",
+      "provider": null,
+      "retained_token_components": {
+        "cacheRead": null,
+        "cacheWrite": null,
+        "input": 172875,
+        "output": 108095
+      },
+      "session_id": "01a1eb0c-742d-70cd-b683-866569322a45",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": [
+        "cacheRead",
+        "cacheWrite"
+      ]
+    },
+    {
+      "assistant_events": 5,
+      "complete": false,
+      "estimated_complete_session_cost_usd": null,
+      "known_price_parts": {
+        "cacheRead": 0.00035328000000000003,
+        "cacheWrite": 0,
+        "input": 0.0030107,
+        "output": 0.000823
+      },
+      "known_price_parts_subtotal_usd": 0.00418698,
+      "metered_events": 4,
+      "missing_token_fields": [],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.00418698,
+      "pricing_unavailable": [],
+      "provenance": "raw_session",
+      "provider": "openai",
+      "retained_token_components": {
+        "cacheRead": 35328,
+        "cacheWrite": 0,
+        "input": 30107,
+        "output": 1646
+      },
+      "session_id": "01a1ebd7-7a0e-73a0-8dba-74b1aa51f580",
+      "thinking": "medium",
+      "unknown_usage_events": 1,
+      "unpriced_components": []
+    },
+    {
+      "assistant_events": 24,
+      "complete": true,
+      "estimated_complete_session_cost_usd": 0.0338961,
+      "known_price_parts": {
+        "cacheRead": 0.0184384,
+        "cacheWrite": 0,
+        "input": 0.0102747,
+        "output": 0.005183
+      },
+      "known_price_parts_subtotal_usd": 0.0338961,
+      "metered_events": 24,
+      "missing_token_fields": [],
+      "model": "gpt-6-luna",
+      "priced_subset_usd": 0.0338961,
+      "pricing_unavailable": [],
+      "provenance": "raw_session",
+      "provider": "openai",
+      "retained_token_components": {
+        "cacheRead": 1843840,
+        "cacheWrite": 0,
+        "input": 102747,
+        "output": 10366
+      },
+      "session_id": "01a1ebd7-7a25-761a-8584-bd199a476e20",
+      "thinking": "medium",
+      "unknown_usage_events": 0,
+      "unpriced_components": []
+    }
+  ],
+  "snapshot_utc": "2026-11-18T00:05:58.690198+00:00",
+  "supersedes_incomplete_artifact": "cost-pause-2026-11-campaign.json (bad placeholder cutoff; no usable all-lane inventory)",
+  "unique_child_sessions": 82
+}

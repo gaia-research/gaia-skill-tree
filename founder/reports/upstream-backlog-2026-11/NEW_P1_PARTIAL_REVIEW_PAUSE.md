@@ -44,6 +44,10 @@ The prior normal run 44135214784 remains a failure and the conditional normal al
 
 Protected checkpoints reported by the prior campaign record remain unchanged by this partial source work: integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; canonical registry/trees/graph unchanged. These refs/files are not modified here. P1 remains blocked at the identity/migration gates.
 
+## Cost snapshot link
+
+Recovered 2026-11-18 pause accounting is published in [COST_PAUSE_2026-11-18.md](COST_PAUSE_2026-11-18.md) and `.json`, with the explanation and exact group values in [COSTS.md](COSTS.md). This partial accounting does not change P1's paused status and does not authorize engineering continuation.
+
 ## Verification limits
 
-Before admin documentation edits, SHA-256 hashes were recorded for all 15 source/test paths; after these documentation-only edits, hashes were rechecked and were byte-identical. `git diff --check` was run and passed. No source tests, parity, build, full regression, Terra review, or watcher run was performed in this pause checkpoint.
+Before the first admin documentation edits, SHA-256 hashes were recorded for all 15 source/test paths; subsequent rechecks showed those paths byte-identical. The initial standalone `git diff --check` passed before source paths were staged; the later staged check reported one existing whitespace issue, a new blank line at EOF in `tests/test_repository_envelope_workflow.py` (line 228). It was deliberately left unchanged. No source tests, parity, build, full regression, Terra review, or watcher run was performed in this pause checkpoint.
