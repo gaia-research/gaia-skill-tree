@@ -1,6 +1,24 @@
 # Execution preflight — 2026-11-15
 
+## Current checkpoint — canonical reuse verified; metadata-only run authorized once
+
+Founder authorization is specific to the bounded metadata-probe canonical reuse. At `9b6c65ec58288a6d28e1c1e7b08093e58ed4a84b`, Terra independently PASSed high/no findings (229 focused tests, 3.39s); independent non-author parent regression passed 1195 tests in 211.20s with both parity checks true, missing arrays empty, transient retained, clean status/index, and protected surfaces unchanged. Available local historical JSON hashes match; remote PR-ref/archive hashes were not independently rechecked. Class P named index is missing; overall `gaia dev validate` is not green. Metadata-only inputs: `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`; empty skill/challenge-input/escalate values; challenge flags false. P1 remains blocked pending actual diagnostic. Schema/integration refs unchanged; #2468/#2469 OPEN/DRAFT; no merges. Do not infer root or permission causality. See append-only dispatch receipt.
+
+## 2026-11-17 current status — STOPPED, metadata correction limit reached
+
+Feature branch `dev/upstream-backlog-watcher-2026-11` is at exact review HEAD `b614688657d34234472caaeef7069733647869df`. Independent Terra (`openai-codex/gpt-6.1-terra`, high) returned **FINDINGS / issues_found, NOT PASS**. Focused 122 passed, but no full required regression/parity at this HEAD; prior 1045-pass at `65d4494...` is historical. No second metadata run. See P1_COUNT_REPAIR.md for the findings and immutable chronology. Integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`, schema `6bed0edf324d49e42cd8953351deaccaa733d22f`, and PR #2468/#2469 OPEN/DRAFT base integration remain protected.
+
+**STOPPED — metadata2-round correction limit reached; await specific operator authorization.** Proposed next action only: one additional targeted Sol-shared correction addressing exactly both findings, then independent Terra re-review and full regression before any diagnostic dispatch. No authorization already given. No probe/normal run, permission change, write, merge, or P2. Roster: Luna, Hydrogen, Sol-shared, Terra; medium worker effort, 2h/no-turn-cap, no fallback/retries/nested agents; Opus retired. Full campaign cost unavailable; no bulk cost investigation or P0 partial-as-total.
+
 Campaign: November 2026 Upstream Backlog. Canonical control commit: `692b807e198d8940df58fef8b5aaef1dcc29bbac` (planning PR #2466).
+
+## Current status — independent Terra PASS; P1 real-runner pending (2026-11-16)
+
+Fresh independent Terra review PASSed with no actionable findings at exact P1 source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f`; this is a code-review verdict, not founder release approval. The one P1 generic non-writing `apply=false` run is now authorized and pending dispatch. NO MERGES. PR #2468/#2469 remain OPEN/DRAFT to integration. No readiness, labels, variables, issue writes/closures, builds or P2–P7. Prior Terra cancellation `caae8998` remains historical and is not the current verdict. Roster pointer: [RESUME.md](RESUME.md). Worker and reviewer identities/effort remain as recorded; no fallback/substitution/retry. Older preflight claims below are historical.
+
+## Current P1 builder/review state — independent Terra PASS; runner pending
+
+Founder-authorized role reassignment and solo implementation are complete. `worker-sol-shared` returned PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f`, actual model `openai-codex/gpt-6.1-sol`, medium; lead verified model/effort records. Fresh independent Terra review now PASSed with no actionable findings at the pinned source/schema pair; builder and reviewer evidence are separately attributed in CAMPAIGN.md and P1_HANDOFF.md. Terra reproduced 1015 required tests and 70 requested focused tests (two specified test files, not builder's broader 410 command), parity 0/both true, 320 eligible named records/zero errors, 23 suites 254→0, and protected digest/checks. The review does not approve release or founder gates. PR #2469 targets integration; #2468 remains draft/dependent. One P1 generic non-writing real runner is authorized/pending; no dispatch yet, P1 completion, P2, writes, or release approval. Older live-preflight-pending text below is historical.
 
 ## Authority and baseline
 
@@ -19,7 +37,8 @@ Installed harness: `@parke.dev/pi-subagent` 0.8.0, backend `pi`. Lead identity c
 | Lead / Sol | `openai/gpt-6.1-sol` | xhigh | Lead tools; code authorship delegated | Active lead session | Active founder window | PASS |
 | Small worker / `worker-luna` | `openai/gpt-6-luna` | medium | general; read/bash/edit/write only as individually scoped | Non-mutating file-read probe passed | Probe 180s; work 1800s | PASS |
 | Standard worker / `worker-hydrogen-medium` | `antigravity/gemini-4-hydrogen` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed | Probe 180s; work 1800s | PASS |
-| Escalation worker / `worker-opus` | `antigravity/claude-opus-5-5` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed after founder provider change | Probe 180s; work 1800s | PASS |
+| Escalation worker / `worker-opus` | `antigravity/claude-opus-5-5` | medium | general; read/bash/edit/write only as individually scoped | Fresh runtime/HEAD probe passed after founder provider change | Probe 180s; work 1800s | Historical PASS; **retired from this assignment** by founder reassignment |
+| Current P1 builder / `worker-sol-shared` | `openai-codex/gpt-6.1-sol` | medium | isolated worker; scoped repair authoring only, not reviewer | Static config readback only; live preflight pending (not yet probed) | 7200s | **LIVE PREFLIGHT PENDING** |
 | Independent reviewer / `reviewer` | `openai-codex/gpt-6.1-terra` | high | review; read/grep/find/ls; no authoring | Independent fresh-context file-read probe passed | Probe 180s; review 1800s | PASS |
 
 Terra's read-only review persona cannot run shell tests. Required independent command re-execution will use a separately scoped, non-authoring Terra verification dispatch with explicit shell permission; review remains independent of the builder. A dry-run will precede that dispatch.
@@ -58,3 +77,16 @@ The founder authorized virtually unlimited execution within a two-hour per-agent
 | P7 | `gaia dev docs`, plan section D checks, `build_docs.py --check`, independent Terra review, founder final merge |
 
 Only the instructions applicable to the current phase are executed. Subsequent phase skills are loaded before use, not invoked speculatively. No evidence pipeline or generated-artifact rebuild has run.
+
+
+## 2026-11-18 corrected metadata-only probe authorization and dispatch checkpoint
+
+Founder explicitly authorized exactly one additional targeted Sol-shared correction for the two Terra findings. That correction is complete at feature source `8cb977a6aa693412021c85277595e0642a61ae64`; independent Terra high-effort review passed with no actionable findings and 214 focused tests. Parent-run full regression passed 1180 tests in 237.67s at the same SHA, both parity booleans true, all missing arrays empty, transient retained, clean Git/index, and protected workflow/live.py/shared-helper/registry/skill-tree surfaces unchanged. Parent independently verified the historical original 605-byte JSON SHA-256 `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87` and first metadata artifact SHA-256 `85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`. Attribution is to the parent, not retroactively to Terra. Terra's historical artifact hashes were not rechecked locally. `gaia dev validate` remains non-green/unclaimed because the Class P index is missing. Costs remain complete UNAVAILABLE; `$4.907920` is P0 partial, not current campaign total.
+
+Current decision/status: one reviewed metadata-only diagnostic is authorized; P1 remains BLOCKED pending that diagnostic. The additional code correction does not grant permissions, relax production guard, permit ordinary watcher writes, or authorize merge. Root cause #2278 remains UNKNOWN until diagnostic data exists. Preserve prior normal-run failure 43896669237 (head `fa6ca42...`, original 605-byte artifact) and first metadata-run failure 43927918189 (head `59ff427...`, receipt/hash above) as historical failures; neither is rewritten as fixed or rerun.
+
+Preflight verified clean feature worktree `dev/upstream-backlog-watcher-2026-11`, exact HEAD `8cb977a6aa693412021c85277595e0642a61ae64`, and explicit remote feature ref at that same SHA. Integration remains `bfed2d777b76448f6ede5d40e1a834050dff07d0`; schema ref remains `6bed0edf324d49e42cd8953351deaccaa733d22f`. PRs #2468 and #2469 remain OPEN/DRAFT, targeting integration. No reset, discard, tracking repair, merge, normal run, permission change, label/variable/issue/registry mutation, or unrelated workflow dispatch.
+
+Exact reviewed existing workflow inputs for the one experiment: `.github/workflows/upstream-watcher.yml` on feature ref; `metadata_probe=true`, `apply=false`, `child_mode=batch`, `staging=off`, `staging_bootstrap=false`, `skill_id=`, `challenge_watch=false`, `challenge_input=`, `challenge_shadow=false`, `escalate_candidate=`. All normal watcher steps must skip; challenge/upstream-poll dependents must remain skipped. Workflow permissions remain exactly `issues: write`, `contents: read` (implicit metadata read); no `pull-requests: read`, PAT, or permission changes. Expected artifact `DIAGNOSTIC-upstream-metadata-probe` / `generated-output/diagnostic-upstream-metadata.json`, explicitly diagnostic-only, acceptance-ineligible, P1-false. Combined inventory guard unchanged.
+
+At this checkpoint there is no new dispatch result yet. After one dispatch, record the single returned run identity/status and freeze the feature branch. Do not poll, sleep, monitor, or collect artifacts in this job; background monitor owns that. If submission response is uncertain, perform one read-only lookup by exact head/time; never repeat POST. P1 remains blocked until the diagnostic is assessed.

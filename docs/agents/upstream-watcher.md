@@ -4,6 +4,10 @@
 **Owner:** infra.
 **Related:** [issue-tracker.md](issue-tracker.md), [triage-labels.md](triage-labels.md), [domain.md](domain.md).
 
+> **Current P1 Candidate Scope (Detection / Plan-Only — Read First):** Current P1 on this candidate branch is **detection and plan-only** — ordinary watcher runs do not create, update, adopt, or rebuild GitHub issues or record comments. Valid ordinary `--dry-run` runs may exit `0` with planned reports (`outcome: "planned"` / `"held"`) and `writeReadiness: false` (plus the plan-only `executionHold`); invalid CLI invocation or staging rollout checks may exit `1`; unknown/poll/inventory errors may exit `3`; ordinary `--apply` routes (including `--reset-records ... --apply` and `--staging weekly --apply`) reaching the apply hold exit `4` with zero issue effects (`actualIssuesCreated: 0`, `actualIssuesUpdated: 0`); and `--escalate` is separately held read-only at `exit 3` (zero writes).
+>
+> All historical V1/staging design sections and any record-reset (`--reset-records`), weekly staging activation, journal bootstrap/recovery, and rollback instructions in this document are **historical / deployed-legacy reference only — never actionable on this P1 candidate**, and do not claim that `main`'s optional configuration (`UPSTREAM_BATCH_STAGING`, `UPSTREAM_STAGING_INITIALIZED`, `STEWARD_ISSUE_HYGIENE_V2`, or `GAIA_CHALLENGE_WATCH_ENABLED`) is activated. All FOUNDER decisions and actual deployment, permissions, and exception gates documented below remain preserved and in force.
+
 The upstream watcher is a background agent that polls the source repositories of curated Gaia skills for new releases and opens **GitHub issues** (not PRs, not branches) proposing version bumps, component adds/removes, and structural link liveness. Approved issues fire a small workflow that opens a draft `review/meta/` PR against the registry, keeping every registry mutation behind the standard human-merge boundary.
 
 The watcher is deliberately narrow: it tracks known-existing skills; it does not discover new ones. Skill discovery remains the job of the `scripts/crawlers/` infrastructure and the `bot/*` branch flow. The two systems share no runtime code path and should not be conflated.
@@ -107,7 +111,7 @@ The following describes the staged implementation, not the currently scheduled c
 - *Not rewritten:* existing `upstream:child` issues remain valid. Adoption requires both the suggested id and the normalized GitHub blob source identity (owner/repo/path; ref normalization is allowed). A matching suggested id alone is not evidence that two repositories describe the same candidate. Unsupported source identity cannot prove adoption or prior rejection. An adopted row gets `child: #N`; existing children are not migrated.
 - *Consequence for the approve gate:* an umbrella in batch mode has no children, so the child-resolution gate in `upstream-approve.yml` passes for it. Approving it confirms the version bump. It does **not** accept candidate rows. A row needs its own escalated child, and that child gates approval while it is open.
 
-Current behaviour:
+Staged batch design behaviour (historical reference only — not active write behaviour on this plan-only P1 candidate):
 
 - One `[upstream:release]` umbrella per suite, keyed `upstream-suite:{owner}/{repo}`. A new version updates that umbrella in place (title and payload) instead of opening a second one.
 - The umbrella payload is `payloadVersion: 2` with a `candidates[]` batch record. Rows are keyed by candidate id `{owner}/{repo}:{slug}` and carry `firstSeenVersion`, `lastSeenVersion`, `precheck`, `status` and `child`. Rows are never removed; a component dropped upstream stays visible.
@@ -141,7 +145,7 @@ Identity comes from the payload, not from a title or an issue number. A title on
 
 - **Generations and writes (D4, replaces the in-place edits of M7).** A change to the rows is a new generation. The writer (1) creates the new generation's missing chunks as NEW comments, (2) switches the umbrella body to name the new generation (`candidateRecords.sha256`), and (3) deletes the superseded comments, best effort: a failed delete is a `::warning::`, and a later run deletes it again. No chunk is ever edited in place. A crash at any step leaves the body naming a complete generation whose comments all still exist, so a reader never sees a mix of two generations. Recovery converges: a create that landed before its error is reused by the next run, because the planner finds the chunk by generation and index. A rerun with no change writes nothing, and a converged 600-row suite writes nothing on rerun either. Two trusted copies of a target chunk fail closed for a maintainer to delete one, as before. Before this change, M7 edited chunks in place, and a write that failed part way left a mix that no run could read: a permanent wedge.
 
-- **Recovery: `--reset-records SUITE` (M4).** A deleted, edited or otherwise damaged record comment fails its suite closed, with zero writes for it, and the exit-3 message names this flag and the suite. `watcher.py --child-mode batch --apply --reset-records <suite>` requires explicit batch and apply opt-in (a reset in default fanout is refused, not silently ignored): it rebuilds the suite's rows from the fresh poll, keeping every fresh row. A target-generation chunk that is present once and intact is kept, and a missing, damaged or duplicated chunk is rewritten. Every comment of another generation is deleted. A converged reset writes nothing, and a later run without the flag writes nothing. Per-row status and child links stored only in the lost comments are not recovered: an open child intake is re-adopted by the list lookup, a closed rejected child stays rejected, and a closed child without a disposition reverts to `new` with no link. Other suites are unaffected. **C9 (M-2):** the reset also reads the newest closed umbrella's rows, exactly as carry-forward does, so a rejection that closed umbrella settled (M3) survives the reset. That read is the same fail-closed read: if the closed umbrella's records cannot be read, the suite stops with exit 3 and nothing is written.
+- **Recovery: `--reset-records SUITE` (M4 — historical / non-actionable on this P1 candidate).** **P1 candidate scope:** This candidate does **not** rebuild records, even if historical help or exit-3 error messages still name `--reset-records <suite>`. Invalid CLI/rollout combinations exit `1`, earlier unknown/poll errors exit `3`, and `--apply --reset-records <suite>` reaching the plan-only apply hold exits `4` with zero GitHub writes. The M4 rebuild design below is historical / deployed-legacy reference only, never actionable on this candidate: a deleted, edited or otherwise damaged record comment fails its suite closed, with zero writes for it, and the exit-3 message names this flag and the suite. `watcher.py --child-mode batch --apply --reset-records <suite>` requires explicit batch and apply opt-in (a reset in default fanout is refused, not silently ignored): it rebuilds the suite's rows from the fresh poll, keeping every fresh row. A target-generation chunk that is present once and intact is kept, and a missing, damaged or duplicated chunk is rewritten. Every comment of another generation is deleted. A converged reset writes nothing, and a later run without the flag writes nothing. Per-row status and child links stored only in the lost comments are not recovered: an open child intake is re-adopted by the list lookup, a closed rejected child stays rejected, and a closed child without a disposition reverts to `new` with no link. Other suites are unaffected. **C9 (M-2):** the reset also reads the newest closed umbrella's rows, exactly as carry-forward does, so a rejection that closed umbrella settled (M3) survives the reset. That read is the same fail-closed read: if the closed umbrella's records cannot be read, the suite stops with exit 3 and nothing is written.
 - **Approval reset before body (H1, L3).** While an umbrella carries `upstream:approved`, **any** change to its hashed payload resets the approval, before the body changes: one reviewer note, then the `upstream:approved` to `upstream:needs-info` label change (retried three times). The hash covers every payload field: versions, `componentAdds`, `componentRemoves`, `linkLiveness`, `nameDrift`, every candidate row and its precheck, and the records digest. Only metadata outside the hash (for example an `updated_at` timestamp) is exempt, and a timestamp-only change writes nothing. The note names the approved version, the new version and each changed field. It carries a marker per payload hash, so a retried reset does not post the note again. If the reset still fails, the body is left alone and the next run is non-noop and tries again.
   - **Representation-only exemption (decision for the lead).** A legacy (pre-v2) umbrella converted to v2 is exempt when every approved legacy field is unchanged (`representation_only` in `batch.py`). The conversion only adds `payloadVersion`, the candidate index and the digests, and the components it lists were already approved as `componentAdds`. Without this, the first run would de-approve the live approved umbrellas (`garrytan/gbrain`, `heygen-com/hyperframes`), which are legacy payloads today. Any changed legacy field still resets. Removing the exemption is a one-line change in `representation_only`.
   - An escalation (`--escalate`) of a row on an approved umbrella applies the same reset, because it changes a row's status.
@@ -159,6 +163,8 @@ Identity comes from the payload, not from a title or an issue number. A title on
 - `--escalate <candidate-id>` (CLI, or the `escalate_candidate` input of `upstream-watcher.yml`) creates one `[intake]` child from a row on the standard template, or adopts the open child that already exists.
 
 ### F3a. Staged batching by review window (founder ruling #12, #2283)
+
+> **P1 Candidate Scope (Historical Reference Only — Not Authorized):** Weekly staging activation, journal bootstrap/recovery dispatches, and rollback procedures in this section are **historical reference only — NOT authorized and NOT actionable on this P1 candidate**. Nothing here claims that `main`'s optional staging or hygiene configuration (`UPSTREAM_BATCH_STAGING`, `UPSTREAM_STAGING_INITIALIZED`, `STEWARD_ISSUE_HYGIENE_V2`) is activated. On this candidate branch, ordinary watcher runs are plan-only (`--staging weekly --apply` is fenced at exit `4` with zero writes after passing CLI/rollout checks; invalid invocations/rollout checks exit `1`; earlier unknown/poll/journal errors exit `3`). The historical design below is preserved verbatim for reference.
 
 **Status: built, dry-run parity proven, review-rejected findings fixed, NOT activated by this change.** Founder ruling #12 (`founder/steward/decisions/steward-upstream-batch-rollout.json`) approves staged batching: upstream skills now change almost daily, the founder runs about one Class B pass a day or one batch a week, and the issue noise must drop. Default behaviour is unchanged: the daily schedule stays `fanout` and every code path below is inert while staging is `off`. Activation is the repo variable `UPSTREAM_BATCH_STAGING=weekly` (see the runbook).
 
@@ -188,9 +194,9 @@ Switch (all default off):
 | Dispatch input `staging_bootstrap` | Allow a missing journal once: a first-ever bootstrap, or (marker set) an explicit recovery. Never for a corrupt journal. Dispatch only. |
 | Repo variable `UPSTREAM_STAGING_INITIALIZED` | The durable initialized marker (set by the lead after the first bootstrap; the watcher cannot set repo variables). Required for scheduled staged runs; makes a missing journal a recognised loss. |
 
-Journal persistence: only when staging is on, two gated steps restore and save `generated-output/staging-journal.json` through `actions/cache` (a new key per run, newest prefix match restored). The journal is written on `--apply`, or on an explicit bootstrap (so a bootstrap dry run creates it without any GitHub write). Caches can be evicted, which is why a missing journal fails closed instead of resetting.
+**Journal persistence (historical reference — NOT authorized or actionable on this P1 candidate):** only when staging is on, two gated steps restore and save `generated-output/staging-journal.json` through `actions/cache` (a new key per run, newest prefix match restored). The journal is written on `--apply`, or on an explicit bootstrap (so a bootstrap dry run creates it without any GitHub write). Caches can be evicted, which is why a missing journal fails closed instead of resetting.
 
-**Activation runbook (lead, after independent verification of the parity report):**
+**Activation runbook (historical reference only — NOT authorized or actionable on this P1 candidate; does not claim `main`'s optional configuration is activated; lead, after independent verification of the parity report):**
 
 1. Confirm `STEWARD_ISSUE_HYGIENE_V2=true` (the hardened approve/reject/close-children jobs) is the intended state.
 2. Bootstrap the journal with no GitHub write: dispatch `Upstream Watcher` with `child_mode=batch`, `staging=weekly`, `staging_bootstrap=true`, `apply=false`. Read `upstream-watcher-report`: `staging.journal.status` is `bootstrap` and nothing was written. The journal is saved to the cache.
@@ -198,7 +204,7 @@ Journal persistence: only when staging is on, two gated steps restore and save `
 4. If a run goes red with `staging-journal` in `unknownEvidence`, **nothing was written** (not even bootstrap findings) and no state was reset. `lost` (cache eviction): re-dispatch with `staging_bootstrap=true`; that recovery re-observes the current upstream state, every candidate still present upstream reappears. `corrupt`: delete the damaged journal and its cache entries (`gh cache delete`), then recover the same way. **Recovery loss, stated plainly:** observations of candidates no longer present upstream are gone, and for candidates still present their first-seen provenance (version and time) restarts at the recovery run; those rows carry `provenanceReset: true`. Nothing else is lost.
 5. Monitor two windows: issue creates and edits per week (at most one per repository per flush plus urgent), `report.staging.urgent` entries (each names a real 404/410), `staging.closedDuringWrite`, `staging.absent`, and that no suite is held past `maxHoldUntil`.
 
-**Rollback (instant, no code change):** delete or set `UPSTREAM_BATCH_STAGING` to `off`. The schedule returns to deployed `fanout` on its next run. Held observations need no cleanup because nothing was written for them; the journal cache is inert while staging is off and expires on its own (the marker variable can stay or be deleted). Umbrellas already written stay valid under either contract (the batch umbrella is the same one that `--child-mode batch` writes today). To also leave the batch contract, unset `STEWARD_ISSUE_HYGIENE_V2`, which restores the exact legacy job bodies. Rolling back does not need the journal (and does not undo a recovery: rows marked `provenanceReset: true` keep the marker): the next unstaged run recomputes the finding from the live release and registry. Pending rows that were never flushed are not written by an unstaged run, so a candidate that vanished upstream before the rollback is not recovered; it remains in the journal cache and in the uploaded run reports. **Recovery loss survives a rollback:** if a journal recovery happened before the rollback, the permitted loss stands (observations of candidates no longer present upstream are gone, and first-seen provenance of candidates still present restarted at the recovery run); the affected rows keep `provenanceReset: true`, so it stays auditable. Nothing else is lost.
+**Rollback (historical reference only — NOT authorized or actionable on this P1 candidate; instant, no code change):** delete or set `UPSTREAM_BATCH_STAGING` to `off`. The schedule returns to deployed `fanout` on its next run. Held observations need no cleanup because nothing was written for them; the journal cache is inert while staging is off and expires on its own (the marker variable can stay or be deleted). Umbrellas already written stay valid under either contract (the batch umbrella is the same one that `--child-mode batch` writes today). To also leave the batch contract, unset `STEWARD_ISSUE_HYGIENE_V2`, which restores the exact legacy job bodies. Rolling back does not need the journal (and does not undo a recovery: rows marked `provenanceReset: true` keep the marker): the next unstaged run recomputes the finding from the live release and registry. Pending rows that were never flushed are not written by an unstaged run, so a candidate that vanished upstream before the rollback is not recovered; it remains in the journal cache and in the uploaded run reports. **Recovery loss survives a rollback:** if a journal recovery happened before the rollback, the permitted loss stands (observations of candidates no longer present upstream are gone, and first-seen provenance of candidates still present restarted at the recovery run); the affected rows keep `provenanceReset: true`, so it stays auditable. Nothing else is lost.
 
 **Known limits.**
 
@@ -413,26 +419,168 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 `.github/workflows/upstream-watcher.yml` runs on manual dispatch and on a daily schedule (06:00 UTC, `--apply`). Dispatch inputs:
 
 - `skill_id` — poll one suite only.
-- `apply` — create or update issues (default dry-run).
-- `escalate_candidate` — create or adopt one intake child for a batch row (for example `garrytan/gbrain:foo`), then exit. Uses the `apply` flag.
+- `apply` — default `false` (dry-run). On separately deployed pinned `main`, selects issue creation/updates; on this candidate branch, ordinary watcher `--apply` routes are deliberately plan-only (`exit 4`, zero issue effects if planning reaches the apply hold; `exit 1` on invalid/rollout checks; `exit 3` on genuine earlier unknown/poll errors).
+- `escalate_candidate` — batch-row selector (for example `garrytan/gbrain:foo`, paired with `apply`). On separately deployed pinned `main`, creates or adopts one intake child then exits; on this candidate branch, `--escalate` is held read-only at the watcher CLI (`exit 3`, zero writes) until exact named-selector escalation is qualified.
 - `staging` — `inherit` (default), `off` or `weekly`: staged weekly batching (see [F3a](#f3a-staged-batching-by-review-window-founder-ruling-12-2283)). `staging_bootstrap` allows a missing journal once (first bootstrap, or an explicit recovery after a loss). Not activated; the repository variable `UPSTREAM_BATCH_STAGING` is unset.
 
-The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. Its default manual dispatch and daily scheduled run use `fanout`; `--child-mode batch` is opt-in and requires the staged v2 rollout controls described above. The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
+The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. On deployed `main`, manual dispatch and the daily `06:00 UTC` schedule default to `fanout`. On the unmerged `repo_envelope` feature branch, **all** watcher runs route through `run_repository_batch` (`gaia-upstream-repository` v2):
 
-The workflow's token scope is `issues: write` and `contents: read` (L5). The watcher never pushes, opens PRs or dispatches workflows.
+- **Safe ordinary read-only invocation:** `--child-mode batch --dry-run` (`apply=false`, staging `off`) polls and plans repository envelopes (`exit 0` on a clean plan with `outcome: "planned"` for valid unheld repositories and `outcome: "held"` for explicit known legacy holds, reporting `writeReadiness: false` and `executionHold: "watcher-plan-only-guard-blocks-envelope-apply"` while the entry-point plan-only fence is active, with zero actual mutators; `exit 3` on unresolved `unknownEvidence`).
+- **Exit-code precedence:** CLI/argument validation and staging rollout gates can exit **`1`** before polling; poll errors, inventory mismatches, blocked staging journals, or unresolved `unknownEvidence` exit **`3`** (do not generalize `exit 3` as "zero writes" if an error occurs partway through an apply); all ordinary watcher CLI `--apply` routes (including unstaged `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records ... --apply`) are fenced plan-only (`plan_only=True`) and exit **`4`** *when planning reaches that hold* with zero actual issue mutations (`actualIssuesCreated: 0`, `actualIssuesUpdated: 0`), while direct offline calls to `run_repository_batch(..., apply=True)` remain testable against fake transport.
+- **Held escalation and consumer workflow isolation:** `--escalate` is held read-only at the watcher CLI (`exit 3`, zero writes) until exact named-selector escalation is qualified; it is not an active child-creation service on this branch. Likewise, `.github/workflows/upstream-approve.yml`, `.github/workflows/upstream-reject.yml`, and `.github/workflows/upstream-close-children.yml` remain identical to pinned `main` (preserving the verbatim-active v2-off fallback outside this acceptance slice). The native per-named approval/sync contract (`approval.workflow_payload`, `approval.verify_repository_target`, `gaia dev sync-upstream`) is retained and verified offline without exposing new callable dispatch/write paths in the deployed consumer workflows.
+- **Legacy `#1833` raw writer hold & deployment order:** Legacy single-ID payloads are never overwritten or relabeled; `envelope.migration_plan` emits a lossless `preserve-legacy-reference` v1 plan bound to `raw_api_utf8` body bytes (distinct from CLI stdout LF framing; neither digest grants migration execution authority). Deployment order: (1) deploy envelope-aware readers with legacy writes held, (2) independently review lossless body/records/journal migration plan, (3) obtain separate issue/scope/hash-bound migration approval, (4) execute separately authorized migration and revalidate all readers.
+- **Rollout blocker:** Switching the `06:00 UTC` `schedule` from `fanout` to `batch` requires an explicit founder rollout decision; until then, `schedule` is not silently rewritten.
 
-> **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state. `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented, and every scheduled run passes `--apply`, so the watcher creates and updates issues daily. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
+The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
+
+The workflow-level token scope remains `issues: write` and `contents: read` (L5).
+The ordinary inventory job **`watcher`** explicitly declares exactly those grants
+plus **`pull-requests: read`** (metadata read is implicit). The separate founder
+authorization permits this one job-scoped read bit for mixed issue/PR inventory,
+not PR writes or a relaxed combined-count proof. Explicit job permissions replace
+inheritance, so both old grants are retained. `apply=false` still selects
+`--dry-run` and makes no issue writes despite the retained issue-write capability.
+The watcher never pushes, opens PRs or dispatches workflows. Independent Terra
+review, parent full regression and ONE designated-operator normal read-only P1
+run remain pending; this change is not P1 acceptance or merge/release authority.
+See [`P1_ORDINARY_PERMISSION.md`](../../founder/reports/upstream-backlog-2026-11/P1_ORDINARY_PERMISSION.md).
+
+> **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state: `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented and every scheduled run still passes `--apply`. On separately deployed pinned `main` (not newly modified or qualified here), that schedule targets live apply behavior. On this candidate branch, the schedule and `--apply` invocation remain unchanged, but ordinary watcher execution is deliberately plan-only: reaching the apply hold exits `4` with zero issue effects (`actualIssuesCreated: 0`, `actualIssuesUpdated: 0`), invalid CLI/rollout checks exit `1`, genuine earlier unknown/poll errors exit `3`, and an ordinary valid `--dry-run` (`apply=false`) exits `0` with findings/planned counters and `writeReadiness: false`. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
+
+### Opt-in metadata-only runner diagnosis (#2278)
+
+`metadata_probe=true` (with `permission_ab=false`) on this existing workflow selects **only** the separate
+`metadata-probe` job. The entire `watcher` job is skipped; its dependent
+`challenge-watch` job is consequently skipped by the existing success dependency.
+The boolean defaults to false. Scheduled runs and ordinary manual runs retain
+all existing step bodies, inputs and write gates. The separately authorized
+ordinary-job permission delta is documented above; standalone probe inheritance
+is unchanged.
+
+The probe inherits the existing workflow `issues: write`, `contents: read`
+`GITHUB_TOKEN` context, with **no** additional grant (in particular no
+`pull-requests: read`). It uses only fixed repository GETs and read-only GraphQL
+queries, never watcher planning, upstream polling, issue writes or ledger code.
+Do not replace its token to make an observation succeed. Permission failures are
+observations, not permission-change authorization.
+
+After independent review, the designated operator may select the feature ref of
+`upstream-watcher.yml` with `metadata_probe=true`, `apply=false`, and all other
+inputs at defaults. This is probe preparation, not a dispatch or merge approval.
+No new workflow/default-branch merge is required by this diagnostic surface.
+
+Output: artifact **`DIAGNOSTIC-upstream-metadata-probe`**, containing only
+`diagnostic-upstream-metadata.json` (seven-day retention). It is **not** the normal
+watcher report, a frozen P2 census, or P1 acceptance. It declares
+`diagnosticOnly: true`, `acceptanceEligible: false`, `p1Pass: false` and
+`causality: not-established`. It records repository counts before/after, typed
+GraphQL counts/connection walks before REST and count samples after REST, minimal
+positive unique number/type/open-state projections, REST typed counts, sanitized
+request status/error classes, Link-presence flags and validated request IDs. Cursors are
+used only in memory; pageInfo records cursor presence, not cursor contents.
+Titles, bodies, comments, authors, raw responses, exceptions and auth are never
+written or printed. REST issue responses necessarily arrive transiently before
+projection; only the allowlisted metadata reaches the artifact.
+
+Diagnostic pagination accepts the exact named repository issues path or its
+numeric alias **only** when the positive integer ID and matching `full_name`
+were obtained from the fixed repository GET, never learned from a Link. Every
+relation must use HTTPS on exactly `api.github.com`, without userinfo, port,
+fragment or path encoding/traversal. A bounded read-only adapter delegates the
+walk to the **unchanged** `scripts.steward_issue_census.listAll` using real
+`Response` objects. The adapter uses the canonical RFC Link parser to validate
+all target bindings; `listAll` selects/follows server continuations, preserves query/cursor bytes,
+applies its existing numeric-to-named path projection, rejects incomplete/looping
+walks, and performs the independent cursor-free terminal offset probe. The probe
+no longer selects next pages or reconstructs continuation queries. A server page
+marker need not be the next offset number; opaque cursor values are not URLs or
+authority and are never interpreted/rebuilt by the diagnostic.
+
+The adapter additionally enforces this repository's trusted numeric ID on EVERY
+Link target before canonical code can learn an alias, the fixed unfiltered
+`state=open`/`per_page=100` inventory, singleton bounded pagination fields
+(`page`, `after`/`before`), no extra filters, and nonrepeating requested cursors.
+It uses the canonical parser, not a second Link grammar. Malformed queries,
+foreign bindings and unsafe encodings fail closed. Like `LiveGh._walk`, it
+refuses short nonfinal pages and malformed/duplicate positive identities. No
+`list_issues`, `_verified_open`, planning or write path is called. Canonical
+rejection is never suppressed, and raw canonical diagnostics/exception text are
+mapped to fixed safe reason classes, never serialized. Artifact headers now
+record only Link presence, not reconstructed Link URLs or cursors.
+
+`comparisons` labels identity/aggregate observations `agree`, `disagree`, or
+`unknown` with a fixed reason. Incomplete REST walks cannot establish either
+disagreement; incomplete before GraphQL walks cannot establish typed identity
+disagreement, and unknown repository counts cannot establish aggregate
+disagreement. Unknown comparisons remain nonhealthy. Partial nodes remain
+partial, REST typed totals remain null until transport completion (complete
+empty walks legitimately yield zero). GraphQL `collectionMode=count-sample`
+after REST is explicitly partial, not a second census; only the complete before
+walk participates in identity comparison.
+
+Limits: ten REST fetches per walk **including** the canonical end probe (and ten
+pages per GraphQL walk), 100 items/page, 40 requests total, no retries,
+30 seconds/request, 240-second collection budget, four-MiB response cap and a
+six-minute job timeout. Redirects and foreign/noncanonical continuations are
+refused. Missing counts, denial/partial/error responses, duplicates, loops,
+unstable counts and identity/count disagreement remain `nonhealthy` (exit 3).
+Even `observations-agree-not-acceptance` (exit 0) is not a completeness waiver,
+an atomic snapshot, causal proof or permission to resume writes. The strict
+combined issue/PR production guard is unchanged.
+
+### Opt-in diagnostic-only permission A/B (#2278)
+
+`permission_ab=true` on the **existing** workflow selects two independent jobs:
+`permission-ab-control` and `permission-ab-treatment`. It overrides all other
+inputs for routing: watcher and its challenge dependent are skipped even with
+`metadata_probe=false`, `apply=true`, escalation or challenge flags selected.
+Standalone `metadata-probe` is also skipped. Default false leaves scheduled,
+ordinary manual and standalone metadata-probe behavior unchanged. Native boolean
+true is required for the arms; malformed nonempty string selections fail closed
+without selecting an ordinary job. No event-string truthiness is used.
+
+Both arms check out `${{ github.repository }}` at `${{ github.sha }}`, run exactly
+`python -m scripts.upstream_watcher.metadata_probe`, and use their own job-scoped
+`GITHUB_TOKEN`. Control explicitly declares `issues: write`, `contents: read`;
+treatment declares exactly those plus **`pull-requests: read`**. This is solely a
+diagnostic treatment, **not itself** a production permission grant. Global
+permissions remain unchanged; the separate later ordinary-job authorization
+above adds the same read bit only to `watcher`. No token is shared, minted or replaced; neither
+arm invokes planning or writes. The collector and its limits/schema are unchanged.
+
+Artifacts are **`DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL`** and
+**`DIAGNOSTIC-upstream-metadata-permission-ab-TREATMENT`**, each containing
+`diagnostic-upstream-metadata.json`, seven-day retention, upload `always()` even
+after exit 3. Separate jobs have no success dependency or fail-fast matrix; a
+nonhealthy control cannot prevent treatment. They are eligible concurrently but
+runner scheduling does not guarantee simultaneous observations or artifact delivery
+after infrastructure failure. No automated winner, P1 acceptance or causal verdict.
+Each report remains diagnostic-only, acceptance-ineligible, P1-false, causality
+not established. Compare only complete commensurate observations; time churn can
+make the pair INCONCLUSIVE. No automatic rerun.
+
+The founder's relayed literal `proceed` authorized this ONE bounded diagnostic A/B
+proposal only. Independent Terra review and parent full regression are required
+before the designated operator's one paired run. That diagnostic authorization
+alone grants no normal watcher run, issue write, production permission expansion,
+P2 or merge. The separate later ordinary read-scope grant and pending single normal
+read-only acceptance run are documented above. Technical
+preparation receipt: [`P1_PERMISSION_AB.md`](../../founder/reports/upstream-backlog-2026-11/P1_PERMISSION_AB.md).
+P1 remains BLOCKED pending separately authorized normal acceptance.
 
 ### Run report and exit codes
 
-`--report FILE` writes JSON: `issuesCreated`, `issuesUpdated`, `suppressedDuplicates` (candidate rows suppressed as present, tracked or rejected), `duplicateOpenUmbrellas` (other open umbrellas per suite, listed for Steward and never written), `suppressedProcessed` (findings a closed issue already records, so nothing was created), `retainedCandidates` (total rows kept across touched umbrellas), `unknownEvidence`, `unavailable` (H2 and C9 H-B: suites skipped for the run, each with its `reason`, `permanent` with its HTTP status, or `tree-truncated`), `recordsReset` (M4: suites rebuilt by `--reset-records`) and `suites[]` (`suite`, `umbrella`, `newRows`, `totalRows`, `outcome`, where an ambiguous identity's outcome is `blocked-identity`). It is also written in dry-run.
+`--report FILE` writes JSON: `issuesCreated`, `issuesUpdated`, `suppressedDuplicates` (candidate rows suppressed as present, tracked or rejected), `duplicateOpenUmbrellas` (other open umbrellas per suite, listed for Steward and never written), `suppressedProcessed` (findings a closed issue already records, so nothing was created), `retainedCandidates` (total rows kept across touched umbrellas), `unknownEvidence`, `unavailable` (H2 and C9 H-B: suites skipped for the run, each with its `reason`, `permanent` with its HTTP status, or `tree-truncated`), `recordsReset` (M4: historical/deployed-legacy field for suites rebuilt by `--reset-records`; on this P1 candidate `--reset-records` does **not** rebuild records) and `suites[]` (`suite`, `umbrella`, `newRows`, `totalRows`, `outcome`, where an ambiguous identity's outcome is `blocked-identity`). It is also written in dry-run.
+
+> **Current P1 candidate report & exit context:** On this candidate branch, ordinary watcher runs are detection/plan-only (`writeReadiness: false`, `actualIssuesCreated: 0`, `actualIssuesUpdated: 0`, and the plan-only `executionHold`). Valid ordinary `--dry-run` may exit `0` with planned reports; invalid invocation/rollout checks may exit `1`; unknown/poll/inventory errors may exit `3`; ordinary `--apply` routes (including `--reset-records ... --apply` and `--staging weekly --apply`) reaching the apply hold exit `4` with zero issue effects; and `--escalate` is separately held read-only at `exit 3`. The write-stage and `--escalate` exit-`2` semantics in the table below describe historical / deployed-legacy behavior.
 
 | Exit | Meaning |
 |---|---|
-| 0 | Success, including no findings and no-op reruns. |
-| 1 | Hard failure (import error, unrecoverable exception). |
-| 2 | `--escalate` target not found in any open umbrella. |
-| 3 | Unknown evidence or an incomplete write stage. The report lists the failing source (`unknownEvidence`). **Poll-stage** failures (a release or tree read, M1-M3) and registry failures make **zero writes for the whole run**. **Write-stage** failures (a list, a get, an umbrella write, a record write, M5-M10) stop the run at that point. Suites written earlier in that run are complete and idempotent, so a rerun is a noop for them. **Record-level** failures (H2: a suite's record comments fail verification) are different: that suite gets zero writes, the other suites are still processed, the bootstrap pass still runs, and the run exits 3 at the end. Each entry carries `"stopped": true` when it halted the run, so a reader can tell the two apart. |
+| 0 | Success, including no findings and no-op reruns. On this P1 candidate, a valid ordinary `--dry-run` may exit `0` with planned reports (`outcome: "planned"` / `"held"`) and `writeReadiness: false`. |
+| 1 | Hard failure (import error, unrecoverable exception) or, on this P1 candidate, invalid CLI invocation / staging rollout-gate failure before polling. |
+| 2 | Historical / deployed-legacy only: `--escalate` target not found in any open umbrella (on this P1 candidate, `--escalate` is held read-only at `exit 3` with zero writes). |
+| 3 | Unknown evidence, poll/inventory failure, or (on this P1 candidate) `--escalate` held read-only with zero writes. Historically (deployed legacy), also an incomplete write stage. The report lists the failing source (`unknownEvidence`). **Poll-stage** failures (a release or tree read, M1-M3) and registry failures make **zero writes for the whole run**. **Write-stage** failures (a list, a get, an umbrella write, a record write, M5-M10; deployed legacy only) stop the run at that point. Suites written earlier in that run are complete and idempotent, so a rerun is a noop for them. **Record-level** failures (H2: a suite's record comments fail verification) are different: that suite gets zero writes, the other suites are still processed, the bootstrap pass still runs, and the run exits 3 at the end. Each entry carries `"stopped": true` when it halted the run, so a reader can tell the two apart. |
+| 4 | **Current P1 candidate apply hold:** an ordinary `--apply` route (including `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records ... --apply`) reached the plan-only apply fence and stopped with zero GitHub issue effects (`actualIssuesCreated: 0`, `actualIssuesUpdated: 0`). |
 
 **Retries (C9 H-B).** A transient read (no response, 5xx, 429, or a rate-limited 403) is attempted three times in all, with a wait of 1s after the first failure and 2s after the second. Only a failure that survives all three attempts is unknown evidence. A 404, a permanent refusal and a permission failure are never retried. The wait is injectable (`live.RETRY_SLEEP`) so the tests run without it.
 
@@ -460,7 +608,7 @@ Fail closed is absolute: no source of unknown evidence is treated as "absent". P
 | Poll: release or tree, transient (H2, C9 H-B): 5xx, 429, a rate-limited 403, a timeout, a network error, an unparseable body | unknown evidence, zero writes, exit 3, **after three attempts** (the retry rule below). A 403 is rate limited when it carries `X-RateLimit-Remaining: 0`, a `Retry-After`, or a rate-limit message |
 | 403 naming a permission problem (C9 M-4): `Resource not accessible by integration` | unknown evidence, exit 3, **not retried**. The message names the permission problem and the fix (grant the watcher token or App read access to the repository, then re-run). It is never a skip. A bare 403 with no repository message is handled the same way |
 | Closed `upstream:release` history (C9 H-A) | any page failure, including the second page of a full first page | unknown evidence (`GhError`), exit 3, zero writes. The history is never read as "no closed umbrella" |
-| Record comments of a suite (M4) | exit 3 for that suite, zero writes for it, other suites still processed. The message names `--reset-records <suite>` and the flag rebuilds the suite from the fresh poll |
+| Record comments of a suite (M4) | exit 3 for that suite, zero writes for it, other suites still processed. Historical / deployed-legacy behavior: the message names `--reset-records <suite>` and the flag rebuilds the suite from the fresh poll. **On this P1 candidate**, `--reset-records` does **not** rebuild records even if historical help or error text suggests the flag (invalid invocation/rollout exits `1`; earlier unknown errors exit `3`; `--apply` reaching the plan-only hold exits `4` with zero writes) |
 | Closed child without `upstream:rejected` (M6) | the row stays unresolved with the note `child closed without a disposition`, unless the candidate is registry-present |
 
 ### Notifications inbox as wake-up signal (optional cost optimization)
@@ -522,15 +670,18 @@ Mutates `registry/named/<contributor>/<skill>.md`:
 - Atomic: both writes or neither.
 
 **Flags:**
+- `--repo <owner>/<repo>` — explicitly repoint `upstream.repo` to `<owner>/<repo>` (must match `--source-url` owner/repo). Records old+new repo and source/version provenance in the `upstream_synced` timeline event; allows syncing the same tag when the repository changes.
 - `--bootstrap` — first-time write. `previousValue` is null. Timeline event details reads `"first-run baseline"`.
 - `--dry-run` — prints the diff without writing.
 - `--user <handle>` — same as other `gaia dev timeline` verbs (uses actor identity for signed provenance in timeline `details`).
 
 **Pre-flight validation** (per CLI Pre-Flight Rule):
 
-- `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`).
-- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL that matches the derived `upstream.repo`.
-- Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--force`.
+- `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`) and pass `git check-ref-format refs/tags/<tag>` (failing closed if `git` is unavailable).
+- `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL whose decoded tag passes Git ref validation and matches `--tag`, and whose owner/repo matches `--repo` (when provided), existing `upstream.repo` (when present without `--repo`), or `links.github` (when `upstream.repo` is absent).
+- The entire composed proposed frontmatter and timeline is validated before any write against `namedSkill.schema.json` resolved from the same active canonical registry (`registry_schema_dir`), failing closed on missing, unreadable, or invalid schema. No historical fields are stripped or exempted. The named persistence contract includes the CLI-written SHA-256 `trustMagnitudeInputHash` cache (authority map §4), boolean/null engine Apex cache keys, historical sign-off attribution, canonical named-writer and migration events, installation state, intake source attribution, and the stargazer heartbeat's evidence-row `updatedAt` date. These are bounded persistence shapes, not new trust inputs, freshness verification, promotion predicates or approval grants. Timeline provenance permits the exact `github-actions[bot]` login in addition to existing human-handle syntax; it does not authorize an operator or labeler. A null timeline `newValue` is permitted only for `upstream_deprecated` (no successor), not for a new sync event. Ordinary 2★+ named skills remain eligible; this is not a suites-only command. Named root `role: origin|variant` retains the existing RFC C-2 structural input consumed by `registryMaps`/`structuralGraph`, not an evidence field or automatic Origin assignment. Legacy demotion events may retain paired `author`/`notes` with string `previousValue`/`newValue`, without mixed `contributor`/`details`; author syntax is a human handle, not authenticated identity or approval. These fields are preserved verbatim, never normalized into canonical contributor claims, and do not bypass prospective timestamp, actor, action, field or metric validation.
+- When `links.github` is empty or missing in watcher polling, `resolve_suite_source` falls back to canonical `upstream.repo` (for example `gsd-build/get-shit-done`); non-empty invalid `links.github`, invalid `upstream.repo`, and contradictory identities remain fail-closed (`UnknownEvidenceError`).
+- Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--repo` changes the repository (or `--force`).
 - Refuses to write if the skill is not currently 2★+ (below the reward-artifact threshold).
 
 ### `gaia dev freeze <skill-id> --reason <text>`

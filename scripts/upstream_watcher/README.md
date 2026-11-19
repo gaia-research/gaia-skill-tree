@@ -1,16 +1,18 @@
 # Upstream Watcher
 
-The upstream watcher polls the source repositories of curated Gaia suite skills for new releases and opens GitHub issues proposing version bumps, component diffs, and link-liveness reports.
+> **Current P1 Candidate Scope (Detection / Plan-Only):** On this P1 candidate branch, ordinary watcher operation is **detection and plan-only** — it polls upstream releases and plans repository envelopes with zero GitHub issue writes. Valid ordinary `--dry-run` runs may exit `0` with planned reports and `writeReadiness: false` (plus the plan-only `executionHold`); invalid CLI invocations or staging rollout checks may exit `1`; unknown/poll/inventory errors may exit `3`; ordinary `--apply` routes reaching the apply hold exit `4` with no issue effect; and `--escalate` is separately held read-only at `exit 3`. All issue-write, create, update, adopt, record-reset, and review flows described below belong to **deployed legacy `main` or historical V1/staging design reference only** — they are never actionable on this candidate.
 
-See the [full design spec](../../docs/agents/upstream-watcher.md) for architecture, rationale, and phased rollout plan.
+Historically (on deployed legacy `main`), the upstream watcher polls the source repositories of curated Gaia suite skills for new releases and opens GitHub issues proposing version bumps, component diffs, and link-liveness reports. On this P1 candidate, it runs detection and envelope planning only.
+
+See the [full design spec](../../docs/agents/upstream-watcher.md) for historical architecture, rationale, phased rollout plan, and P1 candidate boundaries.
 
 ---
 
 ## What it does
 
-For each named skill with `suiteComponents` at 2★+:
+For each eligible named skill with `suiteComponents` at 2★+:
 
-1. **Fetches the latest GitHub release** from the suite's `links.github` owner/repo.
+1. **Resolves the upstream source and fetches the latest GitHub release** from the suite's `links.github` `owner/repo`. When `links.github` is empty or missing, `resolve_suite_source` falls back to canonical `upstream.repo` (for example `gsd-build/get-shit-done`); non-empty invalid `links.github`, invalid `upstream.repo`, or contradictory `links.github` vs `upstream.repo` identities fail closed as unknown evidence (`exit 3`).
 2. **Compares** the release tag against the stored `upstream.version` in frontmatter.
 3. **Produces a finding:**
    - **Bootstrap** — no `upstream:` block yet (first run).
@@ -20,7 +22,7 @@ For each named skill with `suiteComponents` at 2★+:
    - Diffs the upstream release tree to detect component adds/removes.
    - HEAD-checks each component's `links.github` URL for liveness.
    - **Name drift** (issue #1457): fetches each component's upstream `SKILL.md`, sanitizes its frontmatter `name` the same way `npx skills add` does, and compares it to the registry slug. A mismatch is reported with the exact `gaia dev rename <old-id> <new-id>` fix — this is the same divergence `scripts/install_parity.py` would eventually catch as `DIRNAME_MISMATCH`, surfaced earlier, at release time.
-5. **Outputs** findings as a markdown report (`--dry-run`) or creates GitHub issues (`--apply`).
+5. **Outputs (plan-only on this P1 candidate):** emits findings as a markdown report (`--dry-run`) and plans repository envelopes (`writeReadiness: false`). Valid ordinary `--dry-run` may exit `0` with planned reports; invalid invocation/rollout checks may exit `1`; unknown/poll errors may exit `3`; ordinary watcher envelope `--apply` routes reaching the hold fail closed at `exit 4` with zero GitHub issue writes; and `--escalate` is separately held read-only at `exit 3`. Legacy issue write/create/adopt behavior belongs to deployed legacy `main` only.
 
 ---
 
@@ -41,22 +43,24 @@ python scripts/upstream_watcher/watcher.py --dry-run --verbose
 
 GitHub API calls use `GH_TOKEN` env var if set; unauthenticated otherwise (60 req/hr limit — sufficient for dry-runs on small suites).
 
-### Apply mode (creates real GitHub issues)
+### Apply mode (currently plan-only guarded)
 
 ```bash
 export GH_TOKEN="ghp_..."  # requires issues:write scope
 python scripts/upstream_watcher/watcher.py --apply
 ```
 
-**Warning:** `--apply` creates real GitHub issues. Use `--dry-run` first to confirm the output looks correct.
+**Note:** Ordinary watcher envelope `--apply` routes (including unstaged `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records`) are currently fenced plan-only at the `watcher.py` entry point: reaching the apply hold exits `4` with zero GitHub issue writes (and `--reset-records` does **not** rebuild records on this candidate), while ordinary `--dry-run` may exit `0` with `outcome: "planned"` for valid unheld repositories (and `outcome: "held"` for known legacy holds) while reporting `writeReadiness: false` and the plan-only `executionHold`. Invalid invocation or staging rollout checks may exit `1`, unknown/poll/inventory errors may exit `3`, and `--escalate` is separately held read-only at `exit 3` with zero writes. Direct offline tests of `repository_batch.run_repository_batch(..., apply=True)` remain active.
 
-### Recovery and skipped suites (#2131 round 4)
+### Recovery and skipped suites (#2131 round 4 — historical / deployed-legacy reference)
 
-- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 whose body is the repository's own refusal, such as a DMCA takedown or a blocked or disabled repository) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report with `reason: "permanent"`, and writes the other suites as usual. To bring it back, repair or remove its `links.github` entry in the registry. A 403 that names a token or App permission problem, and a bare 403, are not skips: they stop the run with exit 3 and a message that names the permission.
+> **Scope (not actionable for writes/resets on this P1 candidate):** The issue-write, create, update, adopt, and `--reset-records` rebuild descriptions below belong to **deployed legacy `main` / historical V1 reference only**. On this plan-only P1 candidate, ordinary runs never write, create, adopt, or rebuild GitHub issues or record comments.
+
+- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 whose body is the repository's own refusal, such as a DMCA takedown or a blocked or disabled repository) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report with `reason: "permanent"`, and proceeds with the remaining suites (on deployed legacy `main`, writing the other suites; on this P1 candidate, planning only). To bring it back, repair or remove its `links.github` entry in the registry. A 403 that names a token or App permission problem, and a bare 403, are not skips: they stop the run with exit 3 and a message that names the permission.
 - A truncated component tree is read one directory at a time, within 200 requests for the suite. If that budget runs out, the suite is skipped with `reason: "tree-truncated"` and the other suites proceed.
 - A transient GitHub read (no response, 5xx, 429, a rate-limited 403) gets three attempts, with waits of 1s and then 2s, before it counts as unknown evidence.
-- One OPEN canonical umbrella per suite. Findings update it in place. When no OPEN umbrella exists, a new one is created only for a genuinely new finding. A finding a closed issue's payload already records is not re-created (listed under `suppressedProcessed`). A closed issue that cannot prove its finding blocks the suite with exit 3. The watcher never edits, comments on or reopens a closed issue. Several open umbrellas for one suite: the lowest number is canonical, the others are listed under `duplicateOpenUmbrellas` for Steward reconciliation and left untouched. A title that names the suite but does not parse blocks that suite with exit 3 and no write.
-- A suite whose record comments are damaged or deleted fails closed with exit 3, and its message names the recovery flag. Rebuild that suite's record state from the fresh poll with `--apply --reset-records <suite>`. The flag is apply-only. See `docs/agents/upstream-watcher.md` (Records, M4) for what a reset does and does not recover.
+- **Deployed legacy `main` umbrella/child behavior (reference only):** One OPEN canonical umbrella per suite. Findings update it in place. When no OPEN umbrella exists, a new one is created only for a genuinely new finding. A finding a closed issue's payload already records is not re-created (listed under `suppressedProcessed`). A closed issue that cannot prove its finding blocks the suite with exit 3. The watcher never edits, comments on or reopens a closed issue. Several open umbrellas for one suite: the lowest number is canonical, the others are listed under `duplicateOpenUmbrellas` for Steward reconciliation and left untouched. A title that names the suite but does not parse blocks that suite with exit 3 and no write.
+- **Record reset (`--reset-records`, historical / non-actionable on this P1 candidate):** A suite whose record comments are damaged or deleted fails closed with exit 3, and historical help or error messages may still name `--reset-records <suite>`. **This P1 candidate does NOT rebuild records**, even if the old help or error text suggests the flag: invalid CLI/rollout combinations exit `1`, earlier unknown/poll errors exit `3`, and `--apply --reset-records <suite>` reaching the plan-only apply hold exits `4` with zero GitHub writes. The apply-only rebuild semantics documented in `docs/agents/upstream-watcher.md` (Records, M4) are historical / deployed-legacy reference only and are not actionable on this candidate.
 
 ---
 
@@ -65,15 +69,17 @@ python scripts/upstream_watcher/watcher.py --apply
 1. Go to **Actions → Upstream Watcher** in the GitHub repo.
 2. Click **Run workflow**.
 3. Optionally fill in `skill_id` to scope to one suite.
-4. Set `apply` to `true` to create issues (default is dry-run).
+4. Leave `apply` at `false` (default) for an ordinary dry-run (`exit 0` on a valid run with findings/planned counters and `writeReadiness: false`). Setting `apply` to `true` passes `--apply`, which on this candidate branch is deliberately plan-only: it exits `4` with zero issue effects if planning reaches the apply hold (invalid/rollout checks exit `1`; genuine earlier unknown/poll errors exit `3`). Pinned-`main` deployed behavior is separate and not newly modified or qualified here.
 
-> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` is live (06:00 UTC, `--apply`). That contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
+> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` remains unchanged and uncommented (`06:00 UTC`, `--apply`), though ordinary watcher runs on this candidate are plan-only as noted above (separately deployed pinned `main` is not newly modified or qualified here). That schedule still contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
 
 ---
 
 ## Where issues land and how to review them
 
-Issues are created with labels `upstream:release` (umbrella), `upstream:bootstrap` (first-run), or `upstream:child` (new component intake). All start with `needs-triage`.
+> **Scope (deployed `main` only):** The issue-creation and review flow below describes separately deployed `main` behavior (not newly modified or qualified here), not this candidate branch's plan-only ordinary watcher behavior.
+
+On deployed `main`, issues are created with labels `upstream:release` (umbrella), `upstream:bootstrap` (first-run), or `upstream:child` (new component intake). All start with `needs-triage`.
 
 For the full review protocol — label vocab, approval mechanics, child gate — see [upstream-watcher.md §7 Approval mechanics](../../docs/agents/upstream-watcher.md#approval-mechanics).
 
@@ -145,7 +151,9 @@ scripts/upstream_watcher/
 
 ---
 
-## Status
+## Historical V1 rollout status (reference only)
+
+> **Not current P1 candidate status:** Current P1 on this candidate branch is detection and plan-only (no bootstrap or release issues are opened). The bullets below record the original V1 PR plan only.
 
 - **PR 6/7**: Code shipped. Workflows are deployed but the watcher has NOT been run yet.
 - **PR 7/7**: First real dry-run against the live registry. Bootstrap issues will be opened for all suites without an `upstream:` block.

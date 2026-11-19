@@ -148,7 +148,7 @@
       },
       {
         "id": "proxy-containment",
-        "description": "The skill's artifact is bundled inside a separately-starred external project.",
+        "description": "The skill's artifact is genuinely contained in a qualifying external, non-first-party project (>= 10,000 external stars); a skill's own repo, official demo, citation, or video is ineligible.",
         "magnitude": "min(160, (external_stars / 1000) * 0.8)",
         "weight": 1.0,
         "cap": 160,
@@ -167,7 +167,7 @@
           0.25
         ],
         "externalStarFloor": 10000,
-        "notes": "Until proxy-containment validator ships, claims count at full magnitude with explicit unverified=true flag. S-capable at 125k+ external stars (RFC §2.4)."
+        "notes": "Requires genuine containment in a qualifying external, non-first-party project (>= 10,000 external stars); a skill's own repo, official demo, citation, or video is ineligible. Until the automated containment validator ships, claims count at full magnitude with an explicit unverified=true flag; unverified=true does not waive external ownership, actual containment, or the 10k star floor. S-capable at 125k+ external stars (RFC §2.4)."
       },
       {
         "id": "verifier-attestation",
@@ -267,7 +267,7 @@
       },
       {
         "id": "social-signal",
-        "description": "Creator/audience evidence — video views, engagement, topical authority from external creators.",
+        "description": "Verified first-party and third-party creator/audience evidence (video views, engagement, topical authority) demonstrating the capability, subject to verified relevance, provenance, view floor, and engagement.",
         "magnitude": "log10(views) * 8 * creator_mult * engagement_ratio where engagement_ratio = min(1.5, (likes + comments*5) / views * 50)",
         "weight": 1.0,
         "cap": 80,
@@ -286,7 +286,7 @@
           0.25
         ],
         "creatorMultipliers": {
-          "sameAsAuthor": 0,
+          "sameAsAuthor": 1.0,
           "anonymous": 0.3,
           "established": 0.6,
           "topicalAuthority": 1.0,
@@ -294,8 +294,8 @@
           "reserved": 1.4
         },
         "viewFloor": 1000,
-        "publishCooldownDays": 30,
-        "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80. Same-creator dedup: 2nd entry at 0.5×, 3rd at 0.25× regardless of slot. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
+        "publishCooldownDays": 0,
+        "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80.0 per skill. sameAsAuthor: 1.0 removes identity-based rejection (not a bonus or automatic eligibility), and publishCooldownDays: 0 confirms ordinary curation has no publication waiting window. Existing safeguards remain active: 1,000-view floor, engagement ratio, same-source (type, url) dedup, per-creator 3-row plateau (1.0x/0.5x/0.25x per creator; rows without creator collapse into _unknown), and the 80.0 TM hard cap per skill. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
       },
       {
         "id": "npm-downloads",

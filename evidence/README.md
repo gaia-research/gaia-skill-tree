@@ -26,14 +26,14 @@ The directory is structured as follows:
 Evidence is mapped to 10 standard categories:
 
 1.  `github-stars-own` — Primary star count for contributor repositories.
-2.  `proxy-containment` — External repos consuming/implementing the capability.
+2.  `proxy-containment` — Qualifying external, non-first-party repositories (>= 10,000 external stars, distinct `owner/repo` outside the skill's own/canonical/suite repo) consuming or bundling the capability.
 3.  `verifier-attestation` — Cross-org verifications of working execution.
 4.  `benchmark-result` — Task success rates on objective harnesses (SWE-bench, WebArena, etc.).
 5.  `arxiv` — Academic preprints/papers establishing theoretical/empirical validation.
 6.  `peer-review` — RFC audits, verifications, and design consultations.
 7.  `repo-own` — Target framework repository itself.
-8.  `self-attestation` — Contributor's own statements of capabilities.
-9.  `social-signal` — Community blog tutorials, newsletter highlights, and YouTube demonstrations.
+8.  `self-attestation` — Contributor's own statements of capabilities (never synthesized to clear the 49.9 TM suite-component cap).
+9.  `social-signal` — Eligible first-party and third-party blog tutorials, newsletter highlights, talks, and YouTube demonstrations directly covering the target skill (no 30-day publication hold; see [`docs/agents/curation-authority-map.md`](../docs/agents/curation-authority-map.md)).
 10. `fusion-recipe` — Core workflow composition rules for agent suites.
 
 ---
@@ -64,8 +64,8 @@ The table below lists which evidence types can be mapped to `layer: generic` (st
 | **Fusion Recipe** | `fusion-recipe` | `["named"]` | *N/A* | Suite composition rules (only allowed on `named` skills) |
 | **GitHub Stars** | `github-stars-own` | `["named"]` | *N/A* | Primary star counts (only allowed on `named` skills) |
 | **Peer Review** | `peer-review` | `["generic", "named"]` | **0.30** | Review evaluations (0.3x discount when inherited) |
-| **Proxy Containment** | `proxy-containment` | `["generic", "named"]` | **0.25** | External consumer codebases (0.25x discount when inherited) |
+| **Proxy Containment** | `proxy-containment` | `["generic", "named"]` | **0.25** | Qualifying external, non-first-party consumer codebases >= 10k stars (0.25x discount when inherited) |
 | **Repository Own** | `repo-own` | `["named"]` | *N/A* | Contributor's own project codebase (only allowed on `named` skills) |
-| **Self Attestation** | `self-attestation` | `["named"]` | *N/A* | Creator self-attestation logs (only allowed on `named` skills) |
-| **Social Signal** | `social-signal` | `["generic", "named"]` | **0.35** | External blog posts, YouTube videos (0.35x discount when inherited) |
+| **Self Attestation** | `self-attestation` | `["named"]` | *N/A* | Creator self-attestation logs (only allowed on `named` skills; never synthesized to bypass suite caps) |
+| **Social Signal** | `social-signal` | `["generic", "named"]` | **0.35** | Eligible first-party and third-party blog posts, talks, and YouTube videos demonstrating the skill (0.35x discount when inherited; no 30-day hold) |
 | **Verifier Attestation** | `verifier-attestation` | `["named"]` | *N/A* | Cross-org verifier approvals (only allowed on `named` skills) |

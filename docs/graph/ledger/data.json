@@ -196,6 +196,16 @@
         "contributor": "hikari9"
       }
     ],
+    "autonomous-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-send",
+        "contributor": "t3dotgg"
+      }
+    ],
     "autonomous-web-research": [
       {
         "origin": true,
@@ -843,27 +853,11 @@
     "finishing-a-development-branch": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
-        "id": "addy-osmani/shipping-and-launch",
-        "contributor": "addy-osmani"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "garrytan/ship",
-        "contributor": "garrytan"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "gsd-build/gsd-ship",
-        "contributor": "gsd-build"
+        "id": "t3dotgg/takeover",
+        "contributor": "t3dotgg"
       }
     ],
     "firecrawl": [
@@ -1496,6 +1490,16 @@
         "contributor": "ruvnet"
       }
     ],
+    "merge-ready-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-stop",
+        "contributor": "t3dotgg"
+      }
+    ],
     "molecular-databases": [
       {
         "origin": true,
@@ -1529,11 +1533,11 @@
     "multi-agent-debate": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/codex",
-        "contributor": "garrytan"
+        "id": "t3dotgg/council",
+        "contributor": "t3dotgg"
       }
     ],
     "multi-agent-orchestration-v": [
@@ -1726,6 +1730,26 @@
         "contributor": "garrytan"
       }
     ],
+    "pr-ci-monitoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/babysit-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
+    "pr-lifecycle-orchestration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/tstack",
+        "contributor": "t3dotgg"
+      }
+    ],
     "prd-generation": [
       {
         "origin": true,
@@ -1842,6 +1866,16 @@
         "contributor": "mattpocock"
       }
     ],
+    "pull-request-authoring": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/file-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
     "quantum-circuit-programming": [
       {
         "origin": true,
@@ -1901,11 +1935,11 @@
     "receiving-code-review": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "obra/receiving-code-review",
-        "contributor": "obra"
+        "id": "t3dotgg/sol-loop",
+        "contributor": "t3dotgg"
       }
     ],
     "refactor-code": [
@@ -2264,6 +2298,16 @@
         "redacted": false,
         "id": "addy-osmani/api-and-interface-design",
         "contributor": "addy-osmani"
+      }
+    ],
+    "stale-pr-reconciliation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/modernize",
+        "contributor": "t3dotgg"
       }
     ],
     "static-artwork-design": [
@@ -2730,13 +2774,13 @@
     ]
   },
   "version": "9.5.0",
-  "generatedAt": "2026-11-14T07:14:27Z",
+  "generatedAt": "2026-11-17T19:01:11Z",
   "summary": {
-    "total": 342,
+    "total": 352,
     "S": 3,
-    "A": 45,
-    "B": 52,
-    "C": 235,
+    "A": 50,
+    "B": 55,
+    "C": 237,
     "ungraded": 7,
     "floor": 0,
     "up": 6
@@ -3039,6 +3083,25 @@
       "branch": "suite"
     },
     {
+      "skillId": "t3dotgg/tstack",
+      "tm": 172.41,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "github-stars-own": 91.2,
+        "social-signal": 80.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "skillId": "heygen-com/hyperframes",
       "tm": 171.92,
       "grade": "A",
@@ -3236,6 +3299,25 @@
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 130.23
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "t3dotgg/council",
+      "tm": 129.9,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 80.0
       },
       "origin": true,
       "branch": "unique"
@@ -3477,6 +3559,63 @@
       },
       "origin": true,
       "branch": "standard"
+    },
+    {
+      "skillId": "t3dotgg/full-send",
+      "tm": 124.01,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 74.11
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "t3dotgg/full-stop",
+      "tm": 124.01,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 74.11
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "t3dotgg/sol-loop",
+      "tm": 124.01,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 74.11
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "garrytan/gbrain",
@@ -3839,6 +3978,25 @@
       "branch": "standard"
     },
     {
+      "skillId": "t3dotgg/takeover",
+      "tm": 92.9,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 43.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "nateherkai/scroll-craft",
       "tm": 92.38,
       "grade": "B",
@@ -3930,6 +4088,25 @@
       "branch": "suite"
     },
     {
+      "skillId": "t3dotgg/modernize",
+      "tm": 83.83,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 33.93
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "firecrawl/firecrawl-build-search",
       "tm": 83.52,
       "grade": "B",
@@ -3944,6 +4121,25 @@
         "social-signal": 33.62,
         "repo-own": 24.66,
         "github-stars-own": 25.24
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "t3dotgg/babysit-pr",
+      "tm": 81.01,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24,
+        "social-signal": 31.11
       },
       "origin": true,
       "branch": "standard"
@@ -4916,7 +5112,7 @@
         "github-stars-own": 39.7,
         "repo-own": 10.2
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -6193,7 +6389,7 @@
         "repo-own": 9.95,
         "github-stars-own": 39.95
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -6492,7 +6688,7 @@
         "github-stars-own": 39.29,
         "repo-own": 10.61
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -6815,6 +7011,42 @@
       "typeBreakdown": {
         "github-stars-own": 40.6,
         "repo-own": 9.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "t3dotgg/file-pr",
+      "tm": 49.9,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "t3dotgg/leaving-pr-comments",
+      "tm": 49.9,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 0.66,
+        "github-stars-own": 49.24
       },
       "origin": false,
       "branch": "standard"
@@ -7432,7 +7664,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -7976,7 +8208,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {

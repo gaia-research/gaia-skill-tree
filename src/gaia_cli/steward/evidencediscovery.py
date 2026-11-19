@@ -63,7 +63,14 @@ _needsReview = {
     "github-stars-own": "repository stars are not proof of capability by default",
     "self-attestation": "self-attestation is not independent evidence",
     "benchmark-result": "benchmark-result rows are catalog-gated; record a benchmark-source candidate first",
-    "social-signal": "social signal needs a verified view floor and creator provenance",
+    "social-signal": (
+        "social signal needs verified relevance, first-/third-party provenance, "
+        "verified view floor, and engagement (no author-identity ban or publication hold)"
+    ),
+    "proxy-containment": (
+        "proxy-containment requires verified external, non-first-party containment, "
+        "provenance, and external-star verification"
+    ),
 }
 
 
@@ -191,6 +198,7 @@ def discoveryTargets(repoRoot: Path, observedAt: str) -> tuple[DiscoveryTarget, 
 
 
 def _freshness(published: date | None, today: date) -> dict[str, Any]:
+    """Descriptive age classification only — never an admission or cooldown gate."""
     if published is None:
         return {"class": "unknown", "ageDays": None}
     age = (today - published).days
@@ -257,10 +265,14 @@ def buildDiscoveryReceipt(
         raise DiscoveryError(f"at most {maxSearches} searches per receipt; split the pass")
 
     snapshot = effectiveEvidenceSnapshot(repoRoot, skillId)
-    existing = {canonicalUrl(row["source"]): row["source"] for row in snapshot["effectiveRows"] if row["source"]}
+    existing = {
+        (row.get("type") or "", canonicalUrl(row["source"])): row["source"]
+        for row in snapshot["effectiveRows"]
+        if row["source"]
+    }
     validTypes = load_evidence_types(str(repoRoot))
 
-    seen: dict[str, str] = {}
+    seen: dict[tuple[str, str], str] = {}
     records: list[dict[str, Any]] = []
     channelsSearched: set[str] = set()
     for index, search in enumerate(searches):
@@ -285,14 +297,16 @@ def buildDiscoveryReceipt(
             _rejectUnknown(result, _resultKeys, rwhere)
             url = _text(result.get("url"), f"{rwhere}.url", required=True)
             assert url is not None
+            evidenceType = _text(result.get("evidenceType"), f"{rwhere}.evidenceType")
             normalized = canonicalUrl(url)
-            duplicateOf = existing.get(normalized) or seen.get(normalized)
+            dedupKey = (evidenceType or "", normalized)
+            duplicateOf = existing.get(dedupKey) or seen.get(dedupKey)
             if duplicateOf is None:
-                seen[normalized] = url
+                seen[dedupKey] = url
             parsed = {
                 "url": url,
                 "title": _text(result.get("title"), f"{rwhere}.title"),
-                "evidenceType": _text(result.get("evidenceType"), f"{rwhere}.evidenceType"),
+                "evidenceType": evidenceType,
                 "attribution": _text(result.get("attribution"), f"{rwhere}.attribution"),
                 "note": _text(result.get("note"), f"{rwhere}.note"),
             }
@@ -305,7 +319,7 @@ def buildDiscoveryReceipt(
                     "isDuplicate": duplicateOf is not None,
                     "of": duplicateOf,
                     "scope": (
-                        "existing-effective-evidence" if normalized in existing
+                        "existing-effective-evidence" if dedupKey in existing
                         else "earlier-candidate" if duplicateOf is not None else None
                     ),
                 },

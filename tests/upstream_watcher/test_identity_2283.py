@@ -281,3 +281,119 @@ def test_two_distinct_correct_repository_sources_do_not_claim_each_others_umbrel
         plan = plan_suite(finding(identifier), read_live(gh), index_from_entries([]), gh=gh)
         assert plan["umbrella"] == expected
     assert gh.writes == []
+
+
+def test_empty_or_missing_links_github_falls_back_to_upstream_repo_for_gsd():
+    """gsd-build/get-shit-done has no links.github; watcher falls back to upstream.repo."""
+    fm_missing = {
+        "id": "gsd-build/get-shit-done",
+        "suiteComponents": ["gsd-build/gsd-discuss-phase"],
+        "upstream": {"repo": "gsd-build/get-shit-done", "version": "v1.42.3", "mode": "components"},
+    }
+    fm_empty = {**fm_missing, "links": {"github": "   "}}
+    reg_map = {
+        "gsd-build/gsd-discuss-phase": {
+            "id": "gsd-build/gsd-discuss-phase",
+            "links": {"github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"},
+        }
+    }
+    release = {
+        "tag_name": "v1.50.0",
+        "published_at": "2026-11-15T00:00:00Z",
+        "html_url": "https://github.com/gsd-build/get-shit-done/releases/tag/v1.50.0",
+    }
+    for fm in (fm_missing, fm_empty):
+        with patch("scripts.upstream_watcher.watcher.fetch_json", return_value=release) as fetch, \
+                patch("scripts.upstream_watcher.watcher.fetch_component_diff", return_value=([], [])), \
+                patch("scripts.upstream_watcher.watcher.check_component_liveness", return_value=[]), \
+                patch("scripts.upstream_watcher.watcher.check_name_drift", return_value=[]):
+            res = _poll_suite(fm, reg_map, False)
+            fetch.assert_called_once_with(
+                "https://api.github.com/repos/gsd-build/get-shit-done/releases/latest",
+                strict=True,
+            )
+            assert res is not None
+            assert res["skillId"] == "gsd-build/get-shit-done"
+            assert res["newVersion"] == "v1.50.0"
+            assert res["mode"] == "components"
+
+
+@pytest.mark.parametrize(
+    "bad_link",
+    [
+        "https://gitlab.com/gsd-build/get-shit-done",
+        "not-a-url",
+        "https://github.com/good/repo garbage",
+        "https://github.com/good/repo\tgarbage",
+        "https://user@github.com/good/repo",
+        "https://github.com:8443/good/repo",
+        "https://github.com/good/..",
+        "https://github.com/good/.",
+        "https://github.com/../repo",
+        "https://github.com/good/repo?a=1",
+        "https://github.com/good/repo#frag",
+        "http://github.com/good/repo",
+    ],
+)
+def test_invalid_nonempty_links_github_does_not_fallback_and_fails_closed(bad_link):
+    fm = {
+        "id": "good/repo",
+        "links": {"github": bad_link},
+        "upstream": {"repo": "good/repo", "version": "v1.42.3"},
+    }
+    with patch("scripts.upstream_watcher.watcher.fetch_json") as fetch:
+        with pytest.raises(UnknownEvidenceError, match="invalid links.github"):
+            _poll_suite(fm, {}, False)
+        fetch.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "bad_repo",
+    ["gsd-build/get shit done", "not-a-repo", "-bad/repo", "a/b/c", "good/..", "good/.", "../repo"],
+)
+def test_fallback_invalid_upstream_repo_fails_closed(bad_repo):
+    fm = {
+        "id": "gsd-build/get-shit-done",
+        "upstream": {"repo": bad_repo, "version": "v1.42.3"},
+    }
+    with patch("scripts.upstream_watcher.watcher.fetch_json") as fetch:
+        with pytest.raises(UnknownEvidenceError, match="invalid upstream.repo"):
+            _poll_suite(fm, {}, False)
+        fetch.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "valid_link,expected",
+    [
+        ("https://github.com/good/repo", ("good", "repo")),
+        ("https://github.com/good/repo/tree/main/skills", ("good", "repo")),
+        ("https://github.com/good/repo/blob/main/my%20dir/SKILL.md", ("good", "repo")),
+        ("https://github.com/good/repo/releases/tag/v1.0.0", ("good", "repo")),
+    ],
+)
+def test_valid_github_root_tree_blob_and_encoded_paths_preserved(valid_link, expected):
+    from scripts.upstream_watcher.finder import resolve_suite_source
+
+    fm = {"id": "good/repo", "links": {"github": valid_link}}
+    owner, repo, source_url = resolve_suite_source(fm)
+    assert (owner, repo) == expected
+    assert source_url == valid_link
+
+
+def test_c1_lock_preserved_even_with_empty_links_github_fallback():
+    fm = {
+        "id": "ruvnet/agentdb",
+        "suiteRef": "ruvnet/ruflo",
+        "upstream": {"repo": "ruvnet/ruflo", "version": "v3.67.0"},
+    }
+    with patch("scripts.upstream_watcher.watcher.fetch_json") as fetch:
+        with pytest.raises(UnknownEvidenceError, match="canonical CLI"):
+            _poll_suite(fm, {}, False)
+        fetch.assert_not_called()
+
+
+def test_missing_both_links_github_and_upstream_repo_skips_cleanly():
+    fm = {"id": "nobody/no-source", "upstream": {"version": "v1.0.0"}}
+    with patch("scripts.upstream_watcher.watcher.fetch_json") as fetch:
+        assert _poll_suite(fm, {}, False) is None
+        fetch.assert_not_called()

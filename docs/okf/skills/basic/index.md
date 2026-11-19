@@ -95,6 +95,7 @@
 * [Prompt Injection Defense](/prompt-injection-defense.md) - Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.
 * [Protein Structure Analysis](/protein-structure-analysis.md) - Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.
 * [Proteomic Data Retrieval](/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
+* [Pull Request Authoring](/pull-request-authoring.md) - Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request.
 * [Quantum Circuit Programming](/quantum-circuit-programming.md) - Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.
 * [Question Answer](/question-answer.md) - Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.
 * [Questionnaire Generation](/questionnaire-generation.md) - Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.

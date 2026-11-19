@@ -1,4 +1,44 @@
+# 2026-11-18 recovered pause snapshot — partial accounting, not campaign cost
+
+**Engineering remains PAUSED.** See [COST_PAUSE_2026-11-18.md](COST_PAUSE_2026-11-18.md) and its exact structured companion [COST_PAUSE_2026-11-18.json](COST_PAUSE_2026-11-18.json). Snapshot `2026-11-18T00:05:58.690198+00:00`; pricing used catalog fetched `2026-11-14T14:12:12Z` (not stale). Parent-linked inventory: 96 run/task records, 82 unique child sessions after resume deduplication; 2 raw logs and 80 digest-only sessions. Missing cache counters are `null`, not zero. Main-session raw log is unavailable.
+
+Retained input/output components: **6,826,431 input + 874,445 output = 7,700,876** (cache components are absent for digest sessions, so this is not total processed tokens). Canonical public-price known-component subtotal: **$12.78678478**; this is not spend, invoice, complete campaign total, or a lower bound. Complete campaign and each model-lane total remain unavailable/null. Complete-cache raw-log subset is **$0.03808308**, not representative. Historical **$4.907920** P0-only partial is not added. The earlier incomplete placeholder-cutoff JSON is superseded and was not published. Current admin/reporting turns after this snapshot are excluded. Do not infer billing or missing counters as zero.
+
+| Exact pricing key / effort | Unique sessions | Retained input | Retained output | Known priced components USD |
+|---|---:|---:|---:|---:|
+| `claude-opus-5-5` / medium | 2 | 256,726 | 21,365 | 1.454204 |
+| `gemini/gemini-4-hydrogen` / medium | 11 | 1,595,249 | 263,399 | 4.368366 |
+| `gpt-6-luna` / medium | 39 | 2,557,161 | 282,642 | 0.41582878 |
+| `gpt-6.1-sol` / medium | 14 | 1,375,796 | 244,020 | 5.191792 |
+| `gpt-6.1-terra` / high | 16 | 1,041,499 | 63,019 | 1.356594 |
+
+The source had complete campaign/lane totals explicitly `null`; session records preserve `retained_token_components` and `missing_token_fields`. It links 96 run/task records to 82 unique child sessions, deduplicating three resumes. The cost gap is specifically that the root raw log is unavailable and 80 retained digests omit cache counters—not an unknown inventory. No Pi UI/harness dollar totals were substituted; worker pricing uses the canonical helper and exact model keys/public catalog. No prompt, transcript, credential, issue body, or header data is included.
+
 # Campaign usage checkpoints
+
+## 2026-11-16 — founder pause preservation checkpoint
+
+Campaign-complete usage/cost remains **UNAVAILABLE** because of the parent-session/interrupt accounting gap. No pricing-tool retry, alternate session, estimate, or extrapolation was attempted. Actual billing is unknown. `$4.907920` remains P0-only partial, not a campaign total. This admin pause-preservation work is not separately metered here; do not infer zero cost. No prompts, transcripts, credentials, raw logs, or private personal data recorded.
+
+## P1 repair delivery and administration — accounting unavailable
+
+- Worker/task: founder-authorized solo bounded named-persistence contract repair; `worker-sol-shared`, provider/model `openai-codex/gpt-6.1-sol`, medium; PASS session `01a1e0e9-13d8-7165-8fcf-e7c16b4afe3f` (lead-verified model/effort records).
+- Input/output/cache-read/cache-write counters: **UNAVAILABLE**. No cost estimate is asserted; actual billing is unknown. Campaign-complete usage/cost remains **UNAVAILABLE**.
+- Current admin/bookkeeping usage is in-flight/excluded; counters and billing are likewise unavailable. Do not infer zero cost or extrapolate from duration.
+- `$4.907920` remains the explicitly **P0-only partial** mixed-method checkpoint below; it is not a campaign total. No missing-session path was retried, no alternative session or pricing guess was substituted.
+
+## 2026-11-16 — Opus repair availability attempts (usage/cost unavailable)
+
+- Assigned route/task: Antigravity `claude-opus-5-5-medium`, Luna, medium, bounded Opus solo contract repair. Initial inspection attempt `9bcbaac5` ran for 7m6s and failed before implementation; one continuation in retained same session `01a1e0d1-cf0d-763a-b69f-4d11ff461755` on the same configured route was refused with the same resource-unavailable diagnostic. No model/provider/effort change, fallback, nested agent, or further attempt.
+- Provider diagnostic: request failure at `daily-cloudcode-pa.googleapis.com`; configured runtime model `claude-opus-5-5-medium`; model unavailable now / resource exhausted. Provider explicitly said this is not necessarily an account quota wall. Account credit exhaustion and actual billing are unverified. Listing base `claude-opus-5-5` does not verify the configured medium route.
+- Tokens, cost, and session-complete accounting for these attempts are **UNAVAILABLE**. Do not infer zero cost, estimate from duration, substitute harness/UI prices, or claim campaign-total usage. The campaign-complete total remains **UNAVAILABLE**; `$4.907920` remains P0-only partial. Current bookkeeping is excluded.
+
+## 2026-11-16 — administrative stop checkpoint (campaign total unavailable)
+
+- Current checkpoint telemetry is unavailable; campaign-complete usage/cost remains **UNAVAILABLE**. No unrelated session selection, retry of the missing parent path, inference from UI/raw logs, or estimate was made.
+- Original interrupted P1 run and its resumed history inclusion are unverified; actual provider billing is unknown. The current in-flight bookkeeping task is excluded.
+- The known `$4.907920` checkpoint below is **P0-only and partial**, not campaign total. Do not extrapolate it to P1 or total cost. No private prompts, credentials, raw logs, or paths are included.
+
 
 No budget ceiling; active execution window confirmed by the founder. Values below are estimates, not confirmed invoices or subscription expenditure.
 
@@ -86,3 +126,25 @@ Sanitized totals below are grouped by date/provider/model/task. No tasks, prompt
 - **Measured mixed-method subtotal: $4.417187** (`$1.878998` Sol harness-recorded cost + `$2.538189` canonical public-rate worker estimates).
 - **Rate provenance:** Gaia `skill-cost` / `BerriAI/litellm` public model-price catalog, fetched `2026-11-14T14:12:12Z` (`stale: false` in offline check). Values are estimates only; actual provider/subscription billing remains unknown.
 - **Counters & caveats:** `cacheRead` is shown separately from `input`; `cacheWrite` was `0` across all rows. The initial failed `gemini-4-hydrogen:medium` probe reported `0` measured usage (provider billing remains unverified). In-flight narrow reporting-artifact correction and pending final Terra narrow check are excluded until delivered; do not infer zero cost.
+
+## 2026-11-15 — final P0 PASS cutoff before PR administration
+
+**Cutoff:** canonical `/pi-cost` v1.10.0 (`--offline --json`) against the designated campaign parent session, after the final Terra receipt was delivered and before PR body/readiness/merge administration and P1 setup. Includes 63 lead turns and 17 direct worker records; no nested or AGY receipts. One failed/unpriced record had no model or token counters, recorded zero usage, and is not evidence of zero billing. Private session path, prompts and raw logs are omitted. This is the latest available measured checkpoint; in-flight PR administration and P1 setup are excluded.
+
+| Date | Provider / model | Task grouping | Input | Output | Cache read | Cache write | Estimate USD | Method |
+|---|---|---|---:|---:|---:|---:|---:|---|
+| 2026-11-15 | openai / gpt-6.1-sol | lead campaign session (63 turns) | 182326 | 58459 | 10139264 | 0 | $1.963168 | Pi-recorded lead cost |
+| 2026-11-15 | antigravity / gemini-4-hydrogen | preflight + P0 builders/corrections | 712848 | 118531 | 6396796 | 0 | $2.438014 | Canonical public-rate estimate |
+| 2026-11-15 | openai / gpt-6-luna | campaign administration + preflight | 173739 | 10183 | 1183104 | 0 | $0.034296 | Canonical public-rate estimate |
+| 2026-11-15 | openai-codex / gpt-6.1-terra | independent reviews + preflight | 201693 | 11254 | 1492096 | 0 | $0.332568 | Canonical public-rate estimate |
+| 2026-11-15 | antigravity / claude-opus-5-5 | readiness probe | 30958 | 502 | 30007 | 0 | $0.139873 | Canonical public-rate estimate |
+
+- **Measured mixed-method subtotal: $4.907920** (`$1.963168` Sol harness-recorded + `$2.944752` worker public-rate estimates).
+- **Rate provenance:** canonical offline LiteLLM catalog (`BerriAI/litellm`), fetched `2026-11-14T14:12:12Z`, `stale: false`. Estimates, not invoices; actual billing is unknown. Cache-read counters are separate from input and are not summed into input.
+
+## 2026-11-16 — P1 administrative checkpoint (campaign total unavailable)
+
+- **Cost cutoff:** this checkpoint. The required canonical `/pi-cost` v1.10.0 command was attempted offline with `--json` and the explicitly supplied parent-session path. The tool reported `no Pi session file found`; the specified path is unavailable in the local session store. No alternate file/session, current-session inference, retry, fallback, or price guess was used.
+- **Recorded usage by date/provider/model/task:** unavailable. Input, output, cache-read, cache-write and estimate fields are all unavailable because the required input session could not be read. No token counts or estimate are asserted here.
+- **Accounting limitation:** the original P1 Hydrogen run (`a1509601`) was interrupted; its retained session ended aborted without a normal handoff. No provider/credit error was recorded. The same Hydrogen session resumed after the founder's `continue`, but this canonical receipt-based estimate cannot demonstrate whether original-run or resume history is included. Accordingly, both that campaign usage and the campaign-complete mixed-method total are **UNAVAILABLE**; do not treat `$4.907920` above, the prior P0-only checkpoint, as a complete campaign cost or usage subtotal.
+- Builder P1 work and this administration are outside the prior P0 cutoff. Current in-flight administrative usage is excluded. Actual provider billing remains unknown. No private prompts, transcripts, credentials, raw logs, or local paths are published.

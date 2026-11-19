@@ -892,6 +892,28 @@ class DevCommand(Command):
             help="Comment/reply count. Valid with --type social-signal or --type engagement.",
         )
         dev_evidence.add_argument(
+            "--creator",
+            help="Creator or channel handle for social-signal/engagement plateau grouping",
+        )
+        dev_evidence.add_argument(
+            "--creator-relation",
+            dest="creator_relation",
+            choices=("first-party", "third-party"),
+            help="Provenance relation for social-signal evidence (#2473)",
+        )
+        dev_evidence.add_argument(
+            "--relevance-note",
+            dest="relevance_note",
+            help="Verification note detailing substantive skill demonstration (#2473)",
+        )
+        dev_evidence.add_argument(
+            "--external-stars",
+            dest="external_stars",
+            type=int,
+            metavar="N",
+            help="External repository star count. Only valid with --type proxy-containment.",
+        )
+        dev_evidence.add_argument(
             "--citations",
             type=int,
             metavar="N",
@@ -1147,6 +1169,12 @@ class DevCommand(Command):
             required=True,
             dest="source_url",
             help="GitHub releases URL: https://github.com/<owner>/<repo>/releases/tag/<tag>",
+        )
+        dev_sync_upstream.add_argument(
+            "--repo",
+            dest="repo",
+            default=None,
+            help="Explicitly repoint upstream.repo to <owner>/<repo> (must match --source-url)",
         )
         dev_sync_upstream.add_argument(
             "--bootstrap",

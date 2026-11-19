@@ -67,11 +67,22 @@ def extract_payload(body: str | None) -> tuple[dict, str]:
 
     The digest is recomputed from the extracted payload. A stored digest that differs fails closed.
     """
-    match = PAYLOAD_RE.search(body or "")
-    if not match:
-        raise PayloadError("no gaia-upstream-payload block was found in the umbrella body")
+    if body is not None and (not isinstance(body, str) or len(body) > 65_536):
+        raise PayloadError("upstream body is not bounded text")
+    matches = list(PAYLOAD_RE.finditer(body or ""))
+    if len(matches) != 1:
+        raise PayloadError("exactly one gaia-upstream-payload block is required in the umbrella body")
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise PayloadError("duplicate JSON field in upstream payload")
+            result[key] = value
+        return result
+    def invalid_constant(value):
+        raise PayloadError("non-finite JSON number in upstream payload")
     try:
-        data = json.loads(match.group(1))
+        data = json.loads(matches[0].group(1), object_pairs_hook=unique_object, parse_constant=invalid_constant)
     except json.JSONDecodeError as exc:
         raise PayloadError(f"the payload JSON does not parse: {exc}") from exc
     if not isinstance(data, dict):
@@ -86,7 +97,104 @@ def extract_payload(body: str | None) -> tuple[dict, str]:
     return data, digest
 
 
-def owned_upstream_issue(issue: dict) -> bool:
+def named_authority() -> dict:
+    """Read canonical source metadata; no generated evidence/trust schema changes."""
+    from scripts.lib.named_iterator import iter_named_skills
+    rows = {}
+    try:
+        for _path, meta in iter_named_skills():
+            identifier = meta.get("id")
+            if identifier in rows:
+                raise PayloadError("duplicate canonical named identity")
+            if identifier:
+                rows[identifier] = meta
+    except PayloadError:
+        raise
+    except Exception as exc:
+        raise PayloadError("cannot read canonical named authority") from exc
+    if not rows:
+        raise PayloadError("canonical named authority is empty")
+    return rows
+
+
+def envelope_comments(payload: dict, issue_number=None):
+    """Read a required record generation through the existing authenticated gh port."""
+    if "candidateRecords" not in payload:
+        return None
+    from scripts.upstream_watcher.live import LiveGh, GhError
+    number = str(issue_number or os.environ.get("ISSUE_NUMBER") or "")
+    if not number.isdigit() or int(number) < 1:
+        raise PayloadError("records-mode envelope requires an exact issue number")
+    try:
+        return LiveGh(repo=os.environ.get("REPO") or None).list_comments(int(number))
+    except GhError as exc:
+        raise PayloadError("repository record generation could not be read") from exc
+
+
+def workflow_payload(body: str | None, *, title: str | None = None) -> tuple[dict, str]:
+    """Select ONE finding after the existing workflow actor guard authenticates.
+
+    Inputs are selectors, not authority. The label event cannot select anything
+    in a repo envelope. An explicit authenticated workflow_dispatch binds all
+    three identity-bearing inputs; automatic refires cannot invent a selection.
+    Legacy issues remain read-only until separately approved migration.
+    """
+    from scripts.upstream_watcher import envelope
+    payload, _digest = extract_payload(body)
+    if not envelope.is_envelope(payload):
+        raise PayloadError("legacy upstream payload is held for separately approved migration")
+    if os.environ.get("EVENT_NAME") != "workflow_dispatch" or os.environ.get("INPUT_REFIRE") == "true":
+        raise PayloadError("repository labels/refires do not approve named findings; use explicit dispatch selectors")
+    return envelope.select(body, named_authority(),
+        identifier=os.environ.get("NAMED_SKILL_ID"), digest=os.environ.get("FINDING_SHA256"),
+        source=os.environ.get("APPROVED_SOURCE_URL"), title_text=title,
+        comments=envelope_comments(payload))
+
+
+def verify_repository_target(issue: dict, *, require_selection: bool = True, require_approved: bool = True) -> bool:
+    """Read-only freshness/cardinality/legacy gate, NOT actor authorization.
+
+    Approval cannot target a later duplicate or a parallel current-source issue
+    for a named scope whose historical repository still carries a migration hold.
+    Both the initial workflow preflight and final re-verification call this.
+    """
+    from scripts.upstream_watcher import envelope
+    from scripts.upstream_watcher.live import LiveGh, GhError
+    from scripts.upstream_watcher.repository_batch import read_repository_live, inspect_history, policy_record, historical_authority
+    number = str(issue.get("number") or os.environ.get("ISSUE_NUMBER") or "")
+    if not number.isdigit() or int(number) < 1:
+        raise PayloadError("approval requires an exact canonical issue number")
+    authority = named_authority()
+    raw, _ = extract_payload(issue.get("body"))
+    if not envelope.is_envelope(raw):
+        raise PayloadError("legacy payload is held for separately approved migration")
+    current = envelope.read(issue.get("body"), authority, title_text=issue.get("title"),
+                            comments=envelope_comments(raw, number))
+    gh = LiveGh(repo=os.environ.get("REPO") or None)
+    try:
+        live = read_repository_live(gh)
+        found, holds, stored = inspect_history(current["repository"], live, gh, authority,
+                                               policy_record(), historical_authority)
+    except (GhError, OSError, ValueError, TypeError, KeyError) as exc:
+        raise PayloadError(f"canonical repository approval evidence unavailable: {exc}") from exc
+    if holds:
+        raise PayloadError("repository or historical named scope has an unresolved migration hold")
+    if found.canonical is None or found.canonical["number"] != int(number):
+        raise PayloadError("approval target is not the lowest canonical OPEN repository umbrella")
+    if require_approved and "upstream:approved" not in {
+            v.get("name") if isinstance(v, dict) else v for v in found.canonical.get("labels", [])}:
+        raise PayloadError("canonical umbrella no longer carries upstream:approved")
+    if require_selection:
+        if os.environ.get("EVENT_NAME") != "workflow_dispatch" or os.environ.get("INPUT_REFIRE") == "true":
+            raise PayloadError("repository labels/refires do not approve named findings; use explicit dispatch selectors")
+        selected = [f for f in stored[int(number)]["findings"] if f["skillId"] == os.environ.get("NAMED_SKILL_ID")]
+        if (len(selected) != 1 or selected[0]["payloadSha256"] != os.environ.get("FINDING_SHA256")
+                or selected[0]["sourceUrl"] != os.environ.get("APPROVED_SOURCE_URL")):
+            raise PayloadError("canonical named finding changed after selection")
+    return True
+
+
+def owned_upstream_issue(issue: dict, *, allow_envelope: bool = False) -> bool:
     """Prove upstream umbrella/bootstrap ownership before any label-guard write."""
     from scripts.upstream_watcher.evidence import title_suite_and_version, suite_of
 
@@ -98,6 +206,15 @@ def owned_upstream_issue(issue: dict) -> bool:
         return False
     try:
         payload, _ = extract_payload(issue.get("body"))
+        from scripts.upstream_watcher import envelope
+        if envelope.is_envelope(payload):
+            if kind != "release" or not allow_envelope:
+                return False
+            envelope.read(issue.get("body"), named_authority(), title_text=issue.get("title", ""),
+                          comments=envelope_comments(payload, issue.get("number")))
+            return True
+        # Ownership is historical identification, NOT migration/write authority.
+        # Workflow compatibility holds run before any legacy write consumer.
         title = title_suite_and_version(issue.get("title", ""), kind)
         return bool(title and title == (suite_of(payload, kind), payload.get("newVersion")))
     except (PayloadError, KeyError, TypeError, ValueError):

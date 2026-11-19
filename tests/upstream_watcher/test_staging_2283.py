@@ -728,17 +728,17 @@ def test_cli_staging_requires_batch_a_journal_and_valid_values(capsys):
 
 
 def stubWatcher(monkeypatch, seen):
+    from scripts.upstream_watcher import repository_batch as rb
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: seen.setdefault("polled", True) and {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: [])
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: seen.update(k) or (bt.new_report(), 0))
-    monkeypatch.setattr(watcher, "batch_stopped", lambda report: False)
+    monkeypatch.setattr(rb, "run_repository_batch", lambda *a, **k: seen.update(k) or (bt.new_report(), 0))
 
 
 def test_cli_off_is_the_default_and_passes_no_staging_argument(monkeypatch):
     seen = {}
     stubWatcher(monkeypatch, seen)
     assert watcher.main(["--child-mode", "batch", "--apply"]) == 0
-    assert "staging" not in seen, "the default call is exactly the deployed one"
+    assert seen["staging"].mode == "off" and not seen["staging"].active and seen["plan_only"] is True
 
 
 def test_cli_passes_the_resolved_staging_config(monkeypatch):
@@ -751,6 +751,7 @@ def test_cli_passes_the_resolved_staging_config(monkeypatch):
     config = seen["staging"]
     assert (config.mode, config.flushWeekday, config.journalPath, config.bootstrap) == ("weekly", 4, "/tmp/x.json", True)
     assert config.now == TUE
+    assert seen["plan_only"] is True
 
 
 @pytest.mark.parametrize("value", [None, "", "false", "False", "TRUE", "1", "yes"])
@@ -928,21 +929,21 @@ def test_eviction_fails_closed_then_the_explicit_recovery_reobserves_and_every_p
 
 
 def cliWorld(monkeypatch, gh):
-    index = index_from_entries([])
     suites = {
         "garrytan/gbrain": finding("v1", ["alpha"]),
         "x/newsuite": {"finding_type": "bootstrap", "skillId": "x/newsuite", "currentVersion": None, "newVersion": "v1",
                        "releasedAt": "2026-11-03T00:00:00Z", "sourceUrl": "https://github.com/x/newsuite/releases/tag/v1"},
     }
-    calls = []
+    authority = {
+        "garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}},
+        "x/newsuite": {"id": "x/newsuite", "links": {"github": "https://github.com/x/newsuite"}},
+    }
     monkeypatch.setenv("STEWARD_ISSUE_HYGIENE_V2", "true")
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: authority)
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": key}) for key in suites]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: suites[fm["id"]])
     monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: bt.run_batch(*a, index_loader=lambda: index, **k))
-    monkeypatch.setattr(watcher, "create_issues", lambda *a, **k: calls.append((a, k)) or [])
-    return calls
+    return []
 
 
 @pytest.mark.parametrize("damage", ["missing", "garbage", "tamper", "lost"])
@@ -960,13 +961,12 @@ def test_cli_missing_or_corrupt_journal_stops_before_every_github_write_bootstra
             data["repos"][REPO]["pendingSince"] = "2020-01-01T00:00:00Z"
             path.write_text(json.dumps(data), encoding="utf-8")
     gh = FakeGh()
-    calls = cliWorld(monkeypatch, gh)
+    cliWorld(monkeypatch, gh)
     argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path),
             "--staging-as-of", "2026-11-09T06:00:00Z", "--report", str(tmp_path / "report.json")]
     if damage == "lost":
         argv.append("--staging-initialized")
     assert watcher.main(argv) == 3
-    assert calls == [], "create_issues (bootstrap findings) was never reached"
     assert gh.write_count() == 0 and gh.writes == [], "zero create/edit/comment/label calls"
     assert not [w for w in gh.writes if w[0] in ("create", "edit", "comment", "labels")]
     report = json.loads((tmp_path / "report.json").read_text())
@@ -976,11 +976,17 @@ def test_cli_missing_or_corrupt_journal_stops_before_every_github_write_bootstra
 def test_cli_with_a_good_journal_does_reach_the_bootstrap_pass(monkeypatch, tmp_path):
     path = tmp_path / "journal.json"
     gh = FakeGh()
-    calls = cliWorld(monkeypatch, gh)
+    cliWorld(monkeypatch, gh)
+    report_path = tmp_path / "report.json"
     argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path),
-            "--staging-bootstrap", "--staging-as-of", "2026-11-09T06:00:00Z"]
-    assert watcher.main(argv) == 0
-    assert len(calls) == 1 and [f["skillId"] for f in calls[0][0][0]] == ["x/newsuite"]
+            "--staging-bootstrap", "--staging-as-of", "2026-11-09T06:00:00Z", "--report", str(report_path)]
+    # Journal bootstrap unblocks planning (exit 4 operational/plan-only hold, not exit 3 journal block)
+    # and plans both the regular update and the bootstrap finding with zero GitHub writes.
+    assert watcher.main(argv) == 4
+    assert gh.write_count() == 0 and gh.writes == []
+    report = json.loads(report_path.read_text())
+    assert report["unknownEvidence"] == []
+    assert sorted(r["repository"] for r in report["repositories"]) == ["garrytan/gbrain", "x/newsuite"]
 
 
 # --- B4 of the second review: records-mode create is guarded ----------------------------------------------------------
@@ -1154,9 +1160,10 @@ def test_cli_rejects_staging_with_escalation_and_challenge_watch_with_zero_write
     gh = FakeGh()
     reached = []
     monkeypatch.setenv("STEWARD_ISSUE_HYGIENE_V2", "true")
+    from scripts.upstream_watcher import repository_batch as rb
     monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: reached.append("registry") or {})
-    monkeypatch.setattr(watcher, "escalate_candidate", lambda *a, **k: reached.append("escalate") or ({}, 0))
+    monkeypatch.setattr(rb, "run_repository_batch", lambda *a, **k: reached.append("repo-batch") or ({}, 0))
     monkeypatch.setattr(watcher, "runChallengeWatchStep", lambda *a, **k: reached.append("challenge") or None)
     argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path)]
     if damage == "lost":
@@ -1174,12 +1181,12 @@ def test_cli_rejects_staging_with_the_challenge_watch_env_switch(monkeypatch, tm
     assert watcher.main(["--child-mode", "batch", "--staging", "weekly", "--staging-journal", str(tmp_path / "j")]) == 1
 
 
-def test_unstaged_escalation_and_challenge_watch_are_untouched(monkeypatch):
-    seen = []
+def test_unstaged_escalation_and_challenge_watch_are_untouched(monkeypatch, capsys):
     monkeypatch.delenv("STEWARD_ISSUE_HYGIENE_V2", raising=False)
-    monkeypatch.setattr(watcher, "escalate_candidate", lambda *a, **k: seen.append("escalate") or ({}, 0))
-    assert watcher.main(["--child-mode", "batch", "--apply", "--escalate", "garrytan/gbrain:alpha"]) == 0
-    assert seen == ["escalate"]
+    # Unstaged --escalate is not rejected by the staging gate (exit 1); it reaches the explicit read-only hold (exit 3).
+    assert watcher.main(["--child-mode", "batch", "--apply", "--escalate", "garrytan/gbrain:alpha"]) == 3
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["outcome"] == "unknown" and payload["writeReadiness"] is False
 
 
 # --- round 4: a vanished candidate keeps its exact journal provenance even when carried rows already hold it ------------

@@ -389,20 +389,23 @@ def test_legacy_approved_umbrella_detection_does_not_treat_seen_components_as_ne
     assert bt.baseline_ids(None, "garrytan/gbrain") == set()
 
 
-def test_fanout_mode_uses_legacy_create_issues(monkeypatch):
-    calls = {"create": [], "batch": []}
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+def test_fanout_mode_holds_apply_plan_only_with_zero_writes(monkeypatch, tmp_path):
+    world = RestGhRunner([])
+    monkeypatch.setattr(subprocess, "run", world)
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {
+        "garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}}
+    })
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: finding("v1", ["ask-user"]))
-
-    def fake_create(findings, apply, verbose=False):
-        calls["create"].append((len(findings), apply))
-        return []
-
-    monkeypatch.setattr(watcher, "create_issues", fake_create)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: calls["batch"].append(1) or ({}, 0))
-    assert watcher.main(["--apply", "--child-mode", "fanout"]) == 0
-    assert calls["create"] == [(1, True)] and calls["batch"] == []
+    report_path = tmp_path / "report.json"
+    code = watcher.main(["--apply", "--child-mode", "fanout", "--report", str(report_path)])
+    assert code == 4
+    assert world.writes == []
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["writeReadiness"] is False
+    assert report["executionHold"]
+    assert report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0
 
 
 def _fanout_finding(version="v1"):
@@ -413,7 +416,10 @@ def test_fanout_github_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_pa
     # The open umbrella LIST fails on its first page. The fanout must exit 3 and create nothing.
     world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {
+        "garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}}
+    })
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: _fanout_finding())
     report_path = tmp_path / "report.json"
@@ -421,7 +427,7 @@ def test_fanout_github_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_pa
     assert code == 3
     assert world.writes == []
     report = json.loads(report_path.read_text(encoding="utf-8"))
-    assert report["unknownEvidence"][0]["source"] == "github-list"
+    assert report["unknownEvidence"][0]["source"] == "repository-plan"
     assert report["issuesCreated"] == 0
 
 
@@ -430,7 +436,10 @@ def test_fanout_child_list_failure_creates_no_umbrella_either(monkeypatch, tmp_p
     # still stop the run before the umbrella is written.
     world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {
+        "garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}}
+    })
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: _fanout_finding())
     code = watcher.main(["--apply", "--child-mode", "fanout", "--report", str(tmp_path / "r.json")])
@@ -447,15 +456,17 @@ def test_batch_mode_bootstrap_lookup_failure_exits_3(monkeypatch, tmp_path):
     }
     world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {
+        "garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}}
+    })
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: bootstrap)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: (new_report(), 0))
     report_path = tmp_path / "report.json"
-    code = watcher.main(["--apply", "--report", str(report_path)])
+    code = watcher.main(["--apply", "--child-mode", "batch", "--report", str(report_path)])
     assert code == 3
     assert world.writes == []
-    assert json.loads(report_path.read_text(encoding="utf-8"))["unknownEvidence"][0]["source"] == "github-list"
+    assert json.loads(report_path.read_text(encoding="utf-8"))["unknownEvidence"][0]["source"] == "repository-plan"
 
 
 def test_explicit_batch_mode_fails_closed_on_registry(monkeypatch, tmp_path):

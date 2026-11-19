@@ -15,6 +15,112 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 > [Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md), and the orchestrator rules.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
 
+## State Snapshot (2026-11-16, Upstream Backlog — third metadata diagnostic shows REST/GraphQL PR visibility discrepancy)
+
+### TLDR
+- Existing diagnostic run `43950071316` failed at exact expected feature HEAD `a7cdb51158ef1b0383269478d2bb92d262f1f465`; diagnostic read step exit 3, upload succeeded, ordinary jobs skipped. No workflow rerun or polling was performed.
+- Artifact `14265604550`; JSON SHA-256 `fca80159c836ec44d1270268e2a3319963a16ef6aabba320a89731286b7567e0`; archive SHA-256 `88501e2aaf175928c2d66a1a629313812697e541be87f485d903c1ff439f2e05`. Receipt: `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43950071316.md`.
+- REST completed 247 issue rows / 0 PR rows; complete before GraphQL walks observed 247 issues / 7 PRs. Issue identities agree; PR identities and aggregate disagree. Counts stable at observed endpoints, but after GraphQL was sampled, so full identity stability is unknown. All 12 requests HTTP 200; no permission denial observed. API visibility discrepancy confirmed; permission and #2278 causality unknown.
+- P1 remains BLOCKED and this diagnostic is acceptance-ineligible. Stop for Lead/founder decision. No further probe, normal run, permission/contract change, or merge authorized. Complete campaign cost remains unavailable.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| P1 diagnostic | Read existing run/artifact only; captured sanitized receipt and provenance. |
+| Reports | Updated current status pointers; historical receipts preserved. |
+| PRs / protected refs | #2468/#2469 remain OPEN/DRAFT; integration `bfed2d777b76448f6ede5d40e1a834050dff07d0` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` unchanged. |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/upstream-backlog-watcher-2026-11` | `a7cdb51158ef1b0383269478d2bb92d262f1f465` | Clean before report checkpoint; pending documentation commit/push. |
+| `dev/upstream-backlog-2026-11` | `bfed2d777b76448f6ede5d40e1a834050dff07d0` | Protected integration unchanged. |
+| `schema/upstream-contract-2026-11` | `6bed0edf324d49e42cd8953351deaccaa733d22f` | Unchanged. |
+
+### Issues + PRs touched
+- Read PR bodies #2468/#2469; both remain OPEN/DRAFT with integration base; no updates to PRs performed yet.
+
+### Routing — where things live now
+- Detailed current evidence: `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43950071316.md`; append-only artifact index: `P1_METADATA_PROBE_REPORT.md`.
+- Campaign control/resume/blocker/handoff/count-repair all point to this latest observed outcome.
+
+### Lessons / hazards preserved
+- Do not infer permission causality or universal token filtering from zero REST PR rows. API endpoints can return both issues and PRs; no 403 occurred.
+- Partial after GraphQL samples are not full identity censuses. P1 acceptance requires the normal acceptance workflow, not this diagnostic.
+
+### Open questions for next orchestrator
+- **STOPPED AT PERMISSION DECISION — observed REST/GraphQL visibility gap; P1 BLOCKED.** Proposed next gate: ask founder for specific approval of ONE controlled metadata-only permission A/B as described in `P1_COUNT_REPAIR.md`; this new security scope is not covered by prior 'proceed'. No implementation or dispatch absent approval.
+- Full campaign cost remains UNAVAILABLE; do not substitute P0 partial cost.
+
+### Token cost (this session)
+- Campaign-complete cost unavailable; no cost estimate made.
+
+## State Snapshot (2026-11-16, Upstream Backlog — second metadata diagnostic failed; STOP for Lead decision)
+
+### TLDR
+- One authorized metadata-only run, `43941667985`, completed failure at feature head `fcde5d9324812276ea09029ae225089bdfbe3952`. Diagnostic step exited 3; artifact uploaded; normal watcher/challenge/upstream-poll jobs skipped.
+- Artifact `14262564894`, file SHA-256 `a3ab7b374fd14b1fb0145053accdc850200c5bdc9b2c6c74a0305e873f5113f7`; sanitized receipt `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43941667985.md`.
+- REST stopped after 100 issue-typed rows at `unsafe-link-query` following HTTP 200. GraphQL before walks completed 245 issues/7 PRs; after only samples. Aggregate 252 both observations. No 403 or permission error; complete REST PR visibility and root cause remain unknown.
+- **STOP:** correction pass and authorized probe are used. No further source correction, permission increase, run, normal watcher, or merge. Lead/founder decision: whether to authorize bounded read-only review of continuation-query validation. No permission increase is justified by current evidence alone.
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/upstream-backlog-watcher-2026-11` | `fcde5d9324812276ea09029ae225089bdfbe3952` | Report-only checkout; source review remains at `8cb977a6aa693412021c85277595e0642a61ae64` |
+| `dev/upstream-backlog-2026-11` | `bfed2d777b76448f6ede5d40e1a834050dff07d0` | Protected integration; unchanged |
+| `schema/upstream-contract-2026-11` | `6bed0edf324d49e42cd8953351deaccaa733d22f` | Protected schema; unchanged |
+
+### Issues + PRs touched
+- PR #2468 and #2469 remain OPEN/DRAFT, targeting integration. No merges or PR readiness changes.
+- Preserve normal run 43896669237 and first metadata run 43927918189 receipts/artifacts unchanged.
+
+### Routing — where things live now
+- Current report: `founder/reports/upstream-backlog-2026-11/P1_METADATA_PROBE_43941667985.md`; current blocker/control/handoff/resume and receipt index updated in the same directory.
+- Role constraints remain Luna medium, two hours, no fallback/retries/nested agents/turn caps; no work rerun or delegated.
+
+### Lessons / hazards preserved
+- HTTP 200 plus local `unsafe-link-query` rejection is not a 403 or proven permission issue. Do not call incomplete REST counts zero or infer missing PRs from the first page.
+- Parent background monitor was terminal exit 1 because the remote workflow failed; this was not a local timeout. Do not redispatch or enter a poll/reconfirmation loop.
+- Campaign-complete usage/cost remains UNAVAILABLE; `$4.907920` is P0-only partial, not total.
+
+### Open questions for next orchestrator
+- Does the Lead/founder authorize a bounded read-only review of the continuation query validator? If yes, scope it explicitly before any further code change or dispatch. No security permission change is implied.
+- #2278 root cause, full REST-vs-GraphQL PR identity equivalence, and permission causality remain unknown.
+- Session cost is unavailable; no aggregate cost sidequest.
+
+## State Snapshot (2026-11-17, Upstream Backlog — STOPPED awaiting one specific correction authorization)
+
+- P1 feature branch `dev/upstream-backlog-watcher-2026-11` reviewed at exact HEAD `b614688657d34234472caaeef7069733647869df`; Terra `openai-codex/gpt-6.1-terra`, high returned FINDINGS / `issues_found`, NOT PASS. Full receipt: `founder/reports/upstream-backlog-2026-11/P1_COUNT_REPAIR.md`; campaign control/resume/blocker/preflight updated.
+- Two warnings: comparisons must be UNKNOWN when required GraphQL/repository count stability fails; every repository count read must fail closed for missing/invalid/mismatching authoritative identity (named and numeric paths). Focused 122 passed; no full regression/parity at b614. Historical 1045 pass at 65d4494 is not current.
+- Chronology preserved: acceptance run 43896669237 failed 244/250, artifact SHA `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`; first metadata run 43927918189 failed unsafe-link, artifact SHA `85fe68bf7bdd3808c7077d63bae431701276d14f14ad3cb6a1450ea5f046a03f`. No second metadata run. Causes remain UNKNOWN.
+- **STOPPED — metadata2-round correction limit reached; await specific operator authorization.** Recommendation only: authorize ONE targeted Sol-shared correction for exactly these findings, Terra independent re-review and full regression before any diagnostic dispatch. No reset/unlimited rounds, probe, normal run, permission increase, merge, or P2. PR #2468/#2469 remain OPEN/DRAFT, base integration.
+- Roster: Luna/Hydrogen/Sol-shared/Terra, medium worker effort, 2h, no fallback/retries/nested agents/turn caps; Opus retired. Complete usage/cost UNAVAILABLE; no bulk investigation; P0 partial is not campaign total.
+
+## State Snapshot (2026-11-16, Upstream Backlog — STOPPED at founder gate; #2278 refusal reproduced)
+
+### TLDR
+- Actual P1 runner 43896669237 failed at `Run upstream watcher` (exit 3), source branch head `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; explicit `EXECUTOR_PROMPT.md` hard stop applies.
+- Evidence: `founder/reports/upstream-backlog-2026-11/P1_RUNNER_REPORT.md` and exact 605-byte JSON `P1_RUNNER_43896669237.json` (SHA-256 `11cec0992acd45591220737c5ffac4c1b546aff02c34f627aa73d464f080be87`). Open issue listing was not confirmed: 244 listed vs repository-reported 250 after three attempts. Fail-closed; no root cause inferred; suites empty, not a P2 census.
+- Independent Terra code PASS at source `591264b3bc1d7607e1074411f1c0a77b541515d9` + schema `6bed0edf324d49e42cd8953351deaccaa733d22f` remains a code review only, not runner PASS/P1 completion. Earlier Terra cancellation remains historical, not cancelled anew.
+- PR #2468 OPEN/DRAFT head `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; PR #2469 OPEN/DRAFT head `6bed0edf324d49e42cd8953351deaccaa733d22f`; both base `dev/upstream-backlog-2026-11`. No merges.
+- Feature branch clean at `fa6ca42ab8c56ded58f340165388a69ae1957a7a`; remote feature head matches. Integration remote remains `bfed2d777b76448f6ede5d40e1a834050dff07d0` (24 commits ahead is normal); schema remote remains `6bed0edf324d49e42cd8953351deaccaa733d22f`.
+
+### Next action / hard boundary
+Await explicit founder authorization for bounded #2278 repair before any code change or redispatch. Recommendation only: retain Sol-shared as sole builder, Terra as independent reviewer, completeness fail-closed, and no issue writes/weekly variables/merit/registry changes or bypass. No investigation, monitoring, reruns, P2–P7, free closures, or merges during stop. Campaign-complete cost remains unavailable; `$4.907920` is P0-only partial, not total.
+
+## State Snapshot (2026-11-15, Upstream Backlog — founder pause preserved; resumable)
+
+### TLDR
+- **PAUSED by founder. No further work until operator resumes. NO MERGES.**
+- Portable handoff: `founder/reports/upstream-backlog-2026-11/RESUME.md`.
+- P0 completed internally on integration `bfed2d777b76448f6ede5d40e1a834050dff07d0`; P1 source `591264b3bc1d7607e1074411f1c0a77b541515d9` and schema `6bed0edf324d49e42cd8953351deaccaa733d22f` await independent final Terra verdict.
+- PR #2468 and #2469 OPEN/DRAFT to `dev/upstream-backlog-2026-11`. Latest Terra attempt `caae8998` cancelled, exit 143, no verdict. P2–P7 not started.
+- Current roles: worker-sol-shared `openai-codex/gpt-6.1-sol` medium is sole contract-repair role; independent reviewer Terra `openai-codex/gpt-6.1-terra` high. Opus retired; no fallback/substitution.
+- Campaign usage/cost unavailable; `$4.907920` is P0-only partial; actual billing unknown.
+
+### Next gate
+After explicit operator resumption, a fresh independent Terra reviewer verifies exact source/schema heads, required and focused tests, parity/mirrors, local 320/23 validation, safe CLI probes, protected-file hashes, and root `role: variant` classification. Only after PASS may an authorized operator consider runner `apply=false` with exit 0 and empty `unknownEvidence`. No workflow dispatch while paused; no current merge authorization.
+
 ---
 
 ## State Snapshot (2026-11-08, Steward #2283 CLOSEOUT — 48 canonical Class B repairs, B 323→191, stopped after trust calibrations)
