@@ -1,3 +1,36 @@
+## 2026-11-19 — Routine 079
+
+**Branch:** `docs/routines/071` (open PR #2436, not merged). Continued on it; no new branch or PR. The branch tip already contains `origin/main`.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 079)" in 078: ROTATE to `mcp-server.html`. The carry-over in `named-skills.html` was already fixed by the editor pass (the only "permanent" hit left is the correct "not a permanent title" line), so I did not touch it.
+
+### What I did
+
+- Checked the Core Mechanic card against the live `skill-heaven` summon schema. The card said `summon` materializes a *Named Skill*. The source can be a Skill Tree or a flat GitHub fleet, so the card now says "best-matching skill" and names both sources.
+- Added the four documented parameters to the card: `query` (required), `surface` (`heaven`/`hell`/`any`, default `hell`), `preview`, `limit`. Uses the existing `tool-param` classes.
+
+### Design decisions
+
+- Words and one card's contents only. Layout, classes and nav are unchanged.
+- Did not document `decision`, `live` or `source`. They are advanced overrides and the page's scope is the default flow.
+
+### Issues informed
+
+- None filed.
+
+### Files
+
+- `docs/en/mcp-server.html` (Core Mechanic card)
+- `docs/en/DOCS.md` (Page Map row 9)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 080)
+
+- ROTATE to `evidence-classes.html` (row 7, last substantive routine 058). Check its Evidence Type and Grade tables against `CONTEXT.md` § Evidence. Fix one section only.
+- Note for the weekly editor: the "How it works" paragraph still says the server loads "Named Skill projections". It is accurate for the Gaia registry path but not for a GitHub fleet source. Left as is to keep the change to one card.
+
+---
+
 ## 2026-11-18 — Routine 078
 
 **Branch:** `docs/routines/071` (open draft PR #2436, not merged). Continued on it; no new branch or PR. `git rebase origin/main` conflicted again in `DOCS.md`, `MEMORY.md` and `faq.html` (the branch replays older commits onto the newer release stamps), so I aborted it and committed on the branch tip. The branch already contains `origin/main`.
