@@ -65,15 +65,17 @@ python scripts/upstream_watcher/watcher.py --apply
 1. Go to **Actions → Upstream Watcher** in the GitHub repo.
 2. Click **Run workflow**.
 3. Optionally fill in `skill_id` to scope to one suite.
-4. Set `apply` to `true` to create issues (default is dry-run).
+4. Leave `apply` at `false` (default) for an ordinary dry-run (`exit 0` on a valid run with findings/planned counters and `writeReadiness: false`). Setting `apply` to `true` passes `--apply`, which on this candidate branch is deliberately plan-only: it exits `4` with zero issue effects if planning reaches the apply hold (invalid/rollout checks exit `1`; genuine earlier unknown/poll errors exit `3`). Pinned-`main` deployed behavior is separate and not newly modified or qualified here.
 
-> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` is live (06:00 UTC, `--apply`). That contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
+> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` remains unchanged and uncommented (`06:00 UTC`, `--apply`), though ordinary watcher runs on this candidate are plan-only as noted above (separately deployed pinned `main` is not newly modified or qualified here). That schedule still contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
 
 ---
 
 ## Where issues land and how to review them
 
-Issues are created with labels `upstream:release` (umbrella), `upstream:bootstrap` (first-run), or `upstream:child` (new component intake). All start with `needs-triage`.
+> **Scope (deployed `main` only):** The issue-creation and review flow below describes separately deployed `main` behavior (not newly modified or qualified here), not this candidate branch's plan-only ordinary watcher behavior.
+
+On deployed `main`, issues are created with labels `upstream:release` (umbrella), `upstream:bootstrap` (first-run), or `upstream:child` (new component intake). All start with `needs-triage`.
 
 For the full review protocol — label vocab, approval mechanics, child gate — see [upstream-watcher.md §7 Approval mechanics](../../docs/agents/upstream-watcher.md#approval-mechanics).
 

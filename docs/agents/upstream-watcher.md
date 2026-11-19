@@ -413,8 +413,8 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 `.github/workflows/upstream-watcher.yml` runs on manual dispatch and on a daily schedule (06:00 UTC, `--apply`). Dispatch inputs:
 
 - `skill_id` — poll one suite only.
-- `apply` — create or update issues (default dry-run).
-- `escalate_candidate` — create or adopt one intake child for a batch row (for example `garrytan/gbrain:foo`), then exit. Uses the `apply` flag.
+- `apply` — default `false` (dry-run). On separately deployed pinned `main`, selects issue creation/updates; on this candidate branch, ordinary watcher `--apply` routes are deliberately plan-only (`exit 4`, zero issue effects if planning reaches the apply hold; `exit 1` on invalid/rollout checks; `exit 3` on genuine earlier unknown/poll errors).
+- `escalate_candidate` — batch-row selector (for example `garrytan/gbrain:foo`, paired with `apply`). On separately deployed pinned `main`, creates or adopts one intake child then exits; on this candidate branch, `--escalate` is held read-only at the watcher CLI (`exit 3`, zero writes) until exact named-selector escalation is qualified.
 - `staging` — `inherit` (default), `off` or `weekly`: staged weekly batching (see [F3a](#f3a-staged-batching-by-review-window-founder-ruling-12-2283)). `staging_bootstrap` allows a missing journal once (first bootstrap, or an explicit recovery after a loss). Not activated; the repository variable `UPSTREAM_BATCH_STAGING` is unset.
 
 The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. On deployed `main`, manual dispatch and the daily `06:00 UTC` schedule default to `fanout`. On the unmerged `repo_envelope` feature branch, **all** watcher runs route through `run_repository_batch` (`gaia-upstream-repository` v2):
@@ -439,7 +439,7 @@ review, parent full regression and ONE designated-operator normal read-only P1
 run remain pending; this change is not P1 acceptance or merge/release authority.
 See [`P1_ORDINARY_PERMISSION.md`](../../founder/reports/upstream-backlog-2026-11/P1_ORDINARY_PERMISSION.md).
 
-> **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state. `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented, and every scheduled run passes `--apply`, so the watcher creates and updates issues daily. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
+> **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state: `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented and every scheduled run still passes `--apply`. On separately deployed pinned `main` (not newly modified or qualified here), that schedule targets live apply behavior. On this candidate branch, the schedule and `--apply` invocation remain unchanged, but ordinary watcher execution is deliberately plan-only: reaching the apply hold exits `4` with zero issue effects (`actualIssuesCreated: 0`, `actualIssuesUpdated: 0`), invalid CLI/rollout checks exit `1`, genuine earlier unknown/poll errors exit `3`, and an ordinary valid `--dry-run` (`apply=false`) exits `0` with findings/planned counters and `writeReadiness: false`. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
 
 ### Opt-in metadata-only runner diagnosis (#2278)
 
