@@ -35,6 +35,8 @@ from __future__ import annotations
 
 import copy
 import datetime as dt
+import json
+import math
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
@@ -84,6 +86,85 @@ def _authority_repo_safe(named_id: Any, authority: Mapping[str, dict[str, Any]])
         return envelope.authority_repository(named_id, authority)
     except PayloadError:
         return None
+
+
+def _exact_structural_equal(left: Any, right: Any) -> bool:
+    """Strict non-coercing structural equality for JSON-compatible values.
+
+    Rejects Python bool/int/float coercions (e.g. ``True == 1``, ``1 == 1.0``),
+    non-finite floats (NaN/Inf), and non-string mapping keys.
+    """
+    if type(left) is not type(right):
+        return False
+    if left is None or isinstance(left, (bool, str, int)):
+        return left == right
+    if isinstance(left, float):
+        return math.isfinite(left) and math.isfinite(right) and left == right
+    if isinstance(left, list):
+        return len(left) == len(right) and all(
+            _exact_structural_equal(a, b) for a, b in zip(left, right)
+        )
+    if isinstance(left, dict):
+        if left.keys() != right.keys():
+            return False
+        for key in left:
+            if type(key) is not str:
+                return False
+            if not _exact_structural_equal(left[key], right[key]):
+                return False
+        return True
+    return False
+
+
+def _observations_match_exactly(report_obs: Any, collected_obs: Any) -> bool:
+    """Require exact non-coercing canonical JSON match across all raw finding fields."""
+    if not isinstance(report_obs, dict) or not isinstance(collected_obs, dict):
+        return False
+    if not _exact_structural_equal(report_obs, collected_obs):
+        return False
+    try:
+        left_json = json.dumps(
+            report_obs,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        )
+        right_json = json.dumps(
+            collected_obs,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        )
+    except (TypeError, ValueError):
+        return False
+    return left_json == right_json
+
+
+def _index_unique_observations(
+    observations: Sequence[Any],
+    authority: Mapping[str, dict[str, Any]],
+) -> tuple[dict[tuple[str, str], dict[str, Any]], set[tuple[str, str]]]:
+    """Index raw observations by exact ``(repo, named_id)`` requiring uniqueness."""
+    by_scope: dict[tuple[str, str], dict[str, Any]] = {}
+    duplicate_scopes: set[tuple[str, str]] = set()
+    for obs in observations:
+        if not isinstance(obs, dict):
+            continue
+        named_id = obs.get("skillId")
+        repo = _authority_repo_safe(named_id, authority)
+        if repo is None or not isinstance(named_id, str):
+            continue
+        scope = (repo, named_id)
+        if scope in duplicate_scopes:
+            continue
+        if scope in by_scope:
+            del by_scope[scope]
+            duplicate_scopes.add(scope)
+            continue
+        by_scope[scope] = obs
+    return by_scope, duplicate_scopes
 
 
 def collect_suite_observation(
@@ -379,44 +460,56 @@ def build_poll_input(
     if not isinstance(collected, CollectedPoll):
         raise PayloadError("collected must be a CollectedPoll or None")
 
-    # Index observed findings in the actual batch report by exact (repo, named_id).
-    report_obs_by_scope: dict[tuple[str, str], dict[str, Any]] = {}
-    conflicting_scopes: set[tuple[str, str]] = set()
-    for raw_obs in base.observed_findings:
-        if not isinstance(raw_obs, dict):
-            continue
-        named_id = raw_obs.get("skillId")
-        repo = _authority_repo_safe(named_id, authority)
-        if repo is None or not isinstance(named_id, str):
-            continue
-        scope = (repo, named_id)
-        if scope in conflicting_scopes:
-            continue
-        if scope in report_obs_by_scope:
-            if report_obs_by_scope[scope] != raw_obs:
-                del report_obs_by_scope[scope]
-                conflicting_scopes.add(scope)
-            continue
-        report_obs_by_scope[scope] = raw_obs
+    # Index observed findings in both the actual batch report and the collected
+    # poll by exact (repo, named_id), requiring a unique entry on both sides.
+    report_obs_by_scope, duplicate_report_scopes = _index_unique_observations(
+        base.observed_findings, authority
+    )
+    collected_obs_by_scope, duplicate_collected_scopes = _index_unique_observations(
+        collected.observed_findings, authority
+    )
 
     verified_inventories: list[ScopedCompleteInventory] = []
     if collected.poll_id == validated_poll_id:
+        inv_by_scope: dict[tuple[str, str], ScopedCompleteInventory] = {}
+        duplicate_inv_scopes: set[tuple[str, str]] = set()
         for inv in collected.complete_inventories:
-            if inv.poll_id != validated_poll_id:
+            if not isinstance(inv, ScopedCompleteInventory):
                 continue
             try:
                 inv_repo = envelope.repository(inv.repository)
             except PayloadError:
                 continue
             scope = (inv_repo, inv.named_id)
-            raw_obs = report_obs_by_scope.get(scope)
-            if raw_obs is None:
+            if scope in duplicate_inv_scopes:
                 continue
+            if scope in inv_by_scope:
+                del inv_by_scope[scope]
+                duplicate_inv_scopes.add(scope)
+                continue
+            if inv.poll_id != validated_poll_id:
+                duplicate_inv_scopes.add(scope)
+                continue
+            inv_by_scope[scope] = inv
+
+        excluded_scopes = (
+            duplicate_report_scopes | duplicate_collected_scopes | duplicate_inv_scopes
+        )
+        for scope, inv in inv_by_scope.items():
+            if scope in excluded_scopes:
+                continue
+            raw_obs = report_obs_by_scope.get(scope)
+            col_obs = collected_obs_by_scope.get(scope)
+            if raw_obs is None or col_obs is None:
+                continue
+            if not _observations_match_exactly(raw_obs, col_obs):
+                continue
+            inv_repo, inv_named_id = scope
             slugs, reason = qualify_complete_inventory(
                 inv,
                 poll_id=validated_poll_id,
                 repository=inv_repo,
-                named_id=inv.named_id,
+                named_id=inv_named_id,
                 raw_obs=raw_obs,
                 authority=authority,
             )

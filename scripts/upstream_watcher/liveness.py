@@ -51,6 +51,46 @@ def _is_valid_component_root(value: Any) -> bool:
     return not any(not seg or seg in (".", "..") for seg in segments)
 
 
+def _has_control_char(value: str) -> bool:
+    return any(ord(c) < 32 or ord(c) == 127 for c in value)
+
+
+def _has_malformed_path_segment(path: str) -> bool:
+    segments = path.split("/")
+    return any(not seg or seg in (".", "..") for seg in segments)
+
+
+def _could_alias_component_root(path: str, component_root: str) -> bool:
+    """Return True if a suspicious path could alias or traverse ``component_root``.
+
+    Never used to accept or normalize paths — used solely to refuse inventory
+    proof when a backslash or control-character path could cross the root.
+    """
+    cleaned = "".join(c for c in path if ord(c) >= 32 and ord(c) != 127).replace("\\", "/")
+    root_parts = tuple(component_root.split("/"))
+    raw_tokens = [seg for seg in cleaned.split("/") if seg]
+    if not raw_tokens:
+        return False
+    if tuple(raw_tokens[: len(root_parts)]) == root_parts:
+        return True
+    stack: list[str] = []
+    for seg in raw_tokens:
+        if seg == ".":
+            continue
+        if seg == "..":
+            if stack:
+                stack.pop()
+            continue
+        stack.append(seg)
+        if tuple(stack[: len(root_parts)]) == root_parts:
+            return True
+    if tuple(stack[: len(root_parts)]) == root_parts:
+        return True
+    if stack and len(stack) < len(root_parts) and tuple(stack) == root_parts[: len(stack)]:
+        return True
+    return False
+
+
 @dataclass(frozen=True)
 class ComponentTreeEnumeration:
     """Single-read component diff plus explicit complete-inventory provenance.
@@ -171,6 +211,8 @@ def enumerate_component_tree(
     tag: str,
     component_root: str,
     current_components: list[str],
+    *,
+    _legacy_malformed_blob_exc: bool = False,
 ) -> ComponentTreeEnumeration:
     """Fetch the release tree once and return both raw slug diff and inventory provenance.
 
@@ -265,12 +307,35 @@ def enumerate_component_tree(
     # depth. Simultaneously verify complete-inventory proof invariants over the
     # exact same listing without making a second request.
     upstream_slugs: set[str] = set()
-    seen_paths: set[str] = set()
+    path_types: dict[str, str] = {}
     slug_paths: dict[str, str] = {}
-    root_entries = 0
     for item in tree_items:
         item_path = item.get("path")
         item_type = item.get("type")
+
+        if item_type == "blob":
+            raw_blob_path = item.get("path", "")
+            if not isinstance(raw_blob_path, str):
+                if _legacy_malformed_blob_exc:
+                    # Preserve pinned-parent AttributeError on non-string blob path.
+                    raw_blob_path.startswith(prefix)
+                raise UnknownEvidenceError(
+                    f"tree for {owner}/{repo}@{tag} has malformed non-string blob path"
+                )
+            if raw_blob_path.startswith(prefix) and raw_blob_path.endswith("/SKILL.md"):
+                rel = raw_blob_path[len(prefix):]
+                parts = rel.split("/")
+                if len(parts) >= 2:
+                    slug = parts[-2]
+                    upstream_slugs.add(slug)
+                    if proof_reason is None:
+                        if not _SLUG_RE.fullmatch(slug):
+                            proof_reason = "invalid-slug"
+                        elif slug in slug_paths and slug_paths[slug] != raw_blob_path:
+                            proof_reason = "ambiguous-slug-path"
+                        else:
+                            slug_paths[slug] = raw_blob_path
+
         if proof_reason is None:
             if (
                 not isinstance(item_path, str)
@@ -279,42 +344,60 @@ def enumerate_component_tree(
                 or item_type not in _VALID_TREE_TYPES
             ):
                 proof_reason = "malformed-tree-entry"
-            elif item_path in seen_paths:
+            elif item_path in path_types:
                 proof_reason = "duplicate-tree-path"
             else:
-                seen_paths.add(item_path)
-                if item_path == component_root:
-                    root_entries += 1
-                    if item_type != "tree" or root_entries > 1:
-                        proof_reason = "ambiguous-component-root"
-                elif item_path.startswith(prefix) and item_type == "commit":
+                path_types[item_path] = item_type
+                if item_path.startswith(prefix) and item_type == "commit":
                     proof_reason = "submodule-under-root"
 
-        if item_type != "blob":
-            continue
-        path = item_path if isinstance(item_path, str) else ""
-        if not path.startswith(prefix) or not path.endswith("/SKILL.md"):
-            continue
-        rel = path[len(prefix):]
-        parts = rel.split("/")
-        if len(parts) < 2:
-            # SKILL.md directly under component_root with no component dir
-            continue
-        slug = parts[-2]
-        upstream_slugs.add(slug)
-        if proof_reason is None:
-            if not _SLUG_RE.fullmatch(slug):
-                proof_reason = "invalid-slug"
-            elif slug in slug_paths and slug_paths[slug] != path:
-                proof_reason = "ambiguous-slug-path"
-            else:
-                slug_paths[slug] = path
+    # Order-independent canonical path and tree-topology validation over the
+    # full listing map before claiming positive complete-inventory proof.
+    if proof_reason is None:
+        for entry_path in path_types:
+            if _has_malformed_path_segment(entry_path):
+                proof_reason = "malformed-tree-path"
+                break
+            if ("\\" in entry_path or _has_control_char(entry_path)) and (
+                entry_path == component_root
+                or entry_path.startswith(prefix)
+                or _could_alias_component_root(entry_path, component_root)
+            ):
+                proof_reason = "malformed-tree-path"
+                break
 
     if proof_reason is None:
-        if root_entries != 1:
-            proof_reason = "ambiguous-component-root"
-        elif len(upstream_slugs) > MAX_ROWS:
-            proof_reason = "too-many-slugs"
+        root_parts = component_root.split("/")
+        for depth in range(1, len(root_parts) + 1):
+            ancestor = "/".join(root_parts[:depth])
+            ancestor_type = path_types.get(ancestor)
+            if ancestor_type is None:
+                proof_reason = "missing-ancestor-tree"
+                break
+            if ancestor_type != "tree":
+                proof_reason = "non-tree-parent"
+                break
+
+    if proof_reason is None:
+        root_depth = len(component_root.split("/"))
+        for entry_path in path_types:
+            if not entry_path.startswith(prefix):
+                continue
+            parts = entry_path.split("/")
+            for depth in range(root_depth + 1, len(parts)):
+                parent = "/".join(parts[:depth])
+                parent_type = path_types.get(parent)
+                if parent_type is None:
+                    proof_reason = "missing-parent-tree"
+                    break
+                if parent_type != "tree":
+                    proof_reason = "non-tree-parent"
+                    break
+            if proof_reason is not None:
+                break
+
+    if proof_reason is None and len(upstream_slugs) > MAX_ROWS:
+        proof_reason = "too-many-slugs"
 
     adds, removes = diff_slugs(upstream_slugs, current_components)
     if proof_reason is not None:
@@ -389,7 +472,14 @@ def fetch_component_diff(
     - Does NOT attempt to resolve ``contributor/`` for add proposals — that
       is the issuer's job (it knows the suite's contributor).
     """
-    result = enumerate_component_tree(owner, repo, tag, component_root, current_components)
+    result = enumerate_component_tree(
+        owner,
+        repo,
+        tag,
+        component_root,
+        current_components,
+        _legacy_malformed_blob_exc=True,
+    )
     return (list(result.adds), list(result.removes))
 
 

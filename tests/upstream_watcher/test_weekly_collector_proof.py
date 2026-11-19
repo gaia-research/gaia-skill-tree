@@ -70,18 +70,29 @@ def _tree_payload(
     slug_paths: list[str] | None = None,
     extra_entries: list[dict[str, Any]] | None = None,
     include_root: bool = True,
+    include_parents: bool = True,
     truncated: Any = False,
     sha: str | None = "a" * 40,
 ) -> dict[str, Any]:
     """Build a GitHub recursive git/trees response dict."""
     entries: list[dict[str, Any]] = []
+    seen_trees: set[str] = set()
     if include_root and root:
         parts = root.strip("/").split("/")
         built = ""
         for part in parts:
             built = f"{built}/{part}" if built else part
-            entries.append({"path": built, "type": "tree", "sha": "b" * 40})
+            if built not in seen_trees:
+                seen_trees.add(built)
+                entries.append({"path": built, "type": "tree", "sha": "b" * 40})
     for rel_skill_path in slug_paths or []:
+        if include_parents and isinstance(rel_skill_path, str):
+            parts = rel_skill_path.split("/")
+            for depth in range(1, len(parts)):
+                parent = "/".join(parts[:depth])
+                if parent and parent not in seen_trees:
+                    seen_trees.add(parent)
+                    entries.append({"path": parent, "type": "tree", "sha": "b" * 40})
         entries.append({"path": rel_skill_path, "type": "blob", "sha": "c" * 40})
     if extra_entries:
         entries.extend(extra_entries)
@@ -420,10 +431,14 @@ def test_same_repo_same_release_same_slug_two_roots_isolated(fake_transport: Fak
             "truncated": False,
             "tree": [
                 {"path": "skills-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a", "type": "tree", "sha": "1" * 40},
                 {"path": "skills-a/base-a/SKILL.md", "type": "blob", "sha": "2" * 40},
+                {"path": "skills-a/shared", "type": "tree", "sha": "1" * 40},
                 {"path": "skills-a/shared/SKILL.md", "type": "blob", "sha": "3" * 40},
                 {"path": "skills-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b", "type": "tree", "sha": "4" * 40},
                 {"path": "skills-b/base-b/SKILL.md", "type": "blob", "sha": "5" * 40},
+                {"path": "skills-b/shared", "type": "tree", "sha": "4" * 40},
                 {"path": "skills-b/shared/SKILL.md", "type": "blob", "sha": "6" * 40},
             ],
         },
@@ -452,9 +467,12 @@ def test_same_repo_same_release_same_slug_two_roots_isolated(fake_transport: Fak
             "truncated": False,
             "tree": [
                 {"path": "skills-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a", "type": "tree", "sha": "1" * 40},
                 {"path": "skills-a/base-a/SKILL.md", "type": "blob", "sha": "2" * 40},
                 {"path": "skills-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b", "type": "tree", "sha": "4" * 40},
                 {"path": "skills-b/base-b/SKILL.md", "type": "blob", "sha": "5" * 40},
+                {"path": "skills-b/shared", "type": "tree", "sha": "4" * 40},
                 {"path": "skills-b/shared/SKILL.md", "type": "blob", "sha": "6" * 40},
             ],
         },
@@ -483,6 +501,7 @@ def test_same_repo_same_release_same_slug_two_roots_isolated(fake_transport: Fak
             "truncated": False,
             "tree": [
                 {"path": "skills-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a", "type": "tree", "sha": "1" * 40},
                 {"path": "skills-a/base-a/SKILL.md", "type": "blob", "sha": "2" * 40},
             ],
         },
@@ -1074,3 +1093,444 @@ def test_p1_shared_helpers_preserve_exact_legacy_behavior(
     assert p1_finding["componentAdds"] == ["extra"]
     assert p1_finding["componentRemoves"] == []
     assert "upstreamComponentRoot" not in p1_finding
+
+
+# ---------------------------------------------------------------------------
+# 7. Terra closure: canonical topology, exact raw-observation binding,
+#    and pinned-parent malformed non-string blob path fail-closed semantics
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "case_name,tree_payload,expected_reason",
+    [
+        (
+            "dotdot-under-root",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "skills/../ghost/SKILL.md", "type": "blob", "sha": "e" * 40}
+                ],
+            ),
+            "malformed-tree-path",
+        ),
+        (
+            "dot-alias-root",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "./skills/ghost/SKILL.md", "type": "blob", "sha": "e" * 40}
+                ],
+            ),
+            "malformed-tree-path",
+        ),
+        (
+            "leading-slash-alias",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "/skills/ghost/SKILL.md", "type": "blob", "sha": "e" * 40}
+                ],
+            ),
+            "malformed-tree-path",
+        ),
+        (
+            "backslash-alias",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "skills\\ghost\\SKILL.md", "type": "blob", "sha": "e" * 40}
+                ],
+            ),
+            "malformed-tree-path",
+        ),
+        (
+            "control-char-alias",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "skills\x00/ghost/SKILL.md", "type": "blob", "sha": "e" * 40}
+                ],
+            ),
+            "malformed-tree-path",
+        ),
+        (
+            "nested-blob-parent",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                extra_entries=[
+                    {"path": "skills/group", "type": "blob", "sha": "d" * 40},
+                    {"path": "skills/group/sub", "type": "tree", "sha": "e" * 40},
+                    {"path": "skills/group/sub/README.md", "type": "blob", "sha": "f" * 40},
+                ],
+            ),
+            "non-tree-parent",
+        ),
+        (
+            "missing-intermediate-tree",
+            _tree_payload(
+                slug_paths=["skills/base/SKILL.md"],
+                include_parents=False,
+            ),
+            "missing-parent-tree",
+        ),
+    ],
+)
+def test_malformed_tree_topology_and_aliases_refuse_proof_and_keep_unknown(
+    fake_transport: FakeUpstreamTransport,
+    case_name: str,
+    tree_payload: dict[str, Any],
+    expected_reason: str,
+):
+    gh = FakeGh()
+    seeded_state, _ = _seed_candidate_state(fake_transport, gh)
+
+    auth2 = _make_suite_authority(version="v1.1.0", components=["alice/base"])
+    fake_transport.set_release("acme", "widgets", "v1.2.0")
+    fake_transport.set_tree("acme", "widgets", "v1.2.0", tree_payload)
+    c2, _, code2, _, res2 = _run_offline_cycle(
+        [auth2["alice/widgets"]],
+        auth2,
+        poll_id=f"poll-topo-{case_name}",
+        observed_at="2026-11-18T12:00:00Z",
+        gh=gh,
+        state=seeded_state,
+    )
+    assert code2 == 0
+    assert c2.results[0].complete_inventory is None
+    assert c2.results[0].proof_reason == expected_reason
+    bucket = res2.state.get_bucket("acme/widgets", "alice/widgets")
+    assert bucket is not None
+    assert bucket.rows["acme/widgets:alpha"].presence == PRESENCE_UNKNOWN
+    assert bucket.rows["acme/widgets:alpha"].vanished_at is None
+    assert gh.write_count() == 0
+
+
+def test_tree_topology_direct_dotdot_missing_ancestor_and_order_independence(
+    fake_transport: FakeUpstreamTransport,
+):
+    # Direct root + skills/../alpha/SKILL.md must never claim complete proof.
+    fake_transport.set_tree(
+        "acme",
+        "widgets",
+        "v1.5.0",
+        {
+            "sha": "a" * 40,
+            "truncated": False,
+            "tree": [
+                {"path": "skills", "type": "tree", "sha": "b" * 40},
+                {"path": "skills/../alpha/SKILL.md", "type": "blob", "sha": "c" * 40},
+            ],
+        },
+    )
+    enum_dotdot = liveness.enumerate_component_tree(
+        "acme", "widgets", "v1.5.0", "skills", ["alice/base"]
+    )
+    assert enum_dotdot.complete is False
+    assert enum_dotdot.present_slugs is None
+    assert enum_dotdot.proof_reason == "malformed-tree-path"
+
+    # Nested component_root requires all ancestor trees ("packages" and "packages/skills").
+    fake_transport.set_tree(
+        "acme",
+        "widgets",
+        "v1.6.0",
+        {
+            "sha": "a" * 40,
+            "truncated": False,
+            "tree": [
+                {"path": "packages/skills", "type": "tree", "sha": "b" * 40},
+                {"path": "packages/skills/base", "type": "tree", "sha": "b" * 40},
+                {"path": "packages/skills/base/SKILL.md", "type": "blob", "sha": "c" * 40},
+            ],
+        },
+    )
+    enum_missing_anc = liveness.enumerate_component_tree(
+        "acme", "widgets", "v1.6.0", "packages/skills", ["alice/base"]
+    )
+    assert enum_missing_anc.complete is False
+    assert enum_missing_anc.present_slugs is None
+    assert enum_missing_anc.proof_reason == "missing-ancestor-tree"
+
+    # Order-independent valid tree (blob listed before its parent tree) plus
+    # unrelated legitimate filenames outside component_root stays positive.
+    fake_transport.set_tree(
+        "acme",
+        "widgets",
+        "v1.7.0",
+        {
+            "sha": "a" * 40,
+            "truncated": False,
+            "tree": [
+                {"path": "README.md", "type": "blob", "sha": "1" * 40},
+                {"path": ".github/workflows/ci.yml", "type": "blob", "sha": "2" * 40},
+                {"path": "docs/my notes (1).md", "type": "blob", "sha": "3" * 40},
+                {"path": "misc/raw\\file.txt", "type": "blob", "sha": "4" * 40},
+                {"path": "skills/base/SKILL.md", "type": "blob", "sha": "c" * 40},
+                {"path": "skills/base", "type": "tree", "sha": "b" * 40},
+                {"path": "skills", "type": "tree", "sha": "b" * 40},
+            ],
+        },
+    )
+    enum_valid = liveness.enumerate_component_tree(
+        "acme", "widgets", "v1.7.0", "skills", ["alice/base"]
+    )
+    assert enum_valid.complete is True
+    assert enum_valid.root_verified is True
+    assert enum_valid.proof_reason is None
+    assert enum_valid.present_slugs == frozenset({"base"})
+
+
+def test_altered_report_observation_cannot_consume_current_inventory_and_preserves_siblings(
+    fake_transport: FakeUpstreamTransport,
+):
+    gh = FakeGh()
+
+    def _two_suite_auth(version: str) -> dict[str, dict[str, Any]]:
+        a = _make_suite_authority(
+            suite_id="alice/suite-a",
+            owner="acme",
+            repo="monorepo",
+            version=version,
+            components=["alice/base-a"],
+            component_root="skills-a",
+        )
+        b = _make_suite_authority(
+            suite_id="bob/suite-b",
+            owner="acme",
+            repo="monorepo",
+            version=version,
+            components=["bob/base-b"],
+            component_root="skills-b",
+        )
+        return {**a, **b}
+
+    # Poll 1: seed candidate "shared" in both siblings.
+    auth1 = _two_suite_auth("v1.0.0")
+    fake_transport.set_release("acme", "monorepo", "v2.0.0", published_at="2026-11-17T10:00:00Z")
+    fake_transport.set_tree(
+        "acme",
+        "monorepo",
+        "v2.0.0",
+        {
+            "sha": "d" * 40,
+            "truncated": False,
+            "tree": [
+                {"path": "skills-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a/SKILL.md", "type": "blob", "sha": "2" * 40},
+                {"path": "skills-a/shared", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/shared/SKILL.md", "type": "blob", "sha": "3" * 40},
+                {"path": "skills-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b/SKILL.md", "type": "blob", "sha": "5" * 40},
+                {"path": "skills-b/shared", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/shared/SKILL.md", "type": "blob", "sha": "6" * 40},
+            ],
+        },
+    )
+    _, _, code1, _, res1 = _run_offline_cycle(
+        [auth1["alice/suite-a"], auth1["bob/suite-b"]],
+        auth1,
+        poll_id="bind-1",
+        observed_at="2026-11-17T12:00:00Z",
+        gh=gh,
+        state=empty_state(),
+    )
+    assert code1 == 0
+
+    # Poll 2: both suites remove "shared" upstream.
+    auth2 = _two_suite_auth("v2.0.0")
+    fake_transport.set_release("acme", "monorepo", "v2.1.0", published_at="2026-11-18T10:00:00Z")
+    fake_transport.set_tree(
+        "acme",
+        "monorepo",
+        "v2.1.0",
+        {
+            "sha": "e" * 40,
+            "truncated": False,
+            "tree": [
+                {"path": "skills-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a", "type": "tree", "sha": "1" * 40},
+                {"path": "skills-a/base-a/SKILL.md", "type": "blob", "sha": "2" * 40},
+                {"path": "skills-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b", "type": "tree", "sha": "4" * 40},
+                {"path": "skills-b/base-b/SKILL.md", "type": "blob", "sha": "5" * 40},
+            ],
+        },
+    )
+    collected = weekly_collector.collect_suites(
+        [auth2["alice/suite-a"], auth2["bob/suite-b"]], auth2, poll_id="bind-2"
+    )
+    assert len(collected.complete_inventories) == 2
+
+    entries = [
+        {"id": sid, "github": (meta.get("links") or {}).get("github", "")}
+        for sid, meta in auth2.items()
+    ]
+    report, code2 = repository_batch.run_repository_batch(
+        list(collected.observed_findings),
+        gh,
+        apply=False,
+        authority=auth2,
+        index_loader=lambda: index_from_entries(entries),
+        policy=_fake_policy(),
+        plan_only=True,
+    )
+    assert code2 == 0
+
+    # 1. Separately generated report with same repo/source/version/root/adds/removes
+    #    but different raw releasedAt cannot consume current inventory, while
+    #    unaffected sibling bob/suite-b retains its inventory.
+    altered_release_findings = copy.deepcopy(list(collected.observed_findings))
+    for obs in altered_release_findings:
+        if obs["skillId"] == "alice/suite-a":
+            obs["releasedAt"] = "2026-11-18T09:59:59Z"
+    altered_release, code_rel = repository_batch.run_repository_batch(
+        altered_release_findings,
+        gh,
+        apply=False,
+        authority=auth2,
+        index_loader=lambda: index_from_entries(entries),
+        policy=_fake_policy(),
+        plan_only=True,
+    )
+    assert code_rel == 0
+    poll_rel = weekly_collector.build_poll_input(
+        "bind-2", "2026-11-18T12:00:00Z", altered_release, collected, auth2
+    )
+    assert [inv.named_id for inv in poll_rel.complete_inventories] == ["bob/suite-b"]
+    reduced_rel = reduce_poll(res1.state, poll_rel, auth2)
+    assert reduced_rel.status == "applied"
+    assert reduced_rel.state.get_bucket("acme/monorepo", "alice/suite-a").rows["acme/monorepo:shared"].presence == PRESENCE_UNKNOWN
+    assert reduced_rel.state.get_bucket("acme/monorepo", "alice/suite-a").rows["acme/monorepo:shared"].vanished_at is None
+    assert reduced_rel.state.get_bucket("acme/monorepo", "bob/suite-b").rows["acme/monorepo:shared"].presence == PRESENCE_VANISHED
+
+    # 2. Separately generated report with same scope/diff but different raw linkLiveness
+    #    cannot consume current inventory.
+    altered_liveness_findings = copy.deepcopy(list(collected.observed_findings))
+    for obs in altered_liveness_findings:
+        if obs["skillId"] == "alice/suite-a":
+            obs["linkLiveness"] = [
+                {
+                    "skillId": "alice/base-a",
+                    "url": "https://github.com/acme/monorepo/blob/main/skills-a/base-a/SKILL.md",
+                    "rawUrl": "https://raw.githubusercontent.com/acme/monorepo/main/skills-a/base-a/SKILL.md",
+                    "status": 404,
+                }
+            ]
+    altered_liveness, code_live = repository_batch.run_repository_batch(
+        altered_liveness_findings,
+        gh,
+        apply=False,
+        authority=auth2,
+        index_loader=lambda: index_from_entries(entries),
+        policy=_fake_policy(),
+        plan_only=True,
+    )
+    assert code_live == 0
+    poll_live = weekly_collector.build_poll_input(
+        "bind-2", "2026-11-18T12:00:00Z", altered_liveness, collected, auth2
+    )
+    assert [inv.named_id for inv in poll_live.complete_inventories] == ["bob/suite-b"]
+    reduced_live = reduce_poll(res1.state, poll_live, auth2)
+    assert reduced_live.status == "applied"
+    assert reduced_live.state.get_bucket("acme/monorepo", "alice/suite-a").rows["acme/monorepo:shared"].presence == PRESENCE_UNKNOWN
+    assert reduced_live.state.get_bucket("acme/monorepo", "alice/suite-a").rows["acme/monorepo:shared"].vanished_at is None
+    assert reduced_live.state.get_bucket("acme/monorepo", "bob/suite-b").rows["acme/monorepo:shared"].presence == PRESENCE_VANISHED
+
+    # 3. Non-coercing typed value comparison rejects bool/int coercion (True != 1).
+    assert weekly_collector._observations_match_exactly(
+        {"skillId": "alice/suite-a", "linkLiveness": [{"status": 1}]},
+        {"skillId": "alice/suite-a", "linkLiveness": [{"status": True}]},
+    ) is False
+
+    # 4. Duplicate report observation for one scope rejects that scope only.
+    dup_report = copy.deepcopy(report)
+    dup_entry = next(obs for obs in dup_report["observedFindings"] if obs["skillId"] == "alice/suite-a")
+    dup_report["observedFindings"].append(copy.deepcopy(dup_entry))
+    poll_dup = weekly_collector.build_poll_input(
+        "bind-2", "2026-11-18T12:00:00Z", dup_report, collected, auth2
+    )
+    assert [inv.named_id for inv in poll_dup.complete_inventories] == ["bob/suite-b"]
+
+    # 5. Missing collected.observed_findings entry for one scope rejects that scope only.
+    missing_col = weekly_collector.CollectedPoll(
+        poll_id=collected.poll_id,
+        results=collected.results,
+        observed_findings=tuple(
+            obs for obs in collected.observed_findings if obs["skillId"] != "alice/suite-a"
+        ),
+        complete_inventories=collected.complete_inventories,
+        unavailable_named_ids=collected.unavailable_named_ids,
+        unknown_evidence=collected.unknown_evidence,
+        up_to_date_named_ids=collected.up_to_date_named_ids,
+    )
+    poll_missing = weekly_collector.build_poll_input(
+        "bind-2", "2026-11-18T12:00:00Z", report, missing_col, auth2
+    )
+    assert [inv.named_id for inv in poll_missing.complete_inventories] == ["bob/suite-b"]
+
+
+@pytest.mark.parametrize("bad_blob_path", [123, None])
+def test_pinned_parent_malformed_non_string_blob_path_fails_closed(
+    fake_transport: FakeUpstreamTransport,
+    monkeypatch: pytest.MonkeyPatch,
+    bad_blob_path: Any,
+):
+    """Independent pinned-parent fixture: valid root + non-string blob path.
+
+    * Legacy wrapper ``fetch_component_diff`` preserves pinned-parent ``AttributeError``
+      instead of silently returning ``([], ["base"])``.
+    * New seam ``enumerate_component_tree`` fails closed with ``UnknownEvidenceError``
+      and never synthesizes a partial raw diff.
+    * ``weekly_collector.collect_suites`` records ``status="unknown"`` / ``unknown_evidence``
+      with zero observed findings and ``build_poll_input(..., complete=False)``.
+    * Ordinary ``watcher.main`` catches the legacy error as unknown evidence (exit 3)
+      with zero writes and no actionable plans.
+    """
+    malformed_tree = {
+        "sha": "a" * 40,
+        "truncated": False,
+        "tree": [
+            {"path": "skills", "type": "tree", "sha": "b" * 40},
+            {"path": bad_blob_path, "type": "blob", "sha": "c" * 40},
+        ],
+    }
+    fake_transport.set_tree("acme", "widgets", "v1.2.0", malformed_tree)
+
+    with pytest.raises(AttributeError):
+        liveness.fetch_component_diff("acme", "widgets", "v1.2.0", "skills", ["alice/base"])
+
+    with pytest.raises(UnknownEvidenceError):
+        liveness.enumerate_component_tree("acme", "widgets", "v1.2.0", "skills", ["alice/base"])
+
+    auth = _make_suite_authority(version="v1.1.0", components=["alice/base"])
+    fake_transport.set_release("acme", "widgets", "v1.2.0")
+    collected = weekly_collector.collect_suites(
+        [auth["alice/widgets"]], auth, poll_id="poll-bad-blob"
+    )
+    assert collected.observed_findings == ()
+    assert collected.complete_inventories == ()
+    assert len(collected.unknown_evidence) == 1
+    assert collected.results[0].status == "unknown"
+
+    empty_report = {
+        "observedFindings": [],
+        "repositories": [],
+        "unknownEvidence": [],
+    }
+    poll_in = weekly_collector.build_poll_input(
+        "poll-bad-blob", "2026-11-18T12:00:00Z", empty_report, collected, auth
+    )
+    assert poll_in.complete is False
+    assert poll_in.complete_inventories == ()
+
+    # Ordinary watcher.main fails closed (exit 3, zero writes) on the malformed tree.
+    gh = FakeGh()
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: auth)
+    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: [(None, auth["alice/widgets"])])
+    monkeypatch.setattr(watcher, "LiveGh", lambda *args, **kwargs: gh)
+    rc = watcher.main(["--dry-run", "--child-mode", "batch", "--skill", "alice/widgets"])
+    assert rc == 3
+    assert gh.write_count() == 0
