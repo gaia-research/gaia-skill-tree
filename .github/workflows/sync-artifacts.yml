@@ -255,12 +255,19 @@ jobs:
             exit 1
           fi
           # Class S artifacts are committed site output. Never package a tar from
-          # regenerated but uncommitted docs that differ from the merged commit.
-          if ! git diff --quiet HEAD -- docs/; then
-            echo "::error::gaia dev docs changed tracked docs/ output after merge; refusing to package Class S drift."
-            git diff --stat HEAD -- docs/
+          # docs that differ from the merged commit. A raw `git diff` cannot be
+          # the test: `gaia dev docs` rewrites generatedAt stamps and the
+          # non-deterministic 3D layout on every run, which failed the v9.4.0 and
+          # v9.5.0 finalizations. Restore the merged docs and use the same
+          # normalized hard/warn-only comparison as the PR gate instead.
+          git checkout HEAD -- docs/
+          git clean -fdq -- docs/
+          if ! python scripts/build_docs.py --check; then
+            echo "::error::committed Class S output is stale against the merged registry; refusing to package drift."
             exit 1
           fi
+          git checkout HEAD -- docs/
+          git clean -fdq -- docs/
           version_at() {
             git show "$1:pyproject.toml" | sed -n 's/^version = "\(.*\)"/\1/p' | head -n 1
           }

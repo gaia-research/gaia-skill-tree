@@ -1,0 +1,25 @@
+{
+  "id": "stale-pr-reconciliation",
+  "name": "Stale PR Reconciliation",
+  "type": "fusion",
+  "description": "Reassesses an aging pull request against current base-branch architecture and competing changes to recommend rebase-and-verify, rework, or closure.",
+  "prerequisites": [
+    "git-diff-risk-analysis",
+    "git-integration"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:40Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill stale-pr-reconciliation"
+    }
+  ]
+}

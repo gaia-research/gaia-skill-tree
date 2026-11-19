@@ -1,6 +1,142 @@
 {
   "skills": [
     {
+      "id": "heygen-com/hyperframes-keyframes",
+      "name": "Hyperframes Keyframes",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "name": "Motion Graphics",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "name": "Music To Video",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/music-to-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "heygen-com/pr-to-video",
+      "name": "Pr To Video",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "heygen-com/product-launch-video",
+      "name": "Product Launch Video",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "heygen-com/talking-head-recut",
+      "name": "Talking Head Recut",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/tdd.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "addy-osmani/api-and-interface-design",
       "name": "api-and-interface-design",
       "level": "2★",
@@ -713,147 +849,11 @@
         "self": "/api/v1/skills/garrytan/cold-start.json"
       },
       "genericSkillRef": "knowledge-harvest"
-    },
-    {
-      "id": "garrytan/company-brainify",
-      "name": "company-brainify",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/company-brainify.json"
-      },
-      "genericSkillRef": "company-knowledge-management"
-    },
-    {
-      "id": "garrytan/concept-synthesis",
-      "name": "Concept Synthesis",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
-      },
-      "genericSkillRef": "concept-synthesis"
-    },
-    {
-      "id": "garrytan/context-audit",
-      "name": "context-audit",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-audit.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
-      "id": "garrytan/conversation-archive",
-      "name": "conversation-archive",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/conversation-archive.json"
-      },
-      "genericSkillRef": "personal-knowledge-management"
-    },
-    {
-      "id": "garrytan/correction-pipeline",
-      "name": "correction-pipeline",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/correction-pipeline.json"
-      },
-      "genericSkillRef": "error-interpretation"
-    },
-    {
-      "id": "garrytan/cron-scheduler",
-      "name": "cron-scheduler",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cron-scheduler.json"
-      },
-      "genericSkillRef": "workflow-automation"
-    },
-    {
-      "id": "garrytan/cross-modal-review",
-      "name": "cross-modal-review",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cross-modal-review.json"
-      },
-      "genericSkillRef": "adversarial-review"
-    },
-    {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "2★",
-      "trustMagnitude": 49.9,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "genericSkillRef": "security-audit"
     }
   ],
   "page": 3,
   "totalPages": 7,
-  "totalSkills": 337,
+  "totalSkills": 347,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

@@ -102,4 +102,26 @@ assert.strictEqual(pyResult.grade, 'C');
 assert.strictEqual(jsTotal, pyResult.tm);
 assert.strictEqual(jsGrade, pyResult.grade);
 
+// Social-signal eligibility parity (#2473): 10,000 views at creatorMultiplier=1.0
+// (sameAsAuthor=1.0, publishCooldownDays=0) scores 32.0 in both JS and Python.
+const socialRow = { type: 'social-signal', views: 10000, creatorMultiplier: 1.0, engagementRatio: 1.0 };
+const jsSocial = TM.applyContributionCap('social-signal', TM.applyCap('social-signal', TM.TYPES['social-signal'].describe(socialRow).value) * TM.TYPES['social-signal'].weight);
+const pySocial = JSON.parse(
+  execFileSync(
+    'python3',
+    [
+      '-c',
+      `
+import json
+from gaia_cli.trustMagnitude import computeTrustMagnitude
+skill = {"id": "acme/demo", "evidence": [{"type": "social-signal", "views": 10000, "creatorMultiplier": 1.0}]}
+print(json.dumps({"tm": computeTrustMagnitude(skill)}))
+`,
+    ],
+    { env: { ...process.env, PYTHONPATH: 'src', PYTHONDONTWRITEBYTECODE: '1' } },
+  ).toString(),
+);
+assert.strictEqual(jsSocial, 32);
+assert.strictEqual(pySocial.tm, 32);
+
 console.log('frontend TM parity checks passed');

@@ -1,0 +1,26 @@
+{
+  "id": "autonomous-pr-delivery",
+  "name": "Autonomous PR Delivery",
+  "type": "fusion",
+  "description": "Drives post-implementation delivery end-to-end: proves behavior in a real runtime, runs iterative code review, authors and monitors the pull request through CI/review checks, and merges autonomously when clean.",
+  "prerequisites": [
+    "finishing-a-development-branch",
+    "receiving-code-review",
+    "verification-before-completion"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:38Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill autonomous-pr-delivery"
+    }
+  ]
+}

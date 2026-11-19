@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14",
+  "generatedAt": "2026-11-17",
   "originStandings": {
     "adaptive-pattern-learning": [
       {
@@ -195,6 +195,16 @@
         "redacted": false,
         "id": "hikari9/auto-office",
         "contributor": "hikari9"
+      }
+    ],
+    "autonomous-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-send",
+        "contributor": "t3dotgg"
       }
     ],
     "autonomous-web-research": [
@@ -844,27 +854,11 @@
     "finishing-a-development-branch": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "3★",
         "status": "named",
         "redacted": false,
-        "id": "addy-osmani/shipping-and-launch",
-        "contributor": "addy-osmani"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "garrytan/ship",
-        "contributor": "garrytan"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "gsd-build/gsd-ship",
-        "contributor": "gsd-build"
+        "id": "t3dotgg/takeover",
+        "contributor": "t3dotgg"
       }
     ],
     "firecrawl": [
@@ -1497,6 +1491,16 @@
         "contributor": "ruvnet"
       }
     ],
+    "merge-ready-pr-delivery": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/full-stop",
+        "contributor": "t3dotgg"
+      }
+    ],
     "molecular-databases": [
       {
         "origin": true,
@@ -1530,11 +1534,11 @@
     "multi-agent-debate": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/codex",
-        "contributor": "garrytan"
+        "id": "t3dotgg/council",
+        "contributor": "t3dotgg"
       }
     ],
     "multi-agent-orchestration-v": [
@@ -1727,6 +1731,26 @@
         "contributor": "garrytan"
       }
     ],
+    "pr-ci-monitoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/babysit-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
+    "pr-lifecycle-orchestration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/tstack",
+        "contributor": "t3dotgg"
+      }
+    ],
     "prd-generation": [
       {
         "origin": true,
@@ -1843,6 +1867,16 @@
         "contributor": "mattpocock"
       }
     ],
+    "pull-request-authoring": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/file-pr",
+        "contributor": "t3dotgg"
+      }
+    ],
     "quantum-circuit-programming": [
       {
         "origin": true,
@@ -1902,11 +1936,11 @@
     "receiving-code-review": [
       {
         "origin": true,
-        "level": "2★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
-        "id": "obra/receiving-code-review",
-        "contributor": "obra"
+        "id": "t3dotgg/sol-loop",
+        "contributor": "t3dotgg"
       }
     ],
     "refactor-code": [
@@ -2265,6 +2299,16 @@
         "redacted": false,
         "id": "addy-osmani/api-and-interface-design",
         "contributor": "addy-osmani"
+      }
+    ],
+    "stale-pr-reconciliation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "t3dotgg/modernize",
+        "contributor": "t3dotgg"
       }
     ],
     "static-artwork-design": [
@@ -15478,10 +15522,165 @@
     ],
     "finishing-a-development-branch": [
       {
+        "id": "t3dotgg/takeover",
+        "name": "takeover",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "finishing-a-development-branch",
+        "status": "named",
+        "level": "3★",
+        "description": "Takes over an existing pull request branch, evaluates open review feedback and CI state, resolves remaining issues, and prepares the branch for merge.",
+        "title": "Takeover",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo substantive 1m24s walkthrough of takeover (22:45-24:09) in 'These 3 skills changed my life'.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo substantive 1m24s walkthrough of takeover (22:45-24:09) in 'These 3 skills changed my life'.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=SY_woOjzlW4",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'takeover' by exact skill name (00:31:07, 00:33:29).",
+            "views": 50968,
+            "likes": 441,
+            "comments": 10,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'takeover' by exact skill name (00:31:07, 00:33:29).",
+            "sourceStartedAt": "2026-10-14",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:39Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/takeover"
+          },
+          {
+            "timestamp": "2026-11-17T14:31:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:31:53Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:32:25Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:32:49Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:14:38Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:47Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 92.9, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:35:05Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/takeover.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:53:30Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/takeover.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 92.9,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "c2cc019d19fc04cd1d4e82c06eaa639314c0bdaad2214a9d2e03a1efd7b4e233",
+        "type": "fusion",
+        "installBody": "Install `takeover` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/takeover ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Calls `modernize`, `file-pr`, `babysit-pr`, and `leaving-pr-comments`; install the full `tstack` suite or include those dependencies. Requires authenticated `gh` and `python3` (for `babysit-pr`'s `pr-wait`).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "addy-osmani/shipping-and-launch",
         "name": "Shipping and Launch",
         "contributor": "addy-osmani",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "2★",
@@ -15644,7 +15843,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -15663,7 +15862,7 @@
         "id": "garrytan/ship",
         "name": "Ship",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "2★",
@@ -15822,7 +16021,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -15841,7 +16040,7 @@
         "id": "gsd-build/gsd-ship",
         "name": "GSD Ship",
         "contributor": "gsd-build",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "2★",
@@ -16016,7 +16215,7 @@
         },
         "type": "fusion",
         "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-ship\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -19547,6 +19746,113 @@
         },
         "type": "basic",
         "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "t3dotgg/leaving-pr-comments",
+        "name": "leaving-pr-comments",
+        "contributor": "t3dotgg",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "2★",
+        "description": "Formats and posts concise, structured, line-anchored pull request review comments and summaries.",
+        "title": "Leaving PR Comments",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:05:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/leaving-pr-comments"
+          },
+          {
+            "timestamp": "2026-11-17T14:34:36Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:35:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T18:21:06Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 49.9, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:35:35Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/leaving-pr-comments.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:54:00Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/leaving-pr-comments.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 49.9,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "005873767f39852a2d4065a552f7189811585c8184b1cc99b6b5708aad830d20",
+        "type": "basic",
+        "installBody": "Install `leaving-pr-comments` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/leaving-pr-comments ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Invoked automatically by `file-pr`, `babysit-pr`, and `modernize` when posting PR comments; requires authenticated `gh`.\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -30167,10 +30473,184 @@
     ],
     "multi-agent-debate": [
       {
+        "id": "t3dotgg/council",
+        "name": "council",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "multi-agent-debate",
+        "status": "named",
+        "level": "4★",
+        "description": "Multi-agent debate and verification workflow that convenes parallel model perspectives to critique, refine, and converge on high-confidence solutions.",
+        "title": "Council",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=xq0eB8vxeqk",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "social-signal",
+            "notes": "First-party Theo full UI hill-climbing demo of council (04:26-31:00) in 'Agents Sucked At UI (Until Today)'.",
+            "views": 438112,
+            "likes": 6034,
+            "comments": 516,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo full UI hill-climbing demo of council (04:26-31:00) in 'Agents Sucked At UI (Until Today)'.",
+            "sourceStartedAt": "2026-11-03",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=TWoS5Nmyoc8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "social-signal",
+            "notes": "First-party Theo 'council 9.5' verification clause demo (05:21-15:00+) in 'Stop Searching For the Perfect Model'.",
+            "views": 129817,
+            "likes": 1961,
+            "comments": 239,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo 'council 9.5' verification clause demo (05:21-15:00+) in 'Stop Searching For the Perfect Model'.",
+            "sourceStartedAt": "2026-11-16",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack analytical critique of council (04:33-05:06).",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack analytical critique of council (04:33-05:06).",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:05:09Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/council"
+          },
+          {
+            "timestamp": "2026-11-17T14:35:37Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T16:39:21Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=xq0eB8vxeqk (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T16:40:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=TWoS5Nmyoc8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T16:42:10Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:14:23Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-11-17T18:21:24Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 129.9, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:35:50Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/council.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:54:17Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/council.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 129.9,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "79075c635f5e91942d289a95a757dff13ed0c8ea35616dd8eb0c18259cd724e8",
+        "type": "fusion",
+        "installBody": "Install `council` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/council ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Requires subagent execution across multiple model providers (`delegate_task` in T3 Code or equivalent harness).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "garrytan/codex",
         "name": "Codex",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "multi-agent-debate",
         "status": "named",
         "level": "2★",
@@ -30262,7 +30742,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -50981,10 +51461,190 @@
     ],
     "receiving-code-review": [
       {
+        "id": "t3dotgg/sol-loop",
+        "name": "sol-loop",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "receiving-code-review",
+        "status": "named",
+        "level": "4★",
+        "description": "Iterative code-review loop that addresses reviewer and review-bot feedback with technical verification until all threads and checks converge.",
+        "title": "Sol Loop",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo deep dive on sol-loop review loop (03:48) in 'These 3 skills changed my life'.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo deep dive on sol-loop review loop (03:48) in 'These 3 skills changed my life'.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=SY_woOjzlW4",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'sol loop' by exact skill name (01:03:52).",
+            "views": 50968,
+            "likes": 441,
+            "comments": 10,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'sol loop' by exact skill name (01:03:52).",
+            "sourceStartedAt": "2026-10-14",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack breakdown of sol-loop (02:54, 04:06, 06:14).",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack breakdown of sol-loop (02:54, 04:06, 06:14).",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:29Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/sol-loop"
+          },
+          {
+            "timestamp": "2026-11-17T14:26:18Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:27:20Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:28:23Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:29:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:30:36Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:13:59Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 124.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:34:50Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/sol-loop.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:53:15Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/sol-loop.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 124.01,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "90f1b5709eda9d9d605843385d25e18293a7ec5217d0d3ad77a08d0b405abd61",
+        "type": "fusion",
+        "installBody": "Install `sol-loop` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/sol-loop ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Requires subagent execution on another provider's model (e.g., `delegate_task` in T3 Code or equivalent harness).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "obra/receiving-code-review",
         "name": "Receiving Code Review",
         "contributor": "obra",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "receiving-code-review",
         "status": "named",
         "level": "2★",
@@ -51084,7 +51744,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -56570,6 +57230,962 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "pr-ci-monitoring": [
+      {
+        "id": "t3dotgg/babysit-pr",
+        "name": "babysit-pr",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "pr-ci-monitoring",
+        "status": "named",
+        "level": "3★",
+        "description": "Monitors an open pull request via stateful event watching across CI checks, review threads, and base-branch drift, distinguishing real defects from flakes.",
+        "title": "Babysit PR",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack breakdown of babysit-pr CI monitoring (03:22-04:33, 07:09).",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack breakdown of babysit-pr CI monitoring (03:22-04:33, 07:09).",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:55Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/babysit-pr"
+          },
+          {
+            "timestamp": "2026-11-17T14:33:20Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:33:47Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:34:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:14:59Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 81.01, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:35:20Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/babysit-pr.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:53:45Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/babysit-pr.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 81.01,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "0a12f16eb280f35e20ba5b990b9f8ea116456bbc60cf7870b4fd0355a98c6286",
+        "type": "fusion",
+        "installBody": "Install `babysit-pr` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/babysit-pr ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Uses `leaving-pr-comments` when posting PR replies; requires authenticated `gh` and `python3` (for `pr-wait`).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 244.72,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 15,
+          "maxDepth": 4,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "pull-request-authoring": [
+      {
+        "id": "t3dotgg/file-pr",
+        "name": "file-pr",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "pull-request-authoring",
+        "status": "named",
+        "level": "2★",
+        "description": "Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request.",
+        "title": "File PR",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:05:17Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/file-pr"
+          },
+          {
+            "timestamp": "2026-11-17T16:44:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T16:44:52Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T18:21:41Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 49.9, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:36:06Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/file-pr.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:55:12Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/file-pr.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 49.9,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "a731c21f0bd2cede2e889ea94cdf69c16e4ec39cf086aab28558fe84232774d8",
+        "type": "basic",
+        "installBody": "Install `file-pr` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/file-pr ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Uses `leaving-pr-comments` and authenticated `gh`.\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "autonomous-pr-delivery": [
+      {
+        "id": "t3dotgg/full-send",
+        "name": "full-send",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "autonomous-pr-delivery",
+        "status": "named",
+        "level": "4★",
+        "description": "Autonomous end-to-end PR delivery skill: verifies behavior in a real runtime, runs iterative review loops, opens and monitors the PR through CI/review checks, and merges when green.",
+        "title": "Full Send",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo walkthrough of full-send autonomous PR delivery (12:19) in 'These 3 skills changed my life'.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo walkthrough of full-send autonomous PR delivery (12:19) in 'These 3 skills changed my life'.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=SY_woOjzlW4",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full send' by exact skill name (00:31:07, 00:51:38, 01:03:52).",
+            "views": 50968,
+            "likes": 441,
+            "comments": 10,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full send' by exact skill name (00:31:07, 00:51:38, 01:03:52).",
+            "sourceStartedAt": "2026-10-14",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack comparison of full-send vs full-stop (04:01, 05:56, 07:05).",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack comparison of full-send vs full-stop (04:01, 05:56, 07:05).",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:15Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/full-send"
+          },
+          {
+            "timestamp": "2026-11-17T14:12:19Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:13:18Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:14:12Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:15:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:16:06Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:17:55Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:18:50Z",
+            "action": "evidence_removed",
+            "contributor": "mbtiongson1",
+            "details": "Removed dead/invalid evidence: https://github.com/t3dotgg/tstack"
+          },
+          {
+            "timestamp": "2026-11-17T17:13:13Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:33Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 124.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:34:20Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/full-send.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:51:29Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/full-send.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 124.01,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "0645a00aa060e6515e4cdbe9f38b413651d32817652212e9978385a8e5770776",
+        "type": "fusion",
+        "installBody": "Install `full-send` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/full-send ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Calls `sol-loop`, `file-pr`, and `babysit-pr` (and transitively `leaving-pr-comments`); install the full `tstack` suite or include those dependencies. Requires authenticated `gh`, `python3` (for `babysit-pr`'s `pr-wait`), and cross-provider subagent support (for `sol-loop`).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 234.64,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 13,
+          "maxDepth": 4,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "merge-ready-pr-delivery": [
+      {
+        "id": "t3dotgg/full-stop",
+        "name": "full-stop",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "merge-ready-pr-delivery",
+        "status": "named",
+        "level": "4★",
+        "description": "Human-gated end-to-end PR delivery skill: runs verification, iterative review, PR authoring, and CI/review monitoring to green, disables auto-merge, and stops for human merge approval.",
+        "title": "Full Stop",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo walkthrough of full-stop merge-ready PR delivery (17:00) in 'These 3 skills changed my life'.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo walkthrough of full-stop merge-ready PR delivery (17:00) in 'These 3 skills changed my life'.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=SY_woOjzlW4",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full stop' by exact skill name (00:33:29, 00:51:38, 01:03:52).",
+            "views": 50968,
+            "likes": 441,
+            "comments": 10,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full stop' by exact skill name (00:33:29, 00:51:38, 01:03:52).",
+            "sourceStartedAt": "2026-10-14",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack live demo of full-stop (01:46-03:23).",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack live demo of full-stop (01:46-03:23).",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:21Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/full-stop"
+          },
+          {
+            "timestamp": "2026-11-17T14:21:22Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:22:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:23:18Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:24:14Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:25:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:13:36Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:38Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 124.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:34:35Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/full-stop.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:52:22Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/full-stop.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 124.01,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "12a305b01a102896afd3ce1425bcb42f58384f33779d7a8a1cae75239dc0c404",
+        "type": "fusion",
+        "installBody": "Install `full-stop` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/full-stop ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Wraps `full-send`, which calls `sol-loop`, `file-pr`, and `babysit-pr` (and transitively `leaving-pr-comments`); install the full `tstack` suite or include those dependencies. Requires authenticated `gh`, `python3` (for `babysit-pr`'s `pr-wait`), and cross-provider subagent support (for `sol-loop`).\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 234.64,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 13,
+          "maxDepth": 4,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "stale-pr-reconciliation": [
+      {
+        "id": "t3dotgg/modernize",
+        "name": "modernize",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "stale-pr-reconciliation",
+        "status": "named",
+        "level": "3★",
+        "description": "Reassesses an aging pull request against current base-branch architecture and competing changes to recommend rebase-and-verify, rework, or closure.",
+        "title": "Modernize",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "repo-own",
+            "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "github-stars-own",
+            "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-18",
+            "type": "social-signal",
+            "notes": "First-party Theo walkthrough of modernize stale-PR reconciliation (24:07-25:30) in 'These 3 skills changed my life'.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo walkthrough of modernize stale-PR reconciliation (24:07-25:30) in 'These 3 skills changed my life'.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:05:22Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/modernize"
+          },
+          {
+            "timestamp": "2026-11-17T16:46:17Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T16:48:15Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T16:50:42Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:15:21Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-11-17T18:21:45Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 83.83, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:36:21Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/modernize.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:55:36Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/modernize.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "trustMagnitude": 83.83,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "8ecc314a4c258feb9de3e1c4e17d219d30f966e919e7c7a860cc2bb7236e4e84",
+        "type": "fusion",
+        "installBody": "Install `modernize` (or the full `tstack` suite) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/modernize ~/.claude/skills/\n```\n\n### Dependencies & Requirements\n- Uses `leaving-pr-comments` and authenticated `gh`.\n\nUpstream skill file: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 244.72,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 15,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "pr-lifecycle-orchestration": [
+      {
+        "id": "t3dotgg/tstack",
+        "name": "tstack",
+        "contributor": "t3dotgg",
+        "origin": true,
+        "genericSkillRef": "pr-lifecycle-orchestration",
+        "status": "named",
+        "level": "4★",
+        "description": "Theo's 9-skill pull request lifecycle suite covering authoring, structured review comments, multi-agent debate, iterative reviewer loops, CI monitoring, stale-PR reconciliation, branch takeover, and autonomous or human-gated merge delivery.",
+        "title": "T-Stack (PR Lifecycle Suite)",
+        "links": {
+          "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/t3dotgg/tstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "repo-own",
+            "notes": "Verified t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (6 commits, 1 contributor t3dotgg, MIT).",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-10-24"
+          },
+          {
+            "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stargazer count 4,033 (2026-11-17) for 9-skill suite capstone README.md (no root SKILL.md exists).",
+            "stars": 4033,
+            "skillCountInRepo": 9,
+            "sourceStartedAt": "2026-10-24",
+            "grade": "A"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=xq0eB8vxeqk",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo video ('Agents Sucked At UI', 2026-11-03) showcasing tstack ('T-Stack is now a thing' at 06:46) and council workflow.",
+            "views": 438112,
+            "likes": 6034,
+            "comments": 516,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo video ('Agents Sucked At UI', 2026-11-03) showcasing tstack ('T-Stack is now a thing' at 06:46) and council workflow.",
+            "sourceStartedAt": "2026-11-03",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "First-party Theo flagship overview ('These 3 skills changed my life', 2026-10-26) introducing the t3dotgg/tstack suite.",
+            "views": 247982,
+            "likes": 3059,
+            "comments": 168,
+            "creator": "@theo",
+            "creatorRelation": "first-party",
+            "relevanceNote": "First-party Theo flagship overview ('These 3 skills changed my life', 2026-10-26) introducing the t3dotgg/tstack suite.",
+            "sourceStartedAt": "2026-10-26",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-11-17",
+            "type": "social-signal",
+            "notes": "Third-party Better Stack walkthrough ('Claude Code Writes the Code... Theo's Skills Ship It', 2026-11-12) covering the t3dotgg/tstack suite.",
+            "views": 38821,
+            "likes": 433,
+            "comments": 45,
+            "creator": "@betterstack",
+            "creatorRelation": "third-party",
+            "relevanceNote": "Third-party Better Stack walkthrough ('Claude Code Writes the Code... Theo's Skills Ship It', 2026-11-12) covering the t3dotgg/tstack suite.",
+            "sourceStartedAt": "2026-11-12",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-11-17",
+        "updatedAt": "2026-11-18",
+        "timeline": [
+          {
+            "timestamp": "2026-11-17T14:04:08Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill t3dotgg/tstack"
+          },
+          {
+            "timestamp": "2026-11-17T14:06:39Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=t3dotgg/tstack, suiteComponents+=['t3dotgg/full-send', 't3dotgg/full-stop', 't3dotgg/sol-loop', 't3dotgg/takeover', 't3dotgg/babysit-pr', 't3dotgg/leaving-pr-comments', 't3dotgg/council', 't3dotgg/file-pr', 't3dotgg/modernize']."
+          },
+          {
+            "timestamp": "2026-11-17T14:07:43Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:08:38Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-11-17T14:09:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=xq0eB8vxeqk (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:10:31Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T14:11:25Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-11-17T17:12:48Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-11-17T18:20:29Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 172.41, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-11-17T18:34:05Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/tstack.md"
+          },
+          {
+            "timestamp": "2026-11-17T18:51:14Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/tstack.md"
+          }
+        ],
+        "suiteRef": "t3dotgg/tstack",
+        "suiteComponents": [
+          "t3dotgg/babysit-pr",
+          "t3dotgg/council",
+          "t3dotgg/file-pr",
+          "t3dotgg/full-send",
+          "t3dotgg/full-stop",
+          "t3dotgg/leaving-pr-comments",
+          "t3dotgg/modernize",
+          "t3dotgg/sol-loop",
+          "t3dotgg/takeover"
+        ],
+        "trustMagnitude": 172.41,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "8060d1ce73f41752165d314dc47fb6845915d36157d98e482cff49c5fc3653cd",
+        "type": "fusion",
+        "installBody": "Install the full `tstack` suite (all 9 skills) at the verified commit (`11e37a74d0a6868c121cd0910ab2b3bd9873b92a`) into Claude Code or Codex:\n\n```bash\ngit clone https://github.com/t3dotgg/tstack\ngit -C tstack checkout 11e37a74d0a6868c121cd0910ab2b3bd9873b92a\nmkdir -p ~/.claude/skills   # or ~/.codex/skills for Codex\ncp -R tstack/skills/* ~/.claude/skills/\n```\n\n### Requirements\n- Authenticated GitHub CLI (`gh`).\n- `python3` (used by `babysit-pr`'s `pr-wait` script).\n- Cross-provider subagent support (`delegate_task` in T3 Code or equivalent harness) for `council` and `sol-loop`.\n\nUpstream source: https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 307.7,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 18,
+          "transitiveCount": 39,
+          "maxDepth": 4,
           "nestedSuiteCount": 0
         }
       }
@@ -63559,6 +65175,18 @@
     "supabase": [
       "supabase/supabase-postgres-best-practices",
       "supabase/supabase"
+    ],
+    "t3dotgg": [
+      "t3dotgg/babysit-pr",
+      "t3dotgg/council",
+      "t3dotgg/file-pr",
+      "t3dotgg/full-send",
+      "t3dotgg/full-stop",
+      "t3dotgg/leaving-pr-comments",
+      "t3dotgg/modernize",
+      "t3dotgg/sol-loop",
+      "t3dotgg/takeover",
+      "t3dotgg/tstack"
     ],
     "theqtcompanyrnd": [
       "theqtcompanyrnd/qt-qml-review"

@@ -1,0 +1,25 @@
+{
+  "id": "pr-ci-monitoring",
+  "name": "PR CI Monitoring",
+  "type": "fusion",
+  "description": "Monitors an open pull request via stateful event watching across CI checks, review threads, and base-branch drift, distinguishing real defects from flakes and keeping the branch up to date.",
+  "prerequisites": [
+    "receiving-code-review",
+    "workflow-automation"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:39Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill pr-ci-monitoring"
+    }
+  ]
+}

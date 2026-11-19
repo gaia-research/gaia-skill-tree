@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-11-14
+GAIA SKILL TREE  ·  generated 2026-11-17
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -38,7 +38,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ ○ upsonic/unittest-generator  [2★]
   │     ├─ ○ /code-execution
   │     └─ ○ garrytan/correction-pipeline  [2★]  (↑ see above)
-  ├─ · addy-osmani/shipping-and-launch  [2★]
+  ├─ · t3dotgg/takeover  [3★]
   │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ○ /diff-content  (↑ see above)
   ├─ · addy-osmani/ci-cd-and-automation  [2★]
@@ -65,7 +65,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /structured-output
   │  └─ ○ emilkowalski/write-swift  [4★]  (↑ see above)
   ├─ ○ garrytan/retro  [3★]
-  ├─ · garrytan/codex  [2★]
+  ├─ · t3dotgg/council  [4★]
   │  ├─ ○ /self-critique
   │  ├─ ○ garrytan/benchmark  [2★]  (↑ see above)
   │  └─ ○ /chain-of-thought
@@ -227,7 +227,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ addy-osmani/performance-optimization  [2★]
   │  └─ · ruvnet/swarm-advanced  [2★]
   │     ├─ ○ ruvnet/swarm-orchestration  [2★]
-  │     └─ · garrytan/codex  [2★]
+  │     └─ · t3dotgg/council  [4★]
   │        ├─ ○ /self-critique
   │        ├─ ○ garrytan/benchmark  [2★]  (↑ see above)
   │        └─ ○ /chain-of-thought
@@ -266,13 +266,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  └─ ○ ████████/requirements-engineer  (↑ see above)
   │  └─ ○ /tool-use
-  ├─ · addy-osmani/shipping-and-launch  [2★]
+  ├─ · t3dotgg/takeover  [3★]
   │  ├─ · garrytan/plan-eng-review  [3★]
   │  │  ├─ ○ emilkowalski/write-swift  [4★]
   │  │  ├─ ○ /diff-content
   │  │  └─ ○ garrytan/benchmark  [2★]
   │  └─ ○ /diff-content  (↑ see above)
-  ├─ · obra/receiving-code-review  [2★]
+  ├─ · t3dotgg/sol-loop  [4★]
   │  ├─ · obra/requesting-code-review  [2★]
   │  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  │  └─ · obra/dispatching-parallel-agents  [2★]  (↑ see above)
@@ -292,6 +292,56 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /tool-use  (↑ see above)
   ├─ · obra/verification-before-completion  [3★]  (↑ see above)
   └─ · obra/writing-plans  [4★]  (↑ see above)
+
+◆ t3dotgg/tstack  [4★]
+─────────────────────────────────────────────────────────────────
+  ├─ · t3dotgg/full-send  [4★]
+  │  ├─ · t3dotgg/takeover  [3★]
+  │  │  ├─ · garrytan/plan-eng-review  [3★]
+  │  │  │  ├─ ○ emilkowalski/write-swift  [4★]
+  │  │  │  ├─ ○ /diff-content
+  │  │  │  └─ ○ garrytan/benchmark  [2★]
+  │  │  └─ ○ /diff-content  (↑ see above)
+  │  ├─ · t3dotgg/sol-loop  [4★]
+  │  │  ├─ · obra/requesting-code-review  [2★]
+  │  │  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  │  └─ · obra/dispatching-parallel-agents  [2★]
+  │  │  │     ├─ ○ /plan-decompose
+  │  │  │     └─ ○ ████████/parallel-execution
+  │  │  └─ · obra/verification-before-completion  [3★]
+  │  │     ├─ ○ /code-execution
+  │  │     └─ ○ /self-critique
+  │  └─ · obra/verification-before-completion  [3★]  (↑ see above)
+  ├─ · t3dotgg/full-stop  [4★]
+  │  ├─ · t3dotgg/takeover  [3★]  (↑ see above)
+  │  ├─ · t3dotgg/sol-loop  [4★]  (↑ see above)
+  │  └─ · obra/verification-before-completion  [3★]  (↑ see above)
+  ├─ · t3dotgg/sol-loop  [4★]  (↑ see above)
+  ├─ · t3dotgg/takeover  [3★]  (↑ see above)
+  ├─ · t3dotgg/babysit-pr  [3★]
+  │  ├─ · t3dotgg/sol-loop  [4★]  (↑ see above)
+  │  └─ · garrytan/cron-scheduler  [2★]
+  │     ├─ ○ /plan-decompose  (↑ see above)
+  │     ├─ ○ /tool-use
+  │     └─ ○ ████████/hf-cli
+  ├─ ○ ayghri/i-have-adhd  [4★]
+  ├─ · t3dotgg/council  [4★]
+  │  ├─ ○ /self-critique  (↑ see above)
+  │  ├─ ○ garrytan/benchmark  [2★]  (↑ see above)
+  │  └─ ○ /chain-of-thought
+  ├─ ○ t3dotgg/file-pr  [2★]
+  └─ · t3dotgg/modernize  [3★]
+     ├─ ○ ruvnet/agentic-jujutsu  [2★]
+     └─ · addy-osmani/git-workflow-and-versioning  [2★]
+        ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
+        ├─ ○ ruvnet/github-multi-repo  [2★]
+        ├─ · addy-osmani/ci-cd-and-automation  [2★]
+        │  ├─ · garrytan/cron-scheduler  [2★]  (↑ see above)
+        │  └─ ○ /code-execution  (↑ see above)
+        ├─ · garrytan/daily-task-manager  [2★]
+        │  ├─ ○ ████████/hf-cli  (↑ see above)
+        │  └─ ○ mattpocock/triage  [3★]
+        └─ · garrytan/cron-scheduler  [2★]  (↑ see above)
 
 ◆ addy-osmani/agent-skills  [4★]
 ─────────────────────────────────────────────────────────────────
@@ -315,7 +365,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · obra/verification-before-completion  [3★]
   │  ├─ ○ /code-execution
   │  └─ ○ /self-critique
-  └─ · addy-osmani/shipping-and-launch  [2★]
+  └─ · t3dotgg/takeover  [3★]
      ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
      └─ ○ /diff-content  (↑ see above)
 
@@ -376,6 +426,23 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ /data-visualize
     ├─ ○ ayghri/i-have-adhd  [4★]
     └─ ○ garrytan/retro  [3★]
+  ◉ t3dotgg/full-send  [4★]
+    ├─ · t3dotgg/takeover  [3★]
+    │  ├─ · garrytan/plan-eng-review  [3★]
+    │  │  ├─ ○ emilkowalski/write-swift  [4★]
+    │  │  ├─ ○ /diff-content
+    │  │  └─ ○ garrytan/benchmark  [2★]
+    │  └─ ○ /diff-content  (↑ see above)
+    ├─ · t3dotgg/sol-loop  [4★]
+    │  ├─ · obra/requesting-code-review  [2★]
+    │  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
+    │  │  └─ · obra/dispatching-parallel-agents  [2★]
+    │  │     ├─ ○ /plan-decompose
+    │  │     └─ ○ ████████/parallel-execution
+    │  └─ · obra/verification-before-completion  [3★]
+    │     ├─ ○ /code-execution
+    │     └─ ○ /self-critique
+    └─ · obra/verification-before-completion  [3★]  (↑ see above)
   ◉ mvanhorn/last30days  [4★]
     ├─ · garrytan/draft-in-voice  [2★]
     │  ├─ · garrytan/data-research  [2★]
@@ -418,6 +485,27 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
   ◉ nvidia/accelerated-computing-cudf  [4★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ wheresryan22/anatomy  [4★]
+  ◉ t3dotgg/full-stop  [4★]
+    ├─ · t3dotgg/takeover  [3★]
+    │  ├─ · garrytan/plan-eng-review  [3★]
+    │  │  ├─ ○ emilkowalski/write-swift  [4★]
+    │  │  ├─ ○ /diff-content
+    │  │  └─ ○ garrytan/benchmark  [2★]
+    │  └─ ○ /diff-content  (↑ see above)
+    ├─ · t3dotgg/sol-loop  [4★]
+    │  ├─ · obra/requesting-code-review  [2★]
+    │  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
+    │  │  └─ · obra/dispatching-parallel-agents  [2★]
+    │  │     ├─ ○ /plan-decompose
+    │  │     └─ ○ ████████/parallel-execution
+    │  └─ · obra/verification-before-completion  [3★]
+    │     ├─ ○ /code-execution
+    │     └─ ○ /self-critique
+    └─ · obra/verification-before-completion  [3★]  (↑ see above)
+  ◉ t3dotgg/council  [4★]
+    ├─ ○ /self-critique
+    ├─ ○ garrytan/benchmark  [2★]
+    └─ ○ /chain-of-thought
   ◉ latent-spaces/brag  [4★]
     ├─ ○ heygen-com/hyperframes-creative  [3★]
     └─ · heygen-com/hyperframes  [4★]
@@ -486,7 +574,6 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/evidence-attestation
   ○ /few-shot-learning
   ○ garrytan/gbrain-upgrade  [2★]
-  ○ ruvnet/agentic-jujutsu  [2★]
   ○ garrytan/google-loops  [2★]
   ○ ████████/financial-assistance
   ○ leonxlnx/imagegen-frontend-mobile  [2★]
@@ -517,4 +604,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-11-14. Do not edit directly.*
+*Generated from gaia.json on 2026-11-17. Do not edit directly.*

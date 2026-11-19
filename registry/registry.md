@@ -23,6 +23,7 @@
 | · /autonomous-data-scientist | Fusion | — | `/autonomous-data-scientist` |
 | · [mattpocock](../docs/u/mattpocock/)/diagnose | Fusion | 3★ | `/autonomous-debug` |
 | · [hikari9](../docs/u/hikari9/)/auto-office | Fusion | 3★ | `/autonomous-engineering-platform` |
+| · [t3dotgg](../docs/u/t3dotgg/)/full-send | Fusion | 4★ | `/autonomous-pr-delivery` |
 | · [mvanhorn](../docs/u/mvanhorn/)/last30days | Fusion | 4★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic | — | `/bioinformatic-sequence-analysis` |
 | ○ [garrytan](../docs/u/garrytan/)/publish | Basic | 2★ | `/brain-publishing` |
@@ -85,7 +86,7 @@
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
 | · [anthropics](../docs/u/anthropics/)/creating-financial-models | Fusion | 4★ | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
-| · [addy-osmani](../docs/u/addy-osmani/)/shipping-and-launch | Fusion | 2★ | `/finishing-a-development-branch` |
+| · [t3dotgg](../docs/u/t3dotgg/)/takeover | Fusion | 3★ | `/finishing-a-development-branch` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 3★ | `/firecrawl` |
 | ○ [ayghri](../docs/u/ayghri/)/i-have-adhd | Basic | 4★ | `/format-output` |
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
@@ -98,6 +99,7 @@
 | · ████████/remotion-multimedia | Fusion | — | `/generative-media` |
 | ○ /genomic-data-retrieval | Basic | — | `/genomic-data-retrieval` |
 | · [garrytan](../docs/u/garrytan/)/draft-in-voice | Fusion | 2★ | `/ghostwrite` |
+| ○ [ruvnet](../docs/u/ruvnet/)/agentic-jujutsu | Basic | 2★ | `/git-diff-risk-analysis` |
 | · [addy-osmani](../docs/u/addy-osmani/)/git-workflow-and-versioning | Fusion | 2★ | `/git-integration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Fusion | 4★ | `/git-ship-done-pipeline` |
 | ○ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Basic | 4★ | `/gpu-dataframe-acceleration` |
@@ -134,12 +136,13 @@
 | · /mcp-server-creation | Fusion | — | `/mcp-server-creation` |
 | · [garrytan](../docs/u/garrytan/)/learn | Fusion | 2★ | `/memory-manage` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-memory-patterns | Basic | 2★ | `/memory-pattern-design` |
+| · [t3dotgg](../docs/u/t3dotgg/)/full-stop | Fusion | 4★ | `/merge-ready-pr-delivery` |
 | · /ml-artifact-management | Fusion | — | `/ml-artifact-management` |
 | · /ml-pipeline | Fusion | — | `/ml-pipeline` |
 | ○ /molecular-databases | Basic | — | `/molecular-databases` |
 | · ████████/deepchem | Fusion | — | `/molecular-machine-learning` |
 | · /molecular-visualization | Fusion | — | `/molecular-visualization` |
-| · [garrytan](../docs/u/garrytan/)/codex | Fusion | 2★ | `/multi-agent-debate` |
+| · [t3dotgg](../docs/u/t3dotgg/)/council | Fusion | 4★ | `/multi-agent-debate` |
 | · [garrytan](../docs/u/garrytan/)/minion-orchestrator | Fusion | 2★ | `/multi-agent-orchestration-v` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus | Fusion | 2★ | `/multi-node-orchestration` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic | 2★ | `/multi-repo-coordination` |
@@ -161,6 +164,8 @@
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
 | ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 2★ | `/platform-modernization-sprint` |
+| · [t3dotgg](../docs/u/t3dotgg/)/babysit-pr | Fusion | 3★ | `/pr-ci-monitoring` |
+| · [t3dotgg](../docs/u/t3dotgg/)/tstack | Fusion | 4★ | `/pr-lifecycle-orchestration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/spec-driven-development | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
@@ -173,6 +178,7 @@
 | ○ /protein-structure-analysis | Basic | — | `/protein-structure-analysis` |
 | ○ /proteomic-data-retrieval | Basic | — | `/proteomic-data-retrieval` |
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
+| ○ [t3dotgg](../docs/u/t3dotgg/)/file-pr | Basic | 2★ | `/pull-request-authoring` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic | 3★ | `/question-answer` |
 | ○ [garrytan](../docs/u/garrytan/)/ask-user | Basic | 2★ | `/questionnaire-generation` |
 | · ████████/rag-retrieval | Fusion | — | `/rag-pipeline` |
@@ -181,7 +187,7 @@
 | ○ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Basic | 4★ | `/react-performance-optimization` |
 | · /real-time-voice-assistant | Fusion | — | `/real-time-voice-assistant` |
 | · [ruvnet](../docs/u/ruvnet/)/reasoningbank | Fusion | 3★ | `/reasoning-pattern-bank` |
-| · [obra](../docs/u/obra/)/receiving-code-review | Fusion | 2★ | `/receiving-code-review` |
+| · [t3dotgg](../docs/u/t3dotgg/)/sol-loop | Fusion | 4★ | `/receiving-code-review` |
 | · /recursive-self-improvement | Fusion | — | `/recursive-self-improvement` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic | 4★ | `/refactor-code` |
 | · ████████/gaia-bot-curate | Fusion | — | `/registry-curation` |
@@ -214,6 +220,7 @@
 | · [garrytan](../docs/u/garrytan/)/skill-autobench | Fusion | 2★ | `/skill-performance-benchmarking` |
 | · /skill-security-analysis | Fusion | — | `/skill-security-analysis` |
 | ○ /speech-to-text | Basic | — | `/speech-to-text` |
+| · [t3dotgg](../docs/u/t3dotgg/)/modernize | Fusion | 3★ | `/stale-pr-reconciliation` |
 | ○ /statistical-analysis | Basic | — | `/statistical-analysis` |
 | · /stealth-browser-interaction | Fusion | — | `/stealth-browser-interaction` |
 | ○ /structured-output | Basic | — | `/structured-output` |
@@ -279,6 +286,7 @@
 |---|---|---|---|
 | ◉ [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Unique Skill | 4★ | `/animation-performance` |
 | ◉ [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Unique Skill | 4★ | `/architecture-diagram` |
+| ◉ [t3dotgg](../docs/u/t3dotgg/)/full-send | Unique Skill | 4★ | `/autonomous-pr-delivery` |
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
@@ -292,8 +300,11 @@
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
 | ◉ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Unique Skill | 4★ | `/interactive-mechanism-illustration` |
 | ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
+| ◉ [t3dotgg](../docs/u/t3dotgg/)/full-stop | Unique Skill | 4★ | `/merge-ready-pr-delivery` |
+| ◉ [t3dotgg](../docs/u/t3dotgg/)/council | Unique Skill | 4★ | `/multi-agent-debate` |
 | ◉ [latent-spaces](../docs/u/latent-spaces/)/brag | Unique Skill | 4★ | `/project-launch-video-production` |
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
+| ◉ [t3dotgg](../docs/u/t3dotgg/)/sol-loop | Unique Skill | 4★ | `/receiving-code-review` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
 | ◉ [emilkowalski](../docs/u/emilkowalski/)/animate | Unique Skill | 4★ | `/timeline-animation` |
@@ -327,7 +338,6 @@
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | — | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
-| ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Google Workspace Automation | Intrinsic Skill | 2★ | `/google-workspace-automation` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | 2★ | `/image-generate` |

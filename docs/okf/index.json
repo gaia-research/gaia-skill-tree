@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 157,
+      "count": 158,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -505,6 +505,11 @@
           "id": "proteomic-data-retrieval",
           "name": "Proteomic Data Retrieval",
           "summary": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING)."
+        },
+        {
+          "id": "pull-request-authoring",
+          "name": "Pull Request Authoring",
+          "summary": "Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request."
         },
         {
           "id": "quantum-circuit-programming",

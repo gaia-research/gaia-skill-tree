@@ -522,7 +522,7 @@
       <ul style="color: var(--muted); font-size: 0.88rem; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;">
         <li><strong style="color: var(--text);">Plateau:</strong> successive rows of the same type yield diminishing returns via a plateau multiplier sequence (e.g. 1.0 / 0.5 / 0.25).</li>
         <li><strong style="color: var(--text);">Cap:</strong> a hard ceiling per row after the magnitude function is applied, before the weight multiplier.</li>
-        <li><strong style="color: var(--text);">Freshness:</strong> some types decay over time (e.g. benchmark-result at 50 % / year); others are time-invariant.</li>
+        <li><strong style="color: var(--text);">Freshness:</strong> some types decay over time from <code>lastVerified</code> (e.g. benchmark-result and social-signal at 50 % / year; peer-review at 25 % / 2 years); others are time-invariant. Ordinary curation has no 30-day publication hold on newly published <code>social-signal</code> demonstrations (#2473; see <code>curation-authority-map.md</code>).</li>
         <li><strong style="color: var(--text);">Dedup:</strong> duplicate URL rows are collapsed to a single entry before any scoring begins.</li>
         <li><strong style="color: var(--text);">Role guard:</strong> structural roles such as <code>role='origin'</code> still govern graph/rank predicates; <code>fusion-recipe</code> remains metadata and scores 0.</li>
       </ul>
@@ -578,7 +578,7 @@
               <td>160</td>
               <td>—  (1 row max; requires verifiable dep link)</td>
               <td>Quarterly</td>
-              <td>The skill appears as a verifiable dependency in a widely-starred third-party repo — proxied adoption signal.</td>
+              <td>The skill appears as a verifiable dependency in a widely-starred external, non-first-party repo (≥ 10 000 stars, distinct owner/repo outside the skill's own/canonical/suite repository) — proxied adoption signal.</td>
             </tr>
             <tr>
               <td><code>verifier-attestation</code></td>
@@ -641,7 +641,7 @@
               <td>80</td>
               <td>1.0 / 0.5 / 0.25 — max 3 rows</td>
               <td>50%/yr</td>
-              <td>Public social engagement (blog posts, talks, threads) citing the skill demonstration. Views floor 1 000; creator and engagement multipliers applied.</td>
+              <td>Verified first-party and third-party public demonstrations (videos, walkthroughs, blog posts, talks, threads) directly covering the target skill (#2473: sameAsAuthor = 1.0, publishCooldownDays = 0; no 30-day publication hold). Views floor 1 000; creator and engagement multipliers, same-creator plateau, and 80 TM hard cap applied.</td>
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>

@@ -25,9 +25,10 @@ Prioritize new evidence rows for:
 - `benchmark-result`
 - `arxiv`
 - `peer-review`
-- richer `social-signal`
+- richer `social-signal` (eligible first-party and third-party demonstrations of the target skill, `sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day hold, `views >= 1000` floor, `(type, url)` dedup, and 3-row plateau; record `creatorRelation` and `relevanceNote`, and reject unrelated uploads; see [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md) and #2473)
+- qualifying external `proxy-containment` (strictly external, non-first-party repositories with `externalStars >= 10000` outside the skill's own/canonical/suite repository)
 
-Discovery may also identify better `repo-own` or `github-stars-own` sources, but it must not assign authoritative rank, tier, grade, or Trust Magnitude.
+Discovery may also identify better `repo-own` or `github-stars-own` sources, but it must not assign authoritative rank, tier, grade, or Trust Magnitude, and must never propose synthetic `self-attestation` rows to clear the 49.9 TM suite-component shared-repository cap.
 
 ## Benchmark candidate handoff
 

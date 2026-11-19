@@ -1,0 +1,202 @@
+{
+  "handle": "t3dotgg",
+  "namedSkills": [
+    {
+      "id": "t3dotgg/tstack",
+      "name": "tstack",
+      "level": "4★",
+      "trustMagnitude": 172.41,
+      "overallTrustGrade": "A",
+      "fusionScore": 307.7,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/tstack.json"
+      },
+      "genericSkillRef": "pr-lifecycle-orchestration",
+      "suiteComponents": [
+        "t3dotgg/babysit-pr",
+        "t3dotgg/council",
+        "t3dotgg/file-pr",
+        "t3dotgg/full-send",
+        "t3dotgg/full-stop",
+        "t3dotgg/leaving-pr-comments",
+        "t3dotgg/modernize",
+        "t3dotgg/sol-loop",
+        "t3dotgg/takeover"
+      ]
+    },
+    {
+      "id": "t3dotgg/council",
+      "name": "council",
+      "level": "4★",
+      "trustMagnitude": 129.9,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/council.json"
+      },
+      "genericSkillRef": "multi-agent-debate"
+    },
+    {
+      "id": "t3dotgg/full-send",
+      "name": "full-send",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 234.64,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-send.json"
+      },
+      "genericSkillRef": "autonomous-pr-delivery"
+    },
+    {
+      "id": "t3dotgg/full-stop",
+      "name": "full-stop",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 234.64,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-stop.json"
+      },
+      "genericSkillRef": "merge-ready-pr-delivery"
+    },
+    {
+      "id": "t3dotgg/sol-loop",
+      "name": "sol-loop",
+      "level": "4★",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "fusionScore": 220.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/sol-loop.json"
+      },
+      "genericSkillRef": "receiving-code-review"
+    },
+    {
+      "id": "t3dotgg/takeover",
+      "name": "takeover",
+      "level": "3★",
+      "trustMagnitude": 92.9,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/takeover.json"
+      },
+      "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "t3dotgg/modernize",
+      "name": "modernize",
+      "level": "3★",
+      "trustMagnitude": 83.83,
+      "overallTrustGrade": "B",
+      "fusionScore": 244.72,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/modernize.json"
+      },
+      "genericSkillRef": "stale-pr-reconciliation"
+    },
+    {
+      "id": "t3dotgg/babysit-pr",
+      "name": "babysit-pr",
+      "level": "3★",
+      "trustMagnitude": 81.01,
+      "overallTrustGrade": "B",
+      "fusionScore": 244.72,
+      "contributor": "t3dotgg",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/babysit-pr.json"
+      },
+      "genericSkillRef": "pr-ci-monitoring"
+    },
+    {
+      "id": "t3dotgg/file-pr",
+      "name": "file-pr",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "t3dotgg",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/file-pr.json"
+      },
+      "genericSkillRef": "pull-request-authoring"
+    },
+    {
+      "id": "t3dotgg/leaving-pr-comments",
+      "name": "leaving-pr-comments",
+      "level": "2★",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "t3dotgg",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/leaving-pr-comments.json"
+      },
+      "genericSkillRef": "format-output"
+    }
+  ],
+  "namedSkillsCount": 10,
+  "topSkill": {
+    "id": "t3dotgg/tstack",
+    "level": "4★",
+    "trustMagnitude": 172.41
+  },
+  "prestigeScore": 1031.88,
+  "gradeDistribution": {
+    "A": 5,
+    "B": 3,
+    "C": 2
+  },
+  "_links": {
+    "self": "/api/v1/contributors/t3dotgg.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

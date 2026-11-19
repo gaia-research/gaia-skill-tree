@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — vercel  ·  generated 2026-11-14
+GAIA SKILL TREE — vercel  ·  generated 2026-11-17
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -52,7 +52,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
-  ├─ · · addy-osmani/shipping-and-launch  [2★]
+  ├─ · · t3dotgg/takeover  [3★]
   │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · addy-osmani/ci-cd-and-automation  [2★]
@@ -79,7 +79,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /structured-output
   │  └─ · ○ emilkowalski/write-swift  [4★]  (↑ see above)
   ├─ · ○ garrytan/retro  [3★]
-  ├─ · · garrytan/codex  [2★]
+  ├─ · · t3dotgg/council  [4★]
   │  ├─ · ○ /self-critique
   │  ├─ · ○ garrytan/benchmark  [2★]  (↑ see above)
   │  └─ · ○ /chain-of-thought

@@ -25,7 +25,7 @@
   },
   "title": "Shipping and Launch",
   "genericSkillRef": "finishing-a-development-branch",
-  "origin": true,
+  "origin": false,
   "description": "Shipping and launch readiness checks for code deployment and integration.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
