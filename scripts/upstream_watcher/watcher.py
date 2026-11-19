@@ -101,7 +101,12 @@ from scripts.upstream_watcher.live import (
     retry_transient,
     unknown_read_detail,
 )
-from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
+from scripts.upstream_watcher.liveness import (
+    ComponentTreeEnumeration,
+    check_component_liveness,
+    enumerate_component_tree,
+    fetch_component_diff,
+)
 from scripts.upstream_watcher.name_drift import check_name_drift
 
 # ---------------------------------------------------------------------------
@@ -225,12 +230,14 @@ def _status_of(exc: Exception) -> int | None:
     return getattr(exc.__cause__, "status", None)
 
 
-def _poll_suite(
+def _poll_suite_impl(
     fm: dict,
     registry_map: dict[str, dict],
     verbose: bool,
-) -> dict | None:
-    """Poll a single suite and return a full finding dict or None."""
+    *,
+    include_enumeration: bool = False,
+) -> tuple[dict | None, ComponentTreeEnumeration | None]:
+    """Poll a single suite and return ``(finding, enumeration)`` from one shared read."""
     skill_id = fm.get("id", "?")
     gh_url = (fm.get("links") or {}).get("github", "")
 
@@ -240,7 +247,7 @@ def _poll_suite(
             f"  [warn] {skill_id} — cannot derive owner/repo from links.github={gh_url!r}; skipping.",
             file=sys.stderr,
         )
-        return None
+        return None, None
 
     owner, repo, source_url_for_identity = resolved
     # A stored version belongs to its declared source, never to a newly relinked
@@ -271,7 +278,7 @@ def _poll_suite(
             f"  [skip] {skill_id} — {owner}/{repo} has no releases tagged (HTTP 404).",
             file=sys.stderr,
         )
-        return None
+        return None, None
     except GitHubFetchError as exc:
         # H2: a permanent refusal (451, 410, or a 403 without a rate-limit signal) skips this suite only.
         if is_permanent_unavailable(exc):
@@ -288,7 +295,7 @@ def _poll_suite(
     if finding is None:
         if verbose:
             print(f"  [ok] {skill_id} — up-to-date at {fm.get('upstream', {}).get('version', '?')}.", file=sys.stderr)
-        return None
+        return None, None
 
     # Auto-detect mode
     mode = detect_mode(fm, registry_map)
@@ -300,10 +307,17 @@ def _poll_suite(
 
     # Only do component diff, liveness, and name-drift for update findings
     # in components mode.
+    enumeration: ComponentTreeEnumeration | None = None
     if finding["finding_type"] == "update" and mode == "components":
-        adds, removes = fetch_component_diff(
-            owner, repo, new_version, component_root, components
-        )
+        if include_enumeration:
+            enumeration = enumerate_component_tree(
+                owner, repo, new_version, component_root, components
+            )
+            adds, removes = list(enumeration.adds), list(enumeration.removes)
+        else:
+            adds, removes = fetch_component_diff(
+                owner, repo, new_version, component_root, components
+            )
         finding["componentAdds"] = adds
         finding["componentRemoves"] = removes
 
@@ -327,7 +341,26 @@ def _poll_suite(
         finding["linkLivenessUnknown"] = []
         finding["nameDrift"] = []
 
+    return finding, enumeration
+
+
+def _poll_suite(
+    fm: dict,
+    registry_map: dict[str, dict],
+    verbose: bool,
+) -> dict | None:
+    """Poll a single suite and return a full finding dict or None."""
+    finding, _ = _poll_suite_impl(fm, registry_map, verbose, include_enumeration=False)
     return finding
+
+
+def _poll_suite_with_enumeration(
+    fm: dict,
+    registry_map: dict[str, dict],
+    verbose: bool = False,
+) -> tuple[dict | None, ComponentTreeEnumeration | None]:
+    """Internal offline seam: poll a suite and return its single-read tree enumeration."""
+    return _poll_suite_impl(fm, registry_map, verbose, include_enumeration=True)
 
 
 def runChallengeWatchStep(args: argparse.Namespace, registry_map: dict[str, dict], verbose: bool) -> ChallengeWatchResult:
