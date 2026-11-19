@@ -8,22 +8,37 @@ eligibility selection for the independently versioned P2 weekly namespace:
 * Scope key: ``(repository, named_id, row_id)`` where ``repository`` is the
   normalized lowercase ``owner/repo``, ``named_id`` is the exact case-sensitive
   canonical ``skillId``, and ``row_id`` is ``<repo>:<slug>``.
-* Single authority: the real canonical planner (``repository_batch`` /
-  ``envelope``) remains the sole authority for envelope structure, row status,
-  and digests. This reducer validates canonical named findings via
-  ``envelope.validate_named`` and ``releaseidentity.validateReleaseSource`` and
-  carries each verified snapshot unchanged (including ``componentRemoves``,
-  ``linkLiveness``, ``nameDrift``, ``candidates``, and ``payloadSha256``).
-* Immutable provenance: each ``(repository, named_id, row_id)`` records one
-  immutable ``FirstSeenPin`` (first-seen version, pinned release evidence URL,
-  first-seen timestamp, and poll ID) that later sightings never overwrite.
-* Honest history: a row is marked vanished ONLY when a verified current
-  observation for that exact ``(repository, named_id)`` in a complete poll
-  omits it. Missing, held, unavailable, rejected, or incomplete observations
-  never infer vanishings and never confer eligibility.
-* Exact-run eligibility: eligibility (``urgent``, ``flush-day``, or
-  ``window-elapsed`` from ``pending_since``) is evaluated per exact named
-  bucket ONLY when that bucket was validly observed in the current poll.
+* Dual-evidence separation: canonical payload authority (``planned_findings``
+  from ``repository_batch`` / ``envelope``) is separated from current-poll
+  observation provenance (``observed_findings`` from the detector /
+  ``report["observedFindings"]``). Each accepted bucket requires an explicit
+  checked join on ``(repository, named_id, sourceUrl, newVersion, finding_kind)``
+  in the same poll. Retained canonical siblings and closed carry-forward rows
+  are history only, never current sightings.
+* Single authority: the real canonical planner remains the sole authority for
+  envelope structure, row status, and digests. This reducer validates canonical
+  named findings via ``envelope.validate_named`` and
+  ``releaseidentity.validateReleaseSource`` and carries each verified snapshot
+  unchanged (including ``componentRemoves``, ``linkLiveness``, ``nameDrift``,
+  ``candidates``, and ``payloadSha256``).
+* Immutable provenance & pin continuity: each ``(repository, named_id, row_id)``
+  records one immutable ``FirstSeenPin`` (``first_seen_version``,
+  ``evidence_url``, ``first_seen_at``, ``first_seen_poll_id``). Conflicting
+  incoming pins reject the affected scope fail-closed, preserving prior state
+  byte-for-byte while leaving unrelated coverage unaffected.
+* Honest candidate presence: current candidate presence is derived strictly from
+  explicit raw ``componentAdds`` matched to validated canonical rows. Retained
+  canonical rows omitted from current raw ``componentAdds`` never count as
+  present; only a verified omission of already-journaled history marks a row
+  vanished. Historical-only rows first encountered in canonical output remain in
+  canonical view without fabricating a sighting or prior timestamp.
+* Scoped fresh urgency: urgent eligibility (HTTP 404/410) is granted ONLY from
+  explicit current raw liveness checks for exact ``authority[named_id]``
+  ``suiteComponents`` (excluding ``linkLivenessUnknown``, malformed, untracked,
+  or unconfirmed entries) while retaining the canonical finding unchanged.
+* State isolation: returned states and decision views expose immutable mapping
+  containers and defensive copies with zero nested mutable aliasing across
+  prior, returned, replayed, or rejected states.
 * No writes / no settlement / no persistence: this module performs no file I/O,
   no network/GitHub calls, builds or seals no envelopes, models no
   ``EffectProof``, and never authorizes writes (``write_authorized`` is always
@@ -36,7 +51,9 @@ import copy
 import datetime as dt
 import hashlib
 import json
+import re
 from dataclasses import dataclass, field
+from types import MappingProxyType
 from typing import Any, Mapping, Sequence
 
 from scripts.upstream_watcher import envelope
@@ -58,9 +75,37 @@ DECISION_UNAVAILABLE = "unavailable"
 DECISION_REJECTED = "rejected"
 DECISION_REPLAYED = "replayed"
 
+_SLUG_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+_REQUIRED_CANONICAL_KEYS = (
+    "skillId",
+    "newVersion",
+    "releasedAt",
+    "sourceUrl",
+    "mode",
+    "payloadVersion",
+    "payloadSha256",
+    "componentAdds",
+    "componentRemoves",
+    "linkLiveness",
+    "nameDrift",
+    "candidates",
+)
+_REQUIRED_RAW_KEYS = (
+    "finding_type",
+    "skillId",
+    "newVersion",
+    "releasedAt",
+    "sourceUrl",
+    "mode",
+    "componentAdds",
+    "componentRemoves",
+    "linkLiveness",
+    "nameDrift",
+)
+
 
 # ---------------------------------------------------------------------------
-# Strict time and identifier helpers
+# Strict time, identifier, and cloning helpers
 # ---------------------------------------------------------------------------
 
 
@@ -104,8 +149,20 @@ def _canonical_json_digest(value: Any) -> str:
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
+def _freeze_mapping(mapping: Mapping[Any, Any]) -> Mapping[Any, Any]:
+    return MappingProxyType(dict(mapping))
+
+
+def _is_nonempty_clean_str(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and bool(value)
+        and not any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value)
+    )
+
+
 # ---------------------------------------------------------------------------
-# Configuration & immutable state model
+# Configuration & isolated state model
 # ---------------------------------------------------------------------------
 
 
@@ -135,12 +192,18 @@ def next_flush_date(observed_at: dt.datetime, config: ReducerConfig) -> str:
 
 @dataclass(frozen=True)
 class FirstSeenPin:
-    """Immutable authoritative provenance tuple for one scoped candidate row."""
+    """Immutable authoritative provenance tuple for one scoped candidate row.
+
+    For historical-only rows first encountered in canonical carry-forward
+    output (omitted from current raw ``componentAdds``), ``first_seen_at`` and
+    ``first_seen_poll_id`` remain ``None`` rather than fabricating a prior
+    timestamp.
+    """
 
     first_seen_version: str
     evidence_url: str
-    first_seen_at: str
-    first_seen_poll_id: str
+    first_seen_at: str | None
+    first_seen_poll_id: str | None
 
 
 @dataclass(frozen=True)
@@ -152,12 +215,13 @@ class RowHistory:
     suggested_id: str
     first_seen_pin: FirstSeenPin
     last_seen_version: str
-    last_seen_at: str
-    last_seen_poll_id: str
+    last_seen_at: str | None
+    last_seen_poll_id: str | None
     present_in_latest: bool
     vanished_at: str | None
     vanished_poll_id: str | None
     latest_row: dict[str, Any]
+    historical_only: bool = False
 
 
 @dataclass(frozen=True)
@@ -191,13 +255,26 @@ class NamedBucket:
     versions_seen: tuple[VersionSighting, ...]
     rows: Mapping[str, RowHistory]
 
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "rows", _freeze_mapping(self.rows))
+
     @property
     def present_row_ids(self) -> tuple[str, ...]:
         return tuple(sorted(rid for rid, row in self.rows.items() if row.present_in_latest))
 
     @property
     def vanished_row_ids(self) -> tuple[str, ...]:
-        return tuple(sorted(rid for rid, row in self.rows.items() if not row.present_in_latest))
+        return tuple(
+            sorted(
+                rid
+                for rid, row in self.rows.items()
+                if not row.present_in_latest and not row.historical_only
+            )
+        )
+
+    @property
+    def historical_row_ids(self) -> tuple[str, ...]:
+        return tuple(sorted(rid for rid, row in self.rows.items() if row.historical_only))
 
 
 @dataclass(frozen=True)
@@ -221,16 +298,66 @@ class ReducerState:
     buckets: Mapping[tuple[str, str], NamedBucket] = field(default_factory=dict)
     seen_polls: Mapping[str, PollReceipt] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "buckets", _freeze_mapping(self.buckets))
+        object.__setattr__(self, "seen_polls", _freeze_mapping(self.seen_polls))
+
     def get_bucket(self, repo: str, named_id: str) -> NamedBucket | None:
-        return self.buckets.get((envelope.repository(repo), named_id))
+        bucket = self.buckets.get((envelope.repository(repo), named_id))
+        return _clone_bucket(bucket) if bucket is not None else None
 
     def repo_buckets(self, repo: str) -> dict[str, NamedBucket]:
         normalized = envelope.repository(repo)
         return {
-            named_id: bucket
+            named_id: _clone_bucket(bucket)
             for (bucket_repo, named_id), bucket in sorted(self.buckets.items())
             if bucket_repo == normalized
         }
+
+
+def _clone_row(row: RowHistory) -> RowHistory:
+    return RowHistory(
+        row_id=row.row_id,
+        slug=row.slug,
+        suggested_id=row.suggested_id,
+        first_seen_pin=row.first_seen_pin,
+        last_seen_version=row.last_seen_version,
+        last_seen_at=row.last_seen_at,
+        last_seen_poll_id=row.last_seen_poll_id,
+        present_in_latest=row.present_in_latest,
+        vanished_at=row.vanished_at,
+        vanished_poll_id=row.vanished_poll_id,
+        latest_row=copy.deepcopy(row.latest_row),
+        historical_only=row.historical_only,
+    )
+
+
+def _clone_bucket(bucket: NamedBucket) -> NamedBucket:
+    return NamedBucket(
+        repository=bucket.repository,
+        named_id=bucket.named_id,
+        pending_since=bucket.pending_since,
+        first_poll_id=bucket.first_poll_id,
+        last_observed_at=bucket.last_observed_at,
+        last_poll_id=bucket.last_poll_id,
+        sighting_count=bucket.sighting_count,
+        revision=bucket.revision,
+        latest_finding=copy.deepcopy(bucket.latest_finding),
+        latest_finding_sha256=bucket.latest_finding_sha256,
+        versions_seen=bucket.versions_seen,
+        rows={rid: _clone_row(row) for rid, row in sorted(bucket.rows.items())},
+    )
+
+
+def _clone_state(state: ReducerState) -> ReducerState:
+    return ReducerState(
+        schema_version=state.schema_version,
+        revision=state.revision,
+        last_observed_at=state.last_observed_at,
+        last_poll_id=state.last_poll_id,
+        buckets={scope: _clone_bucket(bucket) for scope, bucket in sorted(state.buckets.items())},
+        seen_polls=dict(state.seen_polls),
+    )
 
 
 def empty_state() -> ReducerState:
@@ -238,21 +365,84 @@ def empty_state() -> ReducerState:
 
 
 # ---------------------------------------------------------------------------
-# Poll input & reduction output types
+# Poll input, adapter seam & reduction output types
 # ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True)
 class PollInput:
-    """One offline poll snapshot supplied to ``reduce_poll``."""
+    """One offline poll snapshot supplied to ``reduce_poll``.
+
+    Carries two required evidence tracks:
+    * ``observed_findings``: raw detector findings observed in this current poll
+      (e.g. ``report["observedFindings"]`` from ``run_repository_batch``).
+    * ``planned_findings``: canonical sealed named findings produced by the real
+      P1 planner (which may also carry retained unobserved siblings and
+      carried-forward candidate rows).
+    """
 
     poll_id: str
     observed_at: dt.datetime | str
-    findings: Sequence[dict[str, Any]]
+    observed_findings: Sequence[Mapping[str, Any]]
+    planned_findings: Sequence[Mapping[str, Any]]
     complete: bool = True
     held_repos: frozenset[str] = frozenset()
     held_named_ids: frozenset[str] = frozenset()
     unavailable_named_ids: frozenset[str] = frozenset()
+
+
+def poll_input_from_batch_report(
+    poll_id: str,
+    observed_at: dt.datetime | str,
+    report: Mapping[str, Any],
+    *,
+    complete: bool = True,
+    held_repos: frozenset[str] = frozenset(),
+    held_named_ids: frozenset[str] = frozenset(),
+    unavailable_named_ids: frozenset[str] = frozenset(),
+) -> PollInput:
+    """Deterministic adapter from a ``run_repository_batch`` report to ``PollInput``.
+
+    Preserves both ``report["observedFindings"]`` and canonical planned findings
+    unchanged, merges any ``knownLegacyHolds`` repositories into ``held_repos``,
+    and forces ``complete=False`` if the report recorded ``unknownEvidence``.
+    """
+    if not isinstance(report, Mapping):
+        raise PayloadError("batch report must be a mapping")
+    observed = report.get("observedFindings")
+    repositories = report.get("repositories")
+    if not isinstance(observed, (list, tuple)) or not isinstance(repositories, (list, tuple)):
+        raise PayloadError("batch report must contain list/tuple observedFindings and repositories")
+    if not isinstance(held_repos, (set, frozenset, list, tuple)):
+        raise PayloadError("held_repos must be a set, frozenset, list, or tuple")
+
+    planned: list[dict[str, Any]] = []
+    merged_held_repos = set(held_repos)
+    for repo_plan in repositories:
+        if not isinstance(repo_plan, Mapping):
+            raise PayloadError("malformed repository plan entry in batch report")
+        if repo_plan.get("knownLegacyHolds"):
+            repo_name = repo_plan.get("repository")
+            if isinstance(repo_name, str):
+                merged_held_repos.add(repo_name)
+        payload = repo_plan.get("payload")
+        if payload is not None:
+            if not isinstance(payload, Mapping) or not isinstance(payload.get("findings"), list):
+                raise PayloadError("malformed canonical payload in batch report")
+            planned.extend(copy.deepcopy(payload["findings"]))
+
+    unknown_evidence = report.get("unknownEvidence")
+    effective_complete = bool(complete) and not bool(unknown_evidence)
+    return PollInput(
+        poll_id=poll_id,
+        observed_at=observed_at,
+        observed_findings=copy.deepcopy(list(observed)),
+        planned_findings=planned,
+        complete=effective_complete,
+        held_repos=frozenset(merged_held_repos),
+        held_named_ids=held_named_ids,
+        unavailable_named_ids=unavailable_named_ids,
+    )
 
 
 @dataclass(frozen=True)
@@ -290,6 +480,10 @@ class NamedDecision:
     row_pins: Mapping[str, FirstSeenPin]
     present_row_ids: tuple[str, ...]
     vanished_row_ids: tuple[str, ...]
+    historical_row_ids: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "row_pins", _freeze_mapping(self.row_pins))
 
 
 @dataclass(frozen=True)
@@ -308,30 +502,37 @@ class PollReductionResult:
     eligible: tuple[NamedDecision, ...]
     write_authorized: bool = False
 
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "decisions", _freeze_mapping(self.decisions))
+
 
 # ---------------------------------------------------------------------------
-# Validation & urgency helpers
+# Validation, checked join & urgency helpers
 # ---------------------------------------------------------------------------
 
 
-def urgent_reasons(finding: Mapping[str, Any]) -> tuple[str, ...]:
-    """Return sorted urgent reasons: strictly HTTP 404 or 410 on a tracked component."""
-    reasons: set[str] = set()
-    liveness = finding.get("linkLiveness") or []
-    if not isinstance(liveness, list):
-        return ()
-    for row in liveness:
-        if not isinstance(row, dict):
-            continue
-        status = row.get("status")
-        if type(status) is int and status in URGENT_HTTP_STATUSES:
-            reasons.add(f"dead-link:{row.get('skillId', '?')}:{status}")
-    return tuple(sorted(reasons))
+def _tracked_components(named_id: str, authority: Mapping[str, Any]) -> frozenset[str]:
+    """Return validated exact ``authority[named_id]['suiteComponents']`` set."""
+    meta = authority.get(named_id)
+    if not isinstance(meta, dict) or meta.get("id") != named_id:
+        raise PayloadError("named identity is not in registry authority")
+    raw_components = meta.get("suiteComponents")
+    if raw_components is None:
+        return frozenset()
+    if not isinstance(raw_components, list):
+        raise PayloadError("malformed suiteComponents authority")
+    components: set[str] = set()
+    for comp_id in raw_components:
+        if not isinstance(comp_id, str) or not envelope.IDENTIFIER.fullmatch(comp_id):
+            raise PayloadError("malformed suiteComponents authority")
+        components.add(comp_id)
+    return frozenset(components)
 
 
-def _validate_evidence_lists(finding: dict[str, Any]) -> None:
-    """Strict shape checks for linkLiveness and nameDrift beyond envelope.validate_named."""
-    for entry in finding.get("linkLiveness", []):
+def _validate_liveness_list(entries: Any) -> None:
+    if not isinstance(entries, list):
+        raise PayloadError("linkLiveness must be a list")
+    for entry in entries:
         if not isinstance(entry, dict):
             raise PayloadError("malformed linkLiveness entry")
         skill_id = entry.get("skillId")
@@ -339,14 +540,15 @@ def _validate_evidence_lists(finding: dict[str, Any]) -> None:
         status = entry.get("status")
         if not isinstance(skill_id, str) or not skill_id or not isinstance(url, str) or not url:
             raise PayloadError("malformed linkLiveness entry fields")
-        valid_status = (
-            status == "network_error"
-            or (type(status) is int and 100 <= status <= 599)
-        )
+        valid_status = status == "network_error" or (type(status) is int and 100 <= status <= 599)
         if not valid_status:
             raise PayloadError("malformed linkLiveness status")
 
-    for entry in finding.get("nameDrift", []):
+
+def _validate_name_drift_list(entries: Any) -> None:
+    if not isinstance(entries, list):
+        raise PayloadError("nameDrift must be a list")
+    for entry in entries:
         if not isinstance(entry, dict):
             raise PayloadError("malformed nameDrift entry")
         skill_id = entry.get("skillId")
@@ -354,41 +556,177 @@ def _validate_evidence_lists(finding: dict[str, Any]) -> None:
             raise PayloadError("malformed nameDrift entry fields")
 
 
-def _validate_finding_observation(
-    raw_finding: Any,
-    authority: Mapping[str, dict[str, Any]],
-) -> tuple[str, str, dict[str, Any]]:
-    """Validate one canonical named finding observation via the repo's real authority rules.
+def urgent_reasons(
+    raw_finding: Mapping[str, Any],
+    planned_finding: Mapping[str, Any],
+    named_id: str,
+    authority: Mapping[str, Any],
+) -> tuple[str, ...]:
+    """Return sorted urgent reasons from explicit current raw checks for tracked components only.
 
-    Returns ``(repo, named_id, deep_copied_finding)`` or raises ``PayloadError``.
+    Excludes ``linkLivenessUnknown``, malformed entries, untracked/out-of-scope
+    component IDs, and any check not confirmed with identical ``(skillId, url,
+    status)`` in the sealed canonical finding.
+    """
+    try:
+        tracked = _tracked_components(named_id, authority)
+    except PayloadError:
+        return ()
+
+    raw_unknown = raw_finding.get("linkLivenessUnknown")
+    unknown_ids: set[str] = set()
+    if isinstance(raw_unknown, list):
+        unknown_ids = {item for item in raw_unknown if isinstance(item, str)}
+
+    canonical_checks: set[tuple[str, str, int]] = set()
+    planned_liveness = planned_finding.get("linkLiveness")
+    if isinstance(planned_liveness, list):
+        for row in planned_liveness:
+            if not isinstance(row, dict):
+                continue
+            sid = row.get("skillId")
+            url = row.get("url")
+            status = row.get("status")
+            if isinstance(sid, str) and isinstance(url, str) and type(status) is int:
+                canonical_checks.add((sid, url, status))
+
+    raw_liveness = raw_finding.get("linkLiveness")
+    if not isinstance(raw_liveness, list):
+        return ()
+
+    reasons: set[str] = set()
+    for row in raw_liveness:
+        if not isinstance(row, dict):
+            continue
+        skill_id = row.get("skillId")
+        url = row.get("url")
+        status = row.get("status")
+        if (
+            not isinstance(skill_id, str)
+            or not isinstance(url, str)
+            or type(status) is not int
+            or status not in URGENT_HTTP_STATUSES
+        ):
+            continue
+        if skill_id in unknown_ids or skill_id not in tracked:
+            continue
+        if (skill_id, url, status) not in canonical_checks:
+            continue
+        reasons.add(f"dead-link:{skill_id}:{status}")
+    return tuple(sorted(reasons))
+
+
+def _validate_raw_observation(
+    raw_obs: Any,
+    authority: Mapping[str, Any],
+) -> tuple[str, str, str, dict[str, Any]]:
+    """Validate one raw current-poll detector observation.
+
+    Returns ``(repo, named_id, finding_kind, deep_copied_obs)`` or raises ``PayloadError``.
+    """
+    if not isinstance(raw_obs, dict):
+        raise PayloadError("observed finding is not a JSON object")
+    try:
+        json.dumps(raw_obs, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+    except (TypeError, ValueError) as exc:
+        raise PayloadError(f"observed finding is not strict JSON: {exc}") from exc
+
+    for key in _REQUIRED_RAW_KEYS:
+        if key not in raw_obs:
+            raise PayloadError(f"observed finding missing required field: {key}")
+
+    finding_kind = raw_obs["finding_type"]
+    if finding_kind not in ("update", "bootstrap"):
+        raise PayloadError(f"unsupported observed finding_type: {finding_kind!r}")
+
+    named_id = raw_obs["skillId"]
+    repo = envelope.authority_repository(named_id, authority)
+    _tracked_components(named_id, authority)
+
+    for key in ("newVersion", "releasedAt"):
+        if not _is_nonempty_clean_str(raw_obs[key]):
+            raise PayloadError(f"observed finding has invalid {key}")
+
+    if envelope.release_repository(raw_obs["sourceUrl"], raw_obs["newVersion"]) != repo:
+        raise PayloadError("observed finding release source disagrees with registry authority")
+    try:
+        validateReleaseSource(raw_obs)
+    except GhError as exc:
+        raise PayloadError(str(exc)) from exc
+
+    if raw_obs["mode"] not in ("components", "version-only", "bootstrap"):
+        raise PayloadError("observed finding has invalid mode")
+
+    adds = raw_obs["componentAdds"]
+    if not isinstance(adds, list) or len(adds) > envelope.MAX_ROWS:
+        raise PayloadError("observed finding componentAdds must be a bounded list")
+    if not all(isinstance(slug, str) and _SLUG_RE.fullmatch(slug) for slug in adds) or len(adds) != len(set(adds)):
+        raise PayloadError("observed finding has duplicate or malformed componentAdds")
+
+    removes = raw_obs["componentRemoves"]
+    if not isinstance(removes, list):
+        raise PayloadError("observed finding componentRemoves must be a list")
+    if not all(_is_nonempty_clean_str(item) for item in removes) or len(removes) != len(set(removes)):
+        raise PayloadError("observed finding has duplicate or malformed componentRemoves")
+
+    _validate_liveness_list(raw_obs["linkLiveness"])
+    _validate_name_drift_list(raw_obs["nameDrift"])
+
+    if "linkLivenessUnknown" in raw_obs and raw_obs["linkLivenessUnknown"] is not None:
+        unknown = raw_obs["linkLivenessUnknown"]
+        if not isinstance(unknown, list) or not all(_is_nonempty_clean_str(item) for item in unknown):
+            raise PayloadError("observed finding has malformed linkLivenessUnknown")
+
+    return repo, named_id, finding_kind, copy.deepcopy(raw_obs)
+
+
+def _validate_planned_finding(
+    raw_finding: Any,
+    authority: Mapping[str, Any],
+) -> tuple[str, str, str, dict[str, Any]]:
+    """Validate one canonical named finding via the repo's real authority rules.
+
+    Returns ``(repo, named_id, finding_kind, deep_copied_finding)`` or raises ``PayloadError``.
     """
     if not isinstance(raw_finding, dict):
-        raise PayloadError("observation is not a JSON object")
+        raise PayloadError("canonical finding is not a JSON object")
     try:
         json.dumps(raw_finding, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
     except (TypeError, ValueError) as exc:
-        raise PayloadError(f"observation is not strict JSON: {exc}") from exc
+        raise PayloadError(f"canonical finding is not strict JSON: {exc}") from exc
 
-    named_id = raw_finding.get("skillId")
+    for key in _REQUIRED_CANONICAL_KEYS:
+        if key not in raw_finding:
+            raise PayloadError(f"canonical finding missing required field: {key}")
+
+    named_id = raw_finding["skillId"]
     repo = envelope.authority_repository(named_id, authority)
+    _tracked_components(named_id, authority)
     try:
         validateReleaseSource(raw_finding)
     except GhError as exc:
         raise PayloadError(str(exc)) from exc
 
     envelope.validate_named(raw_finding, repo, authority, digest=True, mutation_scope=True)
-    _validate_evidence_lists(raw_finding)
-    return repo, named_id, copy.deepcopy(raw_finding)
+    _validate_liveness_list(raw_finding["linkLiveness"])
+    _validate_name_drift_list(raw_finding["nameDrift"])
+
+    for row in raw_finding["candidates"]:
+        if "precheck" in row and not isinstance(row["precheck"], dict):
+            raise PayloadError("malformed candidate precheck field")
+
+    finding_kind = raw_finding.get("findingType") or "update"
+    return repo, named_id, finding_kind, copy.deepcopy(raw_finding)
 
 
 def _best_effort_scope(
-    raw_finding: Any,
-    authority: Mapping[str, dict[str, Any]],
+    raw_entry: Any,
+    authority: Mapping[str, Any],
 ) -> tuple[str | None, str | None]:
     """Extract (repo, named_id) for rejection attribution without raising."""
-    if not isinstance(raw_finding, dict):
+    if not isinstance(raw_entry, dict):
         return None, None
-    named_id = raw_finding.get("skillId")
+    named_id = raw_entry.get("skillId")
     if not isinstance(named_id, str) or not named_id:
         return None, None
     try:
@@ -401,16 +739,75 @@ def _best_effort_scope(
 def _normalize_scope_sets(
     poll: PollInput,
 ) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
+    container_types = (set, frozenset, list, tuple)
+    if not isinstance(poll.held_repos, container_types):
+        raise PayloadError("poll.held_repos must be a set, frozenset, list, or tuple")
+    if not isinstance(poll.held_named_ids, container_types):
+        raise PayloadError("poll.held_named_ids must be a set, frozenset, list, or tuple")
+    if not isinstance(poll.unavailable_named_ids, container_types):
+        raise PayloadError("poll.unavailable_named_ids must be a set, frozenset, list, or tuple")
+
     held_repos: set[str] = set()
     for repo in poll.held_repos:
         held_repos.add(envelope.repository(repo))
+    held_named: set[str] = set()
     for named_id in poll.held_named_ids:
         if not isinstance(named_id, str) or not envelope.IDENTIFIER.fullmatch(named_id):
             raise PayloadError(f"invalid held_named_ids entry: {named_id!r}")
+        held_named.add(named_id)
+    unavailable_named: set[str] = set()
     for named_id in poll.unavailable_named_ids:
         if not isinstance(named_id, str) or not envelope.IDENTIFIER.fullmatch(named_id):
             raise PayloadError(f"invalid unavailable_named_ids entry: {named_id!r}")
-    return frozenset(held_repos), frozenset(poll.held_named_ids), frozenset(poll.unavailable_named_ids)
+        unavailable_named.add(named_id)
+    return frozenset(held_repos), frozenset(held_named), frozenset(unavailable_named)
+
+
+def _match_current_candidates(
+    repo: str,
+    raw_obs: Mapping[str, Any],
+    planned_finding: Mapping[str, Any],
+) -> frozenset[str]:
+    """Derive current present candidate row IDs from explicit raw ``componentAdds``.
+
+    Verifies exact compatibility with the validated canonical finding's
+    ``componentAdds`` and ``candidates`` rows using the shared producer rule
+    (``<repo>:<slug>`` with exact slug match). Retained canonical rows not in
+    raw ``componentAdds`` are permitted and excluded from the returned set.
+    """
+    raw_adds = raw_obs["componentAdds"]
+    planned_adds = planned_finding["componentAdds"]
+    if set(raw_adds) != set(planned_adds):
+        raise PayloadError("raw componentAdds disagrees with canonical finding componentAdds")
+
+    by_slug: dict[str, dict[str, Any]] = {}
+    for row in planned_finding["candidates"]:
+        by_slug[row["slug"]] = row
+
+    present_ids: set[str] = set()
+    for slug in raw_adds:
+        row = by_slug.get(slug)
+        if row is None:
+            raise PayloadError(f"raw componentAdd {slug!r} is missing from canonical candidates")
+        row_repo, sep, row_slug = row["id"].partition(":")
+        if not sep or row_repo.lower() != repo or row_slug != slug:
+            raise PayloadError(f"canonical candidate row id {row['id']!r} disagrees with ({repo}, {slug})")
+        present_ids.add(row["id"])
+    return frozenset(present_ids)
+
+
+def _check_pin_continuity(prior: NamedBucket, planned_finding: Mapping[str, Any]) -> None:
+    """Reject any incoming canonical row whose pin contradicts prior authoritative state."""
+    for row in planned_finding["candidates"]:
+        old_row = prior.rows.get(row["id"])
+        if old_row is None:
+            continue
+        pin = old_row.first_seen_pin
+        if row["firstSeenVersion"] != pin.first_seen_version or row["evidenceUrl"] != pin.evidence_url:
+            raise PayloadError(
+                f"pin conflict for {row['id']}: prior=({pin.first_seen_version}, {pin.evidence_url}) "
+                f"!= incoming=({row['firstSeenVersion']}, {row['evidenceUrl']})"
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -423,10 +820,11 @@ def _fold_bucket(
     repo: str,
     named_id: str,
     finding: dict[str, Any],
+    current_present_row_ids: frozenset[str],
     poll_id: str,
     observed_at_iso: str,
 ) -> NamedBucket:
-    """Fold one verified current observation into its exact ``(repo, named_id)`` bucket."""
+    """Fold one verified joined observation into its exact ``(repo, named_id)`` bucket."""
     version = finding["newVersion"]
     source_url = finding["sourceUrl"]
     released_at = finding["releasedAt"]
@@ -437,25 +835,50 @@ def _fold_bucket(
 
     if prior is None:
         for row_id, row in sorted(incoming_by_id.items()):
-            pin = FirstSeenPin(
-                first_seen_version=row["firstSeenVersion"],
-                evidence_url=row["evidenceUrl"],
-                first_seen_at=observed_at_iso,
-                first_seen_poll_id=poll_id,
-            )
-            next_rows[row_id] = RowHistory(
-                row_id=row_id,
-                slug=row["slug"],
-                suggested_id=row["suggestedId"],
-                first_seen_pin=pin,
-                last_seen_version=row["lastSeenVersion"],
-                last_seen_at=observed_at_iso,
-                last_seen_poll_id=poll_id,
-                present_in_latest=True,
-                vanished_at=None,
-                vanished_poll_id=None,
-                latest_row=row,
-            )
+            if row_id in current_present_row_ids:
+                pin = FirstSeenPin(
+                    first_seen_version=row["firstSeenVersion"],
+                    evidence_url=row["evidenceUrl"],
+                    first_seen_at=observed_at_iso,
+                    first_seen_poll_id=poll_id,
+                )
+                next_rows[row_id] = RowHistory(
+                    row_id=row_id,
+                    slug=row["slug"],
+                    suggested_id=row["suggestedId"],
+                    first_seen_pin=pin,
+                    last_seen_version=row["lastSeenVersion"],
+                    last_seen_at=observed_at_iso,
+                    last_seen_poll_id=poll_id,
+                    present_in_latest=True,
+                    vanished_at=None,
+                    vanished_poll_id=None,
+                    latest_row=row,
+                    historical_only=False,
+                )
+            else:
+                # Retained canonical row omitted by current raw componentAdds:
+                # keep in canonical view without fabricating a current sighting or prior timestamp.
+                pin = FirstSeenPin(
+                    first_seen_version=row["firstSeenVersion"],
+                    evidence_url=row["evidenceUrl"],
+                    first_seen_at=None,
+                    first_seen_poll_id=None,
+                )
+                next_rows[row_id] = RowHistory(
+                    row_id=row_id,
+                    slug=row["slug"],
+                    suggested_id=row["suggestedId"],
+                    first_seen_pin=pin,
+                    last_seen_version=row["lastSeenVersion"],
+                    last_seen_at=None,
+                    last_seen_poll_id=None,
+                    present_in_latest=False,
+                    vanished_at=None,
+                    vanished_poll_id=None,
+                    latest_row=row,
+                    historical_only=True,
+                )
         versions_seen = (
             VersionSighting(
                 version=version,
@@ -477,56 +900,114 @@ def _fold_bucket(
             last_poll_id=poll_id,
             sighting_count=1,
             revision=1,
-            latest_finding=finding,
+            latest_finding=copy.deepcopy(finding),
             latest_finding_sha256=finding_sha256,
             versions_seen=versions_seen,
             rows=next_rows,
         )
 
-    # Existing bucket: preserve immutable FirstSeenPin for known rows, mark
-    # omitted rows as legitimately vanished ONLY because this exact bucket
-    # received a verified current observation.
+    # Existing bucket: pin continuity has already been verified.
     for row_id, row in sorted(incoming_by_id.items()):
         old_row = prior.rows.get(row_id)
-        if old_row is not None:
-            pin = old_row.first_seen_pin
+        if row_id in current_present_row_ids:
+            if old_row is not None:
+                pin = old_row.first_seen_pin
+            else:
+                pin = FirstSeenPin(
+                    first_seen_version=row["firstSeenVersion"],
+                    evidence_url=row["evidenceUrl"],
+                    first_seen_at=observed_at_iso,
+                    first_seen_poll_id=poll_id,
+                )
+            next_rows[row_id] = RowHistory(
+                row_id=row_id,
+                slug=row["slug"],
+                suggested_id=row["suggestedId"],
+                first_seen_pin=pin,
+                last_seen_version=row["lastSeenVersion"],
+                last_seen_at=observed_at_iso,
+                last_seen_poll_id=poll_id,
+                present_in_latest=True,
+                vanished_at=None,
+                vanished_poll_id=None,
+                latest_row=row,
+                historical_only=False,
+            )
+        elif old_row is not None and not old_row.historical_only:
+            # Previously observed row omitted from current raw componentAdds -> legitimately vanished.
+            next_rows[row_id] = RowHistory(
+                row_id=old_row.row_id,
+                slug=old_row.slug,
+                suggested_id=old_row.suggested_id,
+                first_seen_pin=old_row.first_seen_pin,
+                last_seen_version=old_row.last_seen_version,
+                last_seen_at=old_row.last_seen_at,
+                last_seen_poll_id=old_row.last_seen_poll_id,
+                present_in_latest=False,
+                vanished_at=old_row.vanished_at or observed_at_iso,
+                vanished_poll_id=old_row.vanished_poll_id or poll_id,
+                latest_row=row,
+                historical_only=False,
+            )
+        elif old_row is not None:
+            # Still historical-only: never observed as current by this reducer.
+            next_rows[row_id] = RowHistory(
+                row_id=old_row.row_id,
+                slug=old_row.slug,
+                suggested_id=old_row.suggested_id,
+                first_seen_pin=old_row.first_seen_pin,
+                last_seen_version=row["lastSeenVersion"],
+                last_seen_at=None,
+                last_seen_poll_id=None,
+                present_in_latest=False,
+                vanished_at=None,
+                vanished_poll_id=None,
+                latest_row=row,
+                historical_only=True,
+            )
         else:
+            # Newly encountered historical-only row in canonical candidates.
             pin = FirstSeenPin(
                 first_seen_version=row["firstSeenVersion"],
                 evidence_url=row["evidenceUrl"],
-                first_seen_at=observed_at_iso,
-                first_seen_poll_id=poll_id,
+                first_seen_at=None,
+                first_seen_poll_id=None,
             )
-        next_rows[row_id] = RowHistory(
-            row_id=row_id,
-            slug=row["slug"],
-            suggested_id=row["suggestedId"],
-            first_seen_pin=pin,
-            last_seen_version=row["lastSeenVersion"],
-            last_seen_at=observed_at_iso,
-            last_seen_poll_id=poll_id,
-            present_in_latest=True,
-            vanished_at=None,
-            vanished_poll_id=None,
-            latest_row=row,
-        )
+            next_rows[row_id] = RowHistory(
+                row_id=row_id,
+                slug=row["slug"],
+                suggested_id=row["suggestedId"],
+                first_seen_pin=pin,
+                last_seen_version=row["lastSeenVersion"],
+                last_seen_at=None,
+                last_seen_poll_id=None,
+                present_in_latest=False,
+                vanished_at=None,
+                vanished_poll_id=None,
+                latest_row=row,
+                historical_only=True,
+            )
 
     for row_id, old_row in sorted(prior.rows.items()):
         if row_id in next_rows:
             continue
-        next_rows[row_id] = RowHistory(
-            row_id=old_row.row_id,
-            slug=old_row.slug,
-            suggested_id=old_row.suggested_id,
-            first_seen_pin=old_row.first_seen_pin,
-            last_seen_version=old_row.last_seen_version,
-            last_seen_at=old_row.last_seen_at,
-            last_seen_poll_id=old_row.last_seen_poll_id,
-            present_in_latest=False,
-            vanished_at=old_row.vanished_at or observed_at_iso,
-            vanished_poll_id=old_row.vanished_poll_id or poll_id,
-            latest_row=copy.deepcopy(old_row.latest_row),
-        )
+        if old_row.historical_only:
+            next_rows[row_id] = _clone_row(old_row)
+        else:
+            next_rows[row_id] = RowHistory(
+                row_id=old_row.row_id,
+                slug=old_row.slug,
+                suggested_id=old_row.suggested_id,
+                first_seen_pin=old_row.first_seen_pin,
+                last_seen_version=old_row.last_seen_version,
+                last_seen_at=old_row.last_seen_at,
+                last_seen_poll_id=old_row.last_seen_poll_id,
+                present_in_latest=False,
+                vanished_at=old_row.vanished_at or observed_at_iso,
+                vanished_poll_id=old_row.vanished_poll_id or poll_id,
+                latest_row=copy.deepcopy(old_row.latest_row),
+                historical_only=False,
+            )
 
     updated_versions: list[VersionSighting] = []
     matched_version = False
@@ -574,7 +1055,7 @@ def _fold_bucket(
         last_poll_id=poll_id,
         sighting_count=prior.sighting_count + 1,
         revision=prior.revision + 1,
-        latest_finding=finding,
+        latest_finding=copy.deepcopy(finding),
         latest_finding_sha256=finding_sha256,
         versions_seen=tuple(updated_versions),
         rows=next_rows,
@@ -583,6 +1064,8 @@ def _fold_bucket(
 
 def _decision_for_observed_bucket(
     bucket: NamedBucket,
+    raw_obs: Mapping[str, Any],
+    authority: Mapping[str, Any],
     poll_id: str,
     observed_at_dt: dt.datetime,
     observed_at_iso: str,
@@ -590,7 +1073,7 @@ def _decision_for_observed_bucket(
 ) -> NamedDecision:
     pending_dt = parse_strict_utc(bucket.pending_since)
     deadline_dt = pending_dt + dt.timedelta(days=config.window_days)
-    urgent = urgent_reasons(bucket.latest_finding)
+    urgent = urgent_reasons(raw_obs, bucket.latest_finding, bucket.named_id, authority)
     if urgent:
         decision = DECISION_URGENT
         eligible = True
@@ -626,6 +1109,7 @@ def _decision_for_observed_bucket(
         row_pins={rid: row.first_seen_pin for rid, row in sorted(bucket.rows.items())},
         present_row_ids=bucket.present_row_ids,
         vanished_row_ids=bucket.vanished_row_ids,
+        historical_row_ids=bucket.historical_row_ids,
     )
 
 
@@ -658,6 +1142,7 @@ def _decision_for_unobserved_bucket(
         row_pins={rid: row.first_seen_pin for rid, row in sorted(bucket.rows.items())},
         present_row_ids=bucket.present_row_ids,
         vanished_row_ids=bucket.vanished_row_ids,
+        historical_row_ids=bucket.historical_row_ids,
     )
 
 
@@ -670,7 +1155,7 @@ def _rejected_poll(
 ) -> PollReductionResult:
     return PollReductionResult(
         status="rejected",
-        state=state,
+        state=_clone_state(state),
         poll_id=poll_id,
         observed_at=observed_at,
         replayed=False,
@@ -689,25 +1174,30 @@ def reduce_poll(
     authority: Mapping[str, dict[str, Any]],
     config: ReducerConfig | None = None,
 ) -> PollReductionResult:
-    """Purely reduce one offline poll snapshot against *state* and *authority*.
+    """Purely reduce one dual-evidence offline poll snapshot against *state* and *authority*.
 
     Guarantees:
-    * Exact replay of an already-seen ``poll_id`` with identical timestamp and
-      inputs is an idempotent no-op (``status="replayed"``, state and revisions
-      unchanged, ``eligible=()``).
-    * Conflicting reuse of an existing ``poll_id``, stale ``observed_at``, or
-      ``complete=False`` fails closed (``status="rejected"``, state unchanged,
-      ``eligible=()``).
-    * Malformed, tampered, mis-scoped, or conflicting observations are rejected
-      per-observation without raising uncaught exceptions and without disturbing
-      unrelated repositories or unaffected siblings.
+    * Exact replay of an already-seen ``poll_id`` with identical timestamp,
+      both evidence tracks, and hold/scope sets is an idempotent no-op
+      (``status="replayed"``, isolated state clone, ``eligible=()``).
+    * Conflicting reuse of an existing ``poll_id``, stale ``observed_at``,
+      malformed poll containers, or ``complete=False`` fails closed
+      (``status="rejected"``, isolated state clone, ``eligible=()``).
+    * Every accepted scope requires an exact verified join between raw
+      ``observed_findings`` and canonical ``planned_findings``. Retained
+      canonical siblings without current raw observations are history only.
+    * Pin conflicts, missing canonical matches, or malformed/conflicting
+      observations reject only the affected scope without raising uncaught
+      exceptions and without disturbing unrelated repositories or siblings.
     * Eligibility is evaluated per exact ``(repository, named_id)`` ONLY for
-      validly observed, unheld, available buckets from THIS actual poll.
+      validly joined, unheld, available buckets from THIS actual poll.
     * ``write_authorized`` is always ``False``.
     """
-    cfg = config if config is not None else ReducerConfig()
     if not isinstance(state, ReducerState):
         raise TypeError("state must be a ReducerState")
+    cfg = config if config is not None else ReducerConfig()
+    if not isinstance(cfg, ReducerConfig):
+        return _rejected_poll(state, "config must be a ReducerConfig")
     if not isinstance(poll, PollInput):
         return _rejected_poll(state, "poll must be a PollInput")
     if not isinstance(authority, Mapping) or not authority:
@@ -727,17 +1217,27 @@ def reduce_poll(
     if type(poll.complete) is not bool:
         return _rejected_poll(state, "poll.complete must be a boolean", poll_id=poll_id, observed_at=observed_at_iso)
 
-    if not isinstance(poll.findings, (list, tuple)):
+    if not isinstance(poll.observed_findings, (list, tuple)):
         return _rejected_poll(
-            state, "poll.findings must be a list or tuple", poll_id=poll_id, observed_at=observed_at_iso
+            state,
+            "poll.observed_findings must be a list or tuple",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
+        )
+    if not isinstance(poll.planned_findings, (list, tuple)):
+        return _rejected_poll(
+            state,
+            "poll.planned_findings must be a list or tuple",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
         )
 
     try:
         held_repos, held_named_ids, unavailable_named_ids = _normalize_scope_sets(poll)
-    except PayloadError as exc:
+    except (PayloadError, TypeError, ValueError) as exc:
         return _rejected_poll(state, str(exc), poll_id=poll_id, observed_at=observed_at_iso)
 
-    # Canonical input digest for exact replay vs conflicting poll_id detection only.
+    # Canonical input digest covering both evidence tracks and all hold/scope sets.
     try:
         input_digest = _canonical_json_digest(
             {
@@ -747,7 +1247,8 @@ def reduce_poll(
                 "held_repos": sorted(held_repos),
                 "held_named_ids": sorted(held_named_ids),
                 "unavailable_named_ids": sorted(unavailable_named_ids),
-                "findings": list(poll.findings),
+                "observed_findings": list(poll.observed_findings),
+                "planned_findings": list(poll.planned_findings),
             }
         )
     except (TypeError, ValueError) as exc:
@@ -762,6 +1263,7 @@ def reduce_poll(
             and prior_receipt.complete == poll.complete
             and prior_receipt.input_digest == input_digest
         ):
+            cloned = _clone_state(state)
             replay_decisions = {
                 scope: _decision_for_unobserved_bucket(
                     bucket,
@@ -772,11 +1274,11 @@ def reduce_poll(
                     observed_at_iso,
                     cfg,
                 )
-                for scope, bucket in sorted(state.buckets.items())
+                for scope, bucket in sorted(cloned.buckets.items())
             }
             return PollReductionResult(
                 status="replayed",
-                state=state,
+                state=cloned,
                 poll_id=poll_id,
                 observed_at=observed_at_iso,
                 replayed=True,
@@ -810,19 +1312,17 @@ def reduce_poll(
             observed_at=observed_at_iso,
         )
 
-    # Validate each observation independently (fail-closed per scope, no uncaught TypeErrors).
-    validated_by_scope: dict[tuple[str, str], dict[str, Any]] = {}
-    conflicting_scopes: set[tuple[str, str]] = set()
+    # 1. Validate raw observed findings independently.
+    raw_by_scope: dict[tuple[str, str], tuple[int, str, dict[str, Any]]] = {}
+    conflicting_raw_scopes: set[tuple[str, str]] = set()
     rejected_observations: list[RejectedObservation] = []
     rejected_scopes: set[tuple[str, str]] = set()
-    held_incoming_scopes: set[tuple[str, str]] = set()
-    unavailable_incoming_scopes: set[tuple[str, str]] = set()
 
-    for idx, raw_finding in enumerate(poll.findings):
+    for idx, raw_obs in enumerate(poll.observed_findings):
         try:
-            repo, named_id, finding = _validate_finding_observation(raw_finding, authority)
+            repo, named_id, finding_kind, obs = _validate_raw_observation(raw_obs, authority)
         except (PayloadError, GhError, TypeError, ValueError, KeyError) as exc:
-            best_repo, best_named = _best_effort_scope(raw_finding, authority)
+            best_repo, best_named = _best_effort_scope(raw_obs, authority)
             rejected_observations.append(
                 RejectedObservation(index=idx, named_id=best_named, repository=best_repo, reason=str(exc))
             )
@@ -831,72 +1331,196 @@ def reduce_poll(
             continue
 
         scope = (repo, named_id)
-        if named_id in unavailable_named_ids:
-            unavailable_incoming_scopes.add(scope)
-            continue
-        if repo in held_repos or named_id in held_named_ids:
-            held_incoming_scopes.add(scope)
-            continue
-
-        if scope in conflicting_scopes:
+        if scope in conflicting_raw_scopes:
             rejected_observations.append(
                 RejectedObservation(
                     index=idx,
                     named_id=named_id,
                     repository=repo,
-                    reason="conflicting duplicate observation for same (repository, named_id) in poll",
+                    reason="conflicting duplicate raw observation for same (repository, named_id) in poll",
                 )
             )
             continue
 
-        existing = validated_by_scope.get(scope)
-        if existing is not None:
-            if existing != finding:
-                del validated_by_scope[scope]
-                conflicting_scopes.add(scope)
+        existing_raw = raw_by_scope.get(scope)
+        if existing_raw is not None:
+            if existing_raw[1] != finding_kind or existing_raw[2] != obs:
+                del raw_by_scope[scope]
+                conflicting_raw_scopes.add(scope)
                 rejected_scopes.add(scope)
                 rejected_observations.append(
                     RejectedObservation(
                         index=idx,
                         named_id=named_id,
                         repository=repo,
-                        reason="conflicting duplicate observation for same (repository, named_id) in poll",
+                        reason="conflicting duplicate raw observation for same (repository, named_id) in poll",
                     )
                 )
             continue
+        raw_by_scope[scope] = (idx, finding_kind, obs)
 
-        validated_by_scope[scope] = finding
+    # 2. Validate canonical planned findings independently.
+    planned_by_scope: dict[tuple[str, str], tuple[int, str, dict[str, Any]]] = {}
+    conflicting_planned_scopes: set[tuple[str, str]] = set()
 
-    # Remove any scope that also had a malformed entry in the same poll.
-    for scope in list(validated_by_scope):
-        if scope in rejected_scopes:
-            del validated_by_scope[scope]
+    for idx, raw_planned in enumerate(poll.planned_findings):
+        try:
+            repo, named_id, finding_kind, finding = _validate_planned_finding(raw_planned, authority)
+        except (PayloadError, GhError, TypeError, ValueError, KeyError) as exc:
+            best_repo, best_named = _best_effort_scope(raw_planned, authority)
+            rejected_observations.append(
+                RejectedObservation(index=idx, named_id=best_named, repository=best_repo, reason=str(exc))
+            )
+            if best_repo is not None and best_named is not None:
+                rejected_scopes.add((best_repo, best_named))
+            continue
 
-    next_buckets: dict[tuple[str, str], NamedBucket] = dict(state.buckets)
-    accepted_scopes: list[tuple[str, str]] = []
-    decisions: dict[tuple[str, str], NamedDecision] = {}
-
-    for scope in sorted(validated_by_scope):
-        repo, named_id = scope
-        prior = state.buckets.get(scope)
-        if prior is not None and observed_at_dt < parse_strict_utc(prior.last_observed_at):
+        scope = (repo, named_id)
+        if scope in conflicting_planned_scopes:
             rejected_observations.append(
                 RejectedObservation(
-                    index=-1,
+                    index=idx,
                     named_id=named_id,
                     repository=repo,
-                    reason="stale observed_at predates bucket last_observed_at",
+                    reason="conflicting duplicate canonical finding for same (repository, named_id) in poll",
+                )
+            )
+            continue
+
+        existing_planned = planned_by_scope.get(scope)
+        if existing_planned is not None:
+            if existing_planned[1] != finding_kind or existing_planned[2] != finding:
+                del planned_by_scope[scope]
+                conflicting_planned_scopes.add(scope)
+                rejected_scopes.add(scope)
+                rejected_observations.append(
+                    RejectedObservation(
+                        index=idx,
+                        named_id=named_id,
+                        repository=repo,
+                        reason="conflicting duplicate canonical finding for same (repository, named_id) in poll",
+                    )
+                )
+            continue
+        planned_by_scope[scope] = (idx, finding_kind, finding)
+
+    # 3. Checked join: ONLY scopes explicitly present in raw observed_findings
+    #    can advance history or become eligible. Retained canonical siblings not
+    #    present in observed_findings are history only.
+    joined_by_scope: dict[tuple[str, str], tuple[dict[str, Any], dict[str, Any], frozenset[str]]] = {}
+    held_incoming_scopes: set[tuple[str, str]] = set()
+    unavailable_incoming_scopes: set[tuple[str, str]] = set()
+
+    for scope in sorted(raw_by_scope):
+        repo, named_id = scope
+        raw_idx, raw_kind, raw_obs = raw_by_scope[scope]
+
+        if named_id in unavailable_named_ids:
+            unavailable_incoming_scopes.add(scope)
+            continue
+        if repo in held_repos or named_id in held_named_ids:
+            held_incoming_scopes.add(scope)
+            continue
+        if scope in rejected_scopes:
+            continue
+
+        planned_entry = planned_by_scope.get(scope)
+        if planned_entry is None:
+            rejected_observations.append(
+                RejectedObservation(
+                    index=raw_idx,
+                    named_id=named_id,
+                    repository=repo,
+                    reason="missing canonical planned finding for observed scope",
                 )
             )
             rejected_scopes.add(scope)
             continue
-        folded = _fold_bucket(prior, repo, named_id, validated_by_scope[scope], poll_id, observed_at_iso)
+
+        _planned_idx, planned_kind, planned_finding = planned_entry
+        raw_join_key = (repo, named_id, raw_obs["sourceUrl"], raw_obs["newVersion"], raw_kind)
+        planned_join_key = (repo, named_id, planned_finding["sourceUrl"], planned_finding["newVersion"], planned_kind)
+        if raw_join_key != planned_join_key:
+            rejected_observations.append(
+                RejectedObservation(
+                    index=raw_idx,
+                    named_id=named_id,
+                    repository=repo,
+                    reason=(
+                        f"raw/canonical join mismatch for ({repo}, {named_id}): "
+                        f"raw={raw_join_key[2:]} != canonical={planned_join_key[2:]}"
+                    ),
+                )
+            )
+            rejected_scopes.add(scope)
+            continue
+
+        try:
+            current_present_row_ids = _match_current_candidates(repo, raw_obs, planned_finding)
+        except PayloadError as exc:
+            rejected_observations.append(
+                RejectedObservation(index=raw_idx, named_id=named_id, repository=repo, reason=str(exc))
+            )
+            rejected_scopes.add(scope)
+            continue
+
+        joined_by_scope[scope] = (raw_obs, planned_finding, current_present_row_ids)
+
+    # 4. Clone untouched prior buckets so returned state never aliases prior state.
+    next_buckets: dict[tuple[str, str], NamedBucket] = {
+        scope: _clone_bucket(bucket) for scope, bucket in sorted(state.buckets.items())
+    }
+    accepted_scopes: list[tuple[str, str]] = []
+    decisions: dict[tuple[str, str], NamedDecision] = {}
+
+    for scope in sorted(joined_by_scope):
+        repo, named_id = scope
+        raw_obs, planned_finding, current_present_row_ids = joined_by_scope[scope]
+        prior = state.buckets.get(scope)
+        if prior is not None:
+            if observed_at_dt < parse_strict_utc(prior.last_observed_at):
+                rejected_observations.append(
+                    RejectedObservation(
+                        index=-1,
+                        named_id=named_id,
+                        repository=repo,
+                        reason="stale observed_at predates bucket last_observed_at",
+                    )
+                )
+                rejected_scopes.add(scope)
+                continue
+            try:
+                _check_pin_continuity(prior, planned_finding)
+            except PayloadError as exc:
+                rejected_observations.append(
+                    RejectedObservation(index=-1, named_id=named_id, repository=repo, reason=str(exc))
+                )
+                rejected_scopes.add(scope)
+                continue
+
+        folded = _fold_bucket(
+            prior,
+            repo,
+            named_id,
+            planned_finding,
+            current_present_row_ids,
+            poll_id,
+            observed_at_iso,
+        )
         next_buckets[scope] = folded
         accepted_scopes.append(scope)
-        decisions[scope] = _decision_for_observed_bucket(folded, poll_id, observed_at_dt, observed_at_iso, cfg)
+        decisions[scope] = _decision_for_observed_bucket(
+            folded,
+            raw_obs,
+            authority,
+            poll_id,
+            observed_at_dt,
+            observed_at_iso,
+            cfg,
+        )
 
-    # Record explicit non-eligible decisions for existing buckets not accepted in this poll,
-    # plus incoming held/unavailable scopes that have no prior bucket yet.
+    # 5. Record explicit non-eligible decisions for existing buckets not accepted in
+    #    this poll, plus incoming held/unavailable scopes without a prior bucket.
     all_unobserved_scopes = (
         (set(next_buckets) - set(accepted_scopes))
         | held_incoming_scopes
@@ -941,6 +1565,7 @@ def reduce_poll(
                 row_pins={},
                 present_row_ids=(),
                 vanished_row_ids=(),
+                historical_row_ids=(),
             )
 
     next_seen_polls = dict(state.seen_polls)
