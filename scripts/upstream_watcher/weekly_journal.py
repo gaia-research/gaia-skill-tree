@@ -43,6 +43,7 @@ import copy
 import fcntl
 import hashlib
 import json
+import math
 import os
 import re
 import tempfile
@@ -112,6 +113,9 @@ _VALID_PRESENCE = frozenset(
 )
 _VALID_CANDIDATE_STATUSES = frozenset({"new", "tracked", "present", "rejected", "escalated"})
 _SLUG_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+_MAX_JSON_DEPTH = 64
+_MAX_JSON_INT_DIGITS = 128
+_MAX_JSON_FLOAT_CHARS = 128
 
 _TOP_LEVEL_KEYS = frozenset(
     {
@@ -329,6 +333,40 @@ def _reject_non_finite(constant: str) -> Any:
     raise JournalValidationError(f"non-finite JSON constant is not allowed: {constant!r}")
 
 
+def _parse_bounded_int(token: str) -> int:
+    digits = token[1:] if token.startswith("-") else token
+    if len(digits) > _MAX_JSON_INT_DIGITS:
+        raise JournalValidationError(f"JSON integer exceeds maximum length ({_MAX_JSON_INT_DIGITS} digits)")
+    return int(token)
+
+
+def _parse_bounded_float(token: str) -> float:
+    if len(token) > _MAX_JSON_FLOAT_CHARS:
+        raise JournalValidationError(f"JSON float exceeds maximum length ({_MAX_JSON_FLOAT_CHARS} characters)")
+    value = float(token)
+    if not math.isfinite(value):
+        raise JournalValidationError("non-finite JSON float is not allowed")
+    return value
+
+
+def _validate_json_depth(root: Any, *, max_depth: int = _MAX_JSON_DEPTH) -> None:
+    stack: list[tuple[Any, int]] = [(root, 1)]
+    while stack:
+        node, depth = stack.pop()
+        if isinstance(node, dict):
+            if depth > max_depth:
+                raise JournalValidationError(f"JSON nesting depth exceeds maximum ({max_depth})")
+            for value in node.values():
+                if isinstance(value, (dict, list)):
+                    stack.append((value, depth + 1))
+        elif isinstance(node, list):
+            if depth > max_depth:
+                raise JournalValidationError(f"JSON nesting depth exceeds maximum ({max_depth})")
+            for item in node:
+                if isinstance(item, (dict, list)):
+                    stack.append((item, depth + 1))
+
+
 def _journal_digest(body: Mapping[str, Any]) -> str:
     without_digest = {key: value for key, value in body.items() if key != "digest"}
     try:
@@ -458,7 +496,8 @@ def _validate_candidate_row_dict(
         raise JournalValidationError("row.latestRow.slug disagrees with slug")
     if latest_row.get("suggestedId") != suggested_id:
         raise JournalValidationError("row.latestRow.suggestedId disagrees with suggestedId")
-    if latest_row.get("status") not in _VALID_CANDIDATE_STATUSES:
+    status = latest_row.get("status")
+    if not isinstance(status, str) or status not in _VALID_CANDIDATE_STATUSES:
         raise JournalValidationError("row.latestRow has invalid status")
     if latest_row.get("firstSeenVersion") != first_seen_version:
         raise JournalValidationError("row.latestRow.firstSeenVersion disagrees with firstSeenPin")
@@ -661,6 +700,7 @@ def decode_state(
         raise JournalValidationError("authority must be a non-empty mapping")
     if not isinstance(data, dict):
         raise JournalValidationError("journal root must be a JSON object")
+    _validate_json_depth(data)
     if set(data.keys()) != _TOP_LEVEL_KEYS:
         raise JournalValidationError("journal root has unexpected or missing keys")
 
@@ -795,8 +835,8 @@ def decode_state(
         if latest_finding.get("skillId") != named_id:
             raise JournalValidationError("bucket.latestFinding.skillId disagrees with bucket namedId")
         try:
-            validateReleaseSource(latest_finding)
             envelope.validate_named(latest_finding, norm_repo, authority, digest=True, mutation_scope=True)
+            validateReleaseSource(latest_finding)
         except (PayloadError, GhError) as exc:
             raise JournalValidationError(f"bucket.latestFinding failed canonical validation: {exc}") from exc
         _validate_liveness_and_drift(latest_finding)
@@ -855,6 +895,8 @@ def decode_state(
                 and v_src == latest_finding["sourceUrl"]
                 and v_sha == latest_sha
             ):
+                if v_rel != latest_finding["releasedAt"]:
+                    raise JournalValidationError("latest versionsSeen entry disagrees with latestFinding.releasedAt")
                 if v_last_iso != bucket_last_iso or v_last_poll != bucket_last_poll_id:
                     raise JournalValidationError("latest versionsSeen entry disagrees with bucket lastObservedAt/lastPollId")
                 matched_latest_version = True
@@ -986,6 +1028,10 @@ def decode_state(
                         raise JournalValidationError("present-candidate row cannot carry vanishedAt/vanishedPollId")
                     if slug not in latest_component_adds or row_id not in canonical_cands_by_id:
                         raise JournalValidationError("present-candidate row is absent from latestFinding componentAdds/candidates")
+                    if last_seen_ver != canonical_cands_by_id[row_id]["lastSeenVersion"]:
+                        raise JournalValidationError(
+                            "present-candidate row.lastSeenVersion disagrees with latestFinding candidate lastSeenVersion"
+                        )
                     vanished_at_iso = None
                     vanished_poll_id = None
                     present_slugs_from_rows.add(slug)
@@ -1227,8 +1273,15 @@ def load_journal(
 
     try:
         text = raw.decode("utf-8")
-        data = json.loads(text, object_pairs_hook=_unique_object_pairs, parse_constant=_reject_non_finite)
-    except (UnicodeDecodeError, json.JSONDecodeError, JournalValidationError) as exc:
+        data = json.loads(
+            text,
+            object_pairs_hook=_unique_object_pairs,
+            parse_constant=_reject_non_finite,
+            parse_int=_parse_bounded_int,
+            parse_float=_parse_bounded_float,
+        )
+        _validate_json_depth(data)
+    except (UnicodeDecodeError, ValueError, RecursionError, JournalValidationError) as exc:
         return JournalHandle(
             path=target,
             status=STATUS_CORRUPT,

@@ -1019,8 +1019,32 @@ def test_malformed_json_duplicate_keys_digest_mismatch_and_non_file(tmp_path: Pa
             "digest-mismatch",
             json.dumps({**valid_payload, "revision": 99}, sort_keys=True).encode("utf-8"),
         ),
+        (
+            "overlong-integer",
+            (
+                '{"format": "' + JOURNAL_FORMAT + '", "namespace": "' + JOURNAL_NAMESPACE + '", '
+                '"journalVersion": 3, "revision": ' + ("9" * 5000) + "}"
+            ).encode("utf-8"),
+        ),
+        (
+            "bounded-overlong-integer",
+            (
+                '{"format": "' + JOURNAL_FORMAT + '", "namespace": "' + JOURNAL_NAMESPACE + '", '
+                '"journalVersion": 3, "revision": ' + ("9" * 200) + "}"
+            ).encode("utf-8"),
+        ),
+        (
+            "overflow-float",
+            (
+                '{"format": "' + JOURNAL_FORMAT + '", "namespace": "' + JOURNAL_NAMESPACE + '", '
+                '"journalVersion": 3, "revision": 1e500}'
+            ).encode("utf-8"),
+        ),
+        ("excessive-nesting-depth", (b"[" * 100) + (b"]" * 100)),
+        ("parser-recursion-depth", (b'{"a":' * 1500) + b"{}" + (b"}" * 1500)),
     ]
 
+    empty_poll = PollInput(poll_id="poll-empty", observed_at=TUE_NOV_10, observed_findings=(), planned_findings=())
     for name, raw in cases:
         p = tmp_path / f"bad-{name}.json"
         p.write_bytes(raw)
@@ -1030,6 +1054,8 @@ def test_malformed_json_duplicate_keys_digest_mismatch_and_non_file(tmp_path: Pa
         assert loaded.state is None
         with pytest.raises(JournalBlockedError):
             save_journal(p, empty_state(), authority, allow_bootstrap=True)
+        with pytest.raises(JournalBlockedError):
+            commit_poll(p, empty_poll, authority, allow_bootstrap=True)
         assert p.read_bytes() == raw
 
     # Directory and symlink paths are rejected as corrupt and never overwritten
@@ -1113,6 +1139,26 @@ def _mutate_extra_top_key(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -
     p["unexpectedField"] = "injected"
 
 
+def _mutate_present_candidate_last_seen_version(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -> None:
+    p["buckets"][0]["rows"][0]["lastSeenVersion"] = "v9.9.9"
+
+
+def _mutate_latest_version_released_at_mismatch(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -> None:
+    p["buckets"][0]["versionsSeen"][0]["releasedAt"] = "2026-11-19T00:00:00Z"
+
+
+def _mutate_latest_version_released_at_non_timestamp(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -> None:
+    p["buckets"][0]["versionsSeen"][0]["releasedAt"] = "not-a-timestamp"
+
+
+def _mutate_unhashable_latest_row_status_list(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -> None:
+    p["buckets"][0]["rows"][0]["latestRow"]["status"] = ["new"]
+
+
+def _mutate_unhashable_latest_row_status_dict(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -> None:
+    p["buckets"][0]["rows"][0]["latestRow"]["status"] = {"status": "new"}
+
+
 @pytest.mark.parametrize(
     "case_name,mutator",
     [
@@ -1131,6 +1177,11 @@ def _mutate_extra_top_key(p: dict[str, Any], _auth: dict[str, dict[str, Any]]) -
         ("finding_sha_mismatch", _mutate_finding_sha_mismatch),
         ("incomplete_seen_poll", _mutate_incomplete_seen_poll),
         ("extra_top_key", _mutate_extra_top_key),
+        ("present_candidate_last_seen_version", _mutate_present_candidate_last_seen_version),
+        ("latest_version_released_at_mismatch", _mutate_latest_version_released_at_mismatch),
+        ("latest_version_released_at_non_timestamp", _mutate_latest_version_released_at_non_timestamp),
+        ("unhashable_latest_row_status_list", _mutate_unhashable_latest_row_status_list),
+        ("unhashable_latest_row_status_dict", _mutate_unhashable_latest_row_status_dict),
     ],
 )
 def test_checksum_valid_semantic_contradictions_rejected(
@@ -1151,8 +1202,11 @@ def test_checksum_valid_semantic_contradictions_rejected(
     assert loaded.blocked is True
     assert loaded.state is None
 
+    empty_poll = PollInput(poll_id="poll-empty", observed_at=TUE_NOV_10, observed_findings=(), planned_findings=())
     with pytest.raises(JournalBlockedError):
         save_journal(bad_path, empty_state(), authority, allow_bootstrap=True)
+    with pytest.raises(JournalBlockedError):
+        commit_poll(bad_path, empty_poll, authority, allow_bootstrap=True)
     assert bad_path.read_bytes() == resigned_bytes
 
 
