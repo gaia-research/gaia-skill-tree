@@ -1,4 +1,10 @@
-# Current checkpoint — P1 escalated to Astra under the founder's revised two-round procedure
+# Current checkpoint — Astra advice accepted for the authorized P1 repair subset
+
+[One-round Astra MAX advice and authority split](P1_ASTRA_ADVISORY.md) returned successfully: reuse a shared checked-target/history proof, bind exact actor/content before effects, and repair the opt-in close path and full offline coverage without changing approvals or gates. Routine shared/v2-only work may proceed with non-shared L2 Terra under the revised procedure. **P1 remains blocked**, independent review still FINDINGS, regression still 61 failed at the prior exact source. Rollout, writes, migration, phases and merges are unchanged.
+
+A genuine separate decision is evidenced by pinned `main` `80fb535bb`, watcher runbook lines 100–102: the three `legacy-*` job step bodies are explicitly retained verbatim when v2 is off. The draft is already inconsistent; no golden refresh or protected fallback edits in the authorized worker lane. Recommended founder option is the narrowly scoped code-only fallback exception in the advisory receipt, with the toggle/permissions unchanged and unproved targets held. Otherwise preserve the limit and keep deployment unqualified. The shared/v2 repair does not wait on that choice.
+
+# Previous checkpoint — P1 escalated to Astra under the founder's revised two-round procedure
 
 After two ordinary correction rounds on [#2468](https://github.com/gaia-research/gaia-skill-tree/pull/2468), actionable findings now go to **Astra for one read-only recommendation**, not automatically to the founder. Sol checks the recommendation against existing scope and authority, then routes routine corrections to the approved workers without new routine approval. Escalate only a genuine explicit-limit exception, scope/semantics change, or new authority; if material findings persist, return to Astra with new evidence rather than repeating the repair loop. Astra cannot edit, delegate, approve, or replace fresh centralized Terra independent review. All existing rollout, write, #1833 migration, trust/schema, P2 and merge gates remain unchanged. This supersedes the earlier automatic-stop recommendation below, not the recorded regression failure or review findings.
 
