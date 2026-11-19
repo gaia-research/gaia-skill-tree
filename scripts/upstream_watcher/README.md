@@ -48,7 +48,7 @@ export GH_TOKEN="ghp_..."  # requires issues:write scope
 python scripts/upstream_watcher/watcher.py --apply
 ```
 
-**Note:** Ordinary watcher envelope `--apply` routes (including unstaged `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records`) are currently fenced plan-only at the `watcher.py` entry point: they fail closed with exit `4` and make zero GitHub issue writes, while preserving dry-run planning and exit `3` on unknown/invalid evidence. Direct offline tests of `repository_batch.run_repository_batch(..., apply=True)` remain active.
+**Note:** Ordinary watcher envelope `--apply` routes (including unstaged `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records`) are currently fenced plan-only at the `watcher.py` entry point: `--apply` fails closed with exit `4` and zero GitHub issue writes, while ordinary `--dry-run` still exits `0` with `outcome: "planned"` for valid unheld repositories (and `outcome: "held"` for known legacy holds) while reporting `writeReadiness: false` and the plan-only `executionHold`, and exit `3` still fires on unknown/invalid evidence. Direct offline tests of `repository_batch.run_repository_batch(..., apply=True)` remain active.
 
 ### Recovery and skipped suites (#2131 round 4)
 

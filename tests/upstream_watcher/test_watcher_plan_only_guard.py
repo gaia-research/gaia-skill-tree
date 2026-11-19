@@ -102,11 +102,14 @@ def test_native_unstaged_batch_dry_run_retains_normal_planning(monkeypatch, tmp_
     assert mutations == [] and runner.writes == []
     report = json.loads(report_path.read_text(encoding="utf-8"))
     assert report["dryRun"] is True
-    assert report["writeReadiness"] is True
-    assert report["executionHold"] is None
+    assert report["writeReadiness"] is False
+    assert report["executionHold"] == "watcher-plan-only-guard-blocks-envelope-apply"
     assert report["unknownEvidence"] == []
     assert report["issuesCreated"] == 1
+    assert report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0
     assert report["repositories"][0]["outcome"] == "planned"
+    assert report["repositories"][0]["writeReadiness"] is False
+    assert report["repositories"][0]["executionHold"] == "watcher-plan-only-guard-blocks-envelope-apply"
 
 
 @pytest.mark.parametrize("extra_args", [

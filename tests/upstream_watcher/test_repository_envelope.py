@@ -306,11 +306,14 @@ def test_real_normal_transport_keeps_siblings_and_own_source_with_legacy_hold(mo
     report = json.loads(target.read_text())
     assert report["dryRun"] is True and report["unknownEvidence"] == []
     assert report["writeReadiness"] is False
+    assert report["executionHold"] == "watcher-plan-only-guard-blocks-envelope-apply"
     assert len(report["observedFindings"]) == 3
     assert len(report["repositories"]) == 2 and len(report["suites"]) == 3
     repo = next(p for p in report["repositories"] if p["repository"] == "owner/repo")
+    other = next(p for p in report["repositories"] if p["repository"] != "owner/repo")
     assert [f["skillId"] for f in repo["payload"]["findings"]] == ["owner/a", "owner/b"]
-    assert len(repo["knownLegacyHolds"]) == 1
+    assert len(repo["knownLegacyHolds"]) == 1 and repo["outcome"] == "held"
+    assert other["outcome"] == "planned" and other["writeReadiness"] is False
     assert (report["issuesCreated"], report["issuesUpdated"]) == (1, 1)
     assert rows == before and runner.writes == []
 

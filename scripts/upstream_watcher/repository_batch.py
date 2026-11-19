@@ -320,12 +320,14 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
 
     Fanout/staged execution is explicitly held, not silently sent through old
     single-ID writers or ambiguous repo-only journals. When ``plan_only=True``,
-    even native unstaged batch ``--apply`` is held fail-closed (exit 4) with zero
-    GitHub writes; direct callers (``plan_only=False``) keep the native writer
-    testable offline.
+    ordinary dry-run reports ``writeReadiness=False`` and the plan-only
+    ``executionHold`` while keeping ``exit 0`` and ``outcome="planned"`` for
+    valid unheld repos (``outcome="held"`` for known legacy holds), and
+    ``--apply`` is held fail-closed (exit 4) with zero GitHub writes; direct
+    callers (``plan_only=False``) keep the native writer testable offline.
     """
     legacy_hold = bool(reset_records) or mode != "batch" or (staging is not None and staging.active)
-    plan_hold = bool(plan_only and apply)
+    plan_hold = bool(plan_only)
     operational_hold = legacy_hold or plan_hold
     if legacy_hold:
         hold_reason = "fanout-records-reset-or-legacy-repository-journal-requires-scoped-upgrade"
@@ -369,11 +371,12 @@ def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechec
         report["writeReadiness"] = False
         return report, 3
     for plan in plans:
+        repo_held = not plan["writeReadiness"]
         outcome = "planned"
         if operational_hold:
             plan["writeReadiness"] = False
             plan["executionHold"] = hold_reason
-        if not plan["writeReadiness"]:
+        if repo_held or legacy_hold or (plan_hold and apply):
             outcome = "held"
         elif plan["action"] in {"noop", "suppressed-processed"}:
             outcome = plan["action"]
