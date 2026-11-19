@@ -660,8 +660,8 @@
       <section class="section" id="what-is">
         <h2 class="section-title">What is a Named Skill?</h2>
         <div class="section-body">
-          <p>A <strong>Named Skill</strong> is a canonical registry skill that has been claimed by a real contributor with at least Grade C (Bronze) evidence. At the moment of naming, the skill ranks up to <strong>2★ (Named)</strong> and the contributor becomes its <strong>Origin Contributor</strong> — a permanent, auditable record in the graph.</p>
-          <p>Named Skills display in <strong style="color:#dc2626;">honor red</strong> in the CLI and the Atlas. The Origin Contributor field is one-per-skill and immutable after the naming PR merges — re-attribution requires a maintainer decision with a timeline event.</p>
+          <p>A <strong>Named Skill</strong> is a canonical registry skill that has been claimed by a real contributor with at least Grade C (Bronze) evidence. At the moment of naming, the skill ranks up to <strong>2★ (Named)</strong> and the contributor is recorded as its author. Whether it holds its bucket's <strong>Origin</strong> depends on merit, not on being first.</p>
+          <p>Named Skills display in <strong style="color:#dc2626;">honor red</strong> in the CLI and the Atlas. Origin is not a permanent title. The build re-derives it from merit, so another implementation can take it by earning a higher level or Trust Magnitude.</p>
         </div>
 
         <div class="callout origin">
@@ -712,8 +712,8 @@
       <section class="section" id="origin-bucket">
         <h2 class="section-title">Origin &amp; variants</h2>
         <div class="section-body">
-          <p>Each generic reference can have multiple Named Skill implementations — this is the "bucket." Within a bucket, one implementation carries the <code>origin: true</code> flag — it is the <strong>Origin</strong>, the first and most canonical implementation of that capability. All others are <strong>variants</strong>.</p>
-          <p>An Origin implementation typically has the strongest evidence and the highest stars in the bucket. The CLI and the UI both surface the role distinction.</p>
+          <p>Each generic reference can have multiple Named Skill implementations — this is the "bucket." The bucket's <strong>Origin</strong> is the implementation with the highest published level, then the highest Trust Magnitude. Tied top contenders all hold it. All others are <strong>variants</strong>.</p>
+          <p>Origin is derived by the build, not set by hand. You never write <code>origin</code> into frontmatter. To change who holds Origin, raise merit (evidence and level), then run <code>gaia dev docs</code>. The CLI and the UI both surface the role distinction.</p>
         </div>
 
         <div class="bucket-diagram">
@@ -744,7 +744,6 @@
 id: karpathy/web-scrape
 name: Web Scrape
 contributor: karpathy
-<span class="kw">origin: true</span>                   <span class="c"># this implementation is the bucket origin</span>
 genericSkillRef: web-scrape    <span class="c"># parent generic node</span>
 status: named
 level: <span class="str">"3★"</span>
@@ -783,7 +782,7 @@ links:
             <div class="lifecycle-body">
               <div class="lifecycle-rank rank-2">2★ — Named</div>
               <div class="lifecycle-title">Claimed with Grade C (Bronze) evidence</div>
-              <div class="lifecycle-desc">A contributor opens a naming PR with at least <strong>Grade C (Bronze) evidence</strong> (a <code>SKILL.md</code> at a public URL). The PR creates or updates <code>registry/named/&lt;contributor&gt;/&lt;skill-name&gt;.md</code> with <code>origin: true</code> and <code>level: "2★"</code>. The contributor becomes the Origin Contributor permanently.</div>
+              <div class="lifecycle-desc">A contributor opens a naming PR with at least <strong>Grade C (Bronze) evidence</strong> (a <code>SKILL.md</code> at a public URL). The PR creates or updates <code>registry/named/&lt;contributor&gt;/&lt;skill-name&gt;.md</code> with <code>level: "2★"</code>. Origin is not set in the PR. The build derives it from merit.</div>
             </div>
           </div>
           <div class="lifecycle-step">
@@ -892,7 +891,7 @@ gaia dev verify skill-id <span class="flag">--index</span> 0   <span class="c">#
       <section class="section" id="claiming">
         <h2 class="section-title">Claiming a Named Skill</h2>
         <div class="section-body">
-          <p>Claiming attaches your GitHub identity to a canonical skill as its Origin Contributor. The claim is permanent — re-attribution requires a maintainer decision. Do not claim skills you did not originate.</p>
+          <p>Claiming attaches your GitHub identity to a canonical skill as its named author. Origin is not part of the claim; the build derives it from merit. Do not claim skills you did not originate.</p>
         </div>
 
         <h3>What you need</h3>
@@ -915,10 +914,10 @@ gaia dev list --generic | grep web-scrape
 gaia dev add "Web Scrape" --type basic \
   --description "Drives a browser to scrape structured data from web pages"
 
-<span class="c"># 3. Add the Named Skill (writes registry/named/karpathy/web-scrape.md — never hand-edit it, per the Programmatic-First Policy)</span>
+<span class="c"># 3. Add the Named Skill (writes registry/named/karpathy/web-scrape.md — never hand-edit it, per the Programmatic-First Policy). Do not set origin here: the build derives Origin from merit.</span>
 gaia dev add "Web Scrape" --named --contributor karpathy --generic-ref web-scrape \
   --description "Firecrawl-backed deep scraper, first documented implementation" \
-  --extra-fields <span class="str">'{"origin":true,"links":{"github":"https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md"}}'</span>
+  --extra-fields <span class="str">'{"links":{"github":"https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md"}}'</span>
 
 <span class="c"># 4. Add evidence (Evidence Type + Trust Magnitude, not the deprecated --class)</span>
 gaia dev evidence karpathy/web-scrape \
@@ -1016,7 +1015,7 @@ links:
             <tr><td>links.repo</td><td>Rename to <code>links.github</code></td></tr>
             <tr><td>links.docs</td><td>Rename to <code>links.github</code> (strip any <code>#fragment</code>)</td></tr>
             <tr><td>links.arxiv</td><td>Add <code>links.github</code> alongside — keep arxiv</td></tr>
-            <tr><td>origin: https://…</td><td>Move URL to <code>links.github</code>, set <code>origin: false</code></td></tr>
+            <tr><td>origin: https://…</td><td>Move URL to <code>links.github</code>, then drop the key. <code>origin</code> is historical, not authoritative</td></tr>
           </tbody>
         </table>
 

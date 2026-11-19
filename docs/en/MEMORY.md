@@ -1,3 +1,296 @@
+## 2026-11-19 — Routine 079
+
+**Branch:** `docs/routines/071` (open PR #2436, not merged). Continued on it; no new branch or PR. The branch tip already contains `origin/main`.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 079)" in 078: ROTATE to `mcp-server.html`. The carry-over in `named-skills.html` was already fixed by the editor pass (the only "permanent" hit left is the correct "not a permanent title" line), so I did not touch it.
+
+### What I did
+
+- Checked the Core Mechanic card against the live `skill-heaven` summon schema. The card said `summon` materializes a *Named Skill*. The source can be a Skill Tree or a flat GitHub fleet, so the card now says "best-matching skill" and names both sources.
+- Added the four documented parameters to the card: `query` (required), `surface` (`heaven`/`hell`/`any`, default `hell`), `preview`, `limit`. Uses the existing `tool-param` classes.
+
+### Design decisions
+
+- Words and one card's contents only. Layout, classes and nav are unchanged.
+- Did not document `decision`, `live` or `source`. They are advanced overrides and the page's scope is the default flow.
+
+### Issues informed
+
+- None filed.
+
+### Files
+
+- `docs/en/mcp-server.html` (Core Mechanic card)
+- `docs/en/DOCS.md` (Page Map row 9)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 080)
+
+- ROTATE to `evidence-classes.html` (row 7, last substantive routine 058). Check its Evidence Type and Grade tables against `CONTEXT.md` § Evidence. Fix one section only.
+- Note for the weekly editor: the "How it works" paragraph still says the server loads "Named Skill projections". It is accurate for the Gaia registry path but not for a GitHub fleet source. Left as is to keep the change to one card.
+
+---
+
+## 2026-11-18 — Routine 078
+
+**Branch:** `docs/routines/071` (open draft PR #2436, not merged). Continued on it; no new branch or PR. `git rebase origin/main` conflicted again in `DOCS.md`, `MEMORY.md` and `faq.html` (the branch replays older commits onto the newer release stamps), so I aborted it and committed on the branch tip. The branch already contains `origin/main`.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 078)" in 077: ROTATE to `skill-hierarchy.html` and check its Type/Branch wording against `CONTEXT.md` § Taxonomy v6.
+
+### What I did
+
+- Type/Branch check: the Basic, Fusion, Unique branch and Suite branch cards match Taxonomy v6. Branch is Suite from 2★ with `suiteComponents`. The Extra/Ultimate/Apex ladder words and the ◆ glyph render at 4★+. No edit needed there.
+- Named Skills section: the paragraph that said the contributor "becomes the Origin Contributor … shown in honor red" now says claiming records authorship and does not grant Origin.
+- Same section, second paragraph: replaced "only one holds current Origin per bucket … approved review can move it" with the build rule. Origin goes to the highest published level, then the highest Trust Magnitude. Tied top contenders all hold it. Raising merit moves Origin.
+
+### Design decisions
+
+- Prose only. Layout, classes and nav are unchanged.
+- The Origin rule follows `CLAUDE.md` § Origin is automatic. It does not restate the rule as a how-to.
+
+### Issues informed
+
+- None filed. The page had no defect that needed a tracker.
+
+### Files
+
+- `docs/en/skill-hierarchy.html` (Named Skills section, two paragraphs)
+- `docs/en/DOCS.md` (Page Map row 4: status and routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 079)
+
+- ROTATE to `mcp-server.html` (row 9, last substantive routine 045, the oldest in the map). Check the `summon` tool description and the standalone-MCP note against the current `skill-heaven` plugin contract. Fix one section only.
+- Carry-over for `named-skills.html`: the "Claiming" line that says the claim is permanent (around L895) and the migration table row (around L1019, `origin: https://…` → `origin: false`). Both still describe Origin as a fixed grant.
+
+---
+
+## 2026-11-17 — Routine 077
+
+**Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` again, so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 077)" in 076: the `origin: true` cleanup on `named-skills.html`, in the "Origin and bucket" block and the naming-PR lifecycle step only.
+
+### What I did
+
+- "Origin & variants" paragraph: replaced "one implementation carries the `origin: true` flag" with the derivation rule from CLAUDE.md. Origin is the highest published level, then highest Trust Magnitude. Tied top contenders all hold it. Added that Origin is built, not set by hand, and that changing it means raising merit and running `gaia dev docs`.
+- Frontmatter example: removed the `origin: true` line.
+- Lifecycle step 3: removed `origin: true` from the naming-PR description and added that the build derives Origin. I also removed the sentence "The contributor becomes the Origin Contributor permanently." That sentence contradicts build-derived Origin, because the holder can change when merit changes. Weekly editor: check that the "claim is permanent" wording in the Claiming section (around L895) gets the same treatment in a later run.
+
+### Design decisions
+
+- Prose and one code line changed. Layout and classes unchanged.
+- Left the migration table (`origin: https://…` → `origin: false`) and the frozen-skill rows untouched, per the Planned-next scope.
+
+### Issues informed
+
+- None filed. Docs-only correction against CLAUDE.md § Origin is automatic.
+
+### Files
+
+- `docs/en/named-skills.html` (Origin paragraph, frontmatter example, lifecycle step 3)
+- `docs/en/DOCS.md` (Page Map row 6 status and routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 078)
+
+- ROTATE to the least-recently-touched page: `skill-hierarchy.html` (row 4, last routine 028). Check its Type/Branch wording against `CONTEXT.md` § Taxonomy v6 and fix one section only.
+- Carry-over for a later run on `named-skills.html`: the migration table row (around L1019, `origin: https://…` → `origin: false`) and the "Claiming" section line that says the claim is permanent (around L895). Both still describe Origin as a frontmatter flag or a fixed grant.
+
+---
+
+## 2026-11-16 — Routine 076
+
+**Branch:** `docs/routines/071` (the open draft PR, not merged). Continued on it, no new branch or PR. `git rebase origin/main` hit conflicts in `DOCS.md`, `MEMORY.md` and `faq.html` (main has moved `docs/en/` since the last routine), so I aborted the rebase and committed on the branch tip. The weekly editor should rebase or merge before shipping.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 076)" in 075: check the claiming walkthrough's `gaia dev add --named` flags in `named-skills.html` against `src/gaia_cli/commands/dev/__init__.py`.
+
+### What I did
+
+- Checked the walkthrough's `gaia dev add --named`, `--contributor`, `--generic-ref`, `--description`, `--extra-fields`, `gaia dev evidence --type/--trust/--notes` and `gaia dev calibrate` against the live argparse definitions. All flags exist. Calibrate level `2★` is in the allowed set.
+- Removed `"origin":true` from the `--extra-fields` JSON in step 3. `dev add` has no origin input in the walkthrough's path, and CLAUDE.md states Origin is derived by the build from merit and is never set by hand. Added a one-line note to the step 3 comment saying so.
+
+### Design decisions
+
+- One code block changed, one comment line extended. Layout unchanged.
+
+### Issues informed
+
+- None filed. The remaining `origin: true` frontmatter examples on `named-skills.html` (the "Origin and bucket" block, the naming-PR lifecycle step and the migration table) are outside this one-section pass. See Planned next.
+
+### Files
+
+- `docs/en/named-skills.html` (claiming walkthrough, step 3)
+- `docs/en/DOCS.md` (Page Map row 6 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 077)
+
+- CONTINUE the `named-skills.html` origin cleanup in one section: the "Origin and bucket" block (around L715–747) still shows `origin: true` as a frontmatter flag, and the naming-PR lifecycle step (around L786) says the PR writes `origin: true`. Rewrite both to say Origin is derived from merit (`gaia dev docs` after evidence changes), per CLAUDE.md § Origin is automatic. Do not touch the frozen-skill or migration-table rows in the same run.
+
+---
+
+## 2026-11-13 — Routine 075
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main`; continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 075)" in 074: ROTATE to `contributing.html`. Checked the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/__init__.py` and `calibrate.py`.
+
+### What I did
+
+- `gaia dev evidence` example: `--type repo-own` is valid (in `registry/schema/meta.json`); `--trust` and `--notes` exist. No change.
+- `gaia dev calibrate` example: the level argument must be a star level from `ALLOWED_LEVELS` (`1★`–`6★`). The page passed a bare `3`, which the command rejects with "must be one of". Changed the example to `3★`. The command's own error message already uses the ★ form.
+
+### Design decisions
+
+- One example line changed. Layout unchanged.
+
+### Issues informed
+
+- None filed. The fix is a docs correction against the live CLI.
+
+### Files
+
+- `docs/en/contributing.html` (calibrate example, one line)
+- `docs/en/DOCS.md` (Page Map row 5 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 076)
+
+- ROTATE to the least-recently-touched page: `named-skills.html` (row 6, last routine 038). Check the claiming walkthrough's `gaia dev add --named` flags against `src/gaia_cli/commands/dev/__init__.py`. Fix one section only.
+
+---
+
+## 2026-11-12 — Routine 074
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Already contained `origin/main` (no rebase needed); continued on it, no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 074)" in 073: ROTATE to `skill-hierarchy.html`. Checked the Type/Branch rank table and the Named Skill lifecycle against `CONTEXT.md` § Taxonomy v6.
+
+### What I did
+
+- Rank table (Stars axis) matches `CONTEXT.md` § Taxonomy v6: 0★–6★ names, Suite/Unique branch pairs. No change.
+- Named Skills section: the intro said the contributor's name "attaches permanently" as Origin and that "only the first is the Origin". `CONTEXT.md` § Origin Contributor says current Origin is merit-based and transferable by approved review; earlier attribution stays as history. Rewrote the two sentences to match. Layout unchanged.
+
+### Design decisions
+
+- Fixed the claim, not the lifecycle steps. Steps 1–5 already match the Verifier gate at 4★ and the Named (2★) entry point.
+
+### Issues informed
+
+- None filed. The Origin rule is already in `CONTEXT.md` and `META.md` §4.1.
+
+### Files
+
+- `docs/en/skill-hierarchy.html` (Named Skills intro, two sentences)
+- `docs/en/DOCS.md` (Page Map row 4 routine pointer and status note)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 075)
+
+- ROTATE to the least-recently-touched page: `contributing.html` (row 5, last routine 043). Check the `dev evidence` and `dev calibrate` examples against `src/gaia_cli/commands/dev/`. Fix one section only.
+
+---
+
+## 2026-11-11 — Routine 073
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Rebased onto `origin/main` (v9.4.0) and continued on it; no new branch or PR. Resolved a whole-file conflict in `faq.html` by taking main's copy and re-applying the one-sentence `--no-pr` change.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 073)" in 072: ROTATE to `timeline-audit.html`, check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/`.
+
+### What I did
+
+- Checked the `dev timeline` flags in `src/gaia_cli/commands/dev/__init__.py`. `--user`, `--previous-value`, `--new-value` and the `demote` action all exist, and the help text says the two value flags apply only with `--user`.
+- Two workaround cells in the Known CLI gaps table gave `gaia dev timeline --action demote` without `--user`. Without `--user` the event goes to the registry node, not the user tree, so the workaround did not do what the row says. Added `--user <handle>` to both cells. Table layout unchanged.
+- The `dev validate` Transparency Gate prose was not changed. No drift found in this pass.
+
+### Design decisions
+
+- Fixed the command text, not the narrative. The gap rows already name the right behavior; only the runnable example was incomplete.
+
+### Issues informed
+
+- None filed. The `--previous-value`/`--new-value` help text already says these flags need `--user`, so the CLI is consistent with the fix.
+
+### Files
+
+- `docs/en/timeline-audit.html` (two workaround cells in Known CLI gaps)
+- `docs/en/DOCS.md` (Page Map row 12 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 074)
+
+- ROTATE to the least-recently-touched Page Map page: `skill-hierarchy.html` (row 4, last routine 028). Check the Type/Branch rank table and the Named Skill lifecycle steps against `CONTEXT.md` § Taxonomy v6, and fix one section only.
+
+---
+
+## 2026-11-10 — Routine 072
+
+**Branch:** `docs/routines/071` (the open draft PR #2436, not merged). Continued on it; no new branch or PR.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 072)" in 071: ROTATE to `share-bundles.html`, check the `gaia install <bundle>` flow and non-TTY view-only default against `src/gaia_cli/share.py`.
+
+### What I did
+
+- Checked the A/P/V/Q prompt, the pick prompt, and the non-TTY branch against `install_bundle()` in `src/gaia_cli/share.py`. The prompt text, the pick input, and the non-TTY view-only default all match the page.
+- Two sentences were wrong:
+  - The summary prints **three** counts (installed, skipped, unresolved). `failed` is folded into `unresolved`. The page said four.
+  - Pressing Enter with no input **quits**. Any unrecognized answer **views only**. The page called View only the "safe default" and did not mention either case.
+- Corrected both sentences in the Install Flow table and the summary paragraph. Layout unchanged.
+- Confirmed the CLI wiring (`src/gaia_cli/impl.py`) passes no `auto` value, so the page's "no CLI flag to force an all-install" statement still holds.
+
+### Design decisions
+
+- Did not touch the non-TTY section beyond verification. It was already accurate.
+- Left the inline `style` colors on the page as they were. This PR adds no new hex.
+
+### Issues informed
+
+- None filed. `install_bundle()` has an `auto` parameter that the CLI does not expose. That is a CLI gap, not a docs defect, and the page already says so.
+
+### Files
+
+- `docs/en/share-bundles.html` (Install Flow choice table, summary paragraph)
+- `docs/en/DOCS.md` (Page Map row 11)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 073)
+
+- ROTATE to the next least-recently-touched Page Map page: `timeline-audit.html` (row 12). Check the `dev timeline` and `dev validate` prose against `src/gaia_cli/commands/dev/` and fix one section only.
+
+---
+
+## 2026-11-09 — Routine 071
+
+**Branch:** `docs/routines/071` (from `origin/main`; the prior `docs/routines/064` PR #2235 merged and shipped in the 070 close).
+
+**Task chosen:** CONTINUE from "Planned next (Routine 071)" in 070: check the fusion and custom-fusion answers on `faq.html` against `fuse_command`.
+
+### What I did
+
+- `faq.html` has no `gaia fuse` answer. Its only fusion text is the Type axis (Basic vs Fusion prerequisites), which matches `CONTEXT.md`. Nothing to correct on the fuse paths.
+- Checked the `gaia push` / `gaia propose` answer against `src/gaia_cli/commands/push.py`. `propose` accepts `--no-pr` ("Write intake proposal without opening a PR"), which the FAQ did not mention. Added one sentence after the existing text. Words only; layout unchanged.
+
+### Design decisions
+
+- Did not add a new fusion FAQ entry. The planned check asked for corrections, not new content, and the FAQ is not the place for command flags.
+
+### Issues informed
+
+- None filed. No tooling friction met.
+
+### Files
+
+- `docs/en/faq.html` (one sentence in the `gaia propose` list item)
+- `docs/en/DOCS.md` (Page Map row 10 routine pointer)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 072)
+
+- ROTATE to the least-recently-touched Page Map page: `share-bundles.html`. Check the `gaia install <bundle>` flow and its non-TTY view-only default against `src/gaia_cli/share.py`.
+
+---
+
 ## 2026-11-06 — Routine 070
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
@@ -4925,3 +5218,18 @@ Both pages directly address #637 and #254.
 
 - `docs/en/contributing.html` — CONTRIBUTING.md distilled for the web
 - `docs/en/named-skills.html` — deep dive into claiming origin, evidence submission, and the naming PR flow
+
+
+---
+
+## Editor's entry — week of 2026-11-17 (PR #2436, routines 071–077)
+
+Shipped the week's dailies as one PR. Merged `origin/main` (v9.5.0); version chips already match.
+
+**What users must adapt:** Origin is no longer described as permanent or immutable. It is derived from merit and can move. Claiming a Named Skill records authorship only. `origin` frontmatter is historical, not authoritative.
+
+**Cut or changed:** four stale "permanent Origin" lines in `named-skills.html` (intro, callout, claiming, migration table row).
+
+**Stale cleared:** DOCS.md row 6 is now Current; the 077 "Planned next" item is done.
+
+**How:** solo pass, no subagents. Dailies 071-077 reviewed by diff; scans for new hex and banned words clean on the added lines.

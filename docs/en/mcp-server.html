@@ -596,7 +596,13 @@
         <div class="tool-grid">
           <div class="tool-card">
             <div class="tool-card-name">summon</div>
-            <div class="tool-card-desc">Materialize a matching Named Skill's full directory into an ephemeral session.</div>
+            <div class="tool-card-desc">Materialize the best-matching skill's full directory into an ephemeral session. The source is the configured Skill Tree or a flat GitHub fleet, not only Named Skills.</div>
+            <div class="tool-card-params">
+              <div class="tool-param"><span class="tool-param-name">query</span><span class="tool-param-opt">required</span><span class="tool-param-desc">Task or capability to summon a skill for.</span></div>
+              <div class="tool-param"><span class="tool-param-name">surface</span><span class="tool-param-opt">optional</span><span class="tool-param-desc">Lane filter: <code>heaven</code>, <code>hell</code> or <code>any</code>. Defaults to <code>hell</code>.</span></div>
+              <div class="tool-param"><span class="tool-param-name">preview</span><span class="tool-param-opt">optional</span><span class="tool-param-desc">Rank and disclose without writing anything to disk.</span></div>
+              <div class="tool-param"><span class="tool-param-name">limit</span><span class="tool-param-opt">optional</span><span class="tool-param-desc">How many skills to summon for this query.</span></div>
+            </div>
           </div>
         </div>
       </section>
