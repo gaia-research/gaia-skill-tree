@@ -170,8 +170,8 @@ def test_transient_tree_error_stays_unknown_evidence(monkeypatch):
 # ---------------------------------------------------------------------------
 
 
-def _main(monkeypatch, tmp_path, suites, fetch, run_batch_fn=None, poll=None, gh=None):
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {})
+def _main(monkeypatch, tmp_path, suites, fetch, run_batch_fn=None, poll=None, gh=None, apply=False):
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {fm["id"]: fm for fm in suites})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([(Path("s.md"), fm) for fm in suites]))
     if fetch is not None:
         monkeypatch.setattr(watcher, "fetch_json", fetch)
@@ -179,10 +179,14 @@ def _main(monkeypatch, tmp_path, suites, fetch, run_batch_fn=None, poll=None, gh
         monkeypatch.setattr(watcher, "_poll_suite", poll)
     if gh is not None:
         monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    else:
+        monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: FakeGh())
     if run_batch_fn is not None:
-        monkeypatch.setattr(watcher, "run_batch", run_batch_fn)
+        from scripts.upstream_watcher import repository_batch as rb
+        monkeypatch.setattr(rb, "run_repository_batch", run_batch_fn)
     report_path = tmp_path / "report.json"
-    code = watcher.main(["--child-mode", "batch", "--apply", "--report", str(report_path)])
+    argv = ["--child-mode", "batch", "--apply" if apply else "--dry-run", "--report", str(report_path)]
+    code = watcher.main(argv)
     return code, json.loads(report_path.read_text(encoding="utf-8"))
 
 
@@ -194,11 +198,11 @@ def test_permanent_suite_is_skipped_with_a_notice_and_listed_and_the_run_exits_0
 
     seen = []
 
-    def fake_run_batch(findings, gh, apply, **kwargs):  # noqa: ARG001
+    def fake_run_repo_batch(findings, gh, apply, authority, **kwargs):  # noqa: ARG001
         seen.append(findings)
         return new_report(), 0
 
-    code, report = _main(monkeypatch, tmp_path, [SUITE_A, SUITE_B], fetch, run_batch_fn=fake_run_batch)
+    code, report = _main(monkeypatch, tmp_path, [SUITE_A, SUITE_B], fetch, run_batch_fn=fake_run_repo_batch)
     assert code == 0
     assert seen == [[]], "the batch still runs, with no findings from the skipped suite"
     assert [row["suite"] for row in report["unavailable"]] == ["garrytan/gbrain"]
@@ -215,7 +219,7 @@ def test_a_transient_error_on_one_suite_still_exits_3_with_zero_writes(monkeypat
 
     writes = []
     code, report = _main(monkeypatch, tmp_path, [SUITE_A, SUITE_B], fetch,
-                         run_batch_fn=lambda *a, **k: writes.append(a) or (new_report(), 0))
+                         run_batch_fn=lambda *a, **k: writes.append(a) or (new_report(), 0), apply=True)
     assert code == 3
     assert writes == []
     assert [row["suite"] for row in report["unknownEvidence"]] == ["mattpocock/skills"]
@@ -226,7 +230,7 @@ def test_a_rate_limited_403_is_unknown_evidence_not_a_skip(monkeypatch, tmp_path
     def fetch(endpoint, **kwargs):  # noqa: ARG001
         raise GitHubFetchError("HTTP 403 (fake)", status=403, headers=RATE_HEADERS)
 
-    code, report = _main(monkeypatch, tmp_path, [SUITE_A], fetch)
+    code, report = _main(monkeypatch, tmp_path, [SUITE_A], fetch, apply=True)
     assert code == 3
     assert report["unavailable"] == []
     assert report["unknownEvidence"][0]["source"] == "github-poll"
@@ -265,11 +269,16 @@ B_SOURCE = "https://github.com/mattpocock/skills/releases/tag/v1"
 
 
 def test_a_skipped_suite_keeps_its_approved_umbrella_and_the_other_suite_still_writes(monkeypatch, tmp_path):
+    from scripts.upstream_watcher import repository_batch as rb
+
     gh = FakeGh()
-    # Run 1 (both suites healthy) creates one umbrella per suite. A reviewer then approves A's umbrella.
+    authority = {fm["id"]: fm for fm in (SUITE_A, SUITE_B)}
+    # Run 1 (both suites healthy) creates one envelope umbrella per suite. A reviewer then approves A's umbrella.
     first = [_finding("garrytan/gbrain", "v1", ["ask-user"], A_SOURCE),
              _finding("mattpocock/skills", "v1", ["grill"], B_SOURCE)]
-    batch.run_batch(first, gh, apply=True, index_loader=lambda: INDEX)
+    report1, code1 = rb.run_repository_batch(first, gh, apply=True, authority=authority,
+                                             index_loader=lambda: INDEX, policy={}, historical_loader=lambda _: {})
+    assert code1 == 0 and report1["actualIssuesCreated"] == 2
     a_number = next(n for n, row in gh.issues.items() if row["title"].startswith("[upstream] garrytan/gbrain"))
     gh.edit_labels(a_number, add=["upstream:approved"])
     a_before = dict(gh.issues[a_number])
@@ -281,11 +290,14 @@ def test_a_skipped_suite_keeps_its_approved_umbrella_and_the_other_suite_still_w
             raise SuiteUnavailable("releases/latest for garrytan/gbrain is HTTP 451 (fake blocked)")
         return _finding("mattpocock/skills", "v2", ["grill", "tdd"], B_SOURCE.replace("v1", "v2"))
 
-    def run_batch_fixed(findings, g, apply, **kwargs):  # noqa: ARG001
-        return batch.run_batch(findings, g, apply=apply, index_loader=lambda: INDEX)
+    orig_run_repo = rb.run_repository_batch
 
-    code, report = _main(monkeypatch, tmp_path, [SUITE_A, SUITE_B], None, run_batch_fn=run_batch_fixed,
-                         poll=poll, gh=gh)
+    def run_repo_offline(findings, g, apply=False, authority=None, **kwargs):  # noqa: ARG001
+        return orig_run_repo(findings, g, apply=True, authority=authority,
+                             index_loader=lambda: INDEX, policy={}, historical_loader=lambda _: {})
+
+    code, report = _main(monkeypatch, tmp_path, [SUITE_A, SUITE_B], None, run_batch_fn=run_repo_offline,
+                         poll=poll, gh=gh, apply=True)
     assert code == 0
     assert [row["suite"] for row in report["unavailable"]] == ["garrytan/gbrain"]
     a_after = gh.issues[a_number]

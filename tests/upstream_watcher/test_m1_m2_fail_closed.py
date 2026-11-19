@@ -145,8 +145,8 @@ def _run_main(monkeypatch, tmp_path, fetch, suites=None):
         writes.append(args)
         raise AssertionError("a write was attempted on a run with unknown evidence")
 
-    monkeypatch.setattr(watcher, "run_batch", no_writes)
-    monkeypatch.setattr(watcher, "create_issues", no_writes)
+    from scripts.upstream_watcher import repository_batch as rb
+    monkeypatch.setattr(rb, "run_repository_batch", no_writes)
     report_path = tmp_path / "report.json"
     code = watcher.main(["--child-mode", "batch", "--apply", "--report", str(report_path)])
     report = json.loads(report_path.read_text(encoding="utf-8"))
@@ -188,14 +188,18 @@ def test_main_treats_an_unexpected_poll_exception_as_unknown_not_skipped(monkeyp
 
 
 def test_main_exits_0_when_every_suite_has_no_releases(monkeypatch, tmp_path):
+    from upstream_fakes import FakeGh
+
     def fetch(endpoint, **kwargs):  # noqa: ARG001
         raise GitHubNotFound("HTTP 404 (fake)", status=404)
 
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {})
+    gh = FakeGh()
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {SUITE_FM["id"]: SUITE_FM})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([(Path("s.md"), SUITE_FM)]))
     monkeypatch.setattr(watcher, "fetch_json", fetch)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: (new_report(), 0))
-    assert watcher.main(["--child-mode", "batch", "--apply"]) == 0
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    assert watcher.main(["--child-mode", "batch", "--dry-run", "--report", str(tmp_path / "r.json")]) == 0
+    assert gh.writes == []
 
 
 # ---------------------------------------------------------------------------

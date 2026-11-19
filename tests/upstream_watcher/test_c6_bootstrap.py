@@ -119,19 +119,22 @@ def test_a_failed_closed_bootstrap_history_read_is_unknown_evidence_with_zero_wr
 
 
 def test_batch_mode_open_bootstrap_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
+    from scripts.upstream_watcher.live import LiveGh
     world = world_for(monkeypatch, [], fail_pages=[("open", "", 1)])
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "LiveGh", LiveGh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {
+        SUITE: {"id": SUITE, "links": {"github": "https://github.com/firecrawl/firecrawl"}}
+    })
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": SUITE})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, registry_map, verbose: BOOTSTRAP)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: (new_report(), 0))
     report_path = tmp_path / "report.json"
 
-    code = watcher.main(["--apply", "--report", str(report_path)])
+    code = watcher.main(["--apply", "--child-mode", "batch", "--report", str(report_path)])
 
     assert code == 3
     assert world.writes == []
     report = json.loads(report_path.read_text(encoding="utf-8"))
-    assert report["unknownEvidence"][0]["source"] == "github-list"
+    assert report["unknownEvidence"][0]["source"] == "repository-plan"
 
 
 # ---------------------------------------------------------------------------
@@ -148,19 +151,23 @@ def test_a_failed_bootstrap_update_raises_so_the_run_exits_3(monkeypatch):
 
 
 def test_batch_mode_failed_bootstrap_update_exits_3_and_reports_it(monkeypatch, tmp_path):
-    world_for(monkeypatch, [bootstrap_issue(1755, TITLE_V210, "open", ["upstream:bootstrap"])])
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
-    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": SUITE})]))
-    monkeypatch.setattr(watcher, "_poll_suite", lambda fm, registry_map, verbose: BOOTSTRAP)
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: (new_report(), 0))
-    monkeypatch.setattr(issuer, "_update_issue", lambda *args, **kwargs: False)
-    report_path = tmp_path / "report.json"
+    from scripts.upstream_watcher.live import GhError
+    from scripts.upstream_watcher import repository_batch as rb
+    from upstream_fakes import FakeGh
 
-    code = watcher.main(["--apply", "--report", str(report_path)])
+    class FailingBootstrapGh(FakeGh):
+        def create_issue(self, title, labels, body):
+            raise GhError("bootstrap write failed (fake)")
 
+    authority = {SUITE: {"id": SUITE, "links": {"github": "https://github.com/firecrawl/firecrawl"}}}
+    gh = FailingBootstrapGh()
+    report, code = rb.run_repository_batch(
+        [{**BOOTSTRAP, "mode": "version-only"}], gh, True, authority,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, historical_loader=lambda _: {},
+    )
     assert code == 3
-    report = json.loads(report_path.read_text(encoding="utf-8"))
     assert report["unknownEvidence"], "the failed bootstrap write must be reported as unknown evidence"
+    assert report["unknownEvidence"][0]["source"] == "repository-write"
 
 
 def test_a_bootstrap_whose_version_moves_while_approved_loses_the_approval(monkeypatch):

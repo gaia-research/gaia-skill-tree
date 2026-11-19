@@ -59,10 +59,19 @@ def test_opted_in_manual_batch_keeps_no_implicit_closure(tmp_path):
     assert "closure" not in calls[0]
 
 
-def test_default_cli_invocation_is_legacy_not_batch(monkeypatch):
+def test_default_cli_invocation_is_legacy_not_batch(monkeypatch, tmp_path):
+    import json
     from scripts.upstream_watcher import watcher
+    from upstream_fakes import FakeGh
+
+    gh = FakeGh()
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: [])
-    monkeypatch.setattr(watcher, "create_issues", lambda *a, **k: [])
-    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: pytest.fail("implicit batch activation"))
-    assert watcher.main(["--apply"]) == 0
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    report_path = tmp_path / "report.json"
+    # Default --child-mode remains fanout (never implicit batch), fenced plan-only on --apply (exit 4, zero writes).
+    assert watcher.main(["--apply", "--report", str(report_path)]) == 4
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["childMode"] == "fanout"
+    assert report["writeReadiness"] is False and report["executionHold"]
+    assert gh.writes == []

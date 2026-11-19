@@ -115,23 +115,32 @@ def test_fanout_umbrella_create_failure_creates_no_children():
 
 
 def test_fanout_umbrella_create_failure_is_reported_as_exit_3(tmp_path, monkeypatch):
-    from scripts.upstream_watcher import watcher
+    import json
+    from scripts.upstream_watcher import repository_batch as rb, watcher
+    from scripts.upstream_watcher.live import GhError
+    from upstream_fakes import FakeGh
 
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {})
+    authority = {"garrytan/gbrain": {"id": "garrytan/gbrain", "links": {"github": "https://github.com/garrytan/gbrain"}}}
+    gh = FakeGh()
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: authority)
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, registry_map, verbose: UPDATE)
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([(None, {"id": "garrytan/gbrain"})]))
-
-    def fail_create(*args, **kwargs):
-        raise UmbrellaWriteError("umbrella create failed (fake)")
-
-    monkeypatch.setattr(watcher, "create_issues", fail_create)
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
     report_path = tmp_path / "report.json"
+    # Fanout --apply is fenced plan-only at the watcher CLI (exit 4, zero writes).
     code = watcher.main(["--child-mode", "fanout", "--apply", "--report", str(report_path)])
-    assert code == 3
-    import json
+    assert code == 4 and gh.writes == []
+    # Offline native writer still fails closed with exit 3 on an umbrella create error.
+    class FailingCreateGh(FakeGh):
+        def create_issue(self, title, labels, body):
+            raise GhError("umbrella create failed (fake)")
 
-    report = json.loads(report_path.read_text(encoding="utf-8"))
-    assert report["unknownEvidence"][0]["source"] == "github-write"
+    report, write_code = rb.run_repository_batch(
+        [UPDATE], FailingCreateGh(), True, authority,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, historical_loader=lambda _: {},
+    )
+    assert write_code == 3
+    assert report["unknownEvidence"][0]["source"] == "repository-write"
 
 
 def test_fanout_dry_run_does_not_raise_for_a_missing_umbrella_number():

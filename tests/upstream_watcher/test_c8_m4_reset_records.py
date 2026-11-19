@@ -173,20 +173,18 @@ def test_the_cli_refuses_silently_ignored_reset_in_default_fanout(monkeypatch, c
 
 
 def test_the_cli_accepts_reset_records_with_apply(monkeypatch, tmp_path):
-    captured = {}
-
-    def fake_run_batch(findings, gh, apply, index_loader=None, reset_records=None):  # noqa: ARG001
-        captured["reset"] = reset_records
-        from scripts.upstream_watcher.batch import new_report
-        return new_report(), 0
-
+    import json
+    gh = FakeGh()
     monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([]))
-    monkeypatch.setattr(watcher, "run_batch", fake_run_batch)
-    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: FakeGh())
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    report_path = tmp_path / "r.json"
+    # Accepted past CLI validation (not exit 1) and explicitly held plan-only (exit 4, zero writes).
     assert watcher.main(["--apply", "--child-mode", "batch", "--reset-records", SUITE,
-                         "--report", str(tmp_path / "r.json")]) == 0
-    assert captured["reset"] == SUITE
+                         "--report", str(report_path)]) == 4
+    assert gh.writes == []
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["writeReadiness"] is False and report["executionHold"]
 
 
 def test_the_plan_reports_the_reset_not_the_approval_reset(tmp_path):
