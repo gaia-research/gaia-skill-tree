@@ -27,18 +27,30 @@ eligibility selection for the independently versioned P2 weekly namespace:
   incoming pins reject the affected scope fail-closed, preserving prior state
   byte-for-byte while leaving unrelated coverage unaffected.
 * Honest candidate presence: current candidate presence is derived strictly from
-  explicit raw ``componentAdds`` matched to validated canonical rows. Retained
-  canonical rows omitted from current raw ``componentAdds`` never count as
-  present; only a verified omission of already-journaled history marks a row
-  vanished. Historical-only rows first encountered in canonical output remain in
-  canonical view without fabricating a sighting or prior timestamp.
+  explicit raw ``componentAdds`` matched to validated canonical rows. Because
+  ``componentAdds`` is a delta against tracked ``suiteComponents`` (and is also
+  empty on bootstrap, version-only, and missing-root fallback observations),
+  omission from raw ``componentAdds`` is ``unknown`` presence, NEVER proof of
+  disappearance. Affirmative absence (``vanished``) or tracked upstream presence
+  (``present-tracked``) is derived ONLY from an explicit, scoped complete
+  inventory seam (``ScopedCompleteInventory``) bound to the exact same poll ID,
+  repository, named ID, version, release source URL, and verified component
+  root on a component-mode update. Ordinary ``run_repository_batch`` reports do
+  not carry complete inventories and therefore never fabricate vanishings.
+  Historical-only rows first encountered in canonical output remain in
+  canonical view without fabricating a sighting or prior timestamp; if later
+  observed in raw ``componentAdds``, they preserve their canonical version/URL
+  pin while recording the real first-observation timestamp and poll ID.
 * Scoped fresh urgency: urgent eligibility (HTTP 404/410) is granted ONLY from
   explicit current raw liveness checks for exact ``authority[named_id]``
   ``suiteComponents`` (excluding ``linkLivenessUnknown``, malformed, untracked,
   or unconfirmed entries) while retaining the canonical finding unchanged.
-* State isolation: returned states and decision views expose immutable mapping
-  containers and defensive copies with zero nested mutable aliasing across
-  prior, returned, replayed, or rejected states.
+* Bounded resources & state isolation: explicit aggregate resource budgets in
+  ``ReducerConfig`` fail closed before committing oversized state (while still
+  permitting exact replay at capacity) with zero silent compaction. Returned
+  states, ``decisions``, and ``eligible`` views expose immutable mapping
+  containers and independent defensive copies with zero nested mutable aliasing
+  across prior, returned, replayed, rejected, or eligible views.
 * No writes / no settlement / no persistence: this module performs no file I/O,
   no network/GitHub calls, builds or seals no envelopes, models no
   ``EffectProof``, and never authorizes writes (``write_authorized`` is always
@@ -64,6 +76,11 @@ from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 SCHEMA_VERSION = 1
 DEFAULT_FLUSH_WEEKDAY = 0  # Monday (UTC)
 DEFAULT_WINDOW_DAYS = 7
+DEFAULT_MAX_SEEN_POLLS = 1024
+DEFAULT_MAX_BUCKETS = 256
+DEFAULT_MAX_ROWS_PER_BUCKET = 512
+DEFAULT_MAX_TOTAL_ROWS = 4096
+DEFAULT_MAX_VERSIONS_PER_BUCKET = 128
 URGENT_HTTP_STATUSES = frozenset({404, 410})
 
 DECISION_HOLD = "hold"
@@ -75,7 +92,13 @@ DECISION_UNAVAILABLE = "unavailable"
 DECISION_REJECTED = "rejected"
 DECISION_REPLAYED = "replayed"
 
+PRESENCE_PRESENT_CANDIDATE = "present-candidate"
+PRESENCE_PRESENT_TRACKED = "present-tracked"
+PRESENCE_UNKNOWN = "unknown"
+PRESENCE_VANISHED = "vanished"
+
 _SLUG_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+_ISO_FRAC_RE = re.compile(r"\.(\d+)")
 _REQUIRED_CANONICAL_KEYS = (
     "skillId",
     "newVersion",
@@ -110,7 +133,11 @@ _REQUIRED_RAW_KEYS = (
 
 
 def parse_strict_utc(value: dt.datetime | str) -> dt.datetime:
-    """Parse an aware UTC/offset datetime or ISO-8601 string. Rejects naive/malformed values."""
+    """Parse an aware UTC/offset datetime or ISO-8601 string at full microsecond precision.
+
+    Rejects naive, malformed, or sub-microsecond (>6 fractional digits) values so
+    accepted timestamps round-trip losslessly through ``format_utc`` and receipt digests.
+    """
     if isinstance(value, dt.datetime):
         if value.tzinfo is None or value.utcoffset() is None:
             raise ValueError("observed_at datetime must be timezone-aware")
@@ -119,7 +146,10 @@ def parse_strict_utc(value: dt.datetime | str) -> dt.datetime:
         text = value.strip()
         if not text or any(ord(c) < 32 or ord(c) == 127 for c in text):
             raise ValueError("observed_at string is empty or contains control characters")
-        normalized = text[:-1] + "+00:00" if text.endswith("Z") else text
+        frac_match = _ISO_FRAC_RE.search(text)
+        if frac_match is not None and len(frac_match.group(1)) > 6:
+            raise ValueError(f"observed_at fractional seconds exceed microsecond precision: {value!r}")
+        normalized = text[:-1] + "+00:00" if text.endswith(("Z", "z")) else text
         try:
             parsed = dt.datetime.fromisoformat(normalized)
         except ValueError as exc:
@@ -131,7 +161,22 @@ def parse_strict_utc(value: dt.datetime | str) -> dt.datetime:
 
 
 def format_utc(value: dt.datetime) -> str:
-    return value.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    """Format an aware datetime in canonical UTC ISO-8601, preserving microsecond precision."""
+    utc = value.astimezone(dt.timezone.utc)
+    if utc.microsecond:
+        return utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    return utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _is_valid_component_root(value: Any) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    if value.startswith("/") or value.endswith("/") or "\\" in value:
+        return False
+    if any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value):
+        return False
+    segments = value.split("/")
+    return not any(not seg or seg in (".", "..") for seg in segments)
 
 
 def _validate_poll_id(poll_id: Any) -> str:
@@ -168,16 +213,31 @@ def _is_nonempty_clean_str(value: Any) -> bool:
 
 @dataclass(frozen=True)
 class ReducerConfig:
-    """Pure review-window configuration (UTC)."""
+    """Pure review-window and aggregate resource-bound configuration (UTC)."""
 
     flush_weekday: int = DEFAULT_FLUSH_WEEKDAY
     window_days: int = DEFAULT_WINDOW_DAYS
+    max_seen_polls: int = DEFAULT_MAX_SEEN_POLLS
+    max_buckets: int = DEFAULT_MAX_BUCKETS
+    max_rows_per_bucket: int = DEFAULT_MAX_ROWS_PER_BUCKET
+    max_total_rows: int = DEFAULT_MAX_TOTAL_ROWS
+    max_versions_per_bucket: int = DEFAULT_MAX_VERSIONS_PER_BUCKET
 
     def __post_init__(self) -> None:
         if type(self.flush_weekday) is not int or not 0 <= self.flush_weekday <= 6:
             raise ValueError("flush_weekday must be an integer in 0..6 (Monday..Sunday UTC)")
         if type(self.window_days) is not int or self.window_days < 1:
             raise ValueError("window_days must be a positive integer")
+        for field_name in (
+            "max_seen_polls",
+            "max_buckets",
+            "max_rows_per_bucket",
+            "max_total_rows",
+            "max_versions_per_bucket",
+        ):
+            val = getattr(self, field_name)
+            if type(val) is not int or val < 1:
+                raise ValueError(f"{field_name} must be a positive integer")
 
 
 def is_flush_day(observed_at: dt.datetime, config: ReducerConfig) -> bool:
@@ -222,6 +282,7 @@ class RowHistory:
     vanished_poll_id: str | None
     latest_row: dict[str, Any]
     historical_only: bool = False
+    presence: str = PRESENCE_UNKNOWN
 
 
 @dataclass(frozen=True)
@@ -260,7 +321,35 @@ class NamedBucket:
 
     @property
     def present_row_ids(self) -> tuple[str, ...]:
-        return tuple(sorted(rid for rid, row in self.rows.items() if row.present_in_latest))
+        return tuple(
+            sorted(rid for rid, row in self.rows.items() if row.presence == PRESENCE_PRESENT_CANDIDATE)
+        )
+
+    @property
+    def tracked_present_row_ids(self) -> tuple[str, ...]:
+        return tuple(
+            sorted(rid for rid, row in self.rows.items() if row.presence == PRESENCE_PRESENT_TRACKED)
+        )
+
+    @property
+    def upstream_present_row_ids(self) -> tuple[str, ...]:
+        return tuple(
+            sorted(
+                rid
+                for rid, row in self.rows.items()
+                if row.presence in (PRESENCE_PRESENT_CANDIDATE, PRESENCE_PRESENT_TRACKED)
+            )
+        )
+
+    @property
+    def unknown_presence_row_ids(self) -> tuple[str, ...]:
+        return tuple(
+            sorted(
+                rid
+                for rid, row in self.rows.items()
+                if row.presence == PRESENCE_UNKNOWN and not row.historical_only
+            )
+        )
 
     @property
     def vanished_row_ids(self) -> tuple[str, ...]:
@@ -268,7 +357,7 @@ class NamedBucket:
             sorted(
                 rid
                 for rid, row in self.rows.items()
-                if not row.present_in_latest and not row.historical_only
+                if row.presence == PRESENCE_VANISHED and not row.historical_only
             )
         )
 
@@ -329,6 +418,7 @@ def _clone_row(row: RowHistory) -> RowHistory:
         vanished_poll_id=row.vanished_poll_id,
         latest_row=copy.deepcopy(row.latest_row),
         historical_only=row.historical_only,
+        presence=row.presence,
     )
 
 
@@ -370,6 +460,130 @@ def empty_state() -> ReducerState:
 
 
 @dataclass(frozen=True)
+class ScopedCompleteInventory:
+    """Explicit, scoped complete upstream-component inventory seam (offline only).
+
+    NOTE: This is an isolated typed seam for unit-injected verified fixture
+    authority, NOT a qualified production producer integration. Ordinary
+    ``run_repository_batch`` reports do not populate this field.
+
+    Usable ONLY on component-mode ``update`` findings from a full, non-truncated,
+    verified component root bound to the exact same poll ID, repository, named
+    ID, version, release source URL, and ``upstreamComponentRoot``.
+    """
+
+    poll_id: str
+    repository: str
+    named_id: str
+    version: str
+    source_url: str
+    component_root: str
+    present_slugs: frozenset[str]
+    complete: bool = True
+    truncated: bool = False
+    root_verified: bool = True
+
+
+def qualify_complete_inventory(
+    inventory: ScopedCompleteInventory,
+    *,
+    poll_id: str,
+    repository: str,
+    named_id: str,
+    raw_obs: Mapping[str, Any],
+    authority: Mapping[str, Any],
+) -> tuple[frozenset[str] | None, str | None]:
+    """Validate whether *inventory* qualifies as a complete upstream-presence proof.
+
+    Returns ``(present_slugs, None)`` when qualified, or ``(None, reason)`` when
+    unusable. Unusable inventories never prove disappearance; omitted rows stay
+    ``PRESENCE_UNKNOWN``.
+    """
+    if not isinstance(inventory, ScopedCompleteInventory):
+        return None, "inventory is not a ScopedCompleteInventory"
+    if type(inventory.complete) is not bool or not inventory.complete:
+        return None, "inventory is not complete"
+    if type(inventory.truncated) is not bool or inventory.truncated:
+        return None, "inventory is truncated"
+    if type(inventory.root_verified) is not bool or not inventory.root_verified:
+        return None, "inventory component root is not verified"
+    if raw_obs.get("finding_type") != "update":
+        return None, "complete inventory is only usable for update findings, not bootstrap"
+    if raw_obs.get("mode") != "components":
+        return None, "complete inventory is only usable for components mode"
+    raw_root = raw_obs.get("upstreamComponentRoot")
+    if not _is_valid_component_root(raw_root):
+        return None, "observed finding has missing or invalid upstreamComponentRoot"
+    if not _is_valid_component_root(inventory.component_root):
+        return None, "inventory has missing or invalid component_root"
+    if inventory.component_root != raw_root:
+        return None, "inventory component_root disagrees with observed upstreamComponentRoot"
+    if inventory.poll_id != poll_id:
+        return None, "inventory poll_id disagrees with current poll_id"
+    try:
+        inv_repo = envelope.repository(inventory.repository)
+    except PayloadError:
+        return None, "inventory repository is invalid"
+    if inv_repo != repository:
+        return None, "inventory repository disagrees with observed scope"
+    if inventory.named_id != named_id:
+        return None, "inventory named_id disagrees with observed scope"
+    try:
+        if envelope.authority_repository(inventory.named_id, authority) != repository:
+            return None, "inventory named_id disagrees with registry authority"
+    except PayloadError:
+        return None, "inventory named_id is not in registry authority"
+    if inventory.version != raw_obs.get("newVersion"):
+        return None, "inventory version disagrees with observed newVersion"
+    if inventory.source_url != raw_obs.get("sourceUrl"):
+        return None, "inventory source_url disagrees with observed sourceUrl"
+    try:
+        if envelope.release_repository(inventory.source_url, inventory.version) != repository:
+            return None, "inventory release source disagrees with scope repository"
+    except PayloadError:
+        return None, "inventory release source is invalid"
+    if not isinstance(inventory.present_slugs, (frozenset, set, list, tuple)):
+        return None, "inventory present_slugs has invalid container type"
+    if not all(isinstance(s, str) and _SLUG_RE.fullmatch(s) for s in inventory.present_slugs):
+        return None, "inventory present_slugs contains invalid slug"
+    slugs = frozenset(inventory.present_slugs)
+    if len(slugs) > envelope.MAX_ROWS:
+        return None, "inventory present_slugs exceeds MAX_ROWS"
+    raw_adds = raw_obs.get("componentAdds")
+    if not isinstance(raw_adds, list) or not set(raw_adds) <= slugs:
+        return None, "inventory present_slugs omits slugs reported in raw componentAdds"
+    return slugs, None
+
+
+def _serialize_complete_inventories(inventories: Any) -> list[dict[str, Any]]:
+    if not isinstance(inventories, (list, tuple)):
+        raise PayloadError("poll.complete_inventories must be a list or tuple")
+    serialized: list[dict[str, Any]] = []
+    for inv in inventories:
+        if not isinstance(inv, ScopedCompleteInventory):
+            raise PayloadError("poll.complete_inventories entries must be ScopedCompleteInventory")
+        if not isinstance(inv.present_slugs, (frozenset, set, list, tuple)):
+            raise PayloadError("inventory present_slugs must be a set, frozenset, list, or tuple")
+        if not all(isinstance(slug, str) for slug in inv.present_slugs):
+            raise PayloadError("inventory present_slugs entries must be strings")
+        serialized.append(
+            {
+                "poll_id": inv.poll_id,
+                "repository": inv.repository,
+                "named_id": inv.named_id,
+                "version": inv.version,
+                "source_url": inv.source_url,
+                "component_root": inv.component_root,
+                "present_slugs": sorted(set(inv.present_slugs)),
+                "complete": inv.complete,
+                "truncated": inv.truncated,
+                "root_verified": inv.root_verified,
+            }
+        )
+    return serialized
+
+
+@dataclass(frozen=True)
 class PollInput:
     """One offline poll snapshot supplied to ``reduce_poll``.
 
@@ -379,6 +593,9 @@ class PollInput:
     * ``planned_findings``: canonical sealed named findings produced by the real
       P1 planner (which may also carry retained unobserved siblings and
       carried-forward candidate rows).
+
+    Optionally carries ``complete_inventories``, an isolated offline seam of
+    ``ScopedCompleteInventory`` proofs. Ordinary P1 reports leave this empty.
     """
 
     poll_id: str
@@ -389,6 +606,7 @@ class PollInput:
     held_repos: frozenset[str] = frozenset()
     held_named_ids: frozenset[str] = frozenset()
     unavailable_named_ids: frozenset[str] = frozenset()
+    complete_inventories: Sequence[ScopedCompleteInventory] = ()
 
 
 def poll_input_from_batch_report(
@@ -405,34 +623,69 @@ def poll_input_from_batch_report(
 
     Preserves both ``report["observedFindings"]`` and canonical planned findings
     unchanged, merges any ``knownLegacyHolds`` repositories into ``held_repos``,
-    and forces ``complete=False`` if the report recorded ``unknownEvidence``.
+    requires an explicitly present ``unknownEvidence`` list and boolean
+    ``complete``, and forces ``complete=False`` if the report recorded any
+    ``unknownEvidence``. Never fabricates complete upstream inventories.
     """
     if not isinstance(report, Mapping):
         raise PayloadError("batch report must be a mapping")
+    if type(complete) is not bool:
+        raise PayloadError("complete must be a boolean")
+    if "unknownEvidence" not in report or not isinstance(report["unknownEvidence"], list):
+        raise PayloadError("batch report must contain an explicit unknownEvidence list")
     observed = report.get("observedFindings")
     repositories = report.get("repositories")
     if not isinstance(observed, (list, tuple)) or not isinstance(repositories, (list, tuple)):
         raise PayloadError("batch report must contain list/tuple observedFindings and repositories")
-    if not isinstance(held_repos, (set, frozenset, list, tuple)):
+    if "knownLegacyHolds" in report and report["knownLegacyHolds"] is not None:
+        if not isinstance(report["knownLegacyHolds"], list):
+            raise PayloadError("malformed top-level knownLegacyHolds in batch report")
+    if "unavailable" in report and report["unavailable"] is not None:
+        if not isinstance(report["unavailable"], list):
+            raise PayloadError("malformed unavailable list in batch report")
+    if "unavailableNamedIds" in report and report["unavailableNamedIds"] is not None:
+        if not isinstance(report["unavailableNamedIds"], list):
+            raise PayloadError("malformed unavailableNamedIds list in batch report")
+
+    container_types = (set, frozenset, list, tuple)
+    if not isinstance(held_repos, container_types):
         raise PayloadError("held_repos must be a set, frozenset, list, or tuple")
+    if not isinstance(held_named_ids, container_types):
+        raise PayloadError("held_named_ids must be a set, frozenset, list, or tuple")
+    if not isinstance(unavailable_named_ids, container_types):
+        raise PayloadError("unavailable_named_ids must be a set, frozenset, list, or tuple")
+
+    merged_held_repos: set[str] = set()
+    for repo_name in held_repos:
+        merged_held_repos.add(envelope.repository(repo_name))
+    validated_held_named: set[str] = set()
+    for named_id in held_named_ids:
+        if not isinstance(named_id, str) or not envelope.IDENTIFIER.fullmatch(named_id):
+            raise PayloadError(f"invalid held_named_ids entry: {named_id!r}")
+        validated_held_named.add(named_id)
+    validated_unavailable_named: set[str] = set()
+    for named_id in unavailable_named_ids:
+        if not isinstance(named_id, str) or not envelope.IDENTIFIER.fullmatch(named_id):
+            raise PayloadError(f"invalid unavailable_named_ids entry: {named_id!r}")
+        validated_unavailable_named.add(named_id)
 
     planned: list[dict[str, Any]] = []
-    merged_held_repos = set(held_repos)
     for repo_plan in repositories:
         if not isinstance(repo_plan, Mapping):
             raise PayloadError("malformed repository plan entry in batch report")
-        if repo_plan.get("knownLegacyHolds"):
-            repo_name = repo_plan.get("repository")
-            if isinstance(repo_name, str):
-                merged_held_repos.add(repo_name)
+        if "knownLegacyHolds" in repo_plan and repo_plan["knownLegacyHolds"] is not None:
+            if not isinstance(repo_plan["knownLegacyHolds"], list):
+                raise PayloadError("malformed knownLegacyHolds in repository plan entry")
+            if repo_plan["knownLegacyHolds"]:
+                merged_held_repos.add(envelope.repository(repo_plan.get("repository")))
         payload = repo_plan.get("payload")
         if payload is not None:
             if not isinstance(payload, Mapping) or not isinstance(payload.get("findings"), list):
                 raise PayloadError("malformed canonical payload in batch report")
             planned.extend(copy.deepcopy(payload["findings"]))
 
-    unknown_evidence = report.get("unknownEvidence")
-    effective_complete = bool(complete) and not bool(unknown_evidence)
+    unknown_evidence = report["unknownEvidence"]
+    effective_complete = complete and len(unknown_evidence) == 0
     return PollInput(
         poll_id=poll_id,
         observed_at=observed_at,
@@ -440,8 +693,9 @@ def poll_input_from_batch_report(
         planned_findings=planned,
         complete=effective_complete,
         held_repos=frozenset(merged_held_repos),
-        held_named_ids=held_named_ids,
-        unavailable_named_ids=unavailable_named_ids,
+        held_named_ids=frozenset(validated_held_named),
+        unavailable_named_ids=frozenset(validated_unavailable_named),
+        complete_inventories=(),
     )
 
 
@@ -481,9 +735,36 @@ class NamedDecision:
     present_row_ids: tuple[str, ...]
     vanished_row_ids: tuple[str, ...]
     historical_row_ids: tuple[str, ...] = ()
+    tracked_present_row_ids: tuple[str, ...] = ()
+    unknown_presence_row_ids: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "row_pins", _freeze_mapping(self.row_pins))
+
+
+def _clone_decision(decision: NamedDecision) -> NamedDecision:
+    return NamedDecision(
+        repository=decision.repository,
+        named_id=decision.named_id,
+        decision=decision.decision,
+        eligible=decision.eligible,
+        write_authorized=decision.write_authorized,
+        reasons=decision.reasons,
+        poll_id=decision.poll_id,
+        observed_at=decision.observed_at,
+        pending_since=decision.pending_since,
+        next_flush=decision.next_flush,
+        max_hold_until=decision.max_hold_until,
+        bucket_revision=decision.bucket_revision,
+        finding_sha256=decision.finding_sha256,
+        finding=copy.deepcopy(decision.finding),
+        row_pins=dict(decision.row_pins),
+        present_row_ids=decision.present_row_ids,
+        vanished_row_ids=decision.vanished_row_ids,
+        historical_row_ids=decision.historical_row_ids,
+        tracked_present_row_ids=decision.tracked_present_row_ids,
+        unknown_presence_row_ids=decision.unknown_presence_row_ids,
+    )
 
 
 @dataclass(frozen=True)
@@ -821,6 +1102,7 @@ def _fold_bucket(
     named_id: str,
     finding: dict[str, Any],
     current_present_row_ids: frozenset[str],
+    verified_present_slugs: frozenset[str] | None,
     poll_id: str,
     observed_at_iso: str,
 ) -> NamedBucket:
@@ -855,6 +1137,7 @@ def _fold_bucket(
                     vanished_poll_id=None,
                     latest_row=row,
                     historical_only=False,
+                    presence=PRESENCE_PRESENT_CANDIDATE,
                 )
             else:
                 # Retained canonical row omitted by current raw componentAdds:
@@ -864,6 +1147,11 @@ def _fold_bucket(
                     evidence_url=row["evidenceUrl"],
                     first_seen_at=None,
                     first_seen_poll_id=None,
+                )
+                presence = (
+                    PRESENCE_PRESENT_TRACKED
+                    if verified_present_slugs is not None and row["slug"] in verified_present_slugs
+                    else PRESENCE_UNKNOWN
                 )
                 next_rows[row_id] = RowHistory(
                     row_id=row_id,
@@ -878,6 +1166,7 @@ def _fold_bucket(
                     vanished_poll_id=None,
                     latest_row=row,
                     historical_only=True,
+                    presence=presence,
                 )
         versions_seen = (
             VersionSighting(
@@ -911,7 +1200,17 @@ def _fold_bucket(
         old_row = prior.rows.get(row_id)
         if row_id in current_present_row_ids:
             if old_row is not None:
-                pin = old_row.first_seen_pin
+                if old_row.historical_only or old_row.first_seen_pin.first_seen_at is None:
+                    # Transitioning from historical-only to first actual reducer observation:
+                    # preserve canonical version/URL pin while recording this poll's real first_seen_at/poll_id.
+                    pin = FirstSeenPin(
+                        first_seen_version=old_row.first_seen_pin.first_seen_version,
+                        evidence_url=old_row.first_seen_pin.evidence_url,
+                        first_seen_at=observed_at_iso,
+                        first_seen_poll_id=poll_id,
+                    )
+                else:
+                    pin = old_row.first_seen_pin
             else:
                 pin = FirstSeenPin(
                     first_seen_version=row["firstSeenVersion"],
@@ -932,9 +1231,24 @@ def _fold_bucket(
                 vanished_poll_id=None,
                 latest_row=row,
                 historical_only=False,
+                presence=PRESENCE_PRESENT_CANDIDATE,
             )
         elif old_row is not None and not old_row.historical_only:
-            # Previously observed row omitted from current raw componentAdds -> legitimately vanished.
+            # Previously observed row omitted from raw componentAdds:
+            # only a qualified scoped complete inventory can prove tracked presence or absence.
+            if verified_present_slugs is not None:
+                if old_row.slug in verified_present_slugs:
+                    presence = PRESENCE_PRESENT_TRACKED
+                    vanished_at = None
+                    vanished_poll_id = None
+                else:
+                    presence = PRESENCE_VANISHED
+                    vanished_at = old_row.vanished_at or observed_at_iso
+                    vanished_poll_id = old_row.vanished_poll_id or poll_id
+            else:
+                presence = PRESENCE_UNKNOWN
+                vanished_at = old_row.vanished_at
+                vanished_poll_id = old_row.vanished_poll_id
             next_rows[row_id] = RowHistory(
                 row_id=old_row.row_id,
                 slug=old_row.slug,
@@ -944,13 +1258,19 @@ def _fold_bucket(
                 last_seen_at=old_row.last_seen_at,
                 last_seen_poll_id=old_row.last_seen_poll_id,
                 present_in_latest=False,
-                vanished_at=old_row.vanished_at or observed_at_iso,
-                vanished_poll_id=old_row.vanished_poll_id or poll_id,
+                vanished_at=vanished_at,
+                vanished_poll_id=vanished_poll_id,
                 latest_row=row,
                 historical_only=False,
+                presence=presence,
             )
         elif old_row is not None:
-            # Still historical-only: never observed as current by this reducer.
+            # Still historical-only: never observed as current raw candidate by this reducer.
+            presence = (
+                PRESENCE_PRESENT_TRACKED
+                if verified_present_slugs is not None and old_row.slug in verified_present_slugs
+                else PRESENCE_UNKNOWN
+            )
             next_rows[row_id] = RowHistory(
                 row_id=old_row.row_id,
                 slug=old_row.slug,
@@ -964,6 +1284,7 @@ def _fold_bucket(
                 vanished_poll_id=None,
                 latest_row=row,
                 historical_only=True,
+                presence=presence,
             )
         else:
             # Newly encountered historical-only row in canonical candidates.
@@ -972,6 +1293,11 @@ def _fold_bucket(
                 evidence_url=row["evidenceUrl"],
                 first_seen_at=None,
                 first_seen_poll_id=None,
+            )
+            presence = (
+                PRESENCE_PRESENT_TRACKED
+                if verified_present_slugs is not None and row["slug"] in verified_present_slugs
+                else PRESENCE_UNKNOWN
             )
             next_rows[row_id] = RowHistory(
                 row_id=row_id,
@@ -986,14 +1312,18 @@ def _fold_bucket(
                 vanished_poll_id=None,
                 latest_row=row,
                 historical_only=True,
+                presence=presence,
             )
 
     for row_id, old_row in sorted(prior.rows.items()):
         if row_id in next_rows:
             continue
         if old_row.historical_only:
-            next_rows[row_id] = _clone_row(old_row)
-        else:
+            presence = (
+                PRESENCE_PRESENT_TRACKED
+                if verified_present_slugs is not None and old_row.slug in verified_present_slugs
+                else PRESENCE_UNKNOWN
+            )
             next_rows[row_id] = RowHistory(
                 row_id=old_row.row_id,
                 slug=old_row.slug,
@@ -1003,10 +1333,40 @@ def _fold_bucket(
                 last_seen_at=old_row.last_seen_at,
                 last_seen_poll_id=old_row.last_seen_poll_id,
                 present_in_latest=False,
-                vanished_at=old_row.vanished_at or observed_at_iso,
-                vanished_poll_id=old_row.vanished_poll_id or poll_id,
+                vanished_at=None,
+                vanished_poll_id=None,
+                latest_row=copy.deepcopy(old_row.latest_row),
+                historical_only=True,
+                presence=presence,
+            )
+        else:
+            if verified_present_slugs is not None:
+                if old_row.slug in verified_present_slugs:
+                    presence = PRESENCE_PRESENT_TRACKED
+                    vanished_at = None
+                    vanished_poll_id = None
+                else:
+                    presence = PRESENCE_VANISHED
+                    vanished_at = old_row.vanished_at or observed_at_iso
+                    vanished_poll_id = old_row.vanished_poll_id or poll_id
+            else:
+                presence = PRESENCE_UNKNOWN
+                vanished_at = old_row.vanished_at
+                vanished_poll_id = old_row.vanished_poll_id
+            next_rows[row_id] = RowHistory(
+                row_id=old_row.row_id,
+                slug=old_row.slug,
+                suggested_id=old_row.suggested_id,
+                first_seen_pin=old_row.first_seen_pin,
+                last_seen_version=old_row.last_seen_version,
+                last_seen_at=old_row.last_seen_at,
+                last_seen_poll_id=old_row.last_seen_poll_id,
+                present_in_latest=False,
+                vanished_at=vanished_at,
+                vanished_poll_id=vanished_poll_id,
                 latest_row=copy.deepcopy(old_row.latest_row),
                 historical_only=False,
+                presence=presence,
             )
 
     updated_versions: list[VersionSighting] = []
@@ -1110,6 +1470,8 @@ def _decision_for_observed_bucket(
         present_row_ids=bucket.present_row_ids,
         vanished_row_ids=bucket.vanished_row_ids,
         historical_row_ids=bucket.historical_row_ids,
+        tracked_present_row_ids=bucket.tracked_present_row_ids,
+        unknown_presence_row_ids=bucket.unknown_presence_row_ids,
     )
 
 
@@ -1143,6 +1505,8 @@ def _decision_for_unobserved_bucket(
         present_row_ids=bucket.present_row_ids,
         vanished_row_ids=bucket.vanished_row_ids,
         historical_row_ids=bucket.historical_row_ids,
+        tracked_present_row_ids=bucket.tracked_present_row_ids,
+        unknown_presence_row_ids=bucket.unknown_presence_row_ids,
     )
 
 
@@ -1234,10 +1598,11 @@ def reduce_poll(
 
     try:
         held_repos, held_named_ids, unavailable_named_ids = _normalize_scope_sets(poll)
+        serialized_inventories = _serialize_complete_inventories(poll.complete_inventories)
     except (PayloadError, TypeError, ValueError) as exc:
         return _rejected_poll(state, str(exc), poll_id=poll_id, observed_at=observed_at_iso)
 
-    # Canonical input digest covering both evidence tracks and all hold/scope sets.
+    # Canonical input digest covering both evidence tracks, complete-inventory seam, and all hold/scope sets.
     try:
         input_digest = _canonical_json_digest(
             {
@@ -1249,6 +1614,7 @@ def reduce_poll(
                 "unavailable_named_ids": sorted(unavailable_named_ids),
                 "observed_findings": list(poll.observed_findings),
                 "planned_findings": list(poll.planned_findings),
+                "complete_inventories": serialized_inventories,
             }
         )
     except (TypeError, ValueError) as exc:
@@ -1308,6 +1674,14 @@ def reduce_poll(
         return _rejected_poll(
             state,
             "incomplete poll snapshot; refusing to infer vanishings or eligibility",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
+        )
+
+    if len(state.seen_polls) >= cfg.max_seen_polls:
+        return _rejected_poll(
+            state,
+            f"resource budget exceeded: seen_polls limit ({cfg.max_seen_polls}) reached",
             poll_id=poll_id,
             observed_at=observed_at_iso,
         )
@@ -1466,6 +1840,26 @@ def reduce_poll(
 
         joined_by_scope[scope] = (raw_obs, planned_finding, current_present_row_ids)
 
+    # 3b. Index optional complete-inventory seam entries by normalized scope.
+    #     Conflicting duplicate entries for the same scope are treated as unusable.
+    inventories_by_scope: dict[tuple[str, str], ScopedCompleteInventory] = {}
+    conflicting_inventory_scopes: set[tuple[str, str]] = set()
+    for inv in poll.complete_inventories:
+        try:
+            inv_repo = envelope.repository(inv.repository)
+        except PayloadError:
+            continue
+        inv_scope = (inv_repo, inv.named_id)
+        if inv_scope in conflicting_inventory_scopes:
+            continue
+        existing_inv = inventories_by_scope.get(inv_scope)
+        if existing_inv is not None:
+            if existing_inv != inv:
+                del inventories_by_scope[inv_scope]
+                conflicting_inventory_scopes.add(inv_scope)
+            continue
+        inventories_by_scope[inv_scope] = inv
+
     # 4. Clone untouched prior buckets so returned state never aliases prior state.
     next_buckets: dict[tuple[str, str], NamedBucket] = {
         scope: _clone_bucket(bucket) for scope, bucket in sorted(state.buckets.items())
@@ -1498,12 +1892,25 @@ def reduce_poll(
                 rejected_scopes.add(scope)
                 continue
 
+        verified_present_slugs: frozenset[str] | None = None
+        candidate_inv = inventories_by_scope.get(scope)
+        if candidate_inv is not None:
+            verified_present_slugs, _inv_reason = qualify_complete_inventory(
+                candidate_inv,
+                poll_id=poll_id,
+                repository=repo,
+                named_id=named_id,
+                raw_obs=raw_obs,
+                authority=authority,
+            )
+
         folded = _fold_bucket(
             prior,
             repo,
             named_id,
             planned_finding,
             current_present_row_ids,
+            verified_present_slugs,
             poll_id,
             observed_at_iso,
         )
@@ -1517,6 +1924,39 @@ def reduce_poll(
             observed_at_dt,
             observed_at_iso,
             cfg,
+        )
+
+    # 4b. Enforce explicit aggregate resource contract fail-closed BEFORE committing state.
+    if len(next_buckets) > cfg.max_buckets:
+        return _rejected_poll(
+            state,
+            f"resource budget exceeded: buckets limit ({cfg.max_buckets}) exceeded",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
+        )
+    total_rows = 0
+    for scope, bucket in sorted(next_buckets.items()):
+        if len(bucket.rows) > cfg.max_rows_per_bucket:
+            return _rejected_poll(
+                state,
+                f"resource budget exceeded: rows_per_bucket limit ({cfg.max_rows_per_bucket}) exceeded for {scope}",
+                poll_id=poll_id,
+                observed_at=observed_at_iso,
+            )
+        if len(bucket.versions_seen) > cfg.max_versions_per_bucket:
+            return _rejected_poll(
+                state,
+                f"resource budget exceeded: versions_per_bucket limit ({cfg.max_versions_per_bucket}) exceeded for {scope}",
+                poll_id=poll_id,
+                observed_at=observed_at_iso,
+            )
+        total_rows += len(bucket.rows)
+    if total_rows > cfg.max_total_rows:
+        return _rejected_poll(
+            state,
+            f"resource budget exceeded: total_rows limit ({cfg.max_total_rows}) exceeded",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
         )
 
     # 5. Record explicit non-eligible decisions for existing buckets not accepted in
@@ -1566,6 +2006,8 @@ def reduce_poll(
                 present_row_ids=(),
                 vanished_row_ids=(),
                 historical_row_ids=(),
+                tracked_present_row_ids=(),
+                unknown_presence_row_ids=(),
             )
 
     next_seen_polls = dict(state.seen_polls)
@@ -1586,7 +2028,7 @@ def reduce_poll(
     )
 
     eligible = tuple(
-        decisions[scope]
+        _clone_decision(decisions[scope])
         for scope in sorted(decisions)
         if decisions[scope].eligible
     )

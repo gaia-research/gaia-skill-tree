@@ -19,6 +19,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.upstream_watcher import batch, envelope, repository_batch
+from scripts.upstream_watcher.approval import PayloadError
 from scripts.upstream_watcher.weekly_reducer import (
     DECISION_ABSENT,
     DECISION_FLUSH,
@@ -28,11 +29,17 @@ from scripts.upstream_watcher.weekly_reducer import (
     DECISION_REPLAYED,
     DECISION_UNAVAILABLE,
     DECISION_URGENT,
+    PRESENCE_PRESENT_CANDIDATE,
+    PRESENCE_PRESENT_TRACKED,
+    PRESENCE_UNKNOWN,
+    PRESENCE_VANISHED,
     FirstSeenPin,
     PollInput,
     ReducerConfig,
+    ScopedCompleteInventory,
     empty_state,
     poll_input_from_batch_report,
+    qualify_complete_inventory,
     reduce_poll,
 )
 
@@ -212,7 +219,8 @@ def _raw_update(
     liveness: list[dict[str, Any]] | None = None,
     liveness_unknown: list[str] | None = None,
     name_drift: list[dict[str, Any]] | None = None,
-    component_root: str = "skills",
+    component_root: str | None = "skills",
+    mode: str = "components",
     finding_type: str = "update",
 ) -> dict[str, Any]:
     obs: dict[str, Any] = {
@@ -222,13 +230,14 @@ def _raw_update(
         "newVersion": version,
         "releasedAt": released_at,
         "sourceUrl": f"https://github.com/{repo}/releases/tag/{version}",
-        "mode": "components",
+        "mode": mode,
         "componentAdds": list(adds or []),
         "componentRemoves": list(removes or []),
         "linkLiveness": list(liveness or []),
         "nameDrift": list(name_drift or []),
-        "upstreamComponentRoot": component_root,
     }
+    if component_root is not None:
+        obs["upstreamComponentRoot"] = component_root
     if liveness_unknown is not None:
         obs["linkLivenessUnknown"] = list(liveness_unknown)
     return obs
@@ -319,12 +328,14 @@ def test_real_p1_planner_preserves_canonical_removal_evidence_and_sibling_isolat
 # ---------------------------------------------------------------------------
 
 
-def test_preexisting_envelope_retained_sibling_never_advances_or_flushes_and_omitted_candidate_vanishes():
+def test_preexisting_envelope_retained_sibling_never_advances_or_flushes_and_omitted_candidate_is_unknown_without_inventory():
     """Production-like real planner test with preexisting open envelope:
     * Day 1 (Tue): both A and B observed; A has alpha & beta.
     * Day 2 (Thu): ONLY A observed on v1.1.0 with alpha only (beta leaves raw componentAdds
       but is retained in canonical candidates by batch.merge_rows); B is retained-only in
-      the canonical envelope (absent from report['observedFindings']).
+      the canonical envelope (absent from report['observedFindings']). Because an ordinary
+      run_repository_batch report provides NO scoped complete inventory, beta's presence
+      drops to PRESENCE_UNKNOWN with NO vanished mark.
     * Day 3 (Mon flush day): ONLY A observed again; B is STILL retained-only in canonical.
     """
     authority = _base_authority()
@@ -393,18 +404,22 @@ def test_preexisting_envelope_retained_sibling_never_advances_or_flushes_and_omi
     assert alpha_a.last_seen_version == "v1.1.0"
     assert alpha_a.last_seen_at == "2026-11-12T06:00:00Z"
     assert alpha_a.present_in_latest is True
+    assert alpha_a.presence == PRESENCE_PRESENT_CANDIDATE
 
-    # alice/suite-a: beta left raw componentAdds even though still in canonical candidates -> vanished!
+    # alice/suite-a: beta left raw componentAdds without a complete inventory -> UNKNOWN, NOT vanished!
     beta_a = bucket_a.rows["acme/shared-repo:beta"]
     assert beta_a.present_in_latest is False
+    assert beta_a.presence == PRESENCE_UNKNOWN
     assert beta_a.historical_only is False
     assert beta_a.last_seen_version == "v1.0.0"
     assert beta_a.last_seen_at == "2026-11-10T06:00:00Z"  # NOT advanced!
     assert beta_a.last_seen_poll_id == "poll-day1"
-    assert beta_a.vanished_at == "2026-11-12T06:00:00Z"
-    assert beta_a.vanished_poll_id == "poll-day2"
+    assert beta_a.vanished_at is None
+    assert beta_a.vanished_poll_id is None
     assert bucket_a.present_row_ids == ("acme/shared-repo:alpha",)
-    assert bucket_a.vanished_row_ids == ("acme/shared-repo:beta",)
+    assert bucket_a.unknown_presence_row_ids == ("acme/shared-repo:beta",)
+    assert bucket_a.vanished_row_ids == ()
+    assert bucket_a.tracked_present_row_ids == ()
     assert bucket_a.historical_row_ids == ()
     assert bucket_a.latest_finding == planned_a  # Untouched canonical finding still holds beta
 
@@ -431,7 +446,8 @@ def test_preexisting_envelope_retained_sibling_never_advances_or_flushes_and_omi
     assert dec_a.eligible is True
     assert dec_a.reasons == ("flush-day",)
     assert dec_a.present_row_ids == ("acme/shared-repo:alpha",)
-    assert dec_a.vanished_row_ids == ("acme/shared-repo:beta",)
+    assert dec_a.unknown_presence_row_ids == ("acme/shared-repo:beta",)
+    assert dec_a.vanished_row_ids == ()
 
     # Retained-only sibling B on Monday flush day is STILL DECISION_ABSENT and NEVER eligible!
     assert dec_b.decision == DECISION_ABSENT
@@ -961,13 +977,28 @@ def test_state_and_decision_views_have_no_nested_mutable_aliasing_across_apply_r
     with pytest.raises(TypeError):
         r1.state.buckets[scope_a].rows["x"] = None  # type: ignore[index]
 
-    # Mutating decision view must NOT mutate r1.state.
+    # Mutating decision view must NOT mutate eligible view or r1.state.
     dec_a = r1.decisions[scope_a]
-    assert dec_a.finding is not None
+    elig_a = next(d for d in r1.eligible if (d.repository, d.named_id) == scope_a)
+    assert dec_a is not elig_a
+    assert dec_a.finding is not None and elig_a.finding is not None
+    assert dec_a.finding is not elig_a.finding
     dec_a.finding["componentRemoves"].append("mutated-in-decision")
     dec_a.finding["candidates"][0]["status"] = "rejected"
+    assert elig_a.finding["componentRemoves"] == ["alice/old-leaf"]
+    assert elig_a.finding["candidates"][0]["status"] == "new"
     assert r1.state.buckets[scope_a].latest_finding["componentRemoves"] == ["alice/old-leaf"]
     assert r1.state.buckets[scope_a].latest_finding["candidates"][0]["status"] == "new"
+
+    # Reverse direction: mutating eligible view must NOT mutate decisions view or r1.state.
+    elig_c = next(d for d in r1.eligible if (d.repository, d.named_id) == scope_c)
+    dec_c = r1.decisions[scope_c]
+    assert elig_c is not dec_c
+    assert elig_c.finding is not None and dec_c.finding is not None
+    assert elig_c.finding is not dec_c.finding
+    elig_c.finding["candidates"][0]["status"] = "mutated-in-eligible"
+    assert dec_c.finding["candidates"][0]["status"] == "new"
+    assert r1.state.buckets[scope_c].latest_finding["candidates"][0]["status"] == "new"
 
     # Mutating untouched bucket in r2.state must NOT mutate r1.state.
     raw_2 = [_raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"])]
@@ -1149,3 +1180,511 @@ def test_legacy_hold_1833_and_frozen_gbrain_stay_held_while_unrelated_repo_proce
     assert res.decisions[("garrytan/gbrain", "garrytan/gbrain")].eligible is False
     # Unrelated repo still gets full coverage
     assert [(d.repository, d.named_id) for d in res.eligible] == [("other/repo", "carol/other-suite")]
+
+
+# ---------------------------------------------------------------------------
+# 12. Scoped complete-inventory seam: tracked adoption, verified absence, unknown fallback
+# ---------------------------------------------------------------------------
+
+
+def test_complete_inventory_seam_tracked_adoption_vs_verified_absence_and_subsequent_unknown():
+    """Tests the isolated offline ScopedCompleteInventory seam (NOT qualified production
+    producer integration):
+    * Day 1: alice/suite-a observes alpha & beta; bob/suite-b observes alpha.
+    * Day 2: alice/suite-a raw componentAdds is empty (alpha adopted into suiteComponents,
+      beta removed upstream) + unit-injected verified complete inventory containing
+      {'alpha', 'kept-leaf'} -> alpha is PRESENCE_PRESENT_TRACKED (distinct from raw
+      new-candidate eligibility), beta is PRESENCE_VANISHED for alice/suite-a ONLY,
+      while sibling bob/suite-b is untouched.
+    * Day 3: ordinary P1 report (no complete inventory) -> both alpha and beta drop to
+      PRESENCE_UNKNOWN with beta's earlier vanished_at/vanished_poll_id preserved intact
+      and NO new vanished mark on alpha.
+    """
+    authority = _base_authority()
+
+    day1_raw = [
+        _raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha", "beta"], component_root="packages/a/skills"),
+        _raw_update("bob/suite-b", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/b/skills"),
+    ]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-inv-1", TUE_NOV_10, day1_report), authority)
+    assert r1.status == "applied"
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=201, updated_at="2026-11-10T06:00:00Z")
+
+    # Day 2: alpha adopted into suiteComponents (empty raw delta), beta truly removed upstream.
+    authority_day2 = copy.deepcopy(authority)
+    authority_day2["alice/suite-a"]["suiteComponents"].append("alice/alpha")
+    authority_day2["alice/alpha"] = {"id": "alice/alpha"}
+
+    day2_raw = [
+        _raw_update(
+            "alice/suite-a",
+            "acme/shared-repo",
+            "v1.1.0",
+            previous_version="v1.0.0",
+            adds=[],
+            component_root="packages/a/skills",
+        ),
+    ]
+    day2_report, day2_planned, _ = _plan_batch(day2_raw, authority_day2, gh=OfflineFakeGh(issues=[open_day1]))
+    # Offline unit-injected ScopedCompleteInventory seam (NOT qualified production producer integration).
+    inv_day2 = ScopedCompleteInventory(
+        poll_id="p-inv-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/a/skills",
+        present_slugs=frozenset({"alpha", "kept-leaf"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    poll_day2 = PollInput(
+        poll_id="p-inv-2",
+        observed_at=THU_NOV_12,
+        observed_findings=day2_report["observedFindings"],
+        planned_findings=day2_planned,
+        complete=True,
+        complete_inventories=(inv_day2,),
+    )
+    r2 = reduce_poll(r1.state, poll_day2, authority_day2)
+    assert r2.status == "applied"
+    bucket_a2 = r2.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    bucket_b2 = r2.state.get_bucket("acme/shared-repo", "bob/suite-b")
+    assert bucket_a2 is not None and bucket_b2 is not None
+
+    # alpha is proven present upstream as tracked, NOT a raw new-candidate!
+    alpha2 = bucket_a2.rows["acme/shared-repo:alpha"]
+    assert alpha2.presence == PRESENCE_PRESENT_TRACKED
+    assert alpha2.present_in_latest is False
+    assert alpha2.vanished_at is None
+    assert alpha2.vanished_poll_id is None
+    assert alpha2.first_seen_pin == FirstSeenPin(
+        first_seen_version="v1.0.0",
+        evidence_url="https://github.com/acme/shared-repo/blob/v1.0.0/packages/a/skills/alpha/SKILL.md",
+        first_seen_at="2026-11-10T06:00:00Z",
+        first_seen_poll_id="p-inv-1",
+    )
+
+    # beta is proven absent by verified full root inventory -> vanished for alice/suite-a ONLY.
+    beta2 = bucket_a2.rows["acme/shared-repo:beta"]
+    assert beta2.presence == PRESENCE_VANISHED
+    assert beta2.present_in_latest is False
+    assert beta2.vanished_at == "2026-11-12T06:00:00Z"
+    assert beta2.vanished_poll_id == "p-inv-2"
+
+    assert bucket_a2.present_row_ids == ()
+    assert bucket_a2.tracked_present_row_ids == ("acme/shared-repo:alpha",)
+    assert bucket_a2.upstream_present_row_ids == ("acme/shared-repo:alpha",)
+    assert bucket_a2.vanished_row_ids == ("acme/shared-repo:beta",)
+    assert bucket_a2.unknown_presence_row_ids == ()
+    # Sibling bob/suite-b untouched.
+    assert bucket_b2 == r1.state.get_bucket("acme/shared-repo", "bob/suite-b")
+
+    # Day 3: ordinary P1 report adapter (no complete inventory) -> presence UNKNOWN,
+    # earlier vanished timestamp on beta preserved intact, NO new vanished mark on alpha.
+    r3 = reduce_poll(
+        r2.state,
+        poll_input_from_batch_report("p-inv-3", MON_NOV_16, day2_report),
+        authority_day2,
+    )
+    assert r3.status == "applied"
+    bucket_a3 = r3.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    assert bucket_a3 is not None
+    assert bucket_a3.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN
+    assert bucket_a3.rows["acme/shared-repo:alpha"].vanished_at is None
+    assert bucket_a3.rows["acme/shared-repo:alpha"].vanished_poll_id is None
+    assert bucket_a3.rows["acme/shared-repo:beta"].presence == PRESENCE_UNKNOWN
+    assert bucket_a3.rows["acme/shared-repo:beta"].vanished_at == "2026-11-12T06:00:00Z"
+    assert bucket_a3.rows["acme/shared-repo:beta"].vanished_poll_id == "p-inv-2"
+    assert bucket_a3.present_row_ids == ()
+    assert bucket_a3.vanished_row_ids == ()
+    assert bucket_a3.unknown_presence_row_ids == ("acme/shared-repo:alpha", "acme/shared-repo:beta")
+
+
+def test_complete_inventory_seam_rejected_for_non_component_bootstrap_missing_root_and_mismatched_metadata():
+    """Nominal empty adds, version-only, bootstrap, missing-root fallback, incomplete/truncated
+    metadata, and cross-scope/mismatched inventories must NEVER prove disappearance.
+    """
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-q-1", TUE_NOV_10, day1_report), authority)
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=202, updated_at="2026-11-10T06:00:00Z")
+
+    # Helper to construct a valid baseline inventory for Day 2
+    def _base_inv(**overrides: Any) -> ScopedCompleteInventory:
+        params: dict[str, Any] = {
+            "poll_id": "p-q-2",
+            "repository": "acme/shared-repo",
+            "named_id": "alice/suite-a",
+            "version": "v1.1.0",
+            "source_url": "https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+            "component_root": "packages/a/skills",
+            "present_slugs": frozenset(),
+            "complete": True,
+            "truncated": False,
+            "root_verified": True,
+        }
+        params.update(overrides)
+        return ScopedCompleteInventory(**params)
+
+    # 1. Non-component (version-only), bootstrap, and missing-root fallback observations
+    non_qualifying_obs = [
+        _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], mode="version-only", component_root="packages/a/skills"),
+        _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], finding_type="bootstrap", component_root="packages/a/skills"),
+        _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], component_root=None),
+    ]
+    for idx, obs in enumerate(non_qualifying_obs):
+        slugs, reason = qualify_complete_inventory(
+            _base_inv(),
+            poll_id="p-q-2",
+            repository="acme/shared-repo",
+            named_id="alice/suite-a",
+            raw_obs=obs,
+            authority=authority,
+        )
+        assert slugs is None and reason, (idx, slugs, reason)
+        rep, planned, _ = _plan_batch([obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
+        res = reduce_poll(
+            r1.state,
+            PollInput(f"p-q-2", THU_NOV_12, rep["observedFindings"], planned, complete_inventories=(_base_inv(),)),
+            authority,
+        )
+        assert res.status == "applied"
+        bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+        assert bucket is not None
+        assert bucket.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN
+        assert bucket.rows["acme/shared-repo:alpha"].vanished_at is None
+        assert bucket.vanished_row_ids == ()
+
+    # 2. Component update with mismatched/incomplete/truncated/unverified/cross-scope inventory
+    valid_comp_obs = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], component_root="packages/a/skills")
+    rep_comp, planned_comp, _ = _plan_batch([valid_comp_obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
+    bad_inventories = [
+        _base_inv(poll_id="wrong-poll"),
+        _base_inv(repository="other/repo"),
+        _base_inv(named_id="bob/suite-b"),
+        _base_inv(version="v1.0.0"),
+        _base_inv(source_url="https://github.com/acme/shared-repo/releases/tag/v1.0.0"),
+        _base_inv(component_root="packages/b/skills"),
+        _base_inv(component_root="../escape"),
+        _base_inv(complete=False),
+        _base_inv(truncated=True),
+        _base_inv(root_verified=False),
+    ]
+    for idx, bad_inv in enumerate(bad_inventories):
+        slugs, reason = qualify_complete_inventory(
+            bad_inv,
+            poll_id="p-q-2",
+            repository="acme/shared-repo",
+            named_id="alice/suite-a",
+            raw_obs=valid_comp_obs,
+            authority=authority,
+        )
+        assert slugs is None and reason, (idx, bad_inv, reason)
+        res = reduce_poll(
+            r1.state,
+            PollInput("p-q-2", THU_NOV_12, rep_comp["observedFindings"], planned_comp, complete_inventories=(bad_inv,)),
+            authority,
+        )
+        assert res.status == "applied"
+        bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+        assert bucket is not None
+        assert bucket.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN
+        assert bucket.rows["acme/shared-repo:alpha"].vanished_at is None
+        assert bucket.vanished_row_ids == ()
+
+    # 3. Inventory contradicting positive raw componentAdds is also unusable
+    obs_with_add = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=["gamma"], component_root="packages/a/skills")
+    slugs, reason = qualify_complete_inventory(
+        _base_inv(present_slugs=frozenset({"kept-leaf"})),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=obs_with_add,
+        authority=authority,
+    )
+    assert slugs is None and "omits slugs" in (reason or "")
+
+
+def test_historical_only_row_with_tracked_complete_inventory_preserves_pin_without_fabricating_first_observation():
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha", "beta"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=203)
+
+    day2_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day2_report, day2_planned, _ = _plan_batch(day2_raw, authority, gh=OfflineFakeGh(issues=[open_day1]))
+    inv = ScopedCompleteInventory(
+        poll_id="p-hist-inv",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/a/skills",
+        present_slugs=frozenset({"alpha", "beta"}),
+    )
+    res = reduce_poll(
+        empty_state(),
+        PollInput("p-hist-inv", THU_NOV_12, day2_report["observedFindings"], day2_planned, complete_inventories=(inv,)),
+        authority,
+    )
+    assert res.status == "applied"
+    bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    assert bucket is not None
+    beta = bucket.rows["acme/shared-repo:beta"]
+    assert beta.historical_only is True
+    assert beta.presence == PRESENCE_PRESENT_TRACKED
+    assert beta.present_in_latest is False
+    assert beta.first_seen_pin.first_seen_version == "v1.0.0"
+    assert beta.first_seen_pin.first_seen_at is None
+    assert beta.first_seen_pin.first_seen_poll_id is None
+    assert beta.last_seen_at is None
+    assert bucket.tracked_present_row_ids == ("acme/shared-repo:beta",)
+
+
+# ---------------------------------------------------------------------------
+# 13. Strict batch-report adapter validation (Finding 2)
+# ---------------------------------------------------------------------------
+
+
+def test_batch_report_adapter_standard_path_and_strict_malformed_rejections():
+    authority = _base_authority()
+    raw = [_raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"])]
+    report, _, _ = _plan_batch(raw, authority)
+
+    # Exact accepted-report standard path succeeds
+    poll = poll_input_from_batch_report("p-std", MON_NOV_16, report)
+    assert poll.complete is True
+    res = reduce_poll(empty_state(), poll, authority)
+    assert res.status == "applied"
+    assert len(res.eligible) == 1
+
+    # Non-empty unknownEvidence -> complete=False -> reducer rejects fail-closed
+    report_with_unknown = copy.deepcopy(report)
+    report_with_unknown["unknownEvidence"] = [{"source": "repository-plan", "detail": "err", "stopped": True}]
+    poll_inc = poll_input_from_batch_report("p-inc-rep", MON_NOV_16, report_with_unknown)
+    assert poll_inc.complete is False
+    res_inc = reduce_poll(empty_state(), poll_inc, authority)
+    assert res_inc.status == "rejected"
+
+    # Missing or wrong-shaped unknownEvidence -> PayloadError (never healthy!)
+    report_no_unknown = copy.deepcopy(report)
+    del report_no_unknown["unknownEvidence"]
+    for bad_report in (
+        report_no_unknown,
+        {**report, "unknownEvidence": None},
+        {**report, "unknownEvidence": ""},
+        {**report, "unknownEvidence": {}},
+        {**report, "knownLegacyHolds": "not-a-list"},
+        {**report, "unavailable": "not-a-list"},
+        {**report, "unavailableNamedIds": {}},
+        {**report, "repositories": [{"repository": "other/repo", "knownLegacyHolds": "bad", "payload": None}]},
+        {**report, "repositories": [{"repository": None, "knownLegacyHolds": [{"payloadSha256": "x"}], "payload": None}]},
+    ):
+        with pytest.raises(PayloadError):
+            poll_input_from_batch_report("p-bad-rep", MON_NOV_16, bad_report)
+
+    # Non-bool complete (e.g. complete="false") -> PayloadError
+    for bad_complete in ("false", "true", 1, 0, None):
+        with pytest.raises(PayloadError):
+            poll_input_from_batch_report("p-bad-bool", MON_NOV_16, report, complete=bad_complete)  # type: ignore[arg-type]
+
+    # Malformed hold / unavailable containers -> PayloadError (never TypeError!)
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-h1", MON_NOV_16, report, held_repos=None)  # type: ignore[arg-type]
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-h2", MON_NOV_16, report, held_repos=["not a repo"])
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-h3", MON_NOV_16, report, held_named_ids=None)  # type: ignore[arg-type]
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-h4", MON_NOV_16, report, held_named_ids="alice/suite-a")  # type: ignore[arg-type]
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-u1", MON_NOV_16, report, unavailable_named_ids=123)  # type: ignore[arg-type]
+    with pytest.raises(PayloadError):
+        poll_input_from_batch_report("p-bad-u2", MON_NOV_16, report, unavailable_named_ids=["bad id"])
+
+
+# ---------------------------------------------------------------------------
+# 14. Historical-only -> current transition records real first observation (Finding 3)
+# ---------------------------------------------------------------------------
+
+
+def test_historical_only_row_transitions_to_current_preserving_canonical_pin_and_recording_first_observation():
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha", "beta"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=210, updated_at="2026-11-10T06:00:00Z")
+
+    # Fresh reducer starts on Day 2 where beta is retained-only in canonical candidates
+    day2_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day2_report, _, _ = _plan_batch(day2_raw, authority, gh=OfflineFakeGh(issues=[open_day1]))
+    r2 = reduce_poll(empty_state(), poll_input_from_batch_report("p-h2c-day2", THU_NOV_12, day2_report), authority)
+    assert r2.status == "applied"
+    beta2 = r2.state.get_bucket("acme/shared-repo", "alice/suite-a").rows["acme/shared-repo:beta"]
+    assert beta2.historical_only is True
+    assert beta2.first_seen_pin == FirstSeenPin(
+        first_seen_version="v1.0.0",
+        evidence_url="https://github.com/acme/shared-repo/blob/v1.0.0/packages/a/skills/beta/SKILL.md",
+        first_seen_at=None,
+        first_seen_poll_id=None,
+    )
+
+    # Day 3: beta is positively observed in raw componentAdds against Day 2 open envelope (no pin conflict!)
+    open_day2 = _open_envelope_issue(day2_report, "acme/shared-repo", number=210, updated_at="2026-11-12T06:00:00Z")
+    day3_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.2.0", previous_version="v1.1.0", adds=["alpha", "beta"], component_root="packages/a/skills")]
+    day3_report, _, _ = _plan_batch(day3_raw, authority, gh=OfflineFakeGh(issues=[open_day2]))
+    r3 = reduce_poll(r2.state, poll_input_from_batch_report("p-h2c-day3", MON_NOV_16, day3_report), authority)
+    assert r3.status == "applied"
+    assert r3.rejected_observations == ()
+    beta3 = r3.state.get_bucket("acme/shared-repo", "alice/suite-a").rows["acme/shared-repo:beta"]
+    assert beta3.historical_only is False
+    assert beta3.present_in_latest is True
+    assert beta3.presence == PRESENCE_PRESENT_CANDIDATE
+    assert beta3.first_seen_pin == FirstSeenPin(
+        first_seen_version="v1.0.0",
+        evidence_url="https://github.com/acme/shared-repo/blob/v1.0.0/packages/a/skills/beta/SKILL.md",
+        first_seen_at="2026-11-16T06:00:00Z",
+        first_seen_poll_id="p-h2c-day3",
+    )
+    assert beta3.last_seen_at == "2026-11-16T06:00:00Z"
+    assert beta3.last_seen_poll_id == "p-h2c-day3"
+
+    # Day 4: subsequent sighting keeps Day 3 first_seen_at/first_seen_poll_id immutable
+    r4 = reduce_poll(r3.state, poll_input_from_batch_report("p-h2c-day4", TUE_NOV_17, day3_report), authority)
+    assert r4.status == "applied"
+    beta4 = r4.state.get_bucket("acme/shared-repo", "alice/suite-a").rows["acme/shared-repo:beta"]
+    assert beta4.first_seen_pin == beta3.first_seen_pin
+    assert beta4.last_seen_at == "2026-11-17T06:00:00Z"
+    assert beta4.last_seen_poll_id == "p-h2c-day4"
+
+
+# ---------------------------------------------------------------------------
+# 15. Fractional UTC precision through digest, storage, replay, and ordering (Finding 4)
+# ---------------------------------------------------------------------------
+
+
+def test_fractional_utc_precision_preserved_for_replay_conflict_and_subsecond_ordering():
+    authority = _base_authority()
+    raw = [_raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"])]
+    report, _, _ = _plan_batch(raw, authority)
+
+    t_mid = "2026-11-10T06:00:00.500000Z"
+    t_mid_equiv = "2026-11-10T06:00:00.5Z"
+    t_earlier_same_sec = "2026-11-10T06:00:00.250000Z"
+    t_conflict_same_sec = "2026-11-10T06:00:00.500001Z"
+    t_later_same_sec = "2026-11-10T06:00:00.750000Z"
+
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-frac-1", t_mid, report), authority)
+    assert r1.status == "applied"
+    assert r1.observed_at == t_mid
+    assert r1.state.last_observed_at == t_mid
+    assert r1.state.get_bucket("other/repo", "carol/other-suite").last_observed_at == t_mid
+
+    # Exact replay with equivalent fractional representation -> replayed, NOT a last-seen update
+    r_rep = reduce_poll(r1.state, poll_input_from_batch_report("p-frac-1", t_mid_equiv, report), authority)
+    assert r_rep.status == "replayed"
+    assert r_rep.replayed is True
+    assert r_rep.state == r1.state
+    assert r_rep.state.get_bucket("other/repo", "carol/other-suite").sighting_count == 1
+    assert r_rep.state.get_bucket("other/repo", "carol/other-suite").last_observed_at == t_mid
+
+    # Same poll_id with different sub-second timestamp -> conflicting poll_id rejection
+    r_conf = reduce_poll(r1.state, poll_input_from_batch_report("p-frac-1", t_conflict_same_sec, report), authority)
+    assert r_conf.status == "rejected"
+    assert "conflicting poll_id" in (r_conf.rejection_reason or "")
+    assert r_conf.state == r1.state
+
+    # New poll_id earlier within the same second -> stale observed_at rejection
+    r_stale = reduce_poll(r1.state, poll_input_from_batch_report("p-frac-early", t_earlier_same_sec, report), authority)
+    assert r_stale.status == "rejected"
+    assert "stale observed_at" in (r_stale.rejection_reason or "")
+    assert r_stale.state == r1.state
+
+    # New poll_id later within the same second -> accepted and stored at full precision
+    r_next = reduce_poll(r1.state, poll_input_from_batch_report("p-frac-2", t_later_same_sec, report), authority)
+    assert r_next.status == "applied"
+    assert r_next.observed_at == t_later_same_sec
+    assert r_next.state.last_observed_at == t_later_same_sec
+    assert r_next.state.get_bucket("other/repo", "carol/other-suite").last_observed_at == t_later_same_sec
+
+    # Sub-microsecond (>6 fractional digits) rejected explicitly
+    r_nano = reduce_poll(r_next.state, poll_input_from_batch_report("p-frac-nano", "2026-11-10T06:00:01.1234567Z", report), authority)
+    assert r_nano.status == "rejected"
+    assert "microsecond precision" in (r_nano.rejection_reason or "")
+
+
+# ---------------------------------------------------------------------------
+# 16. Explicit aggregate bounded resource contract (Finding 5)
+# ---------------------------------------------------------------------------
+
+
+def test_aggregate_resource_budgets_fail_closed_and_allow_exact_replay_at_capacity():
+    authority = _base_authority()
+
+    # 1. max_buckets=1 fails closed on a second bucket without mutating prior state
+    cfg_buckets = ReducerConfig(max_buckets=1)
+    rep_a, _, _ = _plan_batch([_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills")], authority)
+    rep_c, _, _ = _plan_batch([_raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"])], authority)
+    rb1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-b1", TUE_NOV_10, rep_a), authority, cfg_buckets)
+    assert rb1.status == "applied"
+    rb2 = reduce_poll(rb1.state, poll_input_from_batch_report("p-b2", WED_NOV_11, rep_c), authority, cfg_buckets)
+    assert rb2.status == "rejected"
+    assert "buckets limit" in (rb2.rejection_reason or "")
+    assert rb2.state == rb1.state
+
+    # 2. max_rows_per_bucket=1 & max_total_rows=2 fail closed before committing oversized state
+    cfg_rows = ReducerConfig(max_rows_per_bucket=1, max_total_rows=2)
+    rep_two_rows, _, _ = _plan_batch([_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha", "beta"], component_root="packages/a/skills")], authority)
+    rr = reduce_poll(empty_state(), poll_input_from_batch_report("p-r1", TUE_NOV_10, rep_two_rows), authority, cfg_rows)
+    assert rr.status == "rejected"
+    assert "rows_per_bucket limit" in (rr.rejection_reason or "")
+    assert rr.state == empty_state()
+
+    cfg_total_rows = ReducerConfig(max_rows_per_bucket=2, max_total_rows=2)
+    rt1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-tr1", TUE_NOV_10, rep_two_rows), authority, cfg_total_rows)
+    assert rt1.status == "applied"
+    rt2 = reduce_poll(rt1.state, poll_input_from_batch_report("p-tr2", WED_NOV_11, rep_c), authority, cfg_total_rows)
+    assert rt2.status == "rejected"
+    assert "total_rows limit" in (rt2.rejection_reason or "")
+    assert rt2.state == rt1.state
+
+    # 3. max_versions_per_bucket=1 fails closed when a second distinct version arrives
+    cfg_versions = ReducerConfig(max_versions_per_bucket=1)
+    rv1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-v1", TUE_NOV_10, rep_a), authority, cfg_versions)
+    assert rv1.status == "applied"
+    open_a = _open_envelope_issue(rep_a, "acme/shared-repo", number=220)
+    rep_a_v2, _, _ = _plan_batch(
+        [_raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=["alpha"], component_root="packages/a/skills")],
+        authority,
+        gh=OfflineFakeGh(issues=[open_a]),
+    )
+    rv2 = reduce_poll(rv1.state, poll_input_from_batch_report("p-v2", WED_NOV_11, rep_a_v2), authority, cfg_versions)
+    assert rv2.status == "rejected"
+    assert "versions_per_bucket limit" in (rv2.rejection_reason or "")
+    assert rv2.state == rv1.state
+
+    # 4. max_seen_polls=2 allows exact replay at capacity while rejecting a 3rd distinct poll_id
+    cfg_polls = ReducerConfig(max_seen_polls=2)
+    poll_1 = poll_input_from_batch_report("p-cap-1", TUE_NOV_10, rep_c)
+    poll_2 = poll_input_from_batch_report("p-cap-2", WED_NOV_11, rep_c)
+    poll_3 = poll_input_from_batch_report("p-cap-3", THU_NOV_12, rep_c)
+    rp1 = reduce_poll(empty_state(), poll_1, authority, cfg_polls)
+    rp2 = reduce_poll(rp1.state, poll_2, authority, cfg_polls)
+    assert rp1.status == "applied" and rp2.status == "applied"
+    assert len(rp2.state.seen_polls) == 2
+
+    # Legitimate exact replay at capacity MUST succeed
+    rp_replay = reduce_poll(rp2.state, poll_2, authority, cfg_polls)
+    assert rp_replay.status == "replayed"
+    assert rp_replay.replayed is True
+    assert rp_replay.state == rp2.state
+
+    # New distinct poll_id at capacity MUST fail closed without dropping receipts
+    rp3 = reduce_poll(rp2.state, poll_3, authority, cfg_polls)
+    assert rp3.status == "rejected"
+    assert "seen_polls limit" in (rp3.rejection_reason or "")
+    assert rp3.state == rp2.state
+    assert len(rp3.state.seen_polls) == 2
