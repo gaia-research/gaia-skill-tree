@@ -416,6 +416,7 @@ def test_fresh_producer_slug_removals_resolve_to_canonical_suite_ids_and_repeat_
 
     auth = authority()
     auth["owner/a"]["suiteComponents"] = ["other-contrib/removed-one", "owner/kept-one"]
+    auth["other-contrib/removed-one"] = {"id": "other-contrib/removed-one", "suiteRef": "owner/a"}
     adds, removes = diff_slugs({"kept-one"}, auth["owner/a"]["suiteComponents"])
     assert adds == [] and removes == ["removed-one"]
     fresh = {**finding("owner/a", version="v2", adds=adds), "componentRemoves": removes}
@@ -469,7 +470,15 @@ def test_captured_hyperframes_removal_observation_offline_probe():
             "suiteComponents": suite_components,
             "links": {"github": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md"},
             "upstream": {"repo": "heygen-com/hyperframes", "version": "v0.8.225"},
-        }
+        },
+        **{
+            comp_id: {
+                "id": comp_id,
+                "suiteRef": "heygen-com/hyperframes",
+                "links": {"github": f"https://github.com/heygen-com/hyperframes/blob/main/skills/{comp_id.split('/', 1)[1]}/SKILL.md"},
+            }
+            for comp_id in suite_components
+        },
     }
     captured = {
         "skillId": "heygen-com/hyperframes",
@@ -516,6 +525,7 @@ def test_captured_hyperframes_removal_observation_offline_probe():
 def test_removal_guard_fails_closed_on_invalid_or_out_of_scope_authority(case):
     auth = authority()
     auth["owner/a"]["suiteComponents"] = ["owner/kept"]
+    auth["owner/kept"] = {"id": "owner/kept", "suiteRef": "owner/a"}
     auth["owner/b"]["suiteComponents"] = ["owner/sibling-only"]
     auth["owner/nested"]["suiteComponents"] = ["owner/nested-leaf"]
 
@@ -554,6 +564,7 @@ def test_removal_guard_fails_closed_on_invalid_or_out_of_scope_authority(case):
 def test_removal_guard_preserves_legacy_hold_and_no_write_gates():
     auth = authority()
     auth["owner/a"]["suiteComponents"] = ["other-contrib/removed-one", "owner/kept-one"]
+    auth["other-contrib/removed-one"] = {"id": "other-contrib/removed-one", "suiteRef": "owner/a", "suiteComponents": []}
     fresh = {**finding("owner/a", version="v2", adds=()), "componentRemoves": ["removed-one"]}
     old = legacy_issue()
     gh = FakeGh([old])
@@ -568,3 +579,34 @@ def test_removal_guard_preserves_legacy_hold_and_no_write_gates():
     assert report["issuesUpdated"] == 1 and report["actualIssuesUpdated"] == 0
     assert gh.writes == [] and gh.issues == before
     assert report["repositories"][0]["payload"]["findings"][0]["componentRemoves"] == ["other-contrib/removed-one"]
+
+
+@pytest.mark.parametrize("case,target_record", [
+    ("missing_target", "OMIT"),
+    ("none_target", None),
+    ("empty_dict_target", {}),
+    ("false_target", False),
+    ("non_dict_target", "owner/kept"),
+    ("mismatched_id_target", {"id": "owner/other"}),
+    ("case_mismatched_id_target", {"id": "OWNER/kept"}),
+    ("null_suite_components", {"id": "owner/kept", "suiteComponents": None}),
+    ("scalar_str_suite_components", {"id": "owner/kept", "suiteComponents": "owner/sub"}),
+    ("scalar_bool_suite_components", {"id": "owner/kept", "suiteComponents": True}),
+    ("object_suite_components", {"id": "owner/kept", "suiteComponents": {"owner/sub": True}}),
+])
+def test_removal_guard_requires_authoritative_well_formed_target_leaf_before_effects(case, target_record):
+    auth = authority()
+    auth["owner/a"]["suiteComponents"] = ["owner/kept"]
+    if target_record != "OMIT":
+        auth["owner/kept"] = target_record
+    removes = ["owner/kept"] if case == "missing_target" else ["kept"]
+    bad = {**finding("owner/a", version="v2", adds=()), "componentRemoves": removes}
+    valid_other_repo = finding("owner/nested", version="v1", adds=("fresh-skill",), repo="owner/nested")
+    gh = FakeGh()
+    report, code = rb.run_repository_batch(
+        [valid_other_repo, bad], gh, apply=True, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+    )
+    assert code == 3 and report["writeReadiness"] is False
+    assert report["unknownEvidence"] and report["unknownEvidence"][0]["source"] == "repository-plan"
+    assert gh.writes == [] and report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0

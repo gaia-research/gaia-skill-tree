@@ -242,8 +242,15 @@ def resolve_component_removals(finding: dict, authority: dict) -> dict:
                 raise PayloadError("ambiguous component removal in selected named scope")
             target = matches[0]
 
-        if (authority.get(target) or {}).get("suiteComponents"):
-            raise PayloadError("a selected finding cannot mutate another named suite root")
+        target_meta = authority.get(target)
+        if not isinstance(target_meta, dict) or target_meta.get("id") != target:
+            raise PayloadError("component removal target is missing or malformed in registry authority")
+        if "suiteComponents" in target_meta:
+            target_components = target_meta["suiteComponents"]
+            if not isinstance(target_components, list):
+                raise PayloadError("malformed target suiteComponents authority")
+            if target_components:
+                raise PayloadError("a selected finding cannot mutate another named suite root")
         if target in seen_resolved:
             raise PayloadError("duplicate or malformed componentRemoves")
         seen_resolved.add(target)
