@@ -314,16 +314,25 @@ def execute_repository(plan, findings, gh, index, authority, policy, historical_
 
 
 def run_repository_batch(findings, gh, apply, authority, *, index_loader=prechecks.load_registry_index,
-                         policy=None, historical_loader=historical_authority, mode="batch", staging=None, reset_records=None):
+                         policy=None, historical_loader=historical_authority, mode="batch", staging=None,
+                         reset_records=None, plan_only=False):
     """Complete read-only planning precedes the first mutation for ALL repositories.
 
     Fanout/staged execution is explicitly held, not silently sent through old
-    single-ID writers or ambiguous repo-only journals. Native unstaged batch is
-    the supported envelope writer; all modes can inspect lossless plans.
+    single-ID writers or ambiguous repo-only journals. When ``plan_only=True``,
+    even native unstaged batch ``--apply`` is held fail-closed (exit 4) with zero
+    GitHub writes; direct callers (``plan_only=False``) keep the native writer
+    testable offline.
     """
-    operational_hold = bool(reset_records) or mode != "batch" or (staging is not None and staging.active)
-    hold_reason = ("fanout-records-reset-or-legacy-repository-journal-requires-scoped-upgrade"
-                   if operational_hold else None)
+    legacy_hold = bool(reset_records) or mode != "batch" or (staging is not None and staging.active)
+    plan_hold = bool(plan_only and apply)
+    operational_hold = legacy_hold or plan_hold
+    if legacy_hold:
+        hold_reason = "fanout-records-reset-or-legacy-repository-journal-requires-scoped-upgrade"
+    elif plan_hold:
+        hold_reason = "watcher-plan-only-guard-blocks-envelope-apply"
+    else:
+        hold_reason = None
     report = batch.new_report()
     report.update(childMode=mode, dryRun=not apply, protocol="repository-envelope-v2",
                   repositories=[], knownLegacyHolds=[], writeReadiness=not operational_hold,

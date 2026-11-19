@@ -20,7 +20,7 @@ For each named skill with `suiteComponents` at 2★+:
    - Diffs the upstream release tree to detect component adds/removes.
    - HEAD-checks each component's `links.github` URL for liveness.
    - **Name drift** (issue #1457): fetches each component's upstream `SKILL.md`, sanitizes its frontmatter `name` the same way `npx skills add` does, and compares it to the registry slug. A mismatch is reported with the exact `gaia dev rename <old-id> <new-id>` fix — this is the same divergence `scripts/install_parity.py` would eventually catch as `DIRNAME_MISMATCH`, surfaced earlier, at release time.
-5. **Outputs** findings as a markdown report (`--dry-run`) or creates GitHub issues (`--apply`).
+5. **Outputs** findings as a markdown report (`--dry-run`) or plans repository envelopes; ordinary watcher envelope `--apply` routes are currently held fail-closed (exit 4, zero GitHub writes).
 
 ---
 
@@ -41,14 +41,14 @@ python scripts/upstream_watcher/watcher.py --dry-run --verbose
 
 GitHub API calls use `GH_TOKEN` env var if set; unauthenticated otherwise (60 req/hr limit — sufficient for dry-runs on small suites).
 
-### Apply mode (creates real GitHub issues)
+### Apply mode (currently plan-only guarded)
 
 ```bash
 export GH_TOKEN="ghp_..."  # requires issues:write scope
 python scripts/upstream_watcher/watcher.py --apply
 ```
 
-**Warning:** `--apply` creates real GitHub issues. Use `--dry-run` first to confirm the output looks correct.
+**Note:** Ordinary watcher envelope `--apply` routes (including unstaged `--child-mode batch --apply`, `--child-mode fanout --apply`, `--staging weekly --apply`, and `--reset-records`) are currently fenced plan-only at the `watcher.py` entry point: they fail closed with exit `4` and make zero GitHub issue writes, while preserving dry-run planning and exit `3` on unknown/invalid evidence. Direct offline tests of `repository_batch.run_repository_batch(..., apply=True)` remain active.
 
 ### Recovery and skipped suites (#2131 round 4)
 

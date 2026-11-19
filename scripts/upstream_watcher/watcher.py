@@ -9,7 +9,8 @@ Usage
 Flags
 -----
 --dry-run         (default) Print findings as a markdown report; do NOT create issues.
---apply           Create GitHub issues (requires gh CLI + GH_TOKEN).
+--apply           Plan-only guarded: ordinary watcher envelope routes hold --apply
+                  fail-closed (exit 4, zero writes) while preserving dry-run planning.
 --skill <id>      Scope to a single suite skill-id (e.g. mattpocock/skills).
 --child-mode M    fanout (default): preserve the deployed emission contract.
                   batch: opt-in payloadVersion 2 record, no per-candidate children.
@@ -50,6 +51,8 @@ Exit codes
 2  Escalation target not found in any open umbrella.
 3  Unknown evidence (registry unreadable or a GitHub list/get failed). Zero
    issue writes were made; the report still lists unknownEvidence.
+4  Plan-only / operational hold: --apply was requested on a held or plan-only
+   watcher envelope route (zero issue writes were made).
 
 A suite that is permanently refused, or whose truncated tree cannot be walked within budget, is skipped for the
 run and listed under ``unavailable`` (its ``reason`` is ``permanent`` or ``tree-truncated``). It never blocks the
@@ -400,7 +403,7 @@ def main(argv: list[str] | None = None) -> int:
         "--apply",
         action="store_true",
         default=False,
-        help="Actually create GitHub issues (requires gh CLI + GH_TOKEN).",
+        help="Plan-only guarded: ordinary watcher envelope routes hold --apply fail-closed (exit 4, zero writes).",
     )
     parser.add_argument(
         "--skill",
@@ -412,7 +415,8 @@ def main(argv: list[str] | None = None) -> int:
         "--child-mode",
         choices=("batch", "fanout"),
         default="fanout",
-        help="batch: repository-envelope writer. fanout (default): read-only planned; --apply held fail-closed (exit 4) until rollout.",
+        help="batch: repository-envelope planner (unstaged --apply held fail-closed at watcher entry point, exit 4). "
+             "fanout (default): read-only planned; --apply held fail-closed (exit 4) until rollout.",
     )
     parser.add_argument(
         "--escalate",
@@ -685,12 +689,15 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     # Repository envelopes are the normal release path in every child mode.
-    # Unsupported fanout/staging execution is an explicit read-only hold, never
-    # a fallback to a single-ID writer or a repo-only legacy journal.
+    # Ordinary watcher routing is fenced plan-only at this entry point so
+    # native unstaged batch --apply, fanout, staging, and record resets all
+    # hold fail-closed (exit 4, zero issue writes), while direct calls to
+    # run_repository_batch(..., apply=True) stay testable offline.
     from scripts.upstream_watcher.repository_batch import run_repository_batch
     report, code = run_repository_batch(
         full_findings, LiveGh(), apply=apply, authority=registry_map,
         mode=args.child_mode, staging=stagingConfig, reset_records=args.reset_records,
+        plan_only=True,
     )
     report["unavailable"] = unavailable
     # Bootstrap observations share the same verified-repository envelope and
