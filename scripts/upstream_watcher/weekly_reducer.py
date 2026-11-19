@@ -97,8 +97,14 @@ PRESENCE_PRESENT_TRACKED = "present-tracked"
 PRESENCE_UNKNOWN = "unknown"
 PRESENCE_VANISHED = "vanished"
 
+DEFAULT_COMPONENT_ROOT = "skills"
+
 _SLUG_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
-_ISO_FRAC_RE = re.compile(r"\.(\d+)")
+_RFC3339_RE = re.compile(
+    r"([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}):([0-9]{2}):([0-9]{2})"
+    r"(?:\.([0-9]{1,6}))?(?:([Zz])|([+-])([0-9]{2}):([0-9]{2}))\Z"
+)
+_OVERPRECISION_FRAC_RE = re.compile(r"[.,][0-9]{7,}")
 _REQUIRED_CANONICAL_KEYS = (
     "skillId",
     "newVersion",
@@ -133,31 +139,54 @@ _REQUIRED_RAW_KEYS = (
 
 
 def parse_strict_utc(value: dt.datetime | str) -> dt.datetime:
-    """Parse an aware UTC/offset datetime or ISO-8601 string at full microsecond precision.
+    """Parse an aware UTC/offset datetime or strict RFC3339 string at microsecond precision.
 
-    Rejects naive, malformed, or sub-microsecond (>6 fractional digits) values so
-    accepted timestamps round-trip losslessly through ``format_utc`` and receipt digests.
+    Enforces an explicit extended RFC3339 string grammar:
+    ``YYYY-MM-DD[T|t]HH:MM:SS[.f{1,6}](Z|z|+HH:MM|-HH:MM)``.
+    Rejects naive, malformed, comma-fractional, arbitrary-separator, fractional-offset,
+    or sub-microsecond (>6 fractional digits) values so accepted timestamps round-trip
+    losslessly through ``format_utc`` and receipt digests.
     """
     if isinstance(value, dt.datetime):
         if value.tzinfo is None or value.utcoffset() is None:
             raise ValueError("observed_at datetime must be timezone-aware")
         return value.astimezone(dt.timezone.utc)
     if isinstance(value, str):
-        text = value.strip()
-        if not text or any(ord(c) < 32 or ord(c) == 127 for c in text):
+        if not value or any(ord(c) < 32 or ord(c) == 127 for c in value):
             raise ValueError("observed_at string is empty or contains control characters")
-        frac_match = _ISO_FRAC_RE.search(text)
-        if frac_match is not None and len(frac_match.group(1)) > 6:
-            raise ValueError(f"observed_at fractional seconds exceed microsecond precision: {value!r}")
-        normalized = text[:-1] + "+00:00" if text.endswith(("Z", "z")) else text
+        match = _RFC3339_RE.fullmatch(value)
+        if match is None:
+            if _OVERPRECISION_FRAC_RE.search(value) is not None:
+                raise ValueError(f"observed_at fractional seconds exceed microsecond precision: {value!r}")
+            raise ValueError(f"invalid RFC3339 observed_at: {value!r}")
+        year, month, day, hour, minute, second, frac, z_flag, sign, off_h, off_m = match.groups()
+        microsecond = int(frac.ljust(6, "0")) if frac is not None else 0
+        if z_flag is not None:
+            tz = dt.timezone.utc
+        else:
+            oh = int(off_h)
+            om = int(off_m)
+            if oh > 23 or om > 59:
+                raise ValueError(f"invalid RFC3339 timezone offset in observed_at: {value!r}")
+            delta = dt.timedelta(hours=oh, minutes=om)
+            if sign == "-":
+                delta = -delta
+            tz = dt.timezone(delta)
         try:
-            parsed = dt.datetime.fromisoformat(normalized)
+            parsed = dt.datetime(
+                int(year),
+                int(month),
+                int(day),
+                int(hour),
+                int(minute),
+                int(second),
+                microsecond,
+                tzinfo=tz,
+            )
         except ValueError as exc:
-            raise ValueError(f"invalid ISO-8601 observed_at: {value!r}") from exc
-        if parsed.tzinfo is None or parsed.utcoffset() is None:
-            raise ValueError("observed_at string must include explicit UTC or offset timezone")
+            raise ValueError(f"invalid RFC3339 observed_at: {value!r}") from exc
         return parsed.astimezone(dt.timezone.utc)
-    raise ValueError("observed_at must be a timezone-aware datetime or ISO-8601 string")
+    raise ValueError("observed_at must be a timezone-aware datetime or RFC3339 string")
 
 
 def format_utc(value: dt.datetime) -> str:
@@ -469,7 +498,12 @@ class ScopedCompleteInventory:
 
     Usable ONLY on component-mode ``update`` findings from a full, non-truncated,
     verified component root bound to the exact same poll ID, repository, named
-    ID, version, release source URL, and ``upstreamComponentRoot``.
+    ID, version, release source URL, raw ``upstreamComponentRoot``, and
+    authoritative suite component root from ``authority[named_id]``.
+
+    All three availability fields (``complete``, ``truncated``, ``root_verified``)
+    default to conservative unusable values so omitted metadata can never prove
+    absence.
     """
 
     poll_id: str
@@ -479,9 +513,28 @@ class ScopedCompleteInventory:
     source_url: str
     component_root: str
     present_slugs: frozenset[str]
-    complete: bool = True
-    truncated: bool = False
-    root_verified: bool = True
+    complete: bool = False
+    truncated: bool = True
+    root_verified: bool = False
+
+
+def _authority_component_root(named_id: str, authority: Mapping[str, Any]) -> str:
+    """Derive the authoritative component root for *named_id* from ``authority[named_id]``.
+
+    Follows the watcher contract: uses configured ``upstreamComponentRoot`` when
+    present and non-None (rejecting malformed configured values), and falls back
+    to the documented ``"skills"`` default ONLY when ``upstreamComponentRoot`` is
+    not configured. Never infers a root from raw observations.
+    """
+    meta = authority.get(named_id)
+    if not isinstance(meta, dict) or meta.get("id") != named_id:
+        raise PayloadError("named identity is not in registry authority")
+    if "upstreamComponentRoot" not in meta or meta["upstreamComponentRoot"] is None:
+        return DEFAULT_COMPONENT_ROOT
+    configured = meta["upstreamComponentRoot"]
+    if not _is_valid_component_root(configured):
+        raise PayloadError("registry authority has malformed upstreamComponentRoot")
+    return configured
 
 
 def qualify_complete_inventory(
@@ -511,13 +564,6 @@ def qualify_complete_inventory(
         return None, "complete inventory is only usable for update findings, not bootstrap"
     if raw_obs.get("mode") != "components":
         return None, "complete inventory is only usable for components mode"
-    raw_root = raw_obs.get("upstreamComponentRoot")
-    if not _is_valid_component_root(raw_root):
-        return None, "observed finding has missing or invalid upstreamComponentRoot"
-    if not _is_valid_component_root(inventory.component_root):
-        return None, "inventory has missing or invalid component_root"
-    if inventory.component_root != raw_root:
-        return None, "inventory component_root disagrees with observed upstreamComponentRoot"
     if inventory.poll_id != poll_id:
         return None, "inventory poll_id disagrees with current poll_id"
     try:
@@ -531,8 +577,23 @@ def qualify_complete_inventory(
     try:
         if envelope.authority_repository(inventory.named_id, authority) != repository:
             return None, "inventory named_id disagrees with registry authority"
-    except PayloadError:
-        return None, "inventory named_id is not in registry authority"
+        tracked_components = _tracked_components(inventory.named_id, authority)
+        auth_root = _authority_component_root(inventory.named_id, authority)
+    except PayloadError as exc:
+        return None, str(exc)
+    if not tracked_components:
+        return None, "named suite has no configured suiteComponents in registry authority"
+    raw_root = raw_obs.get("upstreamComponentRoot")
+    if not _is_valid_component_root(raw_root):
+        return None, "observed finding has missing or invalid upstreamComponentRoot"
+    if not _is_valid_component_root(inventory.component_root):
+        return None, "inventory has missing or invalid component_root"
+    if raw_root != auth_root:
+        return None, "observed upstreamComponentRoot disagrees with registry authority"
+    if inventory.component_root != auth_root:
+        return None, "inventory component_root disagrees with registry authority"
+    if inventory.component_root != raw_root:
+        return None, "inventory component_root disagrees with observed upstreamComponentRoot"
     if inventory.version != raw_obs.get("newVersion"):
         return None, "inventory version disagrees with observed newVersion"
     if inventory.source_url != raw_obs.get("sourceUrl"):
@@ -550,8 +611,24 @@ def qualify_complete_inventory(
     if len(slugs) > envelope.MAX_ROWS:
         return None, "inventory present_slugs exceeds MAX_ROWS"
     raw_adds = raw_obs.get("componentAdds")
-    if not isinstance(raw_adds, list) or not set(raw_adds) <= slugs:
+    if not isinstance(raw_adds, list) or not all(isinstance(s, str) and _SLUG_RE.fullmatch(s) for s in raw_adds):
+        return None, "observed finding has invalid componentAdds"
+    raw_adds_set = set(raw_adds)
+    if not raw_adds_set <= slugs:
         return None, "inventory present_slugs omits slugs reported in raw componentAdds"
+    raw_removes = raw_obs.get("componentRemoves")
+    if not isinstance(raw_removes, list) or not all(_is_nonempty_clean_str(item) for item in raw_removes):
+        return None, "observed finding has invalid componentRemoves"
+    raw_remove_slugs = {item.rsplit("/", 1)[-1] for item in raw_removes}
+    if not raw_remove_slugs.isdisjoint(slugs):
+        return None, "inventory present_slugs includes slugs reported in raw componentRemoves"
+    tracked_slugs = {comp_id.rsplit("/", 1)[-1] for comp_id in tracked_components}
+    if not raw_adds_set.isdisjoint(tracked_slugs):
+        return None, "observed componentAdds overlaps configured suiteComponents"
+    if not (slugs - tracked_slugs) <= raw_adds_set:
+        return None, "inventory present_slugs contains untracked slugs omitted from raw componentAdds"
+    if not (tracked_slugs - slugs) <= raw_remove_slugs:
+        return None, "inventory present_slugs omits tracked suiteComponents absent from raw componentRemoves"
     return slugs, None
 
 

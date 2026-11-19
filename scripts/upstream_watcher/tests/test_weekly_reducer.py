@@ -38,6 +38,7 @@ from scripts.upstream_watcher.weekly_reducer import (
     ReducerConfig,
     ScopedCompleteInventory,
     empty_state,
+    parse_strict_utc,
     poll_input_from_batch_report,
     qualify_complete_inventory,
     reduce_poll,
@@ -106,6 +107,7 @@ def _base_authority() -> dict[str, dict[str, Any]]:
         "alice/suite-a": {
             "id": "alice/suite-a",
             "links": {"github": "https://github.com/acme/shared-repo"},
+            "upstreamComponentRoot": "packages/a/skills",
             "suiteComponents": ["alice/old-leaf", "alice/kept-leaf"],
         },
         "alice/old-leaf": {"id": "alice/old-leaf"},
@@ -113,6 +115,7 @@ def _base_authority() -> dict[str, dict[str, Any]]:
         "bob/suite-b": {
             "id": "bob/suite-b",
             "links": {"github": "https://github.com/acme/shared-repo"},
+            "upstreamComponentRoot": "packages/b/skills",
             "suiteComponents": ["bob/core-leaf"],
         },
         "bob/core-leaf": {"id": "bob/core-leaf"},
@@ -1235,7 +1238,7 @@ def test_complete_inventory_seam_tracked_adoption_vs_verified_absence_and_subseq
         version="v1.1.0",
         source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
         component_root="packages/a/skills",
-        present_slugs=frozenset({"alpha", "kept-leaf"}),
+        present_slugs=frozenset({"alpha", "kept-leaf", "old-leaf"}),
         complete=True,
         truncated=False,
         root_verified=True,
@@ -1322,7 +1325,7 @@ def test_complete_inventory_seam_rejected_for_non_component_bootstrap_missing_ro
             "version": "v1.1.0",
             "source_url": "https://github.com/acme/shared-repo/releases/tag/v1.1.0",
             "component_root": "packages/a/skills",
-            "present_slugs": frozenset(),
+            "present_slugs": frozenset({"old-leaf", "kept-leaf"}),
             "complete": True,
             "truncated": False,
             "root_verified": True,
@@ -1361,6 +1364,15 @@ def test_complete_inventory_seam_rejected_for_non_component_bootstrap_missing_ro
 
     # 2. Component update with mismatched/incomplete/truncated/unverified/cross-scope inventory
     valid_comp_obs = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], component_root="packages/a/skills")
+    baseline_slugs, baseline_reason = qualify_complete_inventory(
+        _base_inv(),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=valid_comp_obs,
+        authority=authority,
+    )
+    assert baseline_slugs == frozenset({"old-leaf", "kept-leaf"}) and baseline_reason is None
     rep_comp, planned_comp, _ = _plan_batch([valid_comp_obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
     bad_inventories = [
         _base_inv(poll_id="wrong-poll"),
@@ -1396,10 +1408,10 @@ def test_complete_inventory_seam_rejected_for_non_component_bootstrap_missing_ro
         assert bucket.rows["acme/shared-repo:alpha"].vanished_at is None
         assert bucket.vanished_row_ids == ()
 
-    # 3. Inventory contradicting positive raw componentAdds is also unusable
+    # 3. Inventory contradicting explicit raw diff or configured tracked-set evidence is unusable
     obs_with_add = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=["gamma"], component_root="packages/a/skills")
     slugs, reason = qualify_complete_inventory(
-        _base_inv(present_slugs=frozenset({"kept-leaf"})),
+        _base_inv(present_slugs=frozenset({"old-leaf", "kept-leaf"})),
         poll_id="p-q-2",
         repository="acme/shared-repo",
         named_id="alice/suite-a",
@@ -1408,6 +1420,281 @@ def test_complete_inventory_seam_rejected_for_non_component_bootstrap_missing_ro
     )
     assert slugs is None and "omits slugs" in (reason or "")
 
+    # Inventory includes a slug explicitly reported in raw componentRemoves
+    obs_with_remove = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=[], removes=["old-leaf"], component_root="packages/a/skills")
+    slugs, reason = qualify_complete_inventory(
+        _base_inv(present_slugs=frozenset({"old-leaf", "kept-leaf"})),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=obs_with_remove,
+        authority=authority,
+    )
+    assert slugs is None and "componentRemoves" in (reason or "")
+
+    # Inventory claims an untracked slug absent from raw componentAdds
+    slugs, reason = qualify_complete_inventory(
+        _base_inv(present_slugs=frozenset({"old-leaf", "kept-leaf", "untracked-ghost"})),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=valid_comp_obs,
+        authority=authority,
+    )
+    assert slugs is None and "untracked slugs" in (reason or "")
+
+    # Inventory omits a tracked suiteComponent absent from raw componentRemoves
+    slugs, reason = qualify_complete_inventory(
+        _base_inv(present_slugs=frozenset({"kept-leaf"})),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=valid_comp_obs,
+        authority=authority,
+    )
+    assert slugs is None and "tracked suiteComponents" in (reason or "")
+
+    # Raw componentAdds overlaps configured suiteComponents
+    obs_add_overlaps_tracked = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", adds=["kept-leaf"], component_root="packages/a/skills")
+    slugs, reason = qualify_complete_inventory(
+        _base_inv(present_slugs=frozenset({"old-leaf", "kept-leaf"})),
+        poll_id="p-q-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=obs_add_overlaps_tracked,
+        authority=authority,
+    )
+    assert slugs is None and "overlaps configured suiteComponents" in (reason or "")
+
+
+def test_complete_inventory_rejects_agreeing_raw_and_inventory_on_wrong_sibling_root_and_accepts_configured_and_default_roots():
+    """Authoritative component root is derived strictly from authority[named_id]
+    (configured upstreamComponentRoot, or documented 'skills' default only when unconfigured).
+    * Discriminating test: raw_obs and inventory BOTH agree on sibling bob/suite-b's root
+      ('packages/b/skills') for alice/suite-a (configured 'packages/a/skills') -> rejected,
+      no applicable proof, no new vanished mark.
+    * Configured root positive: both match 'packages/a/skills' -> accepted and proves absence.
+    * Unconfigured default positive & mismatch: carol/other-suite has no upstreamComponentRoot
+      in authority -> defaults to 'skills'; agreeing on 'packages/other/skills' is rejected,
+      while agreeing on 'skills' is accepted.
+    * Malformed configured upstreamComponentRoot or empty suiteComponents in authority -> rejected.
+    """
+    authority = _base_authority()
+
+    # Seed alice/suite-a (configured root: packages/a/skills) and carol/other-suite (default root: skills)
+    day1_raw = [
+        _raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills"),
+        _raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"], component_root="skills"),
+    ]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-root-1", TUE_NOV_10, day1_report), authority)
+    assert r1.status == "applied"
+    open_acme = _open_envelope_issue(day1_report, "acme/shared-repo", number=204, updated_at="2026-11-10T06:00:00Z")
+    open_other = _open_envelope_issue(day1_report, "other/repo", number=205, updated_at="2026-11-10T06:00:00Z")
+
+    # 1. Discriminating sibling-root attack: raw AND inventory BOTH say sibling 'packages/b/skills' for alice/suite-a
+    wrong_root_obs = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=[], component_root="packages/b/skills")
+    wrong_root_inv = ScopedCompleteInventory(
+        poll_id="p-root-wrong-sibling",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/b/skills",
+        present_slugs=frozenset({"old-leaf", "kept-leaf"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    slugs, reason = qualify_complete_inventory(
+        wrong_root_inv,
+        poll_id="p-root-wrong-sibling",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=wrong_root_obs,
+        authority=authority,
+    )
+    assert slugs is None and "disagrees with registry authority" in (reason or "")
+
+    rep_wrong, planned_wrong, _ = _plan_batch([wrong_root_obs], authority, gh=OfflineFakeGh(issues=[open_acme]))
+    res_wrong = reduce_poll(
+        r1.state,
+        PollInput("p-root-wrong-sibling", THU_NOV_12, rep_wrong["observedFindings"], planned_wrong, complete_inventories=(wrong_root_inv,)),
+        authority,
+    )
+    assert res_wrong.status == "applied"
+    bucket_a_wrong = res_wrong.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    assert bucket_a_wrong is not None
+    assert bucket_a_wrong.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN
+    assert bucket_a_wrong.rows["acme/shared-repo:alpha"].vanished_at is None
+    assert bucket_a_wrong.rows["acme/shared-repo:alpha"].vanished_poll_id is None
+    assert bucket_a_wrong.vanished_row_ids == ()
+
+    # 2. Configured root positive: raw AND inventory match authority['alice/suite-a']['upstreamComponentRoot']
+    right_root_obs = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=[], component_root="packages/a/skills")
+    right_root_inv = ScopedCompleteInventory(
+        poll_id="p-root-right-configured",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/a/skills",
+        present_slugs=frozenset({"old-leaf", "kept-leaf"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    rep_right, planned_right, _ = _plan_batch([right_root_obs], authority, gh=OfflineFakeGh(issues=[open_acme]))
+    res_right = reduce_poll(
+        r1.state,
+        PollInput("p-root-right-configured", THU_NOV_12, rep_right["observedFindings"], planned_right, complete_inventories=(right_root_inv,)),
+        authority,
+    )
+    assert res_right.status == "applied"
+    bucket_a_right = res_right.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    assert bucket_a_right is not None
+    assert bucket_a_right.rows["acme/shared-repo:alpha"].presence == PRESENCE_VANISHED
+    assert bucket_a_right.vanished_row_ids == ("acme/shared-repo:alpha",)
+
+    # 3. Unconfigured documented 'skills' default: carol/other-suite has no upstreamComponentRoot in authority
+    assert "upstreamComponentRoot" not in authority["carol/other-suite"]
+    carol_wrong_obs = _raw_update("carol/other-suite", "other/repo", "v1.1.0", previous_version="v1.0.0", adds=[], component_root="packages/custom/skills")
+    carol_wrong_inv = ScopedCompleteInventory(
+        poll_id="p-root-carol-wrong",
+        repository="other/repo",
+        named_id="carol/other-suite",
+        version="v1.1.0",
+        source_url="https://github.com/other/repo/releases/tag/v1.1.0",
+        component_root="packages/custom/skills",
+        present_slugs=frozenset({"leaf-one"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    rep_cw, planned_cw, _ = _plan_batch([carol_wrong_obs], authority, gh=OfflineFakeGh(issues=[open_other]))
+    res_cw = reduce_poll(
+        r1.state,
+        PollInput("p-root-carol-wrong", THU_NOV_12, rep_cw["observedFindings"], planned_cw, complete_inventories=(carol_wrong_inv,)),
+        authority,
+    )
+    assert res_cw.status == "applied"
+    assert res_cw.state.get_bucket("other/repo", "carol/other-suite").rows["other/repo:gamma"].presence == PRESENCE_UNKNOWN
+    assert res_cw.state.get_bucket("other/repo", "carol/other-suite").vanished_row_ids == ()
+
+    carol_default_obs = _raw_update("carol/other-suite", "other/repo", "v1.1.0", previous_version="v1.0.0", adds=[], component_root="skills")
+    carol_default_inv = ScopedCompleteInventory(
+        poll_id="p-root-carol-default",
+        repository="other/repo",
+        named_id="carol/other-suite",
+        version="v1.1.0",
+        source_url="https://github.com/other/repo/releases/tag/v1.1.0",
+        component_root="skills",
+        present_slugs=frozenset({"leaf-one"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    rep_cd, planned_cd, _ = _plan_batch([carol_default_obs], authority, gh=OfflineFakeGh(issues=[open_other]))
+    res_cd = reduce_poll(
+        r1.state,
+        PollInput("p-root-carol-default", THU_NOV_12, rep_cd["observedFindings"], planned_cd, complete_inventories=(carol_default_inv,)),
+        authority,
+    )
+    assert res_cd.status == "applied"
+    assert res_cd.state.get_bucket("other/repo", "carol/other-suite").rows["other/repo:gamma"].presence == PRESENCE_VANISHED
+    assert res_cd.state.get_bucket("other/repo", "carol/other-suite").vanished_row_ids == ("other/repo:gamma",)
+
+    # 4. Malformed configured upstreamComponentRoot or empty suiteComponents in authority never defaults to 'skills'
+    for bad_root in ("", " ", "/skills", "skills/", "../escape", "a//b", 123, True):
+        bad_auth = copy.deepcopy(authority)
+        bad_auth["carol/other-suite"]["upstreamComponentRoot"] = bad_root
+        slugs, reason = qualify_complete_inventory(
+            carol_default_inv,
+            poll_id="p-root-carol-default",
+            repository="other/repo",
+            named_id="carol/other-suite",
+            raw_obs=carol_default_obs,
+            authority=bad_auth,
+        )
+        assert slugs is None and "malformed upstreamComponentRoot" in (reason or ""), (bad_root, slugs, reason)
+
+    empty_comp_auth = copy.deepcopy(authority)
+    empty_comp_auth["carol/other-suite"]["suiteComponents"] = []
+    slugs, reason = qualify_complete_inventory(
+        carol_default_inv,
+        poll_id="p-root-carol-default",
+        repository="other/repo",
+        named_id="carol/other-suite",
+        raw_obs=carol_default_obs,
+        authority=empty_comp_auth,
+    )
+    assert slugs is None and "no configured suiteComponents" in (reason or "")
+
+
+def test_complete_inventory_omitted_or_non_bool_availability_fields_cannot_prove_absence():
+    """All three availability fields (complete, truncated, root_verified) default to
+    conservative unusable values and accept strict bools only; omitting any one or all
+    three, or passing truthy/falsy non-booleans, must never prove absence.
+    """
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-avail-1", TUE_NOV_10, day1_report), authority)
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=206, updated_at="2026-11-10T06:00:00Z")
+
+    day2_obs = _raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=[], component_root="packages/a/skills")
+    day2_report, day2_planned, _ = _plan_batch([day2_obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
+
+    common: dict[str, Any] = {
+        "poll_id": "p-avail-2",
+        "repository": "acme/shared-repo",
+        "named_id": "alice/suite-a",
+        "version": "v1.1.0",
+        "source_url": "https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        "component_root": "packages/a/skills",
+        "present_slugs": frozenset({"old-leaf", "kept-leaf"}),
+    }
+
+    # Verify defaults themselves are conservative unusable values
+    omitted_all = ScopedCompleteInventory(**common)
+    assert omitted_all.complete is False
+    assert omitted_all.truncated is True
+    assert omitted_all.root_verified is False
+
+    unusable_cases = [
+        ("omit-all", omitted_all),
+        ("omit-complete", ScopedCompleteInventory(**common, truncated=False, root_verified=True)),
+        ("omit-truncated", ScopedCompleteInventory(**common, complete=True, root_verified=True)),
+        ("omit-root-verified", ScopedCompleteInventory(**common, complete=True, truncated=False)),
+        ("non-bool-complete-int", ScopedCompleteInventory(**common, complete=1, truncated=False, root_verified=True)),      # type: ignore[arg-type]
+        ("non-bool-complete-str", ScopedCompleteInventory(**common, complete="true", truncated=False, root_verified=True)), # type: ignore[arg-type]
+        ("non-bool-truncated-int", ScopedCompleteInventory(**common, complete=True, truncated=0, root_verified=True)),      # type: ignore[arg-type]
+        ("non-bool-truncated-none", ScopedCompleteInventory(**common, complete=True, truncated=None, root_verified=True)),  # type: ignore[arg-type]
+        ("non-bool-root-verified-int", ScopedCompleteInventory(**common, complete=True, truncated=False, root_verified=1)), # type: ignore[arg-type]
+        ("non-bool-root-verified-str", ScopedCompleteInventory(**common, complete=True, truncated=False, root_verified="yes")), # type: ignore[arg-type]
+    ]
+    for label, inv in unusable_cases:
+        slugs, reason = qualify_complete_inventory(
+            inv,
+            poll_id="p-avail-2",
+            repository="acme/shared-repo",
+            named_id="alice/suite-a",
+            raw_obs=day2_obs,
+            authority=authority,
+        )
+        assert slugs is None and reason, (label, slugs, reason)
+        res = reduce_poll(
+            r1.state,
+            PollInput("p-avail-2", THU_NOV_12, day2_report["observedFindings"], day2_planned, complete_inventories=(inv,)),
+            authority,
+        )
+        assert res.status == "applied", label
+        bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+        assert bucket is not None
+        assert bucket.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN, label
+        assert bucket.rows["acme/shared-repo:alpha"].vanished_at is None, label
+        assert bucket.vanished_row_ids == (), label
+
 
 def test_historical_only_row_with_tracked_complete_inventory_preserves_pin_without_fabricating_first_observation():
     authority = _base_authority()
@@ -1415,8 +1702,13 @@ def test_historical_only_row_with_tracked_complete_inventory_preserves_pin_witho
     day1_report, _, _ = _plan_batch(day1_raw, authority)
     open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=203)
 
+    # Day 2: beta is adopted into suiteComponents while alpha remains an active raw candidate add.
+    authority_day2 = copy.deepcopy(authority)
+    authority_day2["alice/suite-a"]["suiteComponents"].append("alice/beta")
+    authority_day2["alice/beta"] = {"id": "alice/beta"}
+
     day2_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.1.0", previous_version="v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
-    day2_report, day2_planned, _ = _plan_batch(day2_raw, authority, gh=OfflineFakeGh(issues=[open_day1]))
+    day2_report, day2_planned, _ = _plan_batch(day2_raw, authority_day2, gh=OfflineFakeGh(issues=[open_day1]))
     inv = ScopedCompleteInventory(
         poll_id="p-hist-inv",
         repository="acme/shared-repo",
@@ -1424,12 +1716,15 @@ def test_historical_only_row_with_tracked_complete_inventory_preserves_pin_witho
         version="v1.1.0",
         source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
         component_root="packages/a/skills",
-        present_slugs=frozenset({"alpha", "beta"}),
+        present_slugs=frozenset({"alpha", "beta", "kept-leaf", "old-leaf"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
     )
     res = reduce_poll(
         empty_state(),
         PollInput("p-hist-inv", THU_NOV_12, day2_report["observedFindings"], day2_planned, complete_inventories=(inv,)),
-        authority,
+        authority_day2,
     )
     assert res.status == "applied"
     bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
@@ -1614,6 +1909,102 @@ def test_fractional_utc_precision_preserved_for_replay_conflict_and_subsecond_or
     r_nano = reduce_poll(r_next.state, poll_input_from_batch_report("p-frac-nano", "2026-11-10T06:00:01.1234567Z", report), authority)
     assert r_nano.status == "rejected"
     assert "microsecond precision" in (r_nano.rejection_reason or "")
+
+
+def test_strict_rfc3339_utc_grammar_rejects_comma_fractional_offsets_and_preserves_aware_datetime_ordering():
+    """Explicit RFC3339 grammar rejects comma fractions, >6 fractional digits,
+    fractional offsets, arbitrary separators, and naive/non-datetime inputs while
+    keeping equivalent RFC3339 representations and aware datetimes with preserved
+    microseconds working cleanly for replay, conflict, and ordering.
+    """
+    authority = _base_authority()
+    raw = [_raw_update("carol/other-suite", "other/repo", "v1.0.0", adds=["gamma"])]
+    report, _, _ = _plan_batch(raw, authority)
+
+    t_base = "2026-11-10T06:00:00.123456Z"
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-rfc-1", t_base, report), authority)
+    assert r1.status == "applied"
+    assert r1.observed_at == t_base
+
+    # Equivalent RFC3339 representations (lowercase t/z, numeric offset, aware datetime) replay identically
+    for equiv_ts in (
+        "2026-11-10t06:00:00.123456z",
+        "2026-11-10T06:00:00.123456+00:00",
+        "2026-11-10T08:00:00.123456+02:00",
+        "2026-11-10T01:30:00.123456-04:30",
+        dt.datetime(2026, 11, 10, 8, 0, 0, 123456, tzinfo=dt.timezone(dt.timedelta(hours=2))),
+    ):
+        r_rep = reduce_poll(r1.state, poll_input_from_batch_report("p-rfc-1", equiv_ts, report), authority)
+        assert r_rep.status == "replayed", equiv_ts
+        assert r_rep.replayed is True
+        assert r_rep.state == r1.state
+
+    # Distinct legal microsecond via aware datetime under same poll_id -> conflict rejection
+    r_dt_conf = reduce_poll(
+        r1.state,
+        poll_input_from_batch_report(
+            "p-rfc-1",
+            dt.datetime(2026, 11, 10, 8, 0, 0, 123457, tzinfo=dt.timezone(dt.timedelta(hours=2))),
+            report,
+        ),
+        authority,
+    )
+    assert r_dt_conf.status == "rejected"
+    assert "conflicting poll_id" in (r_dt_conf.rejection_reason or "")
+    assert r_dt_conf.state == r1.state
+
+    # Earlier distinct legal microsecond via offset string -> stale rejection (never collapsed)
+    r_off_stale = reduce_poll(
+        r1.state,
+        poll_input_from_batch_report("p-rfc-early", "2026-11-10T08:00:00.123455+02:00", report),
+        authority,
+    )
+    assert r_off_stale.status == "rejected"
+    assert "stale observed_at" in (r_off_stale.rejection_reason or "")
+    assert r_off_stale.state == r1.state
+
+    # Later distinct legal microsecond via offset string -> applied at exact UTC microsecond
+    r2 = reduce_poll(
+        r1.state,
+        poll_input_from_batch_report("p-rfc-2", "2026-11-10T08:00:00.123457+02:00", report),
+        authority,
+    )
+    assert r2.status == "applied"
+    assert r2.observed_at == "2026-11-10T06:00:00.123457Z"
+    assert r2.state.last_observed_at == "2026-11-10T06:00:00.123457Z"
+
+    # Unsupported / overprecise / comma / fractional-offset / arbitrary-separator / naive inputs
+    invalid_timestamps: list[Any] = [
+        "2026-11-10T06:00:00,5Z",
+        "2026-11-10T06:00:00,123456Z",
+        "2026-11-10T06:00:00,1234567Z",
+        "2026-11-10T06:00:00,1234568Z",
+        "2026-11-10T06:00:00.1234567Z",
+        "2026-11-10T06:00:00+02:00:00",
+        "2026-11-10T06:00:00+02:00:00.5",
+        "2026-11-10T06:00:00+02:00:00,5",
+        "2026-11-10 06:00:00Z",
+        "2026-11-10_06:00:00Z",
+        "20261110T060000Z",
+        "2026-11-10T06:00Z",
+        "2026-11-10T06:00:00",
+        "2026-11-10T06:00:00+0200",
+        "2026-11-10T06:00:00+02",
+        "2026-11-10T06:00:00+24:00",
+        "2026-11-10T06:00:00+00:60",
+        "2026-11-10T06:00:00.Z",
+        " 2026-11-10T06:00:00Z ",
+        "2026-02-30T06:00:00Z",
+        dt.datetime(2026, 11, 10, 6, 0, 0, 123456),  # naive datetime
+        dt.date(2026, 11, 10),                       # date, not datetime
+    ]
+    for bad_ts in invalid_timestamps:
+        with pytest.raises(ValueError):
+            parse_strict_utc(bad_ts)
+        r_bad = reduce_poll(r2.state, poll_input_from_batch_report("p-rfc-1", bad_ts, report), authority)
+        assert r_bad.status == "rejected", bad_ts
+        assert r_bad.replayed is False, bad_ts
+        assert r_bad.state == r2.state, bad_ts
 
 
 # ---------------------------------------------------------------------------
