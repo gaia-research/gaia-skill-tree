@@ -1,4 +1,8 @@
-# Current checkpoint — P1 resumed; L2-first implementation, integration update queued
+# Current checkpoint — P1 resumable checkpoint pushed 2026-11-20; main moved; review still pending
+
+The orchestrator (Sol) took over after an L2 Hydrogen repair session ended in a provider transport failure and pushed the feature branch to a resumable state. Full status and outstanding work: [P1_STATUS_2026-11-20.md](P1_STATUS_2026-11-20.md). P1 is NOT accepted. Independent Terra re-review of `3fdd6d757`, non-author full regression/parity, the schedule-rollout decision, the queued base update (observed remote `main` moved `9b4d9b980` → `80fb535bb`), and the conditional ordinary run remain outstanding. No issue/registry/schema/trust/permission writes, no merges, no P2–P7.
+
+# Previous checkpoint — P1 resumed; L2-first implementation, integration update queued
 
 The founder resumed the P1 task and explicitly confirmed **L1 Luna shared; L2 Hydrogen default; L3 Terra shared; L4 Argon; L5 Opus medium for exceptional escalation**. No L2 failure has justified implementation escalation. Only an Argon routing probe occurred; no Argon implementation started. Current objective: recover and complete the ratified repository-envelope draft with offline evidence, then independent Terra-shared review and non-author verification. See [P1_RESUMPTION_ROSTER.md](P1_RESUMPTION_ROSTER.md). `integration/tstack-suite-2472` has not landed; queue the update/rebase for later and preserve both sides' valid data/history. No integration operation now. P1 remains PARTIAL / UNREVIEWED / NOT EXECUTION-READY. Existing write, migration, trust/schema, phase and merge gates remain binding.
 
