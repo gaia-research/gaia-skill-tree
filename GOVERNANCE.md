@@ -2,7 +2,7 @@
 
 This document outlines how the Gaia Skill Tree registry is managed, how decisions are made, and how disputes are resolved.
 
-**Yggdrasil IV:** [Ratified trust degradation, challenge and recovery doctrine](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md) applies. `META.md` §4.1 is authoritative for **merit-based current Origin**. Policy ratification does not authorize automatic score, evidence or rank changes.
+**Yggdrasil IV:** [Ratified trust degradation, challenge and recovery doctrine](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md) applies. `META.md` §4.1 is authoritative for **merit-based current Origin**. Active codified evidence policy in `META.md`, `registry/schema/meta.json`, and [`docs/agents/curation-authority-map.md`](docs/agents/curation-authority-map.md) outranks historical draft clauses in [`founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md`](founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md) (including #2473: eligible first-party and third-party `social-signal` with no 30-day publication hold, and strictly external `proxy-containment`). Policy ratification does not authorize automatic score, evidence or rank changes.
 
 ## 1. Maintainer Roles
 

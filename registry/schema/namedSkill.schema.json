@@ -511,6 +511,24 @@
           "type": "integer",
           "minimum": 0
         },
+        "creator": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Creator or channel identifier for social-signal/engagement deduplication and plateau grouping."
+        },
+        "creatorRelation": {
+          "type": "string",
+          "enum": [
+            "first-party",
+            "third-party"
+          ],
+          "description": "Provenance relation between the evidence creator and the skill author/maintainer (#2473)."
+        },
+        "relevanceNote": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verification note explaining how the social-signal source substantively demonstrates or evaluates the target skill (#2473)."
+        },
         "externalStars": {
           "type": "integer",
           "minimum": 0
@@ -526,7 +544,7 @@
         },
         "unverified": {
           "type": "boolean",
-          "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports."
+          "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports. Setting unverified=true does not waive external, non-first-party ownership, actual containment, or the 10,000-star floor for proxy-containment."
         },
         "layer": {
           "type": "string",

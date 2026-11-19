@@ -44,9 +44,23 @@ belongs to a different capability, or the requested payload would be guessed.
 3. Reject duplicate `(Evidence Type, canonical source URL)` rows. Do not use
    a suite-wide source as full-strength component evidence. A component must
    have implementation-specific proof; suite-wide proof belongs on the suite
-   capstone or is recorded as scoped supplemental context.
+   capstone or is recorded as scoped supplemental context. Never add a synthetic
+   `self-attestation` row solely to push a suite component past the 49.9 TM
+   shared-repository baseline cap (see [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md)).
 
-4. Choose only a schema-supported Evidence Type. Never use the obsolete
+4. Enforce #2473 social vs proxy eligibility:
+   - `social-signal` admits both eligible first-party (author/maintainer) and
+     third-party demonstrations that substantively cover the target skill
+     (`sameAsAuthor = 1.0`, `publishCooldownDays = 0` — no 30-day publication hold).
+     Require `views >= 1000` (below 1,000 scores 0 TM), record `creatorRelation`
+     (`first-party` or `third-party`) and `relevanceNote` in notes/metadata,
+     reject unrelated uploads, and respect `(type, url)` dedup, the 3-row
+     `1.0 / 0.5 / 0.25` plateau, and the 80 TM hard cap.
+   - `proxy-containment` strictly requires a qualifying external, non-first-party
+     repository (`--external-stars` >= 10,000) whose `owner/repo` is distinct from
+     the skill's contributor, own/canonical repo, and `suiteRef` repository.
+
+5. Choose only a schema-supported Evidence Type. Never use the obsolete
    `--class` flag. Use `gaia dev evidence --help` if the payload is unclear.
 
 ## CLI-only mutation
@@ -65,7 +79,7 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev evidence <contributor/skill-id> "<source-url>"
 Payload examples:
 
 ```bash
-# Public third-party video; views must be visible on the scraped source.
+# Eligible first-party or third-party video demonstrating the skill; views must be visible on the scraped source (no 30-day hold).
 gaia dev evidence firecrawl/web-scrape-integration "https://www.youtube.com/watch?v=..." \
   --type social-signal --views 8510 \
   --notes "Third-party tutorial explicitly demonstrates Firecrawl page scraping." \

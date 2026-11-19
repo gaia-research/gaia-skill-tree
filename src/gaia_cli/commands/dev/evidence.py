@@ -5,6 +5,7 @@ from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_nodes_dir
 from gaia_cli.timeline import append_skill_event
+from gaia_cli.validate import check_proxy_containment_policy
 from gaia_cli.commands.dev.helpers import (
     _find_named_file,
     _parse_md,
@@ -12,6 +13,7 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_docs_build,
     _confirm_destructive,
+    _fail_dev_preflight,
     _run_dev_preflights,
     _preflight_evidence_static,
     _preflight_evidence_index_bounds,
@@ -19,6 +21,63 @@ from gaia_cli.commands.dev.helpers import (
     _preflight_benchmark_row,
     preflightNamedSkillMutable,
 )
+
+
+def _preflight_proxy_containment(
+    skill_data: dict,
+    ev_list: list,
+    index: int | None,
+    new_row: dict,
+    evidence_type: str | None,
+    *,
+    suite_skill: dict | None = None,
+) -> None:
+    if index is None:
+        prospective_row = new_row
+    elif 0 <= index < len(ev_list):
+        prospective_row = dict(ev_list[index])
+        if evidence_type is not None:
+            prospective_row["type"] = evidence_type
+        if "externalStars" in new_row:
+            prospective_row["externalStars"] = new_row["externalStars"]
+    else:
+        return
+    if "externalStars" in new_row and prospective_row.get("type") != "proxy-containment":
+        _fail_dev_preflight(
+            f"`--external-stars` is only valid with `--type proxy-containment`; target row has type {prospective_row.get('type')!r}.",
+            fix="Use `--type proxy-containment`, or drop `--external-stars` when writing a non-proxy-containment row.",
+        )
+    prospective_skill = dict(skill_data)
+    prospective_skill["evidence"] = [prospective_row]
+    violations = check_proxy_containment_policy(
+        prospective_skill,
+        suite_skill=suite_skill,
+        require_external_stars=True,
+    )
+    if violations:
+        _fail_dev_preflight(
+            violations[0]["message"],
+            fix="Provide an external, non-first-party project URL and --external-stars >= 10000 for `--type proxy-containment`.",
+        )
+
+
+def _preflight_social_provenance_index(
+    ev_list: list,
+    index: int | None,
+    evidence_type: str | None,
+    args,
+) -> None:
+    if index is None or not (0 <= index < len(ev_list)):
+        return
+    effective_type = evidence_type if evidence_type is not None else ev_list[index].get("type")
+    if effective_type == "social-signal":
+        return
+    for attr, flag in (("creator_relation", "--creator-relation"), ("relevance_note", "--relevance-note")):
+        if getattr(args, attr, None) is not None:
+            _fail_dev_preflight(
+                f"`{flag}` is only valid with `--type social-signal`; target row #{index} has type {effective_type!r}.",
+                fix=f"Use `--type social-signal`, or drop `{flag}` when updating a non-social-signal row.",
+            )
 
 
 def _preflight_benchmark_percentile(args) -> None:
@@ -180,6 +239,14 @@ def meta_evidence_command(args):
         evidence["likes"] = args.likes
     if getattr(args, "comments", None) is not None:
         evidence["comments"] = args.comments
+    if getattr(args, "creator", None) is not None:
+        evidence["creator"] = args.creator
+    if getattr(args, "creator_relation", None) is not None:
+        evidence["creatorRelation"] = args.creator_relation
+    if getattr(args, "relevance_note", None) is not None:
+        evidence["relevanceNote"] = args.relevance_note
+    if getattr(args, "external_stars", None) is not None:
+        evidence["externalStars"] = args.external_stars
     if getattr(args, "citations", None) is not None:
         evidence["citations"] = args.citations
     if getattr(args, "reviewers", None) is not None:
@@ -303,6 +370,14 @@ def meta_evidence_command(args):
             entry["likes"] = args.likes
         if getattr(args, "comments", None) is not None:
             entry["comments"] = args.comments
+        if getattr(args, "creator", None) is not None:
+            entry["creator"] = args.creator
+        if getattr(args, "creator_relation", None) is not None:
+            entry["creatorRelation"] = args.creator_relation
+        if getattr(args, "relevance_note", None) is not None:
+            entry["relevanceNote"] = args.relevance_note
+        if getattr(args, "external_stars", None) is not None:
+            entry["externalStars"] = args.external_stars
         if getattr(args, "citations", None) is not None:
             entry["citations"] = args.citations
         if getattr(args, "reviewers", None) is not None:
@@ -369,10 +444,30 @@ def meta_evidence_command(args):
             print(f"Error: Named skill '{skill_id}' not found.")
             sys.exit(1)
         meta, body = _parse_md(named_file)
+        suite_skill = None
+        suite_ref = meta.get("suiteRef")
+        if isinstance(suite_ref, str) and suite_ref:
+            suite_file = _find_named_file(named_dir, suite_ref)
+            if suite_file:
+                suite_skill, _ = _parse_md(suite_file)
         _run_dev_preflights([
             lambda: preflightNamedSkillMutable(registry_path, skill_id),
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source, evidence_type),
+            lambda: _preflight_proxy_containment(
+                meta,
+                meta.get("evidence") or [],
+                index,
+                evidence,
+                evidence_type,
+                suite_skill=suite_skill,
+            ),
+            lambda: _preflight_social_provenance_index(
+                meta.get("evidence") or [],
+                index,
+                evidence_type,
+                args,
+            ),
         ])
         restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
@@ -408,6 +503,19 @@ def meta_evidence_command(args):
         _run_dev_preflights([
             lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source, evidence_type),
+            lambda: _preflight_proxy_containment(
+                data,
+                data.get("evidence") or [],
+                index,
+                evidence,
+                evidence_type,
+            ),
+            lambda: _preflight_social_provenance_index(
+                data.get("evidence") or [],
+                index,
+                evidence_type,
+                args,
+            ),
         ])
         restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(data.setdefault("evidence", []))

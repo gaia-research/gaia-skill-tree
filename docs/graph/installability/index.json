@@ -9015,6 +9015,206 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "t3dotgg/babysit-pr": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/babysit-pr/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/babysit-pr",
+        "entrypoint": "skills/babysit-pr/SKILL.md",
+        "installSubpath": "skills/babysit-pr"
+      },
+      "currentSkillContentSha256": "3237a57f0ab2a897aa1cd807ced9e6723797b21693cf42d9e70f245df675def4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/council": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/council/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/council",
+        "entrypoint": "skills/council/SKILL.md",
+        "installSubpath": "skills/council"
+      },
+      "currentSkillContentSha256": "897903b04c653b1b9185fdbe04718f65130fca7b34f0420b17c16d9e27f3b185",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/file-pr": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/file-pr/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/file-pr",
+        "entrypoint": "skills/file-pr/SKILL.md",
+        "installSubpath": "skills/file-pr"
+      },
+      "currentSkillContentSha256": "680f83815a57253ba2b27cd85fb7119853c1eda112a84707c41ef947339afdf3",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/full-send": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/full-send",
+        "entrypoint": "skills/full-send/SKILL.md",
+        "installSubpath": "skills/full-send"
+      },
+      "currentSkillContentSha256": "1457869131acb50c4df5ee313fe2dc573825be9cac4e9e15e987aca42a493277",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/full-stop": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-stop/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/full-stop",
+        "entrypoint": "skills/full-stop/SKILL.md",
+        "installSubpath": "skills/full-stop"
+      },
+      "currentSkillContentSha256": "fa1ad51890705823647a36770f2de729d94752d1ed7d8b932bc394d61437b80d",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/leaving-pr-comments": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/leaving-pr-comments/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/leaving-pr-comments",
+        "entrypoint": "skills/leaving-pr-comments/SKILL.md",
+        "installSubpath": "skills/leaving-pr-comments"
+      },
+      "currentSkillContentSha256": "f1fa01712ca20eec984e01283df7caa275836d7b72b1a4090ccc8d3da6dd090b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/modernize": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/modernize/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/modernize",
+        "entrypoint": "skills/modernize/SKILL.md",
+        "installSubpath": "skills/modernize"
+      },
+      "currentSkillContentSha256": "54df334f938ca46c3e4d6dae0558e2032c7bf614d41124a174a77561ea053801",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/sol-loop": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/sol-loop/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/sol-loop",
+        "entrypoint": "skills/sol-loop/SKILL.md",
+        "installSubpath": "skills/sol-loop"
+      },
+      "currentSkillContentSha256": "292a2a4c944f1ee8ce1c7cb5c04912e8a067254725562544f087193a2b163fdb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/takeover": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/takeover/SKILL.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "skills/takeover",
+        "entrypoint": "skills/takeover/SKILL.md",
+        "installSubpath": "skills/takeover"
+      },
+      "currentSkillContentSha256": "14a7aa0702529c6cdd3f6e81c872d9db36c7c831b58523260af3c999f80e4178",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "t3dotgg/tstack": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/README.md",
+        "owner": "t3dotgg",
+        "repo": "tstack",
+        "ref": "11e37a74d0a6868c121cd0910ab2b3bd9873b92a",
+        "subpath": "",
+        "entrypoint": "README.md",
+        "installSubpath": ""
+      },
+      "currentSkillContentSha256": "2b030097621ca139576a7dc828975596082b3df3b26c00118cfadcc1efa4c0b7",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "theqtcompanyrnd/qt-qml-review": {
       "state": "unknown",
       "reason": "not-observed",

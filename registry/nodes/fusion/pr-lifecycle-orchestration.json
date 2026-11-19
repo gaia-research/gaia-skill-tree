@@ -1,0 +1,38 @@
+{
+  "id": "pr-lifecycle-orchestration",
+  "name": "PR Lifecycle Orchestration",
+  "type": "fusion",
+  "description": "Orchestrates the end-to-end pull request lifecycle from authoring and structured review comments through multi-agent debate, iterative reviewer loops, CI/review-bot monitoring, stale-PR reconciliation, branch takeover, and human-gated or autonomous merge delivery.",
+  "prerequisites": [
+    "autonomous-pr-delivery",
+    "merge-ready-pr-delivery",
+    "receiving-code-review",
+    "finishing-a-development-branch",
+    "pr-ci-monitoring",
+    "format-output",
+    "multi-agent-debate",
+    "pull-request-authoring",
+    "stale-pr-reconciliation"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:41Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill pr-lifecycle-orchestration"
+    },
+    {
+      "timestamp": "2026-11-17T14:06:27Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: autonomous-pr-delivery, merge-ready-pr-delivery, receiving-code-review, finishing-a-development-branch, pr-ci-monitoring, format-output, multi-agent-debate, pull-request-authoring, stale-pr-reconciliation."
+    }
+  ]
+}

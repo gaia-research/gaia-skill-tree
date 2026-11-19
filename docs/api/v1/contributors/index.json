@@ -92,6 +92,19 @@
       }
     },
     {
+      "handle": "t3dotgg",
+      "namedSkills": 10,
+      "topSkill": {
+        "id": "t3dotgg/tstack",
+        "level": "4★",
+        "trustMagnitude": 172.41
+      },
+      "prestigeScore": 1031.88,
+      "_links": {
+        "self": "/api/v1/contributors/t3dotgg.json"
+      }
+    },
+    {
       "handle": "leonxlnx",
       "namedSkills": 13,
       "topSkill": {
@@ -677,7 +690,7 @@
       }
     }
   ],
-  "totalContributors": 52,
+  "totalContributors": 53,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

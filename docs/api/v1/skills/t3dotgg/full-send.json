@@ -1,0 +1,185 @@
+{
+  "id": "t3dotgg/full-send",
+  "name": "full-send",
+  "contributor": "t3dotgg",
+  "level": "4★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 124.01,
+  "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
+  "_links": {
+    "self": "/api/v1/skills/t3dotgg/full-send.json",
+    "contributor": "/api/v1/contributors/t3dotgg.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 234.64,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 13,
+    "maxDepth": 4,
+    "nestedSuiteCount": 0
+  },
+  "title": "Full Send",
+  "genericSkillRef": "autonomous-pr-delivery",
+  "origin": true,
+  "description": "Autonomous end-to-end PR delivery skill: verifies behavior in a real runtime, runs iterative review loops, opens and monitors the PR through CI/review checks, and merges when green.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/t3dotgg/tstack",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-17",
+      "type": "repo-own",
+      "notes": "Shared suite baseline t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a (capped with github-stars-own at 49.90 TM).",
+      "commits": 6,
+      "contributors": 1,
+      "sourceStartedAt": "2026-10-24"
+    },
+    {
+      "source": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-17",
+      "type": "github-stars-own",
+      "notes": "Shared suite baseline 4,033 stars on t3dotgg/tstack (capped at 49.90 TM under suiteRef).",
+      "stars": 4033,
+      "skillCountInRepo": 9,
+      "sourceStartedAt": "2026-10-24",
+      "grade": "A"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=5Bmp9cz1JN8",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-17",
+      "type": "social-signal",
+      "notes": "First-party Theo walkthrough of full-send autonomous PR delivery (12:19) in 'These 3 skills changed my life'.",
+      "views": 247982,
+      "likes": 3059,
+      "comments": 168,
+      "creator": "@theo",
+      "creatorRelation": "first-party",
+      "relevanceNote": "First-party Theo walkthrough of full-send autonomous PR delivery (12:19) in 'These 3 skills changed my life'.",
+      "sourceStartedAt": "2026-10-26",
+      "grade": "B"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=SY_woOjzlW4",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-17",
+      "type": "social-signal",
+      "notes": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full send' by exact skill name (00:31:07, 00:51:38, 01:03:52).",
+      "views": 50968,
+      "likes": 441,
+      "comments": 10,
+      "creator": "@theo",
+      "creatorRelation": "first-party",
+      "relevanceNote": "Pre-push live T3 Code stream (2026-10-14, 10 days before GitHub repo creation) invoking 'full send' by exact skill name (00:31:07, 00:51:38, 01:03:52).",
+      "sourceStartedAt": "2026-10-14",
+      "grade": "C"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=GGrvSnpPTGo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-17",
+      "type": "social-signal",
+      "notes": "Third-party Better Stack comparison of full-send vs full-stop (04:01, 05:56, 07:05).",
+      "views": 38821,
+      "likes": 433,
+      "comments": 45,
+      "creator": "@betterstack",
+      "creatorRelation": "third-party",
+      "relevanceNote": "Third-party Better Stack comparison of full-send vs full-stop (04:01, 05:56, 07:05).",
+      "sourceStartedAt": "2026-11-12",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:04:15Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill t3dotgg/full-send"
+    },
+    {
+      "timestamp": "2026-11-17T14:12:19Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-11-17T14:13:18Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-17T14:14:12Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://www.youtube.com/watch?v=5Bmp9cz1JN8 (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-11-17T14:15:11Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://www.youtube.com/watch?v=SY_woOjzlW4 (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-11-17T14:16:06Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://www.youtube.com/watch?v=GGrvSnpPTGo (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-11-17T14:17:55Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/t3dotgg/tstack (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-11-17T14:18:50Z",
+      "action": "evidence_removed",
+      "contributor": "mbtiongson1",
+      "details": "Removed dead/invalid evidence: https://github.com/t3dotgg/tstack"
+    },
+    {
+      "timestamp": "2026-11-17T17:13:13Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
+    },
+    {
+      "timestamp": "2026-11-17T18:20:33Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 124.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-17T18:34:20Z",
+      "action": "installation_updated",
+      "contributor": "mbtiongson1",
+      "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmpjbscjpdy/full-send.md"
+    },
+    {
+      "timestamp": "2026-11-17T18:51:29Z",
+      "action": "installation_updated",
+      "contributor": "mbtiongson1",
+      "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/tmp3btow7tf/full-send.md"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/t3dotgg/tstack/blob/11e37a74d0a6868c121cd0910ab2b3bd9873b92a/skills/full-send/SKILL.md"
+  }
+}

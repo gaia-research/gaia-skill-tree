@@ -124,6 +124,23 @@ A resumed curation run reads a compact checkpoint, not raw history:
 - A resolved blocker that has resolution evidence stays resolved, unless a **fresh failing check** with the same `checkId` re-raises it. It then comes back as `regressed`, carrying the fresh evidence.
 - A resolved blocker without resolution evidence is not trusted and stays active.
 
+## Social versus proxy eligibility
+
+- **`social-signal` admits both first-party and third-party demonstrations (#2473).** Public videos, walkthroughs, talks, and posts by either the skill's author/maintainer or an external creator are eligible (`creatorMultipliers.sameAsAuthor: 1.0`, `publishCooldownDays: 0` in `registry/schema/meta.json` and `docs/api/v1/evidence-types.json`).
+- **Relevance, provenance, view floor, and caps remain mandatory.** A `social-signal` source must substantively demonstrate or evaluate the target skill (unrelated channel uploads or generic promotional videos are rejected), record provenance (`creatorRelation: first-party | third-party` and `relevanceNote`), meet the 1,000-view floor (`views < 1000` scores 0 TM), and obey `(type, canonical URL)` dedup, the per-creator 3-row `1.0 / 0.5 / 0.25` plateau (`byCreator` in `src/gaia_cli/trustMagnitude.py`; rows without `creator` collapse into `_unknown`), and the 80.0 TM hard cap per skill.
+- **`proxy-containment` is strictly external (#2473).** A `proxy-containment` row requires genuine containment in a qualifying external, non-first-party project (`externalStars >= 10000`) whose GitHub `owner/repo` is distinct from the skill's `contributor`, `links.github`/`links.repo`/`canonicalRepo`, and `suiteRef` repository (`gaia_cli.validate.check_proxy_containment_policy`). Setting `unverified: true` never waives external ownership or the 10,000-star floor.
+- **No synthetic `self-attestation` to clear suite caps.** Never fabricate or attach a `self-attestation` row solely to push a suite component past the 49.9 TM shared-repository baseline cap (`SUITE_COMPONENT_REPOSITORY_CAP`).
+
+## Freshness mechanisms
+
+- **No 30-day publication hold on `social-signal` (#2473).** Ordinary curation has no publication waiting window (`publishCooldownDays: 0`). Newly published first-party and third-party demonstrations can be curated and ingested immediately once verified.
+- **Four separate freshness mechanisms (never conflate):**
+  1. **TM freshness decay (`src/gaia_cli/trustMagnitude.py`):** Annual score decay from `lastVerified` applied only to `benchmark-result` (50%/yr), `social-signal` (50%/yr), and `peer-review` (25%/2yr).
+  2. **Curation assessment-receipt freshness (`gaia dev prefill` / `gaia dev ratify`):** Verifies that an advisory principles receipt matches current candidate source bytes and the live generic catalog.
+  3. **Frontier / Challenger observation timestamps (`docs/architecture/ecosystem-intelligence.md`):** Record when external ecosystem leads were observed; they never impose a publication cooldown on canonical evidence ingestion.
+  4. **Steward discovery age labels (`founder/steward/routines/trust-evidence-gap.md`):** Descriptive age classes (`fresh` ≤ 365d, `aging` ≤ 1095d, `stale` > 1095d) in read-only gap-discovery receipts (`gaia_cli.steward.evidencediscovery`); they are never an admission or cooldown gate.
+- **Precedence:** Active codified policy in `META.md`, `GOVERNANCE.md`, `registry/schema/meta.json`, and this authority map supersedes historical draft clauses in `founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md` (§2.11).
+
 ## Banned claims (retired; the agreement test rejects them)
 
 - "`github-stars-own` and `repo-own` at the same URL are deduped."
@@ -131,3 +148,6 @@ A resumed curation run reads a compact checkpoint, not raw history:
 - "4★ may hold at B / TM ≥ 50", or "A is merely the norm" for 4★.
 - Any helper that writes `trustMagnitude` / `overallTrustGrade` outside `gaia dev calibrate-trust-magnitude`.
 - An own-only proposal total presented as final effective named TM.
+- "`social-signal` is from external creators only" / "`sameAsAuthor: 0`".
+- "`social-signal` has a 30-day publish cooldown" / "`publishCooldownDays: 30`".
+- First-party repository URLs counted as `proxy-containment`, or synthetic `self-attestation` added to clear the 49.9 TM suite-component cap.

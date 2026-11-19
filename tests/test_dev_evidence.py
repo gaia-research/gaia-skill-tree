@@ -114,6 +114,9 @@ def _args(root: str, *, skill_id: str = "demo-skill", source: str = "https://exa
         downloads=None,
         likes=None,
         comments=None,
+        creator=None,
+        creator_relation=None,
+        relevance_note=None,
         no_build=True,
     )
     base.update(overrides)
@@ -540,3 +543,117 @@ def test_preflight_benchmark_with_percentile_passes():
 def test_preflight_non_benchmark_passes():
     ns = SimpleNamespace(evidence_type="repo-own", percentile=None, commits=1, contributors=1)
     _preflight_benchmark_percentile(ns)  # must not raise
+
+
+# ---------------------------------------------------------------------------
+# Social-signal provenance flags (#2473)
+# ---------------------------------------------------------------------------
+
+
+def test_social_signal_persists_creator_and_provenance_on_append(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(
+        _args(
+            root,
+            evidence_type="social-signal",
+            source="https://www.youtube.com/watch?v=demo1",
+            views=10000,
+            creator="theo",
+            creator_relation="third-party",
+            relevance_note="Detailed walkthrough of demo-skill",
+        )
+    )
+    entry = _load_node(root)["evidence"][0]
+    assert entry["creator"] == "theo"
+    assert entry["creatorRelation"] == "third-party"
+    assert entry["relevanceNote"] == "Detailed walkthrough of demo-skill"
+
+
+def test_social_signal_persists_creator_and_provenance_on_index_update(tmp_path):
+    root = _make_registry(
+        tmp_path,
+        [
+            {
+                "type": "social-signal",
+                "source": "https://www.youtube.com/watch?v=demo2",
+                "views": 10000,
+                "evaluator": "tester",
+                "date": "2026-11-17",
+            }
+        ],
+    )
+    meta_evidence_command(
+        _args(
+            root,
+            source="https://www.youtube.com/watch?v=demo2",
+            index=0,
+            creator="alice",
+            creator_relation="first-party",
+            relevance_note="Author demonstration of core workflow",
+        )
+    )
+    entry = _load_node(root)["evidence"][0]
+    assert entry["creator"] == "alice"
+    assert entry["creatorRelation"] == "first-party"
+    assert entry["relevanceNote"] == "Author demonstration of core workflow"
+
+
+def test_creator_relation_rejected_on_non_social_signal_append(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(
+            _args(
+                root,
+                evidence_type="repo-own",
+                commits=10,
+                contributors=1,
+                creator_relation="first-party",
+            )
+        )
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--creator-relation" in capsys.readouterr().err
+
+
+def test_social_provenance_rejected_on_non_social_signal_index_update(tmp_path, capsys):
+    root = _make_registry(
+        tmp_path,
+        [
+            {
+                "type": "repo-own",
+                "source": "https://github.com/acme/demo",
+                "commits": 10,
+                "contributors": 1,
+            }
+        ],
+    )
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(
+            _args(
+                root,
+                source="https://github.com/acme/demo",
+                index=0,
+                creator_relation="first-party",
+            )
+        )
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--creator-relation" in capsys.readouterr().err
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(
+            _args(
+                root,
+                source="https://github.com/acme/demo",
+                index=0,
+                relevance_note="Not a social-signal row",
+            )
+        )
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--relevance-note" in capsys.readouterr().err

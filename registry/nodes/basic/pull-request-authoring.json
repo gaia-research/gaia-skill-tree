@@ -1,0 +1,22 @@
+{
+  "id": "pull-request-authoring",
+  "name": "Pull Request Authoring",
+  "type": "basic",
+  "description": "Reviews a local branch diff against its base, runs pre-push secret checks, writes problem-first PR metadata, and opens a non-draft pull request.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-17",
+  "updatedAt": "2026-11-17",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-17T14:03:37Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill pull-request-authoring"
+    }
+  ]
+}
