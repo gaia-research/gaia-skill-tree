@@ -20,7 +20,7 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.upstream_watcher import envelope, repository_batch, staging
+from scripts.upstream_watcher import envelope, repository_batch, staging, weekly_journal
 from scripts.upstream_watcher.weekly_journal import (
     JOURNAL_FORMAT,
     JOURNAL_NAMESPACE,
@@ -36,6 +36,8 @@ from scripts.upstream_watcher.weekly_journal import (
     JournalConflictError,
     JournalPin,
     JournalSizeError,
+    JournalValidationError,
+    _MAX_JSON_INT_DIGITS,
     _journal_digest,
     commit_poll,
     decode_state,
@@ -1269,3 +1271,267 @@ def test_reducer_resource_caps_enforced_on_load(tmp_path: Path) -> None:
     payload2 = encode_state(res2.state, authority)
     with pytest.raises(Exception):
         decode_state(payload2, authority, config=ReducerConfig(max_buckets=1))
+
+
+# ---------------------------------------------------------------------------
+# 7. Codec symmetry: bounded numeric parser parity across write & read
+# ---------------------------------------------------------------------------
+
+
+def _poll_with_candidate_mutation(
+    authority: dict[str, dict[str, Any]],
+    *,
+    poll_id: str,
+    observed_at: dt.datetime,
+    mutator: Any,
+    skill_id: str = "alice/suite-a",
+    repo: str = "acme/shared-repo",
+    version: str = "v1.0.0",
+    released_at: str = "2026-11-10T01:00:00Z",
+    adds: list[str] | None = None,
+    component_root: str = "packages/a/skills",
+) -> PollInput:
+    """Build a valid sealed canonical PollInput from the real P1 planner, then mutate candidate[0]."""
+    report = _plan_batch(
+        [
+            _raw_update(
+                skill_id,
+                repo,
+                version,
+                released_at=released_at,
+                adds=adds or ["alpha"],
+                component_root=component_root,
+            )
+        ],
+        authority,
+    )
+    base_poll = poll_input_from_batch_report(poll_id, observed_at, report)
+    assert len(base_poll.planned_findings) == 1
+    finding = copy.deepcopy(base_poll.planned_findings[0])
+    assert finding["candidates"], "expected at least one planned candidate row"
+    mutator(finding["candidates"][0])
+    sealed = envelope.seal(finding)
+    return PollInput(
+        poll_id=base_poll.poll_id,
+        observed_at=base_poll.observed_at,
+        observed_findings=base_poll.observed_findings,
+        planned_findings=(sealed,),
+        complete=True,
+    )
+
+
+def test_codec_symmetry_near_boundary_integers_roundtrip_via_save_and_commit(tmp_path: Path) -> None:
+    authority = _base_authority()
+    max_pos = (10**_MAX_JSON_INT_DIGITS) - 1
+    min_neg = -((10**_MAX_JSON_INT_DIGITS) - 1)
+    assert len(str(max_pos)) == _MAX_JSON_INT_DIGITS
+    assert len(str(abs(min_neg))) == _MAX_JSON_INT_DIGITS
+
+    # Positive 128-digit canonical child value round-trips through save_journal, commit_poll, and load_journal
+    poll_pos = _poll_with_candidate_mutation(
+        authority,
+        poll_id="poll-pos-boundary",
+        observed_at=TUE_NOV_10,
+        mutator=lambda row: row.__setitem__("child", max_pos),
+    )
+    res_pos = reduce_poll(empty_state(), poll_pos, authority)
+    assert res_pos.status == "applied"
+
+    pos_save_path = tmp_path / "pos-boundary-save.json"
+    h_pos_save = save_journal(pos_save_path, res_pos.state, authority, poll=poll_pos, allow_bootstrap=True)
+    assert h_pos_save.status == STATUS_OK
+    loaded_pos_save = load_journal(pos_save_path, authority, trusted_latest_pin=h_pos_save.pin)
+    assert loaded_pos_save.status == STATUS_OK
+    assert loaded_pos_save.state == res_pos.state
+    pos_row = loaded_pos_save.state.get_bucket("acme/shared-repo", "alice/suite-a").rows["acme/shared-repo:alpha"]
+    assert pos_row.latest_row["child"] == max_pos
+
+    pos_commit_path = tmp_path / "pos-boundary-commit.json"
+    c_pos = commit_poll(pos_commit_path, poll_pos, authority, allow_bootstrap=True)
+    assert c_pos.persisted is True
+    assert c_pos.handle.status == STATUS_OK
+    loaded_pos_commit = load_journal(pos_commit_path, authority, trusted_latest_pin=c_pos.handle.pin)
+    assert loaded_pos_commit.status == STATUS_OK
+    assert loaded_pos_commit.state == res_pos.state
+    assert pos_commit_path.read_bytes() == pos_save_path.read_bytes()
+
+    # Negative 128-digit integer inside canonical precheck also round-trips losslessly
+    poll_neg = _poll_with_candidate_mutation(
+        authority,
+        poll_id="poll-neg-boundary",
+        observed_at=TUE_NOV_10,
+        mutator=lambda row: row.__setitem__("precheck", {"offset": min_neg}),
+    )
+    res_neg = reduce_poll(empty_state(), poll_neg, authority)
+    assert res_neg.status == "applied"
+
+    neg_save_path = tmp_path / "neg-boundary-save.json"
+    h_neg_save = save_journal(neg_save_path, res_neg.state, authority, poll=poll_neg, allow_bootstrap=True)
+    assert h_neg_save.status == STATUS_OK
+    loaded_neg_save = load_journal(neg_save_path, authority, trusted_latest_pin=h_neg_save.pin)
+    assert loaded_neg_save.status == STATUS_OK
+    assert loaded_neg_save.state == res_neg.state
+    neg_row = loaded_neg_save.state.get_bucket("acme/shared-repo", "alice/suite-a").rows["acme/shared-repo:alpha"]
+    assert neg_row.latest_row["precheck"]["offset"] == min_neg
+
+    neg_commit_path = tmp_path / "neg-boundary-commit.json"
+    c_neg = commit_poll(neg_commit_path, poll_neg, authority, allow_bootstrap=True)
+    assert c_neg.persisted is True
+    loaded_neg_commit = load_journal(neg_commit_path, authority, trusted_latest_pin=c_neg.handle.pin)
+    assert loaded_neg_commit.status == STATUS_OK
+    assert loaded_neg_commit.state == res_neg.state
+    assert neg_commit_path.read_bytes() == neg_save_path.read_bytes()
+
+
+@pytest.mark.parametrize(
+    "case_name,mutator",
+    [
+        ("positive_129_digit_child", lambda row: row.__setitem__("child", 10**_MAX_JSON_INT_DIGITS)),
+        ("negative_129_digit_precheck", lambda row: row.__setitem__("precheck", {"offset": -(10**_MAX_JSON_INT_DIGITS)})),
+    ],
+)
+def test_codec_symmetry_rejects_oversized_integers_without_mutation(
+    tmp_path: Path,
+    case_name: str,
+    mutator: Any,
+) -> None:
+    authority = _base_authority()
+
+    # 1. Empty / bootstrap path: reducer accepts in-memory state, codec/save/commit refuse cleanly
+    poll_boot = _poll_with_candidate_mutation(
+        authority,
+        poll_id=f"poll-oversized-boot-{case_name}",
+        observed_at=TUE_NOV_10,
+        mutator=mutator,
+    )
+    res_boot = reduce_poll(empty_state(), poll_boot, authority)
+    assert res_boot.status == "applied"
+
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        encode_state(res_boot.state, authority)
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        serialize_state(res_boot.state, authority)
+
+    boot_dir = tmp_path / f"boot-{case_name}"
+    boot_dir.mkdir()
+    boot_save_path = boot_dir / "save.json"
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        save_journal(boot_save_path, res_boot.state, authority, poll=poll_boot, allow_bootstrap=True)
+    assert not boot_save_path.exists()
+    assert [p for p in boot_dir.iterdir() if p.name.endswith(".tmp")] == []
+    boot_after_save = load_journal(boot_save_path, authority, allow_bootstrap=True)
+    assert boot_after_save.status == STATUS_BOOTSTRAP
+    assert boot_after_save.state == empty_state()
+
+    boot_commit_path = boot_dir / "commit.json"
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        commit_poll(boot_commit_path, poll_boot, authority, allow_bootstrap=True)
+    assert not boot_commit_path.exists()
+    assert [p for p in boot_dir.iterdir() if p.name.endswith(".tmp")] == []
+    boot_after_commit = load_journal(boot_commit_path, authority, allow_bootstrap=True)
+    assert boot_after_commit.status == STATUS_BOOTSTRAP
+    assert boot_after_commit.state == empty_state()
+
+    # 2. Existing initialized checkpoint: stays byte-identical with no temp files on rejection
+    init_dir = tmp_path / f"init-{case_name}"
+    init_dir.mkdir()
+    journal_path, init_authority, state1, pin1 = _seed_single_poll_journal(init_dir)
+    bytes_v1 = journal_path.read_bytes()
+
+    poll_rev2 = _poll_with_candidate_mutation(
+        init_authority,
+        poll_id=f"poll-oversized-rev2-{case_name}",
+        observed_at=WED_NOV_11,
+        mutator=mutator,
+        skill_id="carol/other-suite",
+        repo="other/repo",
+        version="v1.0.0",
+        released_at="2026-11-11T01:00:00Z",
+        adds=["carol-add"],
+        component_root="skills",
+    )
+    res_rev2 = reduce_poll(state1, poll_rev2, init_authority)
+    assert res_rev2.status == "applied"
+    assert res_rev2.state.revision == 2
+
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        save_journal(journal_path, res_rev2.state, init_authority, expected_pin=pin1, poll=poll_rev2, initialized=True)
+    assert journal_path.read_bytes() == bytes_v1
+    assert [p for p in init_dir.iterdir() if p.name.endswith(".tmp")] == []
+
+    with pytest.raises(JournalValidationError, match="maximum length"):
+        commit_poll(
+            journal_path,
+            poll_rev2,
+            init_authority,
+            expected_pin=pin1,
+            initialized=True,
+            trusted_latest_pin=pin1,
+        )
+    assert journal_path.read_bytes() == bytes_v1
+    assert [p for p in init_dir.iterdir() if p.name.endswith(".tmp")] == []
+
+    reloaded = load_journal(journal_path, init_authority, initialized=True, trusted_latest_pin=pin1)
+    assert reloaded.status == STATUS_OK
+    assert reloaded.pin == pin1
+    assert reloaded.state == state1
+
+
+def test_save_commit_and_load_share_bounded_parser_without_masking_programmer_errors(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    authority = _base_authority()
+    calls: list[int] = []
+    real_parse = weekly_journal._parse_bounded_json
+
+    def _spy_parse(text: str) -> Any:
+        calls.append(len(text))
+        return real_parse(text)
+
+    monkeypatch.setattr(weekly_journal, "_parse_bounded_json", _spy_parse)
+
+    r1 = _plan_batch(
+        [
+            _raw_update(
+                "alice/suite-a",
+                "acme/shared-repo",
+                "v1.0.0",
+                adds=["alpha"],
+                component_root="packages/a/skills",
+            )
+        ],
+        authority,
+    )
+    p1 = poll_input_from_batch_report("shared-parser-1", TUE_NOV_10, r1)
+    res1 = reduce_poll(empty_state(), p1, authority)
+    assert res1.status == "applied"
+
+    save_path = tmp_path / "shared-save.json"
+    calls.clear()
+    h1 = save_journal(save_path, res1.state, authority, poll=p1, allow_bootstrap=True)
+    assert h1.status == STATUS_OK
+    assert len(calls) >= 2  # encode_state + serialize_state round-trip on exact bytes
+
+    calls.clear()
+    loaded1 = load_journal(save_path, authority, trusted_latest_pin=h1.pin)
+    assert loaded1.status == STATUS_OK
+    assert len(calls) == 1
+
+    commit_path = tmp_path / "shared-commit.json"
+    calls.clear()
+    c1 = commit_poll(commit_path, p1, authority, allow_bootstrap=True)
+    assert c1.persisted is True
+    assert len(calls) >= 2
+
+    # Unexpected programmer errors inside the bounded parser must not be masked
+    def _programmer_bug(_text: str) -> Any:
+        raise AttributeError("simulated programmer error")
+
+    monkeypatch.setattr(weekly_journal, "_parse_bounded_json", _programmer_bug)
+    with pytest.raises(AttributeError, match="simulated programmer error"):
+        save_journal(tmp_path / "bug-save.json", res1.state, authority, poll=p1, allow_bootstrap=True)
+    with pytest.raises(AttributeError, match="simulated programmer error"):
+        commit_poll(tmp_path / "bug-commit.json", p1, authority, allow_bootstrap=True)
+    with pytest.raises(AttributeError, match="simulated programmer error"):
+        load_journal(save_path, authority)

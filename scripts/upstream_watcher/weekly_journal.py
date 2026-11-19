@@ -367,6 +367,22 @@ def _validate_json_depth(root: Any, *, max_depth: int = _MAX_JSON_DEPTH) -> None
                     stack.append((item, depth + 1))
 
 
+def _parse_bounded_json(text: str) -> Any:
+    """Parse strict bounded JSON using the exact reader hooks and depth limit."""
+    try:
+        data = json.loads(
+            text,
+            object_pairs_hook=_unique_object_pairs,
+            parse_constant=_reject_non_finite,
+            parse_int=_parse_bounded_int,
+            parse_float=_parse_bounded_float,
+        )
+    except (ValueError, RecursionError) as exc:
+        raise JournalValidationError(str(exc)) from exc
+    _validate_json_depth(data)
+    return data
+
+
 def _journal_digest(body: Mapping[str, Any]) -> str:
     without_digest = {key: value for key, value in body.items() if key != "digest"}
     try:
@@ -660,8 +676,18 @@ def encode_state(
     }
     payload["digest"] = _journal_digest(payload)
 
-    # Round-trip validate through the exact decoder before returning.
-    decode_state(payload, authority, config=cfg)
+    # Round-trip validate through the exact bounded JSON parser and decoder before returning.
+    try:
+        encoded = json.dumps(
+            payload,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        )
+    except (TypeError, ValueError) as exc:
+        raise JournalValidationError(f"journal payload is not strict JSON: {exc}") from exc
+    decode_state(_parse_bounded_json(encoded), authority, config=cfg)
     return payload
 
 
@@ -675,11 +701,20 @@ def serialize_state(
     """Encode *state* to deterministic UTF-8 JSON bytes and return ``(bytes, JournalPin)``."""
     _require_int(max_bytes, "max_bytes", minimum=1)
     payload = encode_state(state, authority, config=config)
-    text = json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n"
+    try:
+        text = json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n"
+    except (TypeError, ValueError) as exc:
+        raise JournalValidationError(f"journal payload is not strict JSON: {exc}") from exc
     raw = text.encode("utf-8")
     if len(raw) > max_bytes:
         raise JournalSizeError(f"encoded journal size ({len(raw)} bytes) exceeds max_bytes ({max_bytes})")
-    return raw, JournalPin(revision=payload["revision"], digest=payload["digest"])
+    # Verify the exact serialized bytes pass the bounded reader parser and decoder before any write.
+    parsed = _parse_bounded_json(raw.decode("utf-8"))
+    _, roundtrip_pin = decode_state(parsed, authority, config=config)
+    expected_pin = JournalPin(revision=payload["revision"], digest=payload["digest"])
+    if roundtrip_pin != expected_pin:
+        raise JournalValidationError("serialized journal round-trip pin mismatch")
+    return raw, roundtrip_pin
 
 
 def decode_state(
@@ -1273,15 +1308,8 @@ def load_journal(
 
     try:
         text = raw.decode("utf-8")
-        data = json.loads(
-            text,
-            object_pairs_hook=_unique_object_pairs,
-            parse_constant=_reject_non_finite,
-            parse_int=_parse_bounded_int,
-            parse_float=_parse_bounded_float,
-        )
-        _validate_json_depth(data)
-    except (UnicodeDecodeError, ValueError, RecursionError, JournalValidationError) as exc:
+        data = _parse_bounded_json(text)
+    except (UnicodeDecodeError, JournalValidationError) as exc:
         return JournalHandle(
             path=target,
             status=STATUS_CORRUPT,
