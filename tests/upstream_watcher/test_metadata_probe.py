@@ -687,10 +687,22 @@ def test_workflow_optin_inheritance_and_unchanged_normal_jobs():
     assert workflow["permissions"] == {"issues": "write", "contents": "read"}
     jobs = copy.deepcopy(workflow["jobs"])
     assert jobs["watcher"].pop("if") == "${{ inputs.metadata_probe != true && !inputs.permission_ab }}"
-    # Newly authorized ordinary inventory read scope; preserve the old entire
-    # job hash after removing ONLY this explicit permission map.
+    # Newly authorized ordinary inventory read scope + read-only historical pin
+    # fetch; preserve the old entire job hash after removing ONLY those two exact deltas.
     assert jobs["watcher"].pop("permissions") == {
         "issues": "write", "contents": "read", "pull-requests": "read",
+    }
+    pin_step = jobs["watcher"]["steps"].pop(4)
+    assert pin_step == {
+        "name": "Fetch pinned historical authority commit",
+        "run": (
+            "set -euo pipefail\n"
+            'COMMIT=$(python3 -c \'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])\')\n'
+            'if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then\n'
+            '  git fetch --depth=1 --no-tags origin "$COMMIT"\n'
+            "fi\n"
+            'git cat-file -e "${COMMIT}^{commit}"\n'
+        ),
     }
     # Exact remaining normal job, including all step conditions, env and shell bodies.
     for name, expected in (("watcher", "b0fd80fef5e610dd12a337251d0d42708c6733ee77a0728dfa4f226a7ddfa56e"),

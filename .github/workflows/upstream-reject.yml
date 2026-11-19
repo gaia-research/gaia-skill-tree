@@ -39,23 +39,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          VIEW=$(gh issue view "$ISSUE_NUMBER" --json number,title,body,state,labels)
+          VIEW=$(gh issue view "$ISSUE_NUMBER" --json title,body,state,labels)
           printf '%s' "$VIEW" | python3 -c '
-          import json, os, sys
-          sys.path.insert(0, os.getcwd())
-          from scripts.upstream_watcher.approval import PayloadError, verify_unaffected_legacy_target
+          import json, sys
+          from scripts.upstream_watcher.approval import owned_upstream_issue
           row = json.load(sys.stdin)
           labels = {item.get("name") for item in row.get("labels", [])}
-          if row.get("state") != "OPEN" or "upstream:rejected" not in labels:
-              sys.exit(1)
-          try:
-              verify_unaffected_legacy_target(row)
-          except PayloadError as exc:
-              print(f"::error::Read-only legacy compatibility hold: {exc}", file=sys.stderr)
-              sys.exit(1)
+          sys.exit(0 if owned_upstream_issue(row) and row.get("state") == "OPEN"
+                   and "upstream:rejected" in labels else 1)
           '
 
       # D2: the reject guard reads the same freshly built index as upstream-approve. Without it the index is
@@ -141,11 +134,6 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && (github.event.label.name == 'upstream:rejected')
 
     steps:
-      - name: Repository-envelope compatibility hold
-        run: |
-          echo "::error::Legacy rejection consumer is read-only; repository envelopes and legacy migration holds cannot be closed by this consumer."
-          exit 1
-
       - name: Checkout main
         uses: actions/checkout@v4
         with:

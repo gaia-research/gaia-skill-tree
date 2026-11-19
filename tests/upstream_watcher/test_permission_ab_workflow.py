@@ -109,11 +109,23 @@ def test_ordinary_bodies_and_trigger_bytes_unchanged_except_authorized_read_scop
     assert permissionBlob(currentText) == permissionBlob(baselineText)
     def watcherBlob(text):
         return text[text.index('  watcher:'):text.index('  metadata-probe:')]
+    pinFetchText = (
+        '      - name: Fetch pinned historical authority commit\n'
+        '        run: |\n'
+        '          set -euo pipefail\n'
+        '          COMMIT=$(python3 -c \'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])\')\n'
+        '          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then\n'
+        '            git fetch --depth=1 --no-tags origin "$COMMIT"\n'
+        '          fi\n'
+        '          git cat-file -e "${COMMIT}^{commit}"\n'
+        '\n'
+    )
+    assert currentText.count(pinFetchText) == 1
     assert watcherBlob(currentText).replace(
         'inputs.metadata_probe != true && !inputs.permission_ab',
         'inputs.metadata_probe != true').replace(
             '    permissions:\n      issues: write\n      contents: read\n      pull-requests: read\n',
-            '') == watcherBlob(baselineText)
+            '').replace(pinFetchText, '', 1) == watcherBlob(baselineText)
     assert currentText[currentText.index('  challenge-watch:'):] == baselineText[baselineText.index('  challenge-watch:'):]
     for name in ('watcher', 'challenge-watch', 'metadata-probe'):
         before, after = copy.deepcopy(baseline['jobs'][name]), copy.deepcopy(current['jobs'][name])
@@ -125,6 +137,7 @@ def test_ordinary_bodies_and_trigger_bytes_unchanged_except_authorized_read_scop
             assert after.pop('permissions') == {
                 'issues': 'write', 'contents': 'read', 'pull-requests': 'read',
             }
+            assert after['steps'].pop(4)['name'] == 'Fetch pinned historical authority commit'
         assert before == after
         assert before.get('permissions') == after.get('permissions')
     oldTrigger = baseline.get('on', baseline.get(True))
@@ -197,10 +210,22 @@ def test_authorized_ordinary_scope_is_only_workflow_delta_from_paired_receipt_he
     }
     permissionText = ('    permissions:\n      issues: write\n'
                       '      contents: read\n      pull-requests: read\n')
+    pinFetchText = (
+        '      - name: Fetch pinned historical authority commit\n'
+        '        run: |\n'
+        '          set -euo pipefail\n'
+        '          COMMIT=$(python3 -c \'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])\')\n'
+        '          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then\n'
+        '            git fetch --depth=1 --no-tags origin "$COMMIT"\n'
+        '          fi\n'
+        '          git cat-file -e "${COMMIT}^{commit}"\n'
+        '\n'
+    )
     assert currentText.count(permissionText) == 2  # ordinary + existing treatment
+    assert currentText.count(pinFetchText) == 1  # ordinary watcher read-only pin fetch only
     # Stronger than parsed equality: ALL routing, commands, other jobs, comments,
-    # global permissions and inputs stay byte-identical, except this literal map.
-    assert currentText.replace(permissionText, '', 1) == baselineText
+    # global permissions and inputs stay byte-identical, except these two exact blocks.
+    assert currentText.replace(permissionText, '', 1).replace(pinFetchText, '', 1) == baselineText
 
 
 def test_normal_acceptance_flags_invoke_existing_batch_dry_run_only(tmp_path):

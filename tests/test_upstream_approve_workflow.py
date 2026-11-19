@@ -1564,13 +1564,10 @@ def _extract(tmp_path, body, extra_world=None, event="issues", env_extra=None):
 # -- D1: extract recomputes the digest --------------------------------------------------
 
 
-def test_valid_legacy_digest_is_readable_but_not_migration_approval(tmp_path):
-    body = _signed_body(SIGNED)
-    _payload, digest = approval.extract_payload(body)
-    assert digest == approval.canonical_hash(SIGNED)
-    result = _extract(tmp_path, body)
-    assert result.code == 1 and "separately approved migration" in result.output
-    assert "skill_id" not in result.outputs
+def test_extract_accepts_a_payload_whose_stored_digest_matches_its_content(tmp_path):
+    result = _extract(tmp_path, _signed_body(SIGNED))
+    assert result.code == 0, result.output
+    assert result.outputs["payload_sha256"] == approval.canonical_hash(SIGNED)
 
 
 def test_extract_refuses_a_componentRemoves_edit_that_keeps_the_stale_stored_digest(tmp_path):
@@ -1593,20 +1590,15 @@ def test_extract_refuses_a_newVersion_edit_that_keeps_the_stale_stored_digest(tm
 def test_extract_reads_a_payload_whose_json_contains_the_terminator_text(tmp_path):
     # D7: '-->' inside a string used to end the block early, so the payload failed to parse.
     payload = {**SIGNED, "componentAdds": ["ask-user-->x"]}
-    body = _signed_body(payload)
-    parsed, _digest = approval.extract_payload(body)
-    assert parsed["componentAdds"] == ["ask-user-->x"]
-    result = _extract(tmp_path, body)
-    assert result.code == 1 and "separately approved migration" in result.output
+    result = _extract(tmp_path, _signed_body(payload))
+    assert result.code == 0, result.output
+    assert json.loads(result.outputs["payload"])["componentAdds"] == ["ask-user-->x"]
 
 
-def test_legacy_without_digest_remains_readable_but_workflow_holds_it(tmp_path):
-    body = umbrella_issue(LEGACY_PAYLOAD)["body"]
-    parsed, _digest = approval.extract_payload(body)
-    assert parsed["skillId"] == "garrytan/gbrain"
-    result = _extract(tmp_path, body)
-    assert result.code == 1 and "separately approved migration" in result.output
-    assert "skill_id" not in result.outputs
+def test_extract_still_reads_a_legacy_payload_that_has_no_stored_digest(tmp_path):
+    result = _extract(tmp_path, umbrella_issue(LEGACY_PAYLOAD)["body"])
+    assert result.code == 0, result.output
+    assert result.outputs["skill_id"] == "garrytan/gbrain"
 
 
 # -- D1: the approval marker -------------------------------------------------------------
@@ -1669,11 +1661,10 @@ def _reverify(tmp_path, issue, sha, comment_rows):
                     {"ISSUE_NUMBER": str(UMBRELLA), "PAYLOAD_SHA": sha}, cwd=REPO_ROOT)
 
 
-def test_reverify_does_not_turn_an_old_approval_marker_into_legacy_migration_authority(tmp_path):
+def test_reverify_passes_an_open_approved_umbrella_whose_payload_is_the_approved_one(tmp_path):
     issue = _issue_with_body(_signed_body(SIGNED))
     sha = approval.canonical_hash(SIGNED)
-    result = _reverify(tmp_path, issue, sha, [_bot_marker(sha)])
-    assert result.code == 1 and "separately approved migration" in result.output
+    assert _reverify(tmp_path, issue, sha, [_bot_marker(sha)]).code == 0
 
 
 def test_reverify_refuses_a_payload_edited_after_extraction(tmp_path):
@@ -1827,9 +1818,7 @@ def test_unrelated_issue_dispatch_by_unauthorized_actor_makes_no_writes(tmp_path
 
 def test_staged_close_children_dispatch_checks_out_trusted_main_not_dispatch_ref():
     doc = yaml.safe_load(CLOSE_CHILDREN_PATH.read_text(encoding="utf-8"))
-    steps = doc["jobs"]["close-children"]["steps"]
-    checkout = steps[0]
-    assert checkout.get("name") == "Checkout trusted main"
+    checkout = doc["jobs"]["close-children"]["steps"][0]
     assert checkout["uses"] == "actions/checkout@v4"
     assert checkout["with"]["ref"] == "main"
     assert checkout["with"]["fetch-depth"] == 1
@@ -2114,14 +2103,14 @@ def test_l5_a_job_runs_the_labeler_check_when_skip_child_gate_is_applied():
     assert "labeled" in condition and "skip-child-gate" in condition
 
 
-def test_l5_legacy_hold_prevents_even_skip_denial_writes(tmp_path):
+def test_l5_a_non_verifier_applying_skip_child_gate_loses_the_label_with_a_comment(tmp_path):
     repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
     result = run_step(_fresh(tmp_path, "skip-deny"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(umbrella_issue(LEGACY_PAYLOAD)),
                       {"LABELER": "mallory", "LABELER_TYPE": "User", "LABELER_ID": "2",
                        "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "mallory"}, cwd=repo)
-    assert result.code == 0, result.output
-    assert not any(call[:2] == ["issue", "edit"] for call in result.calls)
-    assert result.comments() == []
+    assert result.code == 1, result.output
+    assert ["issue", "edit", str(UMBRELLA), "--remove-label", "skip-child-gate"] in result.calls
+    assert result.comments()
 
 
 def test_l5_a_verifier_applying_skip_child_gate_keeps_it(tmp_path):

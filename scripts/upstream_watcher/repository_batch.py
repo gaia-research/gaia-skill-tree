@@ -159,7 +159,12 @@ def inspect_history(repo, live, gh, authority, policy, historical_loader):
 
 
 def projection(live, repo, identifier, envelopes):
-    """Only this named member enters the old planner's processed/carry-forward keys."""
+    """Only this named member enters the old planner's processed/carry-forward keys.
+
+    A repo-level ``upstream:rejected`` label on a closed envelope is not a per-named
+    disposition, so strip it from projected envelope issues before ``carry_forward``
+    to prevent sibling childless rows from silently settling as rejected.
+    """
     def project(issue):
         if umbrella_suite(issue.get("title", "")) != repo or "upstream:release" not in batch.label_names(issue):
             return copy.deepcopy(issue)
@@ -169,7 +174,11 @@ def projection(live, repo, identifier, envelopes):
         finding = next((f for f in payload["findings"] if f["skillId"] == identifier), None)
         if finding is None:
             return None
-        return {**issue, "title": batch.umbrella_title(repo, finding["newVersion"]),
+        labels = [
+            label for label in issue.get("labels", [])
+            if (label.get("name") if isinstance(label, dict) else label) != "upstream:rejected"
+        ]
+        return {**issue, "labels": labels, "title": batch.umbrella_title(repo, finding["newVersion"]),
                 "body": batch.payload_block(finding)}
     return {**live, **{key: [p for issue in live[key] if (p := project(issue)) is not None]
                      for key in ("issues", "closedUmbrellas")}}

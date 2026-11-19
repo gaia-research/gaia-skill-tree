@@ -364,3 +364,45 @@ def test_shallow_clone_fetches_pinned_historical_authority_and_missing_pin_fails
     git(shallow, "fetch", "--depth=1", "--no-tags", "origin", pinned)
     loaded = rb.historical_authority("owner/nested")
     assert loaded["owner/nested"]["links"]["github"] == "https://github.com/owner/repo"
+
+
+def test_repo_rejected_label_on_closed_envelope_does_not_silently_settle_sibling_rows():
+    """A repo-level upstream:rejected label on a closed envelope cannot settle sibling childless rows."""
+    a_old = wire.seal({
+        "payloadVersion": 2, "skillId": "owner/a", "previousVersion": "v1.0.0", "newVersion": "v1.1.0",
+        "releasedAt": "2026-11-18T00:00:00Z", "sourceUrl": "https://github.com/owner/repo/releases/tag/v1.1.0",
+        "mode": "version-only", "componentAdds": [], "componentRemoves": [], "linkLiveness": [],
+        "nameDrift": [], "candidates": [{
+            "id": "owner/repo:alpha", "slug": "alpha", "suggestedId": "owner/alpha",
+            "evidenceUrl": "https://github.com/owner/repo/blob/v1.1.0/skills/alpha/SKILL.md",
+            "status": "new", "child": None, "firstSeenVersion": "v1.1.0", "lastSeenVersion": "v1.1.0",
+        }],
+    })
+    b_old = wire.seal({
+        "payloadVersion": 2, "skillId": "owner/b", "previousVersion": "v1.0.0", "newVersion": "v1.1.0",
+        "releasedAt": "2026-11-18T00:00:00Z", "sourceUrl": "https://github.com/owner/repo/releases/tag/v1.1.0",
+        "mode": "version-only", "componentAdds": [], "componentRemoves": [], "linkLiveness": [],
+        "nameDrift": [], "candidates": [{
+            "id": "owner/repo:beta", "slug": "beta", "suggestedId": "owner/beta",
+            "evidenceUrl": "https://github.com/owner/repo/blob/v1.1.0/skills/beta/SKILL.md",
+            "status": "new", "child": None, "firstSeenVersion": "v1.1.0", "lastSeenVersion": "v1.1.0",
+        }],
+    })
+    closed_env = wire.build("owner/repo", [a_old, b_old], authority())
+    closed_issue = {
+        "number": 55, "state": "closed", "title": wire.title(closed_env),
+        "body": wire.render(closed_env),
+        "labels": [{"name": "upstream:release"}, {"name": "upstream:rejected"}],
+    }
+    gh = FakeGh([closed_issue])
+    # Only owner/a has a new release v2.0.0; owner/b is an unpolled sibling with a carried row.
+    incoming_a = finding("owner/a", version="v2.0.0", adds=())
+    report, code = run(gh, [incoming_a], apply=False, historical_loader=lambda _: {})
+    assert code == 0 and report["unknownEvidence"] == []
+    repo_plan = report["repositories"][0]
+    by_id = {f["skillId"]: f for f in repo_plan["payload"]["findings"]}
+    # Both incoming owner/a and unpolled sibling owner/b retain their childless rows as unresolved, NOT rejected.
+    a_row = next(r for r in by_id["owner/a"]["candidates"] if r["id"] == "owner/repo:alpha")
+    b_row = next(r for r in by_id["owner/b"]["candidates"] if r["id"] == "owner/repo:beta")
+    assert a_row["status"] == "new" and "rejectedBy" not in a_row and a_row["carriedFrom"] == "#55"
+    assert b_row["status"] == "new" and "rejectedBy" not in b_row and b_row["carriedFrom"] == "#55"
