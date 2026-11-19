@@ -1696,6 +1696,157 @@ def test_complete_inventory_omitted_or_non_bool_availability_fields_cannot_prove
         assert bucket.vanished_row_ids == (), label
 
 
+@pytest.mark.parametrize(
+    ("raw_removes", "present_slugs", "expected_reason", "check_reduce_unknown"),
+    [
+        # Foreign-owner full ID whose tail matches missing tracked alice/old-leaf (old behavior stripped prefix)
+        (["other/old-leaf"], frozenset({"kept-leaf"}), "invalid componentRemoves", True),
+        # Same-owner full ID instead of producer short slug
+        (["alice/old-leaf"], frozenset({"kept-leaf"}), "invalid componentRemoves", True),
+        # Extra untracked ghost removal when no tracked leaf is missing (old behavior allowed supersets)
+        (["ghost"], frozenset({"old-leaf", "kept-leaf"}), "untracked slugs", True),
+        # Valid missing tracked leaf plus extra untracked ghost removal
+        (["old-leaf", "ghost"], frozenset({"kept-leaf"}), "untracked slugs", True),
+        # Wrong-case slug for missing tracked leaf (no case folding)
+        (["OLD-LEAF"], frozenset({"kept-leaf"}), "tracked suiteComponents", True),
+        # Duplicate short slugs in raw componentRemoves
+        (["old-leaf", "old-leaf"], frozenset({"kept-leaf"}), "duplicate slugs", False),
+    ],
+)
+def test_complete_inventory_rejects_contradictory_or_non_slug_component_removes(
+    raw_removes: list[str],
+    present_slugs: frozenset[str],
+    expected_reason: str,
+    check_reduce_unknown: bool,
+):
+    """Raw componentRemoves must be unique exact short slugs equal to tracked_slugs - present_slugs.
+
+    Rejects foreign/same-owner full IDs, extra untracked ghost removals, case-folded
+    slugs, and duplicate removals; contradictory proofs leave omitted rows UNKNOWN,
+    never vanished.
+    """
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-rem-1", TUE_NOV_10, day1_report), authority)
+    assert r1.status == "applied"
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=207, updated_at="2026-11-10T06:00:00Z")
+
+    bad_obs = _raw_update(
+        "alice/suite-a",
+        "acme/shared-repo",
+        "v1.1.0",
+        previous_version="v1.0.0",
+        adds=[],
+        removes=raw_removes,
+        component_root="packages/a/skills",
+    )
+    inv = ScopedCompleteInventory(
+        poll_id="p-rem-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/a/skills",
+        present_slugs=present_slugs,
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    slugs, reason = qualify_complete_inventory(
+        inv,
+        poll_id="p-rem-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=bad_obs,
+        authority=authority,
+    )
+    assert slugs is None and expected_reason in (reason or ""), (raw_removes, slugs, reason)
+
+    if check_reduce_unknown:
+        valid_plan_obs = _raw_update(
+            "alice/suite-a",
+            "acme/shared-repo",
+            "v1.1.0",
+            previous_version="v1.0.0",
+            adds=[],
+            removes=[],
+            component_root="packages/a/skills",
+        )
+        _, planned_day2, _ = _plan_batch([valid_plan_obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
+        res = reduce_poll(
+            r1.state,
+            PollInput("p-rem-2", THU_NOV_12, [bad_obs], planned_day2, complete_inventories=(inv,)),
+            authority,
+        )
+        assert res.status == "applied"
+        bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+        assert bucket is not None
+        assert bucket.rows["acme/shared-repo:alpha"].presence == PRESENCE_UNKNOWN
+        assert bucket.rows["acme/shared-repo:alpha"].vanished_at is None
+        assert bucket.vanished_row_ids == ()
+
+
+def test_complete_inventory_accepts_exact_short_slug_component_removes_and_proves_absence():
+    """Positive exact removal-diff proof: raw componentRemoves=['old-leaf'] equals
+    tracked_slugs ({'old-leaf', 'kept-leaf'}) - present_slugs ({'kept-leaf'}),
+    so the qualified inventory proves omitted candidate alpha vanished while
+    canonical full-ID componentRemoves remain intact.
+    """
+    authority = _base_authority()
+    day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha"], component_root="packages/a/skills")]
+    day1_report, _, _ = _plan_batch(day1_raw, authority)
+    r1 = reduce_poll(empty_state(), poll_input_from_batch_report("p-rem-ok-1", TUE_NOV_10, day1_report), authority)
+    assert r1.status == "applied"
+    open_day1 = _open_envelope_issue(day1_report, "acme/shared-repo", number=208, updated_at="2026-11-10T06:00:00Z")
+
+    day2_obs = _raw_update(
+        "alice/suite-a",
+        "acme/shared-repo",
+        "v1.1.0",
+        previous_version="v1.0.0",
+        adds=[],
+        removes=["old-leaf"],
+        component_root="packages/a/skills",
+    )
+    inv = ScopedCompleteInventory(
+        poll_id="p-rem-ok-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        version="v1.1.0",
+        source_url="https://github.com/acme/shared-repo/releases/tag/v1.1.0",
+        component_root="packages/a/skills",
+        present_slugs=frozenset({"kept-leaf"}),
+        complete=True,
+        truncated=False,
+        root_verified=True,
+    )
+    slugs, reason = qualify_complete_inventory(
+        inv,
+        poll_id="p-rem-ok-2",
+        repository="acme/shared-repo",
+        named_id="alice/suite-a",
+        raw_obs=day2_obs,
+        authority=authority,
+    )
+    assert slugs == frozenset({"kept-leaf"}) and reason is None
+
+    day2_report, day2_planned, _ = _plan_batch([day2_obs], authority, gh=OfflineFakeGh(issues=[open_day1]))
+    res = reduce_poll(
+        r1.state,
+        PollInput("p-rem-ok-2", THU_NOV_12, day2_report["observedFindings"], day2_planned, complete_inventories=(inv,)),
+        authority,
+    )
+    assert res.status == "applied"
+    bucket = res.state.get_bucket("acme/shared-repo", "alice/suite-a")
+    assert bucket is not None
+    assert bucket.latest_finding["componentRemoves"] == ["alice/old-leaf"]
+    assert bucket.rows["acme/shared-repo:alpha"].presence == PRESENCE_VANISHED
+    assert bucket.rows["acme/shared-repo:alpha"].vanished_at == "2026-11-12T06:00:00Z"
+    assert bucket.rows["acme/shared-repo:alpha"].vanished_poll_id == "p-rem-ok-2"
+    assert bucket.vanished_row_ids == ("acme/shared-repo:alpha",)
+
+
 def test_historical_only_row_with_tracked_complete_inventory_preserves_pin_without_fabricating_first_observation():
     authority = _base_authority()
     day1_raw = [_raw_update("alice/suite-a", "acme/shared-repo", "v1.0.0", adds=["alpha", "beta"], component_root="packages/a/skills")]

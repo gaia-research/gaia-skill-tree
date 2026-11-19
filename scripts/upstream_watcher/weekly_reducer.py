@@ -617,9 +617,11 @@ def qualify_complete_inventory(
     if not raw_adds_set <= slugs:
         return None, "inventory present_slugs omits slugs reported in raw componentAdds"
     raw_removes = raw_obs.get("componentRemoves")
-    if not isinstance(raw_removes, list) or not all(_is_nonempty_clean_str(item) for item in raw_removes):
+    if not isinstance(raw_removes, list) or not all(isinstance(s, str) and _SLUG_RE.fullmatch(s) for s in raw_removes):
         return None, "observed finding has invalid componentRemoves"
-    raw_remove_slugs = {item.rsplit("/", 1)[-1] for item in raw_removes}
+    raw_remove_slugs = set(raw_removes)
+    if len(raw_remove_slugs) != len(raw_removes):
+        return None, "observed finding has duplicate slugs in componentRemoves"
     if not raw_remove_slugs.isdisjoint(slugs):
         return None, "inventory present_slugs includes slugs reported in raw componentRemoves"
     tracked_slugs = {comp_id.rsplit("/", 1)[-1] for comp_id in tracked_components}
@@ -627,8 +629,11 @@ def qualify_complete_inventory(
         return None, "observed componentAdds overlaps configured suiteComponents"
     if not (slugs - tracked_slugs) <= raw_adds_set:
         return None, "inventory present_slugs contains untracked slugs omitted from raw componentAdds"
-    if not (tracked_slugs - slugs) <= raw_remove_slugs:
+    expected_removes = tracked_slugs - slugs
+    if not expected_removes <= raw_remove_slugs:
         return None, "inventory present_slugs omits tracked suiteComponents absent from raw componentRemoves"
+    if raw_remove_slugs != expected_removes:
+        return None, "observed componentRemoves contains untracked slugs absent from configured suiteComponents"
     return slugs, None
 
 
