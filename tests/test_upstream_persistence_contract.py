@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_watcher_scope_validates_without_normalization():
     from scripts.upstream_watcher.finder import iter_suite_skills
     paths = list(iter_suite_skills(ROOT / "registry/named"))
-    assert len(paths) == 23  # Existing campaign scope, not an upstream census.
+    assert len(paths) == 24  # 23 original campaign suites + t3dotgg/tstack from pinned main 80fb535bb.
     for path, _ in paths:
         before = path.read_bytes()
         _validate_proposed_named_record(str(ROOT), before.decode())
