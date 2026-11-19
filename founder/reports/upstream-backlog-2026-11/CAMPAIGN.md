@@ -1,4 +1,10 @@
-# Current checkpoint — P1 resumable checkpoint pushed 2026-11-20; main moved; review still pending
+# Current checkpoint — P1 resumed under revised roster; verification running
+
+Founder-authorized roster: **Sol High lead; Luna L1; Terra L2; Sol L3**, all non-shared; **Terra High independent reviewer via centralized `pi-reviewer` only**, shared allocation. Preflight and probes passed. [P1 resumption receipt](P1_RESUME_PREFLIGHT.md) records the pins, measured worker probe tokens, [#2468](https://github.com/gaia-research/gaia-skill-tree/pull/2468) / [#2469](https://github.com/gaia-research/gaia-skill-tree/pull/2469) draft state, and recovery commands/evidence paths. Central re-review `bd42bee0c` and non-author regression/parity `b04efdcf0` are running at source `e1451f7fc5db2cb149e6bce30eb023c020c6cd8c` (source-equivalent to `3fdd6d757` outside campaign reports).
+
+Main `80fb535bb` contains the TStack integration tip. The isolated merge-tree rehearsal against that main pin was conflict-free, with all one-sided changes preserved; four overlapping CLI/schema paths still need validation in the reconciled source. No merge or branch update occurred. **P1 remains blocked for acceptance** pending review, regression, final reconciled-source checks and a safe ordinary dry run. The conditional dry run remains unused. Schedule/write activation, migration, P2–P7 and existing founder/data gates remain unchanged.
+
+# Previous checkpoint — P1 resumable checkpoint pushed 2026-11-20; main moved; review still pending
 
 The orchestrator (Sol) took over after an L2 Hydrogen repair session ended in a provider transport failure and pushed the feature branch to a resumable state. Full status and outstanding work: [P1_STATUS_2026-11-20.md](P1_STATUS_2026-11-20.md). P1 is NOT accepted. Independent Terra re-review of `3fdd6d757`, non-author full regression/parity, the schedule-rollout decision, the queued base update (observed remote `main` moved `9b4d9b980` → `80fb535bb`), and the conditional ordinary run remain outstanding. No issue/registry/schema/trust/permission writes, no merges, no P2–P7.
 
