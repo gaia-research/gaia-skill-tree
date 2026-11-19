@@ -1,5 +1,12 @@
 # founder/handovers/archive/
 
+## 2026-11-14 multi-Tree website founder reconciliation
+
+- `YGGDRASIL_III_META_AUDIT.md` was archived from `../YGGDRASIL_III_META_AUDIT.md`. It is a pre-Yggdrasil-IV bounded scoring decision packet, not current product doctrine. A link-preserving stub remains at its former path; original evidence text is preserved here.
+- `../YGGDRASIL_III_FUSION_SCORE_PLAN.md` is likewise historical but **not moved** in this docs-only PR: the executable `scripts/check_rank_vocabulary.py` hardcodes that path as a vocabulary-guard exemption. Moving it safely requires a code/guard update outside this documentation-only scope.
+- `../../ENDGAME.md`, `../../ENDGAME - SCHEMA.md`, `../../ENDGAME - MIGRATION.md` and `../../ARBOR-DESIGN.md` retain distinct live authority. The adaptive website canon is `../../GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md`; none of these founder sources is fully superseded. Existing Yggdrasil IV campaign evidence is retained.
+
+
 Completed handovers, specs, and roadmaps. **Historical record — not live guidance.**
 
 ## EPIC 2189 (Yggdrasil IV) — sprint done: 2026-11-03

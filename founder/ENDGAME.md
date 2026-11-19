@@ -528,44 +528,19 @@ command-provider/plugin boundary rather than forcing a repository merger.
 
 # 11. Gaia Skill Tree Frontend
 
-`gaiaskilltree.com` becomes the home of multiple Trees.
+**Founder website direction (2026-11-14):** [Gaia Multi-Tree Web Endgame — Adaptive Capability Atlas](GAIA_MULTI_TREE_WEB_ENDGAME_2026-11-14.md). This ratifies the **experience model**, not runtime implementation or a frontend migration.
 
-The user may switch lenses without changing canonical Skill identity.
+`gaiaskilltree.com` remains one canonical website. The homepage defaults to **Yggdrasil IV**. Switching a Tree lens adapts the **entire composition** (sculptural hero, environment/materials, narrative modules, indicators, inspections and highlighted evidence), not only the graph or CSS palette. Some sections are shared; others are replaced, reordered or absent when irrelevant. Never reproduce Yggdrasil's Hall of Heroes, Trust leaderboard or Ascension Overdrive as empty or green Arbor clones. Arbor foregrounds genuine Heaven/Hell stamps, benchmark characterization and behavioral interactions as these become publishable.
 
-Conceptually:
+**What remains the same:** one Skill identity, stable canonical evidence/provenance and governance, global Gaia navigation, durable semantic material meanings, accessibility and honest unknowns.
 
-```text
-[ Yggdrasil ] [ Heaven ↔ Hell ] [ future lenses ]
-```
+**Yggdrasil IV projection:** organic hierarchical 3D world shaped by taxonomy, prerequisites, fusions/suites, branch/rank and independently governed trust/prestige.
 
-## Yggdrasil projection
+**Arbor I projection:** visually distinct angular/dendritic 3D world shaped by behavioral polarity, observed effects, directed interactions, recoverability and benchmark coverage. It may not be a DAG; Arbor is not another prestige ladder. Heaven/Hell/Ultra are Arbor runtime-weather treatments, not independent product themes.
 
-Geometry governed by:
+**Hero rendering law:** Blender-authored Tree-specific reference worlds with founder Gold, deterministic graph anchor geometry and versioned web exports; Skill Tree retains semantic data, runtime renderer and publication. A separate 3D art repo is **preferred** but not yet created or approved. Scene changes should feel like seamless world travel while maintaining selected Skill and accessibility; a choreographed camera transition is valid, a literal mesh morph is not mandatory.
 
-- taxonomy
-- fusion
-- suites
-- branches
-- rank
-- prestige
-
-## Arbor projection
-
-Geometry governed by:
-
-- behavioral polarity
-- capability effect
-- behavioral interactions
-- recoverability
-- benchmark coverage
-
-A skill may therefore visibly "move" when the user switches Trees.
-
-This is intentional.
-
-The projection has changed.
-
-The identity has not.
+**Architecture:** a data/projection manifest (see [schema](ENDGAME%20-%20SCHEMA.md)) is distinct from the Tree's website experience manifest (scene, material, sections, inspector and fallback). The current static HTML site can support this with targeted modular refactoring; React adoption requires separately demonstrated value. Website production changes remain founder-gated.
 
 ---
 
