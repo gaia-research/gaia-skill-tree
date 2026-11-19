@@ -1,0 +1,22 @@
+# P1 central Terra re-review — FINDINGS
+
+**Handoff status: BLOCKED.** [Draft PR #2468](https://github.com/gaia-research/gaia-skill-tree/pull/2468), exact reviewed checkout `e1451f7fc5db2cb149e6bce30eb023c020c6cd8c`, implementation `3fdd6d7573ce3cec922babba8b3c82eaf952dbd2` (only campaign reports differ). [Draft PR #2469](https://github.com/gaia-research/gaia-skill-tree/pull/2469) is unchanged and was not reviewed in this run.
+
+Central `pi-reviewer` task `bd42bee0c` completed with process exit 0, exact checkout and clean worktree checked by the wrapper. **Process success is not a review pass.** Returned verdict: **FINDINGS**. Reviewer `reviewer-shared`, `openai-codex/gpt-6.1-terra`, high, read/grep/find/ls. Exact local JSON receipt: `$TMPDIR/upstream-backlog-2026-11/p1-resume-e1451f7fc/review-result.json`, SHA-256 `0f6e91ede933c4a8a7c64b214fd04d5c402cd54cf8abda23756df13947084298`. Token usage not retained by the central wrapper; no estimate. No commands, tests, hosted-runner checks, or live reads were performed by the reviewer. `find` and `grep` failed; the reviewer used the supplied repair patch and direct reads.
+
+## Four prior findings, independently reassessed
+
+| Surface | Disposition | Remaining evidence / protection needed |
+|---|---|---|
+| Historical pin in shallow checkout | **Partial** | Ordinary watcher and relevant v2 approval jobs now fetch the exact pin; unavailable local pin fails closed. Legacy compatibility classification still lacks historical/migration scope. Approval checks out trusted `main`; a feature-ref dry run does not exercise unmerged main-checkout approval code. |
+| Scheduled/default `fanout --apply` | **Prior silent success addressed, rollout held** | Exit 4 with zero actual mutators if planning reaches the unsupported-mode hold; earlier validation, journal or unknown-evidence gates can fail with exit 1 or 3. A future scheduled rollout change is founder-only and separate from the review. |
+| Legacy consumers | **Not resolved** | Critical legacy approval actor validation and payload-binding gaps (`upstream-approve.yml:1099`); critical missing historical scope in compatibility classification (`approval.py:213`). Legacy reject/close remain globally held with v2 disabled (`upstream-reject.yml:141`, `upstream-close-children.yml:423`). The v2 close job has inline Python syntax and dependency setup issues and refires a destination that does not accept its legacy payload (`upstream-close-children.yml:90` and the v2 approval consumer). |
+| Runbook/CLI | **Partial** | Safe batch dry-run shape is documented. Clarify validation/hold exit precedence and distinguish held legacy cascade and escalation from deployed behavior (`docs/agents/upstream-watcher.md:424`). |
+
+The lead independently confirmed the close workflow syntax finding with `ast.parse` on the exact committed inline Python (no code execution, calls, or writes): `SyntaxError` at inline line 7. Other entries above are the independent review conclusions, not claims of observed production failures. Full non-author regression/parity task `b04efdcf0` is separate; its terminal result had not been collected at this checkpoint. The isolated main reconciliation remains a preview tree, not a merged or validated source.
+
+## Decision and recommendation
+
+The current instruction caps routine rounds per PR at two. `CAMPAIGN.md` records two earlier routine P1 review-fix rounds on **this same #2468** before separately authorized exceptions. Neither the revised roster nor a new protocol diagnosis resets a per-PR cap. Do not start another routine fix round, open a replacement PR to bypass the cap, or dispatch acceptance.
+
+**Recommended decision:** Authorize one explicit, consolidated code-only exception on existing #2468 after collecting regression evidence. Use non-shared L2 Terra (`campaign-terra-pinned`, high) or non-shared L3 Sol only for a concrete complexity escalation, then fresh independent centralized Terra on the final reconciled source. Require actor verification, authoritative history and fail-closed payload binding for every enabled consumer; prove affected targets remain held and unaffected cases work on clean-runner fixtures. If no exception is authorized, leave P1 blocked at the current drafts. Authorization of this repair would not authorize scheduled `fanout` → `batch`, repository variables, any write activation, #1833 migration, data/schema/trust edits, or merges. These are separate gates. The conditional read-only acceptance run is unused and P2–P7 have not started.

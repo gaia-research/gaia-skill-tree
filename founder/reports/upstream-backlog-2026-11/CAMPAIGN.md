@@ -1,4 +1,8 @@
-# Current checkpoint — P1 resumed under revised roster; verification running
+# Current checkpoint — P1 central re-review returned FINDINGS; repair cap reached
+
+Central Terra re-review `bd42bee0c` returned **FINDINGS**, not PASS, for [draft #2468](https://github.com/gaia-research/gaia-skill-tree/pull/2468) at `e1451f7fc5db2cb149e6bce30eb023c020c6cd8c` (source-equivalent to `3fdd6d757`). Legacy approval authorization/payload binding and historical migration-scope classification are critical blockers. The lead independently confirmed the close workflow's inline Python syntax error. See [re-review handoff and decision](P1_REREVIEW_E1451F7F.md). No new routine fix round: two prior rounds on #2468 are recorded below. Collect the independent regression/parity receipt and keep implementation held unless the founder explicitly authorizes a consolidated exception. No acceptance dispatch, writes, phase advancement or merges. [Draft #2469](https://github.com/gaia-research/gaia-skill-tree/pull/2469) remains unchanged.
+
+# Previous checkpoint — P1 resumed under revised roster; verification launched
 
 Founder-authorized roster: **Sol High lead; Luna L1; Terra L2; Sol L3**, all non-shared; **Terra High independent reviewer via centralized `pi-reviewer` only**, shared allocation. Preflight and probes passed. [P1 resumption receipt](P1_RESUME_PREFLIGHT.md) records the pins, measured worker probe tokens, [#2468](https://github.com/gaia-research/gaia-skill-tree/pull/2468) / [#2469](https://github.com/gaia-research/gaia-skill-tree/pull/2469) draft state, and recovery commands/evidence paths. Central re-review `bd42bee0c` and non-author regression/parity `b04efdcf0` are running at source `e1451f7fc5db2cb149e6bce30eb023c020c6cd8c` (source-equivalent to `3fdd6d757` outside campaign reports).
 
