@@ -184,6 +184,74 @@ def projection(live, repo, identifier, envelopes):
                      for key in ("issues", "closedUmbrellas")}}
 
 
+def resolve_component_removals(finding: dict, authority: dict) -> dict:
+    """Resolve fresh slug removals against the exact selected named suite's suiteComponents.
+
+    Never guesses contributor prefixes, never resolves across sibling or nested suites,
+    and fails closed on missing, ambiguous, malformed, or out-of-scope removals.
+    """
+    raw_removes = finding.get("componentRemoves", [])
+    if not isinstance(raw_removes, list):
+        raise PayloadError("invalid componentRemoves")
+    if not raw_removes:
+        return finding
+
+    identifier = finding.get("skillId")
+    meta = authority.get(identifier)
+    if not isinstance(meta, dict) or meta.get("id") != identifier:
+        raise PayloadError("named identity is not in registry authority")
+
+    raw_components = meta.get("suiteComponents")
+    if raw_components is None:
+        suite_components = []
+    elif isinstance(raw_components, list):
+        suite_components = raw_components
+    else:
+        raise PayloadError("malformed suiteComponents authority")
+
+    exact_components: set[str] = set()
+    by_slug: dict[str, list[str]] = {}
+    for comp_id in suite_components:
+        if not isinstance(comp_id, str) or not envelope.IDENTIFIER.fullmatch(comp_id):
+            raise PayloadError("malformed suiteComponents authority")
+        if comp_id in exact_components:
+            continue
+        exact_components.add(comp_id)
+        slug = comp_id.rsplit("/", 1)[-1]
+        by_slug.setdefault(slug, []).append(comp_id)
+
+    resolved: list[str] = []
+    seen_raw: set[str] = set()
+    seen_resolved: set[str] = set()
+    for entry in raw_removes:
+        if not isinstance(entry, str) or not entry or any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in entry):
+            raise PayloadError("duplicate or malformed componentRemoves")
+        if entry in seen_raw:
+            raise PayloadError("duplicate or malformed componentRemoves")
+        seen_raw.add(entry)
+
+        if "/" in entry:
+            if not envelope.IDENTIFIER.fullmatch(entry) or entry not in exact_components:
+                raise PayloadError("component removal is outside the selected named scope")
+            target = entry
+        else:
+            matches = by_slug.get(entry, [])
+            if len(matches) == 0:
+                raise PayloadError("component removal is outside the selected named scope")
+            if len(matches) > 1:
+                raise PayloadError("ambiguous component removal in selected named scope")
+            target = matches[0]
+
+        if (authority.get(target) or {}).get("suiteComponents"):
+            raise PayloadError("a selected finding cannot mutate another named suite root")
+        if target in seen_resolved:
+            raise PayloadError("duplicate or malformed componentRemoves")
+        seen_resolved.add(target)
+        resolved.append(target)
+
+    return {**finding, "componentRemoves": resolved}
+
+
 def plan_repository(repo, findings, gh, index, live, authority, policy, historical_loader=historical_authority):
     found, holds, stored = inspect_history(repo, live, gh, authority, policy, historical_loader)
     members = {}
@@ -191,6 +259,7 @@ def plan_repository(repo, findings, gh, index, live, authority, policy, historic
         members = {f["skillId"]: copy.deepcopy(f) for f in stored[found.canonical["number"]]["findings"]}
     plans = []
     for finding in findings:
+        finding = resolve_component_removals(finding, authority)
         identifier = finding["skillId"]
         view = projection(live, repo, identifier, stored)
         plan = batch.plan_suite(finding, view, index, probe=gh.child_state, gh=gh)

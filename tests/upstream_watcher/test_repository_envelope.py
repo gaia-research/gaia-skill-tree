@@ -409,3 +409,162 @@ def test_repo_rejected_label_on_closed_envelope_does_not_silently_settle_sibling
     b_row = next(r for r in by_id["owner/b"]["candidates"] if r["id"] == "owner/repo:beta")
     assert a_row["status"] == "new" and "rejectedBy" not in a_row and a_row["carriedFrom"] == "#55"
     assert b_row["status"] == "new" and "rejectedBy" not in b_row and b_row["carriedFrom"] == "#55"
+
+
+def test_fresh_producer_slug_removals_resolve_to_canonical_suite_ids_and_repeat_noop():
+    from scripts.upstream_watcher.liveness import diff_slugs
+
+    auth = authority()
+    auth["owner/a"]["suiteComponents"] = ["other-contrib/removed-one", "owner/kept-one"]
+    adds, removes = diff_slugs({"kept-one"}, auth["owner/a"]["suiteComponents"])
+    assert adds == [] and removes == ["removed-one"]
+    fresh = {**finding("owner/a", version="v2", adds=adds), "componentRemoves": removes}
+
+    gh = FakeGh()
+    report, code = rb.run_repository_batch(
+        [fresh], gh, apply=False, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, plan_only=True,
+    )
+    assert code == 0 and report["unknownEvidence"] == []
+    assert report["dryRun"] is True and report["writeReadiness"] is False
+    assert report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0
+    assert report["issuesCreated"] == 1 and gh.writes == []
+    assert report["observedFindings"][0]["componentRemoves"] == ["removed-one"]
+    env = report["repositories"][0]["payload"]
+    assert env["findings"][0]["componentRemoves"] == ["other-contrib/removed-one"]
+    assert wire.validate(env, auth) == env
+
+    # Repeat-plan boundary: open envelope with canonical IDs matches fresh slug observation -> noop.
+    gh_open = FakeGh([issue(env, number=21, state="open")])
+    repeat, repeat_code = rb.run_repository_batch(
+        [fresh], gh_open, apply=False, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, plan_only=True,
+    )
+    assert repeat_code == 0 and repeat["unknownEvidence"] == []
+    assert repeat["repositories"][0]["outcome"] == "noop" and gh_open.writes == []
+
+    # Closed-history boundary: closed envelope with canonical IDs covers fresh slug observation -> suppressed-processed.
+    gh_closed = FakeGh([issue(env, number=22, state="closed")])
+    suppressed, sup_code = rb.run_repository_batch(
+        [fresh], gh_closed, apply=False, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, plan_only=True,
+    )
+    assert sup_code == 0 and suppressed["unknownEvidence"] == []
+    assert suppressed["repositories"][0]["outcome"] == "suppressed-processed" and gh_closed.writes == []
+
+
+def test_captured_hyperframes_removal_observation_offline_probe():
+    suite_components = [
+        "heygen-com/embedded-captions", "heygen-com/faceless-explainer", "heygen-com/figma",
+        "heygen-com/hyperframes-animation", "heygen-com/hyperframes-audio", "heygen-com/hyperframes-cli",
+        "heygen-com/hyperframes-core", "heygen-com/hyperframes-creative", "heygen-com/hyperframes-keyframes",
+        "heygen-com/hyperframes-registry", "heygen-com/media-use", "heygen-com/motion-graphics",
+        "heygen-com/music-to-video", "heygen-com/pr-to-video", "heygen-com/product-launch-video",
+        "heygen-com/remotion-to-hyperframes", "heygen-com/slideshow", "heygen-com/talking-head-recut",
+    ]
+    auth = {
+        "heygen-com/hyperframes": {
+            "id": "heygen-com/hyperframes",
+            "suiteRef": "heygen-com/hyperframes",
+            "suiteComponents": suite_components,
+            "links": {"github": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md"},
+            "upstream": {"repo": "heygen-com/hyperframes", "version": "v0.8.225"},
+        }
+    }
+    captured = {
+        "skillId": "heygen-com/hyperframes",
+        "sourceUrl": "https://github.com/heygen-com/hyperframes/releases/tag/v0.9.70",
+        "newVersion": "v0.9.70",
+        "currentVersion": "v0.8.225",
+        "releasedAt": "2026-11-19T07:37:15Z",
+        "mode": "components",
+        "finding_type": "update",
+        "componentAdds": [],
+        "componentRemoves": [
+            "embedded-captions", "faceless-explainer", "hyperframes-animation", "hyperframes-audio",
+            "hyperframes-core", "hyperframes-creative", "hyperframes-keyframes", "motion-graphics",
+            "music-to-video", "pr-to-video", "product-launch-video", "talking-head-recut",
+        ],
+        "linkLiveness": [],
+        "nameDrift": [],
+    }
+    gh = FakeGh()
+    report, code = rb.run_repository_batch(
+        [captured], gh, apply=False, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={}, plan_only=True,
+    )
+    assert code == 0 and report["unknownEvidence"] == []
+    assert report["issuesCreated"] == 1 and report["actualIssuesCreated"] == 0 and gh.writes == []
+    assert report["repositories"][0]["outcome"] == "planned"
+    env = report["repositories"][0]["payload"]
+    expected = [f"heygen-com/{slug}" for slug in captured["componentRemoves"]]
+    assert env["findings"][0]["componentRemoves"] == expected
+    assert wire.validate(env, auth) == env
+
+
+@pytest.mark.parametrize("case", [
+    "ambiguous_tail",
+    "missing_member",
+    "sibling_slug",
+    "sibling_full_id",
+    "nested_root_mutation",
+    "nested_leaf_slug",
+    "malformed_whitespace",
+    "duplicate_after_resolution",
+    "non_list",
+])
+def test_removal_guard_fails_closed_on_invalid_or_out_of_scope_authority(case):
+    auth = authority()
+    auth["owner/a"]["suiteComponents"] = ["owner/kept"]
+    auth["owner/b"]["suiteComponents"] = ["owner/sibling-only"]
+    auth["owner/nested"]["suiteComponents"] = ["owner/nested-leaf"]
+
+    if case == "ambiguous_tail":
+        auth["owner/a"]["suiteComponents"] = ["alice/shared", "bob/shared"]
+        removes = ["shared"]
+    elif case == "missing_member":
+        removes = ["does-not-exist"]
+    elif case == "sibling_slug":
+        removes = ["sibling-only"]
+    elif case == "sibling_full_id":
+        removes = ["owner/sibling-only"]
+    elif case == "nested_root_mutation":
+        auth["owner/a"]["suiteComponents"] = ["owner/nested"]
+        removes = ["nested"]
+    elif case == "nested_leaf_slug":
+        removes = ["nested-leaf"]
+    elif case == "malformed_whitespace":
+        removes = ["bad slug"]
+    elif case == "duplicate_after_resolution":
+        removes = ["kept", "owner/kept"]
+    else:
+        removes = "kept"
+
+    bad = {**finding("owner/a", version="v2", adds=()), "componentRemoves": removes}
+    gh = FakeGh()
+    report, code = rb.run_repository_batch(
+        [bad], gh, apply=True, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+    )
+    assert code == 3 and report["writeReadiness"] is False
+    assert report["unknownEvidence"] and report["unknownEvidence"][0]["source"] == "repository-plan"
+    assert gh.writes == [] and report["actualIssuesCreated"] == 0 and report["actualIssuesUpdated"] == 0
+
+
+def test_removal_guard_preserves_legacy_hold_and_no_write_gates():
+    auth = authority()
+    auth["owner/a"]["suiteComponents"] = ["other-contrib/removed-one", "owner/kept-one"]
+    fresh = {**finding("owner/a", version="v2", adds=()), "componentRemoves": ["removed-one"]}
+    old = legacy_issue()
+    gh = FakeGh([old])
+    before = copy.deepcopy(gh.issues)
+    report, code = rb.run_repository_batch(
+        [fresh], gh, apply=True, authority=auth,
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+    )
+    assert code == 0 and report["unknownEvidence"] == []
+    assert report["writeReadiness"] is False and len(report["knownLegacyHolds"]) == 1
+    assert report["repositories"][0]["outcome"] == "held"
+    assert report["issuesUpdated"] == 1 and report["actualIssuesUpdated"] == 0
+    assert gh.writes == [] and gh.issues == before
+    assert report["repositories"][0]["payload"]["findings"][0]["componentRemoves"] == ["other-contrib/removed-one"]
