@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T07:14:29Z",
+  "generatedAt": "2026-11-20T13:31:37Z",
   "buckets": [
     {
       "genericSkillRef": "knowledge-graph-build",
@@ -283,7 +283,7 @@
     },
     {
       "genericSkillRef": "format-output",
-      "implementations": 4,
+      "implementations": 5,
       "topTM": 130.23,
       "skills": [
         {
@@ -308,7 +308,35 @@
           "origin": false
         },
         {
+          "id": "t3dotgg/leaving-pr-comments",
+          "trustMagnitude": 49.9,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
           "id": "garrytan/make-pdf",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "multi-agent-debate",
+      "implementations": 2,
+      "topTM": 129.9,
+      "skills": [
+        {
+          "id": "t3dotgg/council",
+          "trustMagnitude": 129.9,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/codex",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
@@ -478,6 +506,27 @@
       ]
     },
     {
+      "genericSkillRef": "receiving-code-review",
+      "implementations": 2,
+      "topTM": 124.01,
+      "skills": [
+        {
+          "id": "t3dotgg/sol-loop",
+          "trustMagnitude": 124.01,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "obra/receiving-code-review",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
       "genericSkillRef": "browser-control",
       "implementations": 7,
       "topTM": 118.59,
@@ -604,62 +653,6 @@
         {
           "id": "gsd-build/gsd-plan-phase",
           "trustMagnitude": 49.9,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "web-scrape",
-      "implementations": 2,
-      "topTM": 109.92,
-      "skills": [
-        {
-          "id": "firecrawl/firecrawl-build-scrape",
-          "trustMagnitude": 109.92,
-          "level": "4★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "garrytan/scrape",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "verification-before-completion",
-      "implementations": 4,
-      "topTM": 97.81,
-      "skills": [
-        {
-          "id": "obra/verification-before-completion",
-          "trustMagnitude": 97.81,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "gsd-build/gsd-verify-work",
-          "trustMagnitude": 52.56,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "ruvnet/verification-quality",
-          "trustMagnitude": 38.66,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        },
-        {
-          "id": "hikari9/office-submit",
-          "trustMagnitude": 24.34,
           "level": "2★",
           "overallTrustGrade": "C",
           "origin": false
