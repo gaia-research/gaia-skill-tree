@@ -78,7 +78,7 @@ from scripts.upstream_watcher import (
     weekly_collector,
     weekly_reducer,
 )
-from scripts.upstream_watcher.approval import PayloadError, canonical_hash
+from scripts.upstream_watcher.approval import PayloadError, canonical_hash, extract_payload
 from scripts.upstream_watcher.live import GhError, mentions_suite, umbrella_suite
 from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 from scripts.upstream_watcher.weekly_collector import (
@@ -86,8 +86,10 @@ from scripts.upstream_watcher.weekly_collector import (
     _index_unique_observations,
 )
 from scripts.upstream_watcher.weekly_journal import (
+    BLOCKED_STATUSES,
     DEFAULT_MAX_JOURNAL_BYTES,
     STATUS_OK,
+    USABLE_STATUSES,
     JournalCommitResult,
     JournalPin,
     load_journal,
@@ -271,14 +273,30 @@ def _poll_input_digest(poll: PollInput, poll_id: str, observed_at_iso: str) -> s
     )
 
 
+class _InventoryValidationError(RuntimeError):
+    """Sanitized fixed-code inventory validation failure (never carries untrusted payload text)."""
+
+    def __init__(self, code: str) -> None:
+        super().__init__(code)
+        self.code = code
+
+
+def _is_valid_utc_timestamp(value: Any) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    try:
+        parse_strict_utc(value)
+    except ValueError:
+        return False
+    return True
+
+
 def _is_valid_snapshot(snapshot: Any) -> bool:
     if not isinstance(snapshot, dict) or set(snapshot.keys()) != {"updatedAt", "bodySha256"}:
         return False
     updated_at, body_sha = snapshot.get("updatedAt"), snapshot.get("bodySha256")
     return (
-        isinstance(updated_at, str)
-        and bool(updated_at)
-        and not any(ord(c) < 32 or ord(c) == 127 for c in updated_at)
+        _is_valid_utc_timestamp(updated_at)
         and isinstance(body_sha, str)
         and bool(envelope.SHA.fullmatch(body_sha))
     )
@@ -312,35 +330,164 @@ def _validated_label_names(issue: Mapping[str, Any]) -> set[str] | None:
     return parsed[1] if parsed is not None else None
 
 
-def _validate_live_inventory(live: Any) -> dict[str, list[dict[str, Any]]]:
+def _safe_authority_repo(identifier: Any, authority: Mapping[str, dict[str, Any]]) -> str | None:
+    if not isinstance(identifier, str) or identifier not in authority:
+        return None
+    try:
+        return envelope.authority_repository(identifier, authority)
+    except PayloadError:
+        return None
+
+
+def _validate_watcher_row_evidence(
+    row: Mapping[str, Any],
+    label_names: set[str],
+    authority: Mapping[str, dict[str, Any]],
+) -> None:
+    """Require usable, authoritatively attributable evidence on watcher-labelled history rows.
+
+    A parseable title is only a claim, not authoritative attribution: an opaque or
+    unattributable ``upstream:release`` / ``upstream:bootstrap`` / active ``upstream:child``
+    record must fail closed globally rather than allowing unrelated create/update proofs on
+    incomplete shared inventory.
+    """
+    body = row.get("body")
+    title = row["title"]
+    updated_at = row.get("updated_at")
+
+    if "upstream:release" in label_names:
+        if not isinstance(body, str) or not _is_valid_utc_timestamp(updated_at):
+            raise _InventoryValidationError("opaque-release-history")
+        try:
+            payload, _ = extract_payload(body)
+        except PayloadError:
+            raise _InventoryValidationError("opaque-release-history") from None
+        if envelope.is_envelope(payload):
+            try:
+                env_repo = envelope.repository(payload.get("repository"))
+            except PayloadError:
+                raise _InventoryValidationError("unattributable-release-envelope") from None
+            findings = payload.get("findings")
+            if not isinstance(findings, list) or not 1 <= len(findings) <= envelope.MAX_FINDINGS:
+                raise _InventoryValidationError("unattributable-release-envelope")
+            any_auth_match = False
+            for entry in findings:
+                if not isinstance(entry, dict):
+                    raise _InventoryValidationError("unattributable-release-envelope")
+                sid = entry.get("skillId")
+                if not isinstance(sid, str) or not envelope.IDENTIFIER.fullmatch(sid):
+                    raise _InventoryValidationError("unattributable-release-envelope")
+                try:
+                    entry_repo = envelope.release_repository(entry.get("sourceUrl"), entry.get("newVersion"))
+                except PayloadError:
+                    raise _InventoryValidationError("unattributable-release-envelope") from None
+                if entry_repo != env_repo:
+                    raise _InventoryValidationError("unattributable-release-envelope")
+                if _safe_authority_repo(sid, authority) == env_repo:
+                    any_auth_match = True
+            title_repo = umbrella_suite(title)
+            if title_repo is None and not any_auth_match:
+                raise _InventoryValidationError("unattributable-release-envelope")
+        else:
+            sid = payload.get("skillId")
+            if not isinstance(sid, str) or not envelope.IDENTIFIER.fullmatch(sid):
+                raise _InventoryValidationError("unattributable-legacy-release")
+            try:
+                rel_repo = envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion"))
+            except PayloadError:
+                raise _InventoryValidationError("unattributable-legacy-release") from None
+            title_repo = umbrella_suite(title)
+            auth_repo = _safe_authority_repo(sid, authority)
+            if title_repo is None and auth_repo is None:
+                raise _InventoryValidationError("unattributable-legacy-release")
+            if title_repo is not None and title_repo != rel_repo and auth_repo != rel_repo:
+                raise _InventoryValidationError("unattributable-legacy-release")
+
+    if "upstream:bootstrap" in label_names and "upstream:release" not in label_names:
+        if not isinstance(body, str) or not _is_valid_utc_timestamp(updated_at):
+            raise _InventoryValidationError("opaque-bootstrap-history")
+        try:
+            payload, _ = extract_payload(body)
+        except PayloadError:
+            raise _InventoryValidationError("opaque-bootstrap-history") from None
+        sid = payload.get("skillId")
+        if not isinstance(sid, str) or not envelope.IDENTIFIER.fullmatch(sid):
+            raise _InventoryValidationError("unattributable-bootstrap-history")
+        try:
+            envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion"))
+        except PayloadError:
+            raise _InventoryValidationError("unattributable-bootstrap-history") from None
+
+    if "upstream:child" in label_names and (row["state"] == "open" or "upstream:rejected" in label_names):
+        if not isinstance(body, str) or not prechecks.suggested_id_of(body):
+            raise _InventoryValidationError("opaque-child-history")
+
+
+def _validate_live_inventory(
+    live: Any,
+    authority: Mapping[str, dict[str, Any]],
+) -> dict[str, list[dict[str, Any]]]:
     if not isinstance(live, dict) or not isinstance(live.get("issues"), list) or not isinstance(live.get("closedUmbrellas"), list):
-        raise GhError("live inventory is missing issues or closedUmbrellas lists")
+        raise _InventoryValidationError("missing-inventory-lists")
     validated: dict[str, list[dict[str, Any]]] = {"issues": [], "closedUmbrellas": []}
+    by_list_num: dict[str, dict[int, tuple[dict[str, Any], set[str]]]] = {"issues": {}, "closedUmbrellas": {}}
     for list_name in ("issues", "closedUmbrellas"):
         seen: set[int] = set()
         for row in live[list_name]:
-            if not isinstance(row, dict) or row.get("pull_request"):
-                raise GhError(f"live inventory {list_name} contains a malformed entry or retained PR")
+            if not isinstance(row, dict):
+                raise _InventoryValidationError("malformed-inventory-row")
+            if "pull_request" in row:
+                raise _InventoryValidationError("pull-request-marker-present")
             num = row.get("number")
             state = row.get("state")
             valid_state = state == "closed" if list_name == "closedUmbrellas" else state in ("open", "closed")
             if type(num) is not int or num <= 0 or num in seen or not valid_state:
-                raise GhError(f"live inventory {list_name} contains invalid or duplicate issue identity")
+                raise _InventoryValidationError("invalid-issue-identity-or-state")
             if "labels" not in row:
-                raise GhError(f"live inventory {list_name} issue #{num} is missing labels")
+                raise _InventoryValidationError("missing-issue-labels")
             parsed_labels = _normalize_issue_labels(row["labels"])
             if parsed_labels is None:
-                raise GhError(f"live inventory {list_name} issue #{num} contains malformed labels")
+                raise _InventoryValidationError("malformed-issue-labels")
+            norm_labels, label_names = parsed_labels
+            if list_name == "closedUmbrellas" and "upstream:release" not in label_names:
+                raise _InventoryValidationError("closed-umbrella-missing-release-label")
             if not isinstance(row.get("title"), str):
-                raise GhError(f"live inventory {list_name} issue #{num} contains non-string title")
+                raise _InventoryValidationError("non-string-issue-title")
             body = row.get("body")
             if body is not None and not isinstance(body, str):
-                raise GhError(f"live inventory {list_name} issue #{num} contains non-string body")
+                raise _InventoryValidationError("non-string-issue-body")
             updated_at = row.get("updated_at")
-            if updated_at is not None and not isinstance(updated_at, str):
-                raise GhError(f"live inventory {list_name} issue #{num} contains non-string updated_at")
+            if updated_at is not None and not _is_valid_utc_timestamp(updated_at):
+                raise _InventoryValidationError("invalid-issue-updated-at")
+            normalized_row = {**row, "labels": norm_labels}
             seen.add(num)
-            validated[list_name].append({**row, "labels": parsed_labels[0]})
+            validated[list_name].append(normalized_row)
+            by_list_num[list_name][num] = (normalized_row, label_names)
+
+    issues_index = by_list_num["issues"]
+    closed_index = by_list_num["closedUmbrellas"]
+    for num, (issue_row, issue_labels) in issues_index.items():
+        if issue_row["state"] == "closed" and "upstream:release" in issue_labels and num not in closed_index:
+            raise _InventoryValidationError("closed-release-missing-from-closed-umbrellas")
+        if num in closed_index:
+            closed_row, closed_labels = closed_index[num]
+            if (
+                issue_row["state"] != closed_row["state"]
+                or issue_row["title"] != closed_row["title"]
+                or issue_row.get("body") != closed_row.get("body")
+                or issue_row.get("updated_at") != closed_row.get("updated_at")
+                or issue_labels != closed_labels
+            ):
+                raise _InventoryValidationError("contradictory-issue-across-lists")
+
+    checked: set[int] = set()
+    for index_map in (issues_index, closed_index):
+        for num, (norm_row, label_names) in index_map.items():
+            if num in checked:
+                continue
+            checked.add(num)
+            _validate_watcher_row_evidence(norm_row, label_names, authority)
+
     return validated
 
 
@@ -362,24 +509,24 @@ def _verify_eligible_member(
     authority: Mapping[str, dict[str, Any]],
 ) -> tuple[BoundNamedMember | None, dict[str, Any] | None, str | None]:
     if not isinstance(dec, NamedDecision):
-        return None, None, "eligible entry is not a NamedDecision"
+        return None, None, "eligible-entry-not-named-decision"
     try:
         repo = envelope.repository(dec.repository)
-    except PayloadError as exc:
-        return None, None, f"invalid decision repository: {exc}"
+    except PayloadError:
+        return None, None, "invalid-decision-repository"
     if repo != dec.repository:
-        return None, None, "decision repository is not normalized"
+        return None, None, "decision-repository-not-normalized"
     named_id = dec.named_id
     scope = (repo, named_id)
 
     if not dec.eligible or dec.decision not in _ELIGIBLE_DECISIONS or dec.write_authorized is not False:
-        return None, None, f"decision {dec.decision!r} is not validly eligible"
+        return None, None, "decision-not-validly-eligible"
     if dec.poll_id != poll_id or dec.observed_at != observed_at_iso:
-        return None, None, "decision poll_id or observed_at disagrees with committed poll"
+        return None, None, "decision-poll-identity-mismatch"
     if repo in held_repos or named_id in held_named_ids or named_id in unavailable_named_ids:
-        return None, None, "scope is held or unavailable in poll inputs"
+        return None, None, "scope-held-or-unavailable"
     if scope not in accepted_scopes or decisions_map.get(scope) != dec:
-        return None, None, "decision disagrees with accepted reduction decisions"
+        return None, None, "decision-disagrees-with-accepted-reduction"
 
     bucket: NamedBucket | None = live_state.buckets.get(scope)
     if (
@@ -396,18 +543,18 @@ def _verify_eligible_member(
         or not isinstance(dec.finding, dict)
         or not _exact_structural_equal(dec.finding, bucket.latest_finding)
     ):
-        return None, None, "decision disagrees with live journal bucket state"
+        return None, None, "decision-disagrees-with-live-journal-bucket"
 
     try:
         if envelope.authority_repository(named_id, authority) != repo:
-            return None, None, "named_id disagrees with registry release authority"
+            return None, None, "named-id-disagrees-with-release-authority"
         envelope.validate_named(dec.finding, repo, authority, digest=True, mutation_scope=True)
         validateReleaseSource(dec.finding)
-    except (PayloadError, GhError) as exc:
-        return None, None, f"canonical finding failed authority validation: {exc}"
+    except (PayloadError, GhError):
+        return None, None, "canonical-finding-authority-validation-failed"
 
     if dec.finding.get("payloadSha256") != dec.finding_sha256 or canonical_hash(dec.finding) != dec.finding_sha256:
-        return None, None, "canonical finding digest mismatch"
+        return None, None, "canonical-finding-digest-mismatch"
 
     for row in dec.finding.get("candidates", []):
         row_id = row["id"]
@@ -421,16 +568,16 @@ def _verify_eligible_member(
             or row["evidenceUrl"] != dec_pin.evidence_url
             or not _exact_structural_equal(bucket_row.latest_row, row)
         ):
-            return None, None, f"candidate row {row_id!r} disagrees with authoritative FirstSeenPin/bucket"
+            return None, None, "candidate-row-pin-or-bucket-mismatch"
 
     if scope in duplicate_raw_scopes or scope not in raw_by_scope:
-        return None, None, "missing or duplicate current raw observation for eligible scope"
+        return None, None, "missing-or-duplicate-current-raw-observation"
     try:
         raw_repo, raw_named_id, raw_kind, validated_raw = weekly_reducer._validate_raw_observation(
             raw_by_scope[scope], authority
         )
-    except PayloadError as exc:
-        return None, None, f"current raw observation failed validation: {exc}"
+    except PayloadError:
+        return None, None, "current-raw-observation-validation-failed"
 
     finding_kind = dec.finding.get("findingType") or "update"
     if (
@@ -516,14 +663,20 @@ def _verify_repo_plan(
     try:
         found, holds, stored = repository_batch.inspect_history(repo, live, gh, authority, policy, historical_loader)
     except PayloadError as exc:
-        msg = str(exc)
-        st = STATUS_AMBIGUOUS if ("ambiguous" in msg.lower() or "malformed claimed" in msg.lower()) else STATUS_DECLINED
-        return _result(st, f"inspect-history-refused: {msg}", declined_scopes=_all_scopes(msg))
+        msg_lower = str(exc).lower()
+        if "ambiguous" in msg_lower or "malformed claimed" in msg_lower:
+            code = "inspect-history-ambiguous"
+            st = STATUS_AMBIGUOUS
+        else:
+            code = "inspect-history-refused"
+            st = STATUS_DECLINED
+        return _result(st, code, declined_scopes=_all_scopes(code))
     except (GhError, records.RecordError) as exc:
-        return _result(STATUS_INCOMPLETE, f"history-read-incomplete: {exc}", declined_scopes=_all_scopes(str(exc)))
-    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError) as exc:
-        msg = f"history-read-malformed:{type(exc).__name__}"
-        return _result(STATUS_INCOMPLETE, msg, declined_scopes=_all_scopes(msg))
+        code = "history-records-incomplete" if isinstance(exc, records.RecordError) else "history-read-incomplete"
+        return _result(STATUS_INCOMPLETE, code, declined_scopes=_all_scopes(code))
+    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError):
+        code = "history-read-malformed"
+        return _result(STATUS_INCOMPLETE, code, declined_scopes=_all_scopes(code))
 
     if found.ambiguous:
         return _result(STATUS_AMBIGUOUS, "ambiguous open repository umbrella title", declined_scopes=_all_scopes("ambiguous title"))
@@ -533,14 +686,19 @@ def _verify_repo_plan(
             repo, copy.deepcopy(raw_rows), gh, index, live, authority, policy, historical_loader=historical_loader
         )
     except PayloadError as exc:
-        msg = str(exc)
-        st = STATUS_AMBIGUOUS if "ambiguous" in msg.lower() else STATUS_DECLINED
-        return _result(st, f"plan-repository-refused: {msg}", declined_scopes=_all_scopes(msg))
+        if "ambiguous" in str(exc).lower():
+            code = "plan-repository-ambiguous"
+            st = STATUS_AMBIGUOUS
+        else:
+            code = "plan-repository-refused"
+            st = STATUS_DECLINED
+        return _result(st, code, declined_scopes=_all_scopes(code))
     except (GhError, records.RecordError) as exc:
-        return _result(STATUS_INCOMPLETE, f"plan-repository-incomplete: {exc}", declined_scopes=_all_scopes(str(exc)))
-    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError) as exc:
-        msg = f"plan-repository-incomplete:{type(exc).__name__}"
-        return _result(STATUS_INCOMPLETE, msg, declined_scopes=_all_scopes(msg))
+        code = "plan-repository-records-incomplete" if isinstance(exc, records.RecordError) else "plan-repository-incomplete"
+        return _result(STATUS_INCOMPLETE, code, declined_scopes=_all_scopes(code))
+    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError):
+        code = "plan-repository-malformed"
+        return _result(STATUS_INCOMPLETE, code, declined_scopes=_all_scopes(code))
 
     if plan.get("knownLegacyHolds") or not plan.get("writeReadiness"):
         return _result(STATUS_HELD, "legacy-migration-hold", holds=tuple(plan.get("knownLegacyHolds") or holds))
@@ -549,7 +707,8 @@ def _verify_repo_plan(
     if action == "suppressed-processed":
         return _result(STATUS_SUPPRESSED, "already-covered-by-closed-history")
     if action not in ("create", "update", "noop"):
-        return _result(STATUS_DECLINED, f"unexpected planner action: {action!r}", declined_scopes=_all_scopes(str(action)))
+        code = "unexpected-planner-action"
+        return _result(STATUS_DECLINED, code, declined_scopes=_all_scopes(code))
 
     if plan.get("records") is not None or (
         plan.get("recordPlan") is not None and (plan["recordPlan"].prewrites or plan["recordPlan"].cleanup)
@@ -565,8 +724,9 @@ def _verify_repo_plan(
         envelope.validate(planned_payload, authority, title=expected_title)
         if not _exact_structural_equal(envelope.read(planned_body, authority, title_text=expected_title), planned_payload):
             raise PayloadError("rendered envelope body disagrees with canonical payload")
-    except PayloadError as exc:
-        return _result(STATUS_DECLINED, f"canonical-envelope-validation-failed: {exc}", declined_scopes=_all_scopes(str(exc)))
+    except PayloadError:
+        code = "canonical-envelope-validation-failed"
+        return _result(STATUS_DECLINED, code, declined_scopes=_all_scopes(code))
 
     by_id_counts: dict[str, list[dict[str, Any]]] = {}
     for entry in planned_payload.get("findings", []):
@@ -590,7 +750,7 @@ def _verify_repo_plan(
         if found.canonical is not None or found.duplicates or plan.get("umbrella") is not None:
             return _result(STATUS_DECLINED, "create-target-contradicts-open-umbrella-inventory", declined_scopes=_all_scopes("open umbrella exists"))
         for issue in live["issues"]:
-            if issue.get("state") == "open" and not issue.get("pull_request") and "upstream:release" in batch.label_names(issue):
+            if issue.get("state") == "open" and "pull_request" not in issue and "upstream:release" in batch.label_names(issue):
                 title_text = issue.get("title") or ""
                 if umbrella_suite(title_text) == repo or mentions_suite(title_text, repo):
                     return _result(STATUS_AMBIGUOUS, "unambiguous-absence-not-proven-for-create", declined_scopes=_all_scopes("open release issue references repo"))
@@ -620,7 +780,7 @@ def _verify_repo_plan(
         canonical is None
         or plan.get("umbrella") != canonical.get("number")
         or canonical.get("state") != "open"
-        or canonical.get("pull_request")
+        or "pull_request" in canonical
         or "upstream:release" not in batch.label_names(canonical)
         or umbrella_suite(canonical.get("title") or "") != repo
         or any(canonical["number"] >= dup["number"] for dup in found.duplicates)
@@ -637,8 +797,9 @@ def _verify_repo_plan(
 
     try:
         current_issue = gh.get_issue(canonical["number"])
-    except GhError as exc:
-        return _result(STATUS_INCOMPLETE, f"target-issue-reread-failed: {exc}", declined_scopes=_all_scopes(str(exc)))
+    except GhError:
+        code = "target-issue-reread-failed"
+        return _result(STATUS_INCOMPLETE, code, declined_scopes=_all_scopes(code))
 
     current_labels = _validated_label_names(current_issue) if isinstance(current_issue, dict) else None
     if (
@@ -646,10 +807,11 @@ def _verify_repo_plan(
         or type(current_issue.get("number")) is not int
         or current_issue.get("number") != canonical["number"]
         or current_issue.get("state") != "open"
-        or current_issue.get("pull_request")
+        or "pull_request" in current_issue
         or not isinstance(current_issue.get("title"), str)
         or current_issue.get("title") != canonical.get("title")
-        or (current_issue.get("body") is not None and not isinstance(current_issue.get("body"), str))
+        or not isinstance(current_issue.get("body"), str)
+        or not _is_valid_utc_timestamp(current_issue.get("updated_at"))
         or current_labels is None
         or "upstream:release" not in current_labels
         or batch.snapshot_of(current_issue) != planned_snapshot
@@ -732,19 +894,21 @@ def bind_weekly_plans(
     if reduction.replayed or reduction.status == "replayed":
         return _refused("replayed-poll-cannot-bind-new-intent", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
     if reduction.status != "applied":
-        return _refused(f"unapplied-reduction-status:{reduction.status}", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
+        red_status = reduction.status if reduction.status in ("applied", "replayed", "rejected") else "unknown"
+        return _refused(f"unapplied-reduction-status:{red_status}", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
     if not commit_result.persisted:
         return _refused("unpersisted-journal-commit-cannot-bind", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
     if reduction.write_authorized is not False:
         return _refused("reduction-unexpectedly-claims-write-authorized", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
     if not handle.usable or handle.status != STATUS_OK or handle.pin is None or handle.state is None:
-        return _refused(f"unusable-journal-handle:{handle.status}", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
+        handle_status = handle.status if handle.status in (USABLE_STATUSES | BLOCKED_STATUSES) else "unknown"
+        return _refused(f"unusable-journal-handle:{handle_status}", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
 
     try:
         poll_id = weekly_reducer._validate_poll_id(poll.poll_id)
         observed_at_iso = format_utc(parse_strict_utc(poll.observed_at))
-    except ValueError as exc:
-        return _refused(f"invalid-poll-identity:{exc}", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
+    except ValueError:
+        return _refused("invalid-poll-identity", poll_id=reduction.poll_id, observed_at=reduction.observed_at, journal_pin=handle.pin)
     if type(poll.complete) is not bool or not poll.complete:
         return _refused("incomplete-poll-cannot-bind", poll_id=poll_id, observed_at=observed_at_iso, journal_pin=handle.pin)
     if reduction.poll_id != poll_id or reduction.observed_at != observed_at_iso:
@@ -765,8 +929,9 @@ def bind_weekly_plans(
         max_bytes=max_journal_bytes,
     )
     if live_handle.blocked or live_handle.state is None or live_handle.pin is None:
+        live_status = live_handle.status if live_handle.status in BLOCKED_STATUSES else "unknown"
         return _refused(
-            f"local-journal-blocked:{live_handle.status}:{live_handle.detail}",
+            f"local-journal-blocked:{live_status}",
             poll_id=poll_id,
             observed_at=observed_at_iso,
             journal_pin=live_handle.pin or handle.pin,
@@ -795,8 +960,8 @@ def bind_weekly_plans(
     try:
         expected_input_digest = _poll_input_digest(poll, poll_id, observed_at_iso)
         held_repos, held_named_ids, unavailable_named_ids = weekly_reducer._normalize_scope_sets(poll)
-    except (PayloadError, TypeError, ValueError) as exc:
-        return _refused(f"poll-input-validation-failed:{exc}", poll_id=poll_id, observed_at=observed_at_iso, journal_pin=live_handle.pin)
+    except (PayloadError, TypeError, ValueError):
+        return _refused("poll-input-validation-failed", poll_id=poll_id, observed_at=observed_at_iso, journal_pin=live_handle.pin)
 
     receipt = live_state.seen_polls.get(poll_id)
     if (
@@ -886,23 +1051,37 @@ def bind_weekly_plans(
         )
 
     selected_raw_all = [row for repo in sorted(verified_raw_by_repo) for row in verified_raw_by_repo[repo]]
+    stage = "policy"
     try:
         resolved_policy = repository_batch.policy_record() if policy is None else policy
+        stage = "group-findings"
         grouped = repository_batch.group_findings(selected_raw_all, authority)
+        stage = "registry-index"
         index = index_loader()
+        stage = "live-read"
         live = repository_batch.read_repository_live(gh)
-        live = _validate_live_inventory(live)
-    except (PayloadError, GhError, prechecks.RegistryUnreadable) as exc:
+        stage = "inventory-validation"
+        live = _validate_live_inventory(live, authority)
+    except _InventoryValidationError as exc:
         return _refused(
-            f"global-inventory-or-setup-incomplete:{exc}",
+            f"global-inventory-or-setup-incomplete:{exc.code}",
             poll_id=poll_id,
             observed_at=observed_at_iso,
             journal_pin=live_handle.pin,
             non_eligible_scopes=non_eligible_scopes,
         )
-    except (OSError, ValueError, TypeError, KeyError, subprocess.SubprocessError) as exc:
+    except (
+        PayloadError,
+        GhError,
+        prechecks.RegistryUnreadable,
+        OSError,
+        ValueError,
+        TypeError,
+        KeyError,
+        subprocess.SubprocessError,
+    ):
         return _refused(
-            f"global-inventory-or-setup-incomplete:{type(exc).__name__}",
+            f"global-inventory-or-setup-incomplete:{stage}",
             poll_id=poll_id,
             observed_at=observed_at_iso,
             journal_pin=live_handle.pin,

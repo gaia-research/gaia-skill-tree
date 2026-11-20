@@ -11,8 +11,10 @@ import dataclasses
 import hashlib
 import json
 import os
+import re
 import socket
 import subprocess
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -499,22 +501,26 @@ def test_ambiguous_title_title_only_snapshot_drift_and_partial_global_read(tmp_p
         raw_findings=[raw_a, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
     )
 
-    ambig_gh = NoWriteTrapGh(FakeGh([{
-        "number": 41, "state": "open", "title": "Upstream release for owner/repo v2.0.0",
-        "body": "malformed title", "labels": ["upstream:release"], "updated_at": "2026-11-16T00:00:00Z",
-    }]))
+    # Attributable ambiguous title (valid payload for owner/repo, malformed title) -> scoped ambiguous, other/good usable.
+    ambig_issue, _ = _envelope_issue([raw_a], auth, number=41, updated_at="2026-11-16T00:00:00Z")
+    ambig_issue["title"] = "Upstream release for owner/repo v2.0.0"
+    ambig_gh = NoWriteTrapGh(FakeGh([ambig_issue]))
     bound_ambig = _bind(commit, poll, ambig_gh, auth)
+    assert bound_ambig.status == wb.RUN_STATUS_BOUND
     assert bound_ambig.repositories["owner/repo"].status == wb.STATUS_AMBIGUOUS
     assert [b.repository for b in bound_ambig.candidate_intents] == ["other/good"]
 
+    # Title-only release issue with no canonical payload has no authoritative attribution
+    # (a parseable title is only a claim, not authority) -> fails closed globally.
     title_only_gh = NoWriteTrapGh(FakeGh([{
         "number": 42, "state": "open", "title": "[upstream] owner/repo → v2.0.0",
         "body": "Title matches but there is no canonical payload block.",
         "labels": ["upstream:release"], "updated_at": "2026-11-16T00:00:00Z",
     }]))
     bound_title_only = _bind(commit, poll, title_only_gh, auth)
-    assert bound_title_only.repositories["owner/repo"].status == wb.STATUS_DECLINED
-    assert [b.repository for b in bound_title_only.candidate_intents] == ["other/good"]
+    assert bound_title_only.status == wb.RUN_STATUS_REFUSED
+    assert bound_title_only.candidate_intents == ()
+    assert "opaque-release-history" in (bound_title_only.refusal_reason or "")
 
     existing_c = _raw_finding("owner/c", adds=("gamma",), component_root="skills-c", version="v1.1.0")
     open_issue, _ = _envelope_issue([existing_c], auth, number=43, updated_at="2026-11-16T00:00:00Z")
@@ -890,3 +896,314 @@ def test_cached_1833_offline_ruflo_and_agentdb_holds_and_unrelated_usable(
     assert held_raw_gh.writes == [] and held_trap_gh.write_attempts == []
     assert hashlib.sha256(cached_1833["body"].encode("utf-8")).hexdigest() == raw_sha
     assert hashlib.sha256(cache_path.read_bytes()).hexdigest() == cache_digest_before
+
+
+# 13. Opaque watcher history refuses globally; benign nullable non-watcher row & attributable scoped error preserved
+def test_opaque_watcher_history_refuses_globally_while_benign_nullable_row_and_scoped_malformed_preserve_bounds(
+    tmp_path: Path,
+):
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-opaque-history",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    def _live_rest_gh(issues: list[dict[str, Any]]) -> NoWriteTrapGh:
+        runner = RestGhRunner(issues)
+        return NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=runner))
+
+    # (a) Exact Terra repro: opaque release row with unparseable title and null body through real read_repository_live
+    #     must refuse globally (no absence proof or create intent for unrelated other/good).
+    opaque_cases = [
+        (
+            "opaque-release-history",
+            [{"number": 81, "state": "open", "title": "Legacy release note", "body": None, "labels": [{"name": "upstream:release"}], "updated_at": "2026-11-16T00:00:00Z"}],
+        ),
+        (
+            "opaque-release-history",
+            [{"number": 82, "state": "open", "title": "[upstream] owner/repo → v2.0.0", "labels": [{"name": "upstream:release"}], "updated_at": "2026-11-16T00:00:00Z"}],
+        ),
+        (
+            "opaque-release-history",
+            [{"number": 83, "state": "open", "title": "Unattributed release", "body": "plain text", "labels": [{"name": "upstream:release"}], "updated_at": None}],
+        ),
+        (
+            "opaque-bootstrap-history",
+            [{"number": 84, "state": "closed", "title": "[upstream:bootstrap] owner/a → baseline at v1.0.0", "body": None, "labels": [{"name": "upstream:bootstrap"}], "updated_at": "2026-11-16T00:00:00Z"}],
+        ),
+        (
+            "opaque-child-history",
+            [{"number": 85, "state": "open", "title": "Untyped child", "body": None, "labels": [{"name": "upstream:child"}], "updated_at": "2026-11-16T00:00:00Z"}],
+        ),
+        (
+            "opaque-child-history",
+            [{"number": 86, "state": "closed", "title": "Rejected child without suggested id", "body": "no suggested id", "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}], "updated_at": "2026-11-16T00:00:00Z"}],
+        ),
+        (
+            "invalid-issue-updated-at",
+            [{"number": 87, "state": "open", "title": "Normal issue bad timestamp", "body": None, "labels": [{"name": "bug"}], "updated_at": "not-a-timestamp"}],
+        ),
+    ]
+    for expected_code, issues in opaque_cases:
+        trap_gh = _live_rest_gh(issues)
+        bound = _bind(commit, poll, trap_gh, auth)
+        assert bound.status == wb.RUN_STATUS_REFUSED
+        assert bound.candidate_intents == ()
+        assert bound.write_authorized is False and bound.write_readiness is False
+        assert bound.refusal_reason == f"global-inventory-or-setup-incomplete:{expected_code}"
+        assert trap_gh.write_attempts == []
+
+    # (b) Legitimate non-watcher GitHub row with null body and null updated_at through real read_repository_live
+    #     must NOT block eligible repositories.
+    benign_nullable_row = {
+        "number": 88,
+        "state": "open",
+        "title": "General repo discussion",
+        "body": None,
+        "labels": [{"name": "documentation"}],
+        "updated_at": None,
+    }
+    benign_gh = _live_rest_gh([benign_nullable_row])
+    bound_benign = _bind(commit, poll, benign_gh, auth)
+    assert bound_benign.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_benign.candidate_intents] == ["other/good", "owner/repo"]
+    assert benign_gh.write_attempts == []
+
+    # (c) Provably attributable scoped malformed history (valid repository + findings + digest attribution for
+    #     owner/repo, title version disagreement) fails scoped to owner/repo while other/good remains usable.
+    valid_env_issue, _ = _envelope_issue([raw_a], auth, number=89, updated_at="2026-11-16T00:00:00Z")
+    scoped_bad_issue = {
+        **valid_env_issue,
+        "labels": [{"name": label} for label in valid_env_issue["labels"]],
+        "title": "[upstream] owner/repo → v9.9.9",
+    }
+    scoped_gh = _live_rest_gh([scoped_bad_issue])
+    bound_scoped = _bind(commit, poll, scoped_gh, auth)
+    assert bound_scoped.status == wb.RUN_STATUS_BOUND
+    assert bound_scoped.repositories["owner/repo"].status == wb.STATUS_DECLINED
+    assert bound_scoped.repositories["owner/repo"].reason == "inspect-history-refused"
+    assert [b.repository for b in bound_scoped.candidate_intents] == ["other/good"]
+    assert scoped_gh.write_attempts == []
+
+    # (d) Cross-list contradiction: closed upstream:release present in issues but missing from closedUmbrellas -> global refusal.
+    closed_env_issue, _ = _envelope_issue([raw_a], auth, number=891, state="closed", updated_at="2026-11-16T00:00:00Z")
+
+    class _ContradictoryClosedGh:
+        def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+            if state == "closed" and since and not labels:
+                return [copy.deepcopy(closed_env_issue)]
+            return []
+
+    contra_gh = NoWriteTrapGh(_ContradictoryClosedGh())
+    bound_contra = _bind(commit, poll, contra_gh, auth)
+    assert bound_contra.status == wb.RUN_STATUS_REFUSED
+    assert bound_contra.candidate_intents == ()
+    assert bound_contra.refusal_reason == "global-inventory-or-setup-incomplete:closed-release-missing-from-closed-umbrellas"
+    assert contra_gh.write_attempts == []
+
+
+# 14. Genuine PRs excluded by P1 reader; malformed falsy pull_request markers rejected in inventory and get_issue
+def test_pull_request_key_presence_vs_falsy_markers_and_genuine_pr_exclusion(tmp_path: Path):
+    auth = _authority()
+    existing_c = _raw_finding("owner/c", adds=("gamma",), component_root="skills-c", version="v1.1.0")
+    open_umbrella, _ = _envelope_issue([existing_c], auth, number=90, updated_at="2026-11-16T00:00:00Z")
+    open_umbrella_rest = {**open_umbrella, "labels": [{"name": label} for label in open_umbrella["labels"]]}
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-pr-markers",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    def _rest_transport(issues: list[dict[str, Any]], get_override: dict[int, dict[str, Any]] | None = None) -> NoWriteTrapGh:
+        base = RestGhRunner(issues)
+        overrides = get_override or {}
+
+        def _runner(args, capture_output=True, text=True, timeout=None):
+            if (
+                overrides
+                and args[1] == "api"
+                and "--include" not in args
+                and "-f" not in args
+                and re.search(r"/issues/\d+$", args[-1])
+            ):
+                num = int(args[-1].rsplit("/", 1)[-1])
+                if num in overrides:
+                    return subprocess.CompletedProcess(args, 0, stdout=json.dumps(copy.deepcopy(overrides[num])), stderr="")
+            return base(args, capture_output=capture_output, text=text, timeout=timeout)
+
+        return NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=_runner))
+
+    # (a) Genuine PR (truthy pull_request dict) is filtered by read_repository_live -> binding succeeds cleanly.
+    genuine_pr = {
+        "number": 91,
+        "state": "open",
+        "title": "[upstream] owner/repo → v2.0.0",
+        "body": "genuine PR body",
+        "labels": [{"name": "upstream:release"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {"url": "https://api.github.com/repos/owner/repo/pulls/91"},
+    }
+    gh_genuine = _rest_transport([genuine_pr])
+    bound_genuine = _bind(commit, poll, gh_genuine, auth)
+    assert bound_genuine.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_genuine.candidate_intents] == ["other/good", "owner/repo"]
+    assert bound_genuine.repositories["owner/repo"].target is not None
+    assert bound_genuine.repositories["owner/repo"].target.action == "create"
+    assert gh_genuine.write_attempts == []
+
+    # (b) Malformed falsy pull_request markers ({}, None, False) on open release-looking row OR unrelated row
+    #     survive P1's truthiness filter and MUST be refused globally before any positive proof.
+    for bad_marker in ({}, None, False):
+        bad_release_row = {**open_umbrella_rest, "pull_request": bad_marker}
+        gh_bad_rel = _rest_transport([bad_release_row])
+        bound_bad_rel = _bind(commit, poll, gh_bad_rel, auth)
+        assert bound_bad_rel.status == wb.RUN_STATUS_REFUSED
+        assert bound_bad_rel.candidate_intents == ()
+        assert bound_bad_rel.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+        assert gh_bad_rel.write_attempts == []
+
+        bad_unrelated_row = {
+            "number": 92,
+            "state": "open",
+            "title": "Unrelated issue with malformed PR marker",
+            "body": None,
+            "labels": [{"name": "documentation"}],
+            "updated_at": "2026-11-16T00:00:00Z",
+            "pull_request": bad_marker,
+        }
+        gh_bad_unrel = _rest_transport([bad_unrelated_row])
+        bound_bad_unrel = _bind(commit, poll, gh_bad_unrel, auth)
+        assert bound_bad_unrel.status == wb.RUN_STATUS_REFUSED
+        assert bound_bad_unrel.candidate_intents == ()
+        assert bound_bad_unrel.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+        assert gh_bad_unrel.write_attempts == []
+
+    # (c) Direct get_issue reread returning any pull_request key ({}, None, False, or truthy dict) declines target.
+    for reread_marker in ({}, None, False, {"url": "https://api.github.com/repos/owner/repo/pulls/90"}):
+        gh_reread_pr = _rest_transport(
+            [open_umbrella_rest],
+            get_override={90: {**open_umbrella_rest, "pull_request": reread_marker}},
+        )
+        bound_reread = _bind(commit, poll, gh_reread_pr, auth)
+        assert bound_reread.status == wb.RUN_STATUS_BOUND
+        assert bound_reread.repositories["owner/repo"].status == wb.STATUS_DECLINED
+        assert bound_reread.repositories["owner/repo"].reason == "target-snapshot-or-state-drifted-during-binding"
+        assert bound_reread.repositories["owner/repo"].is_candidate_intent is False
+        assert [b.repository for b in bound_reread.candidate_intents] == ["other/good"]
+        assert gh_reread_pr.write_attempts == []
+
+
+# 15. Untrusted exception text never leaks into returned reason, refusal_reason, or declined_scopes
+def test_untrusted_exception_text_never_leaks_across_reread_and_global_boundaries(tmp_path: Path):
+    auth = _authority()
+    existing_c = _raw_finding("owner/c", adds=("gamma",), component_root="skills-c", version="v1.1.0")
+    open_umbrella, _ = _envelope_issue([existing_c], auth, number=95, updated_at="2026-11-16T00:00:00Z")
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    journal_path = tmp_path / "named-v3.json"
+    commit, poll = _plan_and_commit(
+        journal_path,
+        poll_id="poll-no-leak",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    sentinel = "UNTRUSTED_GH_STDERR_SENTINEL_7f3c9a"
+
+    # (a) Exact Terra repro: get_issue raises GhError containing sentinel -> scoped incomplete, zero leak, other/good usable.
+    class _FailingGetGh:
+        def __init__(self, inner: FakeGh):
+            self._inner = inner
+
+        def __getattr__(self, name: str) -> Any:
+            return getattr(self._inner, name)
+
+        def get_issue(self, number: int) -> dict[str, Any]:
+            raise wb.GhError(f"gh api repos/x/y/issues/{number} exited 1: {sentinel}")
+
+    gh_reread_err = NoWriteTrapGh(_FailingGetGh(FakeGh([open_umbrella])))
+    bound_reread = _bind(commit, poll, gh_reread_err, auth)
+    assert bound_reread.status == wb.RUN_STATUS_BOUND
+    assert bound_reread.refusal_reason is None
+    repo_res = bound_reread.repositories["owner/repo"]
+    assert repo_res.status == wb.STATUS_INCOMPLETE
+    assert repo_res.reason == "target-issue-reread-failed"
+    assert repo_res.target is None
+    assert sentinel not in (repo_res.reason or "")
+    assert all(sentinel not in val for val in repo_res.declined_scopes.values())
+    assert [b.repository for b in bound_reread.candidate_intents] == ["other/good"]
+    assert gh_reread_err.write_attempts == []
+
+    # (b) Second boundary: global list_issues raises GhError with sentinel -> global refusal, zero leak.
+    class _FailingListGh:
+        def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+            raise wb.GhError(f"gh api exited 1: {sentinel}")
+
+    gh_list_err = NoWriteTrapGh(_FailingListGh())
+    bound_list = _bind(commit, poll, gh_list_err, auth)
+    assert bound_list.status == wb.RUN_STATUS_REFUSED
+    assert bound_list.candidate_intents == ()
+    assert bound_list.refusal_reason == "global-inventory-or-setup-incomplete:live-read"
+    assert sentinel not in (bound_list.refusal_reason or "")
+    assert gh_list_err.write_attempts == []
+
+    # (c) Third boundary: inspect_history / PayloadError with sentinel -> scoped decline, zero leak, other/good usable.
+    legacy_payload = {
+        "skillId": "owner/legacy-moved",
+        "newVersion": "v1.0.0",
+        "releasedAt": "2026-10-01T00:00:00Z",
+        "sourceUrl": "https://github.com/owner/repo/releases/tag/v1.0.0",
+        "mode": "components",
+        "componentAdds": [],
+        "componentRemoves": [],
+        "linkLiveness": [],
+        "nameDrift": [],
+        "candidates": [],
+    }
+    legacy_issue = {
+        "number": 96,
+        "state": "open",
+        "title": "[upstream] owner/repo → v1.0.0",
+        "body": "## Legacy\n\n" + batch.payload_block(legacy_payload),
+        "labels": ["upstream:release"],
+        "updated_at": "2026-10-01T00:00:00Z",
+    }
+
+    def _sentinel_historical(_ident: str) -> dict[str, Any]:
+        raise wb.PayloadError(f"historical error carrying {sentinel}")
+
+    gh_hist = NoWriteTrapGh(FakeGh([legacy_issue]))
+    bound_hist = _bind(commit, poll, gh_hist, auth, historical_loader=_sentinel_historical)
+    assert bound_hist.status == wb.RUN_STATUS_BOUND
+    hist_res = bound_hist.repositories["owner/repo"]
+    assert hist_res.status == wb.STATUS_DECLINED
+    assert hist_res.reason == "inspect-history-refused"
+    assert sentinel not in (hist_res.reason or "")
+    assert all(sentinel not in val for val in hist_res.declined_scopes.values())
+    assert [b.repository for b in bound_hist.candidate_intents] == ["other/good"]
+
+    # (d) Fourth boundary: corrupt local journal never leaks raw corrupt content in refusal_reason.
+    corrupt_path = tmp_path / "corrupt-named-v3.json"
+    corrupt_path.write_text(f"NOT_JSON_{sentinel}", encoding="utf-8")
+    bound_corrupt = _bind(commit, poll, NoWriteTrapGh(FakeGh()), auth, journal_path=corrupt_path)
+    assert bound_corrupt.status == wb.RUN_STATUS_REFUSED
+    assert bound_corrupt.refusal_reason == "local-journal-blocked:corrupt"
+    assert sentinel not in (bound_corrupt.refusal_reason or "")
