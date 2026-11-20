@@ -1207,3 +1207,411 @@ def test_untrusted_exception_text_never_leaks_across_reread_and_global_boundarie
     assert bound_corrupt.status == wb.RUN_STATUS_REFUSED
     assert bound_corrupt.refusal_reason == "local-journal-blocked:corrupt"
     assert sentinel not in (bound_corrupt.refusal_reason or "")
+
+
+# 16. Raw list_issues validating adapter catches malformed truthy PR markers & pre-dedup contradictions
+def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_dedup(tmp_path: Path):
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-raw-adapter",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    class _QueryDispatchGh:
+        def __init__(self, responses: dict[tuple[str, bool, str], list[dict[str, Any]]]):
+            self._responses = responses
+            self.calls: list[tuple[str, str | None, str | None]] = []
+
+        def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+            self.calls.append((state, since, labels))
+            key = (state, bool(since), labels or "")
+            return copy.deepcopy(self._responses.get(key, []))
+
+        def child_state(self, number: int) -> str:
+            return "absent"
+
+    # (a) Truthy malformed pull_request markers (True, non-empty str, arbitrary dict, missing URL,
+    #     mismatched PR number, mismatched repo across URLs) MUST fail closed before P1's truthiness filter.
+    malformed_truthy_markers: list[Any] = [
+        True,
+        "https://api.github.com/repos/owner/repo/pulls/101",
+        {"foo": "bar"},
+        {"merged_at": None},
+        {"url": "https://api.github.com/repos/owner/repo/pulls/999"},
+        {
+            "url": "https://api.github.com/repos/owner/repo/pulls/101",
+            "html_url": "https://github.com/other/repo/pull/101",
+        },
+        {
+            "url": "https://api.github.com/repos/owner/repo/pulls/101",
+            "unexpected": True,
+        },
+    ]
+    for bad_marker in malformed_truthy_markers:
+        bad_pr_row = {
+            "number": 101,
+            "state": "open",
+            "title": "[upstream] owner/repo → v2.0.0",
+            "body": "malformed truthy PR marker",
+            "labels": [{"name": "upstream:release"}],
+            "updated_at": "2026-11-16T00:00:00Z",
+            "pull_request": bad_marker,
+        }
+        trap_fake = NoWriteTrapGh(_QueryDispatchGh({("open", False, ""): [bad_pr_row]}))
+        bound_bad = _bind(commit, poll, trap_fake, auth)
+        assert bound_bad.status == wb.RUN_STATUS_REFUSED
+        assert bound_bad.candidate_intents == ()
+        assert bound_bad.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+        assert trap_fake.write_attempts == []
+
+    # Also verify truthy malformed marker through real LiveGh + RestGhRunner transport.
+    live_bad_pr = {
+        "number": 102,
+        "state": "open",
+        "title": "[upstream] owner/repo → v2.0.0",
+        "body": "truthy bool PR marker over LiveGh",
+        "labels": [{"name": "upstream:release"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": True,
+    }
+    trap_live_bad = NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=RestGhRunner([live_bad_pr])))
+    bound_live_bad = _bind(commit, poll, trap_live_bad, auth)
+    assert bound_live_bad.status == wb.RUN_STATUS_REFUSED
+    assert bound_live_bad.candidate_intents == ()
+    assert bound_live_bad.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+    assert trap_live_bad.write_attempts == []
+
+    # (b) Realistic genuine PR fixture over real LiveGh + RestGhRunner is omitted from ordinary issues
+    #     without disqualifying eligible repositories.
+    realistic_pr = {
+        "number": 103,
+        "state": "open",
+        "title": "[upstream] owner/repo → v2.0.0",
+        "body": None,
+        "labels": [{"name": "upstream:release"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {
+            "url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/103",
+            "html_url": "https://github.com/gaia-research/gaia-skill-tree/pull/103",
+            "diff_url": "https://github.com/gaia-research/gaia-skill-tree/pull/103.diff",
+            "patch_url": "https://github.com/gaia-research/gaia-skill-tree/pull/103.patch",
+            "merged_at": None,
+        },
+    }
+    trap_live_pr = NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=RestGhRunner([realistic_pr])))
+    bound_live_pr = _bind(commit, poll, trap_live_pr, auth)
+    assert bound_live_pr.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_live_pr.candidate_intents] == ["other/good", "owner/repo"]
+    assert bound_live_pr.repositories["owner/repo"].target is not None
+    assert bound_live_pr.repositories["owner/repo"].target.action == "create"
+    assert trap_live_pr.write_attempts == []
+
+    # (c) Genuine PR vs same-number non-PR issue across queries -> contradictory refusal.
+    pr_row = {
+        "number": 104,
+        "state": "closed",
+        "title": "PR #104",
+        "body": "",
+        "labels": [{"name": "upstream:child"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/104"},
+    }
+    issue_row_same_num = {k: v for k, v in pr_row.items() if k != "pull_request"}
+    trap_pr_vs_issue = NoWriteTrapGh(
+        _QueryDispatchGh({
+            ("closed", True, ""): [pr_row],
+            ("closed", False, "upstream:child"): [issue_row_same_num],
+        })
+    )
+    bound_pr_vs_issue = _bind(commit, poll, trap_pr_vs_issue, auth)
+    assert bound_pr_vs_issue.status == wb.RUN_STATUS_REFUSED
+    assert bound_pr_vs_issue.candidate_intents == ()
+    assert bound_pr_vs_issue.refusal_reason == "global-inventory-or-setup-incomplete:contradictory-issue-across-lists"
+    assert trap_pr_vs_issue.write_attempts == []
+
+    # (d) Exact Terra repro: conflicting duplicate child row (recent closed list has normal labels;
+    #     full closed-child list has same number with upstream:child + upstream:rejected) -> refused before dedup.
+    recent_child_without_labels = {
+        "number": 105,
+        "state": "closed",
+        "title": "[upstream:child] owner/alpha",
+        "body": "**Suggested ID:** `owner/alpha`",
+        "labels": [{"name": "needs-triage"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    full_child_rejected = {
+        **recent_child_without_labels,
+        "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
+    }
+    trap_conflict_child = NoWriteTrapGh(
+        _QueryDispatchGh({
+            ("closed", True, ""): [recent_child_without_labels],
+            ("closed", False, "upstream:child"): [full_child_rejected],
+        })
+    )
+    bound_conflict_child = _bind(commit, poll, trap_conflict_child, auth)
+    assert bound_conflict_child.status == wb.RUN_STATUS_REFUSED
+    assert bound_conflict_child.candidate_intents == ()
+    assert bound_conflict_child.refusal_reason == "global-inventory-or-setup-incomplete:contradictory-issue-across-lists"
+    assert trap_conflict_child.write_attempts == []
+
+    # (e) Analogous conflicting duplicate bootstrap row (recent closed without label vs bootstrap list with label).
+    unrelated_boot_payload = {
+        "skillId": "third/unrelated",
+        "newVersion": "v1.0.0",
+        "releasedAt": "2026-10-01T00:00:00Z",
+        "sourceUrl": "https://github.com/third/unrelated/releases/tag/v1.0.0",
+        "mode": "bootstrap",
+        "componentAdds": [],
+        "componentRemoves": [],
+        "linkLiveness": [],
+        "nameDrift": [],
+    }
+    recent_boot_plain = {
+        "number": 106,
+        "state": "closed",
+        "title": "[upstream:bootstrap] third/unrelated → baseline at v1.0.0",
+        "body": "## Bootstrap\n\n" + batch.payload_block(unrelated_boot_payload),
+        "labels": [{"name": "needs-triage"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    full_boot_labelled = {
+        **recent_boot_plain,
+        "labels": [{"name": "upstream:bootstrap"}],
+    }
+    trap_conflict_boot = NoWriteTrapGh(
+        _QueryDispatchGh({
+            ("closed", True, ""): [recent_boot_plain],
+            ("closed", False, "upstream:bootstrap"): [full_boot_labelled],
+        })
+    )
+    bound_conflict_boot = _bind(commit, poll, trap_conflict_boot, auth)
+    assert bound_conflict_boot.status == wb.RUN_STATUS_REFUSED
+    assert bound_conflict_boot.candidate_intents == ()
+    assert bound_conflict_boot.refusal_reason == "global-inventory-or-setup-incomplete:contradictory-issue-across-lists"
+    assert trap_conflict_boot.write_attempts == []
+
+    # (f) Harmless equivalent duplicate rows across queries (different label ordering / dict vs str forms)
+    #     for both child and bootstrap are accepted cleanly.
+    equiv_child_a = {
+        "number": 107,
+        "state": "closed",
+        "title": "[upstream:child] other/unrelated-cand",
+        "body": "**Suggested ID:** `other/unrelated-cand`",
+        "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    equiv_child_b = {
+        **equiv_child_a,
+        "labels": ["upstream:rejected", "upstream:child"],
+    }
+    equiv_boot_a = {
+        "number": 108,
+        "state": "closed",
+        "title": "[upstream:bootstrap] third/unrelated → baseline at v1.0.0",
+        "body": "## Bootstrap\n\n" + batch.payload_block(unrelated_boot_payload),
+        "labels": [{"name": "upstream:bootstrap"}, {"name": "needs-triage"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    equiv_boot_b = {
+        **equiv_boot_a,
+        "labels": ["needs-triage", "upstream:bootstrap"],
+    }
+    trap_equiv = NoWriteTrapGh(
+        _QueryDispatchGh({
+            ("closed", True, ""): [equiv_child_a, equiv_boot_a],
+            ("closed", False, "upstream:child"): [equiv_child_b],
+            ("closed", False, "upstream:bootstrap"): [equiv_boot_b],
+        })
+    )
+    bound_equiv = _bind(commit, poll, trap_equiv, auth)
+    assert bound_equiv.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_equiv.candidate_intents] == ["other/good", "owner/repo"]
+    assert trap_equiv.write_attempts == []
+
+    # (g) Missing required coverage (closed child/bootstrap seen in recent closed but omitted from full query)
+    #     and query membership mismatch (wrong state or missing queried label) fail closed.
+    trap_missing_child = NoWriteTrapGh(_QueryDispatchGh({("closed", True, ""): [equiv_child_a]}))
+    bound_missing_child = _bind(commit, poll, trap_missing_child, auth)
+    assert bound_missing_child.status == wb.RUN_STATUS_REFUSED
+    assert bound_missing_child.refusal_reason == "global-inventory-or-setup-incomplete:closed-child-missing-from-closed-children"
+
+    trap_missing_boot = NoWriteTrapGh(_QueryDispatchGh({("closed", True, ""): [equiv_boot_a]}))
+    bound_missing_boot = _bind(commit, poll, trap_missing_boot, auth)
+    assert bound_missing_boot.status == wb.RUN_STATUS_REFUSED
+    assert bound_missing_boot.refusal_reason == "global-inventory-or-setup-incomplete:closed-bootstrap-missing-from-closed-bootstraps"
+
+    trap_wrong_state = NoWriteTrapGh(_QueryDispatchGh({("open", False, ""): [equiv_child_a]}))
+    bound_wrong_state = _bind(commit, poll, trap_wrong_state, auth)
+    assert bound_wrong_state.status == wb.RUN_STATUS_REFUSED
+    assert bound_wrong_state.refusal_reason == "global-inventory-or-setup-incomplete:invalid-issue-identity-or-state"
+
+    trap_wrong_label = NoWriteTrapGh(_QueryDispatchGh({("closed", False, "upstream:child"): [recent_child_without_labels]}))
+    bound_wrong_label = _bind(commit, poll, trap_wrong_label, auth)
+    assert bound_wrong_label.status == wb.RUN_STATUS_REFUSED
+    assert bound_wrong_label.refusal_reason == "global-inventory-or-setup-incomplete:query-label-membership-mismatch"
+
+
+# 17. Conservative claimed_scopes <= planner_inspected_scopes for release envelopes and bootstraps
+def test_claimed_scopes_subset_of_planner_inspected_scopes_for_envelope_and_bootstrap(tmp_path: Path):
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-scope-bounds",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    # (a) Exact Terra repro #1: envelope claims repository owner/repo + release source owner/repo,
+    #     contains only an unknown named ID, and has a parseable title for other/repo.
+    #     inspect_history("owner/repo") would ignore it, so global guard MUST refuse.
+    unknown_env_payload = {
+        "format": wire.FORMAT,
+        "envelopeVersion": wire.VERSION,
+        "payloadVersion": 3,
+        "repository": "owner/repo",
+        "findings": [
+            {
+                "skillId": "unknown/skill",
+                "newVersion": "v1.0.0",
+                "releasedAt": "2026-10-01T00:00:00Z",
+                "sourceUrl": "https://github.com/owner/repo/releases/tag/v1.0.0",
+                "mode": "components",
+                "componentAdds": [],
+                "componentRemoves": [],
+                "linkLiveness": [],
+                "nameDrift": [],
+                "candidates": [],
+                "payloadVersion": 2,
+            }
+        ],
+    }
+    mismatched_title_env = {
+        "number": 201,
+        "state": "open",
+        "title": "[upstream] other/repo → v1.0.0",
+        "body": "## Mismatched envelope\n\n" + batch.payload_block(unknown_env_payload),
+        "labels": ["upstream:release"],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    trap_env_mismatch = NoWriteTrapGh(FakeGh([mismatched_title_env]))
+    bound_env_mismatch = _bind(commit, poll, trap_env_mismatch, auth)
+    assert bound_env_mismatch.status == wb.RUN_STATUS_REFUSED
+    assert bound_env_mismatch.candidate_intents == ()
+    assert bound_env_mismatch.refusal_reason == "global-inventory-or-setup-incomplete:unattributable-release-envelope"
+    assert trap_env_mismatch.write_attempts == []
+
+    # (b) Exact Terra repro #2: moved named bootstrap for owner/a (currently authoritative for owner/repo)
+    #     with an old other/repo source and an unparseable title. inspect_history("owner/repo") checks
+    #     bootstrap title and source only, so global guard MUST refuse.
+    moved_bootstrap_payload = {
+        "skillId": "owner/a",
+        "newVersion": "v1.0.0",
+        "releasedAt": "2026-10-01T00:00:00Z",
+        "sourceUrl": "https://github.com/other/repo/releases/tag/v1.0.0",
+        "mode": "bootstrap",
+        "componentAdds": [],
+        "componentRemoves": [],
+        "linkLiveness": [],
+        "nameDrift": [],
+    }
+    moved_bootstrap_unparseable = {
+        "number": 202,
+        "state": "closed",
+        "title": "Legacy bootstrap record",
+        "body": "## Legacy bootstrap\n\n" + batch.payload_block(moved_bootstrap_payload),
+        "labels": ["upstream:bootstrap"],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    trap_moved_boot = NoWriteTrapGh(FakeGh([moved_bootstrap_unparseable]))
+    bound_moved_boot = _bind(commit, poll, trap_moved_boot, auth)
+    assert bound_moved_boot.status == wb.RUN_STATUS_REFUSED
+    assert bound_moved_boot.candidate_intents == ()
+    assert bound_moved_boot.refusal_reason == "global-inventory-or-setup-incomplete:unattributable-bootstrap-history"
+    assert trap_moved_boot.write_attempts == []
+
+    # (c) Reconciled moved named bootstrap WITH parseable title matching owner/a:
+    #     planner inspects both other/repo (source) and owner/repo (title -> current authority),
+    #     so owner/repo receives an explicit legacy hold while other/good remains usable.
+    historical_owner_a = {
+        "owner/a": {
+            "id": "owner/a",
+            "suiteRef": "owner/a",
+            "links": {"github": "https://github.com/other/repo"},
+            "upstream": {"repo": "other/repo", "version": "v1.0.0"},
+        }
+    }
+    moved_bootstrap_reconciled = {
+        **moved_bootstrap_unparseable,
+        "number": 203,
+        "title": "[upstream:bootstrap] owner/a → baseline at v1.0.0",
+    }
+    trap_reconciled_boot = NoWriteTrapGh(FakeGh([moved_bootstrap_reconciled]))
+    bound_reconciled = _bind(
+        commit,
+        poll,
+        trap_reconciled_boot,
+        auth,
+        policy={"shared_source_model": "repo_envelope", "legacy_transition": "preserve_plan"},
+        historical_loader=lambda ident: historical_owner_a if ident == "owner/a" else {},
+    )
+    assert bound_reconciled.status == wb.RUN_STATUS_BOUND
+    assert bound_reconciled.repositories["owner/repo"].status == wb.STATUS_HELD
+    assert bound_reconciled.repositories["owner/repo"].reason == "legacy-migration-hold"
+    assert bound_reconciled.repositories["owner/repo"].is_candidate_intent is False
+    assert [b.repository for b in bound_reconciled.candidate_intents] == ["other/good"]
+    assert trap_reconciled_boot.write_attempts == []
+
+    # (d) Genuinely unrelated bootstrap (unrelated skillId and unrelated sourceUrl) survives cleanly
+    #     and does not block owner/repo or other/good.
+    unrelated_boot_payload = {
+        "skillId": "third/unrelated",
+        "newVersion": "v1.0.0",
+        "releasedAt": "2026-10-01T00:00:00Z",
+        "sourceUrl": "https://github.com/third/unrelated/releases/tag/v1.0.0",
+        "mode": "bootstrap",
+        "componentAdds": [],
+        "componentRemoves": [],
+        "linkLiveness": [],
+        "nameDrift": [],
+    }
+    unrelated_bootstrap = {
+        "number": 204,
+        "state": "closed",
+        "title": "[upstream:bootstrap] third/unrelated → baseline at v1.0.0",
+        "body": "## Unrelated bootstrap\n\n" + batch.payload_block(unrelated_boot_payload),
+        "labels": ["upstream:bootstrap"],
+        "updated_at": "2026-11-16T00:00:00Z",
+    }
+    trap_unrelated_boot = NoWriteTrapGh(FakeGh([unrelated_bootstrap]))
+    bound_unrelated = _bind(commit, poll, trap_unrelated_boot, auth)
+    assert bound_unrelated.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_unrelated.candidate_intents] == ["other/good", "owner/repo"]
+    assert trap_unrelated_boot.write_attempts == []
+
+    # (e) Attributable envelope with registered owner/a and mismatched title for other/repo:
+    #     both claimed scopes {owner/repo, other/repo} are in planner_inspected_scopes,
+    #     so failure stays scoped to owner/repo while other/good remains usable.
+    valid_env_issue, _ = _envelope_issue([raw_a], auth, number=205, updated_at="2026-11-16T00:00:00Z")
+    scoped_mismatch_env = {**valid_env_issue, "title": "[upstream] other/repo → v2.0.0"}
+    trap_scoped_env = NoWriteTrapGh(FakeGh([scoped_mismatch_env]))
+    bound_scoped_env = _bind(commit, poll, trap_scoped_env, auth)
+    assert bound_scoped_env.status == wb.RUN_STATUS_BOUND
+    assert bound_scoped_env.repositories["owner/repo"].status == wb.STATUS_DECLINED
+    assert bound_scoped_env.repositories["owner/repo"].reason == "inspect-history-refused"
+    assert [b.repository for b in bound_scoped_env.candidate_intents] == ["other/good"]
+    assert trap_scoped_env.write_attempts == []

@@ -68,6 +68,7 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
+from urllib.parse import urlsplit
 
 from scripts.upstream_watcher import (
     batch,
@@ -79,6 +80,7 @@ from scripts.upstream_watcher import (
     weekly_reducer,
 )
 from scripts.upstream_watcher.approval import PayloadError, canonical_hash, extract_payload
+from scripts.upstream_watcher.evidence import title_suite_and_version
 from scripts.upstream_watcher.live import GhError, mentions_suite, umbrella_suite
 from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 from scripts.upstream_watcher.weekly_collector import (
@@ -330,6 +332,232 @@ def _validated_label_names(issue: Mapping[str, Any]) -> set[str] | None:
     return parsed[1] if parsed is not None else None
 
 
+_PR_MARKER_KEYS = frozenset({"url", "html_url", "diff_url", "patch_url", "merged_at"})
+
+_QUERY_OPEN = ("open", False, frozenset())
+_QUERY_RECENT_CLOSED = ("closed", True, frozenset())
+_QUERY_CLOSED_CHILD = ("closed", False, frozenset({"upstream:child"}))
+_QUERY_CLOSED_RELEASE = ("closed", False, frozenset({"upstream:release"}))
+_QUERY_CLOSED_BOOTSTRAP = ("closed", False, frozenset({"upstream:bootstrap"}))
+_REQUIRED_INVENTORY_QUERIES = (
+    _QUERY_OPEN,
+    _QUERY_RECENT_CLOSED,
+    _QUERY_CLOSED_CHILD,
+    _QUERY_CLOSED_RELEASE,
+    _QUERY_CLOSED_BOOTSTRAP,
+)
+
+
+@dataclass(frozen=True)
+class _RawRowSnapshot:
+    """Normalized authoritative fields of a raw issue/PR row for cross-query comparison."""
+
+    number: int
+    is_pr: bool
+    state: str
+    title: str
+    body: str | None
+    updated_at: str | None
+    label_names: frozenset[str]
+    pr_proof: tuple[tuple[str, str | None], ...]
+
+
+def _parse_pr_url_identity(field: str, value: Any, expected_number: int) -> str | None:
+    if not isinstance(value, str) or not value or any(ord(c) < 32 or ord(c) == 127 for c in value):
+        return None
+    parts = urlsplit(value)
+    if parts.scheme != "https" or parts.query or parts.fragment:
+        return None
+    segments = parts.path.split("/")
+    host = parts.netloc.lower()
+    if field == "url":
+        if host != "api.github.com" or len(segments) != 6 or segments[1] != "repos" or segments[4] != "pulls":
+            return None
+        repo_part, tail = f"{segments[2]}/{segments[3]}", segments[5]
+        expected_tail = str(expected_number)
+    elif field == "html_url":
+        if host != "github.com" or len(segments) != 5 or segments[3] != "pull":
+            return None
+        repo_part, tail = f"{segments[1]}/{segments[2]}", segments[4]
+        expected_tail = str(expected_number)
+    elif field == "diff_url":
+        if host != "github.com" or len(segments) != 5 or segments[3] != "pull":
+            return None
+        repo_part, tail = f"{segments[1]}/{segments[2]}", segments[4]
+        expected_tail = f"{expected_number}.diff"
+    elif field == "patch_url":
+        if host != "github.com" or len(segments) != 5 or segments[3] != "pull":
+            return None
+        repo_part, tail = f"{segments[1]}/{segments[2]}", segments[4]
+        expected_tail = f"{expected_number}.patch"
+    else:
+        return None
+    if tail != expected_tail:
+        return None
+    try:
+        return envelope.repository(repo_part)
+    except PayloadError:
+        return None
+
+
+def _validate_pull_request_marker(marker: Any, number: int) -> tuple[tuple[str, str | None], ...] | None:
+    """Validate a genuine GitHub pull_request object bound to the row's exact issue number."""
+    if not isinstance(marker, dict) or not marker:
+        return None
+    if not set(marker.keys()) <= _PR_MARKER_KEYS:
+        return None
+    if "url" not in marker and "html_url" not in marker:
+        return None
+    repo_identities: set[str] = set()
+    canonical_items: list[tuple[str, str | None]] = []
+    for key in sorted(marker.keys()):
+        val = marker[key]
+        if key == "merged_at":
+            if val is not None and not _is_valid_utc_timestamp(val):
+                return None
+            canonical_items.append((key, val))
+        else:
+            parsed_repo = _parse_pr_url_identity(key, val, number)
+            if parsed_repo is None:
+                return None
+            repo_identities.add(parsed_repo)
+            canonical_items.append((key, val))
+    if len(repo_identities) != 1:
+        return None
+    return tuple(canonical_items)
+
+
+def _validate_raw_issue_row(
+    row: Any,
+    *,
+    expected_state: str | None = None,
+    required_labels: frozenset[str] = frozenset(),
+    allow_genuine_pr: bool = False,
+) -> tuple[_RawRowSnapshot, list[dict[str, Any]]]:
+    """Validate one raw issue/PR row without mutating it, returning its normalized snapshot."""
+    if not isinstance(row, dict):
+        raise _InventoryValidationError("malformed-inventory-row")
+    num = row.get("number")
+    state = row.get("state")
+    valid_state = state == expected_state if expected_state is not None else state in ("open", "closed")
+    if type(num) is not int or num <= 0 or not valid_state:
+        raise _InventoryValidationError("invalid-issue-identity-or-state")
+    if "pull_request" in row:
+        if not allow_genuine_pr:
+            raise _InventoryValidationError("pull-request-marker-present")
+        pr_proof = _validate_pull_request_marker(row["pull_request"], num)
+        if pr_proof is None:
+            raise _InventoryValidationError("pull-request-marker-present")
+        is_pr = True
+    else:
+        is_pr = False
+        pr_proof = ()
+    if "labels" not in row:
+        raise _InventoryValidationError("missing-issue-labels")
+    parsed_labels = _normalize_issue_labels(row["labels"])
+    if parsed_labels is None:
+        raise _InventoryValidationError("malformed-issue-labels")
+    norm_labels, label_names = parsed_labels
+    if required_labels and not (required_labels <= label_names):
+        if expected_state == "closed" and "upstream:release" in required_labels and "upstream:release" not in label_names:
+            raise _InventoryValidationError("closed-umbrella-missing-release-label")
+        raise _InventoryValidationError("query-label-membership-mismatch")
+    title = row.get("title")
+    if not isinstance(title, str):
+        raise _InventoryValidationError("non-string-issue-title")
+    body = row.get("body")
+    if body is not None and not isinstance(body, str):
+        raise _InventoryValidationError("non-string-issue-body")
+    updated_at = row.get("updated_at")
+    if updated_at is not None and not _is_valid_utc_timestamp(updated_at):
+        raise _InventoryValidationError("invalid-issue-updated-at")
+    snapshot = _RawRowSnapshot(
+        number=num,
+        is_pr=is_pr,
+        state=state,
+        title=title,
+        body=body,
+        updated_at=updated_at,
+        label_names=frozenset(label_names),
+        pr_proof=pr_proof,
+    )
+    return snapshot, norm_labels
+
+
+class _RawInventoryReadAdapter:
+    """Binding-local validating adapter around ``gh.list_issues`` for ``read_repository_live``.
+
+    Inspects every raw list BEFORE truthiness PR filtering and BEFORE recent/closed-child/
+    full-release/bootstrap deduplication, without reissuing requests or mutating raw rows.
+    """
+
+    def __init__(self, gh: Any) -> None:
+        self._gh = gh
+        self._seen_by_number: dict[int, _RawRowSnapshot] = {}
+        self._numbers_by_query: dict[tuple[str, bool, frozenset[str]], set[int]] = {}
+        self._non_pr_numbers_by_query: dict[tuple[str, bool, frozenset[str]], set[int]] = {}
+
+    def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+        rows = self._gh.list_issues(state, since=since, labels=labels)
+        if not isinstance(rows, list):
+            raise _InventoryValidationError("malformed-inventory-list")
+        wanted_labels = frozenset(filter(None, (labels or "").split(",")))
+        query_key = (state, bool(since), wanted_labels)
+        expected_state = state if state in ("open", "closed") else None
+        seen_in_query: set[int] = set()
+        non_pr_in_query: set[int] = set()
+        for row in rows:
+            snap, _ = _validate_raw_issue_row(
+                row,
+                expected_state=expected_state,
+                required_labels=wanted_labels,
+                allow_genuine_pr=True,
+            )
+            if snap.number in seen_in_query:
+                raise _InventoryValidationError("invalid-issue-identity-or-state")
+            seen_in_query.add(snap.number)
+            if not snap.is_pr:
+                non_pr_in_query.add(snap.number)
+            prev = self._seen_by_number.get(snap.number)
+            if prev is not None and prev != snap:
+                raise _InventoryValidationError("contradictory-issue-across-lists")
+            self._seen_by_number[snap.number] = snap
+        self._numbers_by_query[query_key] = seen_in_query
+        self._non_pr_numbers_by_query[query_key] = non_pr_in_query
+        return rows
+
+    def verify_complete_coverage(self) -> None:
+        for required_query in _REQUIRED_INVENTORY_QUERIES:
+            if required_query not in self._numbers_by_query:
+                raise _InventoryValidationError("missing-required-inventory-query")
+        closed_release_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_RELEASE]
+        closed_child_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_CHILD]
+        closed_bootstrap_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_BOOTSTRAP]
+        for snap in self._seen_by_number.values():
+            if snap.is_pr or snap.state != "closed":
+                continue
+            if "upstream:release" in snap.label_names and snap.number not in closed_release_nums:
+                raise _InventoryValidationError("closed-release-missing-from-closed-umbrellas")
+            if "upstream:child" in snap.label_names and snap.number not in closed_child_nums:
+                raise _InventoryValidationError("closed-child-missing-from-closed-children")
+            if "upstream:bootstrap" in snap.label_names and snap.number not in closed_bootstrap_nums:
+                raise _InventoryValidationError("closed-bootstrap-missing-from-closed-bootstraps")
+
+    def expected_issue_numbers(self) -> set[int]:
+        return (
+            set(self._non_pr_numbers_by_query[_QUERY_OPEN])
+            | set(self._non_pr_numbers_by_query[_QUERY_RECENT_CLOSED])
+            | set(self._non_pr_numbers_by_query[_QUERY_CLOSED_CHILD])
+            | set(self._non_pr_numbers_by_query[_QUERY_CLOSED_BOOTSTRAP])
+        )
+
+    def expected_closed_umbrella_numbers(self) -> set[int]:
+        return set(self._non_pr_numbers_by_query[_QUERY_CLOSED_RELEASE])
+
+    def snapshot_for(self, number: int) -> _RawRowSnapshot | None:
+        return self._seen_by_number.get(number)
+
+
 def _safe_authority_repo(identifier: Any, authority: Mapping[str, dict[str, Any]]) -> str | None:
     if not isinstance(identifier, str) or identifier not in authority:
         return None
@@ -344,12 +572,17 @@ def _validate_watcher_row_evidence(
     label_names: set[str],
     authority: Mapping[str, dict[str, Any]],
 ) -> None:
-    """Require usable, authoritatively attributable evidence on watcher-labelled history rows.
+    """Require usable evidence whose claimed scopes are all inspected by ``inspect_history``.
 
-    A parseable title is only a claim, not authoritative attribution: an opaque or
-    unattributable ``upstream:release`` / ``upstream:bootstrap`` / active ``upstream:child``
-    record must fail closed globally rather than allowing unrelated create/update proofs on
-    incomplete shared inventory.
+    Enforces ``claimed_scopes <= planner_inspected_scopes`` against the actual
+    ``repository_batch.inspect_history`` selection branches:
+    * ``upstream:release``: planner inspects ``umbrella_suite(title)`` plus each finding's
+      current-authority repository.
+    * ``upstream:bootstrap`` (without ``upstream:release``): planner inspects the payload's
+      ``release_repository`` plus any current-authority repository matched by the parsed
+      bootstrap title.
+    Any opaque or unattributable watcher row where a claimed scope would be skipped by the
+    planner fails closed globally rather than granting a false absence proof.
     """
     body = row.get("body")
     title = row["title"]
@@ -362,6 +595,8 @@ def _validate_watcher_row_evidence(
             payload, _ = extract_payload(body)
         except PayloadError:
             raise _InventoryValidationError("opaque-release-history") from None
+        title_repo = umbrella_suite(title)
+        planner_inspected_scopes: set[str] = {title_repo} if title_repo is not None else set()
         if envelope.is_envelope(payload):
             try:
                 env_repo = envelope.repository(payload.get("repository"))
@@ -370,7 +605,9 @@ def _validate_watcher_row_evidence(
             findings = payload.get("findings")
             if not isinstance(findings, list) or not 1 <= len(findings) <= envelope.MAX_FINDINGS:
                 raise _InventoryValidationError("unattributable-release-envelope")
-            any_auth_match = False
+            claimed_scopes: set[str] = {env_repo}
+            if title_repo is not None:
+                claimed_scopes.add(title_repo)
             for entry in findings:
                 if not isinstance(entry, dict):
                     raise _InventoryValidationError("unattributable-release-envelope")
@@ -383,10 +620,12 @@ def _validate_watcher_row_evidence(
                     raise _InventoryValidationError("unattributable-release-envelope") from None
                 if entry_repo != env_repo:
                     raise _InventoryValidationError("unattributable-release-envelope")
-                if _safe_authority_repo(sid, authority) == env_repo:
-                    any_auth_match = True
-            title_repo = umbrella_suite(title)
-            if title_repo is None and not any_auth_match:
+                claimed_scopes.add(entry_repo)
+                auth_repo = _safe_authority_repo(sid, authority)
+                if auth_repo is not None:
+                    claimed_scopes.add(auth_repo)
+                    planner_inspected_scopes.add(auth_repo)
+            if not claimed_scopes or not (claimed_scopes <= planner_inspected_scopes):
                 raise _InventoryValidationError("unattributable-release-envelope")
         else:
             sid = payload.get("skillId")
@@ -396,11 +635,14 @@ def _validate_watcher_row_evidence(
                 rel_repo = envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion"))
             except PayloadError:
                 raise _InventoryValidationError("unattributable-legacy-release") from None
-            title_repo = umbrella_suite(title)
             auth_repo = _safe_authority_repo(sid, authority)
-            if title_repo is None and auth_repo is None:
-                raise _InventoryValidationError("unattributable-legacy-release")
-            if title_repo is not None and title_repo != rel_repo and auth_repo != rel_repo:
+            claimed_scopes = {rel_repo}
+            if title_repo is not None:
+                claimed_scopes.add(title_repo)
+            if auth_repo is not None:
+                claimed_scopes.add(auth_repo)
+                planner_inspected_scopes.add(auth_repo)
+            if not claimed_scopes or not (claimed_scopes <= planner_inspected_scopes):
                 raise _InventoryValidationError("unattributable-legacy-release")
 
     if "upstream:bootstrap" in label_names and "upstream:release" not in label_names:
@@ -414,9 +656,24 @@ def _validate_watcher_row_evidence(
         if not isinstance(sid, str) or not envelope.IDENTIFIER.fullmatch(sid):
             raise _InventoryValidationError("unattributable-bootstrap-history")
         try:
-            envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion"))
+            rel_repo = envelope.release_repository(payload.get("sourceUrl"), payload.get("newVersion"))
         except PayloadError:
             raise _InventoryValidationError("unattributable-bootstrap-history") from None
+        claimed_scopes = {rel_repo}
+        planner_inspected_scopes = {rel_repo}
+        payload_auth_repo = _safe_authority_repo(sid, authority)
+        if payload_auth_repo is not None:
+            claimed_scopes.add(payload_auth_repo)
+        parsed_title = title_suite_and_version(title, "bootstrap")
+        if parsed_title is not None:
+            for identifier in authority:
+                if identifier.lower() == parsed_title[0]:
+                    title_auth_repo = _safe_authority_repo(identifier, authority)
+                    if title_auth_repo is not None:
+                        claimed_scopes.add(title_auth_repo)
+                        planner_inspected_scopes.add(title_auth_repo)
+        if not claimed_scopes or not (claimed_scopes <= planner_inspected_scopes):
+            raise _InventoryValidationError("unattributable-bootstrap-history")
 
     if "upstream:child" in label_names and (row["state"] == "open" or "upstream:rejected" in label_names):
         if not isinstance(body, str) or not prechecks.suggested_id_of(body):
@@ -426,63 +683,54 @@ def _validate_watcher_row_evidence(
 def _validate_live_inventory(
     live: Any,
     authority: Mapping[str, dict[str, Any]],
+    *,
+    raw_adapter: _RawInventoryReadAdapter | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
     if not isinstance(live, dict) or not isinstance(live.get("issues"), list) or not isinstance(live.get("closedUmbrellas"), list):
         raise _InventoryValidationError("missing-inventory-lists")
     validated: dict[str, list[dict[str, Any]]] = {"issues": [], "closedUmbrellas": []}
-    by_list_num: dict[str, dict[int, tuple[dict[str, Any], set[str]]]] = {"issues": {}, "closedUmbrellas": {}}
+    by_list_num: dict[str, dict[int, tuple[dict[str, Any], set[str], _RawRowSnapshot]]] = {"issues": {}, "closedUmbrellas": {}}
     for list_name in ("issues", "closedUmbrellas"):
         seen: set[int] = set()
+        expected_state = "closed" if list_name == "closedUmbrellas" else None
+        required_labels = frozenset({"upstream:release"}) if list_name == "closedUmbrellas" else frozenset()
         for row in live[list_name]:
-            if not isinstance(row, dict):
-                raise _InventoryValidationError("malformed-inventory-row")
-            if "pull_request" in row:
-                raise _InventoryValidationError("pull-request-marker-present")
-            num = row.get("number")
-            state = row.get("state")
-            valid_state = state == "closed" if list_name == "closedUmbrellas" else state in ("open", "closed")
-            if type(num) is not int or num <= 0 or num in seen or not valid_state:
+            snap, norm_labels = _validate_raw_issue_row(
+                row,
+                expected_state=expected_state,
+                required_labels=required_labels,
+                allow_genuine_pr=False,
+            )
+            if snap.number in seen:
                 raise _InventoryValidationError("invalid-issue-identity-or-state")
-            if "labels" not in row:
-                raise _InventoryValidationError("missing-issue-labels")
-            parsed_labels = _normalize_issue_labels(row["labels"])
-            if parsed_labels is None:
-                raise _InventoryValidationError("malformed-issue-labels")
-            norm_labels, label_names = parsed_labels
-            if list_name == "closedUmbrellas" and "upstream:release" not in label_names:
-                raise _InventoryValidationError("closed-umbrella-missing-release-label")
-            if not isinstance(row.get("title"), str):
-                raise _InventoryValidationError("non-string-issue-title")
-            body = row.get("body")
-            if body is not None and not isinstance(body, str):
-                raise _InventoryValidationError("non-string-issue-body")
-            updated_at = row.get("updated_at")
-            if updated_at is not None and not _is_valid_utc_timestamp(updated_at):
-                raise _InventoryValidationError("invalid-issue-updated-at")
+            if raw_adapter is not None:
+                raw_snap = raw_adapter.snapshot_for(snap.number)
+                if raw_snap is None or raw_snap != snap:
+                    raise _InventoryValidationError("contradictory-issue-across-lists")
             normalized_row = {**row, "labels": norm_labels}
-            seen.add(num)
+            seen.add(snap.number)
             validated[list_name].append(normalized_row)
-            by_list_num[list_name][num] = (normalized_row, label_names)
+            by_list_num[list_name][snap.number] = (normalized_row, set(snap.label_names), snap)
 
     issues_index = by_list_num["issues"]
     closed_index = by_list_num["closedUmbrellas"]
-    for num, (issue_row, issue_labels) in issues_index.items():
+    if raw_adapter is not None:
+        if set(issues_index) != raw_adapter.expected_issue_numbers():
+            raise _InventoryValidationError("contradictory-issue-across-lists")
+        if set(closed_index) != raw_adapter.expected_closed_umbrella_numbers():
+            raise _InventoryValidationError("contradictory-issue-across-lists")
+
+    for num, (issue_row, issue_labels, issue_snap) in issues_index.items():
         if issue_row["state"] == "closed" and "upstream:release" in issue_labels and num not in closed_index:
             raise _InventoryValidationError("closed-release-missing-from-closed-umbrellas")
         if num in closed_index:
-            closed_row, closed_labels = closed_index[num]
-            if (
-                issue_row["state"] != closed_row["state"]
-                or issue_row["title"] != closed_row["title"]
-                or issue_row.get("body") != closed_row.get("body")
-                or issue_row.get("updated_at") != closed_row.get("updated_at")
-                or issue_labels != closed_labels
-            ):
+            _, _, closed_snap = closed_index[num]
+            if issue_snap != closed_snap:
                 raise _InventoryValidationError("contradictory-issue-across-lists")
 
     checked: set[int] = set()
     for index_map in (issues_index, closed_index):
-        for num, (norm_row, label_names) in index_map.items():
+        for num, (norm_row, label_names, _) in index_map.items():
             if num in checked:
                 continue
             checked.add(num)
@@ -1059,9 +1307,11 @@ def bind_weekly_plans(
         stage = "registry-index"
         index = index_loader()
         stage = "live-read"
-        live = repository_batch.read_repository_live(gh)
+        raw_adapter = _RawInventoryReadAdapter(gh)
+        live = repository_batch.read_repository_live(raw_adapter)
         stage = "inventory-validation"
-        live = _validate_live_inventory(live, authority)
+        raw_adapter.verify_complete_coverage()
+        live = _validate_live_inventory(live, authority, raw_adapter=raw_adapter)
     except _InventoryValidationError as exc:
         return _refused(
             f"global-inventory-or-setup-incomplete:{exc.code}",
