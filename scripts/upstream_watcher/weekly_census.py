@@ -31,6 +31,10 @@ class _FakeIssueReader:
             raise PayloadError("weekly census fake issue store must match the configured repository")
         self._service = service
 
+    @property
+    def repo(self) -> str:
+        return self._service.repo
+
     def __getattr__(self, name: str) -> Any:
         if name not in self._ALLOWED:
             raise AttributeError(name)
@@ -139,8 +143,18 @@ def run_weekly_census(
     suite_ids = [fm.get("id") for fm in suites if isinstance(fm, Mapping)]
     if len(suite_ids) != len(suites) or any(not isinstance(item, str) for item in suite_ids):
         raise PayloadError("weekly census suites must have exact named IDs")
-    if len(set(suite_ids)) != len(suite_ids) or set(suite_ids) != {item.named_id for item in collected.results}:
+    result_ids = [item.named_id for item in collected.results]
+    if (len(set(suite_ids)) != len(suite_ids) or len(set(result_ids)) != len(result_ids)
+            or set(suite_ids) != set(result_ids)):
         raise PayloadError("weekly census suite IDs must exactly match collected scopes")
+    observations = collected.observed_findings
+    observed_results = [item for item in collected.results if item.status == "observed"]
+    if len(observations) != len(observed_results) or any(
+        not isinstance(item.finding, dict) or sum(
+            weekly_collector._observations_match_exactly(item.finding, obs) for obs in observations
+        ) != 1 for item in observed_results
+    ):
+        raise PayloadError("weekly census observations disagree with collected results")
 
     reader = _FakeIssueReader(fake_issues, config_repo)
     report, planner_code = repository_batch.run_repository_batch(
@@ -188,7 +202,18 @@ def run_weekly_census(
         elif "legacy" in refusal_text.lower() and result.repository:
             decision = "held-legacy"
         else:
-            decision = "eligible-for-read-only-binding"
+            reduced = commit.reduction.decisions.get((result.repository, result.named_id))
+            binding = bound.repositories.get(result.repository)
+            if result.status == "up-to-date":
+                decision = "up-to-date"
+            elif (reduced is not None and reduced.eligible and bound.status == "bound"
+                  and binding is not None and binding.status == "candidate-intent"
+                  and any(member.named_id == result.named_id for member in binding.selected_members)):
+                decision = "eligible-for-read-only-binding"
+            elif reduced is not None and not reduced.eligible and reduced.decision == "hold":
+                decision = "hold"
+            else:
+                decision = "unknown"
         current_version, version, source, released, delta = _safe_release_projection(result, authority)
         inventory = "verified" if any(inv.named_id == result.named_id and inv.poll_id == poll_id for inv in poll.complete_inventories) else "unknown"
         proof = "verified" if inventory == "verified" else (result.proof_reason if result.proof_reason in {"bootstrap-finding", "non-component-mode", "missing-tree-enumeration", "incomplete-tree-enumeration", "component-root-mismatch"} else "unknown")
@@ -213,6 +238,10 @@ def run_weekly_census(
     repo_statuses = tuple((repo, item.status) for repo, item in sorted(bound.repositories.items()))
     global_unknown = (planner_code != 0 or bool(report.get("unknownEvidence"))
                       or bool(collected.unknown_evidence)
+                      or commit.reduction.status != "applied"
+                      or bool(commit.reduction.rejected_observations)
+                      or any(item.status in {"ambiguous", "declined", "incomplete"}
+                             for item in bound.repositories.values())
                       or any(scope.decision == "unknown" for scope in scopes))
     if global_unknown:
         status = "unknown-incomplete"

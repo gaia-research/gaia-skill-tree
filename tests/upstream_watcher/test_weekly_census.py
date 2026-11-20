@@ -64,7 +64,7 @@ def _install_fake_upstream(monkeypatch: pytest.MonkeyPatch, *, tree: Any = None)
     monkeypatch.setattr(watcher, "check_name_drift", lambda *_: [])
 
 
-def _run(monkeypatch: pytest.MonkeyPatch, *, held_named_ids=frozenset(), held_repos=frozenset(), tree=None):
+def _run(monkeypatch: pytest.MonkeyPatch, *, held_named_ids=frozenset(), held_repos=frozenset(), tree=None, observed_at="2026-11-23T09:00:00Z"):
     _install_fake_upstream(monkeypatch, tree=tree)
     auth = _authority()
     poll_id = "census-2026-11-23"
@@ -72,7 +72,7 @@ def _run(monkeypatch: pytest.MonkeyPatch, *, held_named_ids=frozenset(), held_re
     fake = FakeIssueService(repo="gaia-research/gaia-skill-tree")
     result = weekly_census.run_weekly_census(
         [auth["owner/suite"]], auth, fake, collected,
-        poll_id=poll_id, observed_at="2026-11-23T09:00:00Z",
+        poll_id=poll_id, observed_at=observed_at,
         state_mode="ephemeral-empty", config_repo="gaia-research/gaia-skill-tree",
         held_repos=held_repos, held_named_ids=held_named_ids,
         index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
@@ -107,6 +107,13 @@ def test_fresh_fake_inventory_binding_remains_logical_only(monkeypatch):
     assert census.logical_candidate_count == 1
     assert census.actual_creates == census.actual_updates == 0
     assert not census.write_authorized and not census.write_readiness and not census.persisted
+
+
+def test_tuesday_nonflush_is_hold_not_eligible(monkeypatch):
+    census = _run(monkeypatch, observed_at="2026-11-24T09:00:00Z")
+    assert census.binding_status == "idle"
+    assert census.logical_candidate_count == 0
+    assert census.scopes[0].decision == "hold"
 
 
 def test_repo_hold_is_explicit_and_does_not_become_global_refusal(monkeypatch):
@@ -157,6 +164,7 @@ def test_mismatched_poll_and_malformed_collected_object_fail_closed(monkeypatch)
 def test_sealed_reader_refuses_direct_and_wrapped_live_ports():
     fake = FakeIssueService(repo="gaia-research/gaia-skill-tree")
     reader = weekly_census._FakeIssueReader(fake, "gaia-research/gaia-skill-tree")
+    assert reader.repo == "gaia-research/gaia-skill-tree"
     for name in ("create_issue", "edit_issue", "comment", "request", "session", "transport"):
         with pytest.raises(AttributeError):
             getattr(reader, name)
@@ -175,6 +183,13 @@ def test_duplicate_scope_and_unsupported_supplied_state_fail_closed(monkeypatch)
     fake = FakeIssueService(repo="gaia-research/gaia-skill-tree")
     with pytest.raises(PayloadError):
         weekly_census.run_weekly_census([auth["owner/suite"]] * 2, auth, fake, collected, **kwargs)
+    duplicate = dataclasses.replace(collected, results=collected.results * 2)
+    with pytest.raises(PayloadError, match="exactly match collected scopes"):
+        weekly_census.run_weekly_census([auth["owner/suite"]], auth, fake, duplicate, **kwargs)
+    changed = dataclasses.replace(collected.results[0], finding={**collected.results[0].finding, "newVersion": "v99"})
+    mismatched = dataclasses.replace(collected, results=(changed,))
+    with pytest.raises(PayloadError, match="observations disagree"):
+        weekly_census.run_weekly_census([auth["owner/suite"]], auth, fake, mismatched, **kwargs)
     with pytest.raises(PayloadError, match="supplied named-v3 state is deferred"):
         weekly_census.run_weekly_census([], auth, fake, collected, **{**kwargs, "state_mode": "named-v3"})
     assert fake.writes == ()
