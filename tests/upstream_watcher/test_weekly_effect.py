@@ -860,6 +860,109 @@ def test_journal_advance_between_intent_and_confirm_refuses_confirmation(tmp_pat
     assert rec.receipt is None
 
 
+def _advance_journal_once(
+    journal_path: Path,
+    auth: dict[str, dict[str, Any]],
+    expected_pin: wj.JournalPin,
+) -> wj.JournalCommitResult:
+    report, code = rb.run_repository_batch(
+        [_raw_finding("owner/a", version="v1.2.0", adds=("alpha", "delta"))],
+        we.FakeIssueService(),
+        apply=False,
+        authority=auth,
+        index_loader=_empty_index,
+        policy={},
+        historical_loader=lambda _: {},
+        plan_only=True,
+    )
+    assert code == 0
+    poll = wr.poll_input_from_batch_report(
+        "poll-race-advance", "2026-11-24T10:00:00Z", report, complete=True
+    )
+    commit = wj.commit_poll(journal_path, poll, auth, expected_pin=expected_pin, initialized=True)
+    assert commit.persisted is True
+    return commit
+
+
+def test_revision_advance_during_post_effect_readback_keeps_attempted_checkpoint(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    auth = _authority()
+    service = we.FakeIssueService()
+    journal_path = tmp_path / "named-v3.json"
+    ckpt_path = tmp_path / "readback-race.json"
+    commit1, _, binding = _commit_and_bind(
+        journal_path,
+        poll_id="poll-race-readback",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[_raw_finding("owner/a")],
+        service=service,
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    real_readback = we._read_and_validate_complete_inventory
+    calls = {"count": 0}
+
+    def _advance_after_post_readback(*args: Any, **kwargs: Any) -> Any:
+        calls["count"] += 1
+        result = real_readback(*args, **kwargs)
+        if calls["count"] == 2:
+            _advance_journal_once(journal_path, auth, commit1.handle.pin)
+        return result
+
+    monkeypatch.setattr(we, "_read_and_validate_complete_inventory", _advance_after_post_readback)
+    result = we.execute_fake_effect(
+        binding, journal_path, ckpt_path, we.FakeEffectTransport(service), auth,
+        policy={}, historical_loader=lambda _: {},
+    )
+
+    assert calls["count"] == 2
+    assert result.status == we.EFFECT_STATUS_REFUSED
+    assert result.reason == "journal-changed-since-intent"
+    assert len(service.attempt_calls) == 1 and len(service.writes) == 1
+    checkpoint, err = we.load_intent_checkpoint(ckpt_path)
+    assert err is None and checkpoint is not None
+    assert checkpoint.state == we.INTENT_STATE_ATTEMPTED and checkpoint.receipt is None
+    assert wj.load_journal(journal_path, auth, initialized=True).state.revision == 2
+
+
+def test_revision_advance_during_preflight_refuses_before_fake_effect(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    auth = _authority()
+    service = we.FakeIssueService()
+    journal_path = tmp_path / "named-v3.json"
+    ckpt_path = tmp_path / "preflight-race.json"
+    commit1, _, binding = _commit_and_bind(
+        journal_path,
+        poll_id="poll-race-preflight",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[_raw_finding("owner/a")],
+        service=service,
+        authority=auth,
+        allow_bootstrap=True,
+    )
+    real_preflight = we._preflight_fake_effect
+
+    def _advance_after_preflight(*args: Any, **kwargs: Any) -> Any:
+        result = real_preflight(*args, **kwargs)
+        _advance_journal_once(journal_path, auth, commit1.handle.pin)
+        return result
+
+    monkeypatch.setattr(we, "_preflight_fake_effect", _advance_after_preflight)
+    result = we.execute_fake_effect(
+        binding, journal_path, ckpt_path, we.FakeEffectTransport(service), auth,
+        policy={}, historical_loader=lambda _: {},
+    )
+
+    assert result.status == we.EFFECT_STATUS_REFUSED
+    assert result.reason == "journal-changed-since-intent"
+    assert len(service.attempt_calls) == 0 and len(service.writes) == 0
+    assert not ckpt_path.exists()
+    assert wj.load_journal(journal_path, auth, initialized=True).state.revision == 2
+
+
 # 10. Wrong pre-state snapshot, wrong post payload, and mismatched named/target/pin
 def test_wrong_pre_state_wrong_post_payload_and_mismatched_target_or_pin(tmp_path: Path) -> None:
     auth = _authority()

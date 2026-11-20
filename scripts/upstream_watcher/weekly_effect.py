@@ -905,6 +905,12 @@ def _lock_path_for(target: Path) -> Path:
     return target.with_name(f"{target.name}.lock")
 
 
+def _paths_or_locks_collide(first: Path, second: Path) -> bool:
+    first_paths = {first.resolve(), _lock_path_for(first).resolve()}
+    second_paths = {second.resolve(), _lock_path_for(second).resolve()}
+    return bool(first_paths & second_paths)
+
+
 @contextmanager
 def _exclusive_intent_lock(target: Path) -> Iterator[None]:
     """Acquire an advisory POSIX flock on ``<checkpoint>.lock`` for cooperating local callers."""
@@ -1933,20 +1939,21 @@ def _reconcile_existing_intent_locked(
 ) -> EffectExecutionResult:
     """Reconcile or recover an already-persisted checkpoint with ZERO fake effect calls."""
     if existing.state == INTENT_STATE_CONFIRMED:
-        _, journal_err = _verify_live_journal_for_intent(
-            journal_path=Path(existing.journal_path),
-            expected_pin=existing.journal_pin,
-            poll_id=existing.poll_id,
-            observed_at=existing.observed_at,
-            repository=existing.repository,
-            members=existing.selected_members,
-            authority=authority,
-            config=cfg,
-            trusted_latest_pin=trusted_latest_pin,
-            max_journal_bytes=max_journal_bytes,
-        )
-        if journal_err is not None:
-            return _refused(journal_err, intent=existing)
+        with wj._exclusive_journal_lock(Path(existing.journal_path)):
+            _, journal_err = _verify_live_journal_for_intent(
+                journal_path=Path(existing.journal_path),
+                expected_pin=existing.journal_pin,
+                poll_id=existing.poll_id,
+                observed_at=existing.observed_at,
+                repository=existing.repository,
+                members=existing.selected_members,
+                authority=authority,
+                config=cfg,
+                trusted_latest_pin=trusted_latest_pin,
+                max_journal_bytes=max_journal_bytes,
+            )
+            if journal_err is not None:
+                return _refused(journal_err, intent=existing)
         return EffectExecutionResult(
             status=EFFECT_STATUS_CONFIRMED,
             reason=None,
@@ -1983,7 +1990,22 @@ def _reconcile_existing_intent_locked(
         return _held(err or "attempted-without-causal-evidence", intent=existing)
 
     confirmed = _with_state(existing, state=INTENT_STATE_CONFIRMED, receipt=receipt)
-    persisted = _persist_intent_locked(ckpt, confirmed, max_bytes=max_intent_bytes)
+    with wj._exclusive_journal_lock(Path(existing.journal_path)):
+        _, journal_err = _verify_live_journal_for_intent(
+            journal_path=Path(existing.journal_path),
+            expected_pin=existing.journal_pin,
+            poll_id=existing.poll_id,
+            observed_at=existing.observed_at,
+            repository=existing.repository,
+            members=existing.selected_members,
+            authority=authority,
+            config=cfg,
+            trusted_latest_pin=trusted_latest_pin,
+            max_journal_bytes=max_journal_bytes,
+        )
+        if journal_err is not None:
+            return _refused(journal_err, intent=existing)
+        persisted = _persist_intent_locked(ckpt, confirmed, max_bytes=max_intent_bytes)
     return EffectExecutionResult(
         status=EFFECT_STATUS_CONFIRMED,
         reason=None,
@@ -2033,13 +2055,16 @@ def recover_fake_effect(
     if not isinstance(checkpoint_path, (str, os.PathLike)) or not os.fspath(checkpoint_path):
         return _refused("invalid-checkpoint-path")
 
-    ckpt = Path(checkpoint_path)
+    ckpt = Path(checkpoint_path).resolve()
     ckpt.parent.mkdir(parents=True, exist_ok=True)
     with _exclusive_intent_lock(ckpt):
         existing, load_err = load_intent_checkpoint(ckpt, max_bytes=max_intent_bytes)
         if load_err == "missing" or existing is None:
             return _refused(f"intent-checkpoint-unavailable:{load_err or 'missing'}")
 
+        existing_journal = Path(existing.journal_path).resolve()
+        if _paths_or_locks_collide(ckpt, existing_journal):
+            return _refused("checkpoint-path-collides-with-journal", intent=existing)
         if journal_path is not None and str(Path(journal_path).resolve()) != existing.journal_path:
             return _refused("checkpoint-journal-path-mismatch", intent=existing)
 
@@ -2112,7 +2137,7 @@ def execute_fake_effect(
 
     jpath = Path(journal_path).resolve()
     ckpt = Path(checkpoint_path).resolve()
-    if ckpt == jpath:
+    if _paths_or_locks_collide(ckpt, jpath):
         return _refused("checkpoint-path-collides-with-journal")
 
     ckpt.parent.mkdir(parents=True, exist_ok=True)
@@ -2175,43 +2200,59 @@ def execute_fake_effect(
         if pre_err is not None:
             return _refused(pre_err)
 
-        # 1. Durably persist pending intent before any effectful transition.
-        pending_persisted = _persist_intent_locked(ckpt, pending_intent, max_bytes=max_intent_bytes)
-        # 2. Explicitly persist attempted state BEFORE calling the fake service.
-        attempted_intent = _with_state(pending_persisted, state=INTENT_STATE_ATTEMPTED)
-        attempted_persisted = _persist_intent_locked(ckpt, attempted_intent, max_bytes=max_intent_bytes)
+        # Keep the established lock order (checkpoint, then journal). The complete
+        # inventory preflight above is deliberately outside the journal lock.
+        with wj._exclusive_journal_lock(jpath):
+            _, journal_err = _verify_live_journal_for_intent(
+                journal_path=jpath,
+                expected_pin=pending_intent.journal_pin,
+                poll_id=pending_intent.poll_id,
+                observed_at=pending_intent.observed_at,
+                repository=pending_intent.repository,
+                members=pending_intent.selected_members,
+                authority=authority,
+                config=cfg,
+                trusted_latest_pin=trusted_latest_pin,
+                max_journal_bytes=max_journal_bytes,
+            )
+            if journal_err is not None:
+                return _refused(journal_err)
 
-        # 3. Invoke at-most-one fake effect with explicit local correlation outside envelope.
-        assert binding.envelope_body is not None
-        try:
-            if attempted_persisted.target.action == "create":
-                transport.fake_create_umbrella(
-                    title=attempted_persisted.target.title,
-                    labels=["upstream:release", "needs-triage"],
-                    body=binding.envelope_body,
-                    attempt_id=attempted_persisted.attempt_id,
-                    correlation_id=attempted_persisted.correlation_id,
-                    repository=attempted_persisted.repository,
-                    envelope_sha256=attempted_persisted.envelope_sha256,
-                )
-            else:
-                assert attempted_persisted.target.umbrella is not None
-                assert attempted_persisted.target.pre_snapshot is not None
-                transport.fake_update_umbrella(
-                    number=attempted_persisted.target.umbrella,
-                    title=attempted_persisted.target.title,
-                    body=binding.envelope_body,
-                    pre_snapshot=attempted_persisted.target.pre_snapshot,
-                    attempt_id=attempted_persisted.attempt_id,
-                    correlation_id=attempted_persisted.correlation_id,
-                    repository=attempted_persisted.repository,
-                    envelope_sha256=attempted_persisted.envelope_sha256,
-                    reset_approved_label=reset_approved,
-                )
-        except (FakeEffectError, GhError):
-            # Never reissue after an attempted call; checkpoint remains "attempted" on disk
-            # so a fresh coordinator can inspect fresh readback.
-            return _held("effect-callback-ambiguous", intent=attempted_persisted, effect_called=True)
+            # 1. Durably persist pending, then attempted, before the fake call.
+            pending_persisted = _persist_intent_locked(ckpt, pending_intent, max_bytes=max_intent_bytes)
+            attempted_intent = _with_state(pending_persisted, state=INTENT_STATE_ATTEMPTED)
+            attempted_persisted = _persist_intent_locked(ckpt, attempted_intent, max_bytes=max_intent_bytes)
+
+            # 2. Invoke at-most-one fake effect while this short journal-pin segment
+            # prevents a cooperating commit from crossing the final pre-effect check.
+            assert binding.envelope_body is not None
+            try:
+                if attempted_persisted.target.action == "create":
+                    transport.fake_create_umbrella(
+                        title=attempted_persisted.target.title,
+                        labels=["upstream:release", "needs-triage"],
+                        body=binding.envelope_body,
+                        attempt_id=attempted_persisted.attempt_id,
+                        correlation_id=attempted_persisted.correlation_id,
+                        repository=attempted_persisted.repository,
+                        envelope_sha256=attempted_persisted.envelope_sha256,
+                    )
+                else:
+                    assert attempted_persisted.target.umbrella is not None
+                    assert attempted_persisted.target.pre_snapshot is not None
+                    transport.fake_update_umbrella(
+                        number=attempted_persisted.target.umbrella,
+                        title=attempted_persisted.target.title,
+                        body=binding.envelope_body,
+                        pre_snapshot=attempted_persisted.target.pre_snapshot,
+                        attempt_id=attempted_persisted.attempt_id,
+                        correlation_id=attempted_persisted.correlation_id,
+                        repository=attempted_persisted.repository,
+                        envelope_sha256=attempted_persisted.envelope_sha256,
+                        reset_approved_label=reset_approved,
+                    )
+            except (FakeEffectError, GhError):
+                return _held("effect-callback-ambiguous", intent=attempted_persisted, effect_called=True)
 
         # 4. Fresh complete readback + causal witness + journal pin verification.
         receipt, err, must_refuse = _verify_post_effect_readback(
@@ -2232,7 +2273,24 @@ def execute_fake_effect(
         # 5. Atomically persist confirmed receipt. If this replace crashes, the checkpoint
         # stays "attempted" on disk and a fresh coordinator recovers without reissuing.
         confirmed_intent = _with_state(attempted_persisted, state=INTENT_STATE_CONFIRMED, receipt=receipt)
-        confirmed_persisted = _persist_intent_locked(ckpt, confirmed_intent, max_bytes=max_intent_bytes)
+        # Readbacks run without the journal lock; revalidate after them, then keep
+        # the cooperating journal lock through the atomic receipt replacement.
+        with wj._exclusive_journal_lock(jpath):
+            _, journal_err = _verify_live_journal_for_intent(
+                journal_path=jpath,
+                expected_pin=attempted_persisted.journal_pin,
+                poll_id=attempted_persisted.poll_id,
+                observed_at=attempted_persisted.observed_at,
+                repository=attempted_persisted.repository,
+                members=attempted_persisted.selected_members,
+                authority=authority,
+                config=cfg,
+                trusted_latest_pin=trusted_latest_pin,
+                max_journal_bytes=max_journal_bytes,
+            )
+            if journal_err is not None:
+                return _refused(journal_err, intent=attempted_persisted, effect_called=True)
+            confirmed_persisted = _persist_intent_locked(ckpt, confirmed_intent, max_bytes=max_intent_bytes)
         return EffectExecutionResult(
             status=EFFECT_STATUS_CONFIRMED,
             reason=None,
