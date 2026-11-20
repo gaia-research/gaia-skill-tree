@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tree Explorer: graph exploration in both Trees</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.ax-top { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; padding-block: 2rem 1.25rem; }
+.ax { display: grid; grid-template-columns: 280px minmax(0, 1fr) 360px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 760px; }
+.ax-rail { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+.ax-rail .field { margin: 1rem; }
+.ax-list { list-style: none; margin: 0; padding: 0 .5rem 1rem; overflow-y: auto; max-height: 640px; }
+.ax-list button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .55rem .6rem; border: 0; border-radius: 6px; background: none; cursor: pointer; text-align: left; min-height: 44px; }
+.ax-list button:hover { background: var(--accent-wash); }
+.ax-list button[aria-current="true"] { background: var(--panel-2); }
+.ax-list .nm { display: flex; flex-direction: column; min-width: 0; }
+.ax-list .nm span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ax-group { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: 1rem 1rem .4rem; }
+.ax-stage { position: relative; min-width: 0; }
+.ax-stage[data-wx="ultra"]::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; border: 1px solid oklch(0.88 0.16 88 / .5); box-shadow: inset 0 0 90px oklch(0.88 0.16 88 / .10); }
+.ax-legend { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; pointer-events: none; z-index: 2; }
+.ax-legend > * { pointer-events: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; padding: .6rem .8rem; border-radius: 8px; background: color-mix(in oklch, var(--ground) 84%, transparent); border: 1px solid var(--line); }
+.legend span { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-2); }
+.legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.ax-insp { border-left: 1px solid var(--line); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; background: var(--ground-2); min-width: 0; }
+.ax-insp .dl { grid-template-columns: minmax(7rem, max-content) 1fr; font-size: .875rem; }
+.lens-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--line); font-size: .875rem; }
+.hint { display: flex; gap: .5rem; align-items: center; }
+@container atlas (max-width: 1100px) { .ax { grid-template-columns: minmax(0, 1fr) 320px; } .ax-rail { display: none; } }
+@container atlas (max-width: 760px) { .ax { grid-template-columns: minmax(0, 1fr); } .ax-insp { border-left: 0; border-top: 1px solid var(--line); } .ax-stage .scene { height: 460px !important; } .ax-legend { position: static; padding: 1rem; } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap ax-top">
+    <div class="stack gap-2">
+      <div class="plate"><span class="pl-mark">{{plateMark}}</span><i class="pl-sep"></i><span>{{plateA}}</span><i class="pl-sep"></i><span>{{plateB}}</span><i class="pl-rule"></i></div>
+      <h1 class="h1">{{title}}</h1>
+    </div>
+    <div class="row gap-2 wrapx">
+      <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+        <div class="wx" data-wx="{{weather}}" role="group" aria-label="Runtime weather">
+          <button onClick="{{wxNone}}" aria-pressed="{{wxIsNone}}">Clear</button>
+          <button onClick="{{wxHeaven}}" aria-pressed="{{wxIsHeaven}}">Heaven</button>
+          <button onClick="{{wxHell}}" aria-pressed="{{wxIsHell}}">Hell</button>
+          <button onClick="{{wxUltra}}" aria-pressed="{{wxIsUltra}}">Ultra</button>
+        </div>
+      </sc-if>
+      <div class="seg" role="group" aria-label="Detail density">
+        <button onClick="{{dFar}}" aria-pressed="{{isFar}}">Far</button>
+        <button onClick="{{dMid}}" aria-pressed="{{isMid}}">Mid</button>
+        <button onClick="{{dNear}}" aria-pressed="{{isNear}}">Near</button>
+      </div>
+      <sc-if value="{{has3d}}" hint-placeholder-val="{{true}}"><button class="btn btn-solid" onClick="{{open3d}}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" style="margin-right: 6px; vertical-align: -3px"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.2"></circle><ellipse cx="8" cy="8" rx="2.6" ry="6" fill="none" stroke="currentColor" stroke-width="1.2"></ellipse></svg>Explore in 3D</button></sc-if>
+    </div>
+  </div>
+
+  <div class="ax">
+    <aside class="ax-rail" aria-label="Find a skill">
+      <label class="field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Filter skills</span><input type="search" placeholder="{{searchPh}}" value="{{q}}" onInput="{{onQ}}"></label>
+      <div class="ax-group">{{groupLabel}}</div>
+      <ul class="ax-list">
+        <sc-for list="{{list}}" as="it" hint-placeholder-count="10">
+          <li><button onClick="{{it.sel}}" aria-current="{{it.cur}}">
+            <span class="nm"><span class="sk-name" data-l="{{it.lv}}" data-b="{{it.br}}" style="font-size: .98rem">{{it.label}}</span><span class="fine">{{it.sub}}</span></span>
+            <span class="hud" style="white-space: nowrap">{{it.tag}}</span>
+          </button></li>
+        </sc-for>
+        <sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><li class="fine" style="padding: 1rem .6rem">No skill matches. Try a contributor handle or a capability.</li></sc-if>
+      </ul>
+    </aside>
+
+    <div class="ax-stage" data-wx="{{weather}}">
+      <dc-import name="Scene" world="{{world}}" weather="{{weather}}" mode="explore" density="{{density}}" align="center" height="760px" focus="{{focus}}" subject="{{subject}}" on-select="{{onScene}}" hint-size="100%,760px"></dc-import>
+      <div class="ax-legend">
+        <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+          <div class="legend" aria-label="Yggdrasil legend">
+            <span><i style="background: var(--rank-0)"></i>0–1★</span><span><i style="background: var(--rank-2)"></i>Named</span><span><i style="background: var(--rank-3)"></i>Evolved</span><span><i style="background: var(--rank-4)"></i>Extra</span><span><i style="background: var(--rank-4-unique-ink)"></i>Unique</span><span><i style="background: var(--rank-5)"></i>Ultimate</span><span>○ roots are Basic, the crown is Fusion</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+          <div class="legend" aria-label="Arbor legend">
+            <span>○ □ ◇ capability, fixture position</span><span>◉ ringed terminal</span><span>● pinned subject</span><span>◆ trunk junction</span><span>◎ selected</span>
+            <span><svg width="26" height="8" aria-hidden="true"><path d="M1 2h24M1 6h24" stroke="currentColor" stroke-width="1.2"></path></svg>duplicates</span>
+            <span><svg width="26" height="8" aria-hidden="true"><path d="M1 4h24M10 1l3 3-3 3" stroke="currentColor" stroke-width="1.2" fill="none"></path></svg>unlocks</span>
+            <span><svg width="26" height="8" aria-hidden="true"><path d="M1 4h24" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.5 4" stroke-linecap="round"></path></svg>recovers</span>
+          </div>
+        </sc-if>
+        <span class="hint fine" style="background: color-mix(in oklch, var(--ground) 84%, transparent); padding: .35rem .6rem; border-radius: 6px">Drag to orbit · scroll to zoom · arrow keys move the selection</span>
+      </div>
+    </div>
+
+    <aside class="ax-insp" aria-label="Inspector" aria-live="polite">
+      <sc-if value="{{inspNamed}}" hint-placeholder-val="{{true}}">
+        <div class="stack gap-3">
+          <div class="stack gap-1">
+            <span class="hud">{{inspKind}}</span>
+            <h2 class="h3" style="font-family: var(--d-family); font-stretch: var(--d-stretch); font-size: 1.6rem; font-weight: var(--d-weight)">{{insp.titleLine}}</h2>
+            <span class="small">{{insp.title}}</span>
+            <span class="handle small">@{{insp.c}}</span>
+          </div>
+          <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+            <div class="stack gap-3">
+              <div class="row gap-2 wrapx"><span class="rk" data-l="{{insp.lv}}" data-b="{{insp.br}}">{{insp.rank}}</span><span class="metal" data-g="{{insp.gr}}">{{insp.gr}}</span></div>
+              <div class="stack gap-1">
+                <div class="row" style="justify-content: space-between"><span class="hud">Trust Magnitude</span><span class="num small" style="color: var(--ink)">{{insp.tm}}</span></div>
+                <div class="meter"><i style="width: {{insp.pct}}%"></i><b style="left: 48.2%"></b><b style="left: 62.9%"></b><b style="left: 74.3%"></b><b style="left: 88.8%"></b></div>
+                <div class="row hud" style="justify-content: space-between"><span>C 20</span><span>B 50</span><span>A 100</span><span>S 250</span></div>
+              </div>
+              <dl class="dl">
+                <dt>Capability</dt><dd><span class="starless">{{insp.gName}}</span></dd>
+                <dt>Evidence</dt><dd>{{insp.nev}} rows</dd>
+                <dt>Origin</dt><dd>{{insp.origin}}</dd>
+              </dl>
+            </div>
+          </sc-if>
+          <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+            <div class="stack gap-2">
+              <div class="lens-row"><span>Pinned subject</span><span class="hud" style="color: var(--ink)">{{insp.pinned}}</span></div>
+              <div class="lens-row"><span>Claims lens</span><span class="unknown">no accepted record</span></div>
+              <div class="lens-row"><span>Hell-Heaven lens</span><span class="unknown">not measured</span></div>
+              <div class="lens-row"><span>Declared relations</span><span class="hud" style="color: var(--ink)">{{insp.nrel}}</span></div>
+              <p class="fine">No stars, no rank: Arbor does not rank. Standing lives in the Yggdrasil lens.</p>
+            </div>
+          </sc-if>
+          <p class="small">{{insp.d}}</p>
+          <div class="row gap-2 wrapx">
+            <button class="btn btn-solid" onClick="{{openDossier}}">Open dossier</button>
+            <button class="btn btn-ghost" onClick="{{otherLens}}">{{otherLensLabel}}</button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{inspGeneric}}" hint-placeholder-val="{{false}}">
+        <div class="stack gap-3">
+          <span class="hud">Generic capability</span>
+          <h2 class="h3 starless" style="font-size: 1.6rem">{{gen.name}}</h2>
+          <dl class="dl">
+            <dt>Type</dt><dd>{{gen.typeLabel}}</dd>
+            <dt>Effective rank</dt><dd>{{gen.rankLabel}}</dd>
+            <dt>Prerequisites</dt><dd>{{gen.prereqs}}</dd>
+            <dt>Depth</dt><dd>{{gen.depth}}</dd>
+          </dl>
+          <p class="fine">A generic capability is starless. Its effective rank is the highest star among its named implementations.</p>
+          <button class="btn btn-ghost" onClick="{{goSkills}}">See named implementations</button>
+        </div>
+      </sc-if>
+    </aside>
+  </div>
+  <p class="wx-live" aria-live="polite">{{wxMsg}}</p>
+  <div class="wxfx" ref="{{fxRef}}" aria-hidden="true"><i class="fx-sheet"></i><i class="fx-sheet2"></i><i class="fx-burst"></i><i class="fx-wedge"></i><i class="fx-wedge2"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-scan"></i><i class="fx-mark"></i><b class="fx-stamp">Ultra</b></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"skill":{"editor":null},"focus":{"editor":null},"setWorld":{"editor":null},"$preview":{"width":1440,"height":920}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const RN = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RNU = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function rankName(lv, br) { return (lv >= 4 && br === 'unique' ? RNU[lv] : RN[lv]) + ' · ' + lv + '★'; }
+function meterPct(tm) { return Math.min(100, Math.log(1 + (tm || 0)) / Math.log(501) * 100).toFixed(1); }
+// Runtime weather transition: an impact frame (hard cuts, no easing), then a glitch (slice tear, scanlines,
+// a <=8px shear), resolving into the new weather. Transform and opacity only, via the Web Animations API, so a
+// new change cancels the running one and the overlay never stacks. Flash budget: at most 3 in any second
+// (WCAG 2.3.1); a change that would exceed it plays the glitch without the impact sheets. Reduced motion
+// replaces all of it with a 150 ms crossfade.
+const WXFX = { none: { dur: 450, n: 1, amp: 8 }, heaven: { dur: 520, n: 1, amp: 14 }, hell: { dur: 480, n: 1, amp: 26 }, ultra: { dur: 640, n: 2, amp: 22 } };
+const WX_NAME = { none: 'Clear', heaven: 'Heaven', hell: 'Hell', ultra: 'Ultra' };
+function wxfxRun(el, dur, ks, hard) {
+  if (!el) return;
+  el.animate(ks.map((k) => Object.assign({ offset: Math.min(1, k[0] / dur), easing: hard ? 'steps(1, end)' : 'linear' }, k[1])), { duration: dur, fill: 'none', id: 'wxfx' });
+}
+function wxfxPlay(root, to, shear, log) {
+  if (!root || !root.animate) return;
+  root.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+  (shear || []).forEach((s) => s && s.getAnimations().forEach((a) => { if (a.id === 'wxfx') a.cancel(); }));
+  root.dataset.to = to;
+  const q = (c) => root.querySelector(c), P = WXFX[to] || WXFX.none, D = P.dur;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { wxfxRun(q('.fx-sheet'), 150, [[0, { opacity: 0 }], [60, { opacity: 0.22 }], [150, { opacity: 0 }]], false); return; }
+  const now = performance.now();
+  while (log.length && now - log[0].t > 1000) log.shift();
+  const calm = log.reduce((a, r) => a + r.n, 0) + P.n > 3;
+  if (!calm) log.push({ t: now, n: P.n });
+  const O = (o, t) => (t ? { opacity: o, transform: t } : { opacity: o });
+  if (!calm) {
+    if (to === 'heaven') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.42)], [46, O(0.3)], [92, O(0.36)], [120, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.85, 'rotate(-28deg) translateX(-6%)')], [46, O(0.85, 'rotate(-28deg) translateX(3%) scaleY(.6)')], [92, O(0.6, 'rotate(-28deg) translateX(8%) scaleY(.3)')], [120, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else if (to === 'hell') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.9)], [60, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(1, 'rotate(-28deg)')], [60, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [60, O(0.92, 'rotate(-28deg) translateX(-4%) scaleY(.5)')], [110, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-mark'), D, [[0, O(1, 'scale(1)')], [60, O(1, 'scale(1.6) rotate(45deg)')], [110, O(0)], [D, O(0)]], true);
+    } else if (to === 'ultra') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.55)], [58, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.9, 'rotate(-28deg)')], [58, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-sheet2'), D, [[0, O(0)], [58, O(0.78)], [124, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [58, O(0.9, 'rotate(-28deg) translateX(-3%)')], [124, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.16)], [90, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.7, 'rotate(-28deg) scaleY(.12)')], [46, O(0.7, 'rotate(-28deg) translateY(-30%) scaleY(.08)')], [90, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    }
+  }
+  if (to === 'ultra') {
+    wxfxRun(q('.fx-stamp'), D, [[0, O(0, 'scale(1.3)')], [58, O(1, 'scale(1.22) skewX(-8deg)')], [104, O(1, 'scale(1.04) skewX(3deg)')], [150, O(1, 'scale(1)')], [400, O(calm ? 0.7 : 1, 'scale(1)')], [D, O(0, 'scale(.98)')]], false);
+    wxfxRun(q('.fx-burst'), D, [[0, O(0, 'scale(.6)')], [118, O(0, 'scale(.6)')], [124, O(0.75, 'scale(.8)')], [420, O(0.3, 'scale(1.15)')], [580, O(0, 'scale(1.25)')], [D, O(0, 'scale(1.25)')]], false);
+  }
+  // glitch: slices tear on 46 ms steps, scanlines decay
+  const g0 = calm ? 0 : (to === 'ultra' ? 124 : 110), A = P.amp;
+  root.querySelectorAll('.fx-slice').forEach((s, i) => {
+    s.style.top = (8 + Math.random() * 82).toFixed(1) + '%';
+    s.style.height = (0.4 + Math.random() * (to === 'hell' ? 3.2 : 4.2)).toFixed(2) + '%';
+    const sg = i % 2 ? 1 : -1, a = A * (0.6 + Math.random() * 0.6) * sg, op = to === 'none' ? 0.6 : 0.85;
+    const ks = [[0, O(0, 'translateX(0)')]];
+    if (g0) ks.push([g0, O(0, 'translateX(0)')]);
+    for (let k = 0; k < 6; k++) ks.push([g0 + k * 46 + (i % 3) * 8, O(op * (1 - k * 0.12), 'translateX(' + (k % 2 ? -a * 0.7 : a) * (1 - k * 0.14) + 'px)')]);
+    ks.push([Math.min(D - 1, g0 + 300), O(0, 'translateX(0)')], [D, O(0, 'translateX(0)')]);
+    wxfxRun(s, D, ks, true);
+  });
+  const sc = to === 'ultra' ? 0.6 : 1;
+  wxfxRun(q('.fx-scan'), D, [[0, O(calm ? 0.3 : 0)], [g0, O(0.6 * sc)], [g0 + 92, O(0.45 * sc)], [g0 + 184, O(0.3 * sc)], [g0 + (to === 'ultra' ? 230 : 300), O(0)], [D, O(0)]], true);
+  (shear || []).forEach((s) => wxfxRun(s, D, [[0, { transform: 'none' }], [g0, { transform: 'translate3d(-8px, 1px, 0) skewX(3deg)' }], [g0 + 46, { transform: 'translate3d(6px, -2px, 0) skewX(-2deg)' }], [g0 + 92, { transform: 'translate3d(-3px, 0, 0)' }], [g0 + 138, { transform: 'none' }], [D, { transform: 'none' }]], true));
+}
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, skill: p.skill || 'mattpocock/grill-me', focus: p.focus || 'interview-me', gen: null, density: 'mid', weather: 'none', q: '', wxMsg: '' }; this.fx = null; this.fxLog = []; this.fxRef = (el) => { this.fx = el; }; }
+  setWeather(w) {
+    if (w === this.state.weather) return;
+    this.setState({ weather: w, wxMsg: 'Runtime weather: ' + WX_NAME[w] });
+    const host = this.fx && this.fx.parentElement;
+    wxfxPlay(this.fx, w, host ? [host.querySelector('.ax-stage')] : [], this.fxLog);
+  }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate(pp) { if (pp.world !== this.props.world && this.props.world !== 'arbor' && this.state.weather !== 'none') this.setState({ weather: 'none' }); }
+  renderVals() {
+    const d = this.state.d, world = this.props.world || 'ygg', arb = world === 'arbor';
+    const skills = d ? d.skills : [];
+    const by = {}; skills.forEach((s) => { by[s.id] = s; });
+    const relCount = {}; if (d) d.relations.forEach((r) => { relCount[r.from] = (relCount[r.from] || 0) + 1; relCount[r.to] = (relCount[r.to] || 0) + 1; });
+    const q = this.state.q.trim().toLowerCase();
+    const pool = arb ? skills.filter((s) => s.pinned) : skills.filter((s) => s.lv >= 4);
+    const list = pool.filter((s) => !q || (s.id + ' ' + s.gName + ' ' + (s.title || '')).toLowerCase().indexOf(q) >= 0).map((s) => ({
+      label: arb ? s.id : '/' + s.slug, sub: arb ? s.gName : '@' + s.c + ' · ' + s.gName, lv: arb ? 0 : s.lv, br: s.br,
+      tag: arb ? (relCount[s.id] ? relCount[s.id] + ' rel' : '') : s.lv + '★', cur: s.id === this.state.skill && !this.state.gen ? 'true' : 'false',
+      sel: () => this.setState({ skill: s.id, focus: s.g, gen: null })
+    }));
+    const s = by[this.state.skill] || skills[0] || {};
+    const insp = {
+      titleLine: arb ? (s.id || '') : '/' + (s.slug || ''), title: s.title || '', c: s.c || '', lv: s.lv || 0, br: s.br === 'unique' ? 'unique' : 'suite',
+      rank: s.lv != null ? rankName(s.lv, s.br) : '', gr: s.gr || '-', tm: s.tm != null ? s.tm.toFixed(2) : 'n/a', pct: meterPct(s.tm), gName: s.gName || '', nev: s.nev || 0,
+      origin: s.o ? 'Current holder of this capability' : 'Not the current holder', d: s.d || '', pinned: s.pinned ? 'yes' : 'not pinned', nrel: relCount[s.id] || 0
+    };
+    const g = this.state.gen;
+    const gen = g ? { name: g.name, typeLabel: g.type === 'fusion' ? '◇ Fusion' : '○ Basic', rankLabel: g.rank ? g.rank + '★ (from named children)' : 'No named implementation yet', prereqs: g.prereqs, depth: g.depth } : {};
+    const wx = this.state.weather, setWx = (w) => () => this.setWeather(w);
+    const dn = this.state.density, setD = (v) => () => this.setState({ density: v });
+    return {
+      world: world, isYgg: !arb, isArbor: arb, weather: arb ? wx : 'none', density: dn, fxRef: this.fxRef, wxMsg: this.state.wxMsg,
+      has3d: !arb && !!this.props.explore3d, open3d: () => { if (this.props.explore3d) this.props.explore3d(); },
+      plateMark: arb ? 'Instrument' : 'Plate II', plateA: arb ? 'Arbor I' : 'Tree Explorer', plateB: arb ? 'prototype topology' : (d ? d.counts.generics + ' capabilities · ' + d.counts.named + ' named' : ''),
+      title: arb ? 'The Arbor instrument' : 'Tree Explorer',
+      wxIsNone: wx === 'none' ? 'true' : 'false', wxIsHeaven: wx === 'heaven' ? 'true' : 'false', wxIsHell: wx === 'hell' ? 'true' : 'false', wxIsUltra: wx === 'ultra' ? 'true' : 'false',
+      wxNone: setWx('none'), wxHeaven: setWx('heaven'), wxHell: setWx('hell'), wxUltra: setWx('ultra'),
+      isFar: dn === 'far' ? 'true' : 'false', isMid: dn === 'mid' ? 'true' : 'false', isNear: dn === 'near' ? 'true' : 'false', dFar: setD('far'), dMid: setD('mid'), dNear: setD('near'),
+      q: this.state.q, onQ: (e) => this.setState({ q: e.target.value }), searchPh: arb ? 'Filter 22 pinned subjects' : 'Filter 4★ and 5★ skills',
+      groupLabel: arb ? 'Pinned subjects' : 'Four and five stars', list: list, empty: d && list.length === 0,
+      focus: this.state.gen ? this.state.gen.id : this.state.focus, subject: arb ? this.state.skill : this.state.skill,
+      onScene: (sel) => {
+        if (sel.kind === 'subject') this.setState({ skill: sel.id, focus: sel.generic, gen: null });
+        else this.setState({ gen: sel, focus: sel.id });
+      },
+      inspNamed: !this.state.gen, inspGeneric: !!this.state.gen, inspKind: arb ? 'Arbor subject' : 'Named skill', insp: insp, gen: gen,
+      openDossier: () => { if (this.props.pick) this.props.pick({ id: s.id, generic: s.g }); },
+      otherLensLabel: arb ? 'See its standing' : 'See its behavior',
+      otherLens: () => { if (this.props.setWorld) this.props.setWorld(arb ? 'ygg' : 'arbor'); },
+      goSkills: () => { if (this.props.go) this.props.go('skills'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

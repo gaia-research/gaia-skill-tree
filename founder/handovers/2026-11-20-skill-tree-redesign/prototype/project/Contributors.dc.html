@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contributors</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.ch { padding-block: clamp(3rem, 6cqi, 5rem) 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.prof { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5cqi, 4.5rem); padding-block: 3rem; align-items: start; }
+@container atlas (max-width: 900px) { .prof { grid-template-columns: minmax(0, 1fr); } }
+.id-card { display: flex; flex-direction: column; gap: 1.25rem; }
+.id-handle { font-family: var(--f-display); font-size: clamp(2.4rem, 1.4rem + 3.2cqi, 3.6rem); color: var(--honor-red); line-height: 1; font-weight: 500; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+.facts > div { padding: 1rem 0; display: flex; flex-direction: column; gap: .2rem; }
+.facts > div + div { padding-left: 1.25rem; border-left: 1px solid var(--line); }
+.facts b { font-family: var(--f-hud); font-weight: 400; font-size: 1.5rem; color: var(--ink); }
+.ladder-h { display: flex; align-items: end; gap: .6rem; height: 120px; padding-top: .5rem; }
+.ladder-h > div { flex: 1; display: flex; flex-direction: column; justify-content: end; align-items: center; gap: .35rem; height: 100%; }
+.ladder-h i { display: block; width: 100%; border-radius: 1px; }
+.panel2 { border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.chart-empty { position: relative; height: 160px; border-left: 1px dotted var(--ink-3); border-bottom: 1px dotted var(--ink-3); display: grid; place-items: center; }
+.chart-empty span { max-width: 36ch; text-align: center; }
+.hall { display: grid; grid-template-columns: 300px minmax(0, 1fr); border-block: 1px solid var(--line); margin-top: 2rem; }
+@container atlas (max-width: 900px) { .hall { grid-template-columns: minmax(0, 1fr); } .hall-rail { border-right: 0 !important; border-bottom: 1px solid var(--line); max-height: 260px; overflow-y: auto; } }
+.hall-rail { border-right: 1px solid var(--line); padding: 1rem .5rem; display: flex; flex-direction: column; gap: .15rem; }
+.hall-rail button { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: .6rem; align-items: center; padding: .55rem .6rem; border: 0; background: none; border-radius: 6px; cursor: pointer; text-align: left; min-height: 44px; }
+.hall-rail button:hover { background: var(--accent-wash); }
+.hall-rail button[aria-current="true"] { background: var(--panel-2); }
+.stage { position: relative; min-height: 560px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 2rem; padding: clamp(2rem, 5cqi, 4rem); overflow: hidden; }
+.stage::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 32% 50%, oklch(0.80 0.115 82 / .14), transparent 55%); pointer-events: none; }
+.stage .med { position: relative; width: min(100%, 300px); aspect-ratio: 1; justify-self: center; animation: enter .7s var(--ease) both; }
+.stage .sav { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 0 0 1.5px oklch(0.80 0.115 82 / .5), 0 30px 50px rgba(0,0,0,.6); }
+.stage .swr { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+.stage .smd { position: absolute; right: -8%; bottom: -4%; width: 34%; height: 34%; filter: drop-shadow(0 8px 16px rgba(0,0,0,.6)); }
+.pav { position: relative; width: 112px; height: 112px; }
+.pav .ph { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 0 0 1.5px oklch(0.80 0.115 82 / .5); }
+.pav .wr { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+.lav { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex: none; background: var(--panel-2); }
+.lav.lg { width: 44px; height: 44px; }
+.stage .txt { position: relative; display: flex; flex-direction: column; gap: 1rem; animation: enter .7s var(--ease) .08s both; }
+@container atlas (max-width: 760px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.dir { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem; padding-block: 2rem 5rem; }
+.dir button { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 1rem; align-items: center; padding: 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); cursor: pointer; text-align: left; color: inherit; }
+.dir button:hover { border-color: var(--line-2); }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap ch">
+    <div class="plate"><span class="pl-mark">Registry</span><i class="pl-sep"></i><span>Named contributors</span><i class="pl-sep"></i><span>{{nContrib}} on the record</span><i class="pl-rule"></i></div>
+    <div class="row wrapx" style="justify-content: space-between; gap: 1rem; align-items: end"><h1 class="h1">Contributors</h1><button class="btn btn-ghost" onClick="{{toHeroes}}" style="border-color: oklch(0.80 0.115 82 / .5)">Enter the Hall of Heroes →</button></div>
+    <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+      <p class="small" style="max-width: 70ch; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 8px">Attribution is shared across Trees: a contributor's handle and their skills keep their identity under the Arbor lens. The Hall of Heroes is Yggdrasil's ceremony and is not restyled for Arbor; Arbor has no leaderboard.</p>
+    </sc-if>
+  </div>
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Contributor views">
+      <button role="tab" aria-selected="{{tProf}}" onClick="{{toProf}}">Profile</button>
+      <button role="tab" aria-selected="{{tHall}}" onClick="{{toHall}}">Spotlight</button>
+      <button role="tab" aria-selected="{{tDir}}" onClick="{{toDir}}">Directory</button>
+    </div>
+  </div>
+
+  <sc-if value="{{isProf}}" hint-placeholder-val="{{true}}">
+    <div class="wrap prof">
+      <div class="id-card">
+        <span class="pav"><img class="ph" src="{{p.av}}" alt="@{{p.c}} on GitHub" width="112" height="112" decoding="async"><sc-if value="{{p.hasOrigin}}" hint-placeholder-val="{{true}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" decoding="async"></sc-if></span>
+        <span class="id-handle">@{{p.c}}</span>
+        <p class="small">The gold wreath marks a contributor who holds Origin on at least one capability. Avatars come from GitHub; production keeps a monogram fallback for a failed load.</p>
+        <div class="facts">
+          <div><span class="hud">Named skills</span><b>{{p.n}}</b></div>
+          <div><span class="hud">Highest rank</span><b>{{p.top}}★</b></div>
+          <div><span class="hud">Origins held</span><b>{{p.origins}}</b></div>
+        </div>
+        <div class="stack gap-1">
+          <span class="hud">Skills by rank</span>
+          <div class="ladder-h" role="img" aria-label="{{ladderAria}}">
+            <sc-for list="{{ladder}}" as="l" hint-placeholder-count="5"><div><span class="num small" style="color: var(--ink)">{{l.n}}</span><i style="height: {{l.h}}%; background: {{l.color}}"></i><span class="hud">{{l.lv}}★</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      <div class="stack gap-4">
+        <div class="stack gap-2">
+          <h2 class="h2">Named skills</h2>
+          <div>
+            <sc-for list="{{p.skills}}" as="s" hint-placeholder-count="8">
+              <button class="row gap-3" onClick="{{s.open}}" style="width: 100%; justify-content: space-between; padding: .85rem 0; border: 0; border-bottom: 1px solid var(--line); background: none; cursor: pointer; text-align: left; color: inherit">
+                <span class="stack" style="min-width: 0"><span class="sk-name" data-l="{{s.lv}}" data-b="{{s.br}}">{{s.name}}</span><span class="fine">{{s.title}}</span></span>
+                <span class="row gap-2"><sc-if value="{{s.o}}" hint-placeholder-val="{{false}}"><span class="hud" style="color: var(--apex-gold)">Origin</span></sc-if><span class="rk" data-l="{{s.lv}}" data-b="{{s.br}}">{{s.rank}}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div class="panel2">
+          <div class="row" style="justify-content: space-between; flex-wrap: wrap; gap: .75rem"><h2 class="h3">Trust Magnitude over time</h2><span class="proto-tag">Proposed · issue 1194</span></div>
+          <div class="chart-empty"><span class="small">Trust Magnitude is computed live and not yet stored per event, so there is no history to plot. This panel stays empty until snapshots exist, rather than drawing an estimate.</span></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isHall}}" hint-placeholder-val="{{false}}">
+    <div class="hall">
+      <nav class="hall-rail" aria-label="Hall of Heroes">
+        <sc-for list="{{hall}}" as="h" hint-placeholder-count="10">
+          <button onClick="{{h.sel}}" aria-current="{{h.cur}}"><img class="lav" src="{{h.av}}" alt="" width="28" height="28" loading="lazy" decoding="async"><span class="handle small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">@{{h.c}}</span><span class="rk" data-l="{{h.top}}" data-b="{{h.br}}">{{h.top}}★</span></button>
+        </sc-for>
+      </nav>
+      <div class="stage" aria-live="polite">
+        <div class="med" data-key="{{cur.c}}"><img class="sav" src="{{cur.av}}" alt="@{{cur.c}} on GitHub" width="340" height="340" decoding="async"><sc-if value="{{cur.hasOrigin}}" hint-placeholder-val="{{true}}"><img class="swr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" decoding="async"></sc-if><img class="smd" src="{{cur.med}}" alt="{{cur.medAlt}}" width="110" height="110" decoding="async"></div>
+        <div class="txt" data-key="{{cur.c}}">
+          <span class="hud">Spotlight · {{cur.n}} of {{hallLen}}</span>
+          <span class="id-handle">@{{cur.c}}</span>
+          <div class="row gap-2 wrapx"><span class="rk" data-l="{{cur.top}}" data-b="{{cur.br}}">{{cur.rank}}</span><span class="metal" data-g="{{cur.gr}}">TM {{cur.tm}}</span></div>
+          <p class="small">Best record: <button class="sk-name" data-l="{{cur.top}}" data-b="{{cur.br}}" onClick="{{cur.open}}" style="background: none; border: 0; padding: 0; cursor: pointer">{{cur.best}}</button></p>
+          <p class="small">{{cur.origins}} Origin{{cur.originsS}} held across {{cur.skills}} named skill{{cur.skillsS}}.</p>
+          <div class="row gap-2"><button class="btn btn-ghost" onClick="{{prev}}" aria-label="Previous hero">Previous</button><button class="btn btn-ghost" onClick="{{next}}" aria-label="Next hero">Next</button></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isDir}}" hint-placeholder-val="{{false}}">
+    <div class="wrap dir">
+      <sc-for list="{{hall}}" as="h" hint-placeholder-count="9">
+        <button onClick="{{h.view}}"><img class="lav lg" src="{{h.av}}" alt="" width="44" height="44" loading="lazy" decoding="async"><span class="stack"><span class="handle">@{{h.c}}</span><span class="fine">{{h.skills}} named · highest {{h.top}}★</span></span></button>
+      </sc-for>
+      <p class="fine" style="grid-column: 1 / -1">Twelve of {{nContrib}} contributors shown in this prototype. Production lists every handle, sortable by rank, Trust Magnitude and Origins held.</p>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"tab":{"editor":"enum","options":["profile","spotlight","directory"],"default":"profile"},"go":{"editor":null},"pick":{"editor":null},"$preview":{"width":1440,"height":1760}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const RN = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RNU = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function rankName(lv, br) { return (lv >= 4 && br === 'unique' ? RNU[lv] : RN[lv]) + ' · ' + lv + '★'; }
+const MED = { 1: '/_blob/a683094ec451ed1421d6e3c772818798', 2: '/_blob/245265bcf720c3554a92d4deebdf13ca', 3: '/_blob/d762e0fb037e3eff0ed7123da1031186', 4: '/_blob/7ecf86e4708fc19c0b59821d6c743613', 5: '/_blob/067317f281dd6808e896e3baa06d8a89', 6: '/_blob/670ae5fd0ba207ea8ec029f130247610' };
+const MEDU = { 4: '/_blob/7601aadaeb67b8b9616c4f70239a5f5a', 5: '/_blob/5a4f089a79116491433e15afa4296e82', 6: '/_blob/25a22d936d7985205d6d77f23460d572' };
+const COL = { 1: 'var(--rank-1)', 2: 'var(--rank-2)', 3: 'var(--rank-3)', 4: 'var(--rank-4)', 5: 'var(--rank-5)' };
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, tab: p.tab || 'profile', hi: 0 }; }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate(pp) { if (pp.tab !== this.props.tab && this.props.tab) this.setState({ tab: this.props.tab }); }
+  renderVals() {
+    const d = this.state.d, tab = this.state.tab;
+    const pick = (id, g) => () => { if (this.props.pick) this.props.pick({ id: id, generic: g }); };
+    const by = {}; if (d) d.skills.forEach((s) => { by[s.id] = s; });
+    const pr = d ? d.profile : { c: 'mattpocock', n: '…', top: '…', origins: '…', skills: [], levels: {} };
+    const avs = d ? d.avatars : {};
+    const p = { c: pr.c, av: avs[pr.c] || '', hasOrigin: pr.origins > 0, n: pr.n, top: pr.top, origins: pr.origins, skills: pr.skills.map((s) => ({ name: '/' + s.slug, title: s.title, lv: s.lv, br: s.br === 'unique' ? 'unique' : 'suite', rank: rankName(s.lv, s.br), o: !!s.o, open: pick(s.id, s.g) })) };
+    const mx = Math.max.apply(null, [1].concat(Object.values(pr.levels || {})));
+    const ladder = [1, 2, 3, 4, 5].map((lv) => ({ lv: lv, n: (pr.levels || {})[lv] || 0, h: (((pr.levels || {})[lv] || 0) / mx * 88 + 2).toFixed(0), color: COL[lv] }));
+    const hallRaw = d ? d.hall : [];
+    const hi = Math.min(this.state.hi, Math.max(0, hallRaw.length - 1));
+    const hall = hallRaw.map((h, i) => { const b = by[h.best] || {}; const br = b.br === 'unique' ? 'unique' : 'suite'; return {
+      n: String(i + 1).padStart(2, '0'), c: h.c, av: avs[h.c] || '', top: h.top, br: br, skills: h.n, initial: h.c.charAt(0).toUpperCase(), cur: i === hi ? 'true' : 'false',
+      sel: () => this.setState({ hi: i }), view: () => this.setState({ hi: i, tab: 'spotlight' }) }; });
+    const h = hallRaw[hi] || { c: '', top: 0, tm: 0, best: '', n: 0, origins: 0 };
+    const b = by[h.best] || {};
+    const br = b.br === 'unique' ? 'unique' : 'suite';
+    const cur = { n: String(hi + 1).padStart(2, '0'), c: h.c, av: avs[h.c] || '', hasOrigin: h.origins > 0, top: h.top, br: br, rank: rankName(h.top, b.br), tm: (h.tm || 0).toFixed(2), gr: b.gr || 'A',
+      best: h.best ? '/' + h.best.split('/')[1] : '', med: (h.top >= 4 && br === 'unique' ? MEDU[h.top] : MED[h.top]) || MED[1], medAlt: rankName(h.top, b.br) + ' medallion',
+      origins: h.origins, originsS: h.origins === 1 ? '' : 's', skills: h.n, skillsS: h.n === 1 ? '' : 's', open: pick(h.best, b.g) };
+    const set = (t) => () => this.setState({ tab: t });
+    return {
+      world: this.props.world || 'ygg', isArbor: (this.props.world || 'ygg') === 'arbor', nContrib: d ? d.counts.contributors : '…',
+      tProf: tab === 'profile' ? 'true' : 'false', tHall: tab === 'spotlight' ? 'true' : 'false', tDir: tab === 'directory' ? 'true' : 'false',
+      toProf: set('profile'), toHall: set('spotlight'), toHeroes: () => { if (this.props.go) this.props.go('heroes'); }, toDir: set('directory'), isProf: tab === 'profile', isHall: tab === 'spotlight', isDir: tab === 'directory',
+      p: p, ladder: ladder, ladderAria: 'Skills by rank: ' + ladder.map((l) => l.lv + ' stars ' + l.n).join(', '),
+      hall: hall, cur: cur, hallLen: hall.length,
+      prev: () => this.setState({ hi: (hi - 1 + hallRaw.length) % Math.max(1, hallRaw.length) }), next: () => this.setState({ hi: (hi + 1) % Math.max(1, hallRaw.length) })
+    };
+  }
+}
+</script>
+</body>
+</html>

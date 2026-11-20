@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hall of Heroes</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+/* One static backdrop for the whole page: no per-stage backgrounds, nothing repaints on scroll. */
+.hh { position: relative; isolation: isolate;
+  background:
+    radial-gradient(1200px 700px at 50% 0%, oklch(0.80 0.115 82 / .10), transparent 70%),
+    radial-gradient(900px 900px at 0% 60%, oklch(0.45 0.08 280 / .10), transparent 70%),
+    var(--ground); }
+.hh-astro { position: absolute; inset: 0 0 auto 0; height: 980px; z-index: -1; pointer-events: none; overflow: hidden; }
+.hh-astro img { position: absolute; left: 50%; top: 40px; width: 1100px; max-width: none; transform: translateX(-50%); opacity: .16; }
+.lensnote { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 1.5rem; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+
+/* ---- intro ---- */
+.hh-intro { padding-block: clamp(3.5rem, 8cqi, 7rem) clamp(3rem, 6cqi, 5rem); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.1rem; }
+.shift { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 1rem; padding: .55rem .6rem .55rem .6rem; border: 1px solid oklch(0.80 0.115 82 / .32); border-radius: 999px; background: oklch(0.80 0.115 82 / .05); max-width: 100%; }
+.shift-pill { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--apex-gold); border: 1px solid oklch(0.80 0.115 82 / .45); border-radius: 999px; padding: .2rem .6rem; white-space: nowrap; }
+.shift .small { color: var(--ink-2); text-align: left; }
+.shift .lk { font-family: var(--f-hud); font-size: .75rem; color: var(--apex-gold); background: none; border: 0; cursor: pointer; padding: .3rem .5rem; white-space: nowrap; }
+.hh-title { font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(3.2rem, 1.5rem + 7.5cqi, 7.2rem); line-height: .95; letter-spacing: -.01em; margin: .4rem 0 0; color: var(--apex-gold); text-wrap: balance; }
+.hh-motto { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1rem + 1.3cqi, 1.9rem); color: var(--ink); margin: 0; }
+.hh-fork { max-width: 60ch; }
+.hh-fork b { font-weight: 600; }
+.hh-fork b[data-b="suite"] { color: var(--rank-5); }
+.hh-fork b[data-b="unique"] { color: var(--rank-4-unique-ink); }
+.tally { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.6rem; font-family: var(--f-hud); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.tally b { color: var(--ink); font-weight: 400; margin-right: .35rem; }
+.gl { display: inline-grid; place-items: center; width: 14px; flex: none; font-size: .7rem; line-height: 1; }
+.gl[data-b="suite"] { color: var(--rank-5); }
+.gl[data-b="unique"] { color: var(--rank-4-unique-ink); }
+.hint { display: flex; flex-direction: column; align-items: center; gap: .3rem; margin-top: 1.4rem; }
+.hint svg { width: 18px; height: 18px; color: var(--ink-3); }
+@media (prefers-reduced-motion: no-preference) { .hint svg { animation: nudge 2.4s var(--ease) infinite; } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+/* ---- body: sticky ledger rail + stages ---- */
+.hh-body { display: grid; grid-template-columns: 252px minmax(0, 1fr); gap: clamp(1.5rem, 3cqi, 3rem); max-width: 1360px; margin-inline: auto; padding-inline: clamp(1rem, 3cqi, 2.5rem); }
+@container atlas (max-width: 900px) { .hh-body { grid-template-columns: minmax(0, 1fr); } .rail { display: none; } }
+.rail { position: relative; }
+.rail-in { position: sticky; top: 88px; display: flex; flex-direction: column; gap: .7rem; padding: 1rem 0 1rem 1rem; border-left: 1px solid var(--line); }
+.rail-track { position: absolute; left: -1px; top: 0; width: 2px; height: 100%; }
+.rail-track i { display: block; width: 2px; background: var(--apex-gold); transition: height .35s var(--ease); }
+.rail-cur { font-family: 'EB Garamond', Georgia, serif; font-size: 1.45rem; font-weight: 500; line-height: 1.1; color: var(--ink); overflow-wrap: anywhere; }
+.rail-list { list-style: none; margin: .3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; max-height: 340px; overflow-y: auto; scrollbar-width: thin; }
+.rail-list button { display: grid; grid-template-columns: 28px 14px minmax(0, 1fr); align-items: center; gap: .55rem; width: 100%; min-height: 40px; padding: .3rem .45rem; border: 0; border-radius: 6px; background: none; color: var(--ink-2); cursor: pointer; text-align: left; font-size: .9rem; }
+.rail-list button:hover { background: var(--accent-wash); color: var(--ink); }
+.rail-list button[aria-current="true"] { background: var(--panel-2); color: var(--ink); }
+.rail-list button[aria-current="true"] .sl { color: var(--apex-gold); }
+.rail-list img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; background: var(--panel-2); }
+.sl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail-ctl { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+.sq { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 6px; border: 1px solid var(--line-2); background: none; color: var(--ink); cursor: pointer; }
+.sq:hover { border-color: var(--apex-gold); color: var(--apex-gold); }
+.sq svg { width: 15px; height: 15px; }
+.all { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; min-height: 36px; padding: 0 .8rem; border-radius: 6px; border: 1px solid oklch(0.80 0.115 82 / .4); background: none; color: var(--apex-gold); cursor: pointer; }
+
+.mbar { display: none; }
+@container atlas (max-width: 900px) {
+  .mbar { display: flex; position: sticky; top: 64px; z-index: var(--z-sticky); align-items: center; gap: .6rem; padding: .55rem clamp(1rem, 4cqi, 3rem); background: color-mix(in oklch, var(--ground) 92%, transparent); border-block: 1px solid var(--line); }
+  .mbar img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+  .mbar .sl { flex: 1; font-size: .9rem; }
+}
+
+/* ---- tier headings ---- */
+.tier { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .3rem 1rem; align-items: baseline; padding-block: 4.5rem 1.25rem; border-bottom: 1px solid var(--line); margin-bottom: 1rem; }
+.tier:first-child { padding-top: 1rem; }
+.tier .gl { width: 22px; font-size: 1rem; }
+.tier-name { font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(1.8rem, 1.2rem + 1.8cqi, 2.6rem); line-height: 1.05; margin: 0; color: var(--ink); }
+.tier[data-b="suite"][data-l="5"] .tier-name { color: var(--rank-5); }
+.tier[data-b="suite"][data-l="4"] .tier-name { color: var(--rank-4); }
+.tier[data-b="unique"][data-l="5"] .tier-name { color: var(--rank-5-unique-ink); }
+.tier[data-b="unique"][data-l="4"] .tier-name { color: var(--rank-4-unique-ink); }
+.tier .small, .tier .hud { grid-column: 2; }
+
+/* ---- stage: one plate per stage. content-visibility skips layout and paint off-screen. ---- */
+.stage { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; gap: clamp(1.5rem, 4cqi, 4rem); min-height: 600px; padding-block: 3.5rem; content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.stage + .stage { border-top: 1px solid oklch(1 0 0 / .045); }
+@container atlas (max-width: 760px) { .stage { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-block: 2.5rem; gap: 1.6rem; contain-intrinsic-size: auto 820px; } }
+.plate-no { position: absolute; top: 1.4rem; right: 0; }
+.crest-wrap { position: relative; justify-self: center; width: min(100%, 320px); aspect-ratio: 1; display: grid; place-items: center; }
+.crest-wrap::before { content: ''; position: absolute; inset: -14%; border-radius: 50%; background: radial-gradient(circle, oklch(0.80 0.115 82 / .16), transparent 62%); }
+.stage[data-b="unique"] .crest-wrap::before { background: radial-gradient(circle, oklch(0.62 0.16 295 / .16), transparent 62%); }
+.diamond { position: absolute; inset: 2%; border: 1px solid oklch(0.80 0.115 82 / .38); transform: rotate(45deg); }
+.diamond::after { content: ''; position: absolute; inset: 7px; border: 1px solid oklch(0.80 0.115 82 / .14); }
+.crest-av { position: relative; width: 72%; aspect-ratio: 1; border-radius: 50%; display: block; }
+.crest-av .ring { position: absolute; inset: -5%; border-radius: 50%; border: 1.5px solid oklch(0.80 0.115 82 / .55); }
+.stage[data-b="unique"] .crest-av .ring { border-width: 1px; border-color: oklch(0.70 0.14 295 / .6); }
+.av-img { position: relative; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 24px 50px rgba(0,0,0,.55); }
+.av-wreath { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+.av-med { position: absolute; right: -9%; bottom: -4%; width: 30%; height: 30%; filter: drop-shadow(0 6px 12px rgba(0,0,0,.6)); }
+@media (prefers-reduced-motion: no-preference) {
+  .stage .crest-av, .stage .txt { transition: transform .7s var(--ease), opacity .7s var(--ease); }
+  .stage:not([data-seen]) .crest-av { transform: scale(.94); opacity: .4; }
+  .stage:not([data-seen]) .txt { transform: translateY(14px); opacity: .35; }
+}
+.txt { display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; min-width: 0; }
+.branchmark { display: inline-flex; align-items: center; gap: .45rem; font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; padding: .35rem .65rem; border: 1px solid var(--line-2); border-radius: 4px; color: var(--ink-2); }
+.stage-slug { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.2rem, 1.4rem + 2.6cqi, 3.4rem); line-height: 1; margin: 0; overflow-wrap: anywhere; color: var(--ink); }
+.stage-slug[data-l="5"] { color: var(--rank-5); } .stage-slug[data-l="4"] { color: var(--rank-4); }
+.stage-slug[data-l="5"][data-b="unique"] { color: var(--rank-5-unique-ink); } .stage-slug[data-l="4"][data-b="unique"] { color: var(--rank-4-unique-ink); }
+.stage-title { font-family: 'EB Garamond', Georgia, serif; font-size: 1.2rem; color: var(--ink-2); margin: -.2rem 0 0; }
+.by { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; }
+.origin { display: inline-flex; align-items: center; gap: .35rem; font-size: .8125rem; color: var(--apex-gold); }
+.stats { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; margin: .2rem 0 0; }
+.stats div { display: flex; flex-direction: column; gap: .15rem; }
+.stats dt { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.stats dd { margin: 0; display: flex; align-items: center; gap: .5rem; font-family: var(--f-hud); font-size: 1.05rem; color: var(--ink); }
+.fu { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .8rem; padding: .6rem .9rem; border: 1px solid var(--line-2); border-radius: 6px; }
+.fu .v { font-family: var(--f-hud); font-size: 1.15rem; color: var(--apex-gold); }
+.fu-s { display: flex; flex-direction: column; align-items: center; gap: .35rem; width: min(100%, 420px); padding: 1rem 1.2rem 1.1rem; border: 1px solid oklch(0.80 0.115 82 / .35); border-radius: 6px; background: oklch(0.80 0.115 82 / .04); text-align: center; }
+.fu-s .v { font-family: var(--f-hud); font-size: clamp(1.8rem, 1.3rem + 1.4cqi, 2.4rem); color: var(--apex-gold); line-height: 1.1; }
+.fu-bar { width: 100%; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; margin-top: .3rem; }
+.fu-bar i { display: block; height: 100%; background: var(--apex-gold); }
+.acts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .4rem; }
+.btn-gold { border-color: oklch(0.80 0.115 82 / .55); color: var(--ink); background: transparent; }
+.btn-gold:hover { border-color: var(--apex-gold); color: var(--apex-gold); }
+.btn-share { color: var(--apex-gold); }
+.btn-share:hover { color: var(--ink); }
+.hh-foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 4rem 5rem; border-top: 1px solid var(--line); margin-top: 3rem; }
+</style>
+</helmet>
+<div class="atlas hh" data-world="ygg" data-weather="none" ref="{{rootRef}}">
+  <div class="hh-astro" aria-hidden="true"><img src="/_blob/344138fe2966bd3daea583bc3b98afa2" alt="" width="1100" height="1100" decoding="async"></div>
+  <header class="wrap-narrow hh-intro">
+    <sc-if value="{{inArbor}}" hint-placeholder-val="{{false}}">
+      <div class="lensnote"><span class="small">You are in the Arbor lens. The Hall records standing, and Arbor does not rank, so the Hall always shows Yggdrasil.</span><button class="btn btn-ghost" onClick="{{toYgg}}">Switch to Yggdrasil</button></div>
+    </sc-if>
+    <aside class="shift" role="note" aria-label="Meta shift"><span class="shift-pill">Yggdrasil IV</span><span class="small"><b>Meta shift:</b> challenge-driven, reversible trust. Held reviews never change standing.</span><button class="lk" onClick="{{toReports}}">Read the report →</button></aside>
+    <h1 class="hh-title">Hall of Heroes</h1>
+    <p class="hh-motto">Skills are catalogued. Names are earned.</p>
+    <p class="lede">Every named implementation the registry ranks 4★ or above.</p>
+    <p class="small hh-fork">The ladder forks here. A <b data-b="suite">Suite</b> fuses named components into one capstone. A <b data-b="unique">Unique</b> reached the rank with nothing beneath it. Both carry a Fusion Score, and it reads very differently on each.</p>
+    <div class="tally" aria-label="Plates by branch"><span><span class="gl" data-b="unique" aria-hidden="true">◉</span> <b>{{nU}}</b>Unique</span><span><span class="gl" data-b="suite" aria-hidden="true">◆</span> <b>{{nS}}</b>Suite</span><span><b>{{nAll}}</b>plates</span></div>
+    <div class="hint hud"><span>Scroll to enter the ledger</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+  </header>
+
+  <div class="mbar" aria-label="Hall ledger position">
+    <sc-if value="{{cur.hasAv}}" hint-placeholder-val="{{false}}"><img src="{{cur.av}}" alt="" width="26" height="26" decoding="async"></sc-if>
+    <span class="sl">/{{cur.slug}} <span class="hud">· {{cur.no}} / {{nAll}}</span></span>
+    <button class="sq" onClick="{{prev}}" aria-label="Previous plate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 4 3.5 8.5 8 13M4.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <button class="sq" onClick="{{next}}" aria-label="Next plate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 4 4.5 4.5L8 13M3.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+  </div>
+
+  <div class="hh-body">
+    <aside class="rail" aria-label="Hall ledger">
+      <div class="rail-in">
+        <span class="rail-track" aria-hidden="true"><i style="height: {{progress}}%"></i></span>
+        <span class="hud">Hall ledger</span>
+        <strong class="rail-cur">/{{cur.slug}}</strong>
+        <span class="hud">{{cur.rank}} · Plate {{cur.no}} / {{nAll}}</span>
+        <ol class="rail-list" ref="{{listRef}}">
+          <sc-for list="{{railItems}}" as="it" hint-placeholder-count="7">
+            <li><button onClick="{{it.go}}" aria-current="{{it.cur}}" data-i="{{it.i}}"><img src="{{it.av}}" alt="" width="28" height="28" loading="lazy" decoding="async"><span class="gl" data-b="{{it.br}}" aria-hidden="true">{{it.glyph}}</span><span class="sl">/{{it.slug}}</span></button></li>
+          </sc-for>
+        </ol>
+        <div class="rail-ctl">
+          <button class="sq" onClick="{{prev}}" aria-label="Previous plate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 4 3.5 8.5 8 13M4.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button class="sq" onClick="{{next}}" aria-label="Next plate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 4 4.5 4.5L8 13M3.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button class="all" onClick="{{toggleAll}}" aria-expanded="{{allOpen}}">{{allLabel}}</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="stages">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+        <sc-if value="{{r.isTier}}" hint-placeholder-val="{{false}}">
+          <header class="tier" data-b="{{r.br}}" data-l="{{r.lv}}">
+            <span class="gl" data-b="{{r.br}}" aria-hidden="true">{{r.glyph}}</span>
+            <h2 class="tier-name">{{r.name}}</h2>
+            <p class="small">{{r.desc}}</p>
+            <span class="hud">{{r.count}}</span>
+          </header>
+        </sc-if>
+        <sc-if value="{{r.isPlate}}" hint-placeholder-val="{{true}}">
+          <article class="stage" data-stage="{{r.i}}" data-b="{{r.br}}" aria-label="{{r.aria}}">
+            <span class="hud plate-no">Plate {{r.no}} / {{nAll}}</span>
+            <div class="crest-wrap">
+              <sc-if value="{{r.suite}}" hint-placeholder-val="{{false}}"><span class="diamond" aria-hidden="true"></span></sc-if>
+              <span class="crest-av">
+                <span class="ring" aria-hidden="true"></span>
+                <img class="av-img" src="{{r.av}}" alt="{{r.avAlt}}" width="240" height="240" loading="lazy" decoding="async">
+                <sc-if value="{{r.o}}" hint-placeholder-val="{{true}}"><img class="av-wreath" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" aria-hidden="true" loading="lazy" decoding="async"></sc-if>
+                <img class="av-med" src="{{r.med}}" alt="{{r.medAlt}}" width="96" height="96" loading="lazy" decoding="async">
+              </span>
+            </div>
+            <div class="txt">
+              <span class="branchmark"><span class="gl" data-b="{{r.br}}" aria-hidden="true">{{r.glyph}}</span>{{r.brWord}} branch</span>
+              <span class="rk" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.rank}}</span>
+              <h3 class="stage-slug" data-l="{{r.lv}}" data-b="{{r.br}}">/{{r.slug}}</h3>
+              <sc-if value="{{r.hasTitle}}" hint-placeholder-val="{{true}}"><p class="stage-title">{{r.title}}</p></sc-if>
+              <div class="by small"><span>by <span class="handle">@{{r.c}}</span></span><sc-if value="{{r.o}}" hint-placeholder-val="{{true}}"><span class="origin"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 19c-3-3-4-7-2-11M17 19c3-3 4-7 2-11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>Origin of {{r.gName}}</span></sc-if></div>
+              <dl class="stats">
+                <div><dt>Trust Magnitude · grade</dt><dd>{{r.tm}} <span class="metal" data-g="{{r.gr}}" style="min-width: 2rem">{{r.gr}}</span></dd></div>
+                <div><dt>Named skills</dt><dd>{{r.nNamed}}</dd></div>
+                <sc-if value="{{r.unique}}" hint-placeholder-val="{{true}}"><div><dt>Fused</dt><dd>{{r.fused}}</dd></div></sc-if>
+              </dl>
+              <sc-if value="{{r.suite}}" hint-placeholder-val="{{false}}">
+                <div class="fu-s" title="{{r.fsTip}}"><span class="hud">Fusion Score</span><span class="v">{{r.fs}}</span><span class="hud">{{r.fsSub}}</span><span class="fu-bar" aria-hidden="true"><i style="width: {{r.fsPct}}%"></i></span></div>
+              </sc-if>
+              <sc-if value="{{r.unique}}" hint-placeholder-val="{{true}}">
+                <div class="fu" title="{{r.fsTip}}"><span class="hud">Fusion Score</span><span class="v">{{r.fs}}</span><span class="hud">{{r.fsSub}}</span></div>
+              </sc-if>
+              <div class="acts">
+                <button class="btn btn-gold" onClick="{{r.open}}">View skill entry</button>
+                <button class="btn btn-quiet btn-share" onClick="{{r.share}}" aria-label="{{r.shareAria}}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M5 7.5 3.6 8.9a2.5 2.5 0 0 0 3.5 3.5L8.5 11M11 8.5l1.4-1.4a2.5 2.5 0 0 0-3.5-3.5L7.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Share plaque</button>
+              </div>
+            </div>
+          </article>
+        </sc-if>
+      </sc-for>
+      <footer class="hh-foot">
+        <button class="link" onClick="{{toHome}}">← Back to the tree</button>
+        <button class="link" onClick="{{toSkills}}">Browse every named skill →</button>
+      </footer>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"share":{"editor":null},"setWorld":{"editor":null},"$preview":{"width":1440,"height":6400}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const MED = { 4: '/_blob/7ecf86e4708fc19c0b59821d6c743613', 5: '/_blob/067317f281dd6808e896e3baa06d8a89', 6: '/_blob/670ae5fd0ba207ea8ec029f130247610' };
+const MEDU = { 4: '/_blob/7601aadaeb67b8b9616c4f70239a5f5a', 5: '/_blob/5a4f089a79116491433e15afa4296e82', 6: '/_blob/25a22d936d7985205d6d77f23460d572' };
+const NAME = { suite: { 4: 'Extra', 5: 'Ultimate', 6: 'Apex' }, unique: { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' } };
+const DESC = { suite: 'Fused from named components into one capstone.', unique: 'Carried to this rank on its own, with no suite beneath it.' };
+const GLYPH = { suite: '◆', unique: '◉' };
+/* suiteComponents length per suite plate (docs/graph/named/index.json, 17 Nov 2026) */
+const COMP = { 'addy-osmani/agent-skills': 8, 'gsd-build/get-shit-done': 5, 'leonxlnx/taste-skill': 11, 'garrytan/gbrain': 3, 'garrytan/gstack': 46, 'heygen-com/hyperframes': 18, 'mattpocock/engineering': 14, 'mattpocock/misc': 4, 'mattpocock/productivity': 6, 'mattpocock/skills': 25, 'obra/superpowers': 11, 'ruvnet/ruflo': 47, 't3dotgg/tstack': 9 };
+const ORDER = [['unique', 5], ['suite', 5], ['unique', 4], ['suite', 4]];
+function fsDisplay(v) { return v % 1 === 0 ? String(Math.round(v)) : v.toFixed(2); }
+function rankOf(br, lv) { return NAME[br][lv] + ' · ' + lv + '★'; }
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { d: null, active: 0, allOpen: false };
+    this.root = null; this.list = null; this.io = null; this.observed = 0;
+    this.rootRef = (el) => { this.root = el; };
+    this.listRef = (el) => { this.list = el; };
+  }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate() { this.observe(); this.keepRailInView(); }
+  componentWillUnmount() { if (this.io) this.io.disconnect(); }
+  plates() {
+    const d = this.state.d; if (!d) return [];
+    if (this.cache && this.cache.d === d) return this.cache.list;
+    const by = {}; d.plates.forEach((p) => { (by[p.br + p.lv] = by[p.br + p.lv] || []).push(p); });
+    const list = [];
+    ORDER.forEach((o) => (by[o[0] + o[1]] || []).forEach((p) => list.push(p)));
+    this.cache = { d: d, list: list };
+    return list;
+  }
+  /* One IntersectionObserver for every stage, never a scroll listener. It marks a stage as seen
+     (for the one-time entrance) and makes the stage crossing the middle band the active plate. */
+  observe() {
+    if (!this.root || !this.state.d) return;
+    const els = this.root.querySelectorAll('[data-stage]');
+    if (!els.length || els.length === this.observed) return;
+    if (this.io) this.io.disconnect();
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.setAttribute('data-seen', '');
+        const i = +e.target.getAttribute('data-stage');
+        if (i !== this.state.active) this.setState({ active: i });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    els.forEach((el) => this.io.observe(el));
+    this.observed = els.length;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) els.forEach((el) => el.setAttribute('data-seen', ''));
+  }
+  keepRailInView() {
+    const l = this.list; if (!l) return;
+    const b = l.querySelector('[aria-current="true"]'); if (!b) return;
+    const top = b.offsetTop - l.offsetTop, h = l.clientHeight;
+    if (top < l.scrollTop + 8 || top > l.scrollTop + h - 48) l.scrollTop = Math.max(0, top - h / 2 + 20);
+  }
+  goTo(i) {
+    const n = this.plates().length; if (!n || !this.root) return;
+    const k = (i + n) % n;
+    const el = this.root.querySelector('[data-stage="' + k + '"]');
+    if (el) { el.setAttribute('data-seen', ''); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    this.setState({ active: k });
+  }
+  renderVals() {
+    const d = this.state.d, list = this.plates(), n = list.length;
+    const av = (h) => (d && d.avatars[h]) || '';
+    const fusionMax = Math.max.apply(null, [1].concat(list.filter((p) => p.br === 'suite').map((p) => p.fs || 0)));
+    const go = (r, extra) => () => { if (this.props.go) this.props.go(r, extra); };
+    const rows = [];
+    let i = 0;
+    ORDER.forEach((o) => {
+      const grp = list.filter((p) => p.br === o[0] && p.lv === o[1]); if (!grp.length) return;
+      rows.push({ isTier: true, isPlate: false, br: o[0], lv: o[1], glyph: GLYPH[o[0]], name: rankOf(o[0], o[1]), desc: DESC[o[0]], count: grp.length + (grp.length === 1 ? ' plate' : ' plates') });
+      grp.forEach((p) => {
+        const k = i++;
+        const suite = p.br === 'suite';
+        const fsv = p.fs == null ? 0 : p.fs;
+        const comp = COMP[p.id] || 0;
+        const sub = suite ? [p.fsTrans ? p.fsTrans + ' nodes composed' : '', comp ? comp + ' named components' : ''].filter(Boolean).join(' · ') : (fsv === 0 ? 'composes no distinct structure' : (p.fsTrans || 0) + ' nodes composed');
+        rows.push({ isTier: false, isPlate: true, i: k, no: String(k + 1).padStart(2, '0'), br: p.br, lv: p.lv, suite: suite, unique: !suite, glyph: GLYPH[p.br], brWord: suite ? 'Suite' : 'Unique',
+          rank: rankOf(p.br, p.lv), slug: p.slug, title: p.title, hasTitle: !!p.title, c: p.c, o: !!p.o, gName: p.gName,
+          av: av(p.c), avAlt: '@' + p.c + ' on GitHub', med: (suite ? MED : MEDU)[p.lv], medAlt: rankOf(p.br, p.lv) + ' medallion',
+          tm: p.tm == null ? '—' : p.tm.toFixed(2), gr: p.gr || '-', nNamed: p.nNamed, fused: p.fsDirect || 0,
+          fs: fsv > 0 ? '+' + fsDisplay(fsv) : '0', fsSub: sub, fsPct: Math.max(2, Math.min(100, Math.round(fsv / fusionMax * 100))),
+          fsTip: 'Fusion Score: how much distinct structure this capability composes. A structural reading only, independent of Trust Magnitude. It grants no credit and gates no rank.',
+          aria: 'Plate ' + (k + 1) + ' of ' + n + ': /' + p.slug + ' by @' + p.c + ', ' + rankOf(p.br, p.lv),
+          open: () => { if (this.props.pick) this.props.pick({ id: p.id, generic: p.g }); },
+          share: () => { if (this.props.share) this.props.share({ id: p.id, slug: p.slug, title: p.title, c: p.c, lv: p.lv, br: p.br, tm: p.tm, gr: p.gr, o: !!p.o, av: av(p.c), med: (suite ? MED : MEDU)[p.lv], rank: rankOf(p.br, p.lv), g: p.g, gName: p.gName }); },
+          shareAria: 'Share the /' + p.slug + ' plaque' });
+      });
+    });
+    const a = Math.min(this.state.active, Math.max(0, n - 1));
+    const cp = list[a] || { slug: '…', c: '', br: 'unique', lv: 5 };
+    const lo = this.state.allOpen ? 0 : Math.max(0, Math.min(n - 7, a - 3)), hi = this.state.allOpen ? n : Math.min(n, lo + 7);
+    const railItems = list.slice(lo, hi).map((p, j) => ({ i: lo + j, av: av(p.c), br: p.br, glyph: GLYPH[p.br], slug: p.slug, cur: lo + j === a ? 'true' : 'false', go: () => this.goTo(lo + j) }));
+    return {
+      inArbor: (this.props.world || 'ygg') === 'arbor', toYgg: () => { if (this.props.setWorld) this.props.setWorld('ygg'); },
+      toReports: go('reports'), toHome: go('home'), toSkills: go('skills'),
+      nU: list.filter((p) => p.br === 'unique').length, nS: list.filter((p) => p.br === 'suite').length, nAll: n || '…',
+      rows: rows, railItems: railItems, rootRef: this.rootRef, listRef: this.listRef,
+      cur: { slug: cp.slug, no: String(a + 1).padStart(2, '0'), rank: rankOf(cp.br, cp.lv), av: av(cp.c), hasAv: !!av(cp.c) },
+      progress: n ? ((a + 1) / n * 100).toFixed(1) : 0,
+      prev: () => this.goTo(a - 1), next: () => this.goTo(a + 1),
+      allOpen: this.state.allOpen ? 'true' : 'false', allLabel: this.state.allOpen ? 'Show nearby' : 'All ' + n + ' plates',
+      toggleAll: () => this.setState({ allOpen: !this.state.allOpen })
+    };
+  }
+}
+</script>
+</body>
+</html>

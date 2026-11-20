@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Design system: three token layers and components</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.sys { padding-block: 3.5rem 5rem; display: flex; flex-direction: column; gap: 4rem; }
+.layer { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+@container atlas (max-width: 900px) { .layer { grid-template-columns: minmax(0, 1fr); } }
+.sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: .75rem; }
+.sw { display: flex; flex-direction: column; gap: .35rem; }
+.sw i { display: block; height: 52px; border-radius: 6px; border: 1px solid rgba(255,255,255,.08); }
+.sw span { font-family: var(--f-hud); font-size: .625rem; color: var(--ink-3); letter-spacing: .02em; }
+.sw b { font-weight: 600; font-size: .8125rem; color: var(--ink); }
+.worlds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.worlds > .atlas { border-radius: 12px; padding: 1.5rem; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 1.1rem; }
+@container atlas (max-width: 900px) { .worlds { grid-template-columns: minmax(0, 1fr); } }
+.roles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.roles div { display: flex; flex-direction: column; gap: .25rem; }
+.roles i { height: 34px; border-radius: 4px; border: 1px solid rgba(127,127,127,.2); display: block; }
+.roles span { font-family: var(--f-hud); font-size: .625rem; color: var(--ink-3); }
+.comp-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.rule-list { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .45rem; color: var(--ink-2); font-size: .9375rem; }
+.motion { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.motion td, .motion th { padding: .65rem 1rem .65rem 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.motion th { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none">
+  <div class="wrap sys">
+    <div class="stack gap-3">
+      <div class="plate"><span class="pl-mark">System</span><i class="pl-sep"></i><span>atlas.css</span><i class="pl-sep"></i><span>prototype tokens, OKLCH</span><i class="pl-rule"></i></div>
+      <h1 class="h1">Three layers, never mixed</h1>
+      <p class="lede">The Gaia shell stays constant. Each Tree brings its own world. Weather applies to the Arbor instrument only. Evidence metals, rank, Honor Red and challenge keep one meaning everywhere.</p>
+    </div>
+
+    <section class="layer" aria-labelledby="l1">
+      <div class="stack gap-2"><span class="hud">Layer 1</span><h2 class="h2" id="l1">Shell constants</h2><p class="small">Values mirror docs/css/tokens.css. A Tree never redefines them. One addition: ink variants for the Unique branch, because the violet at 4★ is 3.4:1 on dark grounds and fails as text.</p></div>
+      <div class="stack gap-4">
+        <div class="stack gap-2"><span class="hud">Rank ladder, shared 0–3★ and Suite 4–6★</span>
+          <div class="sw-grid">
+            <div class="sw"><i style="background: var(--rank-0)"></i><b>0–1★</b><span>--rank-0</span></div>
+            <div class="sw"><i style="background: var(--rank-2)"></i><b>Named 2★</b><span>--rank-2</span></div>
+            <div class="sw"><i style="background: var(--rank-3)"></i><b>Evolved 3★</b><span>--rank-3</span></div>
+            <div class="sw"><i style="background: var(--rank-4)"></i><b>Extra 4★</b><span>--rank-4</span></div>
+            <div class="sw"><i style="background: var(--rank-5)"></i><b>Ultimate 5★</b><span>--rank-5</span></div>
+            <div class="sw"><i style="background: oklch(0.83 0.16 84 / .3); border-color: var(--rank-6)"></i><b>Apex 6★</b><span>--rank-6 · doubled bg</span></div>
+          </div>
+        </div>
+        <div class="stack gap-2"><span class="hud">Unique branch 4–6★</span>
+          <div class="sw-grid">
+            <div class="sw"><i style="background: var(--rank-4-unique)"></i><b>Unique 4★</b><span>--rank-4-unique</span></div>
+            <div class="sw"><i style="background: var(--rank-4-unique-ink)"></i><b>Unique ink</b><span>new · text only</span></div>
+            <div class="sw"><i style="background: var(--rank-5-unique)"></i><b>Unique Ultimate</b><span>--rank-5-unique</span></div>
+            <div class="sw"><i style="background: var(--rank-5-unique-ink)"></i><b>Ultimate ink</b><span>new · text only</span></div>
+            <div class="sw"><i style="background: var(--rank-6-unique)"></i><b>Unique Impossible</b><span>--rank-6-unique</span></div>
+          </div>
+        </div>
+        <div class="stack gap-2"><span class="hud">Identity, evidence, challenge</span>
+          <div class="sw-grid">
+            <div class="sw"><i style="background: var(--honor-red)"></i><b>Honor Red</b><span>contributor handles only</span></div>
+            <div class="sw"><i style="background: var(--apex-gold)"></i><b>Apex Gold</b><span>5–6★ and the seal only</span></div>
+            <div class="sw"><i class="ingot" data-g="S" style="height: 52px"></i><b>Platinum S</b><span>--ev-platinum</span></div>
+            <div class="sw"><i class="ingot" data-g="A" style="height: 52px"></i><b>Gold A</b><span>--ev-gold</span></div>
+            <div class="sw"><i class="ingot" data-g="B" style="height: 52px"></i><b>Silver B</b><span>--ev-silver</span></div>
+            <div class="sw"><i class="ingot" data-g="C" style="height: 52px"></i><b>Bronze C</b><span>--ev-bronze</span></div>
+            <div class="sw"><i style="background: var(--challenge)"></i><b>Challenge</b><span>hachure only</span></div>
+            <div class="sw"><i style="background: var(--tier-basic)"></i><b>○ Basic</b><span>--tier-basic</span></div>
+            <div class="sw"><i style="background: var(--tier-fusion)"></i><b>◇ Fusion</b><span>--tier-fusion</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer" aria-labelledby="l2">
+      <div class="stack gap-2"><span class="hud">Layer 2</span><h2 class="h2" id="l2">Tree worlds</h2><p class="small">Same role names, different physics. The display voice changes with the world: a serif for the monument, a condensed grotesque for the instrument. Arbor green means "this is Arbor", never "good".</p></div>
+      <div class="worlds">
+        <div class="atlas" data-world="ygg" data-weather="none">
+          <div class="row" style="justify-content: space-between"><span class="hud" style="color: var(--accent-ink)">Yggdrasil IV · the monument</span><span class="hud">default</span></div>
+          <p class="display" style="font-size: 3rem">Standing</p>
+          <div class="roles"><div><i style="background: var(--ground)"></i><span>ground</span></div><div><i style="background: var(--panel)"></i><span>panel</span></div><div><i style="background: var(--line-2)"></i><span>line</span></div><div><i style="background: var(--accent)"></i><span>accent · antique gold</span></div><div><i style="background: var(--ink)"></i><span>ink · bone</span></div><div><i style="background: var(--ink-2)"></i><span>ink-2</span></div><div><i style="background: var(--ink-3)"></i><span>ink-3 · 6.8:1</span></div><div><i style="background: var(--sel)"></i><span>selection</span></div></div>
+          <p class="small">Warm obsidian ground, matching the Ascension Overdrive's umber so the locked section no longer reads as a different site. Curves, gold light, precious metal.</p>
+        </div>
+        <div class="atlas" data-world="arbor" data-weather="none">
+          <div class="row" style="justify-content: space-between"><span class="hud" style="color: var(--accent-ink)">Arbor I · the instrument</span><span class="hud">lens</span></div>
+          <p class="display" style="font-size: 3rem">Behavior</p>
+          <div class="roles"><div><i style="background: var(--ground)"></i><span>ground · charcoal</span></div><div><i style="background: var(--panel)"></i><span>panel</span></div><div><i style="background: var(--line-2)"></i><span>line</span></div><div><i style="background: var(--accent)"></i><span>accent · Arbor green</span></div><div><i style="background: var(--ink)"></i><span>ink · bone</span></div><div><i style="background: var(--ink-2)"></i><span>ink-2</span></div><div><i style="background: var(--ink-3)"></i><span>ink-3 · 6.7:1</span></div><div><i style="background: #687068"></i><span>ghost · lines only</span></div></div>
+          <p class="small">Washed charcoal and bone from the Arbor design language. Angles at 45°, hard corners, no stars, no medallions, no prestige-sized nodes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer" aria-labelledby="l3">
+      <div class="stack gap-2"><span class="hud">Layer 3</span><h2 class="h2" id="l3">Runtime weather</h2><p class="small">Scoped to the Arbor instrument: the scene and its legend. The surrounding page keeps its world, so weather never becomes a site theme.</p></div>
+      <div class="sw-grid">
+        <div class="sw"><i style="background: linear-gradient(90deg, var(--prism-violet), var(--prism-blue), var(--prism-cyan), var(--prism-mint), var(--prism-rose))"></i><b>Heaven</b><span>split light, never a fill</span></div>
+        <div class="sw"><i style="background: #efece7"></i><b>Hell paper</b><span>impact cut ground</span></div>
+        <div class="sw"><i style="background: #171618"></i><b>Hell ink</b><span>structure</span></div>
+        <div class="sw"><i style="background: oklch(0.50 0.16 345)"></i><b>Inverted signal</b><span>selection in Hell</span></div>
+        <div class="sw"><i style="background: oklch(0.52 0.20 27)"></i><b>Impact red</b><span>impact points only</span></div>
+        <div class="sw"><i style="background: var(--ultra-gold)"></i><b>Ultra gold</b><span>transient wake, never material</span></div>
+      </div>
+    </section>
+
+    <section class="layer" aria-labelledby="l4">
+      <div class="stack gap-2"><span class="hud">Type</span><h2 class="h2" id="l4">Three families, kept</h2><p class="small">The live stack stays: EB Garamond, Bricolage Grotesque, Departure Mono. Bricolage's width axis gives Arbor its own voice without a fourth face. Hero ceiling 84px; letter-spacing never tighter than −0.012em.</p></div>
+      <div class="stack gap-3">
+        <div class="row gap-4 wrapx" style="align-items: baseline"><span class="display" style="font-size: 3.4rem">Gaia Skill Tree</span><span class="hud">EB Garamond 500 · Yggdrasil display</span></div>
+        <div class="row gap-4 wrapx" style="align-items: baseline"><span style="font-family: var(--f-ui); font-stretch: 75%; font-weight: 600; font-size: 3.4rem; line-height: 1">The Arbor instrument</span><span class="hud">Bricolage 75% width · Arbor display</span></div>
+        <div class="row gap-4 wrapx" style="align-items: baseline"><span style="font-size: 1.15rem; max-width: 52ch">See what agents can do, who proved it first, and the evidence behind every claim.</span><span class="hud">Bricolage · body and UI</span></div>
+        <div class="row gap-4 wrapx" style="align-items: baseline"><span class="num" style="font-size: 1.6rem; color: var(--ink)">356.11 · S · 17 Nov 2026</span><span class="hud">Departure Mono · numerals, plates, code</span></div>
+      </div>
+    </section>
+
+    <section class="layer" aria-labelledby="l5">
+      <div class="stack gap-2"><span class="hud">Components</span><h2 class="h2" id="l5">The working set</h2><p class="small">Every one of these is live in the site frame, in both worlds.</p></div>
+      <div class="stack gap-4">
+        <div class="comp-row"><div class="lens" role="group" aria-label="Tree lens specimen"><button aria-pressed="true"><svg class="ln-ygg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8.5M12 12.5C12 8.6 8.7 6.4 4.6 5.6M12 12.5c0-4.1 3.1-6.6 7.4-7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span><span class="lens-name">Yggdrasil</span><span class="lens-sub">Standing</span></span></button><button aria-pressed="false"><svg class="ln-arbor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V3.5M12 15.5L6.5 10V6.5M12 11l4.6-4.6h2.4" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg><span><span class="lens-name">Arbor</span><span class="lens-sub">Behavior</span></span></button></div><span class="fine">The Lens: a projection switch, not a theme toggle</span></div>
+        <div class="comp-row"><div class="plate" style="flex: 1"><span class="pl-mark">Plate I</span><i class="pl-sep"></i><span>The World Tree</span><i class="pl-sep"></i><span>Snapshot 17 Nov 2026</span><i class="pl-rule"></i></div></div>
+        <div class="comp-row"><button class="btn btn-solid">Open dossier</button><button class="btn btn-ghost">See its behavior in Arbor</button><button class="btn btn-quiet">Clear filters</button><button class="link">Open the Evidence Library <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button></div>
+        <div class="comp-row"><span class="rk" data-l="1">Awakened · 1★</span><span class="rk" data-l="2">Named · 2★</span><span class="rk" data-l="3">Evolved · 3★</span><span class="rk" data-l="4">Extra · 4★</span><span class="rk" data-l="4" data-b="unique">Unique · 4★</span><span class="rk" data-l="5">Ultimate · 5★</span><span class="rk" data-l="5" data-b="unique">Unique Ultimate · 5★</span></div>
+        <div class="comp-row"><span class="metal" data-g="S">Platinum</span><span class="metal" data-g="A">Gold</span><span class="metal" data-g="B">Silver</span><span class="metal" data-g="C">Bronze</span><span class="metal" data-g="-">Ungraded</span><span class="evt" data-t="arxiv">arxiv</span><span class="evt" data-t="peer-review">peer-review</span><span class="evt" data-t="github-stars-own">github-stars-own</span><span class="evt" data-t="social-signal">social-signal</span></div>
+        <div class="comp-row"><span class="crest"><span>M</span></span><span class="handle">@mattpocock</span><span class="sk-name" data-l="3">/grill-me</span><span class="starless">Grill Me</span><span class="unknown">not measured</span><span class="proto-tag">Specimen · not issued</span></div>
+        <div class="comp-row" style="max-width: 520px"><div class="stack gap-1" style="flex: 1"><div class="meter"><i style="width: 66.7%"></i><b style="left: 48.2%"></b><b style="left: 62.9%"></b><b style="left: 74.3%"></b><b style="left: 88.8%"></b></div><div class="row hud" style="justify-content: space-between"><span>C 20</span><span>B 50</span><span>A 100</span><span>S 250</span></div></div><span class="num" style="color: var(--ink)">63.71</span></div>
+      </div>
+    </section>
+
+    <section class="layer" aria-labelledby="l6">
+      <div class="stack gap-2"><span class="hud">Motion</span><h2 class="h2" id="l6">Motion says what changed</h2><p class="small">Expo-out easing, no bounce. Under reduced motion every transition becomes an instant state change and the Hell flash is removed; meaning survives in the static form.</p></div>
+      <table class="motion">
+        <thead><tr><th>Moment</th><th>Duration</th><th>What it communicates</th></tr></thead>
+        <tbody>
+          <tr><td>Lens sweep</td><td class="num">1.05 s</td><td>The projection changed. A band of the destination's light crosses once.</td></tr>
+          <tr><td>Tree travel</td><td class="num">1.75 s</td><td>The same nodes move to their new positions; the selected skill's reticle travels with them.</td></tr>
+          <tr><td>Hell impact cut</td><td class="num">0.14 s</td><td>Two hard frames, then ink on paper. No easing.</td></tr>
+          <tr><td>Heaven packet</td><td class="num">loop · 2.9 s</td><td>Light travels the converged route only.</td></tr>
+          <tr><td>Ultra wake</td><td class="num">2.4–3.9 s</td><td>Gold traces pass and fade; nothing stays gold.</td></tr>
+          <tr><td>Reticle pulse</td><td class="num">0.7 s</td><td>Selection moved here.</td></tr>
+          <tr><td>Section entry</td><td class="num">0.8 s · 60 ms stagger</td><td>New composition arrived after a lens change; visible by default.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3240}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

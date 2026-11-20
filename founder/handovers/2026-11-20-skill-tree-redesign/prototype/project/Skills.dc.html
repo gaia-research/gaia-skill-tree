@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Skills: named skill discovery</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.sk-head { padding-block: clamp(3rem, 6cqi, 5rem) 2rem; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 2rem; align-items: end; }
+@container atlas (max-width: 860px) { .sk-head { grid-template-columns: minmax(0, 1fr); } }
+.toolbar { position: sticky; top: 64px; z-index: var(--z-sticky); background: color-mix(in oklch, var(--ground) 94%, transparent); border-block: 1px solid var(--line); }
+.toolbar-in { display: flex; flex-direction: column; gap: .85rem; padding-block: 1rem; }
+.facets { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.facets .sep { width: 1px; height: 22px; background: var(--line); margin-inline: .35rem; }
+.count { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.25rem .5rem; }
+.rows { display: flex; flex-direction: column; }
+.srow { display: grid; grid-template-columns: 2.25rem minmax(0, 3.4fr) minmax(0, 2.2fr) minmax(0, 1.6fr) minmax(0, 2fr) 3.25rem; gap: 1.25rem; align-items: center; padding: .95rem .5rem; border-bottom: 1px solid var(--line); text-align: left; background: none; border-left: 0; border-right: 0; border-top: 0; cursor: pointer; width: 100%; color: inherit; transition: background .15s; }
+.srow:hover { background: var(--accent-wash); }
+.srow .gl { font-size: 1.15rem; text-align: center; }
+.srow .who { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+.srow .who > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arow { grid-template-columns: 2.25rem minmax(0, 3.4fr) minmax(0, 2.4fr) minmax(0, 1.6fr) minmax(0, 2fr); }
+@container atlas (max-width: 900px) { .srow { grid-template-columns: 1.75rem minmax(0, 1fr) auto auto; gap: .75rem; } .arow { grid-template-columns: 1.75rem minmax(0, 1fr) auto; } .srow .c3, .srow .c4 { display: none; } .srow .meter { display: none; } }
+.plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 1rem; padding-top: 1rem; }
+.plate-card { position: relative; display: flex; flex-direction: column; gap: .7rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); text-align: left; color: inherit; transition: border-color .2s, transform .3s var(--ease); }
+.pc-open { position: absolute; inset: 0; z-index: 1; border: 0; background: none; cursor: pointer; border-radius: inherit; }
+.pc-av { position: relative; width: 84px; height: 84px; margin: .3rem 0 .2rem .3rem; }
+.pc-av .ph2 { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 0 0 1px var(--line-2); }
+.pc-av .wr { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+.pc-av .md { position: absolute; right: -18px; bottom: -8px; width: 44px; height: 44px; filter: drop-shadow(0 4px 8px rgba(0,0,0,.6)); }
+.pc-share { position: relative; z-index: 2; align-self: flex-start; display: inline-flex; align-items: center; gap: .35rem; min-height: 36px; padding: 0 .55rem; margin: -.2rem 0 -.4rem -.55rem; border: 0; border-radius: 6px; background: none; color: var(--apex-gold); font-weight: 600; font-size: .8125rem; cursor: pointer; }
+.pc-share:hover { background: var(--accent-wash); }
+.pc-share svg { width: 14px; height: 14px; }
+.lav { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex: none; background: var(--panel-2); }
+.plate-card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+
+.plate-card .ph { width: 96px; height: 96px; display: grid; place-items: center; border: 1px dashed var(--line-2); border-radius: 50%; color: var(--ink-3); font-family: var(--f-hud); font-size: .6875rem; }
+.cap-group { padding-top: 1.5rem; }
+.cap-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--line-2); }
+.empty { padding: 4rem 1rem; text-align: center; display: flex; flex-direction: column; gap: .75rem; align-items: center; }
+.flow { position: relative; overflow-x: clip; padding-top: .25rem; }
+.flow-legend { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; padding-block: .25rem 1rem; }
+.lg { display: inline-flex; align-items: center; gap: .45rem; }
+.lg i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--ink-2); display: inline-block; box-sizing: border-box; }
+.lg i.d { border-style: dashed; border-width: 1.5px; opacity: .8; }
+.zone { position: relative; border-top: 1px solid var(--line); border-left: 2px solid color-mix(in oklch, var(--zc) 55%, transparent); padding: 1rem 0 1.25rem 1rem; background: linear-gradient(to bottom, color-mix(in oklch, var(--zc) 8%, transparent), transparent 75%); }
+.zone-h { display: flex; align-items: center; gap: .3rem .65rem; flex-wrap: wrap; position: relative; z-index: 3; width: fit-content; max-width: 100%; padding: .2rem .6rem .2rem .25rem; margin-left: -.25rem; border-radius: 6px; background: color-mix(in oklch, var(--ground) 84%, transparent); }
+.zone-h .zm { width: 24px; height: 24px; flex: none; }
+.zone-word { font-family: var(--f-hud); font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--zc); }
+.zone-kind { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 4px; padding: 1px 6px; }
+.zone-nodes { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); row-gap: 12px; padding-top: .5rem; }
+.orb { position: relative; z-index: 3; justify-self: center; width: 44px; height: 44px; margin-top: var(--sy, 0px); padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; color: var(--oc); transition: opacity .25s; }
+.orb .o { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--oc); background: var(--ground); overflow: hidden; display: grid; place-items: center; font-family: var(--f-hud); font-size: .6875rem; color: var(--oc); box-sizing: border-box; transition: transform .25s var(--ease), box-shadow .25s; }
+.orb .o img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.orb.ghost .o { border-style: dashed; border-width: 1.5px; background: transparent; opacity: .8; }
+.orb:hover .o, .orb:focus-visible .o, .orb.cur .o { transform: scale(1.2); box-shadow: 0 0 0 4px color-mix(in oklch, var(--oc) 32%, transparent); }
+.orb:focus-visible { outline: none; }
+.orb .lab { position: absolute; top: 100%; left: 50%; margin-top: -8px; transform: translateX(-50%); white-space: nowrap; font-family: var(--f-hud); font-size: .6875rem; color: var(--ink); background: var(--panel); border: 1px solid var(--line-2); border-radius: 4px; padding: 1px 6px; opacity: 0; pointer-events: none; z-index: 5; }
+.orb[data-edge="l"] .lab { left: 0; transform: none; } .orb[data-edge="r"] .lab { left: auto; right: 0; transform: none; }
+.orb:hover .lab, .orb:focus-visible .lab, .flow.focus .orb.rel .lab { opacity: 1; }
+.orb:hover, .orb:focus-visible, .orb.cur { z-index: 8; }
+.flow.focus .orb:not(.rel) { opacity: .28; }
+.flow-svg { position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none; overflow: visible; }
+.flow-svg path { fill: none; stroke: var(--pc); stroke-width: 1.1; opacity: .42; transition: opacity .25s, stroke-width .25s; }
+.flow.focus .flow-svg path { opacity: .03; }
+.flow.focus .flow-svg path.on { opacity: .95; stroke-width: 1.75; }
+.flow-read { position: sticky; bottom: .75rem; z-index: 9; margin-top: 1rem; display: flex; align-items: center; gap: .5rem 1.25rem; flex-wrap: wrap; padding: .75rem 1rem; border: 1px solid var(--line-2); border-radius: 12px; background: color-mix(in oklch, var(--panel) 97%, transparent); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+.flow-read .fr-main { display: flex; flex-direction: column; gap: .1rem; min-width: 0; flex: 1 1 14rem; }
+.flow-read .fr-name { font-family: var(--f-display); font-style: italic; font-size: 1.15rem; color: var(--ink); overflow-wrap: anywhere; }
+.atlas[data-world="arbor"] .flow-read .fr-name { font-family: var(--f-hud); font-style: normal; font-size: .95rem; }
+.flow-read .btn { min-height: 44px; }
+.flow-read [hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .orb, .orb .o, .flow-svg path { transition: none; } }
+@container atlas (max-width: 600px) { .zone { padding-left: .6rem; } .flow-read { bottom: .5rem; } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap sk-head">
+    <div class="stack gap-3">
+      <div class="plate"><span class="pl-mark">{{plateMark}}</span><i class="pl-sep"></i><span>{{plateA}}</span><i class="pl-sep"></i><span>{{plateB}}</span><i class="pl-rule"></i></div>
+      <h1 class="h1">{{title}}</h1>
+      <p class="lede">{{lede}}</p>
+    </div>
+    <div class="stack gap-2" style="align-items: flex-start">
+      <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+        <p class="small">Your handle appears in <span class="handle">Honor Red</span> on every skill you hold.</p>
+      </sc-if>
+      <button class="btn btn-ghost" onClick="{{goDocs}}">Register your repo</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="wrap toolbar-in">
+      <div class="row gap-2 wrapx">
+        <label class="field grow" style="min-width: 240px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search skills</span><input type="search" placeholder="Search skills, capabilities, contributors" value="{{q}}" onInput="{{onQ}}"></label>
+        <div class="seg" role="group" aria-label="View">
+          <button onClick="{{vLedger}}" aria-pressed="{{isLedger}}">Ledger</button>
+          <button onClick="{{vPlates}}" aria-pressed="{{isPlates}}">Specimens</button>
+          <button onClick="{{vCap}}" aria-pressed="{{isCap}}">By capability</button>
+          <button onClick="{{vFlow}}" aria-pressed="{{isFlow}}">Flow</button>
+        </div>
+      </div>
+      <div class="facets" role="group" aria-label="Filters">
+        <sc-for list="{{facets}}" as="f" hint-placeholder-count="6">
+          <button class="chip" aria-pressed="{{f.on}}" onClick="{{f.toggle}}">{{f.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom: 5rem">
+    <div class="count"><span class="small">{{countLabel}}</span><span class="proto-tag">Prototype sample of the real registry · full list loads from the registry</span></div>
+
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+      <div class="empty"><h2 class="h3">Nothing on the record matches "{{q}}"</h2><p class="small" style="max-width: 44ch">Try a contributor handle or a capability name. Generic capabilities without a named implementation live in the Starless index.</p><button class="btn btn-ghost" onClick="{{clear}}">Clear search and filters</button></div>
+    </sc-if>
+
+    <sc-if value="{{showLedger}}" hint-placeholder-val="{{true}}">
+      <div class="rows" role="list">
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+          <button class="srow {{rowCls}}" role="listitem" onClick="{{r.open}}">
+            <span class="gl" aria-hidden="true" style="color: {{r.glyphColor}}">{{r.glyph}}</span>
+            <span class="who"><span class="sk-name" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.name}}</span><span class="fine">{{r.title}}</span></span>
+            <span class="who c3"><span class="row gap-2"><img class="lav" src="{{r.av}}" alt="" width="22" height="22" loading="lazy" decoding="async"><span class="handle small">@{{r.c}}</span></span><span class="starless small">{{r.gName}}</span></span>
+            <span class="c4">
+              <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><span class="rk" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.rank}}</span></sc-if>
+              <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}"><span class="hud" style="color: var(--ink-2)">{{r.pinLabel}}</span></sc-if>
+            </span>
+            <span>
+              <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><span class="row gap-2"><span class="meter sm grow"><i style="width: {{r.pct}}%"></i></span><span class="num small" style="color: var(--ink)">{{r.tm}}</span></span></sc-if>
+              <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}"><span class="unknown">Hell-Heaven not measured</span></sc-if>
+            </span>
+            <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><span class="metal" data-g="{{r.gr}}" style="min-width: 2.6rem">{{r.gr}}</span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showPlates}}" hint-placeholder-val="{{false}}">
+      <div class="plates">
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+          <div class="plate-card">
+            <button class="pc-open" onClick="{{r.open}}" aria-label="{{r.openAria}}"></button>
+            <sc-if value="{{r.hasMed}}" hint-placeholder-val="{{true}}"><span class="pc-av"><img class="ph2" src="{{r.av}}" alt="" width="84" height="84" loading="lazy" decoding="async"><sc-if value="{{r.o}}" hint-placeholder-val="{{false}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" loading="lazy" decoding="async"></sc-if><img class="md" src="{{r.med}}" alt="{{r.medAlt}}" width="44" height="44" loading="lazy" decoding="async"></span></sc-if>
+            <sc-if value="{{r.noMed}}" hint-placeholder-val="{{false}}"><span class="ph">{{r.phLabel}}</span></sc-if>
+            <span class="sk-name" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.name}}</span>
+            <span class="fine">{{r.title}}</span>
+            <span class="handle small">@{{r.c}}</span>
+            <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><span class="row gap-1 wrapx"><span class="rk" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.rank}}</span><span class="metal" data-g="{{r.gr}}" style="min-width: 2.4rem">{{r.gr}}</span></span></sc-if>
+            <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}"><span class="hud">{{r.pinLabel}}</span></sc-if>
+            <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><button class="pc-share" onClick="{{r.share}}" aria-label="{{r.shareAria}}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M5 7.5 3.6 8.9a2.5 2.5 0 0 0 3.5 3.5L8.5 11M11 8.5l1.4-1.4a2.5 2.5 0 0 0-3.5-3.5L7.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Share plaque</button></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showCap}}" hint-placeholder-val="{{false}}">
+      <div>
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+          <div class="cap-group">
+            <div class="cap-head"><span class="starless" style="font-size: 1.3rem">{{g.name}}</span><span class="hud">{{g.meta}}</span></div>
+            <div class="rows">
+              <sc-for list="{{g.items}}" as="r" hint-placeholder-count="2">
+                <button class="srow {{rowCls}}" onClick="{{r.open}}">
+                  <span class="gl" aria-hidden="true" style="color: {{r.glyphColor}}">{{r.glyph}}</span>
+                  <span class="who"><span class="sk-name" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.name}}</span><span class="fine">{{r.title}}</span></span>
+                  <span class="who c3"><span class="row gap-2"><img class="lav" src="{{r.av}}" alt="" width="22" height="22" loading="lazy" decoding="async"><span class="handle small">@{{r.c}}</span></span></span>
+                  <span class="c4"><span class="hud">{{r.originLabel}}</span></span>
+                  <span><span class="rk" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.rank}}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{showFlow}}" hint-placeholder-val="{{false}}">
+      <div class="flow" ref="{{flowRef}}">
+        <div class="flow-legend hud" role="note">
+          <span class="lg"><i></i>{{legA}}</span>
+          <span class="lg"><i class="d"></i>No named skill yet</span>
+          <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}"><span class="lg"><i style="border-color: var(--accent)"></i>Pinned subject</span></sc-if>
+          <span>{{legB}}</span>
+        </div>
+        <sc-for list="{{zones}}" as="z" hint-placeholder-count="5">
+          <section class="zone" style="--zc: {{z.color}}">
+            <div class="zone-h">
+              <sc-if value="{{z.hasMed}}" hint-placeholder-val="{{true}}"><img class="zm" src="{{z.med}}" alt="" width="24" height="24"></sc-if>
+              <span class="zone-word">{{z.word}}</span>
+              <sc-if value="{{z.hasKind}}" hint-placeholder-val="{{true}}"><span class="zone-kind">{{z.kind}}</span></sc-if>
+              <span class="hud">{{z.count}}</span>
+            </div>
+            <div class="zone-nodes">
+              <sc-for list="{{z.nodes}}" as="n" hint-placeholder-count="8">
+                <button class="orb {{n.cls}}" data-i="{{n.i}}" style="--oc: {{n.oc}}; --sy: {{n.sy}}px" aria-label="{{n.aria}}" onClick="{{n.click}}" onMouseEnter="{{n.enter}}" onMouseLeave="{{n.leave}}" onFocus="{{n.enter}}" onBlur="{{n.leave}}"><span class="o"><sc-if value="{{n.hasAv}}" hint-placeholder-val="{{false}}"><img src="{{n.av}}" alt="" loading="lazy" decoding="async"></sc-if><sc-if value="{{n.hasMono}}" hint-placeholder-val="{{false}}"><span aria-hidden="true">{{n.mono}}</span></sc-if></span><span class="lab" aria-hidden="true">{{n.lab}}</span></button>
+              </sc-for>
+            </div>
+          </section>
+        </sc-for>
+        <div class="flow-read" aria-live="polite">
+          <div class="fr-main"><span class="fr-name" data-k="name">Trace a skill's lineage</span><span class="small" data-k="sub">Hover, focus or tap an orb to light the prerequisites beneath it and the skills built on it. Click a named skill to open it.</span><span class="hud" data-k="meta"></span></div>
+          <button class="btn btn-ghost" style="border-color: var(--accent)" data-k="open" hidden onClick="{{openShown}}">Open skill</button>
+          <button class="btn btn-ghost" data-k="clr" hidden onClick="{{clearSel}}">Clear selection</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"share":{"editor":null},"$preview":{"width":1440,"height":5560}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+const FL_URL = '/_blob/8b66798fc1cd342f5d6247214f6263ae';
+let FL_P = null;
+function flowData() { if (!FL_P) FL_P = fetch(FL_URL).then(function (r) { return r.json(); }); return FL_P; }
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const RN = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RNU = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function rankName(lv, br) { return (lv >= 4 && br === 'unique' ? RNU[lv] : RN[lv]) + ' · ' + lv + '★'; }
+function meterPct(tm) { return Math.min(100, Math.log(1 + (tm || 0)) / Math.log(501) * 100).toFixed(1); }
+const MED = { 1: '/_blob/a683094ec451ed1421d6e3c772818798', 2: '/_blob/245265bcf720c3554a92d4deebdf13ca', 3: '/_blob/d762e0fb037e3eff0ed7123da1031186', 4: '/_blob/7ecf86e4708fc19c0b59821d6c743613', 5: '/_blob/067317f281dd6808e896e3baa06d8a89', 6: '/_blob/670ae5fd0ba207ea8ec029f130247610' };
+const MEDU = { 4: '/_blob/7601aadaeb67b8b9616c4f70239a5f5a', 5: '/_blob/5a4f089a79116491433e15afa4296e82', 6: '/_blob/25a22d936d7985205d6d77f23460d572' };
+function glyph(s) {
+  if (s.lv >= 4 && s.br === 'unique') return ['◉', 'var(--rank-4-unique-ink)'];
+  if (s.br === 'suite' && s.lv >= 4) return ['◆', 'var(--rank-' + s.lv + ')'];
+  return s.gType === 'fusion' ? ['◇', 'var(--tier-fusion)'] : ['○', 'var(--tier-basic)'];
+}
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, fl: null, q: '', view: 'ledger', f: {} };
+    this.flowEl = null; this.ro = null; this.sel = null; this.shown = null; this.champ = []; this.nodeOc = []; this.orbEls = {}; this.pathEls = []; this.drawKey = '';
+    this.flowRef = (el) => {
+      this.flowEl = el;
+      if (this.ro) { this.ro.disconnect(); this.ro = null; }
+      if (el && typeof ResizeObserver !== 'undefined') { this.ro = new ResizeObserver(() => this.drawFlow()); this.ro.observe(el); }
+    };
+  }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); flowData().then((fl) => this.setState({ fl: fl })).catch(() => {}); }
+  componentDidUpdate() { this.drawFlow(); }
+  componentWillUnmount() { if (this.ro) this.ro.disconnect(); }
+  adj() {
+    const fl = this.state.fl; if (!fl) return null;
+    if (this._adj && this._adj.fl === fl) return this._adj;
+    const n = fl.g.length, par = fl.g.map((g) => g[3]), chi = fl.g.map(() => []);
+    fl.g.forEach((g, i) => g[3].forEach((p) => chi[p].push(i)));
+    const depth = new Array(n).fill(-1);
+    const dep = (i) => { if (depth[i] >= 0) return depth[i]; depth[i] = 0; let m = -1; par[i].forEach((p) => { m = Math.max(m, dep(p)); }); depth[i] = m + 1; return depth[i]; };
+    for (let i = 0; i < n; i++) dep(i);
+    this._adj = { fl: fl, par: par, chi: chi, depth: depth };
+    return this._adj;
+  }
+  related(i) {
+    const a = this.adj(), set = {}; set[i] = true;
+    const up = (k) => a.par[k].forEach((p) => { if (!set[p]) { set[p] = true; up(p); } });
+    const down = (k) => a.chi[k].forEach((c) => { if (!set[c]) { set[c] = true; down(c); } });
+    up(i); down(i); return set;
+  }
+  drawFlow() {
+    const el = this.flowEl, fl = this.state.fl; if (!el || !fl) return;
+    const orbs = el.querySelectorAll('.orb[data-i]'); if (!orbs.length) return;
+    const cr = el.getBoundingClientRect(), key = cr.width.toFixed(0) + '|' + cr.height.toFixed(0) + '|' + orbs.length + '|' + (this.props.world || 'ygg') + '|' + this.nodeKey;
+    let svg = el.querySelector(':scope > svg.flow-svg');
+    if (svg && key === this.drawKey) { this.relight(); return; }
+    this.drawKey = key;
+    if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'flow-svg'); svg.setAttribute('aria-hidden', 'true'); el.insertBefore(svg, el.firstChild); }
+    svg.setAttribute('width', cr.width); svg.setAttribute('height', cr.height);
+    const pos = {}; this.orbEls = {};
+    orbs.forEach((b) => { const i = +b.getAttribute('data-i'), o = b.querySelector('.o').getBoundingClientRect(); pos[i] = [o.left + o.width / 2 - cr.left, o.top + o.height / 2 - cr.top]; this.orbEls[i] = b; const ex = pos[i][0]; if (ex < 110) b.setAttribute('data-edge', 'l'); else if (ex > cr.width - 110) b.setAttribute('data-edge', 'r'); else b.removeAttribute('data-edge'); });
+    const narrow = cr.width < 640; let h = ''; this.pathEls = [];
+    fl.g.forEach((g, i) => g[3].forEach((p) => {
+      const f = pos[p], t = pos[i]; if (!f || !t) return;
+      const dy = t[1] - f[1], dx = t[0] - f[0], sg = dy >= 0 ? 1 : -1, c = Math.abs(dy) * (narrow ? 0.12 : 0.25) + Math.abs(dx) * (narrow ? 0.03 : 0.05);
+      h += '<path data-a="' + p + '" data-b="' + i + '" style="--pc:' + (this.nodeOc[i] || 'var(--ink-3)') + '" d="M' + f[0].toFixed(1) + ',' + f[1].toFixed(1) + ' C' + f[0].toFixed(1) + ',' + (f[1] + sg * c).toFixed(1) + ' ' + t[0].toFixed(1) + ',' + (t[1] - sg * c).toFixed(1) + ' ' + t[0].toFixed(1) + ',' + t[1].toFixed(1) + '"/>';
+    }));
+    svg.innerHTML = h; this.pathEls = Array.prototype.slice.call(svg.querySelectorAll('path'));
+    this.relight();
+  }
+  relight() { this.light(this.hov != null ? this.hov : this.sel); }
+  light(i) {
+    const el = this.flowEl; if (!el) return;
+    const set = i != null ? this.related(i) : null;
+    el.classList.toggle('focus', !!set);
+    Object.keys(this.orbEls).forEach((k) => { const b = this.orbEls[k]; b.classList.toggle('rel', !!set && !!set[k]); b.classList.toggle('cur', i != null && +k === i); });
+    this.pathEls.forEach((p) => { p.classList.toggle('on', !!set && !!set[p.getAttribute('data-a')] && !!set[p.getAttribute('data-b')]); });
+  }
+  show(i) {
+    const el = this.flowEl; if (!el) return;
+    this.shown = i;
+    const q = (k) => el.querySelector('[data-k="' + k + '"]'), fl = this.state.fl, arb = (this.props.world || 'ygg') === 'arbor';
+    const open = q('open'), clr = q('clr');
+    if (i == null || !fl) { q('name').textContent = "Trace a skill's lineage"; q('sub').textContent = 'Hover, focus or tap an orb to light the prerequisites beneath it and the skills built on it. Click a named skill to open it.'; q('meta').textContent = ''; open.hidden = true; clr.hidden = this.sel == null; return; }
+    const g = fl.g[i], a = this.adj(), ch = this.champ[i], ty = g[2] === 'f' ? '◇ Fusion capability' : '○ Basic capability';
+    const red = ch && ch[3] <= 1;
+    q('name').textContent = ch ? (red ? '████████/' : ch[1] + '/') + ch[0].split('/').slice(1).join('/') : g[1];
+    const bits = [];
+    if (ch) bits.push(g[1], ty); else bits.push(ty, 'No named skill yet');
+    q('sub').textContent = bits.join(' · ');
+    const m = [];
+    if (ch && !arb) { m.push(rankName(ch[3], ch[4] === 'u' ? 'unique' : 'suite')); m.push(ch[7] !== '-' ? 'TM ' + ch[6].toFixed(2) + ' · grade ' + ch[7] : 'not yet graded'); if (ch[5]) m.push('Origin'); }
+    if (ch && arb) m.push(this.pinOf(ch[0]) ? 'pinned subject' : 'not yet pinned');
+    m.push(a.par[i].length + ' prerequisite' + (a.par[i].length === 1 ? '' : 's'), a.chi[i].length + ' built on it');
+    q('meta').textContent = m.join(' · ');
+    open.hidden = !ch; clr.hidden = this.sel == null;
+  }
+  pinOf(id) { const d = this.state.d; if (!d) return false; if (!this._pin) { this._pin = {}; d.skills.forEach((s) => { this._pin[s.id] = !!s.pinned; }); } return !!this._pin[id]; }
+  openShown() { const ch = this.shown != null ? this.champ[this.shown] : null; if (ch && this.props.pick) this.props.pick({ id: ch[0], generic: this.state.fl.g[this.shown][0] }); }
+  flowVals(d, fl, arb, f, q, relCount) {
+    const adj = this.adj(), gen = fl.g, ng = gen.length, pinned = {}; d.skills.forEach((s) => { pinned[s.id] = !!s.pinned; });
+    const anyLv = f.l5 || f.l4 || f.l3 || f.l2;
+    const ok = fl.n.filter((n) => {
+      const g = gen[n[2]];
+      if (q && (n[0] + ' ' + g[1] + ' ' + n[8]).toLowerCase().indexOf(q) < 0) return false;
+      if (arb) {
+        if (f.pinned && !pinned[n[0]]) return false;
+        if (f.rel && !relCount[n[0]]) return false;
+        if ((f.fusion || f.basic) && !((f.fusion && g[2] === 'f') || (f.basic && g[2] === 'b'))) return false;
+        return true;
+      }
+      if (anyLv && !((f.l5 && n[3] === 5) || (f.l4 && n[3] === 4) || (f.l3 && n[3] === 3) || (f.l2 && n[3] <= 2))) return false;
+      if ((f.suite || f.unique) && !((f.suite && n[4] === 's') || (f.unique && n[4] === 'u'))) return false;
+      if (f.origin && !n[5]) return false;
+      return true;
+    });
+    const champ = new Array(ng).fill(null);
+    ok.forEach((n) => { const c = champ[n[2]]; if (!c || n[5] || n[3] > c[3]) champ[n[2]] = n; });
+    this.champ = champ;
+    const handlers = (i) => ({
+      enter: () => { this.hov = i; this.light(i); this.show(i); },
+      leave: () => { this.hov = null; this.light(this.sel); if (this.sel != null) this.show(this.sel); },
+      click: () => {
+        const ch = champ[i], coarse = typeof matchMedia !== 'undefined' && matchMedia('(pointer: coarse)').matches;
+        this.sel = this.sel === i && !ch ? null : i; this.light(i); this.show(i);
+        if (ch && !coarse && this.props.pick) this.props.pick({ id: ch[0], generic: gen[i][0] });
+      }
+    });
+    const rkOf = (i) => (champ[i] ? champ[i][3] : 0);
+    const brOf = (i) => (champ[i] && champ[i][4] === 'u' ? 'u' : 's');
+    const labelOf = (i) => { const ch = champ[i]; if (!ch) return gen[i][0]; return (ch[3] <= 1 ? '████████' : ch[1]) + '/' + ch[0].split('/').slice(1).join('/'); };
+    const colorFor = (rank, br) => (rank >= 4 && br === 'u') ? (rank >= 6 ? 'var(--rank-6-unique)' : 'var(--rank-' + rank + '-unique-ink)') : (rank >= 5 && br === 's' ? 'var(--apex-gold)' : 'var(--rank-' + rank + ')');
+    const av = d.avatars || {};
+    const oc = new Array(ng);
+    const mkNode = (i, zoneColor) => {
+      const ch = champ[i], red = ch && ch[3] <= 1, h = handlers(i);
+      let c = arb ? (ch ? (pinned[ch[0]] ? 'var(--accent)' : 'var(--ink-2)') : 'var(--ink-3)') : (ch ? zoneColor : 'var(--ink-3)');
+      oc[i] = c;
+      const a = ch && !red ? av[ch[1]] : '';
+      let hash = 0; for (let k = 0; k < gen[i][0].length; k++) hash = (Math.imul(31, hash) + gen[i][0].charCodeAt(k)) | 0;
+      return {
+        i: i, oc: c, sy: Math.abs(hash) % 14, cls: (ch ? '' : 'ghost'),
+        aria: ch ? labelOf(i) + (arb ? '' : ', ' + rankName(ch[3], brOf(i) === 'u' ? 'unique' : 'suite')) + (ch[5] && !arb ? ', Origin' : '') : gen[i][1] + ', no named skill yet',
+        lab: labelOf(i), hasAv: !!a, av: a || '', hasMono: !!ch && !a && !red, mono: ch && !red ? ch[1].charAt(0).toUpperCase() : '',
+        enter: h.enter, leave: h.leave, click: h.click
+      };
+    };
+    const sortFn = (x, y) => (rkOf(y) - rkOf(x)) || labelOf(x).localeCompare(labelOf(y));
+    const zones = [], zoneDefs = [];
+    const named = ok.length; let namedNodes = 0; champ.forEach((c) => { if (c) namedNodes++; });
+    if (arb) {
+      const maxD = Math.max.apply(null, adj.depth), byD = {};
+      for (let i = 0; i < ng; i++) (byD[adj.depth[i]] = byD[adj.depth[i]] || []).push(i);
+      for (let dd = maxD; dd >= 0; dd--) { const ids = (byD[dd] || []).slice().sort((x, y) => (champ[y] ? 1 : 0) - (champ[x] ? 1 : 0) || labelOf(x).localeCompare(labelOf(y))); zoneDefs.push({ word: 'Layer ' + dd, kind: dd === 0 ? 'No prerequisites' : '', color: 'var(--ink-2)', ids: ids, med: '', named: ids.filter((i) => champ[i]).length }); }
+    } else {
+      const by = {};
+      for (let i = 0; i < ng; i++) { const r = rkOf(i), k = r >= 4 ? r + brOf(i) : String(r); (by[k] = by[k] || []).push(i); }
+      for (let r = 6; r >= 0; r--) {
+        if (r < 4) { const ids = (by[String(r)] || []).slice().sort(sortFn); zoneDefs.push({ word: RN[r] + ' · ' + r + '★', kind: r === 0 ? 'Starless' : '', color: colorFor(r, 's'), ids: ids, med: MED[r] || '', named: ids.length && r > 0 ? ids.length : 0 }); continue; }
+        ['u', 's'].forEach((b) => { const ids = (by[r + b] || []).slice().sort(sortFn); if (!ids.length) return; zoneDefs.push({ word: (b === 'u' ? RNU[r] : RN[r]) + ' · ' + r + '★', kind: b === 'u' ? 'Standalone' : 'Suite', color: colorFor(r, b), ids: ids, med: (b === 'u' ? MEDU[r] : MED[r]) || '', named: ids.length }); });
+      }
+    }
+    zoneDefs.forEach((z) => {
+      zones.push({ word: z.word, kind: z.kind, hasKind: !!z.kind, color: z.color, med: z.med, hasMed: !!z.med && !arb, count: z.ids.length + (z.ids.length === 1 ? ' skill' : ' skills') + (arb && z.named ? ' · ' + z.named + ' with a named skill' : ''), nodes: z.ids.map((i) => mkNode(i, z.color)) });
+    });
+    this.nodeOc = oc; this.nodeKey = zones.map((z) => z.nodes.map((n) => n.i).join(',')).join(';').length + ':' + namedNodes + ':' + zones.length;
+    let edges = 0; gen.forEach((g) => { edges += g[3].length; });
+    return { zones: zones, named: named, namedNodes: namedNodes, edges: edges };
+  }
+  renderVals() {
+    const d = this.state.d, world = this.props.world || 'ygg', arb = world === 'arbor';
+    const f = this.state.f, q = this.state.q.trim().toLowerCase();
+    const relCount = {}; if (d) d.relations.forEach((r) => { relCount[r.from] = (relCount[r.from] || 0) + 1; relCount[r.to] = (relCount[r.to] || 0) + 1; });
+    const toggle = (k) => () => { const n = Object.assign({}, this.state.f); n[k] = !n[k]; this.setState({ f: n }); };
+    const defs = arb
+      ? [['pinned', 'Pinned subjects'], ['rel', 'With declared relations'], ['fusion', '◇ Fusion capability'], ['basic', '○ Basic capability']]
+      : [['l5', '5★'], ['l4', '4★'], ['l3', '3★'], ['l2', '2★ and below'], ['suite', '◆ Suite branch'], ['unique', '◉ Unique branch'], ['origin', 'Origin holders']];
+    const facets = defs.map((x) => ({ label: x[1], on: f[x[0]] ? 'true' : 'false', toggle: toggle(x[0]) }));
+    let all = d ? d.skills.slice() : [];
+    if (arb) all.sort((a, b) => (b.pinned - a.pinned) || ((relCount[b.id] || 0) - (relCount[a.id] || 0)) || (a.id < b.id ? -1 : 1));
+    const anyLv = f.l5 || f.l4 || f.l3 || f.l2;
+    const rows = all.filter((s) => {
+      if (q && (s.id + ' ' + s.gName + ' ' + (s.title || '')).toLowerCase().indexOf(q) < 0) return false;
+      if (arb) {
+        if (f.pinned && !s.pinned) return false;
+        if (f.rel && !relCount[s.id]) return false;
+        if ((f.fusion || f.basic) && !((f.fusion && s.gType === 'fusion') || (f.basic && s.gType === 'basic'))) return false;
+        return true;
+      }
+      if (anyLv && !((f.l5 && s.lv === 5) || (f.l4 && s.lv === 4) || (f.l3 && s.lv === 3) || (f.l2 && s.lv <= 2))) return false;
+      if ((f.suite || f.unique) && !((f.suite && s.br === 'suite') || (f.unique && s.br === 'unique'))) return false;
+      if (f.origin && !s.o) return false;
+      return true;
+    }).map((s) => {
+      const gl = glyph(s);
+      const med = s.lv >= 4 && s.br === 'unique' ? MEDU[s.lv] : MED[s.lv];
+      return {
+        name: arb ? s.id : '/' + s.slug, title: s.title || '', c: s.c, gName: s.gName, lv: arb ? 0 : s.lv, br: s.br === 'unique' ? 'unique' : 'suite',
+        rank: rankName(s.lv, s.br), tm: s.tm != null ? s.tm.toFixed(2) : 'n/a', pct: meterPct(s.tm), gr: s.gr || '-',
+        glyph: arb ? (s.pinned ? '●' : '□') : gl[0], glyphColor: arb ? 'var(--ink)' : gl[1],
+        pinLabel: s.pinned ? (relCount[s.id] ? 'pinned · ' + relCount[s.id] + ' declared' : 'pinned') : 'not yet pinned',
+        originLabel: s.o ? 'Origin' : '',
+        hasMed: !arb && !!med, noMed: arb || !med, med: med || '', medAlt: rankName(s.lv, s.br) + ' medallion', phLabel: arb ? (s.pinned ? 'pinned' : 'unpinned') : 'no medallion',
+        av: (d.avatars || {})[s.c] || '', o: !!s.o, openAria: 'Open /' + s.slug + ' by @' + s.c,
+        share: () => { if (this.props.share) this.props.share({ id: s.id, slug: s.slug, title: s.title || '', c: s.c, lv: s.lv, br: s.lv >= 4 && s.br === 'unique' ? 'unique' : (s.br === 'suite' ? 'suite' : 'standard'), tm: s.tm, gr: s.gr, o: !!s.o, av: (d.avatars || {})[s.c] || '', med: med || MED[1], rank: rankName(s.lv, s.br), g: s.g, gName: s.gName || '' }); },
+        shareAria: 'Share the /' + s.slug + ' plaque',
+        open: () => { if (this.props.pick) this.props.pick({ id: s.id, generic: s.g }); }
+      };
+    });
+    const groupsMap = {};
+    if (d) d.skills.forEach((s) => { (groupsMap[s.g] = groupsMap[s.g] || { name: s.gName, items: [], top: 0, n: 0 }); });
+    rows.forEach((r, i) => {});
+    const filteredIds = {}; rows.forEach((r) => { filteredIds[r.name] = r; });
+    const groups = [];
+    if (d && this.state.view === 'cap') {
+      const gm = {};
+      d.skills.forEach((s) => { const r = filteredIds[arb ? s.id : '/' + s.slug]; if (!r) return; (gm[s.g] = gm[s.g] || { name: s.gName, type: s.gType, items: [], top: 0 }); gm[s.g].items.push(r); gm[s.g].top = Math.max(gm[s.g].top, s.lv); });
+      Object.keys(gm).sort((a, b) => gm[b].top - gm[a].top || gm[b].items.length - gm[a].items.length).forEach((k) => {
+        const g = gm[k];
+        groups.push({ name: g.name, meta: (g.type === 'fusion' ? '◇ Fusion' : '○ Basic') + ' · effective rank ' + g.top + '★ · ' + g.items.length + ' shown', items: g.items });
+      });
+    }
+    const v = this.state.view, total = d ? d.counts.named : 436;
+    const fl = this.state.fl;
+    const flow = (v === 'flow' && d && fl) ? this.flowVals(d, fl, arb, f, q, relCount) : { zones: [], named: 0, namedNodes: 0, edges: 0 };
+    if (v !== 'flow') { this.hov = null; }
+    return {
+      world: world, isYgg: !arb, isArbor: arb, rowCls: arb ? 'arow' : '',
+      plateMark: arb ? 'Arbor I' : 'Plate III', plateA: arb ? 'Subjects and capabilities' : 'Named implementations', plateB: (d ? d.counts.named : 436) + ' records',
+      title: arb ? 'Skills, as Arbor reads them' : 'Named skills',
+      lede: arb ? 'The same skills with no stars attached. Arbor lists what it has pinned and what it has declared, and marks everything else as not measured.' : 'Contributor implementations of each generic capability, ranked by evidence. Every rank links to the proof behind it.',
+      q: this.state.q, onQ: (e) => this.setState({ q: e.target.value }), facets: facets,
+      isLedger: v === 'ledger' ? 'true' : 'false', isPlates: v === 'plates' ? 'true' : 'false', isCap: v === 'cap' ? 'true' : 'false', isFlow: v === 'flow' ? 'true' : 'false',
+      vLedger: () => this.setState({ view: 'ledger' }), vPlates: () => this.setState({ view: 'plates' }), vCap: () => this.setState({ view: 'cap' }), vFlow: () => this.setState({ view: 'flow' }),
+      showLedger: v === 'ledger' && rows.length > 0, showPlates: v === 'plates' && rows.length > 0, showCap: v === 'cap' && rows.length > 0,
+      showFlow: v === 'flow' && flow.named > 0 && !!fl, flowRef: this.flowRef, zones: flow.zones, openShown: () => this.openShown(), clearSel: () => { this.sel = null; this.light(null); this.show(this.hov != null ? this.hov : null); },
+      legA: arb ? 'Named skill (one per capability)' : 'Named skill, ring colour is its rank', legB: arb ? 'Layers count the longest chain of prerequisites beneath a capability. Lines run from a prerequisite up to what is built on it.' : 'Lines run from a prerequisite up to the skill built on it. Each capability shows its highest-ranked implementation.',
+      isEmpty: !!d && (v === 'flow' ? (!!fl && flow.named === 0) : rows.length === 0), rows: rows, groups: groups,
+      countLabel: (v === 'flow' && d && fl) ? 'Showing ' + fl.g.length + ' generic skills · ' + flow.namedNodes + ' with a named skill · ' + flow.edges + ' prerequisite links · ' + flow.named + ' of ' + fl.n.length + ' named skills match' : d ? 'Showing ' + rows.length + ' of a ' + d.skills.length + '-skill sample · ' + total + ' named skills on the record' : 'Loading the registry snapshot…',
+      clear: () => this.setState({ q: '', f: {} }),
+      goDocs: () => { if (this.props.go) this.props.go('docs'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

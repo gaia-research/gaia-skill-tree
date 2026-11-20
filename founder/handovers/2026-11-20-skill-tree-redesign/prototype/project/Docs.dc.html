@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Docs: landing and article</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.dh { padding-block: clamp(3rem, 6cqi, 5rem) 2.5rem; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 2.5rem; align-items: end; }
+@container atlas (max-width: 900px) { .dh { grid-template-columns: minmax(0, 1fr); } }
+.mode { display: flex; flex-direction: column; gap: .5rem; align-items: flex-start; }
+.path { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.path li + li { border-left: 1px solid var(--line); }
+.path button { width: 100%; height: 100%; text-align: left; background: none; border: 0; padding: 1.25rem; cursor: pointer; display: flex; flex-direction: column; gap: .5rem; color: inherit; min-height: 150px; transition: background .2s; }
+.path button:hover { background: var(--accent-wash); }
+.path code { font-size: .8125rem; color: var(--accent-ink); }
+@container atlas (max-width: 900px) { .path { grid-template-columns: minmax(0, 1fr); } .path li + li { border-left: 0; border-top: 1px solid var(--line); } .path button { min-height: 0; } }
+.index { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 2.5rem 3rem; padding-block: 3.5rem 5rem; }
+.index h3 { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 .5rem; padding-bottom: .6rem; border-bottom: 1px solid var(--line); }
+.index ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.index li button { width: 100%; background: none; border: 0; text-align: left; cursor: pointer; padding: .75rem 0; display: flex; flex-direction: column; gap: .2rem; color: inherit; border-bottom: 1px solid var(--line); }
+.index li button:hover b { color: var(--accent-ink); }
+.index b { font-weight: 600; font-size: 1rem; }
+.art { display: grid; grid-template-columns: 220px minmax(0, 1fr) 200px; gap: clamp(1.5rem, 4cqi, 3.5rem); padding-block: 2rem 6rem; }
+@container atlas (max-width: 1100px) { .art { grid-template-columns: 200px minmax(0, 1fr); } .art .otp { display: none; } }
+@container atlas (max-width: 760px) { .art { grid-template-columns: minmax(0, 1fr); } .art .dnav { display: none; } }
+.dnav, .otp { position: sticky; top: 90px; align-self: start; display: flex; flex-direction: column; gap: .15rem; }
+.dnav button, .otp a { background: none; border: 0; text-align: left; cursor: pointer; padding: .4rem .6rem; border-radius: 6px; font-size: .875rem; color: var(--ink-2); text-decoration: none; min-height: 34px; }
+.dnav button:hover, .otp a:hover { color: var(--ink); background: var(--accent-wash); }
+.dnav button[aria-current="page"] { color: var(--ink); background: var(--panel-2); }
+.dnav .grp { font-family: var(--f-hud); font-size: .625rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: .9rem .6rem .3rem; }
+.otp { border-left: 1px solid var(--line); padding-left: .5rem; }
+.prose { max-width: 70ch; display: flex; flex-direction: column; gap: 1.1rem; }
+.prose h2 { font-family: var(--f-display); font-weight: 500; font-size: 1.85rem; margin: 1.5rem 0 0; line-height: 1.15; }
+.prose h3 { font-size: 1.1rem; margin: .5rem 0 0; }
+.prose p, .prose li { color: var(--ink-2); line-height: 1.7; }
+.prose ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .35rem; }
+.prose code { color: var(--ink); background: var(--ground-2); padding: .1rem .35rem; border-radius: 4px; }
+.codeblk { position: relative; }
+.codeblk .copy { position: absolute; top: .5rem; right: .5rem; min-height: 32px; padding: 0 .65rem; border-radius: 6px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink-2); cursor: pointer; font-family: var(--f-hud); font-size: .6875rem; }
+.codeblk .lang { position: absolute; top: .7rem; right: 5.2rem; font-family: var(--f-hud); font-size: .625rem; color: var(--ink-3); }
+.note { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: .8rem; padding: 1rem 1.1rem; border: 1px solid var(--line-2); border-radius: 8px; background: var(--ground-2); }
+.note svg { width: 18px; height: 18px; color: var(--accent-ink); margin-top: .2rem; }
+.pn { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.pn button { text-align: left; background: none; border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; cursor: pointer; display: flex; flex-direction: column; gap: .2rem; color: inherit; }
+.pn button:hover { border-color: var(--line-2); }
+.pn button.nx { text-align: right; align-items: flex-end; }
+.dev-only { border-left: 0; }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <sc-if value="{{isLanding}}" hint-placeholder-val="{{true}}">
+    <div>
+      <div class="wrap dh">
+        <div class="stack gap-3">
+          <div class="plate"><span class="pl-mark">Docs</span><i class="pl-sep"></i><span>gaiaskilltree.com/en</span><i class="pl-sep"></i><span>CLI 7.7</span><i class="pl-rule"></i></div>
+          <h1 class="h1">Build with Gaia</h1>
+          <p class="lede">{{landingLede}}</p>
+          <label class="field" style="max-width: 560px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search the docs</span><input type="search" placeholder="Search the docs" value="{{q}}" onInput="{{onQ}}"><span class="kbd">/</span></label>
+        </div>
+        <div class="mode">
+          <span class="hud">Reading as</span>
+          <div class="seg" role="group" aria-label="Documentation mode">
+            <button onClick="{{toBuilder}}" aria-pressed="{{isBuilder}}">Builder</button>
+            <button onClick="{{toDev}}" aria-pressed="{{isDev}}">Developer</button>
+          </div>
+          <p class="fine" style="max-width: 36ch">{{modeNote}}</p>
+        </div>
+      </div>
+      <div class="wrap stack gap-3">
+        <h2 class="h3">Start here: five commands, in order</h2>
+        <ol class="path">
+          <li><button onClick="{{openGS}}"><span class="hud">1</span><b>Install</b><code>curl … | sh</code><span class="fine">Python 3.10 or newer.</span></button></li>
+          <li><button onClick="{{openGS}}"><span class="hud">2</span><b>Initialise</b><code>gaia init</code><span class="fine">Your handle, permanently.</span></button></li>
+          <li><button onClick="{{openGS}}"><span class="hud">3</span><b>Scan</b><code>gaia scan</code><span class="fine">Finds skills you already hold.</span></button></li>
+          <li><button onClick="{{openGS}}"><span class="hud">4</span><b>Propose</b><code>gaia push</code><span class="fine">Sends structure to canon.</span></button></li>
+          <li><button onClick="{{openGS}}"><span class="hud">5</span><b>See your tree</b><code>gaia tree</code><span class="fine">Renders it locally.</span></button></li>
+        </ol>
+      </div>
+      <div class="wrap index">
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+          <div>
+            <h3>{{g.name}}</h3>
+            <ul><sc-for list="{{g.items}}" as="it" hint-placeholder-count="3"><li><button onClick="{{openGS}}"><b>{{it.title}}</b><span class="small">{{it.desc}}</span></button></li></sc-for></ul>
+          </div>
+        </sc-for>
+        <sc-if value="{{noHits}}" hint-placeholder-val="{{false}}"><p class="small">No page matches "{{q}}". Try a command name such as scan or push.</p></sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isArticle}}" hint-placeholder-val="{{false}}">
+    <div class="wrap art">
+      <nav class="dnav" aria-label="Docs">
+        <button onClick="{{toLanding}}">← Docs home</button>
+        <span class="grp">Start</span>
+        <button aria-current="page">Getting started</button>
+        <button onClick="{{toLanding}}">CLI reference</button>
+        <button onClick="{{toLanding}}">Skill hierarchy</button>
+        <span class="grp">Contribute</span>
+        <button onClick="{{toLanding}}">Contributing</button>
+        <button onClick="{{toLanding}}">Named skills and Origin</button>
+        <span class="grp">Trust</span>
+        <button onClick="{{toLanding}}">Evidence and trust</button>
+      </nav>
+      <article class="prose">
+        <div class="plate"><span class="pl-mark">Getting started</span><i class="pl-sep"></i><span>about 10 minutes</span><i class="pl-rule"></i></div>
+        <h1 class="h1" style="font-size: clamp(2rem, 1.2rem + 2.6cqi, 3rem)">Install, scan, and propose your first skill</h1>
+        <p class="lede">Install the CLI, initialise your profile, scan a repository, and propose what you hold to canon. Rank comes later, from review.</p>
+        <h2 id="d-pre">Prerequisites</h2>
+        <ul><li>Python 3.10 or newer</li><li>pip, or pipx for an isolated install</li><li>A Git repository: <code>gaia scan</code> and <code>gaia push</code> need one</li></ul>
+        <div class="note" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg><p class="small" style="margin: 0">Working outside a public repository? Workspace Mode scans and tracks skills locally without remote pushes.</p></div>
+        <h2 id="d-install">Install</h2>
+        <p>The install script prefers pipx and falls back to <code>pip install --user</code>, printing a PATH hint if it needs one.</p>
+        <div class="codeblk"><span class="lang">shell</span><button class="copy" onClick="{{copy1}}">{{c1}}</button><div class="code"><span class="ln"><span class="c-cmd">curl</span> -fsSL https://gaiaskilltree.com/install.sh | sh</span></div></div>
+        <sc-if value="{{isDev}}" hint-placeholder-val="{{false}}">
+          <div class="stack gap-2">
+            <h3>Install from source</h3>
+            <div class="codeblk"><span class="lang">shell</span><button class="copy" onClick="{{copy2}}">{{c2}}</button><div class="code"><span class="ln"><span class="c-cmd">git</span> clone https://github.com/gaia-research/gaia-skill-tree.git</span><span class="ln"><span class="c-cmd">cd</span> gaia-skill-tree</span><span class="ln"><span class="c-cmd">python</span> -m venv .venv &amp;&amp; source .venv/bin/activate</span><span class="ln"><span class="c-cmd">pip</span> install -e ".[dev,embeddings]"</span></div></div>
+            <p class="small">If the <code>gaia</code> command is blocked in your environment, run it as a module: <code>python -m gaia_cli &lt;command&gt;</code>.</p>
+          </div>
+        </sc-if>
+        <h2 id="d-init">Initialise your profile</h2>
+        <div class="codeblk"><span class="lang">shell</span><button class="copy" onClick="{{copy3}}">{{c3}}</button><div class="code"><span class="ln"><span class="c-cmd">cd</span> my-agent-repo</span><span class="ln"><span class="c-cmd">gaia</span> init --user &lt;your-github-handle&gt;</span></div></div>
+        <p>Your handle is the name that appears in <span class="handle">Honor Red</span> beside every named skill you hold. Use your real GitHub username; it stays on the record.</p>
+        <h2 id="d-scan">Scan your repository</h2>
+        <p><code>gaia scan</code> reads SKILL.md files and the agent skill folders in your repository, maps them to capabilities in the registry, and lists the fusions you are close to.</p>
+        <div class="codeblk"><span class="lang">shell</span><button class="copy" onClick="{{copy4}}">{{c4}}</button><div class="code"><span class="ln"><span class="c-cmd">gaia</span> scan</span><span class="ln c-cmt"># Scanning repo: my-agent-repo</span><span class="ln c-cmt"># 3 skills detected · 1 fusion one prerequisite away</span></div></div>
+        <h2 id="d-push">Propose to canon</h2>
+        <p><code>gaia push</code> proposes your structure for review. It never sets a rank: rank is assigned by canon after topology and evidence review, and every change lands on the skill's timeline.</p>
+      </article>
+      <nav class="otp" aria-label="On this page"><span class="hud" style="padding: 0 .6rem .4rem">On this page</span><a href="#d-pre">Prerequisites</a><a href="#d-install">Install</a><a href="#d-init">Initialise</a><a href="#d-scan">Scan</a><a href="#d-push">Propose</a></nav>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"start":{"editor":"enum","options":["landing","article"],"default":"landing"},"go":{"editor":null},"$preview":{"width":1440,"height":1320}}'>
+const PAGES = [
+  { g: 'Start', title: 'Getting started', b: 'Install the CLI and propose your first skill in about ten minutes.', d: 'Install, init, scan, push: the full first-run path with exit codes.', dev: false },
+  { g: 'Start', title: 'CLI reference', b: 'Every command you will use, with examples.', d: 'Every verb, flag and option, including gaia dev, with exit-code semantics.', dev: false },
+  { g: 'Start', title: 'Skill hierarchy', b: 'How skills combine and how stars are earned.', d: 'Type (Basic, Fusion) and branch (Unique, Suite): the two axes and the 0★ to 6★ ladder.', dev: false },
+  { g: 'Contribute', title: 'Contributing', b: 'Three ways to add your work to the registry.', d: 'gaia push, curation PRs and intake batches, with branch scopes.', dev: false },
+  { g: 'Contribute', title: 'Named skills and Origin', b: 'How your handle ends up on a skill.', d: 'Origin derivation by merit, transfers, and the historical attribution field.', dev: false },
+  { g: 'Contribute', title: 'Manual curation pipeline', b: '', d: 'gaia-curate, L4 review, ev-pipeline, ingest and close, command by command.', dev: true },
+  { g: 'Trust', title: 'Evidence and trust', b: 'What counts as proof, and how it is graded.', d: 'Evidence types, per-row scoring, grade floors and the S diversity gate.', dev: false },
+  { g: 'Trust', title: 'Timeline audit and repair', b: '', d: 'The Transparency Gate, audit verbs, and repairing an unexplained rank.', dev: true },
+  { g: 'Integrate', title: 'MCP server', b: 'Let your agent query the registry directly.', d: 'Tools, resources and transport for the Gaia MCP server.', dev: false },
+  { g: 'Integrate', title: 'Share bundles', b: 'Send someone your whole tree in one file.', d: 'Bundle format, gaia share, and the guided gaia install flow.', dev: false },
+  { g: 'Integrate', title: 'Skill fusion', b: 'Combine skills you hold into a new one.', d: 'Fusion recipes, gaia fuse, and why fusions carry no stars of their own.', dev: false },
+  { g: 'Help', title: 'FAQ', b: 'Short answers to common questions.', d: 'Short answers, linked to the canonical page for each.', dev: false }
+];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { view: p.start || 'landing', mode: 'builder', q: '', copied: '' }; }
+  renderVals() {
+    const dev = this.state.mode === 'dev', q = this.state.q.trim().toLowerCase();
+    const names = ['Start', 'Contribute', 'Trust', 'Integrate', 'Help'];
+    const groups = names.map((n) => ({ name: n, items: PAGES.filter((p) => p.g === n && (dev || !p.dev) && (!q || (p.title + ' ' + p.b + ' ' + p.d).toLowerCase().indexOf(q) >= 0)).map((p) => ({ title: p.title, desc: dev ? p.d : p.b })) })).filter((g) => g.items.length);
+    const cp = (k, txt) => () => { try { navigator.clipboard.writeText(txt); } catch (e) {} this.setState({ copied: k }); };
+    const lab = (k) => this.state.copied === k ? 'Copied' : 'Copy';
+    return {
+      world: this.props.world || 'ygg', isLanding: this.state.view === 'landing', isArticle: this.state.view === 'article',
+      isBuilder: dev ? 'false' : 'true', isDev: dev ? 'true' : 'false',
+      toBuilder: () => this.setState({ mode: 'builder' }), toDev: () => this.setState({ mode: 'dev' }),
+      modeNote: dev ? 'Full technical detail, including the curation pipeline and audit tooling.' : 'Plain steps and use cases. Switch to Developer for flags, schemas and the curation pipeline.',
+      landingLede: dev ? 'Reference for the CLI, the registry schema and the curation pipeline.' : 'Install the CLI, scan your agent repository, and put the skills you already have on the record.',
+      q: this.state.q, onQ: (e) => this.setState({ q: e.target.value }), groups: groups, noHits: groups.length === 0,
+      openGS: () => { this.setState({ view: 'article' }); try { window.scrollTo(0, 0); } catch (e) {} }, toLanding: () => this.setState({ view: 'landing' }),
+      copy1: cp('1', 'curl -fsSL https://gaiaskilltree.com/install.sh | sh'), c1: lab('1'),
+      copy2: cp('2', 'git clone https://github.com/gaia-research/gaia-skill-tree.git'), c2: lab('2'),
+      copy3: cp('3', 'gaia init --user <your-github-handle>'), c3: lab('3'),
+      copy4: cp('4', 'gaia scan'), c4: lab('4')
+    };
+  }
+}
+</script>
+</body>
+</html>

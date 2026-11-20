@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Navigation: current versus proposed</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.nc { padding-block: 3rem 5rem; display: flex; flex-direction: column; gap: 2.75rem; }
+.frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.frame-cap { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 1rem; border-bottom: 1px solid var(--line); background: var(--ground-2); flex-wrap: wrap; }
+.old-nav { display: flex; align-items: center; gap: 1.6rem; padding: 0 2rem; height: 60px; background: #030712; border-bottom: 1px solid #1e293b; font-family: var(--f-ui); }
+.old-nav .b { display: flex; align-items: center; gap: .6rem; color: #e2e8f0; font-family: var(--f-display); font-weight: 600; font-size: 1.15rem; margin-right: auto; }
+.old-nav .ver { border: 1px solid #334155; color: #94a3b8; font-family: var(--f-hud); font-size: .75rem; padding: .1rem .4rem; border-radius: 3px; }
+.old-nav span.l { font-weight: 600; font-size: .9375rem; }
+.old-nav .star { background: #fbbf24; color: #1f1300; font-weight: 700; padding: .45rem .9rem; border-radius: 999px; font-size: .875rem; }
+.map { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.map th, .map td { text-align: left; padding: .7rem 1rem .7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.map th { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; }
+.issues { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .4rem; color: var(--ink-2); font-size: .9375rem; }
+.phones { display: grid; grid-template-columns: repeat(2, minmax(0, 390px)); gap: 2rem; }
+@container atlas (max-width: 900px) { .phones { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none">
+  <div class="wrap nc">
+    <div class="stack gap-3">
+      <div class="plate"><span class="pl-mark">Navigation</span><i class="pl-sep"></i><span>site-nav.js</span><i class="pl-sep"></i><span>current vs proposed</span><i class="pl-rule"></i></div>
+      <h1 class="h1">Fewer doors, one lens</h1>
+      <p class="lede">The proposal replaces the rainbow link row with four destinations, a grouped More panel, search, and the Tree lens. The footer stays as it is.</p>
+    </div>
+
+    <div class="frame">
+      <div class="frame-cap"><span class="h4">Current · live site</span><span class="hud">6 top links · 11 in More · each link a different colour</span></div>
+      <div class="old-nav" aria-hidden="true">
+        <span class="b"><svg width="24" height="24" viewBox="0 0 28 28"><rect x="6.1" y="6.1" width="15.8" height="15.8" transform="rotate(45 14 14)" fill="none" stroke="#fbbf24" stroke-width="1.4"></rect></svg>Gaia Skill Tree <span class="ver">IV</span></span>
+        <span class="l" style="color: #e2e8f0">Home</span><span class="l" style="color: #fbbf24">About</span><span class="l" style="color: #a855f7">GitHub Badges</span><span class="l" style="color: #ef4444">Skills</span><span class="l" style="color: #38bdf8">Docs</span><span class="l" style="color: #64748b">More</span><span class="star">★ Star on GitHub</span>
+      </div>
+      <div style="padding: 1.25rem">
+        <ul class="issues">
+          <li>Five link colours borrow rank and brand roles: gold reads as Apex, red as a contributor handle, sky as Basic.</li>
+          <li>The gold pill spends Apex Gold on a utility action.</li>
+          <li>Eleven destinations sit in an ungrouped More list, including two buttons that open the same canvas in different modes.</li>
+          <li>No place for a Tree switch, and no search.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="frame-cap"><span class="h4">Proposed</span><span class="hud">4 destinations · grouped More · search · Tree lens · GitHub icon</span></div>
+      <header class="nav" style="position: relative">
+        <div class="wrap nav-in">
+          <span class="brand"><svg class="brand-seal" viewBox="0 0 28 28" aria-hidden="true"><rect x="6.1" y="6.1" width="15.8" height="15.8" transform="rotate(45 14 14)" fill="none" stroke="currentColor" stroke-width="1.4" style="color: var(--accent)"></rect><text x="14" y="17.6" text-anchor="middle" font-family="EB Garamond, Georgia, serif" font-size="10.5" font-weight="600" fill="currentColor">G</text></svg><span class="brand-word">Gaia Skill Tree</span></span>
+          <nav class="nav-links" aria-label="Proposed primary navigation"><button>Explore</button><button aria-current="page">Skills</button><button>Evidence</button><button>Docs</button><button onClick="{{toggle}}" aria-expanded="{{openAria}}">More ▾</button></nav>
+          <div class="nav-tools"><span class="nav-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6"></path></svg><span class="ns-label">Search skills</span><span class="kbd">⌘K</span></span><span class="icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.3 5.9.9-4.25 4.15 1 5.85L12 16.65 6.75 19.4l1-5.85L3.5 9.4l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span>
+            <div class="lens"><button aria-pressed="true"><svg class="ln-ygg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8.5M12 12.5C12 8.6 8.7 6.4 4.6 5.6M12 12.5c0-4.1 3.1-6.6 7.4-7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span><span class="lens-name">Yggdrasil</span><span class="lens-sub">Standing</span></span></button><button aria-pressed="false"><svg class="ln-arbor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V3.5M12 15.5L6.5 10V6.5M12 11l4.6-4.6h2.4" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg><span><span class="lens-name">Arbor</span><span class="lens-sub">Behavior</span></span></button></div>
+          </div>
+        </div>
+      </header>
+      <sc-if value="{{open}}" hint-placeholder-val="{{true}}">
+        <div style="padding: 1.5rem 2rem; background: var(--panel); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem">
+          <div class="stack gap-1"><span class="hud">Registry</span><span>Contributors</span><span>Hall of Heroes</span><span>Starless index</span></div>
+          <div class="stack gap-1"><span class="hud">Proof</span><span>Evidence Library</span><span>Trust Ledger</span><span>Benchmarks and stamps</span></div>
+          <div class="stack gap-1"><span class="hud">Signals</span><span>Meta reports</span><span>Trending</span><span>GitHub badges</span></div>
+          <div class="stack gap-1"><span class="hud">Gaia</span><span>The Observatory</span><span>API reference</span><span>About</span></div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div class="stack gap-2">
+      <h2 class="h2">Where every current link goes</h2>
+      <div class="scroll-x">
+        <table class="map">
+          <thead><tr><th>Current</th><th>Proposed</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Home</td><td>The seal and wordmark</td><td>Universal convention; frees a slot.</td></tr>
+            <tr><td>About</td><td>More · Gaia · About</td><td>Low traffic; belongs with the ecosystem.</td></tr>
+            <tr><td>GitHub Badges</td><td>More · Signals</td><td>A tool, reached mostly from READMEs.</td></tr>
+            <tr><td>Skills</td><td>Skills</td><td>Kept.</td></tr>
+            <tr><td>Docs</td><td>Docs</td><td>Kept.</td></tr>
+            <tr><td>Skill Tree and Skill Graph (two buttons)</td><td>Explore (Tree Explorer)</td><td>One explorer; field view is already deprecated.</td></tr>
+            <tr><td>The Codex, Trust Ledger, Evidence Library</td><td>Evidence (tabs) and More · Proof</td><td>One destination for proof, with tabs.</td></tr>
+            <tr><td>Starless, Named Contributors, Meta Reports, Weekly Reports, Benchmarks</td><td>More, grouped</td><td>Grouping by purpose instead of one long list.</td></tr>
+            <tr><td>Star on GitHub (gold pill)</td><td>Star icon in the tools cluster</td><td>Keeps the affordance without spending Apex Gold.</td></tr>
+            <tr><td>The Gaia ecosystem (external)</td><td>More · Gaia · The Observatory</td><td>An in-site threshold before leaving.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Implementation note: the mount list stays in docs/js/mounts.js (Guard D). Adding a route for the Tree Explorer or the Observatory adds a mount; the Arbor deep link would use ?tree=arbor until /tree/arbor routing is decided.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1640}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { open: true }; }
+  renderVals() { return { open: this.state.open, openAria: this.state.open ? 'true' : 'false', toggle: () => this.setState({ open: !this.state.open }) }; }
+}
+</script>
+</body>
+</html>

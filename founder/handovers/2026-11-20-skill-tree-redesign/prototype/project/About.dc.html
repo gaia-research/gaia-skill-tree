@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About: the founder story</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.ab-sec { padding-block: clamp(3rem, 6cqi, 5rem); border-bottom: 1px solid var(--line); }
+.ab-sec:last-of-type { border-bottom: 0; }
+.ab-front { padding-block: clamp(3rem, 6cqi, 5rem) clamp(2.5rem, 5cqi, 4rem); display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: clamp(2rem, 5cqi, 4.5rem); align-items: start; border-bottom: 1px solid var(--line); }
+@container atlas (max-width: 760px) { .ab-front { grid-template-columns: minmax(0, 1fr); } }
+.ab-portrait { width: 100%; max-width: 15rem; aspect-ratio: 1; object-fit: cover; object-position: center top; border-radius: 6px; border: 1px solid var(--accent-line); box-shadow: 0 0 0 5px var(--accent-wash); }
+.ab-meta { margin: 1.25rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .35rem 1rem; border-top: 1px solid var(--line); padding-top: .9rem; max-width: 15rem; }
+.ab-meta dt { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.ab-meta dd { margin: 0; font-size: .875rem; color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+.ab-meta a { color: var(--honor-red); text-decoration: none; border-bottom: 1px solid transparent; }
+.ab-meta a:hover { border-bottom-color: currentColor; }
+.ab-name { font-family: var(--d-family); font-weight: var(--d-weight); font-stretch: var(--d-stretch); letter-spacing: var(--d-track); font-size: clamp(2.6rem, 1.2rem + 5.4cqi, 5rem); line-height: 1.02; margin: 1.25rem 0 1.1rem; text-wrap: balance; }
+.ab-role { font-family: var(--f-display); font-style: italic; font-size: clamp(1.2rem, 1rem + 1cqi, 1.5rem); line-height: 1.45; color: var(--ink-2); max-width: 34ch; margin: 0 0 2rem; }
+.atlas[data-world="arbor"] .ab-role { font-family: var(--f-ui); font-style: normal; font-stretch: 85%; }
+.ab-statement { font-family: var(--f-display); font-size: clamp(1.25rem, 1.05rem + 1cqi, 1.65rem); line-height: 1.5; max-width: 40ch; margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); text-wrap: pretty; }
+.atlas[data-world="arbor"] .ab-statement { font-family: var(--f-ui); font-stretch: 90%; font-weight: 500; }
+.ab-statement::before { content: '\201C'; color: var(--accent); margin-right: .1em; }
+.ab-statement::after { content: '\201D'; color: var(--accent); margin-left: .05em; }
+.ab-eco { margin: 0; padding: .35rem 0 .35rem 1rem; border-left: 2px solid var(--research-blue); max-width: 68ch; }
+.ab-eco a { color: var(--research-blue); font-weight: 700; text-decoration: none; }
+.ab-eco a:hover { text-decoration: underline; }
+.ab-h { font-family: var(--d-family); font-weight: var(--d-weight); font-stretch: var(--d-stretch); letter-spacing: var(--d-track); font-size: clamp(1.9rem, 1.2rem + 2.6cqi, 3rem); line-height: 1.08; margin: .75rem 0 0; text-wrap: balance; max-width: 22ch; }
+.ab-tally { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 2.25rem 0 .75rem; }
+@container atlas (max-width: 720px) { .ab-tally { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ab-tally .tc:last-child { grid-column: span 2; } }
+.ab-tally .tc { background: var(--ground); padding: 1.1rem 1.1rem 1.2rem; display: flex; flex-direction: column-reverse; gap: .45rem; justify-content: flex-end; }
+.ab-tally dt { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.ab-tally dd { margin: 0; font-family: var(--d-family); font-size: clamp(2rem, 1.2rem + 2.4cqi, 3.2rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.ab-tally dd.apex { color: var(--apex-gold); }
+.ab-note a { color: var(--accent-ink); }
+.ab-prose { max-width: 68ch; margin-top: 2.25rem; }
+.ab-prose p { font-family: var(--f-display); font-size: clamp(1.15rem, 1.05rem + .5cqi, 1.35rem); line-height: 1.65; margin: 0 0 1.2rem; text-wrap: pretty; }
+.atlas[data-world="arbor"] .ab-prose p { font-family: var(--f-ui); font-size: 1.0625rem; line-height: 1.65; }
+.ab-prose em { font-style: italic; color: var(--accent-ink); }
+.ab-lede { font-size: 1.05rem; color: var(--ink-2); max-width: 36ch; margin: 0; }
+.ab-trust { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 2.25rem 0 0; }
+@container atlas (max-width: 760px) { .ab-trust { grid-template-columns: minmax(0, 1fr); } }
+.ab-trust .ti { background: var(--ground); padding: 1.6rem; display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: 1rem; align-items: start; }
+.ab-trust .nu { font-family: var(--f-hud); font-size: .85rem; color: var(--apex-gold); padding-top: .3rem; }
+.ab-trust dt { font-weight: 600; font-size: 1.05rem; line-height: 1.35; margin: 0 0 .4rem; }
+.ab-trust dd { margin: 0; color: var(--ink-2); font-size: .95rem; line-height: 1.6; max-width: 52ch; }
+.ab-names { display: flex; flex-direction: column; margin-top: 2.25rem; }
+.ab-ent { display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: clamp(1.5rem, 4cqi, 3.5rem); padding-block: 2rem; border-top: 1px solid var(--line); align-items: start; }
+.ab-ent:last-child { border-bottom: 1px solid var(--line); }
+@container atlas (max-width: 760px) { .ab-ent { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; } }
+.ab-card { display: flex; gap: 1rem; align-items: flex-start; min-width: 0; }
+.ab-av { width: 56px; height: 56px; flex: none; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-2); background: var(--panel); }
+.ab-mono { width: 56px; height: 56px; flex: none; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel); display: grid; place-items: center; font-family: var(--f-display); font-size: 1.5rem; text-transform: uppercase; }
+.ab-handle { color: var(--honor-red); font-weight: 600; text-decoration: none; }
+.ab-handle:hover { text-decoration: underline; }
+.ab-src { color: var(--ink-3); font-size: .8125rem; text-decoration: none; overflow-wrap: anywhere; }
+.ab-src:hover { color: var(--accent-ink); }
+.ab-quote { margin: 0; font-family: var(--f-display); font-size: clamp(1.2rem, 1.05rem + .7cqi, 1.5rem); line-height: 1.55; max-width: 52ch; text-wrap: pretty; }
+.atlas[data-world="arbor"] .ab-quote { font-family: var(--f-ui); font-size: 1.1rem; }
+.ab-quote cite { display: block; margin-top: .75rem; font-style: normal; font-family: var(--f-hud); font-size: .75rem; color: var(--ink-3); letter-spacing: .04em; }
+.ab-contrib { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5cqi, 4rem); align-items: center; }
+@container atlas (max-width: 860px) { .ab-contrib { grid-template-columns: minmax(0, 1fr); } }
+.ab-cta-h { font-family: var(--d-family); font-weight: var(--d-weight); font-stretch: var(--d-stretch); letter-spacing: var(--d-track); font-size: clamp(2.2rem, 1.3rem + 3.4cqi, 4rem); line-height: 1.04; margin: .75rem 0 1rem; text-wrap: balance; }
+.ab-cta-h em { color: var(--honor-red); }
+.ab-shell { margin: 0; }
+.ab-shell figcaption { font-family: var(--f-hud); font-size: .75rem; color: var(--ink-3); padding: .6rem 1.15rem; border: 1px solid var(--line); border-bottom: 0; border-radius: 8px 8px 0 0; background: var(--panel); }
+.ab-shell .code { border-radius: 0 0 8px 8px; }
+.ab-shell .c { color: var(--ink-3); } .ab-shell .p { color: var(--accent); } .ab-shell .f { color: var(--prism-cyan); }
+.ab-tl { list-style: none; margin: 2.5rem 0 0; padding: 0; position: relative; }
+.ab-tl::before { content: ''; position: absolute; left: 9.75rem; top: .5rem; bottom: .5rem; width: 1px; background: var(--line-2); }
+.ab-tl li { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 2.5rem; padding-block: 1.4rem; position: relative; }
+.ab-tl li::before { content: ''; position: absolute; left: calc(9.75rem - 4px); top: 2rem; width: 9px; height: 9px; background: var(--ground); border: 1px solid var(--ink-3); transform: rotate(45deg); }
+.ab-tl li.now::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-wash); }
+.ab-tl .yr { font-family: var(--f-hud); font-size: .8125rem; color: var(--ink-3); padding-top: .55rem; text-align: right; }
+.ab-tl .now .yr { color: var(--accent-ink); }
+.ab-tl h3 { font-family: var(--d-family); font-weight: var(--d-weight); font-stretch: var(--d-stretch); font-size: 1.5rem; line-height: 1.2; margin: 0; }
+.ab-tl .org { margin: .25rem 0 .55rem; font-family: var(--f-hud); font-size: .75rem; color: var(--ink-3); overflow-wrap: anywhere; }
+.ab-tl .bl { margin: 0; color: var(--ink-2); max-width: 62ch; line-height: 1.65; }
+@container atlas (max-width: 640px) {
+  .ab-tl::before { left: 4px; }
+  .ab-tl li { grid-template-columns: minmax(0, 1fr); gap: .25rem; padding-left: 1.75rem; }
+  .ab-tl li::before { left: 0; top: 1.75rem; }
+  .ab-tl .yr { text-align: left; padding-top: 0; }
+}
+.ab-pills { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .75rem; }
+.ab-pill { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--line-2); border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .9rem; max-width: 100%; overflow-wrap: anywhere; }
+.ab-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
+.ab-pill .ph { font-weight: 400; color: var(--ink-3); }
+.ab-close { text-align: center; padding-block: 3rem 4.5rem; color: var(--ink-3); }
+.ab-close p { font-family: var(--f-display); font-style: italic; font-size: 1.25rem; margin: 1rem 0 0; }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap">
+    <section class="ab-front" aria-labelledby="ab-name">
+      <div>
+        <img class="ab-portrait" src="/_blob/f3c4a78f650495709742b34c13ba9ba9" alt="Marcus B. Tiongson at an immersive art installation" width="240" height="240" decoding="async">
+        <dl class="ab-meta" aria-label="Identity">
+          <dt>Plate</dt><dd>I</dd>
+          <dt>Role</dt><dd>Founder, Maintainer</dd>
+          <dt>GitHub</dt><dd><a href="https://github.com/mbtiongson1" target="_blank" rel="noopener">@mbtiongson1</a></dd>
+          <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/marcus-tiongson" target="_blank" rel="noopener">marcus-tiongson</a></dd>
+        </dl>
+      </div>
+      <div>
+        <div class="plate"><span class="pl-mark">About Gaia</span><i class="pl-sep"></i><span>Plate I</span><i class="pl-rule"></i></div>
+        <h1 class="ab-name" id="ab-name">Marcus B. Tiongson</h1>
+        <p class="ab-role">Founder &amp; Maintainer of Gaia, the open, evidence-backed atlas of agent capabilities.</p>
+        <p class="ab-statement">I built this because skills should be attributed to the people who proved them. Permanently, not just until the repo goes private.</p>
+      </div>
+    </section>
+
+    <aside class="ab-sec" style="padding-block: 2rem" aria-label="Where the ecosystem explainer lives">
+      <p class="ab-eco small">This page is the founder’s story. Looking for what the Skill Tree, Research, and Skill Heaven (housing Skill Zero and Skill Hell) each are and how they relate? <a href="https://research.gaiaskilltree.com/about" target="_blank" rel="noopener">Read the ecosystem explainer <span aria-hidden="true">↗</span></a></p>
+    </aside>
+
+    <section class="ab-sec" aria-labelledby="ab-record-h">
+      <div class="plate"><span class="pl-mark">II</span><i class="pl-sep"></i><span>On the Record Today</span><i class="pl-rule"></i></div>
+      <h2 class="ab-h" id="ab-record-h">A registry, not a marketplace.</h2>
+      <dl class="ab-tally" aria-label="What is on the record today">
+        <div class="tc"><dt>Generic refs</dt><dd>317</dd></div>
+        <div class="tc"><dt>Origin skills</dt><dd>270</dd></div>
+        <div class="tc"><dt>Contributors</dt><dd>78</dd></div>
+        <div class="tc"><dt>Ultimates</dt><dd class="apex">3</dd></div>
+        <div class="tc"><dt>Evidence entries</dt><dd>254</dd></div>
+      </dl>
+      <p class="fine ab-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v9.5.0. Counts grow with the record.</p>
+      <div class="ab-prose">
+        <p>Gaia is a registry, not a marketplace. A marketplace asks <em>what you can use</em>. A registry asks <em>what’s on the record</em>: who demonstrated a capability first, and the evidence that proves it.</p>
+        <p>Attribution is permanent and public, the way an inventor’s name stays on a patent. Everywhere else, skills get shipped and forgotten. Here they don’t.</p>
+      </div>
+    </section>
+
+    <section class="ab-sec" aria-labelledby="ab-trust-h">
+      <div class="plate"><span class="pl-mark">III</span><i class="pl-sep"></i><span>What Makes It Last</span><i class="pl-rule"></i></div>
+      <h2 class="ab-h" id="ab-trust-h">Built so the record outlives the repo.</h2>
+      <p class="ab-lede" style="margin-top: 1rem">Four guarantees the record makes to anyone reading it.</p>
+      <dl class="ab-trust">
+        <div class="ti"><span class="nu" aria-hidden="true">i.</span><div><dt>Every change is on the record.</dt><dd>A timeline event is written for every rank change, fusion, and evidence update. No silent edits: the build fails if the timeline can’t explain a skill’s rank.</dd></div></div>
+        <div class="ti"><span class="nu" aria-hidden="true">ii.</span><div><dt>The schema is open and forkable.</dt><dd><code>registry/gaia.json</code> is public, with a published JSON schema. If this repo goes dark, anyone can fork and re-host the record.</dd></div></div>
+        <div class="ti"><span class="nu" aria-hidden="true">iii.</span><div><dt>Every name traces back to a commit.</dt><dd>Each origin skill ties a handle to a real commit history. The people on the record have a reason to keep it accurate.</dd></div></div>
+        <div class="ti"><span class="nu" aria-hidden="true">iv.</span><div><dt>Versioned and locked.</dt><dd>Every change ships in a versioned release. A pre-commit hook keeps four manifests in lockstep — no untracked edits.</dd></div></div>
+      </dl>
+    </section>
+
+    <section class="ab-sec" aria-labelledby="ab-names-h">
+      <div class="plate"><span class="pl-mark">IV</span><i class="pl-sep"></i><span>Why These Names</span><i class="pl-rule"></i></div>
+      <h2 class="ab-h" id="ab-names-h">The tools that taught Gaia what to keep.</h2>
+      <p class="lede" style="margin-top: 1rem">These developers don’t work on Gaia. Their public tools are part of why it exists. Gaia catalogued each one by evidence, handle attached — their words below, from their own sources.</p>
+      <div class="ab-names">
+        <sc-for list="{{names}}" as="n" hint-placeholder-count="3">
+          <article class="ab-ent">
+            <div class="ab-card">
+              <sc-if value="{{n.hasAv}}" hint-placeholder-val="{{true}}"><img class="ab-av" src="{{n.av}}" alt="" width="56" height="56" loading="lazy" decoding="async"></sc-if>
+              <sc-if value="{{n.noAv}}" hint-placeholder-val="{{false}}"><span class="ab-mono" aria-hidden="true">{{n.mono}}</span></sc-if>
+              <div class="stack" style="gap: .25rem; min-width: 0">
+                <a class="ab-handle" href="{{n.gh}}" target="_blank" rel="noopener">@{{n.h}}</a>
+                <span class="hud" style="color: var(--apex-gold)">{{n.rank}}</span>
+                <span class="small" style="color: var(--ink)">{{n.skill}}</span>
+                <a class="ab-src" href="{{n.src}}" target="_blank" rel="noopener">{{n.srcLabel}} ↗</a>
+              </div>
+            </div>
+            <blockquote class="ab-quote">{{n.quote}}<cite>— {{n.by}}</cite></blockquote>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="ab-sec" aria-labelledby="ab-cta-h">
+      <div class="ab-contrib">
+        <div>
+          <div class="plate"><span class="pl-mark">V</span><i class="pl-sep"></i><span>Put your work on the record</span><i class="pl-rule"></i></div>
+          <h2 class="ab-cta-h" id="ab-cta-h">Bring a repo. Earn a <em>name</em>.</h2>
+          <p class="lede">Build skills for agents? Point the CLI at your repo, scan, and push. If the evidence holds, you earn a named entry — your handle, in Honor Red.</p>
+          <div class="stack wrapx" style="flex-direction: row; gap: .75rem; margin-top: 1.75rem">
+            <button class="btn btn-solid" onClick="{{toHome}}">Register your repo</button>
+            <a class="btn btn-ghost" href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener">View on GitHub</a>
+            <button class="btn btn-ghost" onClick="{{toDocs}}">Read the curation process</button>
+          </div>
+        </div>
+        <figure class="ab-shell" aria-label="Steps to contribute">
+          <figcaption>~/your-repo</figcaption>
+<div class="code"><span class="ln"><span class="c"># install, then point it at your repo</span></span><span class="ln"><span class="p">$</span> gaia init <span class="f">--user</span> &lt;your-handle&gt;</span><span class="ln"><span class="p">$</span> gaia scan</span><span class="ln"><span class="p">$</span> gaia appraise</span><span class="ln"><span class="p">$</span> gaia push   <span class="c"># opens a draft batch for review</span></span></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="ab-sec" aria-labelledby="ab-tl-h">
+      <div class="plate"><span class="pl-mark">VI</span><i class="pl-sep"></i><span>How I Got Here</span><i class="pl-rule"></i></div>
+      <h2 class="ab-h" id="ab-tl-h">A decade across IT, EdTech, and AI.</h2>
+      <p class="lede" style="margin-top: 1rem">Mechanical engineer by training. Systems architect by trade. Currently reading for an M.Eng. in AI at UP Diliman, building Gaia in the open in between.</p>
+      <ol class="ab-tl">
+        <li><span class="yr">2013–2019</span><div><h3>B.S. Mechanical Engineering, Cum Laude</h3><p class="org">University of the Philippines, Diliman</p><p class="bl">University Scholar. Graduated with honors. Took the licensure exam in 2020 and registered as a Mechanical Engineer with the Philippine PRC.</p></div></li>
+        <li><span class="yr">2020–2022</span><div><h3>CTO, Academic Gateway EdTech</h3><p class="org">Quezon City, Philippines</p><p class="bl">Stood up the EdTech division from zero through the COVID-19 pandemic. Migrated the LMS to the cloud with redundant backups; minimised downtime to 0%. Held pre-pandemic pricing while annual enrolment grew 10×.</p></div></li>
+        <li><span class="yr">2022–2024</span><div><h3>Chief Product Engineer, AG EdTech</h3><p class="org">Virtual Classroom Project</p><p class="bl">Owned the LMS platform integrating Zoom, Google Classroom, EasyLMS, and Wistia. Automated infrastructure for live and async classes; streamlined ops by 60%, cut peak-season cost by 40%.</p></div></li>
+        <li><span class="yr">2025</span><div><h3>SAP Consultant, Apps &amp; Analytics</h3><p class="org">GECO Philippines · ServiceNow</p><p class="bl">ITSM support for tools used by 50K+ sales executives across SAP CRM, Harmony, Gainsight, ONE360. Architected seven internal dashboards that improved SLA response times by up to 80%.</p></div></li>
+        <li><span class="yr">2025–Now</span><div><h3>M.Eng. in Artificial Intelligence</h3><p class="org">University of the Philippines, Diliman</p><p class="bl">Research focus on interpretable ML for systems data. Co-authored an IEEE paper applying Random Forest with SHAP / LIME interpretability to 172K+ national agricultural inventory records (R²=0.916).</p></div></li>
+        <li><span class="yr">May 2026</span><div><h3>Founded Gaia Skill Tree</h3><p class="org">gaiaskilltree.com · the record</p><p class="bl">An evidence-backed atlas of agent capabilities, establishing the permanent public record of verified skills, origin contributors, and progression trails.</p></div></li>
+        <li><span class="yr">Jul 2026</span><div><h3>Founded Gaia Research Organization</h3><p class="org">research.gaiaskilltree.com · the laboratory</p><p class="bl">Established the open laboratory to measure capability costs, token economics, and harness behavior — housing the Skill Tree as its permanent registry.</p></div></li>
+        <li class="now"><span class="yr">Aug 2026</span><div><h3>Launched Skill Heaven</h3><p class="org">gaia-research.github.io/gaia-skill-heaven · the runtime umbrella</p><p class="bl">Released the runtime umbrella housing Skill Zero (clean launcher), on-demand <code>/summon</code>, and the unified skill entropy line. <strong>You’re reading the record.</strong></p></div></li>
+      </ol>
+      <div style="margin-top: 2.5rem" aria-label="Get in touch">
+        <span class="hud">Reach me</span>
+        <div class="ab-pills">
+          <a class="ab-pill" href="https://www.linkedin.com/in/marcus-tiongson" target="_blank" rel="noopener">LinkedIn <span class="ph">marcus-tiongson</span></a>
+          <a class="ab-pill" href="https://github.com/mbtiongson1" target="_blank" rel="noopener">GitHub <span class="ph">@mbtiongson1</span></a>
+          <span class="ab-pill" title="The live About page carries the email link; the prototype leaves the address out">Email · as on the live page</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ab-close"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 2l10 10-10 10L2 12z"/></svg><p>The record is open. Read it.</p></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"$preview":{"width":1440,"height":5720}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const NAMES = [
+  { h: 'pbakaus', rank: 'Unique · rank 4 of 6', skill: 'Impeccable — The Aesthetic Shield', src: 'https://www.paulbakaus.com/about/', srcLabel: 'paulbakaus.com/about', by: 'Paul Bakaus', quote: 'The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn’t caught up yet.' },
+  { h: 'mattpocock', rank: 'Ultimate Skill · rank 5 of 6', skill: 'Matt Pocock Skills', src: 'https://github.com/mattpocock/skills', srcLabel: 'github.com/mattpocock/skills', by: 'Matt Pocock', quote: 'These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.' },
+  { h: 'garrytan', rank: 'Ultimate Skill · rank 5 of 6', skill: 'gstack — Founder Mode', src: 'https://github.com/garrytan/gstack', srcLabel: 'github.com/garrytan/gstack', by: 'Garry Tan', quote: 'This is my open source software factory. I use it every day. I’m sharing it because these tools should be available to everyone.' }
+];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { avs: {} }; }
+  componentDidMount() { fx().then((d) => this.setState({ avs: d.avatars || {} })).catch(() => {}); }
+  renderVals() {
+    const go = (r) => () => this.props.go && this.props.go(r);
+    return {
+      world: this.props.world || 'ygg',
+      toHome: go('home'), toDocs: go('docs'),
+      names: NAMES.map((n) => { const av = this.state.avs[n.h]; return Object.assign({}, n, { av: av || '', hasAv: !!av, noAv: !av, mono: n.h[0], gh: 'https://github.com/' + n.h }); })
+    };
+  }
+}
+</script>
+</body>
+</html>

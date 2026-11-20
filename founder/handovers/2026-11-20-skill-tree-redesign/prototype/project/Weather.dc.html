@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Arbor runtime weather: four conditions</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.wq { padding-block: 3rem 4rem; display: flex; flex-direction: column; gap: 2rem; }
+.wgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+@container atlas (max-width: 900px) { .wgrid { grid-template-columns: minmax(0, 1fr); } }
+.wcell { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.trow { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 1.25rem; align-items: start; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.trow .meta { display: flex; flex-direction: column; gap: .5rem; align-items: flex-start; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.tile { display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
+.tbox { position: relative; aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--ground-2); }
+.tbox.paper { background: oklch(0.94 0.006 80); }
+.tbox.gold { background: radial-gradient(circle at 50% 60%, oklch(0.88 0.16 88 / .16), transparent 70%), var(--ground-2); }
+.tbox svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.replay { min-height: 36px; padding: 0 .8rem; border-radius: 6px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink-2); cursor: pointer; font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .04em; }
+.replay:hover { color: var(--ink); border-color: var(--accent); }
+@container atlas (max-width: 760px) { .trow { grid-template-columns: minmax(0, 1fr); } .tiles { gap: .4rem; } .replay { min-height: 44px; } }
+.wcell .cap { display: flex; justify-content: space-between; gap: 1rem; padding: .9rem 1.1rem; border-top: 1px solid var(--line); align-items: baseline; flex-wrap: wrap; }
+</style>
+</helmet>
+<div class="atlas" data-world="arbor" data-weather="none">
+  <div class="wrap wq">
+    <div class="stack gap-2">
+      <div class="plate"><span class="pl-mark">Arbor I</span><i class="pl-sep"></i><span>runtime weather</span><i class="pl-sep"></i><span>same topology, four conditions</span><i class="pl-rule"></i></div>
+      <h1 class="h1">The Tree stays Arbor. The weather changes.</h1>
+      <p class="lede">Each panel is the live instrument with the same selection, mattpocock/grill-me. Compare them monochrome: they still differ by geometry and stroke, not only by colour.</p>
+    </div>
+    <div class="wgrid">
+      <div class="wcell"><dc-import name="Scene" world="arbor" weather="none" mode="explore" density="far" height="440px" focus="interview-me" subject="mattpocock/grill-me" hint-size="100%,440px"></dc-import><div class="cap"><span class="h4">Clear</span><span class="small">Green identifies the lens. Bone marks pinned subjects. Hollow squares are capabilities not yet projected.</span></div></div>
+      <div class="wcell"><dc-import name="Scene" world="arbor" weather="heaven" mode="explore" density="far" height="440px" focus="interview-me" subject="mattpocock/grill-me" hint-size="100%,440px"></dc-import><div class="cap"><span class="h4">Heaven · converge</span><span class="small">Alternatives dim; split light travels one route. Arbor is not repainted blue.</span></div></div>
+      <div class="wcell"><dc-import name="Scene" world="arbor" weather="hell" mode="explore" density="far" height="440px" focus="interview-me" subject="mattpocock/grill-me" hint-size="100%,440px"></dc-import><div class="cap"><span class="h4">Hell · explore</span><span class="small">Impact cut to ink on paper. Red appears only at impact points; this is not a red theme.</span></div></div>
+      <div class="wcell"><dc-import name="Scene" world="arbor" weather="ultra" mode="explore" density="far" height="440px" focus="interview-me" subject="mattpocock/grill-me" hint-size="100%,440px"></dc-import><div class="cap"><span class="h4">Ultra · govern</span><span class="small">A gold field rises behind the Tree and heavier gold wakes run its routes. The structure stays green: Ultra is lit by gold, not made of it.</span></div></div>
+    </div>
+    <div class="stack gap-2">
+      <h2 class="h2">Changing the weather</h2>
+      <p class="body" style="max-width: 64ch">Every change between Clear, Heaven, Hell and Ultra cuts the whole screen: an impact frame held for one to three steps of 46 ms, then a tear of slices and scanlines, then the new weather. Each weather has its own impact. Use Replay to run it inside the tile.</p>
+    </div>
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+      <div class="trow">
+        <div class="meta"><span class="h4">{{r.name}}</span><span class="small">{{r.what}}</span><span class="hud">{{r.timing}}</span><button class="replay" onClick="{{r.play}}" aria-label="{{r.aria}}">Replay</button></div>
+        <div class="tiles">
+          <div class="tile"><div class="tbox {{r.bgA}}" data-k="{{r.key}}" data-f="a"><svg viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 84H62L80 62H150M34 84V36M112 62V18M134 62v26" stroke="{{r.ink}}" stroke-width="1.2" fill="none" opacity=".7"></path></svg><div class="wxfx is-specimen" aria-hidden="true"><i class="fx-sheet"></i><i class="fx-sheet2"></i><i class="fx-burst"></i><i class="fx-wedge"></i><i class="fx-wedge2"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-scan"></i><i class="fx-mark"></i><b class="fx-stamp">Ultra</b></div></div><span class="fine">{{r.capA}}</span></div>
+          <div class="tile"><div class="tbox {{r.bgB}}" data-k="{{r.key}}" data-f="b"><svg viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 84H62L80 62H150M34 84V36M112 62V18M134 62v26" stroke="{{r.inkB}}" stroke-width="1.2" fill="none" opacity=".7"></path></svg><div class="wxfx is-specimen" aria-hidden="true"><i class="fx-sheet"></i><i class="fx-sheet2"></i><i class="fx-burst"></i><i class="fx-wedge"></i><i class="fx-wedge2"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-scan"></i><i class="fx-mark"></i><b class="fx-stamp">Ultra</b></div></div><span class="fine">{{r.capB}}</span></div>
+          <div class="tile"><div class="tbox {{r.bgB}}"><svg viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 84H62L80 62H150M34 84V36M112 62V18M134 62v26" stroke="{{r.inkB}}" stroke-width="1.2" fill="none" opacity=".7"></path><path d="{{r.route}}" stroke="{{r.acc}}" stroke-width="{{r.accW}}" fill="none"></path></svg></div><span class="fine">Resolved, {{r.dur}} ms</span></div>
+        </div>
+      </div>
+    </sc-for>
+    <p class="fine">At rest, weather is scoped to the instrument: the page around it keeps the Arbor world, so a Hell inversion never flips navigation, text or evidence materials. The change itself is the one moment that covers the whole screen. Safety: at most three flashes in any second (a change that would exceed it plays the tear without the impact frame), no full-screen red, sheets kept below full strength, and reduced motion replaces all of it with a 150 ms crossfade.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2830}}'>
+// Runtime weather transition: an impact frame (hard cuts, no easing), then a glitch (slice tear, scanlines,
+// a <=8px shear), resolving into the new weather. Transform and opacity only, via the Web Animations API, so a
+// new change cancels the running one and the overlay never stacks. Flash budget: at most 3 in any second
+// (WCAG 2.3.1); a change that would exceed it plays the glitch without the impact sheets. Reduced motion
+// replaces all of it with a 150 ms crossfade.
+const WXFX = { none: { dur: 450, n: 1, amp: 8 }, heaven: { dur: 520, n: 1, amp: 14 }, hell: { dur: 480, n: 1, amp: 26 }, ultra: { dur: 640, n: 2, amp: 22 } };
+const WX_NAME = { none: 'Clear', heaven: 'Heaven', hell: 'Hell', ultra: 'Ultra' };
+function wxfxRun(el, dur, ks, hard) {
+  if (!el) return;
+  el.animate(ks.map((k) => Object.assign({ offset: Math.min(1, k[0] / dur), easing: hard ? 'steps(1, end)' : 'linear' }, k[1])), { duration: dur, fill: 'none', id: 'wxfx' });
+}
+function wxfxPlay(root, to, shear, log) {
+  if (!root || !root.animate) return;
+  root.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+  (shear || []).forEach((s) => s && s.getAnimations().forEach((a) => { if (a.id === 'wxfx') a.cancel(); }));
+  root.dataset.to = to;
+  const q = (c) => root.querySelector(c), P = WXFX[to] || WXFX.none, D = P.dur;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { wxfxRun(q('.fx-sheet'), 150, [[0, { opacity: 0 }], [60, { opacity: 0.22 }], [150, { opacity: 0 }]], false); return; }
+  const now = performance.now();
+  while (log.length && now - log[0].t > 1000) log.shift();
+  const calm = log.reduce((a, r) => a + r.n, 0) + P.n > 3;
+  if (!calm) log.push({ t: now, n: P.n });
+  const O = (o, t) => (t ? { opacity: o, transform: t } : { opacity: o });
+  if (!calm) {
+    if (to === 'heaven') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.42)], [46, O(0.3)], [92, O(0.36)], [120, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.85, 'rotate(-28deg) translateX(-6%)')], [46, O(0.85, 'rotate(-28deg) translateX(3%) scaleY(.6)')], [92, O(0.6, 'rotate(-28deg) translateX(8%) scaleY(.3)')], [120, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else if (to === 'hell') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.9)], [60, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(1, 'rotate(-28deg)')], [60, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [60, O(0.92, 'rotate(-28deg) translateX(-4%) scaleY(.5)')], [110, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-mark'), D, [[0, O(1, 'scale(1)')], [60, O(1, 'scale(1.6) rotate(45deg)')], [110, O(0)], [D, O(0)]], true);
+    } else if (to === 'ultra') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.55)], [58, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.9, 'rotate(-28deg)')], [58, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-sheet2'), D, [[0, O(0)], [58, O(0.78)], [124, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [58, O(0.9, 'rotate(-28deg) translateX(-3%)')], [124, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.16)], [90, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.7, 'rotate(-28deg) scaleY(.12)')], [46, O(0.7, 'rotate(-28deg) translateY(-30%) scaleY(.08)')], [90, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    }
+  }
+  if (to === 'ultra') {
+    wxfxRun(q('.fx-stamp'), D, [[0, O(0, 'scale(1.3)')], [58, O(1, 'scale(1.22) skewX(-8deg)')], [104, O(1, 'scale(1.04) skewX(3deg)')], [150, O(1, 'scale(1)')], [400, O(calm ? 0.7 : 1, 'scale(1)')], [D, O(0, 'scale(.98)')]], false);
+    wxfxRun(q('.fx-burst'), D, [[0, O(0, 'scale(.6)')], [118, O(0, 'scale(.6)')], [124, O(0.75, 'scale(.8)')], [420, O(0.3, 'scale(1.15)')], [580, O(0, 'scale(1.25)')], [D, O(0, 'scale(1.25)')]], false);
+  }
+  // glitch: slices tear on 46 ms steps, scanlines decay
+  const g0 = calm ? 0 : (to === 'ultra' ? 124 : 110), A = P.amp;
+  root.querySelectorAll('.fx-slice').forEach((s, i) => {
+    s.style.top = (8 + Math.random() * 82).toFixed(1) + '%';
+    s.style.height = (0.4 + Math.random() * (to === 'hell' ? 3.2 : 4.2)).toFixed(2) + '%';
+    const sg = i % 2 ? 1 : -1, a = A * (0.6 + Math.random() * 0.6) * sg, op = to === 'none' ? 0.6 : 0.85;
+    const ks = [[0, O(0, 'translateX(0)')]];
+    if (g0) ks.push([g0, O(0, 'translateX(0)')]);
+    for (let k = 0; k < 6; k++) ks.push([g0 + k * 46 + (i % 3) * 8, O(op * (1 - k * 0.12), 'translateX(' + (k % 2 ? -a * 0.7 : a) * (1 - k * 0.14) + 'px)')]);
+    ks.push([Math.min(D - 1, g0 + 300), O(0, 'translateX(0)')], [D, O(0, 'translateX(0)')]);
+    wxfxRun(s, D, ks, true);
+  });
+  const sc = to === 'ultra' ? 0.6 : 1;
+  wxfxRun(q('.fx-scan'), D, [[0, O(calm ? 0.3 : 0)], [g0, O(0.6 * sc)], [g0 + 92, O(0.45 * sc)], [g0 + 184, O(0.3 * sc)], [g0 + (to === 'ultra' ? 230 : 300), O(0)], [D, O(0)]], true);
+  (shear || []).forEach((s) => wxfxRun(s, D, [[0, { transform: 'none' }], [g0, { transform: 'translate3d(-8px, 1px, 0) skewX(3deg)' }], [g0 + 46, { transform: 'translate3d(6px, -2px, 0) skewX(-2deg)' }], [g0 + 92, { transform: 'translate3d(-3px, 0, 0)' }], [g0 + 138, { transform: 'none' }], [D, { transform: 'none' }]], true));
+}
+const WX_ROWS = [
+  { key: 'heaven', name: 'Heaven', what: 'Split light. A pale sheet and a prism wedge, then RGB-split slices.', a: 40, b: 200, capA: 'Impact, 0 to 120 ms', capB: 'Glitch, 110 to 420 ms', bgA: '', bgB: '', acc: 'oklch(0.78 0.10 210)', accW: 1.6 },
+  { key: 'hell', name: 'Hell', what: 'Ink. An ink sheet with a paper cut and one red impact point, then ink tears on paper.', a: 30, b: 200, capA: 'Impact, 0 to 110 ms', capB: 'Glitch, 110 to 410 ms', bgA: '', bgB: 'paper', acc: '#171618', accW: 2.4 },
+  { key: 'ultra', name: 'Ultra', what: 'Gold. A gold sheet, then ink with a gold wedge and the stamped word, speed lines bursting outward.', a: 90, b: 260, capA: 'Impact and stamp, 0 to 124 ms', capB: 'Burst and tear, 124 to 640 ms', bgA: '', bgB: 'gold', acc: '#ffd24a', accW: 2.4 },
+  { key: 'none', name: 'Clear', what: 'Bone. A faint sheet and a graphite hairline, then a short, quiet tear.', a: 40, b: 200, capA: 'Impact, 0 to 90 ms', capB: 'Glitch, 90 to 410 ms', bgA: '', bgB: '', acc: 'oklch(0.745 0.15 148)', accW: 1.2 }
+];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.logs = {}; }
+  componentDidMount() { setTimeout(() => this.freeze(), 300); }
+  boxes(k) { return [...document.querySelectorAll('.tbox[data-k="' + k + '"] .wxfx')]; }
+  freeze() {
+    WX_ROWS.forEach((r) => this.boxes(r.key).forEach((fx, i) => {
+      wxfxPlay(fx, r.key, [], []);
+      fx.getAnimations({ subtree: true }).forEach((a) => { a.pause(); a.currentTime = i ? r.b : r.a; });
+    }));
+  }
+  replay(r) {
+    const fx = this.boxes(r.key)[0];
+    if (!fx) return;
+    this.logs[r.key] = this.logs[r.key] || [];
+    wxfxPlay(fx, r.key, [], this.logs[r.key]);
+    setTimeout(() => { if (fx.getAnimations({ subtree: true }).every((a) => a.playState !== 'running')) { wxfxPlay(fx, r.key, [], []); fx.getAnimations({ subtree: true }).forEach((a) => { a.pause(); a.currentTime = r.a; }); } }, WXFX[r.key].dur + 400);
+  }
+  renderVals() {
+    return { rows: WX_ROWS.map((r) => Object.assign({}, r, {
+      timing: 'Total ' + WXFX[r.key].dur + ' ms', dur: WXFX[r.key].dur, aria: 'Replay the change to ' + r.name,
+      ink: 'oklch(0.745 0.15 148)', inkB: r.key === 'hell' ? '#171618' : 'oklch(0.745 0.15 148)',
+      route: 'M34 84H62L80 62H112V18', play: () => this.replay(r)
+    })) };
+  }
+}
+</script>
+</body>
+</html>
