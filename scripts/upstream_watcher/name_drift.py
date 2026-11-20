@@ -78,6 +78,8 @@ def sanitize_name(name: str) -> str:
 def check_name_drift(
     components: list[str],
     registry_map: dict[str, dict],
+    *,
+    fetch_text_fn: Any = None,
 ) -> list[dict[str, Any]]:
     """Compare each component's registry slug against its sanitized upstream name.
 
@@ -103,6 +105,7 @@ def check_name_drift(
         Empty list when no component has drifted.
     """
     drift: list[dict[str, Any]] = []
+    fetcher = fetch_text_fn if fetch_text_fn is not None else fetch_text
 
     for comp_id in components:
         comp_fm = registry_map.get(comp_id)
@@ -113,7 +116,7 @@ def check_name_drift(
             continue
 
         raw_url = blob_to_raw(gh_url)
-        content = fetch_text(raw_url)
+        content = fetcher(raw_url)
         if not content:
             continue
 

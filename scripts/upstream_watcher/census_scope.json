@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "repository": "gaia-research/gaia-skill-tree",
+  "quarantineRef": "refs/heads/census/p2-hosted-readonly-2026-11",
+  "historicalAuthorityCommit": "9b4d9b98043140188f00b14d0ac8fa6bc02491b7",
+  "baselineCount": 81,
+  "baselineSha256": "c369ea43b3733aeb2c915ee3f185ea7451d9c38808a37a26e22431b3440db28b",
+  "scope": [
+    {
+      "namedId": "addy-osmani/agent-skills",
+      "releaseRepo": "addyosmani/agent-skills"
+    },
+    {
+      "namedId": "garrytan/garrytan",
+      "releaseRepo": "garrytan/gstack"
+    },
+    {
+      "namedId": "garrytan/gbrain",
+      "releaseRepo": "garrytan/gbrain"
+    },
+    {
+      "namedId": "garrytan/gstack",
+      "releaseRepo": "garrytan/gstack"
+    },
+    {
+      "namedId": "heygen-com/hyperframes",
+      "releaseRepo": "heygen-com/hyperframes"
+    },
+    {
+      "namedId": "hikari9/auto-office",
+      "releaseRepo": "hikari9/auto-office"
+    },
+    {
+      "namedId": "leonxlnx/taste-skill",
+      "releaseRepo": "leonxlnx/taste-skill"
+    },
+    {
+      "namedId": "obra/superpowers",
+      "releaseRepo": "obra/superpowers"
+    },
+    {
+      "namedId": "ruvnet/dual-mode",
+      "releaseRepo": "ruvnet/ruflo"
+    },
+    {
+      "namedId": "ruvnet/flow-nexus",
+      "releaseRepo": "ruvnet/ruflo"
+    },
+    {
+      "namedId": "ruvnet/github-suite",
+      "releaseRepo": "ruvnet/ruflo"
+    },
+    {
+      "namedId": "ruvnet/reasoningbank",
+      "releaseRepo": "ruvnet/ruflo"
+    },
+    {
+      "namedId": "ruvnet/ruflo",
+      "releaseRepo": "ruvnet/ruflo"
+    },
+    {
+      "namedId": "ruvnet/ruflo-v3",
+      "releaseRepo": "ruvnet/ruflo"
+    }
+  ]
+}

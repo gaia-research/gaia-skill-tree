@@ -49,339 +49,131 @@ on:
         description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
         required: false
         default: ""
-  schedule:
-    - cron: '0 6 * * *'  # 06:00 UTC daily
 
-# Prevent overlap between manual runs
-concurrency: upstream-watcher
+concurrency: upstream-weekly-census-readonly
 
-# L5: the watcher only reads the repo and writes issues; it never opens PRs or dispatches workflows (batch mode
-# creates no approved bootstrap, M3), so the workflow-level token stays issues: write, contents: read.
 permissions:
-  issues: write
   contents: read
+  issues: read
+  pull-requests: read
 
 jobs:
-  watcher:
-    if: ${{ inputs.metadata_probe != true && !inputs.permission_ab }}
-    name: Poll upstream repos for new releases
+  weekly-census-readonly:
+    name: P2 Hosted Read-Only Weekly Census
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch'
+      && github.repository == 'gaia-research/gaia-skill-tree'
+      && github.ref == 'refs/heads/census/p2-hosted-readonly-2026-11'
+      && github.ref != format('refs/heads/{0}', github.event.repository.default_branch)
+      && github.run_attempt == 1
+      && inputs.apply == false
+      && inputs.child_mode == 'batch'
+      && inputs.staging == 'off'
+      && (inputs.staging_bootstrap == false || inputs.staging_bootstrap == null || inputs.staging_bootstrap == '')
+      && (inputs.challenge_watch == false || inputs.challenge_watch == null || inputs.challenge_watch == '')
+      && (inputs.challenge_shadow == false || inputs.challenge_shadow == null || inputs.challenge_shadow == '')
+      && (inputs.permission_ab == false || inputs.permission_ab == null || inputs.permission_ab == '')
+      && (inputs.metadata_probe == false || inputs.metadata_probe == null || inputs.metadata_probe == '')
+      && (inputs.escalate_candidate == '' || inputs.escalate_candidate == null)
+      && (inputs.skill_id == '' || inputs.skill_id == null)
+      && (inputs.challenge_input == '' || inputs.challenge_input == null) }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
-      issues: write
       contents: read
+      issues: read
       pull-requests: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout quarantined ref
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
+          persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      - name: Install dependencies
-        run: pip install -e ".[dev]"
-
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Fetch pinned historical authority commit
+      - name: Verify dispatch contract and fetch pinned historical commit
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          EVENT_SHA: ${{ github.sha }}
+          WORKFLOW_REF: ${{ github.workflow_ref }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          IN_APPLY: ${{ inputs.apply }}
+          IN_CHILD_MODE: ${{ inputs.child_mode }}
+          IN_STAGING: ${{ inputs.staging }}
+          IN_STAGING_BOOTSTRAP: ${{ inputs.staging_bootstrap }}
+          IN_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
+          IN_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
+          IN_PERMISSION_AB: ${{ inputs.permission_ab }}
+          IN_METADATA_PROBE: ${{ inputs.metadata_probe }}
+          IN_ESCALATE: ${{ inputs.escalate_candidate }}
+          IN_SKILL_ID: ${{ inputs.skill_id }}
+          IN_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
         run: |
           set -euo pipefail
-          COMMIT=$(python3 -c 'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])')
-          if ! git cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then
-            git fetch --depth=1 --no-tags origin "$COMMIT"
+          test "$EVENT_NAME" = "workflow_dispatch"
+          test "$REPO" = "gaia-research/gaia-skill-tree"
+          test "$REF" = "refs/heads/census/p2-hosted-readonly-2026-11"
+          test "$REF" != "refs/heads/${DEFAULT_BRANCH}"
+          test "$RUN_ATTEMPT" = "1"
+          test "$WORKFLOW_REF" = "gaia-research/gaia-skill-tree/.github/workflows/upstream-watcher.yml@refs/heads/census/p2-hosted-readonly-2026-11"
+          HEAD_SHA="$(git rev-parse HEAD)"
+          test "$HEAD_SHA" = "$EVENT_SHA"
+          test "$IN_APPLY" = "false"
+          test "$IN_CHILD_MODE" = "batch"
+          test "$IN_STAGING" = "off"
+          for switch_val in "$IN_STAGING_BOOTSTRAP" "$IN_CHALLENGE_WATCH" "$IN_CHALLENGE_SHADOW" "$IN_PERMISSION_AB" "$IN_METADATA_PROBE"; do
+            case "$switch_val" in
+              false|"") ;;
+              *) echo "::error::Unexpected truthy or invalid switch value"; exit 1 ;;
+            esac
+          done
+          test -z "$IN_ESCALATE"
+          test -z "$IN_SKILL_ID"
+          test -z "$IN_CHALLENGE_INPUT"
+          EXPECTED_HISTORICAL_COMMIT="9b4d9b98043140188f00b14d0ac8fa6bc02491b7"
+          COMMIT="$(python3 -c 'import json; print(json.load(open("scripts/upstream_watcher/legacy_plan_policy.json"))["historicalAuthorityCommit"])')"
+          test "$COMMIT" = "$EXPECTED_HISTORICAL_COMMIT"
+          if ! git cat-file -e "${EXPECTED_HISTORICAL_COMMIT}^{commit}" 2>/dev/null; then
+            git fetch --depth=1 --no-tags origin "$EXPECTED_HISTORICAL_COMMIT"
           fi
-          git cat-file -e "${COMMIT}^{commit}"
+          RESOLVED_COMMIT="$(git rev-parse "${EXPECTED_HISTORICAL_COMMIT}^{commit}")"
+          test "$RESOLVED_COMMIT" = "$EXPECTED_HISTORICAL_COMMIT"
 
-      # Staged batching switch (#2283). Present only when staging resolves to weekly; with the repository variable
-      # UPSTREAM_BATCH_STAGING unset (the default) these two steps are skipped and the job is exactly as before.
-      # The journal is required state, not a convenience: a cache miss or eviction FAILS CLOSED (every suite held,
-      # nothing written, job red) until a human re-dispatches with staging_bootstrap=true. Nothing resets silently.
-      - name: Restore staging journal
-        if: ${{ (inputs.staging == 'weekly' || (vars.UPSTREAM_BATCH_STAGING == 'weekly' && (inputs.staging == '' || inputs.staging == 'inherit'))) && inputs.escalate_candidate == '' }}
-        uses: actions/cache/restore@v4
-        with:
-          path: generated-output/staging-journal.json
-          key: upstream-staging-journal-${{ github.run_id }}
-          restore-keys: upstream-staging-journal-
+      - name: Verify PyYAML availability without token
+        run: |
+          set -euo pipefail
+          python3 -c "import yaml" 2>/dev/null || { echo "::error::PyYAML is required on runner"; exit 1; }
 
-      - name: Run upstream watcher
+      - name: Run hosted read-only P2 census
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GAIA_OPERATOR_OVERRIDE: "1"
-          INPUT_SKILL_ID: ${{ inputs.skill_id }}
-          INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
-          INPUT_APPLY: ${{ inputs.apply }}
-          INPUT_CHILD_MODE: ${{ inputs.child_mode }}
-          INPUT_STAGING: ${{ inputs.staging }}
-          INPUT_STAGING_BOOTSTRAP: ${{ inputs.staging_bootstrap }}
-          STEWARD_ISSUE_HYGIENE_V2: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
-          STAGING_INITIALIZED: ${{ vars.UPSTREAM_STAGING_INITIALIZED }}
-          STAGING_VAR: ${{ vars.UPSTREAM_BATCH_STAGING }}
-          V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
-          EVENT_NAME: ${{ github.event_name }}
+          CENSUS_READONLY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHONPATH: ".:src"
+          GITHUB_ACTIONS: ${{ github.actions }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+          DISPATCH_INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
           set -euo pipefail
           mkdir -p generated-output
-          # L1: arguments are a bash array (no word splitting), and each input is validated before use.
-          ID_RE='^[A-Za-z0-9._/-]+$'
-          CANDIDATE_RE='^[A-Za-z0-9._/:-]+$'
-          APPLY=(--dry-run)
-          if [ "$INPUT_APPLY" = "true" ] || [ "$EVENT_NAME" = "schedule" ]; then
-            APPLY=(--apply)
-          fi
-          if [ -n "$INPUT_ESCALATE" ] && ! [[ "$INPUT_ESCALATE" =~ $CANDIDATE_RE ]]; then
-            echo "::error::escalate_candidate must match ${CANDIDATE_RE}; got a value with other characters."
-            exit 1
-          fi
-          if [ -n "$INPUT_SKILL_ID" ] && ! [[ "$INPUT_SKILL_ID" =~ $ID_RE ]]; then
-            echo "::error::skill_id must match ${ID_RE}; got a value with other characters."
-            exit 1
-          fi
-          MODE=fanout
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            MODE="${INPUT_CHILD_MODE:-fanout}"
-          fi
-          if [[ "$MODE" != fanout && "$MODE" != batch ]]; then
-            echo "::error::Unknown child_mode"
-            exit 1
-          fi
-          # Staged batching (#2283). Unset variable and inherit input resolve to off: the deployed behaviour.
-          STAGING="${STAGING_VAR:-off}"
-          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "${INPUT_STAGING:-}" ] && [ "$INPUT_STAGING" != inherit ]; then
-            STAGING="$INPUT_STAGING"
-          fi
-          if [[ "$STAGING" != off && "$STAGING" != weekly ]]; then
-            echo "::error::UPSTREAM_BATCH_STAGING / staging must be off or weekly; got a different value."
-            exit 1
-          fi
-          if [ "$STAGING" = weekly ]; then
-            if [ "$EVENT_NAME" = "schedule" ]; then
-              # Activation: the repository variable moves the daily run onto the staged batch contract. The durable
-              # initialized marker (outside the cache) must already be set, so a later cache eviction is recognised
-              # as a LOST journal and fails closed instead of looking like a first run.
-              if [ "${STAGING_INITIALIZED:-}" != true ]; then
-                echo "::error::Scheduled staging needs the repo variable UPSTREAM_STAGING_INITIALIZED=true (set it after the bootstrap dispatch)."
-                exit 1
-              fi
-              MODE=batch
-            elif [ "$MODE" != batch ]; then
-              echo "::error::staging=weekly requires child_mode=batch; fanout cannot be staged."
-              exit 1
-            fi
-          fi
-          if { [ "$MODE" = batch ] || [ -n "$INPUT_ESCALATE" ]; } && [ "${APPLY[0]}" = --apply ] && [ "${V2_ENABLED:-}" != true ]; then
-            echo "::error::Staged issue writes require STEWARD_ISSUE_HYGIENE_V2=true and founder rollout approval."
-            exit 1
-          fi
-          if [ -n "$INPUT_ESCALATE" ]; then
-            # One child for one batch row; no polling, no umbrella rewrite beyond that row.
-            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" "${APPLY[@]}"
-            exit 0
-          fi
-          ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
-          if [ "$STAGING" = weekly ]; then
-            ARGS+=(--staging weekly --staging-journal generated-output/staging-journal.json)
-            if [ "${STAGING_INITIALIZED:-}" = true ]; then
-              ARGS+=(--staging-initialized)
-            fi
-            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "${INPUT_STAGING_BOOTSTRAP:-}" = "true" ]; then
-              ARGS+=(--staging-bootstrap)
-            fi
-          fi
-          if [ -n "$INPUT_SKILL_ID" ]; then
-            ARGS+=(--skill "$INPUT_SKILL_ID")
-          fi
-          # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
-          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+          python3 -m scripts.upstream_watcher.hosted_census \
+            --scope-file scripts/upstream_watcher/census_scope.json \
+            --output generated-output/weekly-census-readonly-receipt.json
 
-      - name: Save staging journal
-        if: ${{ always() && ((inputs.staging == 'weekly' || (vars.UPSTREAM_BATCH_STAGING == 'weekly' && (inputs.staging == '' || inputs.staging == 'inherit')))) && inputs.escalate_candidate == '' }}
-        uses: actions/cache/save@v4
-        with:
-          path: generated-output/staging-journal.json
-          key: upstream-staging-journal-${{ github.run_id }}
-
-      - name: Upload watcher report
+      - name: Upload redacted census receipt
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: upstream-watcher-report
-          path: generated-output/upstream-watcher-report.json
-          if-no-files-found: ignore
-
-  metadata-probe:
-    name: DIAGNOSTIC ONLY - typed backlog visibility
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.metadata_probe == true && !inputs.permission_ab }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
-    # Inherits exactly issues: write / contents: read; no additional grant.
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Read diagnostic metadata only
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m scripts.upstream_watcher.metadata_probe
-      - name: Upload DIAGNOSTIC ONLY metadata
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: DIAGNOSTIC-upstream-metadata-probe
-          path: generated-output/diagnostic-upstream-metadata.json
-          if-no-files-found: error
+          name: weekly-census-readonly-receipt
+          path: generated-output/weekly-census-readonly-receipt.json
           retention-days: 7
-
-  # Independent jobs: a nonhealthy control (exit 3) cannot gate/cancel treatment.
-  # Each gets its own job-scoped GITHUB_TOKEN. No outputs or credentials cross jobs.
-  # Explicit permissions replace workflow inheritance; metadata read is implicit.
-  permission-ab-control:
-    name: DIAGNOSTIC ONLY - permission A/B CONTROL
-    if: ${{ github.event_name == 'workflow_dispatch' && toJSON(inputs.permission_ab) == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
-    permissions:
-      issues: write
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Read diagnostic metadata only
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m scripts.upstream_watcher.metadata_probe
-      - name: Upload DIAGNOSTIC ONLY metadata
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: DIAGNOSTIC-upstream-metadata-permission-ab-CONTROL
-          path: generated-output/diagnostic-upstream-metadata.json
           if-no-files-found: error
-          retention-days: 7
-
-  permission-ab-treatment:
-    name: DIAGNOSTIC ONLY - permission A/B TREATMENT
-    if: ${{ github.event_name == 'workflow_dispatch' && toJSON(inputs.permission_ab) == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
-    permissions:
-      issues: write
-      contents: read
-      pull-requests: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Read diagnostic metadata only
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m scripts.upstream_watcher.metadata_probe
-      - name: Upload DIAGNOSTIC ONLY metadata
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: DIAGNOSTIC-upstream-metadata-permission-ab-TREATMENT
-          path: generated-output/diagnostic-upstream-metadata.json
-          if-no-files-found: error
-          retention-days: 7
-
-  # Opt-in challenge watch, kept out of the job above so the poll/issue job stays at contents: read. This is the only
-  # job with contents: write, because the shared CAS ledger (GitRefLedgerStore) pushes the dedicated steward/ledger ref.
-  # It receives nothing from the watcher job beyond ordering: it needs it to succeed (exit 3 unknown evidence therefore
-  # skips it, preserving "zero writes"), rebuilds its own inputs from the checkout, and hands its packets on as an artifact.
-  # It writes nothing but that ref and runs only default-branch code, so no untrusted ref sees the write token.
-  challenge-watch:
-    name: Challenge watch (opt-in, writes the steward/ledger ref)
-    needs: watcher
-    # Default-off: a reviewed repository variable or the dispatch input opts in. Never on a single-row escalation, and
-    # never from a non-default branch (a dispatch from another ref would run that ref's code with the write token).
-    if: >-
-      ${{ ((github.event_name == 'workflow_dispatch' && inputs.apply == true && inputs.challenge_watch == true)
-      || (github.event_name != 'workflow_dispatch' && (vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true' || vars.GAIA_CHALLENGE_WATCH_ENABLED == '1')))
-      && inputs.escalate_candidate == ''
-      && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.repository.default_branch }}
-          fetch-depth: 1
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      - name: Install dependencies
-        run: pip install -e ".[dev]"
-
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Run challenge watch
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GAIA_OPERATOR_OVERRIDE: "1"
-          INPUT_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
-          INPUT_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
-        run: |
-          set -euo pipefail
-          mkdir -p generated-output/challenge-packets
-          # Arguments are a bash array (no word splitting); the input path is passed as one exact argv element.
-          ARGS=(--challenge-only --challenge-output generated-output/challenge-packets)
-          if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
-            # Repo-relative path only: no absolute paths, no "..", no shell/option metacharacters.
-            if ! [[ "$INPUT_CHALLENGE_INPUT" =~ ^[A-Za-z0-9._/-]+$ ]] || [[ "$INPUT_CHALLENGE_INPUT" == /* || "$INPUT_CHALLENGE_INPUT" == -* || "$INPUT_CHALLENGE_INPUT" == *..* ]]; then
-              echo "::error::challenge_input must be a repo-relative path matching ^[A-Za-z0-9._/-]+\$ with no '..'"
-              exit 1
-            fi
-            ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
-          fi
-          if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
-            ARGS+=(--challenge-shadow)
-          fi
-          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
-
-      - name: Upload challenge packets
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: challenge-watch-packets
-          path: generated-output/challenge-packets
-          if-no-files-found: ignore

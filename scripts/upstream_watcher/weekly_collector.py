@@ -40,10 +40,11 @@ import math
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
-from scripts.upstream_watcher import envelope, watcher, weekly_reducer
+from scripts.upstream_watcher import envelope, finder, liveness as watcher_liveness, name_drift, watcher, weekly_reducer, weekly_release_proof
 from scripts.upstream_watcher.approval import PayloadError
 from scripts.upstream_watcher.live import GhError, SuiteUnavailable, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import ComponentTreeEnumeration
+from scripts.upstream_watcher.readonly_issue_port import HostedUpstreamClient
 from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 from scripts.upstream_watcher.weekly_reducer import (
     PollInput,
@@ -66,6 +67,7 @@ class SuiteCollectionResult:
     proof_reason: str | None = None
     unavailable_reason: str | None = None
     error_detail: str | None = None
+    release_status: str | None = None
 
 
 @dataclass(frozen=True)
@@ -167,12 +169,170 @@ def _index_unique_observations(
     return by_scope, duplicate_scopes
 
 
+_APPROVED_RELEASE_PROOF_UNKNOWN_REASONS = frozenset({
+    "invalid-authority-scope",
+    "invalid-expected-repository",
+    "invalid-expected-repository-id",
+    "named-not-in-authority",
+    "authority-repository-mismatch",
+    "watch-upstream-disabled",
+    "invalid-authority-source",
+    "missing-authority-source",
+    "authority-upstream-repo-contradiction",
+    "invalid-authority-upstream-repo",
+    "locked-source-violation",
+    "invalid-registered-version",
+    "invalid-authority-version",
+    "registered-version-mismatch",
+    "invalid-latest-observation",
+    "invalid-redirect-flag",
+    "invalid-status-code",
+    "requested-repository-mismatch",
+    "endpoint-url-mismatch",
+    "redirect-not-allowed",
+    "malformed-release-body",
+    "malformed-release-tag",
+    "malformed-release-time",
+    "malformed-release-source",
+    "release-repo-mismatch",
+    "metadata-missing-for-pinned-id",
+    "invalid-metadata-observation",
+    "invalid-metadata-redirect-flag",
+    "invalid-metadata-status-code",
+    "metadata-requested-repository-mismatch",
+    "metadata-endpoint-url-mismatch",
+    "metadata-redirect",
+    "metadata-404",
+    "metadata-403",
+    "metadata-non-200",
+    "metadata-malformed",
+    "metadata-repo-mismatch",
+    "metadata-malformed-repo-id",
+    "metadata-repo-id-mismatch",
+    "metadata-missing-repo-id",
+    "bare-404-uncorroborated",
+    "missing-release-body",
+    "release-proof-finding-mismatch",
+    "unexpected-release-proof-status",
+})
+
+
+def _sanitize_release_proof_unknown_reason(reason: Any) -> str:
+    if isinstance(reason, str):
+        if reason in _APPROVED_RELEASE_PROOF_UNKNOWN_REASONS:
+            return reason
+        if reason.startswith("unconfirmed-http-") and reason[17:].isdigit() and len(reason) <= 24:
+            return reason
+    return "unknown-evidence"
+
+
+def _collect_suite_hosted(
+    fm: dict[str, Any],
+    authority: Mapping[str, dict[str, Any]],
+    upstream_client: HostedUpstreamClient,
+) -> tuple[str, dict[str, Any] | None, ComponentTreeEnumeration | None, str | None]:
+    """Hosted read-only poll path using ``HostedUpstreamClient`` + ``classify_release_proof``."""
+    if type(upstream_client) is not HostedUpstreamClient:
+        raise PayloadError("hosted collector requires exact HostedUpstreamClient")
+    named_id = fm.get("id", "?")
+    resolved = finder.resolve_suite_source(fm)
+    if not resolved:
+        raise UnknownEvidenceError(f"{named_id}: missing suite source")
+    owner, repo, _ = resolved
+    auth_repo = envelope.authority_repository(named_id, authority)
+    upstream_block = fm.get("upstream")
+    registered_version = upstream_block.get("version") if isinstance(upstream_block, Mapping) else None
+
+    latest_obs, meta_obs = upstream_client.fetch_release_observations(owner, repo)
+    proof = weekly_release_proof.classify_release_proof(
+        named_id,
+        authority,
+        expected_repository=auth_repo,
+        registered_version=registered_version,
+        latest_response=latest_obs,
+        repo_metadata_response=meta_obs,
+    )
+    if proof.status == "unknown":
+        return "unknown", None, None, _sanitize_release_proof_unknown_reason(proof.reason)
+    if proof.status == "unavailable":
+        raise SuiteUnavailable(proof.reason, reason="permanent")
+    if proof.status == "no-visible-latest-release":
+        return "no-visible-latest-release", None, None, None
+    if proof.status != "observed":
+        return "unknown", None, None, "unexpected-release-proof-status"
+
+    if proof.relation == "same-version":
+        return (
+            "same-version",
+            {
+                "skillId": named_id,
+                "currentVersion": proof.release_version,
+                "newVersion": proof.release_version,
+                "sourceUrl": proof.release_source,
+                "releasedAt": proof.release_time,
+            },
+            None,
+            None,
+        )
+
+    if not isinstance(latest_obs.body, Mapping):
+        return "unknown", None, None, "missing-release-body"
+    finding = finder.compute_finding(fm, dict(latest_obs.body))
+    if (
+        not isinstance(finding, dict)
+        or finding.get("newVersion") != proof.release_version
+        or finding.get("sourceUrl") != proof.release_source
+    ):
+        return "unknown", None, None, "release-proof-finding-mismatch"
+
+    registry_map = dict(authority)
+    mode = finder.detect_mode(fm, registry_map)
+    finding["mode"] = mode
+    new_version = finding["newVersion"]
+    components = fm.get("suiteComponents") or []
+    component_root = fm.get("upstreamComponentRoot") or "skills"
+    enumeration: ComponentTreeEnumeration | None = None
+    if finding["finding_type"] == "update" and mode == "components":
+        enumeration = watcher_liveness.enumerate_component_tree(
+            owner,
+            repo,
+            new_version,
+            component_root,
+            components,
+            fetch_json_fn=upstream_client.fetch_json,
+        )
+        finding["componentAdds"] = list(enumeration.adds)
+        finding["componentRemoves"] = list(enumeration.removes)
+        live_rows = watcher_liveness.check_component_liveness(
+            components,
+            registry_map,
+            head_check_fn=upstream_client.head_check,
+        )
+        finding["linkLiveness"] = [row for row in live_rows if row["status"] != "network_error"]
+        finding["linkLivenessUnknown"] = sorted(
+            row["skillId"] for row in live_rows if row["status"] == "network_error"
+        )
+        finding["nameDrift"] = name_drift.check_name_drift(
+            components,
+            registry_map,
+            fetch_text_fn=upstream_client.fetch_text,
+        )
+    else:
+        finding["componentAdds"] = []
+        finding["componentRemoves"] = []
+        finding["linkLiveness"] = []
+        finding["linkLivenessUnknown"] = []
+        finding["nameDrift"] = []
+    return "observed", finding, enumeration, None
+
+
 def collect_suite_observation(
     fm: Mapping[str, Any],
     authority: Mapping[str, dict[str, Any]],
     *,
     poll_id: str,
     verbose: bool = False,
+    upstream_client: HostedUpstreamClient | None = None,
 ) -> SuiteCollectionResult:
     """Poll one suite through the actual watcher/liveness seam and bind provenance.
 
@@ -203,11 +363,37 @@ def collect_suite_observation(
     auth_repo = _authority_repo_safe(named_id, authority)
 
     try:
-        finding, enumeration = watcher._poll_suite_with_enumeration(
-            copy.deepcopy(dict(fm)),
-            dict(authority),
-            verbose=verbose,
-        )
+        if upstream_client is not None:
+            rel_status, finding, enumeration, hosted_reason = _collect_suite_hosted(
+                copy.deepcopy(dict(fm)),
+                authority,
+                upstream_client,
+            )
+            if rel_status == "unknown":
+                safe_reason = _sanitize_release_proof_unknown_reason(hosted_reason)
+                return SuiteCollectionResult(
+                    named_id=named_id,
+                    repository=auth_repo,
+                    status="unknown",
+                    proof_reason=safe_reason,
+                    error_detail=safe_reason,
+                    release_status="bare-404-uncorroborated" if safe_reason == "bare-404-uncorroborated" else None,
+                )
+            if rel_status in {"same-version", "no-visible-latest-release"}:
+                return SuiteCollectionResult(
+                    named_id=named_id,
+                    repository=auth_repo,
+                    status="up-to-date",
+                    finding=finding,
+                    proof_reason=rel_status,
+                    release_status=rel_status,
+                )
+        else:
+            finding, enumeration = watcher._poll_suite_with_enumeration(
+                copy.deepcopy(dict(fm)),
+                dict(authority),
+                verbose=verbose,
+            )
     except SuiteUnavailable as exc:
         return SuiteCollectionResult(
             named_id=named_id,
@@ -222,8 +408,9 @@ def collect_suite_observation(
             named_id=named_id,
             repository=auth_repo,
             status="unknown",
-            proof_reason="unknown-evidence",
+            proof_reason="uncorroborated-404" if str(exc) == "uncorroborated-404" else "unknown-evidence",
             error_detail=str(exc),
+            release_status="uncorroborated-404" if str(exc) == "uncorroborated-404" else None,
         )
 
     if finding is None:
@@ -374,6 +561,7 @@ def collect_suites(
     *,
     poll_id: str,
     verbose: bool = False,
+    upstream_client: HostedUpstreamClient | None = None,
 ) -> CollectedPoll:
     """Collect observations and optional complete-inventory proofs for a batch of suites."""
     validated_poll_id = weekly_reducer._validate_poll_id(poll_id)
@@ -394,7 +582,13 @@ def collect_suites(
                 raise PayloadError(f"duplicate suite identity in poll batch: {sid!r}")
             seen_ids.add(sid)
 
-        res = collect_suite_observation(fm, authority, poll_id=validated_poll_id, verbose=verbose)
+        res = collect_suite_observation(
+            fm,
+            authority,
+            poll_id=validated_poll_id,
+            verbose=verbose,
+            upstream_client=upstream_client,
+        )
         results.append(res)
         if res.status == "observed" and res.finding is not None:
             observed_findings.append(copy.deepcopy(res.finding))

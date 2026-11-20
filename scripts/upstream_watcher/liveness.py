@@ -140,6 +140,8 @@ def blob_to_raw(url: str) -> str:
 def check_component_liveness(
     components: list[str],
     registry_map: dict[str, dict],
+    *,
+    head_check_fn: Any = None,
 ) -> list[dict[str, Any]]:
     """HEAD-check each component's ``links.github`` URL.
 
@@ -149,6 +151,7 @@ def check_component_liveness(
     2xx responses are omitted from the return value (they are healthy).
     """
     broken: list[dict[str, Any]] = []
+    check = head_check_fn if head_check_fn is not None else head_check
 
     for comp_id in components:
         comp_fm = registry_map.get(comp_id)
@@ -159,7 +162,7 @@ def check_component_liveness(
             continue
 
         raw_url = blob_to_raw(gh_url)
-        status = head_check(raw_url)
+        status = check(raw_url)
 
         if status is None:
             broken.append(
@@ -213,6 +216,7 @@ def enumerate_component_tree(
     current_components: list[str],
     *,
     _legacy_malformed_blob_exc: bool = False,
+    fetch_json_fn: Any = None,
 ) -> ComponentTreeEnumeration:
     """Fetch the release tree once and return both raw slug diff and inventory provenance.
 
@@ -231,9 +235,10 @@ def enumerate_component_tree(
     # directories at any depth are visible.
     # D11: the tag is percent-encoded whole. An unencoded '#' (or '?') cut the URL before ?recursive=1, and a
     # non-recursive tree then looked like removed components.
+    fetcher = fetch_json_fn if fetch_json_fn is not None else fetch_json
     tree_url = f"{tree_base_url(owner, repo)}/{quote(tag, safe='')}?recursive=1"
     try:
-        tree_data = retry_transient(lambda: fetch_json(tree_url, strict=True))
+        tree_data = retry_transient(lambda: fetcher(tree_url, strict=True))
     except GitHubFetchError as exc:
         if is_permanent_unavailable(exc):
             # H2: a tree that is permanently unavailable skips the suite. It never becomes a removal.
@@ -259,7 +264,14 @@ def enumerate_component_tree(
     if tree_data.get("truncated"):
         # C9 (H-B): a truncated listing is a condition of this suite, not of the run. Read the root directly.
         # Conservative unknown for complete-inventory proof: truncated trees never claim complete proof here.
-        adds, removes = walk_truncated_tree(owner, repo, tag, component_root, current_components)
+        adds, removes = walk_truncated_tree(
+            owner,
+            repo,
+            tag,
+            component_root,
+            current_components,
+            fetch_json_fn=fetch_json_fn,
+        )
         return ComponentTreeEnumeration(
             adds=tuple(adds),
             removes=tuple(removes),
@@ -493,6 +505,8 @@ def walk_truncated_tree(
     tag: str,
     component_root: str,
     current_components: list[str],
+    *,
+    fetch_json_fn: Any = None,
 ) -> tuple[list[str], list[str]]:
     """C9 (H-B): the component diff of a truncated tree, read one directory at a time.
 
@@ -501,6 +515,7 @@ def walk_truncated_tree(
     level under the root that holds a SKILL.md. The walk is bounded by TREE_REQUEST_BUDGET requests. Exhausting it,
     or a sub-call that still fails after its retries, makes the suite unavailable (tree-truncated).
     """
+    fetcher = fetch_json_fn if fetch_json_fn is not None else fetch_json
     where = f"{owner}/{repo}@{tag}"
     base = tree_base_url(owner, repo)
     spent = [0]
@@ -511,7 +526,7 @@ def walk_truncated_tree(
         spent[0] += 1
         url = f"{base}/{quote(ref, safe='')}"
         try:
-            data = retry_transient(lambda: fetch_json(url, strict=True))
+            data = retry_transient(lambda: fetcher(url, strict=True))
         except GitHubFetchError as exc:
             raise truncated_unavailable(f"a directory read of {where} at '{path or '/'}' failed: {exc}") from exc
         items = data.get("tree") if isinstance(data, dict) else None

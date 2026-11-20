@@ -16,6 +16,7 @@ from typing import Any, Mapping, Sequence
 
 from scripts.upstream_watcher import envelope, liveness as watcher_liveness, repository_batch, weekly_binding, weekly_collector, weekly_journal, weekly_reducer
 from scripts.upstream_watcher.approval import PayloadError
+from scripts.upstream_watcher.readonly_issue_port import ReadOnlyIssuePort
 from scripts.upstream_watcher.weekly_effect import FakeIssueService
 from scripts.upstream_watcher.weekly_collector import CollectedPoll
 
@@ -41,6 +42,29 @@ class _FakeIssueReader:
         if name not in self._ALLOWED:
             raise AttributeError(name)
         return getattr(self._service, name)
+
+
+class _SealedReadOnlyReader:
+    """Sealed read-only adapter over ReadOnlyIssuePort for hosted census."""
+
+    __slots__ = ("_port",)
+    _ALLOWED = frozenset({"list_issues", "get_issue", "list_comments", "child_state"})
+
+    def __init__(self, port: ReadOnlyIssuePort, config_repo: str) -> None:
+        if type(port) is not ReadOnlyIssuePort:
+            raise PayloadError("weekly census requires exact ReadOnlyIssuePort")
+        if port.repo != config_repo:
+            raise PayloadError("weekly census read-only port must match the configured repository")
+        self._port = port
+
+    @property
+    def repo(self) -> str:
+        return self._port.repo
+
+    def __getattr__(self, name: str) -> Any:
+        if name not in self._ALLOWED:
+            raise AttributeError(name)
+        return getattr(self._port, name)
 
 
 @dataclass(frozen=True)
@@ -181,12 +205,80 @@ def run_weekly_census(
     policy: dict[str, Any],
     historical_loader=lambda _identifier: {},
 ) -> WeeklyCensus:
-    """Compose offline seams with empty state.
+    """Compose offline seams with empty state (exact FakeIssueService only)."""
+    reader = _FakeIssueReader(fake_issues, config_repo)
+    return _run_weekly_census_impl(
+        suites,
+        authority,
+        reader,
+        collected,
+        poll_id=poll_id,
+        observed_at=observed_at,
+        state_mode=state_mode,
+        held_repos=held_repos,
+        held_named_ids=held_named_ids,
+        unavailable_named_ids=unavailable_named_ids,
+        index_loader=index_loader,
+        policy=policy,
+        historical_loader=historical_loader,
+        allow_hosted_release_projection=False,
+    )
 
-    index_loader and historical_loader are trusted, test-only local inputs: callers
-    must supply data-only loaders, never network or mutation-capable callbacks.
-    They do not grant issue write authority.
-    """
+
+def run_hosted_weekly_census(
+    suites: Sequence[Mapping[str, Any]],
+    authority: Mapping[str, dict[str, Any]],
+    issue_port: ReadOnlyIssuePort,
+    collected: CollectedPoll,
+    *,
+    poll_id: str,
+    observed_at: dt.datetime | str,
+    state_mode: str,
+    config_repo: str,
+    held_repos: frozenset[str] = frozenset(),
+    held_named_ids: frozenset[str] = frozenset(),
+    unavailable_named_ids: frozenset[str] = frozenset(),
+    index_loader,
+    policy: dict[str, Any],
+    historical_loader=lambda _identifier: {},
+) -> WeeklyCensus:
+    """Hosted read-only census wrapper accepting exact ReadOnlyIssuePort only."""
+    reader = _SealedReadOnlyReader(issue_port, config_repo)
+    return _run_weekly_census_impl(
+        suites,
+        authority,
+        reader,
+        collected,
+        poll_id=poll_id,
+        observed_at=observed_at,
+        state_mode=state_mode,
+        held_repos=held_repos,
+        held_named_ids=held_named_ids,
+        unavailable_named_ids=unavailable_named_ids,
+        index_loader=index_loader,
+        policy=policy,
+        historical_loader=historical_loader,
+        allow_hosted_release_projection=True,
+    )
+
+
+def _run_weekly_census_impl(
+    suites: Sequence[Mapping[str, Any]],
+    authority: Mapping[str, dict[str, Any]],
+    reader: _FakeIssueReader | _SealedReadOnlyReader,
+    collected: CollectedPoll,
+    *,
+    poll_id: str,
+    observed_at: dt.datetime | str,
+    state_mode: str,
+    held_repos: frozenset[str] = frozenset(),
+    held_named_ids: frozenset[str] = frozenset(),
+    unavailable_named_ids: frozenset[str] = frozenset(),
+    index_loader,
+    policy: dict[str, Any],
+    historical_loader=lambda _identifier: {},
+    allow_hosted_release_projection: bool = False,
+) -> WeeklyCensus:
     if state_mode != "ephemeral-empty":
         raise PayloadError("weekly census supports only explicitly empty ephemeral state; supplied named-v3 state is deferred")
     if not isinstance(poll_id, str) or not poll_id:
@@ -221,7 +313,7 @@ def run_weekly_census(
         else:
             valid_observed_findings.append(item.finding)
 
-    reader = _FakeIssueReader(fake_issues, config_repo)
+    # reader is already validated by run_weekly_census / run_hosted_weekly_census.
     report, planner_code = repository_batch.run_repository_batch(
         valid_observed_findings, reader, apply=False, authority=authority,
         index_loader=index_loader, policy=policy, historical_loader=historical_loader,
@@ -283,7 +375,50 @@ def run_weekly_census(
     held_repo_set, held_named_set, unavailable_set = set(poll.held_repos), set(poll.held_named_ids), set(poll.unavailable_named_ids)
     scopes = []
     for result in collected.results:
-        if result.status in {"unknown", "up-to-date"} or result.named_id in invalid_observed_ids or result.named_id in incomplete_component_ids:
+        same_version_ok = False
+        if (
+            allow_hosted_release_projection
+            and result.status == "up-to-date"
+            and result.release_status == "same-version"
+            and result.proof_reason == "same-version"
+            and isinstance(result.finding, dict)
+        ):
+            try:
+                sv_ver = result.finding.get("newVersion")
+                sv_url = result.finding.get("sourceUrl")
+                sv_time = result.finding.get("releasedAt")
+                auth_ver = (authority.get(result.named_id, {}).get("upstream") or {}).get("version")
+                if (
+                    isinstance(sv_ver, str)
+                    and _TOKEN.fullmatch(sv_ver)
+                    and sv_ver == auth_ver
+                    and isinstance(sv_url, str)
+                    and len(sv_url) <= 512
+                    and isinstance(sv_time, str)
+                    and envelope.release_repository(sv_url, sv_ver) == result.repository
+                ):
+                    weekly_reducer.parse_strict_utc(sv_time)
+                    from scripts.upstream_watcher.releaseidentity import validateReleaseSource
+                    validateReleaseSource({"skillId": result.named_id, "sourceUrl": sv_url})
+                    same_version_ok = True
+            except Exception:
+                same_version_ok = False
+        no_visible_latest_ok = (
+            allow_hosted_release_projection
+            and result.status == "up-to-date"
+            and result.release_status == "no-visible-latest-release"
+            and result.proof_reason == "no-visible-latest-release"
+        )
+        if same_version_ok or no_visible_latest_ok:
+            if not complete or collected.unknown_evidence:
+                decision = "unknown"
+            elif result.named_id in held_named_set:
+                decision = "held-named-scope"
+            elif result.repository in held_repo_set:
+                decision = "held-repository-scope"
+            else:
+                decision = "same-version" if same_version_ok else "no-visible-latest-release"
+        elif result.status in {"unknown", "up-to-date"} or result.named_id in invalid_observed_ids or result.named_id in incomplete_component_ids:
             decision = "unknown"
         elif result.named_id in held_named_set:
             decision = "held-named-scope"
@@ -382,12 +517,30 @@ def run_weekly_census(
             hold_reason = "non-flush-window"
         else:
             hold_reason = None
-        collection_status = "no-finding-unconfirmed" if result.status == "up-to-date" else result.status
+        if same_version_ok and isinstance(result.finding, dict):
+            current_version = result.finding.get("currentVersion")
+            version = result.finding.get("newVersion")
+            source = result.finding.get("sourceUrl")
+            released = result.finding.get("releasedAt")
+            collection_status = "same-version"
+            proof = "same-version"
+            inventory = "not-applicable"
+            version_status = "same-version"
+            delta_status = "not-applicable"
+        elif no_visible_latest_ok:
+            collection_status = "no-visible-latest-release"
+            proof = "no-visible-latest-release"
+            inventory = "not-applicable"
+            version_status = "no-visible-latest-release"
+            delta_status = "not-applicable"
+        else:
+            collection_status = "no-finding-unconfirmed" if result.status == "up-to-date" else result.status
+            version_status = "release-observed" if checked else ("no-finding-unconfirmed" if result.status == "up-to-date" else "unknown")
+            delta_status = "observational-raw" if checked else "unknown"
         scopes.append(CensusScope(
             result.named_id, result.repository, collection_status, proof, decision,
             current_version, version, source, released, delta, inventory, liveness, drift_ids,
-            "release-observed" if checked else ("no-finding-unconfirmed" if result.status == "up-to-date" else "unknown"),
-            "observational-raw" if checked else "unknown", removals, hold_reason,
+            version_status, delta_status, removals, hold_reason,
         ))
 
     repo_statuses = tuple((repo, item.status) for repo, item in sorted(bound.repositories.items()))
@@ -404,7 +557,7 @@ def run_weekly_census(
         status = "unknown-incomplete"
     elif bound.status == "refused":
         status = "global-refusal"
-    elif held_repo_set or held_named_set or unavailable_set:
+    elif held_repo_set or held_named_set or unavailable_set or known_holds:
         status = "scoped-holds-or-unavailable"
     elif bound.status in {"bound", "idle"} and poll.complete:
         status = "observed-plan-only"
