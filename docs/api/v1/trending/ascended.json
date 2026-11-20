@@ -1,6 +1,110 @@
 {
-  "generatedAt": "2026-11-14T07:14:29Z",
+  "generatedAt": "2026-11-20T13:31:37Z",
   "skills": [
+    {
+      "id": "t3dotgg/modernize",
+      "name": "modernize",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 83.83,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-17T17:15:21Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/modernize.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/babysit-pr",
+      "name": "babysit-pr",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 81.01,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-17T17:14:59Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/babysit-pr.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/takeover",
+      "name": "takeover",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 92.9,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-11-17T17:14:38Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/takeover.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/council",
+      "name": "council",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 129.9,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-17T17:14:23Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/council.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/sol-loop",
+      "name": "sol-loop",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-17T17:13:59Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/sol-loop.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/full-stop",
+      "name": "full-stop",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-17T17:13:36Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-stop.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/full-send",
+      "name": "full-send",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-17T17:13:13Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-send.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "t3dotgg/tstack",
+      "name": "tstack",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 172.41,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-11-17T17:12:48Z",
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/tstack.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "theqtcompanyrnd/qt-qml-review",
       "name": "qt-qml-review",
@@ -280,19 +384,6 @@
       "ascendedAt": "2026-10-27T15:29:03Z",
       "_links": {
         "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "wheresryan22/anatomy",
-      "name": "anatomy",
-      "level": "4★",
-      "contributor": "wheresryan22",
-      "trustMagnitude": 157.48,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-10-27T13:02:19Z",
-      "_links": {
-        "self": "/api/v1/skills/wheresryan22/anatomy.json"
       },
       "previousLevel": "2★"
     }

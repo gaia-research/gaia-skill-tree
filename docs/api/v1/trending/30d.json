@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-11-14T07:14:29Z",
+  "generatedAt": "2026-11-20T13:31:37Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,6 +15,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
+    {
+      "id": "t3dotgg/tstack",
+      "name": "tstack",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 172.41,
+      "overallTrustGrade": "A",
+      "trendingScore": 86.2,
+      "tmDelta": 172.41,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/tstack.json"
       }
     },
     {
@@ -71,6 +85,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      }
+    },
+    {
+      "id": "t3dotgg/council",
+      "name": "council",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 129.9,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.95,
+      "tmDelta": 129.9,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/council.json"
       }
     },
     {
@@ -267,6 +295,48 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
+      }
+    },
+    {
+      "id": "t3dotgg/full-send",
+      "name": "full-send",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "trendingScore": 62.01,
+      "tmDelta": 124.01,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-send.json"
+      }
+    },
+    {
+      "id": "t3dotgg/full-stop",
+      "name": "full-stop",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "trendingScore": 62.01,
+      "tmDelta": 124.01,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/full-stop.json"
+      }
+    },
+    {
+      "id": "t3dotgg/sol-loop",
+      "name": "sol-loop",
+      "level": "4★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 124.01,
+      "overallTrustGrade": "A",
+      "trendingScore": 62.01,
+      "tmDelta": 124.01,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/sol-loop.json"
       }
     },
     {
@@ -967,6 +1037,48 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      }
+    },
+    {
+      "id": "t3dotgg/takeover",
+      "name": "takeover",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 92.9,
+      "overallTrustGrade": "B",
+      "trendingScore": 46.45,
+      "tmDelta": 92.9,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/takeover.json"
+      }
+    },
+    {
+      "id": "t3dotgg/modernize",
+      "name": "modernize",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 83.83,
+      "overallTrustGrade": "B",
+      "trendingScore": 41.91,
+      "tmDelta": 83.83,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/modernize.json"
+      }
+    },
+    {
+      "id": "t3dotgg/babysit-pr",
+      "name": "babysit-pr",
+      "level": "3★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 81.01,
+      "overallTrustGrade": "B",
+      "trendingScore": 40.51,
+      "tmDelta": 81.01,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/babysit-pr.json"
       }
     },
     {
@@ -2174,6 +2286,34 @@
       }
     },
     {
+      "id": "t3dotgg/file-pr",
+      "name": "file-pr",
+      "level": "2★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "trendingScore": 24.95,
+      "tmDelta": 49.9,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/file-pr.json"
+      }
+    },
+    {
+      "id": "t3dotgg/leaving-pr-comments",
+      "name": "leaving-pr-comments",
+      "level": "2★",
+      "contributor": "t3dotgg",
+      "trustMagnitude": 49.9,
+      "overallTrustGrade": "C",
+      "trendingScore": 24.95,
+      "tmDelta": 49.9,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/t3dotgg/leaving-pr-comments.json"
+      }
+    },
+    {
       "id": "aj-geddes/causal-inference",
       "name": "causal-inference",
       "level": "2★",
@@ -2300,7 +2440,7 @@
       }
     }
   ],
-  "totalTrending": 164,
+  "totalTrending": 174,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
