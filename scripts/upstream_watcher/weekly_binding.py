@@ -63,6 +63,7 @@ Tricky cases for the next slice:
 from __future__ import annotations
 
 import copy
+import datetime as dt
 import os
 import subprocess
 from dataclasses import dataclass
@@ -283,14 +284,17 @@ class _InventoryValidationError(RuntimeError):
         self.code = code
 
 
-def _is_valid_utc_timestamp(value: Any) -> bool:
+def _parse_utc_timestamp(value: Any) -> dt.datetime | None:
     if not isinstance(value, str) or not value:
-        return False
+        return None
     try:
-        parse_strict_utc(value)
+        return parse_strict_utc(value)
     except ValueError:
-        return False
-    return True
+        return None
+
+
+def _is_valid_utc_timestamp(value: Any) -> bool:
+    return _parse_utc_timestamp(value) is not None
 
 
 def _is_valid_snapshot(snapshot: Any) -> bool:
@@ -400,8 +404,33 @@ def _parse_pr_url_identity(field: str, value: Any, expected_number: int) -> str 
         return None
 
 
-def _validate_pull_request_marker(marker: Any, number: int) -> tuple[tuple[str, str | None], ...] | None:
-    """Validate a genuine GitHub pull_request object bound to the row's exact issue number."""
+def _resolve_inventory_repo(gh: Any) -> str | None:
+    """Bind the queried inventory repository once from the transport's configured ``repo``.
+
+    Only trusts a valid ``owner/repo`` configured on the underlying transport (such as
+    ``LiveGh.repo``). Never guesses from issue titles, untrusted rows, target release
+    repositories, or ``live.default_repo()``. Returns ``None`` when no usable repository
+    is configured; no-PR inventories remain usable, while any ``pull_request`` marker
+    fails closed because positive PR exclusion cannot be proven.
+    """
+    raw_repo = getattr(gh, "repo", None)
+    if not isinstance(raw_repo, str) or not raw_repo:
+        return None
+    try:
+        return envelope.repository(raw_repo)
+    except PayloadError:
+        return None
+
+
+def _validate_pull_request_marker(
+    marker: Any,
+    number: int,
+    *,
+    inventory_repo: str | None = None,
+) -> tuple[tuple[str, str | None], ...] | None:
+    """Validate a genuine GitHub pull_request object bound to the row's number and inventory repo."""
+    if not isinstance(inventory_repo, str) or not inventory_repo:
+        return None
     if not isinstance(marker, dict) or not marker:
         return None
     if not set(marker.keys()) <= _PR_MARKER_KEYS:
@@ -422,7 +451,7 @@ def _validate_pull_request_marker(marker: Any, number: int) -> tuple[tuple[str, 
                 return None
             repo_identities.add(parsed_repo)
             canonical_items.append((key, val))
-    if len(repo_identities) != 1:
+    if repo_identities != {inventory_repo}:
         return None
     return tuple(canonical_items)
 
@@ -433,6 +462,7 @@ def _validate_raw_issue_row(
     expected_state: str | None = None,
     required_labels: frozenset[str] = frozenset(),
     allow_genuine_pr: bool = False,
+    inventory_repo: str | None = None,
 ) -> tuple[_RawRowSnapshot, list[dict[str, Any]]]:
     """Validate one raw issue/PR row without mutating it, returning its normalized snapshot."""
     if not isinstance(row, dict):
@@ -445,7 +475,9 @@ def _validate_raw_issue_row(
     if "pull_request" in row:
         if not allow_genuine_pr:
             raise _InventoryValidationError("pull-request-marker-present")
-        pr_proof = _validate_pull_request_marker(row["pull_request"], num)
+        pr_proof = _validate_pull_request_marker(
+            row["pull_request"], num, inventory_repo=inventory_repo
+        )
         if pr_proof is None:
             raise _InventoryValidationError("pull-request-marker-present")
         is_pr = True
@@ -489,20 +521,48 @@ class _RawInventoryReadAdapter:
 
     Inspects every raw list BEFORE truthiness PR filtering and BEFORE recent/closed-child/
     full-release/bootstrap deduplication, without reissuing requests or mutating raw rows.
+
+    GitHub REST ``since`` boundary:
+    ``GET /repos/{owner}/{repo}/issues?state=closed&since=<RFC3339>`` returns items whose
+    ``updated_at >= since`` (inclusive at the timestamp boundary). This adapter parses both
+    the queried ``since`` cutoff and every closed row's ``updated_at`` via ``parse_strict_utc``
+    (lossless UTC comparison, avoiding string-order bugs on offsets or fractional seconds):
+    * Forward (recent closed query): every returned row (issue or genuine PR) must carry a
+      valid ``updated_at`` with ``updated_at >= since``; missing or older rows fail closed.
+    * Reverse (full labelled closed queries): every observed closed row (issue or genuine PR)
+      must carry a valid ``updated_at``; any closed row with ``updated_at >= since`` (including
+      an exact tie, handled conservatively) must also appear in the recent closed view before
+      deduplication. Legitimately older closed rows (``updated_at < since``) are accepted in
+      full history without appearing in the recent view.
+    * Genuine PRs are validated and tracked in the raw pre-filter coverage sets
+      (``_numbers_by_query``) because GitHub's REST ``/issues`` endpoint includes PRs in all
+      five queries; P1's final exclusion of PRs from ``live["issues"]`` and
+      ``live["closedUmbrellas"]`` is preserved via ``_non_pr_numbers_by_query``.
     """
 
     def __init__(self, gh: Any) -> None:
         self._gh = gh
+        self._inventory_repo = _resolve_inventory_repo(gh)
         self._seen_by_number: dict[int, _RawRowSnapshot] = {}
         self._numbers_by_query: dict[tuple[str, bool, frozenset[str]], set[int]] = {}
         self._non_pr_numbers_by_query: dict[tuple[str, bool, frozenset[str]], set[int]] = {}
+        self._recent_closed_since: dt.datetime | None = None
 
     def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+        since_dt: dt.datetime | None = None
+        if since is not None:
+            since_dt = _parse_utc_timestamp(since)
+            if since_dt is None:
+                raise _InventoryValidationError("invalid-recent-closed-since")
         rows = self._gh.list_issues(state, since=since, labels=labels)
         if not isinstance(rows, list):
             raise _InventoryValidationError("malformed-inventory-list")
         wanted_labels = frozenset(filter(None, (labels or "").split(",")))
-        query_key = (state, bool(since), wanted_labels)
+        query_key = (state, since_dt is not None, wanted_labels)
+        if query_key == _QUERY_RECENT_CLOSED:
+            if self._recent_closed_since is not None and self._recent_closed_since != since_dt:
+                raise _InventoryValidationError("conflicting-recent-closed-since")
+            self._recent_closed_since = since_dt
         expected_state = state if state in ("open", "closed") else None
         seen_in_query: set[int] = set()
         non_pr_in_query: set[int] = set()
@@ -512,7 +572,14 @@ class _RawInventoryReadAdapter:
                 expected_state=expected_state,
                 required_labels=wanted_labels,
                 allow_genuine_pr=True,
+                inventory_repo=self._inventory_repo,
             )
+            if since_dt is not None:
+                row_updated_dt = _parse_utc_timestamp(snap.updated_at)
+                if row_updated_dt is None:
+                    raise _InventoryValidationError("recent-closed-missing-updated-at")
+                if row_updated_dt < since_dt:
+                    raise _InventoryValidationError("stale-issue-in-recent-closed")
             if snap.number in seen_in_query:
                 raise _InventoryValidationError("invalid-issue-identity-or-state")
             seen_in_query.add(snap.number)
@@ -530,12 +597,20 @@ class _RawInventoryReadAdapter:
         for required_query in _REQUIRED_INVENTORY_QUERIES:
             if required_query not in self._numbers_by_query:
                 raise _InventoryValidationError("missing-required-inventory-query")
-        closed_release_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_RELEASE]
-        closed_child_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_CHILD]
-        closed_bootstrap_nums = self._non_pr_numbers_by_query[_QUERY_CLOSED_BOOTSTRAP]
+        if self._recent_closed_since is None:
+            raise _InventoryValidationError("missing-recent-closed-since")
+        recent_closed_nums = self._numbers_by_query[_QUERY_RECENT_CLOSED]
+        closed_release_nums = self._numbers_by_query[_QUERY_CLOSED_RELEASE]
+        closed_child_nums = self._numbers_by_query[_QUERY_CLOSED_CHILD]
+        closed_bootstrap_nums = self._numbers_by_query[_QUERY_CLOSED_BOOTSTRAP]
         for snap in self._seen_by_number.values():
-            if snap.is_pr or snap.state != "closed":
+            if snap.state != "closed":
                 continue
+            row_updated_dt = _parse_utc_timestamp(snap.updated_at)
+            if row_updated_dt is None:
+                raise _InventoryValidationError("closed-issue-missing-updated-at")
+            if row_updated_dt >= self._recent_closed_since and snap.number not in recent_closed_nums:
+                raise _InventoryValidationError("closed-issue-missing-from-recent-closed")
             if "upstream:release" in snap.label_names and snap.number not in closed_release_nums:
                 raise _InventoryValidationError("closed-release-missing-from-closed-umbrellas")
             if "upstream:child" in snap.label_names and snap.number not in closed_child_nums:

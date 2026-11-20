@@ -25,6 +25,7 @@ from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
 from scripts.upstream_watcher import (
     batch,
     envelope as wire,
+    live as live_mod,
     liveness,
     repository_batch as rb,
     watcher,
@@ -363,9 +364,11 @@ def test_lowest_exact_open_umbrella_selected_and_closed_and_pr_never_selected(tm
         "number": 9, "state": "open", "title": "[upstream] owner/repo → v1.2.0",
         "body": "PR body must never be selected", "labels": ["upstream:release"],
         "updated_at": "2026-11-16T00:00:00Z",
-        "pull_request": {"url": "https://api.github.com/repos/owner/repo/pulls/9"},
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/9"},
     }
-    gh_create = NoWriteTrapGh(FakeGh([closed_issue, open_pr]))
+    raw_gh_create = FakeGh([closed_issue, open_pr])
+    raw_gh_create.repo = "gaia-research/gaia-skill-tree"
+    gh_create = NoWriteTrapGh(raw_gh_create)
     commit_b, poll_b = _plan_and_commit(
         tmp_path / "j-create.json", poll_id="poll-create", observed_at="2026-11-23T10:00:00Z",
         raw_findings=[raw_a], gh=gh_create, authority=auth, allow_bootstrap=True,
@@ -900,8 +903,9 @@ def test_cached_1833_offline_ruflo_and_agentdb_holds_and_unrelated_usable(
 
 # 13. Opaque watcher history refuses globally; benign nullable non-watcher row & attributable scoped error preserved
 def test_opaque_watcher_history_refuses_globally_while_benign_nullable_row_and_scoped_malformed_preserve_bounds(
-    tmp_path: Path,
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ):
+    monkeypatch.setattr(live_mod, "closed_since", lambda *a, **kw: "2026-10-24T10:00:00Z")
     auth = _authority()
     raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
     raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
@@ -1047,7 +1051,7 @@ def test_pull_request_key_presence_vs_falsy_markers_and_genuine_pr_exclusion(tmp
 
         return NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=_runner))
 
-    # (a) Genuine PR (truthy pull_request dict) is filtered by read_repository_live -> binding succeeds cleanly.
+    # (a) Genuine PR (truthy pull_request dict bound to queried inventory repo) is filtered by read_repository_live -> binding succeeds cleanly.
     genuine_pr = {
         "number": 91,
         "state": "open",
@@ -1055,7 +1059,7 @@ def test_pull_request_key_presence_vs_falsy_markers_and_genuine_pr_exclusion(tmp
         "body": "genuine PR body",
         "labels": [{"name": "upstream:release"}],
         "updated_at": "2026-11-16T00:00:00Z",
-        "pull_request": {"url": "https://api.github.com/repos/owner/repo/pulls/91"},
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/91"},
     }
     gh_genuine = _rest_transport([genuine_pr])
     bound_genuine = _bind(commit, poll, gh_genuine, auth)
@@ -1092,8 +1096,14 @@ def test_pull_request_key_presence_vs_falsy_markers_and_genuine_pr_exclusion(tmp
         assert bound_bad_unrel.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
         assert gh_bad_unrel.write_attempts == []
 
-    # (c) Direct get_issue reread returning any pull_request key ({}, None, False, or truthy dict) declines target.
-    for reread_marker in ({}, None, False, {"url": "https://api.github.com/repos/owner/repo/pulls/90"}):
+    # (c) Direct get_issue reread returning any pull_request key ({}, None, False, foreign or valid local dict) declines target.
+    for reread_marker in (
+        {},
+        None,
+        False,
+        {"url": "https://api.github.com/repos/owner/repo/pulls/90"},
+        {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/90"},
+    ):
         gh_reread_pr = _rest_transport(
             [open_umbrella_rest],
             get_override={90: {**open_umbrella_rest, "pull_request": reread_marker}},
@@ -1210,7 +1220,10 @@ def test_untrusted_exception_text_never_leaks_across_reread_and_global_boundarie
 
 
 # 16. Raw list_issues validating adapter catches malformed truthy PR markers & pre-dedup contradictions
-def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_dedup(tmp_path: Path):
+def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_dedup(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setattr(live_mod, "closed_since", lambda *a, **kw: "2026-10-24T10:00:00Z")
     auth = _authority()
     raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
     raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
@@ -1226,9 +1239,11 @@ def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_
     )
 
     class _QueryDispatchGh:
-        def __init__(self, responses: dict[tuple[str, bool, str], list[dict[str, Any]]]):
+        def __init__(self, responses: dict[tuple[str, bool, str], list[dict[str, Any]]], *, repo: str | None = None):
             self._responses = responses
             self.calls: list[tuple[str, str | None, str | None]] = []
+            if repo is not None:
+                self.repo = repo
 
         def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
             self.calls.append((state, since, labels))
@@ -1242,16 +1257,16 @@ def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_
     #     mismatched PR number, mismatched repo across URLs) MUST fail closed before P1's truthiness filter.
     malformed_truthy_markers: list[Any] = [
         True,
-        "https://api.github.com/repos/owner/repo/pulls/101",
+        "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/101",
         {"foo": "bar"},
         {"merged_at": None},
-        {"url": "https://api.github.com/repos/owner/repo/pulls/999"},
+        {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/999"},
         {
-            "url": "https://api.github.com/repos/owner/repo/pulls/101",
+            "url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/101",
             "html_url": "https://github.com/other/repo/pull/101",
         },
         {
-            "url": "https://api.github.com/repos/owner/repo/pulls/101",
+            "url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/101",
             "unexpected": True,
         },
     ]
@@ -1265,7 +1280,9 @@ def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_
             "updated_at": "2026-11-16T00:00:00Z",
             "pull_request": bad_marker,
         }
-        trap_fake = NoWriteTrapGh(_QueryDispatchGh({("open", False, ""): [bad_pr_row]}))
+        trap_fake = NoWriteTrapGh(
+            _QueryDispatchGh({("open", False, ""): [bad_pr_row]}, repo="gaia-research/gaia-skill-tree")
+        )
         bound_bad = _bind(commit, poll, trap_fake, auth)
         assert bound_bad.status == wb.RUN_STATUS_REFUSED
         assert bound_bad.candidate_intents == ()
@@ -1326,10 +1343,13 @@ def test_raw_adapter_validates_pr_markers_and_cross_query_contradictions_before_
     }
     issue_row_same_num = {k: v for k, v in pr_row.items() if k != "pull_request"}
     trap_pr_vs_issue = NoWriteTrapGh(
-        _QueryDispatchGh({
-            ("closed", True, ""): [pr_row],
-            ("closed", False, "upstream:child"): [issue_row_same_num],
-        })
+        _QueryDispatchGh(
+            {
+                ("closed", True, ""): [pr_row],
+                ("closed", False, "upstream:child"): [issue_row_same_num],
+            },
+            repo="gaia-research/gaia-skill-tree",
+        )
     )
     bound_pr_vs_issue = _bind(commit, poll, trap_pr_vs_issue, auth)
     assert bound_pr_vs_issue.status == wb.RUN_STATUS_REFUSED
@@ -1615,3 +1635,362 @@ def test_claimed_scopes_subset_of_planner_inspected_scopes_for_envelope_and_boot
     assert bound_scoped_env.repositories["owner/repo"].reason == "inspect-history-refused"
     assert [b.repository for b in bound_scoped_env.candidate_intents] == ["other/good"]
     assert trap_scoped_env.write_attempts == []
+
+
+# 18. PR-marker URL repo identity must match the queried inventory repository (LiveGh & fake ports)
+def test_pr_marker_repo_identity_bound_to_queried_inventory_repo(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setattr(live_mod, "closed_since", lambda *a, **kw: "2026-10-24T10:00:00Z")
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-pr-repo-identity",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    class _CustomRepoRestRunner(RestGhRunner):
+        def __init__(self, issues: list[dict[str, Any]], *, repo_name: str):
+            super().__init__(issues)
+            self.repo = repo_name
+
+    # (a) Exact Terra repro (foreign-pr): same-number https PR marker naming another repo
+    #     (including foreign other/repo OR upstream release repo owner/repo) over LiveGh -> REFUSED.
+    for num, foreign_repo in ((42, "other/repo"), (43, "owner/repo")):
+        foreign_pr = {
+            "number": num,
+            "state": "open",
+            "title": "[upstream] owner/repo → v2.0.0",
+            "body": "synthetic foreign PR marker",
+            "labels": [{"name": "upstream:release"}],
+            "updated_at": "2026-11-16T00:00:00Z",
+            "pull_request": {"url": f"https://api.github.com/repos/{foreign_repo}/pulls/{num}"},
+        }
+        runner = RestGhRunner([foreign_pr])
+        trap_live = NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=runner))
+        bound_foreign = _bind(commit, poll, trap_live, auth)
+        assert bound_foreign.status == wb.RUN_STATUS_REFUSED
+        assert bound_foreign.candidate_intents == ()
+        assert bound_foreign.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+        assert trap_live.write_attempts == []
+
+    # (b) Local inventory repo match + case normalization over real LiveGh + RestGhRunner
+    #     succeeds without issuing any extra requests beyond the normal 5-query inventory read.
+    local_mixed_case_pr = {
+        "number": 44,
+        "state": "open",
+        "title": "[upstream] owner/repo → v2.0.0",
+        "body": "genuine local PR with mixed-case URLs",
+        "labels": [{"name": "upstream:release"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {
+            "url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/44",
+            "html_url": "https://github.com/GAIA-RESEARCH/GAIA-SKILL-TREE/pull/44",
+            "diff_url": "https://github.com/Gaia-Research/Gaia-Skill-Tree/pull/44.diff",
+            "patch_url": "https://github.com/gaia-research/gaia-skill-tree/pull/44.patch",
+            "merged_at": None,
+        },
+    }
+    mixed_runner = _CustomRepoRestRunner([local_mixed_case_pr], repo_name="Gaia-Research/Gaia-Skill-Tree")
+    trap_mixed = NoWriteTrapGh(LiveGh(repo="Gaia-Research/Gaia-Skill-Tree", runner=mixed_runner))
+    bound_mixed = _bind(commit, poll, trap_mixed, auth)
+    assert bound_mixed.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_mixed.candidate_intents] == ["other/good", "owner/repo"]
+    assert bound_mixed.repositories["owner/repo"].target is not None
+    assert bound_mixed.repositories["owner/repo"].target.action == "create"
+    assert trap_mixed.write_attempts == []
+    # Confirm no extra requests: open count (2) + open list (1) + 4 closed lists (4 * LIST_ATTEMPTS=12) = 15,
+    # and specifically zero get_issue / extra metadata calls.
+    assert not any(re.search(r"/issues/\d+$", call[-1]) for call in mixed_runner.calls)
+
+    # (c) Fake/custom port with NO usable configured repo cannot prove positive PR exclusion
+    #     (never falls back to default_repo()), while no-PR inventories remain usable.
+    pr_naming_default_repo = {
+        "number": 45,
+        "state": "open",
+        "title": "[upstream] owner/repo → v2.0.0",
+        "body": "PR naming default repo on unconfigured fake port",
+        "labels": ["upstream:release"],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/45"},
+    }
+    unconfigured_fake = NoWriteTrapGh(FakeGh([pr_naming_default_repo]))
+    bound_unconfigured = _bind(commit, poll, unconfigured_fake, auth)
+    assert bound_unconfigured.status == wb.RUN_STATUS_REFUSED
+    assert bound_unconfigured.candidate_intents == ()
+    assert bound_unconfigured.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+
+    invalid_repo_fake = FakeGh([pr_naming_default_repo])
+    invalid_repo_fake.repo = "not a valid repo"
+    bound_invalid_repo = _bind(commit, poll, NoWriteTrapGh(invalid_repo_fake), auth)
+    assert bound_invalid_repo.status == wb.RUN_STATUS_REFUSED
+    assert bound_invalid_repo.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+
+    # No-PR fake port without repo stays usable.
+    bound_no_pr = _bind(commit, poll, NoWriteTrapGh(FakeGh([])), auth)
+    assert bound_no_pr.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_no_pr.candidate_intents] == ["other/good", "owner/repo"]
+
+    # Explicit compatible custom inventory repo on fake port accepts matching PR and refuses foreign/default PR.
+    custom_pr = {
+        **pr_naming_default_repo,
+        "number": 46,
+        "pull_request": {"url": "https://api.github.com/repos/custom-org/custom-inv/pulls/46"},
+    }
+    custom_fake_ok = FakeGh([custom_pr])
+    custom_fake_ok.repo = "Custom-Org/Custom-Inv"
+    bound_custom_ok = _bind(commit, poll, NoWriteTrapGh(custom_fake_ok), auth)
+    assert bound_custom_ok.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_custom_ok.candidate_intents] == ["other/good", "owner/repo"]
+
+    custom_fake_foreign = FakeGh([pr_naming_default_repo])
+    custom_fake_foreign.repo = "custom-org/custom-inv"
+    bound_custom_foreign = _bind(commit, poll, NoWriteTrapGh(custom_fake_foreign), auth)
+    assert bound_custom_foreign.status == wb.RUN_STATUS_REFUSED
+    assert bound_custom_foreign.refusal_reason == "global-inventory-or-setup-incomplete:pull-request-marker-present"
+
+
+# 19. Recent closed `since` cutoff validation, UTC offset precision, reverse coverage, and PR coverage
+def test_recent_closed_since_cutoff_validation_and_reverse_coverage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+):
+    cutoff = "2026-10-24T10:00:00Z"
+    monkeypatch.setattr(live_mod, "closed_since", lambda *a, **kw: cutoff)
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json",
+        poll_id="poll-since-cutoff",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good],
+        gh=NoWriteTrapGh(FakeGh()),
+        authority=auth,
+        allow_bootstrap=True,
+    )
+
+    class _CutoffDispatchGh:
+        def __init__(
+            self,
+            responses: dict[tuple[str, bool, str], list[dict[str, Any]]],
+            *,
+            repo: str | None = "gaia-research/gaia-skill-tree",
+        ):
+            self._responses = responses
+            self.calls: list[tuple[str, str | None, str | None]] = []
+            if repo is not None:
+                self.repo = repo
+
+        def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+            self.calls.append((state, since, labels))
+            return copy.deepcopy(self._responses.get((state, since is not None, labels or ""), []))
+
+        def child_state(self, number: int) -> str:
+            return "absent"
+
+    def _closed_child(num: int, updated_at: str | None, *, labels: list[Any] | None = None) -> dict[str, Any]:
+        return {
+            "number": num,
+            "state": "closed",
+            "title": f"[upstream:child] third/cand-{num}",
+            "body": f"**Suggested ID:** `third/cand-{num}`",
+            "labels": labels if labels is not None else [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
+            "updated_at": updated_at,
+        }
+
+    def _closed_bootstrap(num: int, updated_at: str | None) -> dict[str, Any]:
+        payload = {
+            "skillId": "third/unrelated",
+            "newVersion": "v1.0.0",
+            "releasedAt": "2026-09-01T00:00:00Z",
+            "sourceUrl": "https://github.com/third/unrelated/releases/tag/v1.0.0",
+            "mode": "bootstrap",
+            "componentAdds": [],
+            "componentRemoves": [],
+            "linkLiveness": [],
+            "nameDrift": [],
+        }
+        return {
+            "number": num,
+            "state": "closed",
+            "title": "[upstream:bootstrap] third/unrelated → baseline at v1.0.0",
+            "body": "## Bootstrap\n\n" + batch.payload_block(payload),
+            "labels": [{"name": "upstream:bootstrap"}],
+            "updated_at": updated_at,
+        }
+
+    old_release_raw = _raw_finding("owner/a", adds=(), component_root="skills-a", version="v1.0.5")
+    recent_closed_release, _ = _envelope_issue([old_release_raw], auth, number=301, state="closed", updated_at="2026-10-25T00:00:00Z")
+    recent_closed_release["labels"] = [{"name": label} for label in recent_closed_release["labels"]]
+
+    # (a) Exact Terra repro (recent-omitted): closed labelled rows with updated_at > cutoff
+    #     appearing in full labelled query but omitted from recent closed -> REFUSED for all 3 labels.
+    recent_omitted_cases = [
+        ("upstream:release", recent_closed_release),
+        ("upstream:child", _closed_child(302, "2026-10-25T00:00:00Z")),
+        ("upstream:bootstrap", _closed_bootstrap(303, "2026-10-25T00:00:00Z")),
+    ]
+    for label_query, row in recent_omitted_cases:
+        trap = NoWriteTrapGh(_CutoffDispatchGh({("closed", False, label_query): [row]}))
+        bound = _bind(commit, poll, trap, auth)
+        assert bound.status == wb.RUN_STATUS_REFUSED
+        assert bound.candidate_intents == ()
+        assert bound.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-from-recent-closed"
+        assert trap.write_attempts == []
+
+    # Also verify recent-omitted via real LiveGh + custom REST runner.
+    omitting_base = RestGhRunner([recent_closed_release])
+
+    def _omitting_recent_runner(args, capture_output=True, text=True, timeout=None):
+        if args[1] == "api" and "--include" in args and "since=" in args[-1]:
+            out = "HTTP/2.0 200 OK\nContent-Type: application/json\n\n[]"
+            return subprocess.CompletedProcess(args, 0, stdout=out, stderr="")
+        return omitting_base(args, capture_output=capture_output, text=text, timeout=timeout)
+
+    trap_live_omitted = NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=_omitting_recent_runner))
+    bound_live_omitted = _bind(commit, poll, trap_live_omitted, auth)
+    assert bound_live_omitted.status == wb.RUN_STATUS_REFUSED
+    assert bound_live_omitted.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-from-recent-closed"
+
+    # (b) Exact Terra repro (stale-in-recent): row older than cutoff returned in recent closed -> REFUSED.
+    stale_closed_row = {
+        "number": 304,
+        "state": "closed",
+        "title": "Old closed discussion",
+        "body": "",
+        "labels": [{"name": "documentation"}],
+        "updated_at": "2026-10-24T09:59:59Z",
+    }
+    trap_stale = NoWriteTrapGh(_CutoffDispatchGh({("closed", True, ""): [stale_closed_row]}))
+    bound_stale = _bind(commit, poll, trap_stale, auth)
+    assert bound_stale.status == wb.RUN_STATUS_REFUSED
+    assert bound_stale.candidate_intents == ()
+    assert bound_stale.refusal_reason == "global-inventory-or-setup-incomplete:stale-issue-in-recent-closed"
+
+    # Also verify stale-in-recent via real LiveGh + custom REST runner (page 1 serves the stale row;
+    # page >= 2 confirmation probe falls through to RestGhRunner empty page so listAll completes).
+    stale_base = RestGhRunner([])
+
+    def _stale_recent_runner(args, capture_output=True, text=True, timeout=None):
+        if args[1] == "api" and "--include" in args and "since=" in args[-1]:
+            query = urllib.parse.parse_qs(args[-1].partition("?")[2])
+            if int(query.get("page", ["1"])[0]) == 1:
+                out = "HTTP/2.0 200 OK\nContent-Type: application/json\n\n" + json.dumps([stale_closed_row])
+                return subprocess.CompletedProcess(args, 0, stdout=out, stderr="")
+        return stale_base(args, capture_output=capture_output, text=text, timeout=timeout)
+
+    trap_live_stale = NoWriteTrapGh(LiveGh(repo=RestGhRunner.repo, runner=_stale_recent_runner))
+    bound_live_stale = _bind(commit, poll, trap_live_stale, auth)
+    assert bound_live_stale.status == wb.RUN_STATUS_REFUSED
+    assert bound_live_stale.refusal_reason == "global-inventory-or-setup-incomplete:stale-issue-in-recent-closed"
+
+    # (c) Unprovable timestamp membership (updated_at: None) refused in recent AND in full closed queries.
+    trap_null_recent = NoWriteTrapGh(_CutoffDispatchGh({("closed", True, ""): [{**stale_closed_row, "number": 305, "updated_at": None}]}))
+    bound_null_recent = _bind(commit, poll, trap_null_recent, auth)
+    assert bound_null_recent.status == wb.RUN_STATUS_REFUSED
+    assert bound_null_recent.refusal_reason == "global-inventory-or-setup-incomplete:recent-closed-missing-updated-at"
+
+    trap_null_full = NoWriteTrapGh(_CutoffDispatchGh({("closed", False, "upstream:child"): [_closed_child(306, None)]}))
+    bound_null_full = _bind(commit, poll, trap_null_full, auth)
+    assert bound_null_full.status == wb.RUN_STATUS_REFUSED
+    assert bound_null_full.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-updated-at"
+
+    # (d) Lossless UTC offset parsing (avoids naive string comparison bugs):
+    #     11:30+02:00 == 09:30Z (< 10:00Z cutoff, though string > cutoff) -> refused as stale in recent.
+    #     09:30-02:00 == 11:30Z (> 10:00Z cutoff, though string < cutoff) -> refused when omitted from recent.
+    offset_stale = {**stale_closed_row, "number": 307, "updated_at": "2026-10-24T11:30:00+02:00"}
+    trap_off_stale = NoWriteTrapGh(_CutoffDispatchGh({("closed", True, ""): [offset_stale]}))
+    bound_off_stale = _bind(commit, poll, trap_off_stale, auth)
+    assert bound_off_stale.status == wb.RUN_STATUS_REFUSED
+    assert bound_off_stale.refusal_reason == "global-inventory-or-setup-incomplete:stale-issue-in-recent-closed"
+
+    offset_recent_child = _closed_child(308, "2026-10-24T09:30:00-02:00")
+    trap_off_omitted = NoWriteTrapGh(_CutoffDispatchGh({("closed", False, "upstream:child"): [offset_recent_child]}))
+    bound_off_omitted = _bind(commit, poll, trap_off_omitted, auth)
+    assert bound_off_omitted.status == wb.RUN_STATUS_REFUSED
+    assert bound_off_omitted.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-from-recent-closed"
+
+    # (e) Exact tie (updated_at == cutoff): accepted when present in both recent & full,
+    #     refused conservatively when omitted from recent.
+    tie_child = _closed_child(309, cutoff)
+    trap_tie_ok = NoWriteTrapGh(
+        _CutoffDispatchGh({
+            ("closed", True, ""): [tie_child],
+            ("closed", False, "upstream:child"): [tie_child],
+        })
+    )
+    bound_tie_ok = _bind(commit, poll, trap_tie_ok, auth)
+    assert bound_tie_ok.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_tie_ok.candidate_intents] == ["other/good", "owner/repo"]
+
+    trap_tie_omitted = NoWriteTrapGh(_CutoffDispatchGh({("closed", False, "upstream:child"): [tie_child]}))
+    bound_tie_omitted = _bind(commit, poll, trap_tie_omitted, auth)
+    assert bound_tie_omitted.status == wb.RUN_STATUS_REFUSED
+    assert bound_tie_omitted.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-from-recent-closed"
+
+    # (f) Legitimately older full history (before cutoff, full-only) + coherent recent duplicates
+    #     (after cutoff, present in both recent & full with reordered labels) accepted over both
+    #     binding-local adapter and real LiveGh + RestGhRunner.
+    old_child = _closed_child(310, "2026-09-01T00:00:00Z")
+    old_boot = _closed_bootstrap(311, "2026-09-02T00:00:00Z")
+    recent_child_a = _closed_child(312, "2026-11-16T00:00:00Z", labels=[{"name": "upstream:child"}, {"name": "upstream:rejected"}])
+    recent_child_b = _closed_child(312, "2026-11-16T00:00:00Z", labels=["upstream:rejected", "upstream:child"])
+    trap_coherent = NoWriteTrapGh(
+        _CutoffDispatchGh({
+            ("closed", True, ""): [recent_child_a],
+            ("closed", False, "upstream:child"): [old_child, recent_child_b],
+            ("closed", False, "upstream:bootstrap"): [old_boot],
+        })
+    )
+    bound_coherent = _bind(commit, poll, trap_coherent, auth)
+    assert bound_coherent.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_coherent.candidate_intents] == ["other/good", "owner/repo"]
+
+    trap_live_coherent = NoWriteTrapGh(
+        LiveGh(repo=RestGhRunner.repo, runner=RestGhRunner([old_child, old_boot, recent_child_a]))
+    )
+    bound_live_coherent = _bind(commit, poll, trap_live_coherent, auth)
+    assert bound_live_coherent.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_live_coherent.candidate_intents] == ["other/good", "owner/repo"]
+
+    # (g) Genuine closed PRs participate in raw pre-filter cutoff/coverage checks while P1 still excludes them.
+    recent_closed_pr = {
+        "number": 313,
+        "state": "closed",
+        "title": "Closed local PR",
+        "body": "",
+        "labels": [{"name": "upstream:child"}],
+        "updated_at": "2026-11-16T00:00:00Z",
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/313"},
+    }
+    old_closed_pr = {
+        "number": 314,
+        "state": "closed",
+        "title": "Old closed local PR",
+        "body": "",
+        "labels": [{"name": "upstream:child"}],
+        "updated_at": "2026-09-01T00:00:00Z",
+        "pull_request": {"url": "https://api.github.com/repos/gaia-research/gaia-skill-tree/pulls/314"},
+    }
+    trap_live_prs = NoWriteTrapGh(
+        LiveGh(repo=RestGhRunner.repo, runner=RestGhRunner([recent_closed_pr, old_closed_pr]))
+    )
+    bound_live_prs = _bind(commit, poll, trap_live_prs, auth)
+    assert bound_live_prs.status == wb.RUN_STATUS_BOUND
+    assert [b.repository for b in bound_live_prs.candidate_intents] == ["other/good", "owner/repo"]
+
+    trap_pr_omitted = NoWriteTrapGh(_CutoffDispatchGh({("closed", False, "upstream:child"): [recent_closed_pr]}))
+    bound_pr_omitted = _bind(commit, poll, trap_pr_omitted, auth)
+    assert bound_pr_omitted.status == wb.RUN_STATUS_REFUSED
+    assert bound_pr_omitted.refusal_reason == "global-inventory-or-setup-incomplete:closed-issue-missing-from-recent-closed"
+
+    trap_pr_stale = NoWriteTrapGh(_CutoffDispatchGh({("closed", True, ""): [old_closed_pr], ("closed", False, "upstream:child"): [old_closed_pr]}))
+    bound_pr_stale = _bind(commit, poll, trap_pr_stale, auth)
+    assert bound_pr_stale.status == wb.RUN_STATUS_REFUSED
+    assert bound_pr_stale.refusal_reason == "global-inventory-or-setup-incomplete:stale-issue-in-recent-closed"
