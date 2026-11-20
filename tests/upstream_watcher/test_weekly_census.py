@@ -7,6 +7,7 @@ from typing import Any
 
 import pytest
 
+from scripts.lib.github_api import GitHubNotFound
 from scripts.upstream_watcher import batch, envelope, liveness, watcher, weekly_census, weekly_collector
 from scripts.upstream_watcher.approval import PayloadError
 from scripts.upstream_watcher.weekly_effect import FakeIssueService
@@ -712,3 +713,171 @@ def test_bootstrap_and_version_only_preserve_distinct_producer_facts(monkeypatch
     assert by_id["ver/suite"].proof_status == "non-component-mode"
     assert by_id["ver/suite"].inventory_status == "not-applicable"
     assert by_id["ver/suite"].decision == "eligible-for-read-only-binding"
+
+
+def test_up_to_date_without_positive_release_proof_is_unconfirmed_not_healthy(monkeypatch):
+    auth = {
+        "owner/suite": {
+            "id": "owner/suite",
+            "links": {"github": "https://github.com/owner/repo"},
+            "upstream": {"repo": "owner/repo", "version": "v1.0.0"},
+            "upstreamComponentRoot": "skills",
+            "suiteComponents": ["owner/base"],
+        },
+        "owner/base": {"id": "owner/base", "links": {"github": "https://github.com/owner/repo/blob/main/skills/base/SKILL.md"}},
+        "other/good": {
+            "id": "other/good",
+            "links": {"github": "https://github.com/other/good-repo"},
+            "upstream": {"repo": "other/good-repo", "version": "v1.0.0"},
+            "upstreamComponentRoot": "skills",
+            "suiteComponents": ["other/comp"],
+        },
+        "other/comp": {"id": "other/comp", "links": {"github": "https://github.com/other/good-repo/blob/main/skills/comp/SKILL.md"}},
+    }
+
+    def fetch(url: str, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        if url.endswith("/repos/owner/repo/releases/latest"):
+            raise GitHubNotFound("SENTINEL_404_DIAGNOSTIC", status=404)
+        if url.endswith("/repos/other/good-repo/releases/latest"):
+            return {"tag_name": "v1.1.0", "published_at": "2026-11-23T08:00:00Z", "html_url": "https://github.com/other/good-repo/releases/tag/v1.1.0"}
+        if "/repos/other/good-repo/git/trees/v1.1.0" in url:
+            return {
+                "sha": "a" * 40, "truncated": False,
+                "tree": [
+                    {"path": "skills", "type": "tree", "sha": "b" * 40},
+                    {"path": "skills/comp", "type": "tree", "sha": "c" * 40},
+                    {"path": "skills/comp/SKILL.md", "type": "blob", "sha": "d" * 40},
+                    {"path": "skills/added", "type": "tree", "sha": "e" * 40},
+                    {"path": "skills/added/SKILL.md", "type": "blob", "sha": "f" * 40},
+                ],
+            }
+        raise AssertionError(f"unexpected fake upstream request: {url}")
+
+    monkeypatch.setattr(watcher, "fetch_json", fetch)
+    monkeypatch.setattr(liveness, "fetch_json", fetch)
+    monkeypatch.setattr(watcher, "check_component_liveness", lambda *_: [])
+    monkeypatch.setattr(watcher, "check_name_drift", lambda *_: [])
+
+    # Single-scope 404 from watcher -> collector "up-to-date" without positive proof
+    for held in (frozenset(), frozenset({"owner/suite"})):
+        collected_one = weekly_collector.collect_suites([auth["owner/suite"]], auth, poll_id="no-release-poll")
+        assert collected_one.results[0].status == "up-to-date"
+        fake = FakeIssueService(repo="gaia-research/gaia-skill-tree")
+        census_one = weekly_census.run_weekly_census(
+            [auth["owner/suite"]], auth, fake, collected_one,
+            poll_id="no-release-poll", observed_at="2026-11-23T09:00:00Z",
+            state_mode="ephemeral-empty", config_repo="gaia-research/gaia-skill-tree",
+            held_named_ids=held,
+            index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+        )
+        scope = census_one.scopes[0]
+        assert census_one.status == "unknown-incomplete"
+        assert census_one.logical_candidate_count == 0
+        assert scope.collection_status == "no-finding-unconfirmed"
+        assert scope.decision == "unknown"
+        assert scope.version_status == "no-finding-unconfirmed"
+        assert scope.release_version is None
+        assert scope.release_source is None
+        assert scope.release_time is None
+        assert scope.liveness == ()
+        assert scope.inventory_status == "unknown"
+        assert "404" not in repr(census_one)
+        assert "SENTINEL_404_DIAGNOSTIC" not in repr(census_one)
+        if held:
+            assert scope.hold_reason == "held-named-scope"
+
+    # Mixed poll: unconfirmed no-finding scope + independent good scope preserved
+    suites = [auth["owner/suite"], auth["other/good"]]
+    collected_mixed = weekly_collector.collect_suites(suites, auth, poll_id="no-release-mixed")
+    census_mixed = weekly_census.run_weekly_census(
+        suites, auth, FakeIssueService(repo="gaia-research/gaia-skill-tree"), collected_mixed,
+        poll_id="no-release-mixed", observed_at="2026-11-23T09:00:00Z",
+        state_mode="ephemeral-empty", config_repo="gaia-research/gaia-skill-tree",
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+    )
+    assert census_mixed.status == "unknown-incomplete"
+    assert census_mixed.logical_candidate_count == 1
+    by_id = {s.named_id: s for s in census_mixed.scopes}
+    assert by_id["owner/suite"].decision == "unknown"
+    assert by_id["owner/suite"].version_status == "no-finding-unconfirmed"
+    assert by_id["other/good"].decision == "eligible-for-read-only-binding"
+    assert by_id["other/good"].inventory_status == "verified"
+    assert by_id["other/good"].version_status == "release-observed"
+
+
+def test_foreign_liveness_url_for_tracked_component_fails_closed_with_matching_control(monkeypatch):
+    auth = {
+        "owner/suite": {
+            "id": "owner/suite",
+            "links": {"github": "https://github.com/owner/repo"},
+            "upstream": {"repo": "owner/repo", "version": "v1.0.0"},
+            "upstreamComponentRoot": "skills",
+            "suiteComponents": ["owner/base", "owner/neterr"],
+        },
+        "owner/base": {"id": "owner/base", "links": {"github": "https://github.com/owner/repo/blob/main/skills/base/SKILL.md"}},
+        "owner/neterr": {"id": "owner/neterr", "links": {"github": "https://github.com/owner/repo/blob/main/skills/neterr/SKILL.md"}},
+    }
+    tree = {
+        "sha": "a" * 40, "truncated": False,
+        "tree": [
+            {"path": "skills", "type": "tree", "sha": "b" * 40},
+            {"path": "skills/base", "type": "tree", "sha": "c" * 40},
+            {"path": "skills/base/SKILL.md", "type": "blob", "sha": "d" * 40},
+            {"path": "skills/neterr", "type": "tree", "sha": "e" * 40},
+            {"path": "skills/neterr/SKILL.md", "type": "blob", "sha": "f" * 40},
+            {"path": "skills/alpha", "type": "tree", "sha": "1" * 40},
+            {"path": "skills/alpha/SKILL.md", "type": "blob", "sha": "2" * 40},
+        ],
+    }
+
+    # Control: real check_component_liveness through fake head_check
+    _install_fake_upstream(monkeypatch, tree=tree)
+    monkeypatch.setattr(watcher, "check_component_liveness", liveness.check_component_liveness)
+    monkeypatch.setattr(
+        liveness,
+        "head_check",
+        lambda raw_url: 404 if raw_url.endswith("/skills/base/SKILL.md") else None,
+    )
+    collected_ok = weekly_collector.collect_suites([auth["owner/suite"]], auth, poll_id="liveness-url-ok")
+    census_ok = weekly_census.run_weekly_census(
+        [auth["owner/suite"]], auth, FakeIssueService(repo="gaia-research/gaia-skill-tree"), collected_ok,
+        poll_id="liveness-url-ok", observed_at="2026-11-23T09:00:00Z",
+        state_mode="ephemeral-empty", config_repo="gaia-research/gaia-skill-tree",
+        index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+    )
+    assert census_ok.status == "observed-plan-only"
+    assert census_ok.logical_candidate_count == 1
+    assert census_ok.scopes[0].decision == "eligible-for-read-only-binding"
+    assert census_ok.scopes[0].liveness == (("owner/base", "404"), ("owner/neterr", "network_error"))
+
+    # Attack: valid tracked component ID with foreign URL or mismatched rawUrl
+    for bad_row in (
+        {
+            "skillId": "owner/base",
+            "url": "https://github.com/foreign/repo/blob/main/skills/base/SKILL.md",
+            "rawUrl": "https://raw.githubusercontent.com/foreign/repo/main/skills/base/SKILL.md",
+            "status": 404,
+        },
+        {
+            "skillId": "owner/base",
+            "url": "https://github.com/owner/repo/blob/main/skills/base/SKILL.md",
+            "rawUrl": "https://raw.githubusercontent.com/foreign/repo/main/skills/base/SKILL.md",
+            "status": 404,
+        },
+    ):
+        _install_fake_upstream(monkeypatch, tree=tree)
+        monkeypatch.setattr(watcher, "check_component_liveness", lambda *_args, row=bad_row: [row])
+        collected_bad = weekly_collector.collect_suites([auth["owner/suite"]], auth, poll_id="liveness-url-bad")
+        census_bad = weekly_census.run_weekly_census(
+            [auth["owner/suite"]], auth, FakeIssueService(repo="gaia-research/gaia-skill-tree"), collected_bad,
+            poll_id="liveness-url-bad", observed_at="2026-11-23T09:00:00Z",
+            state_mode="ephemeral-empty", config_repo="gaia-research/gaia-skill-tree",
+            index_loader=lambda: {"byId": {}, "bySlug": {}}, policy={},
+        )
+        assert census_bad.status == "unknown-incomplete"
+        assert census_bad.logical_candidate_count == 0
+        assert census_bad.scopes[0].decision == "unknown"
+        assert census_bad.scopes[0].inventory_status == "unknown"
+        assert census_bad.scopes[0].version_status == "unknown"
+        assert census_bad.scopes[0].liveness == ()
+        assert "foreign/repo" not in repr(census_bad)

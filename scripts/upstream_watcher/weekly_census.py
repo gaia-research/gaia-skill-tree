@@ -14,7 +14,7 @@ import tempfile
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
-from scripts.upstream_watcher import envelope, repository_batch, weekly_binding, weekly_collector, weekly_journal, weekly_reducer
+from scripts.upstream_watcher import envelope, liveness as watcher_liveness, repository_batch, weekly_binding, weekly_collector, weekly_journal, weekly_reducer
 from scripts.upstream_watcher.approval import PayloadError
 from scripts.upstream_watcher.weekly_effect import FakeIssueService
 from scripts.upstream_watcher.weekly_collector import CollectedPoll
@@ -126,6 +126,14 @@ def _safe_release_projection(result, authority, accepted):
             ident, status = row.get("skillId"), row.get("status")
             if ident not in components or not isinstance(ident, str) or not envelope.IDENTIFIER.fullmatch(ident):
                 return empty
+            comp_meta = authority.get(ident)
+            expected_url = (comp_meta.get("links") or {}).get("github") if isinstance(comp_meta, dict) else None
+            if (not isinstance(comp_meta, dict) or comp_meta.get("id") != ident
+                    or not isinstance(expected_url, str) or not expected_url
+                    or row.get("url") != expected_url):
+                return empty
+            if "rawUrl" in row and row.get("rawUrl") != watcher_liveness.blob_to_raw(expected_url):
+                return empty
             if status == "network_error":
                 code = status
             elif type(status) is int and 100 <= status <= 599 and not 200 <= status < 300:
@@ -135,8 +143,12 @@ def _safe_release_projection(result, authority, accepted):
             live.add((ident, code))
         live_ids = {item[0] for item in live}
         for ident in finding.get("linkLivenessUnknown") or []:
+            comp_meta = authority.get(ident) if isinstance(ident, str) else None
+            expected_url = (comp_meta.get("links") or {}).get("github") if isinstance(comp_meta, dict) else None
             if (not isinstance(ident, str) or ident not in components
-                    or not envelope.IDENTIFIER.fullmatch(ident) or ident in live_ids):
+                    or not envelope.IDENTIFIER.fullmatch(ident) or ident in live_ids
+                    or not isinstance(comp_meta, dict) or comp_meta.get("id") != ident
+                    or not isinstance(expected_url, str) or not expected_url):
                 return empty
             live.add((ident, "network_error"))
         drift = set()
@@ -271,7 +283,7 @@ def run_weekly_census(
     held_repo_set, held_named_set, unavailable_set = set(poll.held_repos), set(poll.held_named_ids), set(poll.unavailable_named_ids)
     scopes = []
     for result in collected.results:
-        if result.status == "unknown" or result.named_id in invalid_observed_ids or result.named_id in incomplete_component_ids:
+        if result.status in {"unknown", "up-to-date"} or result.named_id in invalid_observed_ids or result.named_id in incomplete_component_ids:
             decision = "unknown"
         elif result.named_id in held_named_set:
             decision = "held-named-scope"
@@ -284,9 +296,7 @@ def run_weekly_census(
         else:
             reduced = commit.reduction.decisions.get((result.repository, result.named_id))
             binding = bound.repositories.get(result.repository)
-            if result.status == "up-to-date":
-                decision = "up-to-date"
-            elif (reduced is not None and reduced.eligible and bound.status == "bound"
+            if (reduced is not None and reduced.eligible and bound.status == "bound"
                   and binding is not None and binding.status == "candidate-intent"
                   and any(member.named_id == result.named_id for member in binding.selected_members)):
                 decision = "eligible-for-read-only-binding"
@@ -372,10 +382,11 @@ def run_weekly_census(
             hold_reason = "non-flush-window"
         else:
             hold_reason = None
+        collection_status = "no-finding-unconfirmed" if result.status == "up-to-date" else result.status
         scopes.append(CensusScope(
-            result.named_id, result.repository, result.status, proof, decision,
+            result.named_id, result.repository, collection_status, proof, decision,
             current_version, version, source, released, delta, inventory, liveness, drift_ids,
-            "release-observed" if checked else ("up-to-date" if result.status == "up-to-date" else "unknown"),
+            "release-observed" if checked else ("no-finding-unconfirmed" if result.status == "up-to-date" else "unknown"),
             "observational-raw" if checked else "unknown", removals, hold_reason,
         ))
 
