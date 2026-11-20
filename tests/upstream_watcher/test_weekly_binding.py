@@ -8,12 +8,18 @@ from __future__ import annotations
 
 import copy
 import dataclasses
+import hashlib
+import json
+import os
 import socket
+import subprocess
+import urllib.request
 from pathlib import Path
 from typing import Any
 
 import pytest
 
+from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
 from scripts.upstream_watcher import (
     batch,
     envelope as wire,
@@ -554,21 +560,35 @@ def test_noop_and_suppressed_processed_distinguished_from_candidate_intent(tmp_p
     assert bound_sup.candidate_intents == ()
 
 
-# 9. #1833 preserve-legacy-reference (Ruflo / AgentDB) hold + unaffected repo
+# 9. #1833 preserve-legacy-reference (Ruflo + AgentDB) holds + unaffected repo
 def test_legacy_1833_ruflo_agentdb_hold_preserved_and_unrelated_repo_still_usable(tmp_path: Path):
     auth = _authority()
-    auth["ruvnet/claude-flow"] = {
-        "id": "ruvnet/claude-flow", "suiteRef": "ruvnet/claude-flow", "upstreamComponentRoot": "skills",
-        "suiteComponents": ["ruvnet/agentdb-vector-search"],
+    auth["ruvnet/ruflo"] = {
+        "id": "ruvnet/ruflo", "suiteRef": "ruvnet/ruflo", "upstreamComponentRoot": "skills",
+        "suiteComponents": ["ruvnet/agentdb"],
         "links": {"github": "https://github.com/ruvnet/ruflo"},
         "upstream": {"repo": "ruvnet/ruflo", "version": "v3.0.0"},
     }
+    auth["ruvnet/agentdb"] = {
+        "id": "ruvnet/agentdb", "suiteRef": "ruvnet/ruflo", "upstreamComponentRoot": "skills",
+        "suiteComponents": ["ruvnet/agentdb-vector-search"],
+        "links": {"github": "https://github.com/ruvnet/agentdb/blob/2a8115de9ddbc672df4d725069b77228b43af53d/README.md"},
+        "upstream": {"repo": "ruvnet/agentdb", "version": "v3.0.0"},
+    }
     auth["ruvnet/agentdb-vector-search"] = {
-        "id": "ruvnet/agentdb-vector-search", "suiteRef": "ruvnet/claude-flow",
-        "links": {"github": "https://github.com/ruvnet/ruflo/blob/main/skills/agentdb-vector-search/SKILL.md"},
+        "id": "ruvnet/agentdb-vector-search", "suiteRef": "ruvnet/agentdb",
+        "links": {"github": "https://github.com/ruvnet/agentdb/blob/main/skills/agentdb-vector-search/SKILL.md"},
+    }
+    historical_agentdb = {
+        "ruvnet/agentdb": {
+            "id": "ruvnet/agentdb",
+            "suiteRef": "ruvnet/ruflo",
+            "links": {"github": "https://github.com/ruvnet/ruflo"},
+            "upstream": {"repo": "ruvnet/ruflo", "version": "v3.0.0"},
+        }
     }
     legacy_payload = {
-        "skillId": "ruvnet/claude-flow", "newVersion": "v3.0.0", "releasedAt": "2026-10-01T00:00:00Z",
+        "skillId": "ruvnet/agentdb", "newVersion": "v3.0.0", "releasedAt": "2026-10-01T00:00:00Z",
         "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.0.0", "mode": "components",
         "componentAdds": [], "componentRemoves": [], "linkLiveness": [], "nameDrift": [], "candidates": [],
     }
@@ -578,11 +598,12 @@ def test_legacy_1833_ruflo_agentdb_hold_preserved_and_unrelated_repo_still_usabl
         "labels": ["upstream:release", "upstream:approved"], "updated_at": "2026-10-01T00:00:00Z",
     }
 
-    raw_ruflo = _raw_finding("ruvnet/claude-flow", repo="ruvnet/ruflo", adds=("agentdb-memory",), component_root="skills", version="v3.1.0")
+    raw_ruflo = _raw_finding("ruvnet/ruflo", repo="ruvnet/ruflo", adds=("ruflo-new",), component_root="skills", version="v3.1.0")
+    raw_agentdb = _raw_finding("ruvnet/agentdb", repo="ruvnet/agentdb", adds=("agentdb-new",), component_root="skills", version="v3.11.0")
     raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
     commit, poll = _plan_and_commit(
         tmp_path / "named-v3.json", poll_id="poll-1833", observed_at="2026-11-23T10:00:00Z",
-        raw_findings=[raw_ruflo, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
+        raw_findings=[raw_ruflo, raw_agentdb, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
     )
 
     held_raw_gh = FakeGh([legacy_1833])
@@ -590,16 +611,282 @@ def test_legacy_1833_ruflo_agentdb_hold_preserved_and_unrelated_repo_still_usabl
     bound = _bind(
         commit, poll, held_trap_gh, auth,
         policy={"shared_source_model": "repo_envelope", "legacy_transition": "preserve_plan"},
+        historical_loader=lambda ident: historical_agentdb if ident == "ruvnet/agentdb" else {},
     )
     assert bound.status == wb.RUN_STATUS_BOUND and bound.write_authorized is False and bound.write_readiness is False
 
     ruflo_bind = bound.repositories["ruvnet/ruflo"]
-    assert ruflo_bind.status == wb.STATUS_HELD and ruflo_bind.reason == "legacy-migration-hold"
-    assert ruflo_bind.is_candidate_intent is False and ruflo_bind.write_authorized is False
-    assert len(ruflo_bind.known_legacy_holds) == 1
-    assert ruflo_bind.known_legacy_holds[0]["kind"] == "preserve-legacy-reference"
-    assert ruflo_bind.known_legacy_holds[0]["issue"] == 1833
-    assert ruflo_bind.known_legacy_holds[0]["writeReadiness"] is False
+    agentdb_bind = bound.repositories["ruvnet/agentdb"]
+    for scoped_bind, expected_named in ((ruflo_bind, "ruvnet/ruflo"), (agentdb_bind, "ruvnet/agentdb")):
+        assert scoped_bind.status == wb.STATUS_HELD and scoped_bind.reason == "legacy-migration-hold"
+        assert scoped_bind.is_candidate_intent is False and scoped_bind.write_authorized is False
+        assert [m.named_id for m in scoped_bind.selected_members] == [expected_named]
+        assert len(scoped_bind.known_legacy_holds) == 1
+        assert scoped_bind.known_legacy_holds[0]["kind"] == "preserve-legacy-reference"
+        assert scoped_bind.known_legacy_holds[0]["issue"] == 1833
+        assert scoped_bind.known_legacy_holds[0]["legacyNamedId"] == "ruvnet/agentdb"
+        assert scoped_bind.known_legacy_holds[0]["currentReleaseRepository"] == "ruvnet/agentdb"
+        assert scoped_bind.known_legacy_holds[0]["writeReadiness"] is False
 
+    assert ruflo_bind.selected_members[0].finding_sha256 != agentdb_bind.selected_members[0].finding_sha256
     assert [b.repository for b in bound.candidate_intents] == ["other/good"]
     assert held_raw_gh.writes == [] and held_trap_gh.write_attempts == []
+
+
+# 10. Fresh get_issue must validate upstream:release label and usable labels without extra read
+def test_fresh_get_issue_missing_or_malformed_release_label_declines_without_extra_read(tmp_path: Path):
+    auth = _authority()
+    existing_c = _raw_finding("owner/c", adds=("gamma",), component_root="skills-c", version="v1.1.0")
+    open_issue, _ = _envelope_issue([existing_c], auth, number=44, updated_at="2026-11-16T00:00:00Z")
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json", poll_id="poll-label-reread", observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
+    )
+
+    class _CountingGetGh:
+        def __init__(self, inner: FakeGh, override_labels: Any):
+            self._inner = inner
+            self._override_labels = override_labels
+            self.get_calls: list[int] = []
+
+        def __getattr__(self, name: str) -> Any:
+            return getattr(self._inner, name)
+
+        def get_issue(self, number: int) -> dict[str, Any]:
+            self.get_calls.append(number)
+            row = self._inner.get_issue(number)
+            if number == 44:
+                row["labels"] = self._override_labels
+            return row
+
+    # (a) Identical number/state/title/body/updated_at, only upstream:release removed on get_issue.
+    raw_lost = FakeGh([open_issue])
+    counting_lost = _CountingGetGh(raw_lost, [{"name": "needs-triage"}])
+    trap_lost = NoWriteTrapGh(counting_lost)
+    bound_lost = _bind(commit, poll, trap_lost, auth)
+    assert bound_lost.status == wb.RUN_STATUS_BOUND
+    assert bound_lost.repositories["owner/repo"].status == wb.STATUS_DECLINED
+    assert bound_lost.repositories["owner/repo"].reason == "target-snapshot-or-state-drifted-during-binding"
+    assert bound_lost.repositories["owner/repo"].is_candidate_intent is False
+    assert bound_lost.repositories["owner/repo"].target is None
+    assert [b.repository for b in bound_lost.candidate_intents] == ["other/good"]
+    assert counting_lost.get_calls == [44]
+    assert raw_lost.writes == [] and trap_lost.write_attempts == []
+
+    # (b) Malformed labels on get_issue (labels=None and malformed dict entry) -> declined, single read.
+    for bad_labels in (None, [{"name": None}], [123]):
+        raw_bad = FakeGh([open_issue])
+        counting_bad = _CountingGetGh(raw_bad, bad_labels)
+        trap_bad = NoWriteTrapGh(counting_bad)
+        bound_bad = _bind(commit, poll, trap_bad, auth)
+        assert bound_bad.status == wb.RUN_STATUS_BOUND
+        assert bound_bad.repositories["owner/repo"].status == wb.STATUS_DECLINED
+        assert bound_bad.repositories["owner/repo"].is_candidate_intent is False
+        assert [b.repository for b in bound_bad.candidate_intents] == ["other/good"]
+        assert counting_bad.get_calls == [44]
+        assert raw_bad.writes == [] and trap_bad.write_attempts == []
+
+
+# 11. Malformed live inventory fails closed globally without unhandled TypeError or body leak
+def test_malformed_live_inventory_fails_closed_globally_without_unhandled_typeerror(tmp_path: Path):
+    auth = _authority()
+    raw_a = _raw_finding("owner/a", adds=("alpha",), component_root="skills-a", version="v2.0.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    commit, poll = _plan_and_commit(
+        tmp_path / "named-v3.json", poll_id="poll-malformed-inv", observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_a, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
+    )
+
+    secret_body_marker = "SENSITIVE_UNTRUSTED_BODY_MARKER_DO_NOT_LEAK"
+
+    class _RawInventoryGh:
+        """Fake reader whose list_issues returns unvalidated rows straight to read_repository_live."""
+
+        def __init__(self, open_rows: list[dict[str, Any]]):
+            self._open_rows = open_rows
+            self.writes: list[Any] = []
+
+        def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict[str, Any]]:
+            if state == "open" and not labels:
+                return copy.deepcopy(self._open_rows)
+            return []
+
+        def child_state(self, number: int) -> str:
+            return "absent"
+
+    # (a) Exact Terra repro: labels=None passes raw list_issues into read_repository_live -> global refusal.
+    malformed_cases = [
+        {"number": 71, "state": "open", "title": "[upstream] owner/repo → v1.0.0", "body": secret_body_marker, "labels": None, "updated_at": "2026-11-16T00:00:00Z"},
+        {"number": 72, "state": "open", "title": "[upstream] owner/repo → v1.0.0", "body": secret_body_marker, "labels": [{"name": None}], "updated_at": "2026-11-16T00:00:00Z"},
+        {"number": 73, "state": "open", "title": 12345, "body": secret_body_marker, "labels": [{"name": "upstream:release"}], "updated_at": "2026-11-16T00:00:00Z"},
+    ]
+    for bad_row in malformed_cases:
+        raw_reader = _RawInventoryGh([bad_row])
+        trap_gh = NoWriteTrapGh(raw_reader)
+        bound = _bind(commit, poll, trap_gh, auth)
+        assert bound.status == wb.RUN_STATUS_REFUSED
+        assert bound.candidate_intents == ()
+        assert bound.write_authorized is False and bound.write_readiness is False
+        assert "global-inventory-or-setup-incomplete" in (bound.refusal_reason or "")
+        assert secret_body_marker not in (bound.refusal_reason or "")
+        assert raw_reader.writes == [] and trap_gh.write_attempts == []
+
+    # (b) Real LiveGh reader receiving JSON with labels: null on open listing -> global refusal, no TypeError.
+    def _raw_rest_runner(args, capture_output=True, text=True, timeout=None):
+        if args[1] == "api" and args[-1] == "repos/gaia-research/gaia-skill-tree":
+            return subprocess.CompletedProcess(args, 0, stdout=json.dumps({"open_issues_count": 1}), stderr="")
+        if args[1] == "api" and "--include" in args:
+            row = {
+                "number": 74,
+                "state": "open",
+                "title": "[upstream] owner/repo → v1.0.0",
+                "body": secret_body_marker,
+                "labels": None,
+                "updated_at": "2026-11-16T00:00:00Z",
+            }
+            payload = [row] if "state=open" in args[-1] else []
+            out = "HTTP/2.0 200 OK\nContent-Type: application/json\n\n" + json.dumps(payload)
+            return subprocess.CompletedProcess(args, 0, stdout=out, stderr="")
+        raise AssertionError(f"unexpected LiveGh subprocess call: {args}")
+
+    live_trap = NoWriteTrapGh(LiveGh(runner=_raw_rest_runner))
+    bound_live = _bind(commit, poll, live_trap, auth)
+    assert bound_live.status == wb.RUN_STATUS_REFUSED
+    assert bound_live.candidate_intents == ()
+    assert "global-inventory-or-setup-incomplete" in (bound_live.refusal_reason or "")
+    assert secret_body_marker not in (bound_live.refusal_reason or "")
+    assert live_trap.write_attempts == []
+
+
+# 12. Optional offline cached #1833 proof (Ruflo + AgentDB holds, unrelated repo usable)
+@pytest.mark.skipif(
+    not os.environ.get("P1_LEGACY_CACHE"),
+    reason="owner-supplied bounded cache not configured; no network fallback",
+)
+def test_cached_1833_offline_ruflo_and_agentdb_holds_and_unrelated_usable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    def _forbidden_url(*args: Any, **kwargs: Any) -> Any:
+        raise AssertionError("cached #1833 binding proof attempted network access")
+
+    monkeypatch.setattr(urllib.request, "urlopen", _forbidden_url)
+
+    cache_path = Path(os.environ["P1_LEGACY_CACHE"])
+    cache_digest_before = hashlib.sha256(cache_path.read_bytes()).hexdigest()
+    cached = json.loads(cache_path.read_text(encoding="utf-8"))
+    body = cached["body"]
+    raw_sha = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    root = Path(__file__).resolve().parents[2]
+    direction = json.loads(
+        (root / "founder/reports/upstream-backlog-2026-11/P1_IDENTITY_FOUNDER_DECISIONS.json").read_text(encoding="utf-8")
+    )
+    # Boolean-only verification; never print, commit, or embed cached issue body or payload.
+    assert cached["number"] == 1833
+    assert raw_sha == "ae62e163b04c2b24057d629ff1024a19982c8180d88a7ad2c5b64707f3ab8d1a"
+    assert hashlib.sha256((body + "\n").encode("utf-8")).hexdigest() == direction["issueBodySha256"]
+
+    # Load exact current checkout authority locks for ruvnet/ruflo and ruvnet/agentdb.
+    auth = _authority()
+    for rel in ("registry/named/ruvnet/ruflo.md", "registry/named/ruvnet/agentdb.md"):
+        _, front, _ = split_frontmatter((root / rel).read_text(encoding="utf-8"))
+        meta = load_yaml_simple(front)
+        auth[meta["id"]] = meta
+    assert wire.authority_repository("ruvnet/ruflo", auth) == "ruvnet/ruflo"
+    assert wire.authority_repository("ruvnet/agentdb", auth) == "ruvnet/agentdb"
+
+    actual_run = subprocess.run
+    historical_reads: list[str] = []
+
+    def _local_pinned_only(args: list[str], **kwargs: Any) -> subprocess.CompletedProcess[str]:
+        assert args == ["git", "show", "9b4d9b98043140188f00b14d0ac8fa6bc02491b7:registry/named/ruvnet/agentdb.md"]
+        historical_reads.append("pinned-local-history")
+        return actual_run(args, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", _local_pinned_only)
+
+    cached_1833 = {
+        "number": cached["number"],
+        "state": "open",
+        "title": cached["title"],
+        "body": body,
+        "labels": copy.deepcopy(cached["labels"]),
+        "updated_at": cached.get("updated_at") or "2026-10-01T00:00:00Z",
+    }
+    raw_ruflo = _raw_finding("ruvnet/ruflo", repo="ruvnet/ruflo", adds=("ruflo-new",), component_root="skills", version="v99.1.0")
+    raw_agentdb = _raw_finding("ruvnet/agentdb", repo="ruvnet/agentdb", adds=("agentdb-new",), component_root="skills", version="v99.2.0")
+    raw_good = _raw_finding("other/good", repo="other/good", adds=("delta",), component_root="skills", version="v2.0.0")
+
+    # (a) Initial P1 planner already observes cached #1833: both Ruflo & AgentDB are held before binding.
+    initial_raw_gh = FakeGh([cached_1833])
+    initial_trap_gh = NoWriteTrapGh(initial_raw_gh)
+    report_a, code_a = rb.run_repository_batch(
+        [raw_ruflo, raw_agentdb, raw_good],
+        initial_trap_gh,
+        apply=False,
+        authority=auth,
+        index_loader=_empty_index,
+        policy=None,
+        historical_loader=rb.historical_authority,
+        plan_only=True,
+    )
+    assert code_a == 0 and report_a["unknownEvidence"] == []
+    held_repos_a = frozenset(p["repository"] for p in report_a["repositories"] if p["outcome"] == "held")
+    assert held_repos_a == frozenset({"ruvnet/ruflo", "ruvnet/agentdb"})
+    poll_a = wr.poll_input_from_batch_report(
+        "poll-1833-initial", "2026-11-23T10:00:00Z", report_a, complete=True, held_repos=held_repos_a
+    )
+    commit_a = wj.commit_poll(tmp_path / "j-1833-initial.json", poll_a, auth, allow_bootstrap=True, initialized=False)
+    bound_a = wb.bind_weekly_plans(
+        commit_a, poll_a, initial_trap_gh, auth, index_loader=_empty_index, policy=None, historical_loader=rb.historical_authority
+    )
+    assert bound_a.status == wb.RUN_STATUS_BOUND
+    assert bound_a.non_eligible_scopes == {
+        ("ruvnet/agentdb", "ruvnet/agentdb"): "held-scope",
+        ("ruvnet/ruflo", "ruvnet/ruflo"): "held-scope",
+    }
+    assert [b.repository for b in bound_a.candidate_intents] == ["other/good"]
+    assert initial_raw_gh.writes == [] and initial_trap_gh.write_attempts == []
+
+    # (b) Clean logically eligible initial commit -> fresh target read includes cached #1833:
+    #     binding itself holds BOTH ruvnet/ruflo and ruvnet/agentdb independently via pinned historical authority.
+    historical_reads.clear()
+    commit_b, poll_b = _plan_and_commit(
+        tmp_path / "j-1833-bind.json", poll_id="poll-1833-bind", observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[raw_ruflo, raw_agentdb, raw_good], gh=NoWriteTrapGh(FakeGh()), authority=auth, allow_bootstrap=True,
+    )
+    held_raw_gh = FakeGh([cached_1833])
+    held_trap_gh = NoWriteTrapGh(held_raw_gh)
+    bound_b = wb.bind_weekly_plans(
+        commit_b, poll_b, held_trap_gh, auth, index_loader=_empty_index, policy=None, historical_loader=rb.historical_authority
+    )
+    assert bound_b.status == wb.RUN_STATUS_BOUND and bound_b.write_authorized is False and bound_b.write_readiness is False
+
+    ruflo_bind = bound_b.repositories["ruvnet/ruflo"]
+    agentdb_bind = bound_b.repositories["ruvnet/agentdb"]
+    for scoped_bind, expected_named in ((ruflo_bind, "ruvnet/ruflo"), (agentdb_bind, "ruvnet/agentdb")):
+        assert scoped_bind.status == wb.STATUS_HELD and scoped_bind.reason == "legacy-migration-hold"
+        assert scoped_bind.is_candidate_intent is False
+        assert scoped_bind.write_authorized is False and scoped_bind.write_readiness is False
+        assert [m.named_id for m in scoped_bind.selected_members] == [expected_named]
+        assert len(scoped_bind.known_legacy_holds) == 1
+        hold = scoped_bind.known_legacy_holds[0]
+        assert hold["kind"] == "preserve-legacy-reference"
+        assert hold["issue"] == 1833
+        assert hold["repository"] == "ruvnet/ruflo"
+        assert hold["legacyNamedId"] == "ruvnet/agentdb"
+        assert hold["currentReleaseRepository"] == "ruvnet/agentdb"
+        assert hold["bodySha256"] == raw_sha
+        assert hold["bodyHashScheme"] == "raw_api_utf8"
+        assert hold["writeReadiness"] is False
+
+    assert ruflo_bind.repository != agentdb_bind.repository
+    assert ruflo_bind.selected_members[0].finding_sha256 != agentdb_bind.selected_members[0].finding_sha256
+    assert [b.repository for b in bound_b.candidate_intents] == ["other/good"]
+    assert len(historical_reads) >= 2 and set(historical_reads) == {"pinned-local-history"}
+    assert held_raw_gh.writes == [] and held_trap_gh.write_attempts == []
+    assert hashlib.sha256(cached_1833["body"].encode("utf-8")).hexdigest() == raw_sha
+    assert hashlib.sha256(cache_path.read_bytes()).hexdigest() == cache_digest_before

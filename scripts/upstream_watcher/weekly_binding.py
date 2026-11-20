@@ -284,18 +284,64 @@ def _is_valid_snapshot(snapshot: Any) -> bool:
     )
 
 
-def _validate_live_inventory(live: Any) -> None:
+def _normalize_issue_labels(raw_labels: Any) -> tuple[list[dict[str, Any]], set[str]] | None:
+    """Validate and normalize genuine issue label shapes without coercing invalid values."""
+    if not isinstance(raw_labels, list):
+        return None
+    normalized: list[dict[str, Any]] = []
+    names: set[str] = set()
+    for entry in raw_labels:
+        if isinstance(entry, dict):
+            name = entry.get("name")
+            if not isinstance(name, str) or not name.strip():
+                return None
+            normalized.append(dict(entry))
+            names.add(name)
+        elif isinstance(entry, str) and entry.strip():
+            normalized.append({"name": entry})
+            names.add(entry)
+        else:
+            return None
+    return normalized, names
+
+
+def _validated_label_names(issue: Mapping[str, Any]) -> set[str] | None:
+    if "labels" not in issue:
+        return None
+    parsed = _normalize_issue_labels(issue["labels"])
+    return parsed[1] if parsed is not None else None
+
+
+def _validate_live_inventory(live: Any) -> dict[str, list[dict[str, Any]]]:
     if not isinstance(live, dict) or not isinstance(live.get("issues"), list) or not isinstance(live.get("closedUmbrellas"), list):
         raise GhError("live inventory is missing issues or closedUmbrellas lists")
+    validated: dict[str, list[dict[str, Any]]] = {"issues": [], "closedUmbrellas": []}
     for list_name in ("issues", "closedUmbrellas"):
         seen: set[int] = set()
         for row in live[list_name]:
             if not isinstance(row, dict) or row.get("pull_request"):
                 raise GhError(f"live inventory {list_name} contains a malformed entry or retained PR")
             num = row.get("number")
-            if type(num) is not int or num <= 0 or num in seen or row.get("state") not in ("open", "closed"):
+            state = row.get("state")
+            valid_state = state == "closed" if list_name == "closedUmbrellas" else state in ("open", "closed")
+            if type(num) is not int or num <= 0 or num in seen or not valid_state:
                 raise GhError(f"live inventory {list_name} contains invalid or duplicate issue identity")
+            if "labels" not in row:
+                raise GhError(f"live inventory {list_name} issue #{num} is missing labels")
+            parsed_labels = _normalize_issue_labels(row["labels"])
+            if parsed_labels is None:
+                raise GhError(f"live inventory {list_name} issue #{num} contains malformed labels")
+            if not isinstance(row.get("title"), str):
+                raise GhError(f"live inventory {list_name} issue #{num} contains non-string title")
+            body = row.get("body")
+            if body is not None and not isinstance(body, str):
+                raise GhError(f"live inventory {list_name} issue #{num} contains non-string body")
+            updated_at = row.get("updated_at")
+            if updated_at is not None and not isinstance(updated_at, str):
+                raise GhError(f"live inventory {list_name} issue #{num} contains non-string updated_at")
             seen.add(num)
+            validated[list_name].append({**row, "labels": parsed_labels[0]})
+    return validated
 
 
 def _verify_eligible_member(
@@ -475,6 +521,9 @@ def _verify_repo_plan(
         return _result(st, f"inspect-history-refused: {msg}", declined_scopes=_all_scopes(msg))
     except (GhError, records.RecordError) as exc:
         return _result(STATUS_INCOMPLETE, f"history-read-incomplete: {exc}", declined_scopes=_all_scopes(str(exc)))
+    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError) as exc:
+        msg = f"history-read-malformed:{type(exc).__name__}"
+        return _result(STATUS_INCOMPLETE, msg, declined_scopes=_all_scopes(msg))
 
     if found.ambiguous:
         return _result(STATUS_AMBIGUOUS, "ambiguous open repository umbrella title", declined_scopes=_all_scopes("ambiguous title"))
@@ -487,8 +536,11 @@ def _verify_repo_plan(
         msg = str(exc)
         st = STATUS_AMBIGUOUS if "ambiguous" in msg.lower() else STATUS_DECLINED
         return _result(st, f"plan-repository-refused: {msg}", declined_scopes=_all_scopes(msg))
-    except (GhError, records.RecordError, KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError) as exc:
+    except (GhError, records.RecordError) as exc:
         return _result(STATUS_INCOMPLETE, f"plan-repository-incomplete: {exc}", declined_scopes=_all_scopes(str(exc)))
+    except (KeyError, ValueError, TypeError, OSError, subprocess.SubprocessError) as exc:
+        msg = f"plan-repository-incomplete:{type(exc).__name__}"
+        return _result(STATUS_INCOMPLETE, msg, declined_scopes=_all_scopes(msg))
 
     if plan.get("knownLegacyHolds") or not plan.get("writeReadiness"):
         return _result(STATUS_HELD, "legacy-migration-hold", holds=tuple(plan.get("knownLegacyHolds") or holds))
@@ -588,12 +640,18 @@ def _verify_repo_plan(
     except GhError as exc:
         return _result(STATUS_INCOMPLETE, f"target-issue-reread-failed: {exc}", declined_scopes=_all_scopes(str(exc)))
 
+    current_labels = _validated_label_names(current_issue) if isinstance(current_issue, dict) else None
     if (
         not isinstance(current_issue, dict)
+        or type(current_issue.get("number")) is not int
         or current_issue.get("number") != canonical["number"]
         or current_issue.get("state") != "open"
         or current_issue.get("pull_request")
+        or not isinstance(current_issue.get("title"), str)
         or current_issue.get("title") != canonical.get("title")
+        or (current_issue.get("body") is not None and not isinstance(current_issue.get("body"), str))
+        or current_labels is None
+        or "upstream:release" not in current_labels
         or batch.snapshot_of(current_issue) != planned_snapshot
     ):
         return _result(STATUS_DECLINED, "target-snapshot-or-state-drifted-during-binding", declined_scopes=_all_scopes("target snapshot drifted"))
@@ -833,19 +891,18 @@ def bind_weekly_plans(
         grouped = repository_batch.group_findings(selected_raw_all, authority)
         index = index_loader()
         live = repository_batch.read_repository_live(gh)
-        _validate_live_inventory(live)
-    except (
-        PayloadError,
-        GhError,
-        prechecks.RegistryUnreadable,
-        OSError,
-        ValueError,
-        TypeError,
-        KeyError,
-        subprocess.SubprocessError,
-    ) as exc:
+        live = _validate_live_inventory(live)
+    except (PayloadError, GhError, prechecks.RegistryUnreadable) as exc:
         return _refused(
             f"global-inventory-or-setup-incomplete:{exc}",
+            poll_id=poll_id,
+            observed_at=observed_at_iso,
+            journal_pin=live_handle.pin,
+            non_eligible_scopes=non_eligible_scopes,
+        )
+    except (OSError, ValueError, TypeError, KeyError, subprocess.SubprocessError) as exc:
+        return _refused(
+            f"global-inventory-or-setup-incomplete:{type(exc).__name__}",
             poll_id=poll_id,
             observed_at=observed_at_iso,
             journal_pin=live_handle.pin,
