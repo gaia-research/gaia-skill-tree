@@ -1179,3 +1179,84 @@ def test_closed_and_pr_excluded_and_lowest_open_umbrella_updated(tmp_path: Path)
     assert res.receipt is not None and res.receipt.umbrella == 12
     assert service.writes == (("edit", 12),)
     assert service.issue_numbers == frozenset({5, 7, 12, 25})
+
+
+def test_instance_method_injection_is_blocked_for_service_and_transport(tmp_path: Path) -> None:
+    auth = _authority()
+    service = we.FakeIssueService()
+    transport = we.FakeEffectTransport(service)
+    trap_calls: list[str] = []
+    trap = lambda *args, **kwargs: trap_calls.append("called")
+    for obj, names in (
+        (service, ("_apply_fake_create", "_apply_fake_update")),
+        (transport, ("fake_create_umbrella", "fake_update_umbrella")),
+    ):
+        for name in names:
+            with pytest.raises(AttributeError):
+                setattr(obj, name, trap)
+
+    journal_path = tmp_path / "named-v3.json"
+    ckpt_path = tmp_path / "no-injection.json"
+    _, _, binding = _commit_and_bind(
+        journal_path,
+        poll_id="poll-no-instance-injection",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[_raw_finding("owner/a")],
+        service=service,
+        authority=auth,
+        allow_bootstrap=True,
+    )
+    result = we.execute_fake_effect(
+        binding, journal_path, ckpt_path, transport, auth,
+        policy={}, historical_loader=lambda _: {},
+    )
+    assert result.status == we.EFFECT_STATUS_CONFIRMED
+    assert result.effect_called is True
+    assert [row[0] for row in service.writes] == ["create"]
+    assert trap_calls == []
+
+
+def test_copied_confirmed_checkpoint_requires_fresh_effect_and_witness(tmp_path: Path) -> None:
+    auth = _authority()
+    service_b = we.FakeIssueService()
+    journal_path = tmp_path / "named-v3.json"
+    checkpoint_b = tmp_path / "service-b.json"
+    _, _, binding = _commit_and_bind(
+        journal_path,
+        poll_id="poll-confirmed-copy",
+        observed_at="2026-11-23T10:00:00Z",
+        raw_findings=[_raw_finding("owner/a")],
+        service=service_b,
+        authority=auth,
+        allow_bootstrap=True,
+    )
+    confirmed = we.execute_fake_effect(
+        binding, journal_path, checkpoint_b, we.FakeEffectTransport(service_b), auth,
+        policy={}, historical_loader=lambda _: {},
+    )
+    assert confirmed.status == we.EFFECT_STATUS_CONFIRMED
+    assert confirmed.receipt is not None
+
+    # Copy an internally valid confirmation to a separate empty fake service.
+    checkpoint_a = tmp_path / "service-a.json"
+    checkpoint_a.write_bytes(checkpoint_b.read_bytes())
+    service_a = we.FakeIssueService()
+    before = checkpoint_a.read_bytes()
+    rejected = we.recover_fake_effect(
+        checkpoint_a, we.FakeEffectTransport(service_a), auth,
+        binding=binding, policy={}, historical_loader=lambda _: {},
+    )
+    assert rejected.status == we.EFFECT_STATUS_HELD
+    assert rejected.receipt is None
+    assert service_a.writes == () and service_a.attempt_calls == ()
+    assert checkpoint_a.read_bytes() == before
+
+    # Genuine persisted confirmation remains valid against its retained service.
+    fresh = we.recover_fake_effect(
+        checkpoint_b, we.FakeEffectTransport(service_b), auth,
+        binding=binding, policy={}, historical_loader=lambda _: {},
+    )
+    assert fresh.status == we.EFFECT_STATUS_CONFIRMED
+    assert fresh.receipt == confirmed.receipt
+    assert len(service_b.attempt_calls) == 1
+    assert len(service_b.writes) == 1

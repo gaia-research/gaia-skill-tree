@@ -392,6 +392,12 @@ class FakeIssueService:
     adapter recreation while this fake service stays alive.
     """
 
+    __slots__ = (
+        "repo", "_issues", "_comments", "_writes", "_attempt_calls",
+        "_witnesses_by_attempt", "_witness_seq", "_clock", "_next_number",
+        "fail_list", "fail_get", "fail_before_effect_once", "fail_after_effect_once",
+    )
+
     def __init_subclass__(cls, **kwargs: Any) -> None:
         raise TypeError("FakeIssueService is closed-world and cannot be subclassed")
 
@@ -640,6 +646,8 @@ class FakeEffectTransport:
     forge clients, or subclasses). Holds no witness state of its own, so tests can
     instantiate a fresh ``FakeEffectTransport(service)`` on coordinator restart.
     """
+
+    __slots__ = ("_service", "repo")
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
         raise TypeError("FakeEffectTransport is closed-world and cannot be subclassed")
@@ -1939,6 +1947,27 @@ def _reconcile_existing_intent_locked(
 ) -> EffectExecutionResult:
     """Reconcile or recover an already-persisted checkpoint with ZERO fake effect calls."""
     if existing.state == INTENT_STATE_CONFIRMED:
+        # A digest-valid local checkpoint is not proof of an effect. Re-derive the
+        # receipt from fresh complete fake readback and the service-owned witness;
+        # it must exactly match the stored receipt.
+        try:
+            resolved_policy = repository_batch.policy_record() if policy is None else policy
+        except (PayloadError, OSError, ValueError):
+            return _held("policy-record-unavailable", intent=existing)
+        fresh_receipt, readback_err, must_refuse = _verify_post_effect_readback(
+            existing,
+            transport,
+            authority,
+            config=cfg,
+            policy=resolved_policy,
+            historical_loader=historical_loader,
+            trusted_latest_pin=trusted_latest_pin,
+            max_journal_bytes=max_journal_bytes,
+        )
+        if must_refuse:
+            return _refused(readback_err or "post-effect-refused", intent=existing)
+        if fresh_receipt is None or fresh_receipt != existing.receipt:
+            return _held(readback_err or "confirmed-receipt-not-backed-by-current-evidence", intent=existing)
         with wj._exclusive_journal_lock(Path(existing.journal_path)):
             _, journal_err = _verify_live_journal_for_intent(
                 journal_path=Path(existing.journal_path),
