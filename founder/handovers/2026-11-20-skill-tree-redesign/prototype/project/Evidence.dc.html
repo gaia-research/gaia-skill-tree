@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evidence and trust: library, ledger, methodology, challenges</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.ev-head { padding-block: clamp(3rem, 6cqi, 5rem) 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.alloy { display: flex; height: 26px; border-radius: 2px; overflow: hidden; gap: 2px; }
+.alloy > div { height: 100%; }
+.metal-key { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+@container atlas (max-width: 760px) { .metal-key { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lib { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(2rem, 4cqi, 3.5rem); padding-block: 2rem 5rem; }
+@container atlas (max-width: 900px) { .lib { grid-template-columns: minmax(0, 1fr); } }
+.types { display: flex; flex-direction: column; gap: .3rem; }
+.types button { display: grid; grid-template-columns: minmax(0, 1fr) 3rem; gap: .5rem; align-items: center; padding: .45rem .5rem; margin-inline: -.5rem; border: 0; border-radius: 6px; background: none; cursor: pointer; text-align: left; min-height: 40px; }
+.types button:hover { background: var(--accent-wash); }
+.types button[aria-pressed="true"] { background: var(--panel-2); }
+.types .bar { grid-column: 1 / -1; height: 3px; background: var(--ground-2); }
+.types .bar i { display: block; height: 100%; background: var(--line-2); }
+.row-ev { display: grid; grid-template-columns: 5.2rem minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 2.6fr); gap: 1.25rem; align-items: start; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.row-ev .src { font-family: var(--f-hud); font-size: .75rem; color: var(--ink-2); overflow-wrap: anywhere; }
+@container atlas (max-width: 860px) { .row-ev { grid-template-columns: 5.2rem minmax(0, 1fr); } .row-ev .c4 { grid-column: 1 / -1; } }
+.sumgrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; }
+.sumgrid > div { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .35rem; }
+.sumgrid > div + div { border-left: 1px solid var(--line); }
+@container atlas (max-width: 760px) { .sumgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sumgrid > div:nth-child(4) { border-left: 0; } .sumgrid > div:nth-child(n+4) { border-top: 1px solid var(--line); } }
+.codex { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: clamp(2rem, 5cqi, 4.5rem); padding-block: 2.5rem 5rem; }
+@container atlas (max-width: 900px) { .codex { grid-template-columns: minmax(0, 1fr); } .codex .toc { display: none; } }
+.toc { position: sticky; top: 140px; align-self: start; display: flex; flex-direction: column; gap: .2rem; border-left: 1px solid var(--line); padding-left: 1rem; }
+.toc a { font-size: .875rem; color: var(--ink-2); text-decoration: none; padding: .3rem 0; }
+.toc a:hover { color: var(--ink); }
+.article { max-width: 72ch; display: flex; flex-direction: column; gap: 1.25rem; }
+.article h2 { margin-top: 1.5rem; }
+.formula { font-family: var(--f-hud); font-size: .8125rem; line-height: 1.8; background: var(--ground-2); border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem 1.25rem; overflow-x: auto; }
+.formula .ln { display: block; white-space: pre; }
+.formula .c { color: var(--ink-3); }
+.floors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+.floors > div { border: 1px solid var(--line); border-radius: 8px; padding: .9rem; display: flex; flex-direction: column; gap: .5rem; }
+@container atlas (max-width: 600px) { .floors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.marks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+@container atlas (max-width: 860px) { .marks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mark-card { border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
+.mark-card svg { width: 56px; height: 56px; }
+@keyframes heat { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.heat { animation: heat 2.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .heat { animation: none; } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap ev-head">
+    <div class="plate"><span class="pl-mark">The Codex</span><i class="pl-sep"></i><span>Evidence and trust</span><i class="pl-sep"></i><span>{{plateCount}}</span><i class="pl-rule"></i></div>
+    <h1 class="h1">Evidence and trust</h1>
+    <p class="lede">Every rank in the registry is backed by evidence you can open. The metal is the grade; the ledger is the sum; the Codex is the method.</p>
+    <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+      <p class="small" style="max-width: 70ch; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 8px">You are viewing through the Arbor lens. Evidence grades belong to Yggdrasil standing and keep their meaning here; Arbor adds no grades of its own. The Trust Ledger sits beside this library under the Yggdrasil lens. Benchmark receipts that Arbor will read live under Benchmarks and stamps.</p>
+    </sc-if>
+  </div>
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Evidence sections">
+      <button role="tab" aria-selected="{{tLib}}" onClick="{{toLib}}">Evidence Library</button>
+      <sc-if value="{{showLed}}" hint-placeholder-val="{{true}}"><button role="tab" aria-selected="{{tLed}}" onClick="{{toLed}}">Trust Ledger</button></sc-if>
+      <button role="tab" aria-selected="{{tMet}}" onClick="{{toMet}}">Methodology</button>
+      <button role="tab" aria-selected="{{tCha}}" onClick="{{toCha}}">Challenges</button>
+    </div>
+  </div>
+
+  <sc-if value="{{isLib}}" hint-placeholder-val="{{true}}">
+    <div class="wrap">
+      <div class="stack gap-3" style="padding-top: 2.25rem">
+        <div class="alloy" role="img" aria-label="{{alloyAria}}"><sc-for list="{{metals}}" as="m" hint-placeholder-count="5"><div class="ingot" data-g="{{m.g}}" style="flex: {{m.n}} 1 0; height: 100%"></div></sc-for></div>
+        <div class="metal-key"><sc-for list="{{metals}}" as="m" hint-placeholder-count="5"><button class="stack gap-1" onClick="{{m.pick}}" style="background: none; border: 0; padding: 0; text-align: left; cursor: pointer; color: inherit"><span class="metal" data-g="{{m.g}}" style="align-self: flex-start">{{m.name}}{{m.on}}</span><span class="num" style="font-size: 1.4rem; color: var(--ink)">{{m.n}}</span><span class="fine">{{m.pct}}%</span></button></sc-for></div>
+      </div>
+      <div class="lib">
+        <aside class="stack gap-3" aria-label="Evidence types">
+          <h2 class="h4">Evidence types</h2>
+          <div class="types"><sc-for list="{{types}}" as="t" hint-placeholder-count="8"><button aria-pressed="{{t.on}}" onClick="{{t.pick}}"><span class="evt" data-t="{{t.t}}">{{t.t}}</span><span class="num small" style="text-align: right">{{t.n}}</span><span class="bar"><i style="width: {{t.pct}}%"></i></span></button></sc-for></div>
+          <p class="fine">Counts cover all {{nEv}} named-skill evidence rows in the 17 Nov 2026 snapshot.</p>
+        </aside>
+        <div class="stack gap-2">
+          <div class="row gap-2 wrapx" style="justify-content: space-between">
+            <label class="field grow" style="min-width: 220px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search evidence</span><input type="search" placeholder="Search sources, skills, notes" value="{{q}}" onInput="{{onQ}}"></label>
+            <sc-if value="{{hasFilter}}" hint-placeholder-val="{{false}}"><button class="btn btn-quiet" onClick="{{clear}}">Clear filters</button></sc-if>
+          </div>
+          <span class="small" style="padding-block: .5rem">{{libCount}}</span>
+          <div role="list">
+            <sc-for list="{{rows}}" as="e" hint-placeholder-count="8">
+              <div class="row-ev" role="listitem">
+                <span class="metal" data-g="{{e.grade}}" style="min-width: 0">{{e.gradeName}}</span>
+                <span class="stack gap-1"><button class="sk-name" data-l="{{e.lv}}" data-b="{{e.br}}" onClick="{{e.open}}" style="background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font-size: 1rem">{{e.skill}}</button><span class="fine">{{e.date}}</span></span>
+                <span class="evt" data-t="{{e.type}}" style="align-self: start">{{e.type}}</span>
+                <span class="stack gap-1 c4"><span class="src">{{e.src}}</span><span class="fine">{{e.notes}}</span></span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{libEmpty}}" hint-placeholder-val="{{false}}"><p class="small" style="padding: 2rem 0">No row matches these filters. Clear a filter or search a different source.</p></sc-if>
+          <p class="fine" style="padding-top: 1rem">The library shows the rows behind six complete dossiers in this prototype; production lists every row with pagination.</p>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isLed}}" hint-placeholder-val="{{false}}">
+    <div class="wrap stack gap-4" style="padding-block: 2.5rem 5rem">
+      <div class="sumgrid" aria-label="Ledger grade summary">
+        <div><span class="hud">Records</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.total}}</span></div>
+        <div><span class="metal" data-g="S" style="align-self: flex-start">S</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.S}}</span></div>
+        <div><span class="metal" data-g="A" style="align-self: flex-start">A</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.A}}</span></div>
+        <div><span class="metal" data-g="B" style="align-self: flex-start">B</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.B}}</span></div>
+        <div><span class="metal" data-g="C" style="align-self: flex-start">C</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.C}}</span></div>
+        <div><span class="metal" data-g="-" style="align-self: flex-start">Ungraded</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{led.ungraded}}</span></div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>#</th><th>Skill</th><th class="hide-sm">Branch</th><th>Stars</th><th>Trust Magnitude</th><th class="r">Grade</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ledger}}" as="r" hint-placeholder-count="12">
+              <tr>
+                <td class="num" style="color: var(--ink-3)">{{r.n}}</td>
+                <td><button class="sk-name" data-l="{{r.lv}}" data-b="{{r.br}}" onClick="{{r.open}}" style="background: none; border: 0; padding: 0; cursor: pointer; text-align: left">{{r.id}}</button></td>
+                <td class="hide-sm hud" style="color: var(--ink-2)">{{r.branch}}</td>
+                <td><span class="rk" data-l="{{r.lv}}" data-b="{{r.br}}">{{r.stars}}</span></td>
+                <td><div class="row gap-2"><div class="meter sm grow" style="max-width: 240px"><i style="width: {{r.pct}}%"></i><b style="left: 48.2%"></b><b style="left: 62.9%"></b><b style="left: 74.3%"></b><b style="left: 88.8%"></b></div><span class="num small" style="color: var(--ink)">{{r.tm}}</span></div></td>
+                <td class="r"><span class="metal" data-g="{{r.gr}}" style="min-width: 2.4rem">{{r.gr}}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Top 16 of {{led.total}} records shown. The meter is logarithmic from 0 to 500 with notches at the C, B, A and S floors. A hollow or dashed fill would mark a published baseline or a pending recalibration; none are pending in this snapshot.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isMet}}" hint-placeholder-val="{{false}}">
+    <div class="wrap codex">
+      <nav class="toc" aria-label="On this page"><span class="hud" style="padding-bottom: .4rem">On this page</span><a href="#m1">Per-row score</a><a href="#m2">Trust Magnitude</a><a href="#m3">Grades and floors</a><a href="#m4">The S diversity gate</a><a href="#m5">The Apex gate</a></nav>
+      <article class="article">
+        <h2 class="h2" id="m1" style="margin-top: 0">Per-row score</h2>
+        <p class="body">Every evidence row is scored once, from its type's base formula, capped, weighted, and decayed for age. Social signals add creator and engagement multipliers; inherited rows are discounted.</p>
+        <div class="formula"><span class="ln">artifact_score(row) = base × cap × weight × freshness</span><span class="ln">                    × creator_mult × engagement × inherit_mult × plateau</span><span class="ln c">plateau: 1.0 for the best row of a type, then 0.5, 0.25 …</span></div>
+        <h2 class="h2" id="m2">Trust Magnitude</h2>
+        <p class="body">A skill's Trust Magnitude is the sum of its row scores over its own and inherited rows, deduplicated by source URL.</p>
+        <div class="formula"><span class="ln">TM(skill) = Σ artifact_score(row)   over effective_pool</span><span class="ln c">effective_pool = own rows ∪ inherited rows, deduped by source</span></div>
+        <h2 class="h2" id="m3">Grades and floors</h2>
+        <p class="body">The overall grade sets a ceiling on stars. Grade C allows 2★, B allows 3★, A allows 4★ and S allows up to 6★.</p>
+        <div class="floors">
+          <div><span class="metal" data-g="C" style="align-self: flex-start">C</span><span class="num" style="color: var(--ink)">TM ≥ 20</span><span class="fine">up to 2★</span></div>
+          <div><span class="metal" data-g="B" style="align-self: flex-start">B</span><span class="num" style="color: var(--ink)">TM ≥ 50</span><span class="fine">up to 3★</span></div>
+          <div><span class="metal" data-g="A" style="align-self: flex-start">A</span><span class="num" style="color: var(--ink)">TM ≥ 100</span><span class="fine">up to 4★</span></div>
+          <div><span class="metal" data-g="S" style="align-self: flex-start">S</span><span class="num" style="color: var(--ink)">TM ≥ 250</span><span class="fine">up to 6★, with the gate</span></div>
+        </div>
+        <h2 class="h2" id="m4">The S diversity gate</h2>
+        <p class="body">Magnitude alone cannot reach S. A skill also needs three distinct positive-scoring evidence types and at least one independent witness: a benchmark result, a verifier attestation or a peer review. Fusion recipes are structural metadata and score nothing.</p>
+        <h2 class="h2" id="m5">The Apex gate</h2>
+        <p class="body">Apex, the sixth star, requires six predicates at once: five A-graded origins, one directly nested Suite, one depth-two-only origin, an overall grade of S, an A or S source held for 180 days, and a signed promotion pull request. No record meets all six today.</p>
+        <p class="fine">Abridged from the live Codex page, Trust Methodology. The full page keeps the type table, worked example and closed gameability vectors.</p>
+      </article>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isCha}}" hint-placeholder-val="{{false}}">
+    <div class="wrap stack gap-4" style="padding-block: 2.5rem 5rem">
+      <div class="row gap-2" style="padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 10px; justify-content: space-between; flex-wrap: wrap">
+        <span class="small" style="color: var(--ink)">No public challenge is on record. The challenge projection reports its source as unavailable.</span>
+        <span class="hud">gaia-challenge-projection/v1 · 0 subjects</span>
+      </div>
+      <div class="stack gap-2"><h2 class="h2">How a challenge reads</h2><p class="body">A verified technical challenge is struck like an assay. Severity is geometry, never colour alone. Answered marks stay on the record. These are the four states, drawn from the existing challenge components.</p></div>
+      <div class="marks">
+        <div class="mark-card"><svg viewBox="0 0 24 24" role="img" aria-label="Open, scoped challenge mark"><path d="M5 3H10L12 9L14 3H19L21 5V19L19 21H5L3 19V5Z" fill="#161210" stroke="#c4e23e" stroke-width=".9"></path><path class="heat" d="M6 19L11 14M9 19L14 14M12 19L17 14M15 19L19 15" stroke="#c4e23e" stroke-width=".7"></path></svg><h3 class="h4">Open · scoped</h3><p class="small">A shallow notch: one capability under test.</p></div>
+        <div class="mark-card"><svg viewBox="0 0 24 24" role="img" aria-label="Open, material challenge mark"><path d="M5 3H9L12 15L15 3H19L21 5V19L19 21H5L3 19V5Z" fill="#161210" stroke="#c4e23e" stroke-width=".9"></path><path class="heat" d="M5 19L9 15M7 20L11 16M15 20L19 16M17 18L20 15" stroke="#c4e23e" stroke-width=".7"></path></svg><h3 class="h4">Open · material</h3><p class="small">A deep notch past centre: Origin is contested.</p></div>
+        <div class="mark-card"><svg viewBox="0 0 24 24" role="img" aria-label="Rebutted challenge hallmark"><path d="M5 3H19L21 5V19L19 21H5L3 19V5Z" fill="#d6dee8" stroke="#566e00" stroke-width=".9"></path><path d="M8 13L12 9L16 13" fill="none" stroke="#566e00" stroke-width="1.6"></path></svg><h3 class="h4">Rebutted</h3><p class="small">Struck steel with an inlaid chevron. Permanent.</p></div>
+        <div class="mark-card"><svg viewBox="0 0 24 24" role="img" aria-label="Resolved upstream hallmark"><path d="M5 3H19L21 5V19L19 21H5L3 19V5Z" fill="#d6dee8" stroke="#566e00" stroke-width=".9"></path><path d="M8 12L12 8L16 12" fill="none" stroke="#566e00" stroke-width="1.6"></path><path d="M7 17H17" stroke="#566e00" stroke-width="1.6"></path></svg><h3 class="h4">Resolved upstream</h3><p class="small">Answered by improving the skill: a plinth bar beneath.</p></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"tab":{"editor":"enum","options":["library","ledger","method","challenges"],"default":"library"},"go":{"editor":null},"pick":{"editor":null},"$preview":{"width":1440,"height":3800}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const GN = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze', '-': 'Ungraded' };
+const RN = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RNU = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function meterPct(tm) { return Math.min(100, Math.log(1 + (tm || 0)) / Math.log(501) * 100).toFixed(1); }
+function fmtDate(d) { const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p = (d || '').split('-'); return p.length === 3 ? (+p[2]) + ' ' + m[+p[1] - 1] + ' ' + p[0] : d; }
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, tab: p.tab || 'library', g: '', t: '', q: '' }; }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate(pp) { if (pp.tab !== this.props.tab && this.props.tab) this.setState({ tab: this.props.tab }); }
+  renderVals() {
+    const d = this.state.d, world = this.props.world || 'ygg';
+    /* the Trust Ledger is a Yggdrasil reading: it sits next to the evidence it sums, and only under that lens */
+    const tab = world === 'arbor' && this.state.tab === 'ledger' ? 'library' : this.state.tab;
+    const c = d ? d.counts : { grades: {}, types: {}, evidence: 0, ledger: { total: 352 } };
+    const nEv = c.evidence;
+    const metals = [['S', 'Platinum'], ['A', 'Gold'], ['B', 'Silver'], ['C', 'Bronze'], ['-', 'Ungraded']].map((m) => ({ g: m[0], name: m[1], n: c.grades[m[0]] || 0, pct: nEv ? ((c.grades[m[0]] || 0) / nEv * 100).toFixed(1) : '0', on: this.state.g === m[0] ? ' · filtered' : '', pick: () => this.setState({ g: this.state.g === m[0] ? '' : m[0] }) }));
+    const tmax = Math.max.apply(null, Object.values(c.types).concat([1]));
+    const types = Object.keys(c.types).map((k) => ({ t: k, n: c.types[k], pct: (c.types[k] / tmax * 100).toFixed(0), on: this.state.t === k ? 'true' : 'false', pick: () => this.setState({ t: this.state.t === k ? '' : k }) }));
+    const all = [];
+    if (d) Object.keys(d.dossiers).forEach((id) => { const s = d.dossiers[id]; s.evidence.forEach((e) => all.push({ e: e, s: s })); });
+    const q = this.state.q.trim().toLowerCase();
+    const rows = all.filter((x) => (!this.state.g || x.e.grade === this.state.g) && (!this.state.t || x.e.type === this.state.t) && (!q || (x.e.src + ' ' + x.e.notes + ' ' + x.s.id).toLowerCase().indexOf(q) >= 0))
+      .sort((a, b) => (b.e.date || '').localeCompare(a.e.date || ''))
+      .map((x) => ({ grade: x.e.grade, gradeName: GN[x.e.grade] || 'Ungraded', type: x.e.type, src: x.e.src, notes: x.e.notes, date: fmtDate(x.e.date), skill: '/' + x.s.slug, lv: x.s.lv, br: x.s.br === 'unique' ? 'unique' : 'suite', open: () => { if (this.props.pick) this.props.pick({ id: x.s.id, generic: x.s.g }); } }));
+    const bySkill = {}; if (d) d.skills.forEach((s) => { bySkill[s.id] = s; });
+    const ledger = d ? d.ledger.map((r, i) => { const lv = parseInt(r.stars, 10) || 0; const s = bySkill[r.id] || {}; return { n: String(i + 1).padStart(2, '0'), id: r.id, lv: lv, br: r.br === 'unique' ? 'unique' : 'suite', branch: r.br === 'unique' ? '◉ Unique' : r.br === 'suite' ? '◆ Suite' : 'shared', stars: (lv >= 4 && r.br === 'unique' ? RNU[lv] : RN[lv]) + ' · ' + r.stars, tm: r.tm.toFixed(2), pct: meterPct(r.tm), gr: r.gr || '-', open: () => { if (this.props.pick) this.props.pick({ id: r.id, generic: s.g }); } }; }) : [];
+    const set = (t) => () => this.setState({ tab: t });
+    return {
+      world: world, isArbor: world === 'arbor', nEv: nEv, nLedger: c.ledger.total, showLed: world !== 'arbor',
+      plateCount: nEv + ' named-skill rows' + (world !== 'arbor' ? ' · ' + c.ledger.total + ' ledger records' : ''),
+      tLib: tab === 'library' ? 'true' : 'false', tLed: tab === 'ledger' ? 'true' : 'false', tMet: tab === 'method' ? 'true' : 'false', tCha: tab === 'challenges' ? 'true' : 'false',
+      toLib: set('library'), toLed: set('ledger'), toMet: set('method'), toCha: set('challenges'),
+      isLib: tab === 'library', isLed: tab === 'ledger', isMet: tab === 'method', isCha: tab === 'challenges',
+      metals: metals, alloyAria: 'Grade distribution: ' + metals.map((m) => m.name + ' ' + m.n).join(', '), types: types,
+      q: this.state.q, onQ: (e) => this.setState({ q: e.target.value }), hasFilter: !!(this.state.g || this.state.t || this.state.q),
+      clear: () => this.setState({ g: '', t: '', q: '' }), rows: rows, libEmpty: !!d && rows.length === 0,
+      libCount: d ? rows.length + ' rows' + (this.state.g ? ' · ' + GN[this.state.g] : '') + (this.state.t ? ' · ' + this.state.t : '') : 'Loading the evidence snapshot…',
+      led: c.ledger, ledger: ledger
+    };
+  }
+}
+</script>
+</body>
+</html>

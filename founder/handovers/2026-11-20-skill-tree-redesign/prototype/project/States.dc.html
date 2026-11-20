@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Utility states: loading, empty, error, unknown</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.st { padding-block: 3rem 5rem; display: flex; flex-direction: column; gap: 2rem; }
+.sgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+@container atlas (max-width: 900px) { .sgrid { grid-template-columns: minmax(0, 1fr); } }
+.cell { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.cell .stage { min-height: 260px; padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+.cell .cap { padding: .85rem 1.1rem; border-top: 1px solid var(--line); background: var(--ground-2); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+@keyframes shimmer { from { background-position: -320px 0; } to { background-position: 320px 0; } }
+.sk { height: 12px; border-radius: 3px; background: linear-gradient(90deg, var(--panel) 0%, var(--panel-2) 50%, var(--panel) 100%); background-size: 640px 100%; animation: shimmer 1.6s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } }
+.wip { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: baseline; padding: .8rem 1rem; border: 1px solid rgba(212,175,55,.28); background: rgba(212,175,55,.06); border-radius: 8px; }
+.wip-tag { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .05em; color: var(--ev-gold); white-space: nowrap; }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none">
+  <div class="wrap st">
+    <div class="stack gap-2">
+      <div class="plate"><span class="pl-mark">States</span><i class="pl-sep"></i><span>every surface</span><i class="pl-sep"></i><span>loading · empty · error · unknown · interim</span><i class="pl-rule"></i></div>
+      <h1 class="h1">The quiet states</h1>
+      <p class="lede">Each says what happened and what to do next. None of them pretends: unknown is not zero, and a fallback names its date.</p>
+    </div>
+    <div class="sgrid">
+      <div class="cell">
+        <div class="stage" aria-busy="true" aria-label="Loading a dossier">
+          <div class="row gap-3"><div class="sk" style="width: 120px; height: 120px; border-radius: 12px"></div><div class="stack gap-2" style="flex: 1"><div class="sk" style="width: 40%"></div><div class="sk" style="width: 70%; height: 30px"></div><div class="sk" style="width: 55%"></div><div class="sk" style="width: 30%"></div></div></div>
+          <div class="sk" style="width: 100%; height: 10px"></div>
+        </div>
+        <div class="cap"><span class="h4">Loading</span><span class="small">Skeletons keep the dossier's shape. No spinner in the middle of content.</span></div>
+      </div>
+      <div class="cell">
+        <div class="stage" style="align-items: center; text-align: center">
+          <h2 class="h3">Nothing on the record matches "graphql federation"</h2>
+          <p class="small" style="max-width: 44ch">Try a contributor handle or a capability name. Generic capabilities without a named implementation live in the Starless index.</p>
+          <div class="row gap-2"><button class="btn btn-ghost">Clear search and filters</button><button class="link">Open the Starless index</button></div>
+        </div>
+        <div class="cap"><span class="h4">Empty search</span><span class="small">Live on the Skills page; teaches where else to look.</span></div>
+      </div>
+      <div class="cell">
+        <div class="stage">
+          <span class="hud">404</span>
+          <h2 class="h2">This branch has not grown yet</h2>
+          <p class="small" style="max-width: 46ch">The address points at a skill or page the registry does not hold. It may have been renamed, merged into another capability, or never proposed.</p>
+          <div class="row gap-2 wrapx"><button class="btn btn-solid">Search skills</button><button class="btn btn-ghost">Back to the tree</button></div>
+        </div>
+        <div class="cap"><span class="h4">Not found</span><span class="small">Merges and renames are on the timeline; production can link the successor.</span></div>
+      </div>
+      <div class="cell">
+        <div class="stage">
+          <div class="row gap-2"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L22 20H2Z" fill="none" stroke="var(--ev-gold)" stroke-width="1.5"></path><path d="M12 9v5M12 16.5v.5" stroke="var(--ev-gold)" stroke-width="1.8" stroke-linecap="round"></path></svg><h2 class="h3">The live registry did not load</h2></div>
+          <p class="small">Showing the bundled registry snapshot from 17 Nov 2026. Ranks and evidence may be out of date.</p>
+          <div class="row gap-2"><button class="btn btn-ghost">Try again</button><span class="fine">Same wording as the CLI: run gaia pull for the latest.</span></div>
+        </div>
+        <div class="cap"><span class="h4">Error with fallback</span><span class="small">Names the snapshot date; never silently stale.</span></div>
+      </div>
+      <div class="cell">
+        <div class="atlas stage" data-world="arbor" data-weather="none">
+          <div class="lens-tbl stack">
+            <div class="row" style="justify-content: space-between; padding: .7rem 0; border-bottom: 1px solid var(--line)"><span>Hell-Heaven</span><span class="unknown">not measured</span></div>
+            <div class="row" style="justify-content: space-between; padding: .7rem 0; border-bottom: 1px solid var(--line)"><span>Benchmark coverage</span><span class="unknown">no receipt</span></div>
+            <div class="row" style="justify-content: space-between; padding: .7rem 0"><span>Interactions with garrytan/qa</span><span class="unknown">not evaluated</span></div>
+          </div>
+          <p class="fine">Dotted, never hatched: hachure belongs to challenges. Never a zero, never a green tick.</p>
+        </div>
+        <div class="cap"><span class="h4">Unknown (Arbor)</span><span class="small">Absence means not evaluated, never safe.</span></div>
+      </div>
+      <div class="cell">
+        <div class="stage">
+          <div class="wip"><span class="wip-tag">◇ Interim rendering</span><span class="small">This page shows the Arbor projection with prototype topology. The data contract is fixed; node placement changes when the projection lands. Tracked in issue 1736.</span></div>
+          <div class="row gap-3" style="align-items: center"><img src="/_blob/a683094ec451ed1421d6e3c772818798" alt="" width="64" height="64" style="opacity: .35; filter: grayscale(1)"><div class="stack gap-1"><span class="h4">1★ skills have no badge</span><p class="small">Badges start at 2★. A 1★ skill's badge request shows this state instead of an image.</p></div></div>
+        </div>
+        <div class="cap"><span class="h4">Interim and redacted</span><span class="small">The deferred-surface banner, restyled; and the 1★ badge cutover.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

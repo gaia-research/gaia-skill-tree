@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reports: meta reports, weekly and trending template</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.rh { padding-block: clamp(3rem, 6cqi, 5rem) 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.feat { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 4cqi, 4rem); padding-block: 2.5rem; border-bottom: 1px solid var(--line); align-items: end; }
+@container atlas (max-width: 860px) { .feat { grid-template-columns: minmax(0, 1fr); } }
+.feat-title { font-family: var(--f-display); font-weight: 500; font-size: clamp(2rem, 1.2rem + 2.6cqi, 3.2rem); line-height: 1.08; margin: 0; text-wrap: balance; }
+.atlas[data-world="arbor"] .feat-title { font-family: var(--f-ui); font-stretch: 75%; font-weight: 600; }
+.list { display: flex; flex-direction: column; }
+.list article { display: grid; grid-template-columns: 9rem minmax(0, 1fr) auto; gap: 1.5rem; align-items: baseline; padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
+@container atlas (max-width: 700px) { .list article { grid-template-columns: minmax(0, 1fr); gap: .35rem; } }
+.list h3 { font-family: var(--f-display); font-weight: 500; font-size: 1.35rem; margin: 0; line-height: 1.25; }
+.atlas[data-world="arbor"] .list h3 { font-family: var(--f-ui); font-size: 1.15rem; font-weight: 600; }
+.trend-empty { border: 1px dashed var(--line-2); border-radius: 12px; padding: 2.5rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; margin-block: 2.5rem 5rem; }
+.spark { height: 90px; border-left: 1px dotted var(--ink-3); border-bottom: 1px dotted var(--ink-3); }
+@container atlas (max-width: 760px) { .trend-empty { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap rh">
+    <div class="plate"><span class="pl-mark">Signals</span><i class="pl-sep"></i><span>The ledger, explained</span><i class="pl-sep"></i><span>{{nReports}} meta reports in the snapshot</span><i class="pl-rule"></i></div>
+    <h1 class="h1">Reports</h1>
+    <p class="small" style="max-width: 62ch">Reports explain a shift. The changelog lists every skill change behind them, newest first.</p>
+    <div><button class="btn" onClick="{{goChangelog}}">Full changelog of skills <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" style="margin-left: .4rem"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button></div>
+  </div>
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Report families">
+      <button role="tab" aria-selected="{{tMeta}}" onClick="{{toMeta}}">Meta reports</button>
+      <button role="tab" aria-selected="{{tWeek}}" onClick="{{toWeek}}">Weekly</button>
+      <button role="tab" aria-selected="{{tTrend}}" onClick="{{toTrend}}">Trending</button>
+    </div>
+    <sc-if value="{{isMeta}}" hint-placeholder-val="{{true}}">
+      <div>
+        <div class="feat">
+          <div class="stack gap-2"><span class="hud">{{f.date}} · featured</span><h2 class="feat-title">{{f.title}}</h2></div>
+          <p class="small">Meta reports explain a shift in the registry after it lands: what changed, why, and which records moved. Each one links back to the timeline events it describes.</p>
+        </div>
+        <div class="list">
+          <sc-for list="{{rest}}" as="r" hint-placeholder-count="6">
+            <article><span class="hud">{{r.date}}</span><h3>{{r.title}}</h3><span class="fine">Meta report</span></article>
+          </sc-for>
+        </div>
+        <p class="fine" style="padding-block: 1.5rem 5rem">Titles are the real reports in the 17 Nov 2026 snapshot. Opening one in production loads the report page, which keeps its own layout.</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{isWeek}}" hint-placeholder-val="{{false}}">
+      <div class="trend-empty"><div class="stack gap-2"><h2 class="h3">Weekly reports use this same list</h2><p class="small">Same row grammar as meta reports: date, title, family. Weekly issues are generated from the ledger and carry no layout of their own.</p></div><div class="stack gap-1"><span class="hud">Template state</span><p class="small">No weekly issue is bundled with this prototype.</p></div></div>
+    </sc-if>
+    <sc-if value="{{isTrend}}" hint-placeholder-val="{{false}}">
+      <div class="trend-empty"><div class="stack gap-2"><h2 class="h3">Trending is a rolling window</h2><p class="small">Seven-day movement recomputes every day, so a static prototype cannot show it truthfully. In production each row pairs a skill with its change in Trust Magnitude and new evidence, never a popularity score.</p></div><div class="stack gap-2"><span class="hud">Loading state shown here</span><div class="spark" aria-hidden="true"></div><span class="fine">Awaiting today's window</span></div></div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"$preview":{"width":1440,"height":1240}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+function fmtDate(d) { const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p = (d || '').split('-'); return p.length === 3 ? (+p[2]) + ' ' + m[+p[1] - 1] + ' ' + p[0] : d; }
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, tab: 'meta' }; }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  renderVals() {
+    const d = this.state.d, t = this.state.tab;
+    const reps = d ? d.reports.map((r) => ({ date: fmtDate(r.date), title: r.title })) : [];
+    const set = (x) => () => this.setState({ tab: x });
+    return {
+      goChangelog: () => { if (this.props.go) this.props.go('changelog'); },
+      world: this.props.world || 'ygg', nReports: reps.length || '…', f: reps[0] || { date: '', title: 'Loading the latest report' }, rest: reps.slice(1),
+      tMeta: t === 'meta' ? 'true' : 'false', tWeek: t === 'week' ? 'true' : 'false', tTrend: t === 'trend' ? 'true' : 'false',
+      toMeta: set('meta'), toWeek: set('week'), toTrend: set('trend'), isMeta: t === 'meta', isWeek: t === 'week', isTrend: t === 'trend'
+    };
+  }
+}
+</script>
+</body>
+</html>

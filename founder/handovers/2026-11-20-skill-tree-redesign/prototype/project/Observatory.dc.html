@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Observatory: one house, three rooms</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.obs { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(2rem, 5cqi, 4.5rem); align-items: center; padding-block: clamp(2.5rem, 5cqi, 4.5rem) 4rem; }
+@container atlas (max-width: 960px) { .obs { grid-template-columns: minmax(0, 1fr); } }
+.dome-wrap { position: relative; aspect-ratio: 1; width: 100%; max-width: 640px; justify-self: center; }
+.dome { width: 100%; height: 100%; display: block; }
+.dome .rot { transform-origin: 300px 300px; transition: transform 1.4s var(--ease-io); }
+.dome .slit { cursor: pointer; }
+.dome .slit:focus-visible { outline: none; }
+.dome .slit:focus-visible .slit-rim { stroke: var(--sel); stroke-width: 2; }
+.room { display: flex; flex-direction: column; gap: 1.25rem; animation: enter .6s var(--ease) both; }
+.window { position: relative; height: 300px; border-radius: 150px 150px 10px 10px; overflow: hidden; border: 1px solid var(--line-2); }
+.window .light { position: absolute; inset: 0; }
+.window img.fig { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); width: auto; height: 96px; opacity: .92; filter: drop-shadow(0 4px 10px rgba(0,0,0,.6)); }
+.window img.tree { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); height: 360px; width: auto; max-width: none; opacity: .9; }
+.window .floor { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: linear-gradient(transparent, rgba(0,0,0,.45)); }
+.swatch { display: flex; height: 6px; border-radius: 1px; overflow: hidden; }
+.swatch i { flex: 1; }
+.rooms-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.rooms-list > button { text-align: left; padding: 1.5rem 1.25rem 1.75rem; background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column; gap: .5rem; color: inherit; }
+.rooms-list > button + button { border-left: 1px solid var(--line); }
+.rooms-list > button[aria-pressed="true"] { border-bottom-color: var(--room-c); background: color-mix(in oklch, var(--room-c) 7%, transparent); }
+@container atlas (max-width: 760px) { .rooms-list { grid-template-columns: minmax(0, 1fr); } .rooms-list > button + button { border-left: 0; border-top: 1px solid var(--line); } }
+.bridge { color: var(--room-c); font-weight: 600; text-decoration: none; display: inline-flex; gap: .4rem; align-items: center; }
+/* ── Keystone: the brand seal as a lit, extruded object at the dome's centre ── */
+.dome-wrap { container-type: inline-size; }
+.dome-center { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.keystone {
+  --s: 21.5cqi; --u: calc(var(--s) / 100);
+  --ks-hi: oklch(0.96 0.05 90); --ks-f1: oklch(0.90 0.10 88); --ks-f2: oklch(0.78 0.12 80); --ks-f3: oklch(0.58 0.10 70); --ks-f4: oklch(0.44 0.08 62);
+  --ks-side: oklch(0.50 0.085 66); --ks-deep: oklch(0.24 0.04 58);
+  --ks-field: oklch(0.21 0.025 66); --ks-field-hi: oklch(0.33 0.06 78);
+  --ks-glow: oklch(0.80 0.13 82 / .30); --ks-word-a: oklch(0.95 0.04 88); --ks-word-b: oklch(0.78 0.12 80);
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--s) * .12);
+}
+.atlas[data-world="arbor"] .keystone {
+  --ks-hi: oklch(0.96 0.035 160); --ks-f1: oklch(0.88 0.09 158); --ks-f2: oklch(0.74 0.13 150); --ks-f3: oklch(0.54 0.09 175); --ks-f4: oklch(0.40 0.06 200);
+  --ks-side: oklch(0.46 0.07 185); --ks-deep: oklch(0.22 0.025 210);
+  --ks-field: oklch(0.21 0.012 190); --ks-field-hi: oklch(0.33 0.04 165);
+  --ks-glow: oklch(0.74 0.14 152 / .26); --ks-word-a: oklch(0.95 0.02 150); --ks-word-b: oklch(0.78 0.12 152);
+}
+.ks-stage { position: relative; width: var(--s); aspect-ratio: 1; perspective: calc(var(--s) * 5); }
+.ks-glow { position: absolute; inset: -55%; border-radius: 50%; background: radial-gradient(closest-side, var(--ks-glow), transparent 72%); animation: ks-breathe 12s ease-in-out infinite alternate; }
+.ks-cast { position: absolute; inset: 8% 4% -4% 14%; background: radial-gradient(closest-side, oklch(0.08 0.01 70 / .7), transparent 75%); transform: translate(6%, 8%); animation: ks-cast 12s ease-in-out infinite alternate; }
+.ks-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .9s var(--ease); }
+.ks-sway { position: absolute; inset: 0; transform-style: preserve-3d; animation: ks-sway 12s ease-in-out infinite alternate; }
+.ks-pl { position: absolute; inset: 0; transform: translateZ(calc(var(--z) * var(--u))); }
+.ks-pl svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ks-ext { background: color-mix(in oklch, var(--ks-side), var(--ks-deep) calc(var(--k) * 100%)); }
+.ks-ext.o { clip-path: polygon(evenodd, 50% 2%, 98% 50%, 50% 98%, 2% 50%, 50% 2%, 50% 11.2%, 11.2% 50%, 50% 88.8%, 88.8% 50%, 50% 11.2%); }
+.ks-ext.i { clip-path: polygon(evenodd, 50% 23.5%, 76.5% 50%, 50% 76.5%, 23.5% 50%, 50% 23.5%, 50% 28.1%, 28.1% 50%, 50% 71.9%, 71.9% 50%, 50% 28.1%); }
+.ks-field { clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%); background:
+  repeating-radial-gradient(circle at 50% 50%, transparent 0 calc(var(--u) * 3.2), oklch(1 0 0 / .025) calc(var(--u) * 3.2) calc(var(--u) * 3.6)),
+  radial-gradient(circle at 36% 30%, var(--ks-field-hi), var(--ks-field) 58%, var(--ks-deep)); }
+.ks-pl .f1 { fill: var(--ks-f1); } .ks-pl .f2 { fill: var(--ks-f2); } .ks-pl .f3 { fill: var(--ks-f3); } .ks-pl .f4 { fill: var(--ks-f4); }
+.ks-pl .ridge { fill: none; stroke: var(--ks-hi); stroke-width: .35; opacity: .55; }
+.ks-g { font-family: 'EB Garamond', Georgia, serif; font-weight: 600; font-size: 45px; }
+.ks-gx text { fill: color-mix(in oklch, var(--ks-side), var(--ks-deep) calc(var(--k) * 100%)); }
+.ks-sheen { overflow: hidden; -webkit-mask: var(--ks-mask) center / 100% 100% no-repeat; mask: var(--ks-mask) center / 100% 100% no-repeat;
+  --ks-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill-rule='evenodd' d='M50 2 98 50 50 98 2 50Z M50 11.2 11.2 50 50 88.8 88.8 50Z M50 23.5 76.5 50 50 76.5 23.5 50Z M50 28.1 28.1 50 50 71.9 71.9 50Z'/%3E%3C/svg%3E"); }
+.ks-sheen i { position: absolute; inset: -50% -100%; background: linear-gradient(115deg, transparent 38%, oklch(1 0.02 90 / .0) 42%, oklch(1 0.03 90 / .78) 50%, oklch(1 0.02 90 / 0) 58%, transparent 62%); animation: ks-sweep 12s cubic-bezier(.45, 0, .25, 1) infinite; }
+.ks-word { margin: 0; font-family: var(--d-family); font-stretch: var(--d-stretch); font-weight: 500; text-transform: uppercase;
+  font-size: calc(var(--s) * .27); letter-spacing: .26em; padding-left: .26em; line-height: 1;
+  background: linear-gradient(180deg, var(--ks-word-a) 15%, var(--ks-word-b) 85%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 calc(var(--u) * 1.4) calc(var(--u) * 1.6) oklch(0.06 0.01 70 / .85)); }
+.atlas[data-world="arbor"] .ks-word { font-weight: 650; letter-spacing: .3em; padding-left: .3em; }
+.ks-rule { display: flex; align-items: center; gap: calc(var(--u) * 5); width: calc(var(--s) * 1.15); margin-top: calc(var(--s) * -.04); }
+.ks-rule i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--ks-f2)); }
+.ks-rule i + b + i { background: linear-gradient(270deg, transparent, var(--ks-f2)); }
+.ks-rule b { width: calc(var(--u) * 5); aspect-ratio: 1; transform: rotate(45deg); background: var(--ks-f1); }
+@keyframes ks-sway { from { transform: rotateY(-11deg) rotateX(7deg); } to { transform: rotateY(11deg) rotateX(-4deg); } }
+@keyframes ks-cast { from { transform: translate(9%, 9%); } to { transform: translate(1%, 7%); } }
+@keyframes ks-breathe { from { opacity: .75; } to { opacity: 1; } }
+@keyframes ks-sweep { 0% { transform: translateX(-38%); } 60%, 100% { transform: translateX(38%); } }
+@media (prefers-reduced-motion: reduce) {
+  .ks-sway, .ks-glow, .ks-cast, .ks-sheen i { animation: none; }
+  .ks-sway { transform: rotateY(-14deg) rotateX(9deg); }
+  .ks-sheen i { transform: translateX(-12%); }
+  .ks-tilt { transition: none; }
+}
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap obs">
+    <div class="dome-wrap" ref="{{wrapRef}}">
+      <svg class="dome" viewBox="0 0 600 600" role="group" aria-label="The Observatory: three apertures">
+        <defs>
+          <linearGradient id="lt-tree" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24" stop-opacity=".0"></stop><stop offset=".5" stop-color="#e3b662" stop-opacity=".85"></stop><stop offset="1" stop-color="#fbbf24" stop-opacity=".15"></stop></linearGradient>
+          <linearGradient id="lt-res" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38bdf8" stop-opacity=".1"></stop><stop offset=".5" stop-color="#38bdf8" stop-opacity=".8"></stop><stop offset="1" stop-color="#ec4899" stop-opacity=".7"></stop></linearGradient>
+          <linearGradient id="lt-hvn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a58ae0" stop-opacity=".2"></stop><stop offset=".35" stop-color="#6f96d8" stop-opacity=".8"></stop><stop offset=".65" stop-color="#5fc2d6" stop-opacity=".8"></stop><stop offset="1" stop-color="#e094c8" stop-opacity=".5"></stop></linearGradient>
+          <radialGradient id="floorglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e3b662" stop-opacity=".12"></stop><stop offset="1" stop-color="#e3b662" stop-opacity="0"></stop></radialGradient>
+        </defs>
+        <circle cx="300" cy="300" r="290" fill="url(#floorglow)"></circle>
+        <g class="rot" style="transform: rotate({{rot}}deg)">
+          <circle cx="300" cy="300" r="282" fill="none" stroke="var(--line-2)" stroke-width="1"></circle>
+          <circle cx="300" cy="300" r="270" fill="none" stroke="var(--line)" stroke-width="1"></circle>
+          <circle cx="300" cy="300" r="190" fill="none" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 6"></circle>
+          <circle cx="300" cy="300" r="110" fill="none" stroke="var(--line-2)" stroke-width="1"></circle>
+          <sc-for list="{{ticks}}" as="t" hint-placeholder-count="60"><line x1="300" y1="18" x2="300" y2="{{t.y2}}" stroke="var(--line-2)" stroke-width="1" transform="rotate({{t.a}} 300 300)"></line></sc-for>
+          <sc-for list="{{rooms}}" as="r" hint-placeholder-count="3">
+            <g class="slit" transform="rotate({{r.angle}} 300 300)" tabindex="0" role="button" aria-label="{{r.aria}}" onClick="{{r.pick}}" onKeyDown="{{r.key}}">
+              <rect x="282" y="34" width="36" height="150" rx="18" fill="url(#{{r.grad}})" opacity="{{r.op}}"></rect>
+              <rect class="slit-rim" x="282" y="34" width="36" height="150" rx="18" fill="none" stroke="var(--line-2)" stroke-width="1"></rect>
+            </g>
+          </sc-for>
+        </g>
+        <path d="M300 556 L292 572 H308 Z" fill="var(--ink-2)"></path>
+      </svg>
+      <div class="dome-center"><div class="keystone">
+        <div class="ks-stage" aria-hidden="true">
+          <div class="ks-glow"></div>
+          <div class="ks-cast"></div>
+          <div class="ks-tilt" ref="{{tiltRef}}"><div class="ks-sway">
+            <sc-for list="{{ksOuter}}" as="l" hint-placeholder-count="11"><div class="ks-pl ks-ext o" style="--z: {{l.z}}; --k: {{l.k}}"></div></sc-for>
+            <div class="ks-pl ks-field" style="--z: -16"></div>
+            <sc-for list="{{ksInner}}" as="l" hint-placeholder-count="5"><div class="ks-pl ks-ext i" style="--z: {{l.z}}; --k: {{l.k}}"></div></sc-for>
+            <div class="ks-pl" style="--z: -5"><svg viewBox="0 0 100 100"><polygon class="f1" points="23.5,50 50,23.5 50,25.8 25.8,50"></polygon><polygon class="f4" points="25.8,50 50,25.8 50,28.1 28.1,50"></polygon><polygon class="f2" points="50,23.5 76.5,50 74.2,50 50,25.8"></polygon><polygon class="f3" points="50,25.8 74.2,50 71.9,50 50,28.1"></polygon><polygon class="f4" points="76.5,50 50,76.5 50,74.2 74.2,50"></polygon><polygon class="f1" points="74.2,50 50,74.2 50,71.9 71.9,50"></polygon><polygon class="f3" points="50,76.5 23.5,50 25.8,50 50,74.2"></polygon><polygon class="f2" points="50,74.2 25.8,50 28.1,50 50,71.9"></polygon></svg></div>
+            <sc-for list="{{ksG}}" as="l" hint-placeholder-count="7"><div class="ks-pl ks-gx" style="--z: {{l.z}}; --k: {{l.k}}"><svg viewBox="0 0 100 100"><text class="ks-g" x="50" y="65.4" text-anchor="middle">G</text></svg></div></sc-for>
+            <div class="ks-pl" style="--z: 2"><svg viewBox="0 0 100 100"><defs><linearGradient id="ks-gfill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: var(--ks-hi)"></stop><stop offset=".55" style="stop-color: var(--ks-f2)"></stop><stop offset="1" style="stop-color: var(--ks-f3)"></stop></linearGradient></defs><text class="ks-g" x="50" y="65.4" text-anchor="middle" fill="url(#ks-gfill)">G</text></svg></div>
+            <div class="ks-pl" style="--z: 0"><svg viewBox="0 0 100 100"><polygon class="f1" points="2,50 50,2 50,6.6 6.6,50"></polygon><polygon class="f4" points="6.6,50 50,6.6 50,11.2 11.2,50"></polygon><polygon class="f2" points="50,2 98,50 93.4,50 50,6.6"></polygon><polygon class="f3" points="50,6.6 93.4,50 88.8,50 50,11.2"></polygon><polygon class="f4" points="98,50 50,98 50,93.4 93.4,50"></polygon><polygon class="f1" points="93.4,50 50,93.4 50,88.8 88.8,50"></polygon><polygon class="f3" points="50,98 2,50 6.6,50 50,93.4"></polygon><polygon class="f2" points="50,93.4 6.6,50 11.2,50 50,88.8"></polygon><path class="ridge" d="M50 6.6 93.4 50 50 93.4 6.6 50Z"></path></svg></div>
+            <div class="ks-pl ks-sheen" style="--z: 2.5"><i></i></div>
+          </div></div>
+        </div>
+        <p class="ks-word">Gaia</p>
+        <div class="ks-rule" aria-hidden="true"><i></i><b></b><i></i></div>
+      </div></div>
+    </div>
+
+    <div class="room" data-key="{{cur.key}}">
+      <div class="plate"><span class="pl-mark">The Observatory</span><i class="pl-sep"></i><span>{{cur.host}}</span><i class="pl-rule"></i></div>
+      <div class="window" style="background: {{cur.bg}}">
+        <div class="light" style="background: {{cur.light}}"></div>
+        <sc-if value="{{cur.isTree}}" hint-placeholder-val="{{true}}"><img class="tree" src="/_blob/6a2d8698de517f2560e94464141478fb" alt="" aria-hidden="true"></sc-if>
+        <sc-if value="{{cur.showMilim}}" hint-placeholder-val="{{false}}"><img class="fig" src="/_blob/addaa4effaafea78fe4b3a07bbc383bb" alt="Milim Nova, the Gaia Research mascot, standing small in the laboratory light" width="48" height="96"></sc-if>
+        <sc-if value="{{cur.showLucy}}" hint-placeholder-val="{{false}}"><img class="fig" src="/_blob/d8f31bcadb5931e0f57b0f6a21876e73" alt="Lucy, the Skill Heaven persona, seated at rest" width="64" height="96"></sc-if>
+        <div class="floor"></div>
+      </div>
+      <div class="swatch" aria-hidden="true"><sc-for list="{{cur.swatch}}" as="c" hint-placeholder-count="3"><i style="background: {{c}}"></i></sc-for></div>
+      <h1 class="h2" style="font-family: var(--f-display); font-weight: 500">{{cur.name}}</h1>
+      <p class="lede" style="font-size: 1.1rem">{{cur.what}}</p>
+      <p class="small">{{cur.detail}}</p>
+      <span class="bridge" style="--room-c: {{cur.c}}">{{cur.host}} <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="rooms-list" role="group" aria-label="Choose a room">
+      <sc-for list="{{rooms}}" as="r" hint-placeholder-count="3">
+        <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="--room-c: {{r.c}}">
+          <span class="hud">{{r.host}}</span>
+          <span class="h3" style="font-family: var(--f-display); font-weight: 500; font-size: 1.5rem">{{r.name}}</span>
+          <span class="small">{{r.short}}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div class="row gap-3 wrapx" style="justify-content: space-between; padding-block: 2rem 5rem">
+      <p class="fine" style="max-width: 70ch">Each room keeps its own light. A link into another room takes that room's colour. Nothing is imported across rooms: hyperlinks and sibling lockups only.</p>
+      <div class="row gap-2"><span class="hud">Character presence</span><div class="seg" role="group" aria-label="Character presence"><button onClick="{{presQuiet}}" aria-pressed="{{isQuiet}}">Quiet</button><button onClick="{{presOff}}" aria-pressed="{{isOff}}">Off</button></div></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"presence":{"editor":"enum","options":["quiet","off"],"default":"quiet","section":"Characters"},"go":{"editor":null},"$preview":{"width":1440,"height":1080}}'>
+const ROOMS = [
+  { key: 'tree', name: 'Gaia Skill Tree', host: 'gaiaskilltree.com', angle: 180, grad: 'lt-tree', c: 'oklch(0.80 0.115 82)', short: 'The record. Skills, evidence, standing.',
+    what: 'The record. Every capability, who demonstrated it, and the evidence behind each claim.', detail: 'This room holds more than one Tree. Yggdrasil reads standing; Arbor reads behavior. You are standing in it now.',
+    bg: 'oklch(0.14 0.01 70)', light: 'radial-gradient(ellipse 70% 60% at 50% 60%, rgba(227,182,98,.28), transparent 70%)', swatch: ['#fbbf24', '#e3b662', '#ebe7df'] },
+  { key: 'res', name: 'Gaia Research', host: 'research.gaiaskilltree.com', angle: 300, grad: 'lt-res', c: '#38bdf8', short: 'The laboratory. Benchmarks and methods.',
+    what: 'The laboratory. Benchmarks, census and the methods that produce Gaia’s numbers.', detail: 'Results here are measured, version-pinned and dated, then flow into the record through review. The lab decides nothing on the record’s behalf.',
+    bg: 'oklch(0.13 0.02 260)', light: 'linear-gradient(180deg, rgba(56,189,248,.28), rgba(236,72,153,.18) 80%)', swatch: ['#38bdf8', '#ec4899', '#0b1220'] },
+  { key: 'hvn', name: 'Gaia Skill Heaven', host: 'Skill Heaven', angle: 60, grad: 'lt-hvn', c: '#a58ae0', short: 'The runtime. One skill, summoned when needed.',
+    what: 'The runtime. One skill summoned into one session, nothing installed.', detail: 'Its line runs from Skill Zero through Heaven and Hell to Ultra. The same weather Arbor will measure is lived there.',
+    bg: 'oklch(0.20 0.004 330)', light: 'linear-gradient(180deg, rgba(165,138,224,.30), rgba(95,194,214,.22) 50%, rgba(224,148,200,.18))', swatch: ['#a58ae0', '#6f96d8', '#5fc2d6', '#e094c8'] }
+];
+// keystone extrusion planes: z in seal units (1 unit = 1% of the seal), k = 0 near the face, 1 at the back
+const KS_LAYERS = (from, to, n) => Array.from({ length: n }, (_, j) => ({ z: +(from + (to - from) * (j + 1) / n).toFixed(2), k: +((j + 1) / n).toFixed(2) })).reverse();
+const KS_OUTER = KS_LAYERS(0, -22, 11), KS_INNER = KS_LAYERS(-5, -16, 5), KS_G = KS_LAYERS(2, -16, 7);
+class Component extends DCLogic {
+  constructor(p) {
+    super(p); this.state = { i: 0, rot: 0, presence: p.presence || 'quiet' };
+    this.wrap = null; this.tilt = null; this.raf = 0;
+    this.wrapRef = (el) => { this.wrap = el; };
+    this.tiltRef = (el) => { this.tilt = el; };
+  }
+  componentDidMount() {
+    // keystone follows the pointer on desktop only; reduced motion keeps it still
+    const fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || still || !this.wrap) return;
+    this.onMove = (e) => {
+      const r = this.wrap.getBoundingClientRect();
+      const x = Math.max(-1, Math.min(1, (e.clientX - r.left - r.width / 2) / (r.width / 2)));
+      const y = Math.max(-1, Math.min(1, (e.clientY - r.top - r.height / 2) / (r.height / 2)));
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => { this.raf = 0; if (this.tilt) this.tilt.style.transform = 'rotateY(' + (x * 10).toFixed(2) + 'deg) rotateX(' + (-y * 8).toFixed(2) + 'deg)'; });
+    };
+    this.onLeave = () => { if (this.tilt) this.tilt.style.transform = ''; };
+    this.wrap.addEventListener('pointermove', this.onMove);
+    this.wrap.addEventListener('pointerleave', this.onLeave);
+  }
+  componentWillUnmount() {
+    if (this.wrap && this.onMove) { this.wrap.removeEventListener('pointermove', this.onMove); this.wrap.removeEventListener('pointerleave', this.onLeave); }
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const i = this.state.i, quiet = this.state.presence === 'quiet';
+    const pick = (k) => () => {
+      // rotate the dome so the chosen aperture faces the viewer (the pointer at the bottom)
+      const target = 180 - ROOMS[k].angle;
+      let cur = this.state.rot, delta = ((target - cur) % 360 + 540) % 360 - 180;
+      this.setState({ i: k, rot: cur + delta });
+    };
+    const ticks = []; for (let a = 0; a < 360; a += 6) ticks.push({ a: a, y2: a % 30 === 0 ? 34 : 26 });
+    const r = ROOMS[i];
+    return {
+      world: this.props.world || 'ygg', rot: this.state.rot, ticks: ticks, wrapRef: this.wrapRef, tiltRef: this.tiltRef,
+      ksOuter: KS_OUTER, ksInner: KS_INNER, ksG: KS_G,
+      rooms: ROOMS.map((x, k) => ({ name: x.name, host: x.host, short: x.short, angle: x.angle, grad: x.grad, c: x.c, op: k === i ? 1 : .55, on: k === i ? 'true' : 'false', aria: 'Face ' + x.name,
+        pick: pick(k), key: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(k)(); } } })),
+      cur: { key: r.key, name: r.name, host: r.host, what: r.what, detail: r.detail, c: r.c, bg: r.bg, light: r.light, swatch: r.swatch,
+        isTree: r.key === 'tree', showMilim: quiet && r.key === 'res', showLucy: quiet && r.key === 'hvn' },
+      isQuiet: quiet ? 'true' : 'false', isOff: quiet ? 'false' : 'true',
+      presQuiet: () => this.setState({ presence: 'quiet' }), presOff: () => this.setState({ presence: 'off' })
+    };
+  }
+}
+</script>
+</body>
+</html>

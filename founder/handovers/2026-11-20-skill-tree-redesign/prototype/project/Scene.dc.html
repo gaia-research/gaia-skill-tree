@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tree scene: Yggdrasil and Arbor projections</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="atlas scene-root" data-world="{{world}}" data-weather="{{weather}}">
+  <div class="scene" style="height: {{height}}">
+    <sc-if value="{{showBackdrop}}" hint-placeholder-val="{{false}}">
+      <img class="scene-backdrop" src="/_blob/6a2d8698de517f2560e94464141478fb" alt="" aria-hidden="true" style="left: {{bdL}}px; top: {{bdT}}px; height: {{bdH}}px">
+    </sc-if>
+    <canvas ref="{{cref}}" tabindex="0" role="img" aria-label="{{aria}}"></canvas>
+    <sc-if value="{{tipShow}}" hint-placeholder-val="{{false}}">
+      <div class="scene-tip" style="left: {{tipX}}px; top: {{tipY}}px">{{tipText}}</div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"weather":{"editor":"enum","options":["none","heaven","hell","ultra"],"default":"none"},"mode":{"editor":"enum","options":["hero","explore","mini"],"default":"explore"},"density":{"editor":"enum","options":["far","mid","near"],"default":"mid"},"align":{"editor":"enum","options":["center","right","hero"],"default":"center"},"height":{"editor":"text","default":"640px"},"focus":{"editor":null},"subject":{"editor":null},"onSelect":{"editor":null},"still":{"editor":null},"$preview":{"width":1200,"height":640}}'>
+/* Tree scene. Prototype renderer, not production wiring.
+   Yggdrasil: the real 317-node generic DAG (docs/graph/gaia.json snapshot 2026-11-17).
+   Arbor: the real 22 pinned runtime subjects and 3 expert-declared relations (docs/graph/arbor);
+   Arbor POSITIONS are a fixture layout, clearly not canonical (ARBOR-DESIGN INV-11). */
+const SCENE_URL = '/_blob/c71612db03dd0c08b5c962bfeb5fd65b';
+let SCENE_PROMISE = null;
+function sceneData() {
+  if (!SCENE_PROMISE) SCENE_PROMISE = fetch(SCENE_URL).then(function (r) { return r.json(); });
+  return SCENE_PROMISE;
+}
+function hash01(s, salt) {
+  let h = 2166136261 ^ (salt || 0);
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return ((h >>> 0) % 100000) / 100000;
+}
+function bez3(a, c1, c2, b, n) {
+  const out = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n, u = 1 - t, w0 = u * u * u, w1 = 3 * u * u * t, w2 = 3 * u * t * t, w3 = t * t * t;
+    out.push([w0 * a[0] + w1 * c1[0] + w2 * c2[0] + w3 * b[0], w0 * a[1] + w1 * c1[1] + w2 * c2[1] + w3 * b[1], w0 * a[2] + w1 * c1[2] + w2 * c2[2] + w3 * b[2]]);
+  }
+  return out;
+}
+function lerp(a, b, t) { return a + (b - a) * t; }
+function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+function smooth(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+function easeIO(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function polyLen(p) { let L = 0; for (let i = 1; i < p.length; i++) L += Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1], p[i][2] - p[i - 1][2]); return L; }
+
+function buildModel(D) {
+  const G = D.nodes, N = G.length, idx = {};
+  G.forEach(function (n, i) { idx[n[0]] = i; });
+  const depth = new Array(N).fill(-1);
+  function dep(i, seen) {
+    if (depth[i] >= 0) return depth[i];
+    if (!G[i][2]) { depth[i] = 0; return 0; }
+    if (seen[i]) return 1;
+    seen[i] = 1; let m = 0;
+    G[i][4].forEach(function (p) { m = Math.max(m, dep(p, seen)); });
+    seen[i] = 0; depth[i] = m + 1; return depth[i];
+  }
+  for (let i = 0; i < N; i++) dep(i, {});
+  const maxD = Math.max.apply(null, depth);
+  const deriv = new Array(N).fill(0);
+  G.forEach(function (n) { n[4].forEach(function (p) { deriv[p]++; }); });
+  const angC = function (c) { return (c / 8) * Math.PI * 2 + 0.35; };
+
+  /* ---------- Yggdrasil: organic, roots = Basic, crown = Fusion by depth ---------- */
+  const yPos = new Array(N), yAng = new Array(N), parent = new Array(N).fill(-1);
+  const byCl = {};
+  G.forEach(function (n, i) { if (!n[2]) (byCl[n[5]] = byCl[n[5]] || []).push(i); });
+  Object.keys(byCl).forEach(function (c) {
+    const arr = byCl[c].sort(function (a, b) { return deriv[b] - deriv[a] || (G[a][0] < G[b][0] ? -1 : 1); });
+    arr.forEach(function (i, k) {
+      const t = (k + 1) / (arr.length + 1);
+      const a = angC(+c) + (hash01(G[i][0], 1) - .5) * 1.0 * Math.sqrt(t);
+      const r = 0.10 + 0.80 * Math.pow(t, 0.72);
+      const y = -0.06 - 0.36 * Math.pow(t, 1.3) - hash01(G[i][0], 2) * 0.07;
+      yAng[i] = a; yPos[i] = [Math.cos(a) * r, y, Math.sin(a) * r * 0.7];
+    });
+  });
+  const crownR = [0, 0.66, 0.74, 0.60, 0.42, 0.22];
+  const fus = [];
+  for (let i = 0; i < N; i++) if (G[i][2]) fus.push(i);
+  fus.sort(function (a, b) { return depth[a] - depth[b]; });
+  fus.forEach(function (i) {
+    let p = -1;
+    G[i][4].forEach(function (q) { if (p < 0 || depth[q] > depth[p] || (depth[q] === depth[p] && G[q][3] > G[p][3])) p = q; });
+    parent[i] = p;
+    const h1 = hash01(G[i][0], 3), h2 = hash01(G[i][0], 4), h3 = hash01(G[i][0], 5);
+    const d = Math.min(depth[i], 5);
+    const a = p >= 0 ? yAng[p] + (h1 - .5) * (G[p][2] ? 0.8 : 1.5) : angC(G[i][5]);
+    yAng[i] = a;
+    const y = 0.48 + (d - 1) * 0.2 + (h2 - .5) * 0.15;
+    const r = crownR[d] * (0.5 + 0.5 * h3) + 0.05;
+    yPos[i] = [Math.cos(a) * r, y, Math.sin(a) * r * 0.7];
+  });
+  // edges (polylines in 3D)
+  const yEdges = [];
+  const trunkTop = 0.46;
+  // trunk strands
+  for (let s = 0; s < 9; s++) {
+    const ph = s / 9 * Math.PI * 2, pts = [];
+    for (let k = 0; k <= 16; k++) {
+      const y = -0.05 + (trunkTop + 0.05) * k / 16, tw = ph + y * 3.2, rr = 0.045 - 0.02 * (k / 16);
+      pts.push([Math.cos(tw) * rr, y, Math.sin(tw) * rr * 0.7]);
+    }
+    yEdges.push({ pts: pts, w: 1.25, a: 0.55, kind: 'trunk' });
+  }
+  // root fibers: each basic to the trunk base
+  for (let i = 0; i < N; i++) if (!G[i][2]) {
+    const P = yPos[i], base = [Math.cos(yAng[i]) * 0.03, -0.04, Math.sin(yAng[i]) * 0.02];
+    yEdges.push({ pts: bez3(base, [base[0] * 3, base[1] - 0.02, base[2] * 3], [P[0] * 0.6, P[1] + 0.05, P[2] * 0.6], P, 10), w: 0.8, a: 0.26, kind: 'root', n: i });
+  }
+  // structural branches
+  fus.forEach(function (i) {
+    const p = parent[i], B = yPos[i];
+    let A;
+    if (p < 0 || !G[p][2]) {
+      const ty = 0.22 + hash01(G[i][0], 6) * (trunkTop - 0.22);
+      A = [Math.cos(yAng[i]) * 0.035, ty, Math.sin(yAng[i]) * 0.025];
+    } else A = yPos[p];
+    const c1 = [A[0] + (B[0] - A[0]) * 0.15, A[1] + (B[1] - A[1]) * 0.75 + 0.05, A[2] + (B[2] - A[2]) * 0.15];
+    const c2 = [B[0] - (B[0] - A[0]) * 0.25, B[1] - 0.04, B[2] - (B[2] - A[2]) * 0.25];
+    yEdges.push({ pts: bez3(A, c1, c2, B, 10), w: 1.0, a: 0.42, kind: 'branch', n: i });
+  });
+  // grafts: remaining fusion-to-fusion prerequisites, quiet
+  fus.forEach(function (i) {
+    G[i][4].forEach(function (q) {
+      if (q === parent[i] || !G[q][2]) return;
+      const A = yPos[q], B = yPos[i];
+      const m = [(A[0] + B[0]) / 2 * 1.15, Math.max(A[1], B[1]) + 0.06, (A[2] + B[2]) / 2 * 1.15];
+      yEdges.push({ pts: bez3(A, m, m, B, 8), w: 0.6, a: 0.10, kind: 'graft' });
+    });
+  });
+
+  /* ---------- Arbor: a 3D circuit tree on stacked depth planes (fixture layout) ----------
+     Silhouette after the founder's Arbor I concept art: a bundled trunk of traces that jogs at
+     45 degrees, main branches peeling off to ringed terminals, thin secondary traces with small
+     terminals, and roots spreading as traces across a ground plane. Branches live on five depth
+     planes so the tree reads in three dimensions. Positions are a deterministic fixture, not the
+     Arbor projection contract (ARBOR-DESIGN INV-11). */
+  const aPos = new Array(N), aD = new Array(N).fill(0), aMark = new Array(N), aBranch = new Array(N).fill(-1), aRoute = new Array(N);
+  const aEdges = [], junctions = [], shards = [];
+  let seed = 20261119;
+  function rnd() { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; }
+  const PLANES = [-0.5, -0.25, 0, 0.25, 0.5];
+  const GROUND = -0.42, TOP = 1.34;
+  const JOG = [[0.08, 0.14, 0.06], [0.50, 0.57, -0.07], [0.86, 0.90, 0.04]];
+  function trunkX(y) { let x = 0; JOG.forEach(function (j) { if (y >= j[1]) x += j[2]; else if (y > j[0]) x += j[2] * (y - j[0]) / (j[1] - j[0]); }); return x; }
+  function trunkPath(lx, lz, yTop) {
+    const ys = [GROUND];
+    JOG.forEach(function (j) { if (j[0] < yTop) ys.push(j[0]); if (j[1] < yTop) ys.push(j[1]); });
+    ys.push(yTop);
+    return ys.map(function (y) { return [trunkX(y) + lx, y, lz]; });
+  }
+  function pointAt(pts, u) {
+    const L = polyLen(pts); let acc = 0, want = L * u;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], d = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
+      if (acc + d >= want) { const f = (want - acc) / (d || 1); return { p: [lerp(a[0], b[0], f), lerp(a[1], b[1], f), lerp(a[2], b[2], f)], prefix: pts.slice(0, i), along: want }; }
+      acc += d;
+    }
+    return { p: pts[pts.length - 1].slice(), prefix: pts.slice(0, -1), along: L };
+  }
+  function edge(kind, pts, w, a, b, d0) { const e = { kind: kind, pts: pts, w: w, a: a, b: b, d0: d0, len: polyLen(pts) }; aEdges.push(e); return e; }
+  const NB = 16, PLANE_OF = [2, 0, 4, 1, 3, 2, 0, 4, 1, 3, 2, 1, 3, 0, 4];
+  const branches = [];
+  for (let k = 0; k < NB; k++) {
+    const top = k === NB - 1;
+    const side = top ? 0 : (k % 2 === 0 ? 1 : -1);
+    const h = top ? TOP - 0.08 : 0.02 + (k / (NB - 2)) * 1.06 + (rnd() - 0.5) * 0.05;
+    const plane = top ? 2 : PLANE_OF[k % PLANE_OF.length];
+    const z = PLANES[plane];
+    const tp = trunkPath((side || 0) * (0.012 + 0.007 * (k % 4)), (plane - 2) * 0.016, top ? TOP - 0.2 : h);
+    const S = tp[tp.length - 1];
+    let pts;
+    if (top) pts = [S, [S[0], TOP, z]];
+    else {
+      const env = 0.34 + 0.6 * Math.sin(Math.PI * clamp01((h + 0.1) / 1.3));
+      const d1 = 0.1 + rnd() * 0.16;
+      const P1 = [S[0] + side * d1, h + d1, z];
+      const P2 = [P1[0] + side * env * (0.36 + rnd() * 0.3), P1[1], z];
+      pts = [S, P1, P2];
+      if (rnd() < 0.75) { const d2 = 0.06 + rnd() * 0.12; pts.push([P2[0] + side * d2, P2[1] + d2, z]); }
+      const last = pts[pts.length - 1];
+      pts.push([last[0] + side * (0.03 + rnd() * 0.07), last[1], z]);
+    }
+    const trunkLen = polyLen(tp);
+    edge('trunk', tp, 1.4, 0.75, k, 0);
+    edge('main', pts, 1.9, 0.9, k, trunkLen);
+    if (!top && rnd() < 0.55) edge('par', [[pts[1][0], pts[1][1] - 0.014, z], [pts[2][0] - side * 0.04, pts[2][1] - 0.014, z]], 0.7, 0.55, k, trunkLen + 0.05);
+    junctions.push(S);
+    branches.push({ k: k, side: side, h: h, z: z, trunk: tp, pts: pts, term: pts[pts.length - 1], trunkLen: trunkLen, secs: [], vias: [] });
+  }
+  // secondary traces: short angular legs with small terminals
+  branches.forEach(function (b) {
+    const m = b.side === 0 ? 4 : 5 + Math.floor(rnd() * 4);
+    for (let j = 0; j < m; j++) {
+      const u = 0.22 + 0.72 * (j + rnd() * 0.6) / m;
+      const at = pointAt(b.pts, u);
+      const up = rnd() < 0.62 ? 1 : -1;
+      const sd = b.side || (rnd() < 0.5 ? 1 : -1);
+      const zj = b.z + (rnd() - 0.5) * 0.1;
+      const a1 = 0.03 + rnd() * 0.07;
+      const diag = rnd() < 0.6;
+      const Q1 = [at.p[0] + (diag ? sd * a1 : 0), at.p[1] + up * a1, zj];
+      const Q2 = rnd() < 0.7 ? [Q1[0] + sd * (0.03 + rnd() * 0.1), Q1[1], zj] : [Q1[0], Q1[1] + up * (0.03 + rnd() * 0.06), zj];
+      const sp = [at.p, Q1, Q2];
+      const d0 = b.trunkLen + at.along;
+      edge('sec', sp, 0.75, 0.5, b.k, d0);
+      b.secs.push({ pts: sp, term: Q2, mid: Q1, route: b.trunk.concat(at.prefix, [at.p, Q1, Q2]), d: d0 + polyLen(sp) });
+    }
+    [0.35, 0.6, 0.82].forEach(function (u) { const at = pointAt(b.pts, u); b.vias.push({ p: at.p, route: b.trunk.concat(at.prefix, [at.p]), d: b.trunkLen + at.along }); });
+  });
+  // ghost topology on the back planes
+  const ghosts = [];
+  for (let g = 0; g < 24; g++) {
+    const h = 0.05 + rnd() * 1.1, side = rnd() < 0.5 ? 1 : -1, z = PLANES[3 + (g % 2)] + (rnd() - 0.5) * 0.06;
+    const S = [trunkX(h), h, z * 0.3];
+    const a = 0.05 + rnd() * 0.12, L = 0.15 + rnd() * 0.55;
+    const P1 = [S[0] + side * a, h + a * (rnd() < 0.5 ? 1 : -1), z], P2 = [P1[0] + side * L, P1[1], z];
+    const P3 = [P2[0], P2[1] + (rnd() < 0.5 ? 1 : -1) * (0.04 + rnd() * 0.1), z];
+    const pts = [S, P1, P2, P3];
+    edge('ghost', pts, 0.7, 0.32, -1, h - GROUND);
+    ghosts.push({ term: P3, mid: P2, route: trunkPath(0, 0, h).concat(pts), d: h - GROUND + polyLen(pts) });
+  }
+  // roots: traces spreading across the ground plane at 45 degree turns
+  const DIRS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+  const rootSlots = [];
+  for (let r = 0; r < 20; r++) {
+    let di = rnd() < 0.72 ? (r % 2 ? 0 : 4) : Math.floor(rnd() * 8);
+    di = (di + (rnd() < 0.5 ? 1 : 7) * (rnd() < 0.55 ? 1 : 0)) % 8;
+    let x = trunkX(GROUND) + (rnd() - 0.5) * 0.06, zz = (rnd() - 0.5) * 0.06;
+    const pts = [[x, GROUND, zz]];
+    const segs = 2 + Math.floor(rnd() * 3);
+    for (let s2 = 0; s2 < segs; s2++) {
+      const d = DIRS[di], n = Math.hypot(d[0], d[1]), L = (s2 === 0 ? 0.08 : 0.12) + rnd() * 0.22;
+      x += d[0] / n * L; zz += d[1] / n * L * 0.8;
+      pts.push([x, GROUND, zz]);
+      di = (di + (rnd() < 0.5 ? 1 : 7)) % 8;
+    }
+    edge('root', pts, 1.2, 0.6, -2, 0);
+    pts.slice(2).forEach(function (p, q) { rootSlots.push({ p: p, route: pts.slice(0, q + 3), d: polyLen(pts.slice(0, q + 3)) }); });
+  }
+  // the floor: long faint traces receding into depth, as on an instrument bench
+  for (let f = 0; f < 11; f++) {
+    const zz = -0.9 + f * 0.18, x0 = -1.5, x1 = 1.5, jx = (rnd() - 0.5) * 1.6, jd = (rnd() < 0.5 ? 1 : -1) * 0.06;
+    edge('floor', [[x0, GROUND, zz], [jx, GROUND, zz], [jx + Math.abs(jd), GROUND, zz + jd], [x1, GROUND, zz + jd]], 0.8, 0.22, -3, 0);
+  }
+  // glass planes: corner brackets mark each depth plane
+  PLANES.forEach(function (z) {
+    const xs = [-1.08, 1.08], ys = [GROUND + 0.02, TOP + 0.04], c = 0.07;
+    xs.forEach(function (x) { ys.forEach(function (y) {
+      const sx = x < 0 ? 1 : -1, sy = y < 0.5 ? 1 : -1;
+      edge('plane', [[x + sx * c, y, z], [x, y, z], [x, y + sy * c, z]], 0.8, 0.28, -4, 0);
+    }); });
+  });
+  // Hell debris: shards thrown up around the base
+  for (let s3 = 0; s3 < 46; s3++) {
+    const c = [trunkX(GROUND) + (rnd() - 0.5) * 1.6, GROUND + Math.pow(rnd(), 2.2) * 0.5, (rnd() - 0.5) * 0.9], sz = 0.01 + Math.pow(rnd(), 1.6) * 0.045, r0 = rnd() * 6.28;
+    shards.push([0, 1, 2].map(function (q) { const a = r0 + q * 2.1 + rnd() * 0.6; return [c[0] + Math.cos(a) * sz, c[1] + Math.sin(a) * sz * 1.4, c[2] + (rnd() - 0.5) * sz]; }));
+  }
+  // subjects take the ringed terminals; three declared pairs share a branch
+  const subj = D.subjects.map(function (s, k) { return { id: s[0], g: s[1], gi: idx[s[1]], k: k }; });
+  const sIdx0 = {}; subj.forEach(function (s, k) { sIdx0[s.id] = k; });
+  const PAIR_BRANCH = [6, 9, 3];
+  const reserved = {};
+  [6, 9, 3, 1, 2, 4].forEach(function (k) { const b = branches[k]; const up = b.secs.filter(function (sc) { return sc.term[1] >= sc.pts[0][1]; }); if (b.secs.length) reserved[k] = (up[0] || b.secs[0]); });
+  const takenMain = {}, takenRes = {};
+  function placeAt(s, b, useSec) {
+    const t = useSec ? reserved[b.k] : null;
+    s.pos = (t ? t.term : b.term).slice();
+    s.route = t ? t.route : b.trunk.concat(b.pts.slice(1));
+    s.b = b.k; s.d = t ? t.d : b.trunkLen + polyLen(b.pts);
+    if (t) takenRes[b.k] = 1; else takenMain[b.k] = 1;
+  }
+  D.relations.forEach(function (r, q) {
+    const kb = PAIR_BRANCH[q % PAIR_BRANCH.length], b = branches[kb];
+    const A0 = subj[sIdx0[r[1]]], B0 = subj[sIdx0[r[2]]];
+    if (A0 && !A0.pos) placeAt(A0, b, false);
+    if (B0 && !B0.pos) placeAt(B0, b, true);
+  });
+  const freeSlots = [];
+  branches.forEach(function (b) { if (!takenMain[b.k]) freeSlots.push([b, false]); });
+  Object.keys(reserved).forEach(function (k) { if (!takenRes[k]) freeSlots.push([branches[+k], true]); });
+  subj.forEach(function (s) { if (!s.pos) { const f = freeSlots.shift(); if (f) placeAt(s, f[0], f[1]); else { s.pos = branches[0].term.slice(); s.route = branches[0].trunk; s.b = 0; s.d = 1; } } });
+  subj.forEach(function (s) { s.yPos = yPos[s.gi]; s.link = null; });
+  // generic capabilities fill the remaining terminals, grouped by cluster
+  const slots = [];
+  branches.forEach(function (b) {
+    b.secs.forEach(function (sc) { if (reserved[b.k] !== sc) slots.push({ p: sc.term, route: sc.route, d: sc.d, b: b.k, mark: 0 }); slots.push({ p: sc.mid, route: sc.route.slice(0, -1), d: sc.d - 0.03, b: b.k, mark: 3 }); });
+    b.vias.forEach(function (v) { slots.push({ p: v.p, route: v.route, d: v.d, b: b.k, mark: 2 }); });
+  });
+  ghosts.forEach(function (g) { slots.push({ p: g.term, route: g.route, d: g.d, b: -1, mark: 1 }); slots.push({ p: g.mid, route: g.route.slice(0, -1), d: g.d - 0.05, b: -1, mark: 3 }); });
+  rootSlots.forEach(function (r) { slots.push({ p: r.p, route: r.route, d: r.d, b: -2, mark: 1 }); });
+  const order = [];
+  for (let i = 0; i < N; i++) order.push(i);
+  order.sort(function (a, b) { return (G[a][5] - G[b][5]) || (hash01(G[a][0], 9) - hash01(G[b][0], 9)); });
+  order.forEach(function (i, q) {
+    const s = slots[q % slots.length];
+    const jit = q >= slots.length ? 0.02 : 0;
+    aPos[i] = [s.p[0] + jit, s.p[1] + jit, s.p[2]]; aMark[i] = s.mark; aBranch[i] = s.b; aRoute[i] = s.route; aD[i] = s.d;
+  });
+  let growMax = 0; aEdges.forEach(function (e) { if (e.kind !== "floor" && e.kind !== "plane") growMax = Math.max(growMax, e.d0 + e.len); });
+  const baseMark = [trunkX(GROUND), GROUND, PLANES[0] * 0.4];
+  const sIdx = {};
+  subj.forEach(function (s, k) { sIdx[s.id] = k; });
+  const rels = D.relations.map(function (r) {
+    const A = subj[sIdx[r[1]]].pos, B = subj[sIdx[r[2]]].pos;
+    const sg = B[0] >= A[0] ? 1 : -1, ym = Math.max(A[1], B[1]) + 0.06, zf = Math.min(A[2], B[2]) - 0.1;
+    return { kind: r[0], from: r[1], to: r[2], pts: [A, [A[0] + sg * 0.04, ym, zf], [B[0] - sg * 0.04, ym, zf], B] };
+  });
+  function bounds(list) {
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    list.forEach(function (p) { if (!p) return; x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); });
+    return { w: Math.max(0.5, x1 - x0), h: Math.max(0.5, y1 - y0), cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+  }
+  const yB = bounds(yPos.concat([[0, 0.46, 0]]));
+  const aPts = aPos.concat(subj.map(function (s) { return s.pos; }));
+  rels.forEach(function (r) { r.pts.forEach(function (p) { aPts.push(p); }); });
+  aEdges.forEach(function (e) { if (e.kind !== 'floor' && e.kind !== 'plane') e.pts.forEach(function (p) { aPts.push(p); }); });
+  const aB = bounds(aPts.map(function (p) { return [p[0], p[1] + p[2] * 0.3, p[2]]; }));
+  return { G: G, N: N, idx: idx, depth: depth, yPos: yPos, aPos: aPos, yEdges: yEdges, aEdges: aEdges, junctions: junctions, subj: subj, sIdx: sIdx, rels: rels, parent: parent, yB: yB, aB: aB, aMark: aMark, aD: aD, aBranch: aBranch, aRoute: aRoute, branches: branches, shards: shards, maxD: growMax, baseMark: baseMark, groundY: GROUND, topY: TOP };
+}
+
+function routeTo(M, i) {
+  /* Arbor route from the trunk base to node i along the fixture traces (Heaven convergence, Hell impacts). */
+  const r = M.aRoute[i];
+  return r && r.length > 1 ? r : null;
+}
+
+const RANK_RGB = ['148,163,184', '56,189,248', '99,202,183', '167,139,250', '232,121,249', '251,191,36', '251,191,36'];
+const RANK_RGB_U = ['', '', '', '', '167,120,240', '200,130,80', '224,137,74'];
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { tipShow: false, tipX: 0, tipY: 0, tipText: '' };
+    this.canvas = null; this.M = null; this.raf = 0; this.t0 = performance.now();
+    this.world = null; this.trans = 1; this.transStart = 0; this.transFrom = 'ygg';
+    this.weather = 'none'; this.wxStart = 0;
+    this.yaw = 0; this.pitch = 0.08; this.zoom = 1; this.drag = null; this.hover = -1; this.hoverKind = '';
+    this.visible = true; this.wakes = [];
+    this.selPulse = 0;
+    this.cref = (el) => { this.canvas = el; };
+  }
+  componentDidMount() {
+    this.reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.world = this.props.world || 'ygg';
+    this.weather = this.props.weather || 'none';
+    sceneData().then((D) => { this.M = buildModel(D); this.start(); }).catch(() => {});
+    const c = this.canvas;
+    if (!c) return;
+    this.ro = new ResizeObserver(() => this.resize());
+    this.ro.observe(c.parentElement);
+    this.io = new IntersectionObserver((es) => { this.visible = es[0].isIntersecting; if (this.visible) this.kick(); }, { threshold: 0 });
+    this.io.observe(c);
+    this.resize();
+    this.onWheel = (e) => { if ((this.props.mode || 'explore') !== 'explore') return; e.preventDefault(); this.zoom = Math.max(0.6, Math.min(3, this.zoom * (e.deltaY > 0 ? 0.92 : 1.08))); this.kick(); };
+    this.onDown = (e) => { this.drag = { x: e.clientX, y: e.clientY, yaw: this.yaw, pitch: this.pitch, moved: false }; try { c.setPointerCapture(e.pointerId); } catch (err) {} };
+    this.onMove = (e) => {
+      const r = c.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+      if (this.drag) {
+        const dx = e.clientX - this.drag.x, dy = e.clientY - this.drag.y;
+        if (Math.abs(dx) + Math.abs(dy) > 4) this.drag.moved = true;
+        if ((this.props.mode || 'explore') === 'explore') { this.yaw = this.drag.yaw + dx * 0.006; this.pitch = Math.max(-0.35, Math.min(0.5, this.drag.pitch + dy * 0.003)); }
+        this.kick();
+        return;
+      }
+      this.pick(mx, my);
+    };
+    this.onUp = (e) => {
+      const d = this.drag; this.drag = null;
+      if (d && !d.moved && this.hover >= 0 && this.props.onSelect) {
+        if (this.hoverKind === 's') this.props.onSelect({ kind: 'subject', id: this.M.subj[this.hover].id, generic: this.M.subj[this.hover].g });
+        else { const n = this.M.G[this.hover]; this.props.onSelect({ kind: 'generic', id: n[0], name: n[1], type: n[2] ? 'fusion' : 'basic', rank: n[3], prereqs: n[4].length, depth: this.M.depth[this.hover] }); }
+      }
+    };
+    this.onLeave = () => { this.hover = -1; if (this.state.tipShow) this.setState({ tipShow: false }); };
+    this.onKey = (e) => {
+      if (!this.M || !this.props.onSelect) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const list = this.world === 'arbor' ? this.M.subj.map((s) => s.id) : this.M.G.filter((n) => n[3] >= 4).map((n) => n[0]);
+        const cur = this.world === 'arbor' ? (this.props.subject || '') : (this.props.focus || '');
+        let k = list.indexOf(cur); k = (k + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length;
+        e.preventDefault();
+        if (this.world === 'arbor') { const s = this.M.subj[this.M.sIdx[list[k]]]; this.props.onSelect({ kind: 'subject', id: s.id, generic: s.g }); }
+        else this.props.onSelect({ kind: 'generic', id: list[k] });
+      }
+    };
+    c.addEventListener('wheel', this.onWheel, { passive: false });
+    c.addEventListener('pointerdown', this.onDown);
+    c.addEventListener('pointermove', this.onMove);
+    c.addEventListener('pointerup', this.onUp);
+    c.addEventListener('pointerleave', this.onLeave);
+    c.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); this.raf = 0;
+    if (this.ro) this.ro.disconnect();
+    if (this.io) this.io.disconnect();
+    const c = this.canvas;
+    if (c) { c.removeEventListener('wheel', this.onWheel); c.removeEventListener('pointerdown', this.onDown); c.removeEventListener('pointermove', this.onMove); c.removeEventListener('pointerup', this.onUp); c.removeEventListener('pointerleave', this.onLeave); c.removeEventListener('keydown', this.onKey); }
+  }
+  componentDidUpdate(pp) {
+    const w = this.props.world || 'ygg';
+    if (w !== this.world) {
+      this.transFrom = this.world; this.world = w;
+      this.trans = this.reduced ? 0.999 : 0; this.transStart = performance.now();
+    }
+    const wx = this.props.weather || 'none';
+    if (wx !== this.weather) { this.weather = wx; this.wxStart = performance.now(); this.wakes = []; }
+    if (pp.subject !== this.props.subject || pp.focus !== this.props.focus) this.selPulse = performance.now();
+    this.kick();
+  }
+  resize() {
+    const c = this.canvas; if (!c) return;
+    const r = c.parentElement.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.W = Math.max(1, r.width); this.H = Math.max(1, r.height); this.dpr = dpr;
+    c.width = Math.round(this.W * dpr); c.height = Math.round(this.H * dpr);
+    this.kick();
+  }
+  start() { this.kick(); }
+  kick() { if (!this.raf && this.M) this.raf = requestAnimationFrame((t) => this.frame(t)); }
+  sprite(rgb) {
+    this.sprites = this.sprites || {};
+    if (this.sprites[rgb]) return this.sprites[rgb];
+    const s = document.createElement('canvas'); s.width = s.height = 64;
+    const g = s.getContext('2d'); const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, 'rgba(' + rgb + ',1)'); gr.addColorStop(0.18, 'rgba(' + rgb + ',.55)'); gr.addColorStop(0.5, 'rgba(' + rgb + ',.12)'); gr.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+    return (this.sprites[rgb] = s);
+  }
+  proj(p) {
+    const pt = this.pitch + (this.pitchA || 0);
+    const cy = Math.cos(this.yaw), sy = Math.sin(this.yaw), cp = Math.cos(pt), sp = Math.sin(pt);
+    const x = p[0] * cy + p[2] * sy, z0 = -p[0] * sy + p[2] * cy;
+    const yy = p[1] - this.cyW, y = yy * cp - z0 * sp, z = yy * sp + z0 * cp;
+    const s = 2.6 / (2.6 + z);
+    return [this.cx + x * this.sc * s, this.cyS - y * this.sc * s, s, z];
+  }
+  pick(mx, my) {
+    if (!this.M) return;
+    let best = -1, bd = 14 * 14, kind = '';
+    const M = this.M, inArbor = this.world === 'arbor' && this.trans >= 1;
+    if (inArbor) {
+      M.subj.forEach((s, k) => { const q = this.proj(s.pos); const d = (q[0] - mx) ** 2 + (q[1] - my) ** 2; if (d < bd) { bd = d; best = k; kind = 's'; } });
+    }
+    if (best < 0) {
+      for (let i = 0; i < M.N; i++) {
+        const P = inArbor ? M.aPos[i] : M.yPos[i]; if (!P) continue;
+        const q = this.proj(P); const d = (q[0] - mx) ** 2 + (q[1] - my) ** 2;
+        if (d < bd) { bd = d; best = i; kind = 'g'; }
+      }
+    }
+    this.hover = best; this.hoverKind = kind;
+    this.canvas.style.cursor = best >= 0 ? 'pointer' : '';
+    if (best >= 0) {
+      const P = kind === 's' ? M.subj[best].pos : (inArbor ? M.aPos[best] : M.yPos[best]);
+      const q = this.proj(P);
+      const text = kind === 's' ? M.subj[best].id : M.G[best][1];
+      if (!this.state.tipShow || this.state.tipText !== text || Math.abs(this.state.tipX - q[0]) > 1) this.setState({ tipShow: true, tipX: Math.round(q[0]), tipY: Math.round(q[1]), tipText: text });
+    } else if (this.state.tipShow) this.setState({ tipShow: false });
+    this.kick();
+  }
+  frame(now) {
+    this.raf = 0;
+    const c = this.canvas, M = this.M;
+    if (!c || !M) return;
+    const ctx = c.getContext('2d'), dpr = this.dpr || 1, W = this.W, H = this.H;
+    const mode = this.props.mode || 'explore', density = this.props.density || 'mid';
+    const t = (now - this.t0) / 1000;
+    // transition progress
+    if (this.trans < 1) this.trans = Math.min(1, (now - this.transStart) / (this.reduced ? 1 : 1750));
+    const T = easeIO(this.trans);
+    const toArbor = this.world === 'arbor';
+    const A = toArbor ? T : 1 - T; // 0 = Yggdrasil, 1 = Arbor
+    const wx = toArbor ? this.weather : 'none';
+    const hell = wx === 'hell';
+    // camera
+    const sway = lerp(1, 1.45, A);
+    this.pitchA = lerp(0, -0.3, A);
+    if (!this.drag && mode !== 'explore' && !this.reduced) this.yaw = Math.sin(t * 0.09) * 0.32 * sway;
+    if (!this.drag && mode === 'explore' && !this.reduced && !this.userMoved) this.yaw = Math.sin(t * 0.07) * 0.22 * sway;
+    if (this.drag && this.drag.moved) this.userMoved = true;
+    const align = this.props.align || 'center';
+    const yB = M.yB, aB = M.aB;
+    this.cyW = lerp(yB.cy, aB.cy, A);
+    const bw = lerp(yB.w * 1.12, aB.w * 1.08, A), bh = lerp(yB.h * 1.14, aB.h * 1.32, A);
+    const wide = W > 860 && align !== 'center';
+    const tight = W < 1200;
+    const anchor = wide ? lerp(tight ? 0.71 : 0.66, align === 'hero' ? 0.725 : 0.66, A) : 0.5;
+    const availW = wide ? W * lerp(tight ? 0.5 : 0.62, align === 'hero' ? 0.5 : 0.62, A) : W;
+    const availH = wide && align === 'hero' ? H - 208 * A : H;
+    const fit = Math.min(availH / bh, availW / bw);
+    this.sc = fit * this.zoom * (mode === 'mini' ? 0.96 : 1);
+    this.cx = W * anchor - lerp(yB.cx, aB.cx, A) * this.sc;
+    this.cyS = H * lerp(0.5, 0.465, A);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    if (mode === 'hero' && this.world === 'ygg') {
+      // align the approved Yggdrasil raster to the live trunk (one silhouette, DESIGN.md)
+      const yawSave = this.yaw; this.yaw = 0;
+      const base = this.proj([0, -0.05, 0]), top = this.proj([0, M.yB.cy + M.yB.h / 2, 0]);
+      this.yaw = yawSave;
+      const hImg = (base[1] - top[1]) / 0.514, wImg = hImg * 941 / 1672;
+      const L = Math.round(base[0] - 0.51 * wImg), Tp = Math.round(base[1] - 0.69 * hImg), Hh = Math.round(hImg);
+      if (Math.abs(L - (this.state.bdL || 0)) > 1 || Math.abs(Tp - (this.state.bdT || 0)) > 1 || Math.abs(Hh - (this.state.bdH || 0)) > 1) this.setState({ bdL: L, bdT: Tp, bdH: Hh });
+    }
+    // impact cut on entering Hell
+    const sinceWx = (now - this.wxStart) / 1000;
+    if (hell && sinceWx < 0.14 && !this.reduced) { ctx.fillStyle = sinceWx < 0.07 ? '#161618' : '#efece7'; ctx.fillRect(0, 0, W, H); }
+    // atmosphere
+    const ygA = 1 - A;
+    if (ygA > 0.01) {
+      const gq = this.proj([0, 0.55, 0]);
+      const gr = ctx.createRadialGradient(gq[0], gq[1], 0, gq[0], gq[1], Math.max(W, H) * 0.55);
+      gr.addColorStop(0, 'rgba(227,182,98,' + (0.13 * ygA) + ')'); gr.addColorStop(0.45, 'rgba(227,182,98,' + (0.04 * ygA) + ')'); gr.addColorStop(1, 'rgba(227,182,98,0)');
+      ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+    }
+    if (A > 0.01) {
+      // instrument graticule: sparse registration ticks
+      ctx.fillStyle = hell ? 'rgba(22,22,24,' + (0.16 * A) + ')' : 'rgba(238,234,226,' + (0.07 * A) + ')';
+      const step = 36;
+      for (let x = (this.cx % step); x < W; x += step) for (let y = (this.cyS % step); y < H; y += step) ctx.fillRect(x, y, 1, 1);
+    }
+    // Ultra at rest: a gold field rises behind the Tree (low alpha, so the green structure stays legible)
+    if (wx === 'ultra' && A > 0.01) {
+      const uq = this.proj([0, this.cyW, 0]), R = Math.max(W, H) * 0.7;
+      const ug = ctx.createRadialGradient(uq[0], uq[1], 0, uq[0], uq[1], R);
+      const uA = A * clamp01(sinceWx / 0.4 + (this.reduced ? 1 : 0));
+      ug.addColorStop(0, 'rgba(255,210,74,' + (0.22 * uA) + ')'); ug.addColorStop(0.5, 'rgba(217,178,92,' + (0.09 * uA) + ')'); ug.addColorStop(1, 'rgba(217,178,92,' + (0.03 * uA) + ')');
+      ctx.fillStyle = ug; ctx.fillRect(0, 0, W, H);
+    }
+    const comp = hell ? 'source-over' : 'lighter';
+    ctx.globalCompositeOperation = comp;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    // ---- Yggdrasil edges
+    if (ygA > 0.01) {
+      const explore = mode === 'explore';
+      for (const e of M.yEdges) {
+        const al = e.a * ygA * (e.kind === 'graft' && density === 'far' ? 0 : 1);
+        if (al < 0.005) continue;
+        ctx.strokeStyle = 'rgba(227,182,98,' + al + ')';
+        ctx.lineWidth = e.w * (mode === 'mini' ? 0.8 : 1);
+        ctx.beginPath();
+        e.pts.forEach((p, k) => { const q = this.proj(p); if (k) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); });
+        ctx.stroke();
+      }
+    }
+    // ---- Arbor: grows from the trunk base outward along path distance; depth planes fade with distance
+    if (A > 0.01) {
+      const draw = smooth(0.45, 1, A);
+      if (this.grow0 == null) this.grow0 = now;
+      const growF = this.reduced ? 1 : easeIO(clamp01((now - this.grow0) / 2200));
+      this.growing = growF < 1;
+      const gD = Math.min(draw, growF) * M.maxD * 1.02;
+      this.growGD = gD;
+      const wxSel = this.selIndex();
+      const sk0 = this.props.subject != null ? M.sIdx[this.props.subject] : undefined;
+      const heavenRoute = wx === 'heaven' && (wxSel >= 0 || sk0 !== undefined);
+      const selB = sk0 !== undefined ? M.subj[sk0].b : (wxSel >= 0 ? M.aBranch[wxSel] : -9);
+      const ink = hell ? '22,22,24' : '97,198,116';
+      const COL = { trunk: ink, main: ink, par: hell ? '22,22,24' : '84,160,100', sec: hell ? '22,22,24' : '120,168,126', ghost: hell ? '22,22,24' : '97,198,116', root: ink, floor: hell ? '194,24,29' : '97,198,116', plane: hell ? '22,22,24' : '238,234,226' };
+      if (density !== 'far') {
+        const P = [-0.5, -0.25, 0, 0.25, 0.5];
+        ctx.fillStyle = hell ? 'rgba(22,22,24,' + 0.014 * A * draw + ')' : 'rgba(150,190,160,' + 0.011 * A * draw + ')';
+        for (const z of P) { const c4 = [[-1.08, M.groundY + 0.02, z], [1.08, M.groundY + 0.02, z], [1.08, M.topY + 0.04, z], [-1.08, M.topY + 0.04, z]].map((p) => this.proj(p)); ctx.beginPath(); c4.forEach((q, k) => { if (k) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); }); ctx.closePath(); ctx.fill(); }
+      }
+      for (const e of M.aEdges) {
+        const f = e.kind === 'floor' || e.kind === 'plane' ? draw * growF : clamp01((gD - e.d0) / Math.max(0.001, e.len));
+        if (f <= 0) continue;
+        let al = e.a * A;
+        const zq = this.proj(e.pts[e.pts.length - 1])[3];
+        al *= lerp(1.08, 0.42, clamp01((zq + 0.55) / 1.1));
+        if (heavenRoute && e.b >= 0 && e.b !== selB) al *= e.kind === 'trunk' ? 0.4 : 0.14;
+        if (heavenRoute && (e.kind === 'ghost' || e.kind === 'root')) al *= 0.35;
+        if (density === 'far' && (e.kind === 'sec' || e.kind === 'par')) al *= 0.5;
+        if (hell && e.kind === 'floor') al *= 1.4;
+        if (al < 0.01) continue;
+        ctx.strokeStyle = 'rgba(' + COL[e.kind] + ',' + Math.min(1, al) + ')';
+        ctx.lineWidth = e.w * (mode === 'mini' ? 0.8 : 1);
+        this.polyPartial(ctx, e.pts, f);
+      }
+      // Hell: a single red filament runs up the trunk; black shards thrown around the base
+      if (hell && this.trans >= 1) {
+        const tk = M.aEdges.filter((e) => e.kind === 'trunk' && e.b === M.branches.length - 1)[0];
+        if (tk) { ctx.strokeStyle = 'rgba(194,24,29,.85)'; ctx.lineWidth = 1.1; this.polyPartial(ctx, tk.pts, growF); }
+        ctx.fillStyle = 'rgba(22,22,24,' + 0.82 * A + ')';
+        for (const sh of M.shards) { ctx.beginPath(); sh.forEach((p, k) => { const q = this.proj(p); if (k) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); }); ctx.closePath(); ctx.fill(); }
+      }
+      // junction diamonds where branches leave the trunk; base marker
+      if (density !== 'far' && draw > 0.6) {
+        ctx.fillStyle = hell ? 'rgba(22,22,24,' + 0.7 * A + ')' : 'rgba(97,198,116,' + 0.7 * A + ')';
+        for (const j of M.junctions) { const q = this.proj(j); ctx.save(); ctx.translate(q[0], q[1]); ctx.rotate(Math.PI / 4); ctx.fillRect(-1.9, -1.9, 3.8, 3.8); ctx.restore(); }
+      }
+      const bq = this.proj(M.baseMark);
+      ctx.strokeStyle = hell ? 'rgba(22,22,24,' + 0.8 * A + ')' : 'rgba(238,234,226,' + 0.45 * A + ')';
+      ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(bq[0], bq[1] - 9); ctx.lineTo(bq[0] + 8, bq[1] + 5); ctx.lineTo(bq[0] - 8, bq[1] + 5); ctx.closePath(); ctx.stroke();
+      // ringed terminals at the end of every main branch (subjects occupy some of them)
+      for (const b of M.branches) {
+        const d = b.trunkLen + polyLen(b.pts); if (gD < d) continue;
+        const q = this.proj(b.term), r = 4.6 * q[2];
+        let al = A * lerp(1, 0.5, clamp01((q[3] + 0.55) / 1.1));
+        if (heavenRoute && b.k !== selB) al *= 0.25;
+        if (hell) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.5 * al; ctx.drawImage(this.sprite('194,24,29'), q[0] - r * 4, q[1] - r * 4, r * 8, r * 8); ctx.globalAlpha = 1; }
+        ctx.strokeStyle = hell ? 'rgba(22,22,24,' + al + ')' : 'rgba(97,198,116,' + 0.9 * al + ')';
+        ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 0.7; ctx.beginPath(); ctx.arc(q[0], q[1], r * 1.7, 0, Math.PI * 2); ctx.strokeStyle = hell ? 'rgba(194,24,29,' + 0.6 * al + ')' : 'rgba(97,198,116,' + 0.3 * al + ')'; ctx.stroke();
+      }
+      ctx.globalCompositeOperation = comp;
+      // declared relations: pattern encodes relation type, never colour alone
+      const relA = smooth(0.75, 1, A) * growF;
+      if (relA > 0.01) for (const r of M.rels) this.drawRelation(ctx, r, relA, hell);
+      // Heaven: prismatic split light along the converged route
+      if (heavenRoute && this.trans >= 1) this.drawHeaven(ctx, wxSel, t);
+      if (wx === 'ultra' && this.trans >= 1) this.drawUltra(ctx, t, sinceWx);
+    }
+    // ---- nodes
+    const selG = this.props.focus ? M.idx[this.props.focus] : -1;
+    const subjK = this.props.subject != null ? M.sIdx[this.props.subject] : undefined;
+    const showSubj = A > 0.02;
+    for (let i = 0; i < M.N; i++) {
+      const Y = M.yPos[i], R = M.aPos[i];
+      const P = [lerp(Y[0], R[0], A), lerp(Y[1], R[1], A) + Math.sin(Math.PI * A) * 0.08 * (hash01(M.G[i][0], 7) - .3), lerp(Y[2], R[2], A)];
+      const q = this.proj(P);
+      const rank = M.G[i][3];
+      // Yggdrasil look
+      if (ygA > 0.01) {
+        const explore = mode === 'explore';
+        let rgb = '240,200,120';
+        if (explore && rank >= 1) rgb = (rank >= 4 && M.G[i][6] === 2) ? RANK_RGB_U[rank] : RANK_RGB[rank];
+        if (!M.G[i][2] && !explore) rgb = '214,170,96';
+        const rad = (1.4 + rank * 0.62) * q[2] * (mode === 'mini' ? 0.8 : 1);
+        const glow = (rank >= 5 ? 9 : rank >= 4 ? 6 : 4.2) * rad * (mode === 'mini' ? 0.6 : 1);
+        ctx.globalAlpha = ygA * (0.55 + rank * 0.08) * (mode === 'mini' ? 0.7 : 1);
+        ctx.drawImage(this.sprite(rgb), q[0] - glow, q[1] - glow, glow * 2, glow * 2);
+        ctx.globalAlpha = ygA;
+        ctx.fillStyle = rank >= 5 ? 'rgba(255,240,200,1)' : 'rgba(' + rgb + ',0.95)';
+        ctx.beginPath(); ctx.arc(q[0], q[1], Math.max(0.8, rad * 0.55), 0, Math.PI * 2); ctx.fill();
+        if (rank >= 5) { ctx.strokeStyle = 'rgba(251,191,36,' + (0.7 * ygA) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(q[0], q[1], rad * 1.9, 0, Math.PI * 2); ctx.stroke(); }
+        ctx.globalAlpha = 1;
+      }
+      // Arbor look: generic capabilities sit on trace terminals (circle, square, via dot, diamond)
+      if (A > 0.01) {
+        const grownA = clamp01(((this.growGD == null ? 99 : this.growGD) - M.aD[i]) * 6 + 1);
+        const s = 2.1 * q[2];
+        const dimH = wx === 'heaven' ? 0.3 : 1;
+        const dz = lerp(1, 0.45, clamp01((q[3] + 0.55) / 1.1));
+        const al = (hell ? 0.75 : 0.62) * A * dimH * dz * grownA;
+        const mk = M.aMark[i];
+        ctx.strokeStyle = hell ? 'rgba(22,22,24,' + al + ')' : 'rgba(178,204,180,' + al + ')';
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.lineWidth = 0.9;
+        if (mk === 0) { ctx.beginPath(); ctx.arc(q[0], q[1], s * 1.05, 0, Math.PI * 2); ctx.stroke(); }
+        else if (mk === 1) ctx.strokeRect(q[0] - s, q[1] - s, s * 2, s * 2);
+        else if (mk === 2) { ctx.beginPath(); ctx.arc(q[0], q[1], s * 0.62, 0, Math.PI * 2); ctx.fill(); }
+        else { ctx.beginPath(); ctx.moveTo(q[0], q[1] - s * 1.2); ctx.lineTo(q[0] + s * 1.2, q[1]); ctx.lineTo(q[0], q[1] + s * 1.2); ctx.lineTo(q[0] - s * 1.2, q[1]); ctx.closePath(); ctx.stroke(); }
+      }
+    }
+    // subjects (Arbor only)
+    const SPk0 = subjK;
+    if (showSubj) {
+      const relEnds = {};
+      M.rels.forEach((r) => { relEnds[r.from] = 1; relEnds[r.to] = 1; });
+      const placed = [];
+      if (SPk0 !== undefined) { const q0 = this.proj(M.subj[SPk0].pos); const tw = M.subj[SPk0].id.length * 7; const lx = q0[0] + 26 + tw > W - (mode === 'hero' ? 64 : 6) ? Math.max(6, q0[0] + 26 - tw - 52) : q0[0] + 26; placed.push([lx - 4, q0[1] - 26, tw + 8]); placed.push([q0[0] - 24, q0[1] - 24, 48]); }
+      M.subj.forEach((s, k) => {
+        const P = [lerp(s.yPos[0], s.pos[0], A), lerp(s.yPos[1], s.pos[1], A), lerp(s.yPos[2], s.pos[2], A)];
+        const q = this.proj(P);
+        const r = 3.1 * q[2];
+        const dim = (wx === 'heaven' && k !== subjK ? 0.35 : 1) * clamp01(((this.growGD == null ? 99 : this.growGD) - s.d) * 6 + 1);
+        if (!hell) { ctx.globalAlpha = A * dim; ctx.drawImage(this.sprite('238,234,226'), q[0] - r * 4, q[1] - r * 4, r * 8, r * 8); ctx.globalAlpha = 1; }
+        ctx.fillStyle = hell ? 'rgba(22,22,24,' + A + ')' : 'rgba(238,234,226,' + A * dim + ')';
+        ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, Math.PI * 2); ctx.fill();
+        const wantLabel = density === 'near' || (density === 'mid' && mode === 'explore' && relEnds[s.id]);
+        if (wantLabel && A > 0.9 && k !== subjK) {
+          const lw = s.id.length * 5.6, lx = q[0] + 8, ly = q[1] - 6;
+          if (!placed.some((r) => lx < r[0] + r[2] && lx + lw > r[0] && ly < r[1] + 13 && ly + 13 > r[1])) { placed.push([lx, ly, lw]); this.label(ctx, s.id, lx, q[1] + 4, hell ? 'rgba(22,22,24,.85)' : 'rgba(238,234,226,' + 0.72 * dim + ')', 11); }
+        }
+      });
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    // labels for Yggdrasil explore
+    if (ygA > 0.5 && mode === 'explore' && density !== 'far') {
+      for (let i = 0; i < M.N; i++) {
+        const rank = M.G[i][3];
+        if (rank < (density === 'near' ? 4 : 5) || i === selG) continue;
+        const q = this.proj(M.yPos[i]);
+        this.label(ctx, M.G[i][1], q[0] + 9, q[1] + 4, 'rgba(244,236,220,' + (0.75 * ygA) + ')', 12);
+      }
+    }
+    // selection reticle: identity survives the projection change
+    let SP = null, SL = '';
+    if (subjK !== undefined && (toArbor || this.trans < 1)) {
+      const s = M.subj[subjK]; const Yp = selG >= 0 ? M.yPos[selG] : s.yPos;
+      SP = [lerp(Yp[0], s.pos[0], A), lerp(Yp[1], s.pos[1], A), lerp(Yp[2], s.pos[2], A)]; SL = s.id;
+    } else if (selG >= 0) {
+      const Y = M.yPos[selG], R = M.aPos[selG];
+      SP = [lerp(Y[0], R[0], A), lerp(Y[1], R[1], A), lerp(Y[2], R[2], A)]; SL = this.props.subject || M.G[selG][1];
+    }
+    if (hell && this.trans >= 1 && SP) {
+      // restrained red only at impact points along the selected route
+      const route = subjK !== undefined ? M.subj[subjK].route : (selG >= 0 ? routeTo(M, selG) : null);
+      if (route) [route.length - 1, Math.max(0, route.length - 3), 1].forEach((n, k) => { const q = this.proj(route[n]); ctx.fillStyle = 'rgba(194,24,29,' + (k === 0 ? 0.9 : 0.7) + ')'; ctx.save(); ctx.translate(q[0], q[1]); ctx.rotate(Math.PI / 4); ctx.fillRect(-3, -3, 6, 6); ctx.restore(); });
+    }
+    if (SP && (mode !== 'hero' || toArbor)) {
+      const q = this.proj(SP);
+      const pulse = clamp01((now - this.selPulse) / 700);
+      const col = hell ? '158,51,120' : '250,246,236';
+      ctx.strokeStyle = 'rgba(' + col + ',.95)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(q[0], q[1], 9, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(q[0], q[1], 14, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(' + col + ',.35)'; ctx.stroke();
+      if (pulse < 1 && !this.reduced) { ctx.strokeStyle = 'rgba(' + col + ',' + (1 - pulse) * 0.8 + ')'; ctx.beginPath(); ctx.arc(q[0], q[1], 14 + pulse * 26, 0, Math.PI * 2); ctx.stroke(); }
+      ctx.beginPath();
+      [[-22, 0, -16, 0], [16, 0, 22, 0], [0, -22, 0, -16], [0, 16, 0, 22]].forEach((l) => { ctx.moveTo(q[0] + l[0], q[1] + l[1]); ctx.lineTo(q[0] + l[2], q[1] + l[3]); });
+      ctx.strokeStyle = 'rgba(' + col + ',.9)'; ctx.stroke();
+      if (mode === 'mini') this.plateLabel(ctx, SL, q[0], q[1], 'rgba(' + col + ',.95)', hell);
+      else this.label(ctx, SL, q[0] + 26, q[1] - 12, 'rgba(' + col + ',.95)', 12, true);
+    }
+    const keep = (!this.reduced && mode !== 'mini' && !this.props.still) || this.trans < 1 || this.growing || (now - this.selPulse) < 800 || (wx !== 'none' && !this.reduced && !this.props.still) || (hell && sinceWx < 0.3);
+    if (this.visible && keep) this.raf = requestAnimationFrame((tt) => this.frame(tt));
+  }
+  selIndex() {
+    const M = this.M; if (!M) return -1;
+    if (this.props.focus && M.idx[this.props.focus] != null) return M.idx[this.props.focus];
+    return -1;
+  }
+  polyPartial(ctx, pts, f) {
+    if (f <= 0) return;
+    const P = pts.map((p) => this.proj(p));
+    let L = 0; const seg = [];
+    for (let i = 1; i < P.length; i++) { const d = Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]); seg.push(d); L += d; }
+    let left = L * f;
+    ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]);
+    for (let i = 1; i < P.length && left > 0; i++) {
+      const d = seg[i - 1];
+      if (d <= left) { ctx.lineTo(P[i][0], P[i][1]); left -= d; }
+      else { const k = left / d; ctx.lineTo(lerp(P[i - 1][0], P[i][0], k), lerp(P[i - 1][1], P[i][1], k)); left = 0; }
+    }
+    ctx.stroke();
+  }
+  drawRelation(ctx, r, a, hell) {
+    const col = hell ? '22,22,24' : '238,234,226';
+    ctx.save();
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = 'rgba(' + col + ',' + 0.9 * a + ')';
+    const P = r.pts.map((p) => this.proj(p));
+    const path = () => { ctx.beginPath(); P.forEach((q, k) => { if (k) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); }); };
+    if (r.kind === 'recovers') { ctx.setLineDash([1.5, 4]); ctx.lineWidth = 1.6; path(); ctx.stroke(); }
+    else if (r.kind === 'duplicates') { ctx.setLineDash([]); ctx.lineWidth = 4.2; path(); ctx.stroke(); ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = 1.8; ctx.strokeStyle = 'rgba(0,0,0,1)'; path(); ctx.stroke(); ctx.globalCompositeOperation = hell ? 'source-over' : 'lighter'; }
+    else if (r.kind === 'unlocks') {
+      ctx.setLineDash([]); path(); ctx.stroke();
+      // open chevrons along the route, pointing toward the unlocked skill
+      for (let i = 1; i < P.length; i++) {
+        const a0 = P[i - 1], a1 = P[i]; const L = Math.hypot(a1[0] - a0[0], a1[1] - a0[1]); if (L < 16) continue;
+        const ux = (a1[0] - a0[0]) / L, uy = (a1[1] - a0[1]) / L; const mx = (a0[0] + a1[0]) / 2, my = (a0[1] + a1[1]) / 2;
+        ctx.beginPath(); ctx.moveTo(mx - ux * 4 - uy * 4, my - uy * 4 + ux * 4); ctx.lineTo(mx + ux * 2, my + uy * 2); ctx.lineTo(mx - ux * 4 + uy * 4, my - uy * 4 - ux * 4); ctx.stroke();
+      }
+    } else { path(); ctx.stroke(); }
+    ctx.restore();
+  }
+  drawHeaven(ctx, i, t) {
+    const sk = this.props.subject != null ? this.M.sIdx[this.props.subject] : undefined;
+    const route = sk !== undefined ? this.M.subj[sk].route : routeTo(this.M, i); if (!route) return;
+    const hues = ['165,138,224', '111,150,216', '95,194,214', '113,204,174', '224,148,200'];
+    ctx.strokeStyle = 'rgba(200,220,255,.10)'; ctx.lineWidth = 10;
+    ctx.beginPath(); route.forEach((p, n) => { const q = this.proj(p); if (n) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); }); ctx.stroke();
+    // corona of split light around the converged capability
+    const end = this.proj(route[route.length - 1]);
+    hues.forEach((h, k) => { const a = -Math.PI / 2 + (k - 2) * 0.32; ctx.strokeStyle = 'rgba(' + h + ',.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(end[0] + Math.cos(a) * 18, end[1] + Math.sin(a) * 18); ctx.lineTo(end[0] + Math.cos(a) * 46, end[1] + Math.sin(a) * 46); ctx.stroke(); });
+    hues.forEach((h, k) => {
+      const off = (k - 2) * 1.6;
+      ctx.strokeStyle = 'rgba(' + h + ',.8)'; ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      route.forEach((p, n) => { const q = this.proj(p); if (n) ctx.lineTo(q[0] + off, q[1] + off * 0.4); else ctx.moveTo(q[0] + off, q[1] + off * 0.4); });
+      ctx.stroke();
+    });
+    // packet of light travelling to the converged capability
+    const P = route.map((p) => this.proj(p)); let L = 0; const seg = [];
+    for (let k = 1; k < P.length; k++) { const d = Math.hypot(P[k][0] - P[k - 1][0], P[k][1] - P[k - 1][1]); seg.push(d); L += d; }
+    let u = ((t * 0.35) % 1) * L;
+    for (let k = 1; k < P.length; k++) { if (u <= seg[k - 1]) { const f = u / seg[k - 1]; const x = lerp(P[k - 1][0], P[k][0], f), y = lerp(P[k - 1][1], P[k][1], f); ctx.drawImage(this.sprite('230,240,255'), x - 12, y - 12, 24, 24); break; } u -= seg[k - 1]; }
+  }
+  drawUltra(ctx, t, since) {
+    const M = this.M;
+    // entry burst: gold speed lines out from the selection, about 0.9 s, once per entry (none with reduced motion)
+    if (since < 0.9 && !this.reduced) {
+      const sk = this.props.subject != null ? M.sIdx[this.props.subject] : undefined;
+      const c = sk !== undefined && M.subj[sk].route ? this.proj(M.subj[sk].route[M.subj[sk].route.length - 1]) : this.proj([0, this.cyW, 0]);
+      const e = clamp01(since / 0.9), r0 = 30 + e * 260, r1 = r0 + 60 + (1 - e) * 220, al = (1 - e) * 0.55;
+      ctx.lineWidth = 1.4; ctx.strokeStyle = 'rgba(255,210,74,' + al + ')'; ctx.beginPath();
+      for (let k = 0; k < 30; k++) { const a = k * 0.2094 + (k % 3) * 0.04, j = (k % 4) * 18; ctx.moveTo(c[0] + Math.cos(a) * (r0 + j), c[1] + Math.sin(a) * (r0 + j)); ctx.lineTo(c[0] + Math.cos(a) * (r1 + j), c[1] + Math.sin(a) * (r1 + j)); }
+      ctx.stroke();
+    }
+    if (this.wakes.length < 10 && Math.random() < 0.09) {
+      const s = M.subj[Math.floor(Math.random() * M.subj.length)];
+      if (s.route) this.wakes.push({ route: s.route, t0: t, dur: 2.4 + Math.random() * 1.5 });
+    }
+    this.wakes = this.wakes.filter((w) => t - w.t0 < w.dur + 1.2);
+    for (const w of this.wakes) {
+      const P = w.route.map((p) => this.proj(p)); let L = 0; const seg = [];
+      for (let k = 1; k < P.length; k++) { const d = Math.hypot(P[k][0] - P[k - 1][0], P[k][1] - P[k - 1][1]); seg.push(d); L += d; }
+      const head = clamp01((t - w.t0) / w.dur) * L, tail = Math.max(0, head - L * 0.35);
+      const fade = 1 - clamp01((t - w.t0 - w.dur) / 1.2);
+      let hx = null, hy = null;
+      const strokeWake = (lw, al) => {
+      ctx.lineWidth = lw; ctx.strokeStyle = 'rgba(' + (lw > 2 ? '217,178,92,' : '255,214,96,') + al * fade + ')';
+      ctx.beginPath(); let acc = 0, started = false;
+      for (let k = 1; k < P.length; k++) {
+        const a0 = acc, a1 = acc + seg[k - 1];
+        const s0 = Math.max(tail, a0), s1 = Math.min(head, a1);
+        if (s1 > s0) {
+          const f0 = (s0 - a0) / seg[k - 1], f1 = (s1 - a0) / seg[k - 1];
+          const x0 = lerp(P[k - 1][0], P[k][0], f0), y0 = lerp(P[k - 1][1], P[k][1], f0), x1 = lerp(P[k - 1][0], P[k][0], f1), y1 = lerp(P[k - 1][1], P[k][1], f1);
+          if (!started) { ctx.moveTo(x0, y0); started = true; } ctx.lineTo(x1, y1); hx = x1; hy = y1;
+        }
+        acc = a1;
+      }
+      ctx.stroke();
+      };
+      strokeWake(8, 0.14); strokeWake(3.4, 0.42); strokeWake(1.6, 1);
+      if (hx !== null && t - w.t0 < w.dur) ctx.drawImage(this.sprite('255,214,96'), hx - 18, hy - 18, 36, 36);
+    }
+  }
+  /* small scenes: the selection's name sits centred above its reticle (below it near the top edge) on a
+     solid plate, clamped inside the frame, so it never lies across nodes and connectors */
+  plateLabel(ctx, text, cx, cy, color, hell) {
+    ctx.save(); ctx.globalCompositeOperation = 'source-over';
+    ctx.font = '600 11px "Bricolage Grotesque", system-ui, sans-serif';
+    const tw = ctx.measureText(text).width, W = this.W || 300, pw = tw + 14, ph = 20;
+    const x = Math.max(6, Math.min(W - pw - 6, cx - pw / 2));
+    let y = cy - 28 - ph; if (y < 6) y = cy + 28;
+    ctx.fillStyle = hell ? 'rgba(239,236,231,.96)' : (this.world === 'arbor' ? 'rgba(20,22,20,.94)' : 'rgba(17,15,12,.94)');
+    ctx.strokeStyle = hell ? 'rgba(22,22,24,.35)' : 'rgba(238,234,226,.22)'; ctx.lineWidth = 1;
+    ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x + 0.5, y + 0.5, pw, ph, 4); else ctx.rect(x + 0.5, y + 0.5, pw, ph); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = color; ctx.textBaseline = 'middle'; ctx.fillText(text, x + 7, y + ph / 2 + 1); ctx.restore();
+  }
+  label(ctx, text, x, y, color, size, bold) {
+    ctx.save(); ctx.globalCompositeOperation = 'source-over';
+    ctx.font = (bold ? '600 ' : '500 ') + size + 'px "Bricolage Grotesque", system-ui, sans-serif';
+    const tw = ctx.measureText(text).width;
+    const edge = (this.props.mode || 'explore') === 'hero' ? 64 : 6;
+    if (x + tw > (this.W || 9999) - edge) x = Math.max(6, x - tw - (bold ? 52 : 16));
+    const hellNow = this.world === 'arbor' && this.weather === 'hell';
+    ctx.lineWidth = 3.5; ctx.lineJoin = 'round';
+    ctx.strokeStyle = hellNow ? 'rgba(239,236,231,.92)' : (this.world === 'arbor' ? 'rgba(27,29,27,.88)' : 'rgba(17,15,12,.88)');
+    ctx.strokeText(text, x, y);
+    ctx.fillStyle = color; ctx.fillText(text, x, y); ctx.restore();
+  }
+  renderVals() {
+    const world = this.props.world || 'ygg';
+    const weather = world === 'arbor' ? (this.props.weather || 'none') : 'none';
+    const aria = world === 'arbor'
+      ? 'Arbor projection, prototype topology. Twenty-two pinned runtime subjects and three declared relations. Use left and right arrow keys to move between subjects.'
+      : 'Yggdrasil projection of the Gaia capability graph: 317 generic capabilities, basic capabilities as roots and fusions as the crown. Use left and right arrow keys to move between 4-star and 5-star capabilities.';
+    return {
+      world: world, weather: weather, height: this.props.height || '640px', cref: this.cref, aria: aria,
+      showBackdrop: world === 'ygg' && (this.props.mode || 'explore') === 'hero',
+      tipShow: this.state.tipShow, tipX: this.state.tipX, tipY: this.state.tipY, tipText: this.state.tipText,
+      bdL: this.state.bdL || 0, bdT: this.state.bdT || 0, bdH: this.state.bdH || 10
+    };
+  }
+}
+</script>
+</body>
+</html>

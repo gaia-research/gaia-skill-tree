@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Asset and Rive handoffs</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.doc { max-width: 1120px; margin-inline: auto; padding: 4rem clamp(1rem, 4cqi, 3rem) 6rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.doc h2 { font-family: var(--f-display); font-weight: 500; font-size: 2rem; margin: 2.5rem 0 .25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.doc p, .doc li { color: var(--ink-2); line-height: 1.65; }
+.doc ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .35rem; }
+.pk { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.pk-h { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; padding: 1rem 1.25rem; background: var(--ground-2); border-bottom: 1px solid var(--line); }
+.pk-b { padding: 1.1rem 1.25rem 1.4rem; display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: .6rem 1.25rem; font-size: .875rem; }
+.pk-b dt { font-family: var(--f-hud); font-size: .625rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); padding-top: .2rem; }
+.pk-b dd { margin: 0; color: var(--ink-2); line-height: 1.55; }
+@container atlas (max-width: 720px) { .pk-b { grid-template-columns: minmax(0, 1fr); } }
+.prompt { font-family: var(--f-hud); font-size: .75rem; line-height: 1.7; color: var(--ink); background: var(--ground-2); border: 1px solid var(--line); border-radius: 8px; padding: .9rem 1rem; white-space: pre-wrap; user-select: all; }
+.cond { font-family: var(--f-hud); font-size: .625rem; letter-spacing: .05em; padding: .15rem .45rem; border: 1px solid var(--line-2); border-radius: 3px; color: var(--ink-2); }
+.cond.req { border-color: var(--accent); color: var(--accent-ink); }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none">
+  <article class="doc">
+    <div class="plate"><span class="pl-mark">Handoffs</span><i class="pl-sep"></i><span>Codex · Sol with Terra review</span><i class="pl-sep"></i><span>local Claude · Rive</span><i class="pl-sep"></i><span>Agy · design docs</span><i class="pl-rule"></i></div>
+    <h1 class="h1">What the prototype needs from other teams</h1>
+    <p class="lede">Only assets with a clear role are requested. The prototype stands on approved art today; each packet says what it replaces and how it will be judged.</p>
+    <ul>
+      <li>Loop (founder ruling, 20 Nov): Sol generates, Terra critiques against canon and this brief, Sol corrects, Terra verifies. Claude, the cloud design lead, then stamps the asset; the founder may veto. An asset counts only once it is stamped and not vetoed.</li>
+      <li>Team: Sol at Xhigh, solo, in Codex. Model: Codex defaults to gpt-image-2.6, on the founder's attestation, so there is no model preflight; the ledger credit records it. Sol reads the canonical gaia-image-production skill in gaia-research before starting.</li>
+      <li>Masters and ledger entries live in gaia-research; WebP derivatives reach Skill Tree only when the site is wired, which waits for the founder to see the final product. No raster carries text.</li>
+      <li>Repository handoffs: founder/handovers/2026-11-20-skill-tree-redesign/ in gaia-skill-tree, tracked by issue 2481.</li>
+    </ul>
+
+    <h2>Image packets</h2>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">A1 · Arbor 3D canon and instrument plate</span><span class="cond req">Needed for parity</span></div>
+      <dl class="pk-b">
+        <dt>Destination</dt><dd>The Arbor model in the Blender canon (per the merged multi-tree endgame doc), its still render behind the Arbor hero, and the Tree Explorer in Arbor. The live canvas stays the only semantic layer.</dd>
+        <dt>Objective</dt><dd>Build the tree the prototype sketches: a bundled trunk of parallel traces that jogs at 45°, main branches peeling off on five separated depth planes, thin secondary traces with small circle, square and diamond terminals, ringed terminals at branch ends, and roots spreading as traces across a ground plane. Keep the front silhouette of the founder's Arbor I concept; the depth is what the concept does not show.</dd>
+        <dt>Prompt for Sol</dt><dd><div class="prompt">A tree built from circuit traces, seen from slightly above and in front, standing on a dark ground plane. The trunk is a bundle of six to eight thin parallel traces that turns only at 45 degrees. Branches leave the trunk on several separated depth planes, like sheets of glass stacked front to back: each runs diagonally up at 45 degrees, then horizontally, and ends in a small ring terminal. Thin secondary traces split off with tiny circle, square and diamond pads. Roots spread across the ground plane as traces with 45-degree turns, receding into depth. Washed charcoal ground (#1b1d1b), traces in muted green (#61c674) with bone-white (#eeeae2) highlights at terminals, faint corner brackets marking each depth plane. Crisp, technical, calm. No curves, no leaves, no bark, no glow blobs, no neon, no stars, no medallions, no text, no UI.</div></dd>
+        <dt>Hell variant</dt><dd>Same model, inverted to paper (#efece7) with black traces; a single red filament (#c2181d) up the trunk, red glow rings at terminals, black triangular shards around the base, faint red ground-plane lines.</dd>
+        <dt>References</dt><dd>The founder's Arbor I concept art (green, Hell, and the Yggdrasil III vs Arbor I lens sheet) and the red ground-plane study, on issue 1736; founder/ARBOR-DESIGN.md §3–4; the live prototype scene in this artifact for plane spacing.</dd>
+        <dt>Format</dt><dd>Blender source with planes as separate collections; master render 3200 × 2400 PNG; derivatives 1600 × 1200 and 900 × 1200 (mobile) WebP, opaque; a glTF of the trace geometry for the production scene.</dd>
+        <dt>Mobile crop</dt><dd>Keep the trunk centred; the mobile crop loses the outer third of each side.</dd>
+        <dt>Acceptance</dt><dd>Reads as a tree at thumbnail size and as circuitry up close; never as a rail line or a fence (no long evenly spaced parallels outside the trunk); at 35% opacity under the live graph, bone text in the copy column keeps 7:1.</dd>
+        <dt>Terra checks</dt><dd>45° and 90° turns only; front silhouette matches the concept; at least three depth planes visible when the camera orbits 20°; no stars, no rank colour; green used for traces only.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">A2 · Hall of Heroes stage</span><span class="cond req">Replaces placeholders (issue 1326)</span></div>
+      <dl class="pk-b">
+        <dt>Destination</dt><dd>Hall of Heroes stages, behind the contributor photo and its medallion; reusable as the badges page backdrop. One image for the whole page, not one per stage.</dd>
+        <dt>Objective</dt><dd>A ceremonial vitrine for one person at a time: weight and permanence without spectacle. The photo is the subject; the plinth only holds it.</dd>
+        <dt>Prompt for Sol</dt><dd><div class="prompt">An empty museum vitrine at night: a low dark umber stone plinth (#14120f) under a single soft gold top light, the light pooling in a tight ellipse on the plinth surface. Very dark warm background falling to black at the edges. Faint engraved concentric rings on the plinth face like an astrolabe. Nothing on the plinth. Quiet, monumental, precise. No text, no people, no medallion, no gold glitter, no smoke.</div></dd>
+        <dt>References</dt><dd>docs/assets/ascension-overdrive/aov4-astrolabe-substrate.webp for ground colour and engraving; Ascension Overdrive commissions doc for the warm Suite register.</dd>
+        <dt>Format</dt><dd>Master 3840 × 2160; derivatives 2560 × 1440 and 900 × 1200 WebP, opaque.</dd>
+        <dt>Mobile crop</dt><dd>Plinth centred, light pool in the upper half.</dd>
+        <dt>Acceptance</dt><dd>A 240 px circular photo with its gold wreath, placed at 32% from the left, reads as standing on the plinth; ground matches the Yggdrasil token within ΔE 3; the file stays under 180 KB at 2560 px so the Hall loads fast.</dd>
+        <dt>Terra checks</dt><dd>No Apex-reserved gold intensity; no ornament that competes with the medallion; engraving stays sub-legible.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">A3 · Observatory interior</span><span class="cond">Enhancing, optional</span></div>
+      <dl class="pk-b">
+        <dt>Destination</dt><dd>The Observatory page, behind the SVG dome plan.</dd>
+        <dt>Objective</dt><dd>Turn the dome diagram into a place: a quiet observatory floor with three apertures throwing their rooms' light.</dd>
+        <dt>Prompt for Sol</dt><dd><div class="prompt">Looking straight down into the floor of a circular observatory at night, a dark polished stone floor with a fine engraved compass ring. Three long slit apertures in the dome above cast three beams onto the floor at 120 degree intervals: one warm gold, one cool sky blue with a magenta edge, one split prismatic light (violet, blue, cyan, rose). The centre is dark and empty. Architectural, still, scientific. No people, no telescope, no stars painted on surfaces, no text.</div></dd>
+        <dt>References</dt><dd>Skill Heaven site DESIGN.md §05 (one beam, three names); gaia-research brand colours (#38bdf8, #ec4899); Skill Heaven prism hues.</dd>
+        <dt>Format</dt><dd>Square master 3000 × 3000; derivative 1600 × 1600 WebP; the beams must sit at 0°, 120° and 240° from the top so the SVG apertures align.</dd>
+        <dt>Acceptance</dt><dd>Beam colours match room accents; centre stays clear for the seal; works under a 50% dark overlay.</dd>
+        <dt>Terra checks</dt><dd>No figure or silhouette; no lore symbols; alignment within 2° of the SVG apertures.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">A4 · Observatory character cameos</span><span class="cond">Conditional · owner approval first</span></div>
+      <dl class="pk-b">
+        <dt>Default</dt><dd>Reuse what is approved. The prototype uses approved masters at small scale: the poster of the approved milim.riv (gaia-research public/milim) and Lucy v5 Zero (gaia-skill-heaven delivery). Both sit inside their room's light, about 96 px tall, behind a Quiet or Off presence control.</dd>
+        <dt>Only if bespoke cameos are wanted</dt><dd>Milim: follow marketing-tasks MILIM.md exactly, including the face settei test against the gold master; approved expression only. Lucy: follow LUCY_CANONICAL_CHARACTER_SHEET.md; Zero state is seated, eyes closed, no wings, one katana; never horns, armour, boots or eye flare.</dd>
+        <dt>Not allowed</dt><dd>New costumes, new poses that imply story, lore clues, or either character presented as a Skill Tree ambassador.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">A5 · Rendered Diamond Seal keystone</span><span class="cond req">Needed for the Observatory</span></div>
+      <dl class="pk-b">
+        <dt>Destination</dt><dd>The keystone at the centre of The Observatory dome, about 90 to 160 px wide; possibly the 28 px nav seal later.</dd>
+        <dt>Geometry</dt><dd>Exactly the canonical Diamond Seal, docs/assets/marks/diamond-seal.svg: one diamond with an EB Garamond SemiBold G. The prototype's inner square is a prototype embellishment and is not requested.</dd>
+        <dt>Material and light</dt><dd>Key light from the upper left, soft fill from the lower right; a bevelled metal frame with a centre ridge, the G raised. Yggdrasil: warm gold with parchment highlights and a dark umber recess. Arbor: cooler green-teal metal with a slate recess.</dd>
+        <dt>Format</dt><dd>Transparent WebP at 2× for 160, 96 and 56 px, per world; a flat two-tone SVG fallback. No baked background, glow or wordmark.</dd>
+        <dt>Acceptance</dt><dd>Overlays diamond-seal.svg within 1 px at 160 px; the diamond and the G stay distinct at 28 px; reads on both world grounds; under 60 KB a file.</dd>
+      </dl>
+    </div>
+    <p class="small">Not requested: the Hell-Heaven stamp artwork, which stays a placeholder until the stamps are ratified.</p>
+
+    <h2>Rive requests · local Claude team</h2>
+    <p>This cloud session has no Rive capability, so the prototype uses static stand-ins, and each request below reuses approved files where they exist.</p>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">R1 · Lens glyph morph</span><span class="cond req">Signature micro-interaction</span></div>
+      <dl class="pk-b">
+        <dt>Purpose</dt><dd>The Yggdrasil glyph's curved branches straighten into Arbor's angular branches when the lens switches.</dd>
+        <dt>States</dt><dd>ygg_idle, arbor_idle, to_arbor, to_ygg.</dd>
+        <dt>Inputs</dt><dd>Boolean isArbor; trigger on the lens buttons.</dd>
+        <dt>Timing</dt><dd>600 ms, expo-out; strokes only, two colour slots bound to the accent tokens.</dd>
+        <dt>Sizes</dt><dd>18, 24 and 48 px artboards; crisp at 1× and 2×.</dd>
+        <dt>Reduced motion</dt><dd>Swap glyphs instantly; the static SVGs in the prototype are the fallback.</dd>
+        <dt>Acceptance</dt><dd>Legible monochrome at 18 px; endpoints never overshoot; the two idles match the prototype's SVG glyphs.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">R2 · Milim field-note idle</span><span class="cond">Reuse milim.riv</span></div>
+      <dl class="pk-b">
+        <dt>Purpose</dt><dd>When the Observatory faces the Research room, Milim glances up once, then idles.</dd>
+        <dt>Source</dt><dd>The approved milim.riv in gaia-research (public/milim); its existing state machine, no new art.</dd>
+        <dt>States and trigger</dt><dd>idle, look_up (one shot on aperture focus), back to idle.</dd>
+        <dt>Size</dt><dd>96 px tall inside the aperture window; poster webp as fallback.</dd>
+        <dt>Reduced motion</dt><dd>Poster only.</dd>
+        <dt>Acceptance</dt><dd>Passes MILIM.md's face test at 96 px; no added effects or text.</dd>
+      </dl>
+    </div>
+
+    <div class="pk">
+      <div class="pk-h"><span class="h3">R3 · Lucy at rest</span><span class="cond">Reuse lucy.riv · owner approval</span></div>
+      <dl class="pk-b">
+        <dt>Purpose</dt><dd>A barely-moving Zero-state Lucy in the Skill Heaven aperture: hair and ribbon breathing, eyes closed.</dd>
+        <dt>Source</dt><dd>gaia-research/lucy Rive source (packages/site/public/lucy-live in gaia-skill-heaven is the consumer copy).</dd>
+        <dt>States and trigger</dt><dd>zero_idle only; no trigger.</dd>
+        <dt>Size</dt><dd>96 px tall; v5 Zero delivery webp as fallback.</dd>
+        <dt>Reduced motion</dt><dd>Static image.</dd>
+        <dt>Acceptance</dt><dd>Matches the character sheet's Zero state; no eye flare (owner ruling); reflection never mirrored.</dd>
+      </dl>
+    </div>
+  </article>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":4610}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

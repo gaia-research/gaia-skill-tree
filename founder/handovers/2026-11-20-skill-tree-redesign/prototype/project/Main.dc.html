@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gaia Skill Tree prototype</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; background: #110f0c; }
+.more-panel { position: absolute; top: calc(100% + 1px); right: 0; left: 0; z-index: var(--z-panel); background: var(--panel); border-bottom: 1px solid var(--line); box-shadow: 0 18px 40px -20px rgba(0,0,0,.6); animation: enter .35s var(--ease) both; }
+.more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 1.75rem 2.5rem; padding-block: 2rem 2.25rem; }
+.more-grid h4 { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 .75rem; }
+.more-grid ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .2rem; }
+.more-item { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; width: 100%; text-align: left; background: none; border: 0; padding: .45rem .55rem; margin-left: -.55rem; border-radius: 6px; cursor: pointer; color: var(--ink); min-height: 44px; }
+.more-item:hover { background: var(--accent-wash); }
+.more-item b { font-weight: 600; font-size: .9375rem; }
+.more-item span { font-size: .8125rem; color: var(--ink-3); }
+.more-item[data-state="template"] b::after { content: ' · template'; font-family: var(--f-hud); font-size: .625rem; letter-spacing: .04em; color: var(--ink-3); font-weight: 400; }
+.sheet { position: fixed; inset: 64px 0 0 0; z-index: var(--z-panel); background: var(--ground); overflow-y: auto; padding: 1.25rem 0 3rem; animation: enter .3s var(--ease) both; }
+.sheet-list { display: flex; flex-direction: column; }
+.sheet-list button { text-align: left; min-height: 52px; border: 0; border-bottom: 1px solid var(--line); background: none; cursor: pointer; font-family: var(--d-family); font-stretch: var(--d-stretch); font-size: 1.45rem; color: var(--ink); padding: 0; }
+.page-host { min-height: 60vh; }
+@container atlas (max-width: 560px) { .nav-gh { display: none; } }
+.page-fade { animation: enter-soft .45s var(--ease) both; }
+</style>
+</helmet>
+<div class="atlas app" data-world="{{world}}" data-weather="none">
+  <header class="nav">
+    <div class="wrap nav-in">
+      <button class="brand" onClick="{{goHome}}" aria-label="Gaia Skill Tree home">
+        <svg class="brand-seal" viewBox="0 0 28 28" aria-hidden="true"><rect x="6.1" y="6.1" width="15.8" height="15.8" transform="rotate(45 14 14)" fill="none" stroke="currentColor" stroke-width="1.4" style="color: var(--accent)"></rect><rect x="9.8" y="9.8" width="8.4" height="8.4" transform="rotate(45 14 14)" fill="none" stroke="currentColor" stroke-width="0.8" opacity=".55" style="color: var(--accent)"></rect><text x="14" y="17.6" text-anchor="middle" font-family="EB Garamond, Georgia, serif" font-size="10.5" font-weight="600" fill="currentColor">G</text></svg>
+        <span class="brand-word">Gaia Skill Tree</span>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <button onClick="{{goAtlas}}" aria-current="{{curAtlas}}">Explore</button>
+        <button onClick="{{goSkills}}" aria-current="{{curSkills}}">Skills</button>
+        <button onClick="{{goLeader}}" aria-current="{{curLeader}}">Leaderboard</button>
+        <button onClick="{{goEvidence}}" aria-current="{{curEvidence}}">Evidence</button>
+        <button onClick="{{goDocs}}" aria-current="{{curDocs}}">Docs</button>
+        <button onClick="{{toggleMore}}" aria-expanded="{{moreOpen}}" aria-controls="more-panel">More
+          <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" style="margin-left: 4px; vertical-align: -1px"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>
+        </button>
+      </nav>
+      <div class="nav-tools">
+        <button class="nav-search" onClick="{{goSkills}}" aria-label="Search skills">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <span class="ns-label">Search skills</span><span class="kbd">⌘K</span>
+        </button>
+        <a class="icon-btn nav-gh" href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener" aria-label="Star Gaia Skill Tree on GitHub" title="Star on GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.3 5.9.9-4.25 4.15 1 5.85L12 16.65 6.75 19.4l1-5.85L3.5 9.4l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+        </a>
+        <div class="lens" role="group" aria-label="Tree lens">
+          <button onClick="{{toYgg}}" aria-pressed="{{isYgg}}" title="Yggdrasil IV: standing, prestige, evidence">
+            <svg class="ln-ygg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8.5M12 12.5C12 8.6 8.7 6.4 4.6 5.6M12 12.5c0-4.1 3.1-6.6 7.4-7.6M12 16.3c-2.1-1.5-4.6-1.9-6.8-1.4M12 9.2c.2-2 1.1-4 2.6-5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            <span><span class="lens-name">Yggdrasil</span><span class="lens-sub">Standing</span></span>
+          </button>
+          <button onClick="{{toArbor}}" aria-pressed="{{isArbor}}" title="Arbor I: behavior and interaction">
+            <svg class="ln-arbor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V3.5M12 15.5L6.5 10V6.5M12 11l4.6-4.6h2.4M12 18.5l3.6-3.6v-2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="square"></path></svg>
+            <span><span class="lens-name">Arbor</span><span class="lens-sub">Behavior</span></span>
+          </button>
+        </div>
+        <button class="icon-btn nav-menu" onClick="{{toggleMenu}}" aria-expanded="{{menuOpen}}" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+    </div>
+    <sc-if value="{{moreShow}}" hint-placeholder-val="{{false}}">
+      <div class="more-panel" id="more-panel">
+        <div class="wrap more-grid">
+          <div>
+            <h4>Registry</h4>
+            <ul>
+              <li><button class="more-item" onClick="{{goContributors}}"><b>Contributors</b><span>Profiles, journeys, Origin</span></button></li>
+              <li><button class="more-item" onClick="{{goHall}}"><b>Hall of Heroes</b><span>Every 4★ and 5★ plate, with its person</span></button></li>
+              <li><button class="more-item" data-state="template" onClick="{{goSkills}}"><b>Starless index</b><span>Generic capabilities, no stars</span></button></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Proof</h4>
+            <ul>
+              <li><button class="more-item" onClick="{{goEvidence}}"><b>Evidence Library</b><span>Every source, graded</span></button></li>
+              <sc-if value="{{isYggB}}" hint-placeholder-val="{{true}}"><li><button class="more-item" onClick="{{goLedger}}"><b>Trust Ledger</b><span>352 records, beside the evidence they sum</span></button></li></sc-if>
+              <li><button class="more-item" onClick="{{goBench}}"><b>Benchmarks and stamps</b><span>Receipts, Hell-Heaven stamps</span></button></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Signals</h4>
+            <ul>
+              <li><button class="more-item" onClick="{{goLeader}}"><b>Leaderboard</b><span>Every graded skill by Trust Magnitude</span></button></li>
+              <li><button class="more-item" onClick="{{goChangelog}}"><b>Changelog</b><span>Every skill change, newest first</span></button></li>
+              <li><button class="more-item" onClick="{{goReports}}"><b>Meta reports</b><span>The ledger, explained</span></button></li>
+              <li><button class="more-item" data-state="template" onClick="{{goReports}}"><b>Trending</b><span>Rolling seven-day movement</span></button></li>
+              <li><button class="more-item" data-state="template" onClick="{{goDocs}}"><b>GitHub badges</b><span>Claim a README badge</span></button></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Gaia</h4>
+            <ul>
+              <li><button class="more-item" onClick="{{goObservatory}}"><b>The Observatory</b><span>One house, three rooms</span></button></li>
+              <li><button class="more-item" data-state="template" onClick="{{goDocs}}"><b>API reference</b><span>Static JSON endpoints</span></button></li>
+              <li><button class="more-item" onClick="{{goAbout}}"><b>About</b><span>The founder and the record</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{menuShow}}" hint-placeholder-val="{{false}}">
+    <div class="sheet" role="dialog" aria-label="Site menu">
+      <div class="wrap stack gap-3">
+        <div class="sheet-list">
+          <button onClick="{{goHome}}">Home</button>
+          <button onClick="{{goAtlas}}">Explore the tree</button>
+          <button onClick="{{goSkills}}">Skills</button>
+          <button onClick="{{goLeader}}">Leaderboard</button>
+          <button onClick="{{goEvidence}}">Evidence and trust</button>
+          <button onClick="{{goBench}}">Benchmarks and stamps</button>
+          <button onClick="{{goHall}}">Hall of Heroes</button>
+          <button onClick="{{goContributors}}">Contributors</button>
+          <button onClick="{{goDocs}}">Docs</button>
+          <button onClick="{{goChangelog}}">Changelog</button>
+          <button onClick="{{goObservatory}}">The Observatory</button>
+          <button onClick="{{goAbout}}">About</button>
+        </div>
+        <p class="fine">The Tree lens stays in the header at every width.</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{sweepA}}" hint-placeholder-val="{{false}}"><div class="sweep {{sweepCls}}" aria-hidden="true"><i></i></div></sc-if>
+  <sc-if value="{{sweepB}}" hint-placeholder-val="{{false}}"><div class="sweep {{sweepCls}}" aria-hidden="true"><i></i></div></sc-if>
+  <div class="sr-only" aria-live="polite" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{announce}}</div>
+
+  <main class="page-host">
+    <sc-if value="{{rHome}}" hint-placeholder-val="{{true}}">
+      <dc-import name="Home" world="{{world}}" go="{{go}}" pick="{{pick}}" share="{{share}}" explore3d="{{openX3}}" hint-size="100%,4200px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rAtlas}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Atlas" world="{{world}}" go="{{go}}" pick="{{pick}}" skill="{{skill}}" focus="{{focus}}" set-world="{{setWorld}}" explore3d="{{openX3}}" hint-size="100%,900px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rSkills}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Skills" world="{{world}}" go="{{go}}" pick="{{pick}}" share="{{share}}" hint-size="100%,2200px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rDossier}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Dossier" world="{{world}}" go="{{go}}" pick="{{pick}}" share="{{share}}" skill="{{skill}}" focus="{{focus}}" set-world="{{setWorld}}" hint-size="100%,2600px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rEvidence}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Evidence" world="{{world}}" go="{{go}}" pick="{{pick}}" tab="{{evTab}}" hint-size="100%,2400px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rBench}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Benchmarks" world="{{world}}" go="{{go}}" pick="{{pick}}" hint-size="100%,2600px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rContributors}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Contributors" world="{{world}}" go="{{go}}" pick="{{pick}}" share="{{share}}" tab="{{cTab}}" hint-size="100%,2600px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rHeroes}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Heroes" world="{{world}}" go="{{go}}" pick="{{pick}}" share="{{share}}" set-world="{{setWorld}}" hint-size="100%,6400px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rDocs}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Docs" world="{{world}}" go="{{go}}" hint-size="100%,2400px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rObservatory}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Observatory" world="{{world}}" go="{{go}}" hint-size="100%,1800px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rReports}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Reports" world="{{world}}" go="{{go}}" hint-size="100%,1600px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rLeader}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Leaderboard" world="{{world}}" go="{{go}}" pick="{{pick}}" set-world="{{setWorld}}" compact="{{inlineNo}}" hint-size="100%,3810px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rChangelog}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Changelog" world="{{world}}" go="{{go}}" pick="{{pick}}" hint-size="100%,4000px"></dc-import>
+    </sc-if>
+    <sc-if value="{{rAbout}}" hint-placeholder-val="{{false}}">
+      <dc-import name="About" world="{{world}}" go="{{go}}" hint-size="100%,5720px"></dc-import>
+    </sc-if>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h4>Explore</h4>
+          <ul><li>Home</li><li>Skill Tree</li><li>Starless</li><li>Meta changelog</li></ul>
+        </div>
+        <div>
+          <h4>Registry</h4>
+          <ul><li>The Codex</li><li>Named skills</li><li>Contributors</li><li>GitHub badges</li></ul>
+        </div>
+        <div>
+          <h4>Signals</h4>
+          <ul><li>Benchmarks</li><li>Weekly reports</li><li>Trending</li><li>Hall of Heroes</li></ul>
+        </div>
+        <div>
+          <h4>Build</h4>
+          <ul><li>Docs home</li><li>Getting started</li><li>CLI reference</li><li>Push a skill</li><li>GitHub</li><li>Open issues</li></ul>
+        </div>
+        <div>
+          <h4>Gaia</h4>
+          <ul><li>About Gaia</li><li>The Gaia ecosystem</li><li><span class="handle">@mbtiongson1</span></li><li>Privacy</li></ul>
+        </div>
+      </div>
+      <div class="foot-bar">
+        <span class="fine">A Gaia Research project · research.gaiaskilltree.com</span>
+        <span class="proto-tag">Prototype · footer groups and links kept from the live site</span>
+      </div>
+    </div>
+  </footer>
+  <sc-if value="{{x3Show}}" hint-placeholder-val="{{false}}">
+    <dc-import name="Explorer3D" world="{{world}}" pick="{{pick}}" on-close="{{closeX3}}" inline="{{inlineNo}}" hint-size="100%,100%"></dc-import>
+  </sc-if>
+  <sc-if value="{{shareShow}}" hint-placeholder-val="{{false}}">
+    <dc-import name="Share" plate="{{shareP}}" on-close="{{closeShare}}" go="{{go}}" inline="{{inlineNo}}" hint-size="100%,100%"></dc-import>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startWorld":{"editor":"enum","options":["ygg","arbor"],"default":"ygg","section":"Prototype"},"startRoute":{"editor":"enum","options":["home","atlas","skills","dossier","evidence","benchmarks","contributors","heroes","docs","observatory","reports","leaderboard","changelog","about"],"default":"home","section":"Prototype"},"$preview":{"width":1440,"height":5680}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      route: p.startRoute || 'home', world: p.startWorld || 'ygg',
+      skill: 'mattpocock/grill-me', focus: 'interview-me',
+      sweep: 0, more: false, menu: false, evTab: 'library', cTab: 'profile', announce: '', shareP: null, x3: false
+    };
+  }
+  top() { try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {} }
+  renderVals() {
+    const s = this.state;
+    const go = (route, opts) => {
+      const o = opts || {};
+      this.setState({ route: route, more: false, menu: false, evTab: o.tab || (route === 'evidence' ? 'library' : s.evTab), cTab: o.ctab || (route === 'contributors' ? 'profile' : s.cTab) });
+      if (!o.keepScroll) this.top();
+    };
+    const setWorld = (w) => {
+      if (w === this.state.world) return;
+      this.setState({ world: w, sweep: this.state.sweep + 1, more: false,
+        announce: w === 'arbor' ? 'Arbor lens. Behavioral projection. The selected skill is kept.' : 'Yggdrasil lens. Standing and evidence. The selected skill is kept.' });
+    };
+    const pick = (sel) => {
+      if (!sel) return;
+      const id = typeof sel === 'string' ? sel : sel.id;
+      const generic = typeof sel === 'string' ? null : sel.generic;
+      this.setState({ skill: id, focus: generic || this.state.focus, route: 'dossier', more: false, menu: false });
+      this.top();
+    };
+    const r = s.route;
+    return {
+      world: s.world, skill: s.skill, focus: s.focus, evTab: s.evTab, cTab: s.cTab, announce: s.announce,
+      isYgg: s.world === 'ygg' ? 'true' : 'false', isArbor: s.world === 'arbor' ? 'true' : 'false',
+      sweepA: s.sweep > 0 && s.sweep % 2 === 1, sweepB: s.sweep > 0 && s.sweep % 2 === 0,
+      sweepCls: s.world === 'arbor' ? 'to-arbor' : 'to-ygg',
+      moreOpen: s.more ? 'true' : 'false', menuOpen: s.menu ? 'true' : 'false', moreShow: !!s.more, menuShow: !!s.menu,
+      rHome: r === 'home', rAtlas: r === 'atlas', rSkills: r === 'skills', rDossier: r === 'dossier', rEvidence: r === 'evidence',
+      rBench: r === 'benchmarks', rContributors: r === 'contributors', rHeroes: r === 'heroes', rDocs: r === 'docs', rObservatory: r === 'observatory', rReports: r === 'reports',
+      rLeader: r === 'leaderboard', rChangelog: r === 'changelog', rAbout: r === 'about', isYggB: s.world === 'ygg', curLeader: r === 'leaderboard' ? 'page' : 'false',
+      curAtlas: r === 'atlas' ? 'page' : 'false', curSkills: r === 'skills' || r === 'dossier' ? 'page' : 'false', curEvidence: r === 'evidence' ? 'page' : 'false', curDocs: r === 'docs' ? 'page' : 'false',
+      go: go, pick: pick, setWorld: setWorld,
+      goHome: () => go('home'), goAtlas: () => go('atlas'), goSkills: () => go('skills'), goEvidence: () => go('evidence'), goDocs: () => go('docs'),
+      goBench: () => go('benchmarks'), goContributors: () => go('contributors'), goHall: () => go('heroes'),
+      goLedger: () => go('evidence', { tab: 'ledger' }), goObservatory: () => go('observatory'), goReports: () => go('reports'),
+      goLeader: () => go('leaderboard'), goChangelog: () => go('changelog'), goAbout: () => go('about'),
+      toggleMore: () => this.setState({ more: !s.more, menu: false }), toggleMenu: () => this.setState({ menu: !s.menu, more: false }),
+      toYgg: () => setWorld('ygg'), toArbor: () => setWorld('arbor'),
+      share: (pl) => this.setState({ shareP: pl, more: false, menu: false }), shareP: s.shareP, shareShow: !!s.shareP, closeShare: () => this.setState({ shareP: null }), inlineNo: false,
+      x3Show: !!s.x3, openX3: () => this.setState({ x3: true, more: false, menu: false }), closeX3: () => this.setState({ x3: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

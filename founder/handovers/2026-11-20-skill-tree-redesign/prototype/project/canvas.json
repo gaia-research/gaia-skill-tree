@@ -1,0 +1,349 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-19T17:40:00Z"
+  },
+  "title": "Gaia Living Atlas",
+  "launch": {
+    "view": "focused",
+    "file": "Main.dc.html"
+  },
+  "pages": [
+    {
+      "id": "site",
+      "name": "The site (connected prototype)"
+    },
+    {
+      "id": "families",
+      "name": "Page families"
+    },
+    {
+      "id": "system",
+      "name": "System and specimens"
+    },
+    {
+      "id": "handoff",
+      "name": "Brief and handoffs"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5680,
+      "title": "Gaia Skill Tree (play this)",
+      "page": "site",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Home.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5060,
+      "title": "Home: Yggdrasil and Arbor compositions",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Atlas.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 920,
+      "title": "Tree Explorer",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Skills.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 5560,
+      "title": "Skills: discovery",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Dossier.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 2560,
+      "title": "Skill dossier",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Evidence.dc.html": {
+      "x": 6080,
+      "y": 0,
+      "w": 1440,
+      "h": 3800,
+      "title": "Evidence and trust",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Benchmarks.dc.html": {
+      "x": 7600,
+      "y": 0,
+      "w": 1440,
+      "h": 3080,
+      "title": "Benchmarks and Hell-Heaven stamps",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Contributors.dc.html": {
+      "x": 9120,
+      "y": 0,
+      "w": 1440,
+      "h": 1760,
+      "title": "Contributors: profile, spotlight, directory",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Docs.dc.html": {
+      "x": 10640,
+      "y": 0,
+      "w": 1440,
+      "h": 1320,
+      "title": "Docs (/en)",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Observatory.dc.html": {
+      "x": 12160,
+      "y": 0,
+      "w": 1440,
+      "h": 1080,
+      "title": "The Observatory (ecosystem)",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Reports.dc.html": {
+      "x": 13680,
+      "y": 0,
+      "w": 1440,
+      "h": 1240,
+      "title": "Reports (meta, weekly, trending template)",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "System.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 3240,
+      "title": "Design system: three token layers",
+      "page": "system",
+      "expand": "fill"
+    },
+    "NavCompare.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 1640,
+      "title": "Navigation: current vs proposed",
+      "page": "system",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Weather.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 2830,
+      "title": "Arbor runtime weather",
+      "page": "system",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1960,
+      "h": 2200,
+      "title": "Phone compositions (390 px)",
+      "page": "system",
+      "is_interactive": true
+    },
+    "States.dc.html": {
+      "x": 6600,
+      "y": 0,
+      "w": 1440,
+      "h": 1400,
+      "title": "Utility states: loading, empty, error, unknown",
+      "page": "system",
+      "expand": "fill"
+    },
+    "Scene.dc.html": {
+      "x": 8120,
+      "y": 0,
+      "w": 1200,
+      "h": 640,
+      "title": "Tree scene component",
+      "page": "system",
+      "is_interactive": true
+    },
+    "Brief.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 11660,
+      "title": "Design brief, coverage matrix, boundary notes",
+      "page": "handoff",
+      "expand": "fill"
+    },
+    "Handoff.dc.html": {
+      "x": 1360,
+      "y": 0,
+      "w": 1280,
+      "h": 4610,
+      "title": "Asset and Rive handoffs",
+      "page": "handoff",
+      "expand": "fill"
+    },
+    "Heroes.dc.html": {
+      "x": 15200,
+      "y": 0,
+      "w": 1440,
+      "h": 6400,
+      "title": "Hall of Heroes (restored, people first)",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Share.dc.html": {
+      "x": 16720,
+      "y": 0,
+      "w": 1440,
+      "h": 820,
+      "title": "Share plaque view",
+      "page": "families",
+      "is_interactive": true
+    },
+    "Explorer3D.dc.html": {
+      "x": 18240,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Yggdrasil in 3D: live layout, Uniques as fruit",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Explorer3DHero.dc.html": {
+      "x": 19760,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Yggdrasil in 3D: hero tree shape",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Leaderboard.dc.html": {
+      "x": 21280,
+      "y": 0,
+      "w": 1440,
+      "h": 3810,
+      "title": "Leaderboard: every graded skill by Trust Magnitude",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Changelog.dc.html": {
+      "x": 22800,
+      "y": 0,
+      "w": 1440,
+      "h": 10300,
+      "title": "Changelog: every skill change, newest first",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "About.dc.html": {
+      "x": 24320,
+      "y": 0,
+      "w": 1440,
+      "h": 5720,
+      "title": "About: the founder story",
+      "page": "families",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Home.dc.html",
+    "Atlas.dc.html",
+    "Explorer3D.dc.html",
+    "Explorer3DHero.dc.html",
+    "Skills.dc.html",
+    "Dossier.dc.html",
+    "Leaderboard.dc.html",
+    "Evidence.dc.html",
+    "Benchmarks.dc.html",
+    "Contributors.dc.html",
+    "Heroes.dc.html",
+    "Share.dc.html",
+    "Docs.dc.html",
+    "Observatory.dc.html",
+    "About.dc.html",
+    "Reports.dc.html",
+    "Changelog.dc.html",
+    "System.dc.html",
+    "NavCompare.dc.html",
+    "Weather.dc.html",
+    "Mobile.dc.html",
+    "States.dc.html",
+    "Scene.dc.html",
+    "Brief.dc.html",
+    "Handoff.dc.html"
+  ],
+  "notes": {
+    "fam-title": {
+      "x": 0,
+      "y": -300,
+      "text": "Page families: each page is also live inside the site",
+      "kind": "title1",
+      "page": "families",
+      "maxW": 25760
+    },
+    "sys-title": {
+      "x": 0,
+      "y": -300,
+      "text": "System and specimens",
+      "kind": "title1",
+      "page": "system",
+      "maxW": 9320
+    },
+    "ho-title": {
+      "x": 0,
+      "y": -300,
+      "text": "Brief and handoffs",
+      "kind": "title1",
+      "page": "handoff",
+      "maxW": 2640
+    },
+    "site-sticky": {
+      "x": 1520,
+      "y": 0,
+      "w": 360,
+      "text": "Press Play on the site frame. Switch Yggdrasil and Arbor in the header: the same skill stays selected while the world changes. Data is a real registry snapshot from 17 Nov 2026; anything marked Prototype or Specimen is a design demonstration, not a live result.",
+      "page": "site",
+      "fill": "orange",
+      "size": "m"
+    }
+  },
+  "designSystems": []
+}

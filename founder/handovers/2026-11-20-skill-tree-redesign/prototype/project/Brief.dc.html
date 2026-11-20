@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Design brief, coverage matrix and boundary notes</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.doc { max-width: 1120px; margin-inline: auto; padding: 4rem clamp(1rem, 4cqi, 3rem) 6rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.doc h2 { font-family: var(--f-display); font-weight: 500; font-size: 2rem; margin: 2.75rem 0 .25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.doc h3 { font-size: 1.05rem; margin: 1.2rem 0 0; }
+.doc p, .doc li { color: var(--ink-2); line-height: 1.65; max-width: 78ch; }
+.doc ul, .doc ol { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.doc b { color: var(--ink); font-weight: 600; }
+.t { width: 100%; border-collapse: collapse; font-size: .8125rem; line-height: 1.45; }
+.t th, .t td { text-align: left; vertical-align: top; padding: .6rem .8rem .6rem 0; border-bottom: 1px solid var(--line); }
+.t th { font-family: var(--f-hud); font-weight: 400; font-size: .625rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+.t td:first-child { color: var(--ink); font-weight: 600; min-width: 9rem; }
+.t td { color: var(--ink-2); }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+@container atlas (max-width: 800px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.box { border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none">
+  <article class="doc">
+    <div class="plate"><span class="pl-mark">Brief</span><i class="pl-sep"></i><span>Living Atlas · first design pass</span><i class="pl-sep"></i><span>19 Nov 2026</span><i class="pl-rule"></i></div>
+    <h1 class="h1">The Living Atlas</h1>
+    <p class="fine">Living Atlas is this commission's internal codename. It never appears on the site; the explorer is called the Tree Explorer, and its nav label is Explore.</p>
+    <p class="lede">One public record, more than one way to read it. Yggdrasil is the monument and the default world. Arbor is the instrument, entered through a lens. The Observatory is the threshold to the rest of the house.</p>
+
+    <h2>Creative thesis</h2>
+    <p>The redesign keeps what makes Gaia recognisable (the gold World Tree, EB Garamond, Departure Mono numerals, Honor Red handles, the rank ladders and evidence metals) and changes what had aged: the rainbow navigation, centred stacks of cards and eyebrows, emoji icons, stat-card heroes and one-off page layouts. Every page now shares one shell and one grammar, and each Tree brings its own world into it.</p>
+    <div class="two">
+      <div class="box"><span class="hud" style="color: var(--accent-ink)">Yggdrasil · monument</span><p class="small">Warm obsidian, matched to the Ascension Overdrive so the locked section belongs to the page. Organic curves, gold light on a real DAG: Basic capabilities are the roots, fusions the crown by depth. The approved raster aligns to the live trunk as one silhouette. Serif display, specimen dossiers, pedestals, ledger tables.</p></div>
+      <div class="box"><span class="hud" style="color: oklch(0.84 0.13 148)">Arbor · instrument</span><p class="small">Washed charcoal and bone. A 3D circuit tree after the founder's Arbor I concept art: a bundled trunk of traces jogging at 45°, branches on five depth planes ending in ringed terminals, roots running across a ground plane. The front silhouette matches the concept; the planes separate as the camera moves. A framed viewport, a condensed grotesque voice, readouts instead of rankings. Heaven, Hell and Ultra act on the instrument only.</p></div>
+    </div>
+
+    <h2>Principles</h2>
+    <ol>
+      <li><b>Projection, not theme.</b> The lens changes geometry, section composition, metrics and voice. Identity, evidence metals, rank, Honor Red and challenge keep one meaning in every Tree.</li>
+      <li><b>The ledger precedes the interface.</b> Every number in the prototype comes from the 17 Nov 2026 registry snapshot. Anything illustrative says Prototype or Specimen on its face.</li>
+      <li><b>Gold is earned.</b> Apex Gold appears on 5★ and 6★, the seal and the World Tree mark. The GitHub star loses its gold pill.</li>
+      <li><b>Unknown is visible.</b> Not measured is dotted, never zero, never hatched (hachure belongs to challenges). Empty panels stay empty rather than estimating.</li>
+      <li><b>Plates, not eyebrows.</b> One plate strip per page header carries the atlas register. Sections lead with their heading, not a kicker.</li>
+      <li><b>Weather is local.</b> Heaven, Hell and Ultra change the Arbor instrument, never the navigation, text or evidence materials around it.</li>
+      <li><b>Locked means locked.</b> The Ascension Overdrive is embedded as a capture of the live section, unchanged.</li>
+    </ol>
+
+    <h2>Reference hierarchy used</h2>
+    <table class="t">
+      <thead><tr><th>Tier</th><th>Sources</th><th>What it decided</th></tr></thead>
+      <tbody>
+        <tr><td>A · product canon</td><td>PRODUCT.md, DESIGN.md, CONTEXT.md, META.md, ENDGAME.md, ARBOR-DESIGN.md, the multi-Tree web endgame (PR 2465, merged today), tokens.css, trustMagnitude.py</td><td>Semantic invariants, the three token layers, Arbor geometry and weather law, grade floors and ceilings, section dispositions per Tree.</td></tr>
+        <tr><td>A · ecosystem</td><td>gaia-research PRODUCT/DESIGN, Skill Heaven site DESIGN, marketing-tasks MILIM.md, Lucy character sheet</td><td>Room accents for the Observatory, prism hues, Hell paper and ink, character authority.</td></tr>
+        <tr><td>B · backlog</td><td>2462, 2464, 2463, 1736, 2086, 1194, 952, 1231, plus 975, 1821, 1326, 2063, 2046, 2265</td><td>Coverage below; which states exist; what stays deferred.</td></tr>
+        <tr><td>C · lore</td><td>gaia-lore governance</td><td>No public-safe motif exists, so the design uses none. Characters appear only as approved art.</td></tr>
+        <tr><td>D · qualities</td><td>Scientific instrumentation, Linear-grade density, natural-history atlas plates, spatial exhibition lighting</td><td>Instrument framing, ledger tables, plate strips, vitrine dossiers.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Coverage matrix</h2>
+    <div class="scroll-x">
+      <table class="t">
+        <thead><tr><th>Family</th><th>Current route</th><th>Dated today</th><th>Proposed treatment</th><th>In the artifact</th><th>Issues</th><th>Depends on</th></tr></thead>
+        <tbody>
+          <tr><td>Homepage</td><td>/</td><td>Rainbow nav, card grids, eyebrow on every section, duplicate legacy Hall block</td><td>Monument hero with raster and live DAG; Hall pedestals with an empty Apex plinth; ledger table; begin console; ordered review line; metals; reports; Observatory threshold. Arbor swaps in its own composition.</td><td>Site · Home</td><td>2462, 2464</td><td>Experience manifest, section disposition</td></tr>
+          <tr><td>Ascension Overdrive</td><td>/#ascension</td><td>Locked</td><td>Unchanged, framed, collapsible window</td><td>Home (capture)</td><td>975</td><td>None</td></tr>
+          <tr><td>Named skills</td><td>/named/</td><td>Centred hero, tile and flow views, pill filters</td><td>Ledger, Specimens, By capability and Flow views; sticky facets; starless group headers; Arbor columns without stars. Flow keeps every generic skill, link, rank zone and Standalone or Suite band of the live flowchart, as round orbs on a tidy grid</td><td>Skills</td><td>1231</td><td>One semantics source</td></tr>
+          <tr><td>Skill detail</td><td>/named/report.html</td><td>Script-built sections</td><td>Specimen dossier: vitrine, assay, evidence ledger, journey with demotions, classification, Apex gate, mini scene. Arbor: runtime lenses, declared relations, empty stamp slot.</td><td>Dossier</td><td>2063, 1194</td><td>Install truthfulness</td></tr>
+          <tr><td>Graph exploration</td><td>/?tree=1, /?field=1</td><td>Two modes, field deprecated</td><td>One Tree Explorer: rail, scene, inspector, density Far, Mid and Near, starless generic inspector</td><td>Tree Explorer, Scene</td><td>1736, 2463, 652</td><td>Three.js port, anchor contract</td></tr>
+          <tr><td>Explore in 3D</td><td>/ (hero), ?tree=1</td><td>Sophisticated scene, dated parts: floating chips, datalist search, drawer legend, DOM neighbour cards, full-width speed strip; 31 Uniques drawn on 6 points</td><td>Same node designs. New top bar, Lens, inspector with the Origin holder, person view, Orbit and Fly, altitude gauge, close-approach black holes, sprite renderer. A hero-tree shape option; Uniques as fruit, sized by rank</td><td>Yggdrasil in 3D (live, hero), Mobile</td><td>1736, 2463, 2480</td><td>Unique placement in world-tree-layout.js (2480)</td></tr>
+          <tr><td>Contributor profiles</td><td>/u/&lt;handle&gt;/</td><td>Sparse centred header</td><td>Identity card, rank histogram, skills list, honest empty TM history</td><td>Contributors · Profile</td><td>1194, 2046</td><td>TM snapshots</td></tr>
+          <tr><td>Hall of Heroes</td><td>/heroes/</td><td>Intro, Hall ledger rail, four tier sections, one stage per 4★+ plate with avatar, wreath and medallion, Fusion Score, Share plaque</td><td>Kept as is; components restyled. Avatars lead, gold wreath for Origin holders, real README badge in Share</td><td>Hall of Heroes (own page)</td><td>1821, 1326</td><td>Stage backdrop (A2)</td></tr>
+          <tr><td>Share plaque</td><td>modal on every plaque</td><td>Fullscreen card, “Are you @handle?”, README badge, PNG/SVG, link, X, Instagram, idle chrome</td><td>Same flow and controls; card redrawn in the new system; on Hall stages, Home pedestals, Skills specimens and the dossier</td><td>Share view</td><td>—</td><td>None</td></tr>
+          <tr><td>Evidence Library</td><td>/evidence/</td><td>Stat cards, duplicated legend</td><td>Alloy bar, type filters, row ledger</td><td>Evidence · Library</td><td>1466</td><td>None</td></tr>
+          <tr><td>Trust ledger and method</td><td>/trust/ledger/, /codex/</td><td>114 inline styles, long TOC</td><td>Ledger with log meter and floor notches, beside the Evidence Library and shown only under the Yggdrasil lens; Codex article with sticky TOC</td><td>Evidence · Ledger, Methodology</td><td>1001</td><td>None</td></tr>
+          <tr><td>Challenges</td><td>Component only</td><td>Not wired to surfaces</td><td>Four assay states; truthful empty source</td><td>Evidence · Challenges, Dossier</td><td>Yggdrasil IV</td><td>Challenge projection source</td></tr>
+          <tr><td>Benchmarks</td><td>/benchmarks/</td><td>Explainer only</td><td>Receipt anatomy, two readings, registered sources, state ladder</td><td>Benchmarks</td><td>2462</td><td>Receipt contract</td></tr>
+          <tr><td>Hell-Heaven stamps</td><td>None</td><td>Not designed</td><td>Six square impressions, a five-state ladder, dossier slot</td><td>Benchmarks, Home (Arbor), Dossier (Arbor)</td><td>2462, 2464, 1508</td><td>HH index, governed interpretation</td></tr>
+          <tr><td>Reports and trending</td><td>/meta.html, /reports/, /trending/</td><td>Three templates</td><td>One editorial list grammar; trending shows a truthful loading state</td><td>Reports</td><td>973, 2265, 1309</td><td>Rolling-window artifacts</td></tr>
+          <tr><td>Arbor and Tree switching</td><td>None</td><td>Not built</td><td>Lens in the header, travel animation, framed instrument, local weather</td><td>Site, Home, Tree Explorer, Weather</td><td>1736, 2462, 2464</td><td>Projection contract, routes</td></tr>
+          <tr><td>Ecosystem</td><td>/#ecosystem</td><td>Text section</td><td>Observatory dome with three apertures, room light, character presence control</td><td>Observatory, Home threshold</td><td>DESIGN E5</td><td>Character approvals</td></tr>
+          <tr><td>Install and contribute</td><td>/#paths</td><td>Three cards</td><td>Tabbed console; docs start path</td><td>Home, Docs</td><td>2063, 844</td><td>None</td></tr>
+          <tr><td>Docs</td><td>/en/*.html</td><td>Emoji icons, identical cards, inline styles</td><td>Ordered start path, topic index, Builder and Developer mode, article with nav and TOC</td><td>Docs</td><td>952, 775, 2042</td><td>Mode persistence, cache-busting</td></tr>
+          <tr><td>Badges</td><td>/badges/</td><td>Placeholder art</td><td>States only in this pass (1★ cutover)</td><td>States</td><td>1326, 1817</td><td>Stage art (A2)</td></tr>
+          <tr><td>Leaderboard</td><td>/ (leaderboard section)</td><td>Vertical bars by Trust Magnitude, avatar and wreath in each bar, evidence-type tabs, contributor filter</td><td>The same chart and controls in the new system, a compact version on the homepage and a full page with a ranked table; Yggdrasil only, Arbor explains why</td><td>Leaderboard, Home</td><td>None</td><td>None</td></tr>
+          <tr><td>Changelog of skills</td><td>/ (Meta Changelog sidebar)</td><td>Sidebar, seven legacy filters, 15 rows a page</td><td>A full page: 5,306 timeline events by month and day, family filters with counts, search, month jump, report markers, Markdown copy and download</td><td>Changelog, Reports</td><td>None</td><td>None</td></tr>
+          <tr><td>About</td><td>/about.html</td><td>Founder plates</td><td>Every plate carried over word for word: frontispiece, the record today, guarantees, the tools that taught Gaia, contribute, timeline</td><td>About</td><td>None</td><td>None</td></tr>
+          <tr><td>Privacy, API, starless, share</td><td>Various</td><td>Dated one-offs</td><td>Inherit the docs article and reports list templates</td><td>Docs, Reports (templates)</td><td>None</td><td>None</td></tr>
+          <tr><td>Utility states</td><td>Various</td><td>Inconsistent</td><td>Skeletons, empty, 404, dated fallback, unknown, interim banner</td><td>States</td><td>None</td><td>None</td></tr>
+          <tr><td>Navigation and footer</td><td>site-nav.js, site-footer.js</td><td>Rainbow links, gold pill</td><td>Four destinations, grouped More, search, lens, star icon; footer kept</td><td>Site, NavCompare</td><td>None</td><td>mounts.js (Guard D)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Design-to-production boundary</h2>
+    <div class="two">
+      <div class="box"><h3 style="margin: 0">Prototype-only interactions</h3><p class="small">Tree lens and travel; weather; Tree Explorer selection, density and filtering; Skills views and facets; dossier lens swap; evidence filters; docs mode; Observatory dome; Hall rail; copy buttons; the Share view and its downloads, which draw the card in the browser where production serves the pre-rendered og/ file. All state is local to the artifact.</p></div>
+      <div class="box"><h3 style="margin: 0">Production functionality represented</h3><p class="small">World Tree hero and Explore in 3D, named skills filters, Evidence Library, Trust Ledger and Codex, challenge components, Hall of Heroes, profiles, docs pages, install script. Real snapshot data, rendered in the new system.</p></div>
+      <div class="box"><h3 style="margin: 0">New proposals</h3><p class="small">The lens; Arbor home composition; the Tree Explorer inspector; the specimen dossier; Hell-Heaven stamps; the Observatory; regrouped navigation; Builder and Developer docs; the ledger meter; warm obsidian ground; Unique ink tokens.</p></div>
+      <div class="box"><h3 style="margin: 0">Deferred contracts</h3><p class="small">Arbor projection positions; Hell-Heaven index and stamps; benchmark receipts; Website Experience Manifest; /tree/ routes; TM history snapshots; Blender canon and web anchors; challenge projection source.</p></div>
+      <div class="box"><h3 style="margin: 0">Hidden or folded legacy controls</h3><p class="small">Field view folds into the Tree Explorer. The Named Skills flow view stays, as Skills · Flow. Tile and List become Specimens and Ledger. Per-link nav colours go. The gold star pill becomes an icon. The duplicate legacy Hall block and the "three names" text section give way to the Observatory threshold. Evidence stat cards become the alloy bar. No data, provenance or route is removed.</p></div>
+      <div class="box"><h3 style="margin: 0">Future implementation (advisory)</h3><p class="small">Extend generateCssTokens.py to emit world and weather layers; port the scene to Three.js against the Blender canon; move pages to container queries; compose homepage sections from the experience manifest; swap the Arbor fixture adapter for the production projection.</p></div>
+    </div>
+
+    <h2>Hall of Heroes: making it fast</h2>
+    <p>The Hall is the people page, and it is long: 48 stages, each with a photo. The prototype is built the way production should be.</p>
+    <div class="two">
+      <div class="box"><h3 style="margin: 0">Paint only what is on screen</h3><p class="small">Each stage carries <code>content-visibility: auto</code> with <code>contain-intrinsic-size: auto 600px</code>, so the browser skips layout and paint for stages off screen while the scrollbar stays honest. One static page background; no per-stage backdrop, blur or fixed attachment, so nothing repaints on scroll.</p></div>
+      <div class="box"><h3 style="margin: 0">One observer, no scroll listener</h3><p class="small">A single IntersectionObserver with a middle-band root margin sets the active plate and marks a stage as seen for its one-time entrance. The rail re-renders only when the active plate changes, and keeps its own list scrolled with <code>scrollTop</code>, never <code>scrollIntoView</code> on the page.</p></div>
+      <div class="box"><h3 style="margin: 0">Avatars at the size they are drawn</h3><p class="small">Request <code>avatars.githubusercontent.com/&lt;handle&gt;?s=480</code> for the 240 px stage photo and <code>?s=64</code> for the rail, each with width, height, <code>loading="lazy"</code> and <code>decoding="async"</code>. Preload only the first stage's photo. Keep the monogram fallback for a failed load. The wreath is one shared SVG file, cached once, not inlined 48 times.</p></div>
+      <div class="box"><h3 style="margin: 0">Motion that costs nothing</h3><p class="small">Entrances animate transform and opacity only, run once per stage, and are off under reduced motion. Medallions use the 240 px badge tier, not the 800 px card tier. Data comes from one precomputed hall slice (the plates, sorted), not the full named index.</p></div>
+    </div>
+
+    <h2>Yggdrasil in 3D: the explorer rebuilt</h2>
+    <p>The live 3D view keeps its real layout and its stars and black holes. What changes is everything drawn on top of it, how you move through it, and what each frame costs. The board <b>Yggdrasil in 3D</b> runs on the real snapshot: the site's own <code>world-tree-layout.js</code> computed the positions for all 317 skills and 501 links, so the shape matches production exactly. It opens from Explore in 3D on the home hero and from the Tree Explorer.</p>
+    <figure style="margin: .5rem 0 0"><img src="/_blob/00f360793a1b19d3eefe8877075c5d3a" alt="The live 3D explorer today: a stats chip, an empty collection panel and a spread ruler on the left, Labels, Orbit, GEXF and close pills top right, a filters drawer on the right edge, a full-width speed strip at the bottom, and a hover card over the tree." width="1440" height="900" loading="lazy" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line)"><figcaption class="fine" style="margin-top: .5rem">Live today (gaiaskilltree.com, Explore in 3D, 19 Nov 2026). Compare with the board.</figcaption></figure>
+    <h3>Component by component</h3>
+    <div style="overflow-x: auto">
+      <table class="t">
+        <thead><tr><th>Live part</th><th>What it does today</th><th>Rebuilt as</th></tr></thead>
+        <tbody>
+          <tr><td>Stats chip</td><td>“317 skills · 501 links · 31 Unique” floating top left</td><td>Title block in the top bar: Yggdrasil, then the same counts in mono</td></tr>
+          <tr><td>Search</td><td>Text box with a browser datalist; prefixes / and @</td><td>Combobox with arrow keys and Enter. Rows show the glyph, rank and holder; @ lists people with their avatars. The scene dims everything that does not match while you type</td></tr>
+          <tr><td>Filters drawer and legend</td><td>A side tab that opens a legend you can click</td><td>The Lens panel: a rank ladder that forks at 4★ into Suite ◆ and Unique ◉ columns, the four structure glyphs, and the two kinds of link. Hover previews a filter; pressing keeps it; counts sit on every row</td></tr>
+          <tr><td>Labels, Orbit, GEXF, close</td><td>Four pills top right</td><td>Leave 3D on the left. Orbit or Fly, a three-state Labels button, Lens, and GEXF on the right</td></tr>
+          <tr><td>Hover card</td><td>Name, redacted handle, id, type badge, rank, a + button</td><td>A light hover tip (glyph, name, rank word, @holder). Click selects; double click flies there</td></tr>
+          <tr><td>Skill panel</td><td>Name, handle, type badge, one command, Open in Explorer</td><td>The inspector: rank chip, name, then the person who holds Origin with their GitHub avatar and gold wreath (co-holders named when Origin is shared, as it is on 21 skills). Summary, structure, position in the tree, named count, lineage size. Fly to it, Open dossier, Add to collection, the install command, and Needs and Unlocks lists you can fly along</td></tr>
+          <tr><td>Neighbour cards</td><td>DOM cards for every neighbour, moved every frame</td><td>Neighbour names drawn on the canvas with collision checks, and the lineage drawn as a slow dashed flow from prerequisite to unlock</td></tr>
+          <tr><td>Collection panel</td><td>Always open, usually empty</td><td>Appears once you add a named skill; the tray copies every install command at once</td></tr>
+          <tr><td>Spread ruler</td><td>Full-height vertical strip on the left</td><td>A small Spread slider in the dock</td></tr>
+          <tr><td>Bottom bar</td><td>Pause, reset, random, zoom readout, full-width speed strip</td><td>The dock: slow turn, whole tree, move back, move closer, spread and key hints. The frame-cost meter is for debugging only: press <code>`</code> or open with <code>?debug=frames</code></td></tr>
+          <tr><td>New</td><td>None</td><td>Altitude gauge (Crown, Boughs, Heartwood, Collar, Roots) that flies you to that height inside the tree; an edge chevron that points to the selected skill when it is off screen; a person view that lights one contributor's skills and frames them</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Moving inside the tree</h3>
+    <div class="two">
+      <div class="box"><h3 style="margin: 0">Orbit</h3><p class="small">Drag turns the tree around the current point. Scroll or pinch moves closer. Selecting a skill from search, a lineage row or the person list flies the camera there on a 0.7 to 1.7 second ease, and it then orbits that skill.</p></div>
+      <div class="box"><h3 style="margin: 0">Fly</h3><p class="small">Drag looks around without moving. W, A, S, D move, Q and E go down and up, Shift is faster, arrows turn. Edges are clipped at the camera so the wood stays continuous while you pass through it, and nodes fade as they reach the lens instead of filling the screen.</p></div>
+      <div class="box"><h3 style="margin: 0">Keys</h3><p class="small"><code>/</code> search, <code>R</code> whole tree, <code>F</code> fly to the selection, <code>L</code> labels, Space slow turn, <code>+</code> and <code>−</code> move, Esc clears search, then the selection, then leaves. Focus stays inside the dialog.</p></div>
+      <div class="box"><h3 style="margin: 0">Phone</h3><p class="small">Search moves under the title; the inspector and the lens become bottom sheets, and the tree lifts into the space above them. Drag orbits, two fingers pinch, double tap flies. The Explore in 3D button now shows on phones too.</p></div>
+    </div>
+    <h3>Two shapes, same explorer</h3>
+    <p>The <b>Yggdrasil in 3D: hero tree shape</b> board networks the skills the way the home hero does, with the explorer's navigation and presentation kept as they are. Basic skills are the roots, grouped by cluster and pulled toward the trunk by how many skills build on them; a root fibre runs from the trunk base to each one. Fusions climb the crown by depth. Each grows on a branch from its deepest prerequisite, or from the trunk when that prerequisite is a Basic. Other fusion-to-fusion prerequisites are quiet grafts. Because the wood shows only the deepest prerequisite, selecting a skill in this shape draws every true prerequisite link as the dashed lineage. The <b>live layout</b> board keeps the site's own positions and colours, and now draws its links the way the hero shape does: a twisted trunk up the layout's axis, a root fibre to every Basic, each fusion on a branch from its structural parent (or from the trunk where its route met it), and every other prerequisite as a quiet strand that bows through the heartwood. The long routed loops are gone. Every node is round: a fusion carries a fine inner ring instead of a diamond. A Review box (bottom right) switches either board between the two shapes, and the tree morphs between them.</p>
+    <h3>Uniques as fruit</h3>
+    <p>There are 31 Uniques now, not three, so they are quieter. They are sized like every other skill of their rank: there is no larger floor for Uniques, and 4★ Uniques match other 4★ skills. Halo, spiral arms, particles and the event horizon are all dimmer, and the 5★ Unique takes the burnished copper of <code>--rank-5-unique</code>. The close-approach view is unchanged: a lensed accretion disk, the brighter approaching side, a photon ring and bent starlight.</p>
+    <p>Each Unique hangs as fruit from a bough on a thin stem. The bough is a prerequisite in the crown, or failing that a crown skill that builds on it, or failing that a proven bough in its own cluster; no bough carries more than three. That seats all 31 on 24 boughs in both shapes. The inspector names the bough. The Review box's Uniques switch shows the alternative: the spread ring outside the trunk in the live shape, or placement by type in the hero shape.</p>
+    <p><b>Layout finding, filed as gaia-skill-tree#2480.</b> The live layout puts all 31 Uniques on six outside anchors, 17 of them on one point, so only six black holes can be seen or clicked. The prototype fixes it at render time; the issue asks for the fix in <code>world-tree-layout.js</code> once the fruit or ring choice is made.</p>
+    <h3>Performance</h3>
+    <p>Measured in the same headless Chromium at 1440 by 900 with software rendering and no GPU, so treat the numbers as a comparison, not a target. Live explorer: 16 frames a second, worst frame 133 ms. Rebuilt: about 60 frames a second; 46 to 47 frames a second during a full-screen black-hole approach. With curved wood in both shapes, the live shape draws in about 2.3 ms a frame and the hero shape in about 1.9 ms (measured while other renders shared the machine). Each wood polyline is projected once per frame into a screen-space cache. For debugging, press <code>`</code> (or add <code>?debug=frames</code>) to show draw time, frame rate and quality on any machine.</p>
+    <div class="two">
+      <div class="box"><h3 style="margin: 0">Paint once, stamp every frame</h3><p class="small">Glows, coronas, flares, pulsar beams, halos, spiral arms, accretion disks and lens rings are painted once into small canvases when the explorer opens. The frame loop only stamps them with <code>drawImage</code>. The live code builds several radial gradients per node per frame, roughly a thousand allocations a frame.</p></div>
+      <div class="box"><h3 style="margin: 0">Batch the wood</h3><p class="small">Wood is grouped by kind, colour and depth band, so every trunk strand, root fibre, branch and strand draws in at most 132 strokes, whichever shape is showing.</p></div>
+      <div class="box"><h3 style="margin: 0">Leave the DOM alone</h3><p class="small">Panels re-render only when the selection, search or filters change. Per frame, the page writes two transforms (hover tip and altitude marker) and nothing else. Labels are canvas text with cached widths and a collision pass capped at 90.</p></div>
+      <div class="box"><h3 style="margin: 0">Adapt, then rest</h3><p class="small">Resolution steps down while the camera moves and when frames run long, and steps back up when they recover. The loop pauses when the tab is hidden or the explorer is off screen. Under reduced motion nothing animates and frames are drawn only on input.</p></div>
+    </div>
+
+    <h2>Round three: founder comments</h2>
+    <p>Eleven comments came back on the site frame. Each is answered on the board it was left on; this is the index.</p>
+    <div class="scroll-x"><table class="t">
+      <thead><tr><th>Comment</th><th>What changed</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Origin wreaths skewed left</td><td>A global image rule clamped the wreath to the photo's width while its height stayed larger, so it squeezed and drifted left. One shared rule now frames every wreath at the live plaque's proportion (photo 82%, wreath 112% of the frame), centred, on every board.</td><td>atlas.css; Skills, Heroes, Home, Contributors, Dossier, Share, Explorer</td></tr>
+        <tr><td>Vertical bar leaderboard, page in scope; ledger near evidence, Yggdrasil only</td><td>A Leaderboard page with the live chart's bars, avatars, wreaths, evidence-type tabs, contributor filter, grades and a ranked table, plus a compact version on the homepage where the Trust Ledger was. Leaderboard joins the primary nav. The Trust Ledger tab sits beside the Evidence Library and appears only under the Yggdrasil lens.</td><td>Leaderboard, Home, Evidence, site nav</td></tr>
+        <tr><td>Full changelog of skills</td><td>A Changelog page built from every timeline event in the registry, linked from the homepage report card, the Reports page and More.</td><td>Changelog, Reports, Home</td></tr>
+        <tr><td>Full About page with the founder story</td><td>Every plate of the live About page, carried over word for word. The email link is left out of the prototype; production keeps it.</td><td>About, More, phone menu</td></tr>
+        <tr><td>Flow section missing</td><td>Skills gains a fourth view, Flow: every generic skill in rank zones with Standalone and Suite bands, all 501 links visible at rest, lineage on hover or tap, and a readout bar on phones.</td><td>Skills</td></tr>
+        <tr><td>3D: tweak the curves, keep colours and style; no diamonds</td><td>The live layout keeps its positions and colours and now grows its links as wood, the way the hero shape does. Fusion nodes are round with a fine inner ring. Text glyphs in legends and chips stay.</td><td>Yggdrasil in 3D (both boards)</td></tr>
+        <tr><td>Overlap in the Arbor dossier</td><td>The small Arbor scene put the subject's label across nodes and a connector. In small scenes the label now sits above the reticle on a solid plate, inside the frame.</td><td>Dossier, Scene</td></tr>
+        <tr><td>Gaia mark more dramatic and 3D</td><td>The Observatory keystone is a lit, layered seal with a bevel, a moving light and a cast glow; still under reduced motion. An asset brief for a rendered version follows.</td><td>Observatory</td></tr>
+        <tr><td>Stamp logos not ratified</td><td>The stamp sheet now says the artwork is a placeholder and only the placement stands.</td><td>Benchmarks</td></tr>
+        <tr><td>Hell is right; a glitch and impact flash across the whole screen when the weather changes</td><td>Every change between Clear, Heaven, Hell and Ultra cuts the whole viewport: an impact frame, then slice and scanline glitch in that weather's palette, resolving in 450 to 640 ms. Hell's colours are unchanged. No more than three flashes in any second, no full-screen red, light sheets at 55% or less, and reduced motion gets a single 150 ms fade.</td><td>Home, Tree Explorer, Arbor runtime weather</td></tr>
+        <tr><td>Arbor Ultra: overdrive, impact frames, golder and bolder</td><td>Ultra enters with a stamped ULTRA impact frame, a gold radial burst and speed lines from the selection. At rest the field is gold, the instrument has gold corner brackets and heavy gold labels, and the pressed control is solid gold. Idle Ultra holds 60 fps; the 1440 entry dips to about 40 to 50 fps in software rendering.</td><td>Home, Tree Explorer, Scene, Arbor runtime weather</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Asset request: the rendered keystone</h3>
+    <div class="box">
+      <p class="small"><b>Purpose and placement.</b> A rendered 3D version of the Gaia seal for the keystone at the centre of The Observatory dome (about 90 to 160 px wide), and possibly the 28 px nav seal.</p>
+      <p class="small"><b>Geometry to keep exactly.</b> Two nested squares rotated 45 degrees on one centre: outer side 15.8 and inner side 8.4 on a 28-unit grid. A serif capital G in EB Garamond SemiBold, centred, baseline 3.6 units below centre, size 10.5 units. Front view, at most 8 degrees of tilt.</p>
+      <p class="small"><b>Material and light.</b> Key light from the upper left, soft fill from the lower right. Bevelled metal frames with a centre ridge; the G raised above the inner square. Yggdrasil: warm gold with parchment highlights and a dark umber recess. Arbor: cooler green-teal metal with a slate recess.</p>
+      <p class="small"><b>Formats.</b> Transparent WebP at 2x for 160, 96 and 56 px, per world, plus a flat two-tone SVG fallback. No baked background, glow or wordmark. At 28 px both squares and the G stay distinct. Overlays the SVG seal within 1 px at 160 px, reads on both world grounds, under 60 KB a file. Model choice follows <code>.agents/skills/gaia-image-production/SKILL.md</code>.</p>
+    </div>
+
+    <h2>Notes for review</h2>
+    <ul>
+      <li>Copy follows current vocabulary: pages say propose, not promote, in line with no self-promotion.</li>
+      <li>Evidence counts here (778 named-skill rows) differ from the live library's 1,032, which also counts generic-layer rows. Production should say which pool a number covers.</li>
+      <li>Every Milim asset in the gaia-research asset ledger is still marked candidate; the prototype uses the poster of the approved milim.riv. Nothing on file approves Lucy on Skill Tree; she appears only behind the presence control, at Quiet.</li>
+      <li>Self-review only. The critique in this pass was done by the same model that designed it.</li>
+    </ul>
+  </article>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":11660}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phone compositions at 390 pixels</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.phone { width: 390px; height: 844px; border-radius: 44px; border: 10px solid #0b0b0c; box-shadow: 0 0 0 1px #2a2a2c; overflow: hidden; background: #110f0c; flex: none; transform: translateZ(0); }
+.phone-scroll { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.cap { width: 390px; display: flex; flex-direction: column; gap: .25rem; }
+</style>
+</helmet>
+<div class="atlas" data-world="ygg" data-weather="none" style="width: 1960px; height: 2200px; box-sizing: border-box; padding: 64px; display: flex; flex-direction: column; gap: 48px">
+  <div class="stack gap-2">
+    <div class="plate"><span class="pl-mark">Phone</span><i class="pl-sep"></i><span>390 × 844</span><i class="pl-sep"></i><span>the full site, scrollable in each frame</span><i class="pl-rule"></i></div>
+    <h1 class="h2">Compose, don't shrink</h1>
+  </div>
+  <div style="display: flex; gap: 56px; align-items: flex-start">
+    <div class="stack gap-3"><div class="phone"><div class="phone-scroll"><dc-import name="Main" start-world="ygg" start-route="home" hint-size="390px,5200px"></dc-import></div></div><div class="cap"><span class="h4">Home · Yggdrasil</span><span class="small">Title and search first, the tree below, the strip after. The Overdrive capture swaps to its own mobile render.</span></div></div>
+    <div class="stack gap-3"><div class="phone"><div class="phone-scroll"><dc-import name="Main" start-world="arbor" start-route="home" hint-size="390px,5200px"></dc-import></div></div><div class="cap"><span class="h4">Home · Arbor</span><span class="small">The instrument drops below the readout; weather controls move into the copy column.</span></div></div>
+    <div class="stack gap-3"><div class="phone"><div class="phone-scroll"><dc-import name="Main" start-world="ygg" start-route="dossier" hint-size="390px,4000px"></dc-import></div></div><div class="cap"><span class="h4">Dossier</span><span class="small">Vitrine, identity, assay, then evidence rows that stack type under grade.</span></div></div>
+    <div class="stack gap-3"><div class="phone"><div class="phone-scroll"><dc-import name="Main" start-world="ygg" start-route="docs" hint-size="390px,2600px"></dc-import></div></div><div class="cap"><span class="h4">Docs</span><span class="small">The five-step path becomes a list; the topic index runs in one column.</span></div></div>
+  </div>
+  <div style="display: flex; gap: 56px; align-items: flex-start">
+    <div class="stack gap-3"><div class="phone" style="--x3-h: 824px"><dc-import name="Explorer3D" start-focus="refactor-code" hint-size="370px,824px"></dc-import></div><div class="cap"><span class="h4">Yggdrasil in 3D</span><span class="small">Search sits under the title. The skill panel and the lens become bottom sheets, and the tree lifts into the space above them. Drag to orbit, pinch to move, double tap to fly.</span></div></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1960,"height":2200}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

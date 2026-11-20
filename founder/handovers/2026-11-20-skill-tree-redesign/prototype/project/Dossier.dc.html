@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Skill dossier: one skill, two projections</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding-top: 2rem; font-size: .875rem; color: var(--ink-3); }
+.crumbs button { background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink-2); font-size: .875rem; min-height: 32px; }
+.crumbs button:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.spec { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(2rem, 5cqi, 4.5rem); padding-block: 2rem 3rem; align-items: center; }
+.vitrine { position: relative; aspect-ratio: 1; display: grid; place-items: center; border-radius: 14px; background: radial-gradient(circle at 50% 42%, color-mix(in oklch, var(--accent) 16%, transparent), transparent 62%), var(--ground-2); border: 1px solid var(--line); }
+.vitrine img { width: 78%; height: auto; filter: drop-shadow(0 20px 36px rgba(0,0,0,.6)); }
+.vitrine .tick { position: absolute; width: 12px; height: 12px; border-color: var(--line-2); border-style: solid; }
+.vitrine .t1 { top: 10px; left: 10px; border-width: 1px 0 0 1px; } .vitrine .t2 { top: 10px; right: 10px; border-width: 1px 1px 0 0; } .vitrine .t3 { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; } .vitrine .t4 { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+.vitrine.arbor { background: var(--ground-2); }
+.vitrine.arbor svg { width: 70%; height: 70%; }
+.spec-name { font-family: var(--f-display); font-style: italic; font-weight: 500; font-size: clamp(2.6rem, 1.3rem + 4.2cqi, 4.4rem); line-height: 1; margin: 0; letter-spacing: -0.01em; }
+.spec-name[data-l="2"] { color: var(--rank-2); } .spec-name[data-l="3"] { color: var(--rank-3); } .spec-name[data-l="4"] { color: var(--rank-4); } .spec-name[data-l="5"] { color: var(--rank-5); }
+.spec-name[data-l="4"][data-b="unique"] { color: var(--rank-4-unique-ink); } .spec-name[data-l="5"][data-b="unique"] { color: var(--rank-5-unique-ink); }
+.atlas[data-world="arbor"] .spec-name { font-family: var(--f-ui); font-stretch: 75%; font-weight: 600; font-style: normal; color: var(--ink); font-size: clamp(2.2rem, 1.2rem + 3.4cqi, 3.6rem); overflow-wrap: anywhere; }
+.spec-title { font-family: var(--f-display); font-style: italic; font-size: 1.35rem; color: var(--ink-2); }
+.atlas[data-world="arbor"] .spec-title { font-family: var(--f-ui); font-style: normal; font-size: 1.15rem; }
+.who-row { display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; }
+.wreath { display: inline-flex; align-items: center; gap: .4rem; font-size: .8125rem; color: var(--apex-gold); }
+.body-grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(2rem, 4cqi, 4rem); padding-bottom: 6rem; }
+@container atlas (max-width: 980px) { .body-grid, .spec { grid-template-columns: minmax(0, 1fr); } .spec .vitrine { max-width: 240px; } }
+.blk { display: flex; flex-direction: column; gap: 1.25rem; padding-block: 2.25rem; border-top: 1px solid var(--line); }
+.blk:first-child { border-top: 0; padding-top: 0; }
+.blk-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.assay-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; }
+.tm-big { font-family: var(--f-hud); font-size: 2.1rem; color: var(--ink); line-height: 1; }
+.breakdown { display: flex; flex-direction: column; gap: .55rem; }
+.bd-row { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 4rem; gap: .9rem; align-items: center; font-size: .8125rem; }
+.bd-bar { height: 8px; background: var(--ground-2); border: 1px solid var(--line); }
+.bd-bar i { display: block; height: 100%; background: var(--challenge-steel); }
+.ev-row { display: grid; grid-template-columns: 4.6rem minmax(0, 1.4fr) minmax(0, 2.6fr) 6rem; gap: 1rem; align-items: start; padding: .9rem 0; border-bottom: 1px solid var(--line); }
+.ev-row .src { font-family: var(--f-hud); font-size: .75rem; color: var(--ink-2); overflow-wrap: anywhere; }
+@container atlas (max-width: 760px) { .ev-row { grid-template-columns: 4.6rem minmax(0, 1fr); } .ev-row .c3, .ev-row .c4 { grid-column: 2; } }
+.tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-2); }
+.tl li { position: relative; padding: 0 0 1.2rem 1.75rem; display: flex; flex-direction: column; gap: .15rem; }
+.tl li::before { content: ''; position: absolute; left: 1px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--ground); border: 1px solid var(--ink-3); }
+.tl li[data-k="rank"]::before { background: var(--accent); border-color: var(--accent); transform: rotate(45deg); border-radius: 1px; }
+.side { display: flex; flex-direction: column; gap: 1.5rem; }
+.side-card { border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; background: var(--ground-2); }
+.side-card .dl { font-size: .875rem; grid-template-columns: minmax(6.5rem, max-content) 1fr; }
+.pred { display: flex; justify-content: space-between; gap: .75rem; padding: .45rem 0; border-bottom: 1px solid var(--line); font-size: .8125rem; }
+.pred b { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; }
+.pred b.ok { color: var(--rank-2); } .pred b.no { color: var(--ink-3); }
+.mini { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.lens-tbl { display: flex; flex-direction: column; }
+.lens-tbl > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 2fr); gap: 1rem; padding: .95rem 0; border-bottom: 1px solid var(--line); align-items: center; }
+@container atlas (max-width: 760px) { .lens-tbl > div { grid-template-columns: minmax(0, 1fr); gap: .3rem; } }
+.state { font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .04em; padding: .2rem .5rem; border-radius: 3px; border: 1px solid var(--line-2); color: var(--ink-2); justify-self: start; }
+.state.present { border-color: var(--accent); color: var(--accent-ink); }
+.slot { border: 1px dotted var(--ink-3); border-radius: 10px; padding: 1.25rem; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; align-items: center; }
+.rel-card { border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .7rem; }
+.missing { border: 1px dashed var(--line-2); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+.dav { position: relative; width: 52px; height: 52px; flex: none; }
+.dav .ph { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 0 0 1px var(--line-2); }
+.dav .wr { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <button onClick="{{goSkills}}">Skills</button><span aria-hidden="true">/</span><span class="starless">{{s.gName}}</span><span aria-hidden="true">/</span><span style="color: var(--ink)">{{s.idLabel}}</span>
+    </nav>
+
+    <section class="spec" aria-label="Specimen">
+      <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+        <div class="vitrine enter"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i><img src="{{s.med}}" alt="{{s.medAlt}}" width="240" height="240"></div>
+      </sc-if>
+      <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+        <div class="vitrine arbor enter" aria-hidden="true"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+          <svg viewBox="0 0 120 120"><path d="M60 112V8M60 80L30 50V30M60 58l24-24h14M60 96l20-20v-12" fill="none" stroke="oklch(0.745 0.15 148)" stroke-width="1.6"></path><circle cx="98" cy="34" r="5" fill="var(--ink)"></circle><circle cx="98" cy="34" r="11" fill="none" stroke="var(--ink)" stroke-width="1"></circle><rect x="27" y="27" width="6" height="6" fill="none" stroke="var(--ink-3)"></rect><rect x="77" y="61" width="6" height="6" fill="none" stroke="var(--ink-3)"></rect></svg>
+        </div>
+      </sc-if>
+      <div class="stack gap-3 enter enter-1">
+        <div class="plate"><span class="pl-mark">{{plateMark}}</span><i class="pl-sep"></i><span>{{s.id}}</span><i class="pl-sep"></i><span>{{plateB}}</span><i class="pl-rule"></i></div>
+        <h1 class="spec-name" data-l="{{s.lv}}" data-b="{{s.br}}">{{s.headline}}</h1>
+        <p class="lede spec-title">{{s.title}}</p>
+        <div class="who-row">
+          <span class="dav"><img class="ph" src="{{s.av}}" alt="@{{s.c}} on GitHub" width="52" height="52" decoding="async"><sc-if value="{{showWreath}}" hint-placeholder-val="{{true}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" decoding="async"></sc-if></span>
+          <span class="stack"><span class="handle">@{{s.c}}</span><span class="fine">Contributor</span></span>
+          <sc-if value="{{showWreath}}" hint-placeholder-val="{{true}}"><span class="wreath"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 19c-3-3-4-7-2-11M17 19c3-3 4-7 2-11M6 12c1.5.3 2.6 1.2 3 2.5M18 12c-1.5.3-2.6 1.2-3 2.5M5.5 8.5c1.3 0 2.3.7 2.8 1.8M18.5 8.5c-1.3 0-2.3.7-2.8 1.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg>{{originText}}</span></sc-if>
+          <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><span class="rk" data-l="{{s.lv}}" data-b="{{s.br}}">{{s.rank}}</span></sc-if>
+        </div>
+        <p class="body">{{s.d}}</p>
+        <div class="row gap-2 wrapx">
+          <button class="btn btn-solid" onClick="{{copyInstall}}">{{installLabel}}</button>
+          <button class="btn btn-ghost" onClick="{{swapLens}}">{{swapLabel}}</button>
+          <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><button class="btn btn-quiet" onClick="{{share}}" style="color: var(--apex-gold)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M5 7.5 3.6 8.9a2.5 2.5 0 0 0 3.5 3.5L8.5 11M11 8.5l1.4-1.4a2.5 2.5 0 0 0-3.5-3.5L7.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Share plaque</button></sc-if>
+        </div>
+        <span class="hud" style="overflow-wrap: anywhere">{{s.ghShort}}</span>
+      </div>
+    </section>
+
+    <sc-if value="{{noDossier}}" hint-placeholder-val="{{false}}">
+      <div class="missing" style="margin-bottom: 5rem">
+        <h2 class="h3">Summary record only</h2>
+        <p class="small">The full evidence list and timeline load from the registry in production. This prototype carries six complete dossiers built from the real snapshot:</p>
+        <div class="row gap-2 wrapx"><sc-for list="{{fullList}}" as="f" hint-placeholder-count="6"><button class="chip" onClick="{{f.open}}">{{f.id}}</button></sc-for></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showYgg}}" hint-placeholder-val="{{true}}">
+      <div class="body-grid">
+        <div>
+          <section class="blk" aria-labelledby="assay-h">
+            <div class="blk-head"><h2 class="h2" id="assay-h">Trust assay</h2><span class="hud">ledger {{snap}}</span></div>
+            <div class="assay-grid">
+              <div class="stack gap-2">
+                <div class="meter" style="height: 12px"><i style="width: {{s.pct}}%"></i><b style="left: 48.2%"></b><b style="left: 62.9%"></b><b style="left: 74.3%"></b><b style="left: 88.8%"></b></div>
+                <div class="row hud" style="justify-content: space-between"><span>0</span><span>C 20</span><span>B 50</span><span>A 100</span><span>S 250</span><span>500</span></div>
+              </div>
+              <div class="stack" style="align-items: flex-end; gap: .4rem"><span class="tm-big">{{s.tm}}</span><span class="metal" data-g="{{s.gr}}">Grade {{s.gr}}</span></div>
+            </div>
+            <p class="small">{{ceilingText}}</p>
+            <sc-if value="{{hasBreakdown}}" hint-placeholder-val="{{false}}">
+              <div class="breakdown" aria-label="Trust Magnitude by evidence type">
+                <sc-for list="{{breakdown}}" as="b" hint-placeholder-count="4">
+                  <div class="bd-row"><span class="evt" data-t="{{b.t}}">{{b.t}}</span><span class="bd-bar"><i style="width: {{b.pct}}%"></i></span><span class="num small" style="text-align: right">{{b.v}}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div class="row gap-2" style="padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 8px">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3H19L21 5V19L19 21H5L3 19V5Z" fill="none" stroke="var(--ink-3)" stroke-width="1.3"></path></svg>
+              <span class="small">Challenge record: no public challenge on file. The challenge projection source currently reports unavailable.</span>
+            </div>
+          </section>
+
+          <section class="blk" aria-labelledby="ev-h">
+            <div class="blk-head"><h2 class="h2" id="ev-h">Evidence</h2><span class="hud">{{s.nev}} rows</span></div>
+            <div role="list">
+              <sc-for list="{{evidence}}" as="e" hint-placeholder-count="4">
+                <div class="ev-row" role="listitem">
+                  <span class="metal" data-g="{{e.grade}}" style="min-width: 0">{{e.gradeName}}</span>
+                  <span class="stack gap-1"><span class="evt" data-t="{{e.type}}">{{e.type}}</span><span class="fine">{{e.date}}</span></span>
+                  <span class="stack gap-1 c3"><span class="src">{{e.src}}</span><span class="fine">{{e.notes}}</span></span>
+                  <span class="c4"><button class="link" style="font-size: .8125rem" onClick="{{goEvidence}}">Inspect</button></span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section class="blk" aria-labelledby="tl-h">
+            <div class="blk-head"><h2 class="h2" id="tl-h">The journey</h2><span class="hud">{{s.ntl}} events · last {{tlCount}} shown</span></div>
+            <p class="small">Every rank change is on the record, demotions included.</p>
+            <ol class="tl">
+              <sc-for list="{{timeline}}" as="t" hint-placeholder-count="6">
+                <li data-k="{{t.k}}"><span class="row gap-2"><span class="hud">{{t.ts}}</span><span class="small" style="color: var(--ink); font-weight: 600">{{t.label}}</span></span><span class="fine" style="overflow-wrap: anywhere">{{t.details}}</span></li>
+              </sc-for>
+            </ol>
+          </section>
+        </div>
+
+        <aside class="side" aria-label="Classification">
+          <div class="mini">
+            <dc-import name="Scene" world="ygg" mode="mini" height="300px" focus="{{s.g}}" subject="{{s.id}}" density="far" still="{{true}}" hint-size="100%,300px"></dc-import>
+          </div>
+          <div class="side-card">
+            <h2 class="h4">Classification</h2>
+            <dl class="dl">
+              <dt>Capability</dt><dd><span class="starless">{{s.gName}}</span></dd>
+              <dt>Type</dt><dd>{{s.gTypeLabel}}</dd>
+              <dt>Branch</dt><dd>{{s.branchLabel}}</dd>
+              <dt>Builds on</dt><dd>{{s.prereqs}}</dd>
+            </dl>
+            <p class="fine">{{s.gSummary}}</p>
+          </div>
+          <sc-if value="{{hasApex}}" hint-placeholder-val="{{false}}">
+            <div class="side-card">
+              <div class="row" style="justify-content: space-between"><h2 class="h4">Apex gate</h2><span class="hud">{{apexMet}} of {{apexTotal}} met</span></div>
+              <div><sc-for list="{{apex}}" as="p" hint-placeholder-count="6"><div class="pred"><span>{{p.label}}</span><b class="{{p.cls}}">{{p.state}}</b></div></sc-for></div>
+              <p class="fine">Apex needs every predicate at once. No record has met them yet.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{hasSiblings}}" hint-placeholder-val="{{false}}">
+            <div class="side-card">
+              <h2 class="h4">Other implementations</h2>
+              <div class="stack gap-1"><sc-for list="{{siblings}}" as="x" hint-placeholder-count="3"><span class="hud" style="color: var(--ink-2)">{{x}}</span></sc-for></div>
+            </div>
+          </sc-if>
+        </aside>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showArbor}}" hint-placeholder-val="{{false}}">
+      <div class="body-grid">
+        <div>
+          <section class="blk" aria-labelledby="lens-h">
+            <div class="blk-head"><h2 class="h2" id="lens-h">Runtime lenses</h2><span class="hud">gaia.arbor-runtime/v1</span></div>
+            <div class="lens-tbl">
+              <div><span>Behavioral identity</span><span class="state present">pinned</span><span class="hud" style="overflow-wrap: anywhere">{{arb.identity}} · {{arb.sha}}</span></div>
+              <div><span>Instruction baseline</span><span class="state present">{{arb.baseline}}</span><span class="fine">The instructions have a recorded baseline.</span></div>
+              <div><span>Claims</span><span class="state">absent</span><span class="fine">No accepted claims record.</span></div>
+              <div><span>Hell-Heaven</span><span class="state">absent</span><span class="fine">No accepted record. Not measured, which is not the same as safe.</span></div>
+              <div><span>Interactions</span><span class="{{arb.relCls}}">{{arb.relState}}</span><span class="fine">{{arb.relText}}</span></div>
+            </div>
+          </section>
+
+          <section class="blk" aria-labelledby="rel-h">
+            <div class="blk-head"><h2 class="h2" id="rel-h">Declared relations</h2><span class="hud">expert-declared · unmeasured</span></div>
+            <sc-if value="{{arb.hasRels}}" hint-placeholder-val="{{true}}">
+              <div class="stack gap-2">
+                <sc-for list="{{arb.rels}}" as="r" hint-placeholder-count="1">
+                  <div class="rel-card">
+                    <div class="row gap-2 wrapx"><span class="slug">{{r.from}}</span><span class="state">{{r.rel}}</span><span class="slug">{{r.to}}</span></div>
+                    <p class="small">{{r.cond}}</p>
+                    <span class="hud">claim · {{r.claim}} · never grants a stamp</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{arb.noRels}}" hint-placeholder-val="{{false}}"><p class="small">No relation is declared for this skill. Absence means not evaluated.</p></sc-if>
+          </section>
+
+          <section class="blk" aria-labelledby="stamp-h">
+            <div class="blk-head"><h2 class="h2" id="stamp-h">Hell-Heaven stamp</h2></div>
+            <div class="slot">
+              <svg width="64" height="64" viewBox="0 0 46 46" aria-hidden="true"><rect x="3" y="3" width="40" height="40" rx="3" fill="none" stroke="var(--ink-3)" stroke-dasharray="2 3"></rect></svg>
+              <div class="stack gap-1"><span class="h4">Not measured</span><p class="small">A stamp appears here only after a benchmark receipt is observed and a governed interpretation is accepted. Nothing is inferred from Yggdrasil standing.</p></div>
+            </div>
+          </section>
+        </div>
+        <aside class="side" aria-label="Position in Arbor">
+          <div class="mini">
+            <dc-import name="Scene" world="arbor" mode="mini" height="320px" focus="{{s.g}}" subject="{{s.id}}" density="far" still="{{true}}" hint-size="100%,320px"></dc-import>
+          </div>
+          <div class="side-card">
+            <h2 class="h4">Identity, shared across Trees</h2>
+            <dl class="dl">
+              <dt>Skill ID</dt><dd class="hud" style="color: var(--ink)">{{s.id}}</dd>
+              <dt>Contributor</dt><dd><span class="handle">@{{s.c}}</span></dd>
+              <dt>Capability</dt><dd><span class="starless">{{s.gName}}</span></dd>
+            </dl>
+            <p class="fine">Standing, evidence grades and Origin live in the Yggdrasil lens. Arbor neither reads nor changes them.</p>
+          </div>
+        </aside>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{arborNotPinned}}" hint-placeholder-val="{{false}}">
+      <div class="missing" style="margin-bottom: 5rem">
+        <h2 class="h3">Not pinned in Arbor yet</h2>
+        <p class="small">Arbor has pinned 22 subjects so far. This skill has no behavioral identity record, so Arbor shows no position, relations or stamps for it. That is an absence of evaluation, not a finding.</p>
+        <div class="row gap-2"><button class="btn btn-ghost" onClick="{{swapLens}}">See its standing in Yggdrasil</button></div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"skill":{"editor":"enum","options":["mattpocock/grill-me","garrytan/gstack","safishamsi/graphify","obra/systematic-debugging","garrytan/context-save","obra/brainstorming"],"default":"mattpocock/grill-me"},"go":{"editor":null},"pick":{"editor":null},"share":{"editor":null},"focus":{"editor":null},"setWorld":{"editor":null},"$preview":{"width":1440,"height":2560}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const RN = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RNU = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function rankName(lv, br) { return (lv >= 4 && br === 'unique' ? RNU[lv] : RN[lv]) + ' · ' + lv + '★'; }
+function meterPct(tm) { return Math.min(100, Math.log(1 + (tm || 0)) / Math.log(501) * 100).toFixed(1); }
+const MED = { 1: '/_blob/a683094ec451ed1421d6e3c772818798', 2: '/_blob/245265bcf720c3554a92d4deebdf13ca', 3: '/_blob/d762e0fb037e3eff0ed7123da1031186', 4: '/_blob/7ecf86e4708fc19c0b59821d6c743613', 5: '/_blob/067317f281dd6808e896e3baa06d8a89', 6: '/_blob/670ae5fd0ba207ea8ec029f130247610' };
+const MEDU = { 4: '/_blob/7601aadaeb67b8b9616c4f70239a5f5a', 5: '/_blob/5a4f089a79116491433e15afa4296e82', 6: '/_blob/25a22d936d7985205d6d77f23460d572' };
+const GN = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze', '-': 'Ungraded' };
+const CEIL = { S: 6, A: 4, B: 3, C: 2, '-': 1 };
+const ACT = { evidence_added: 'Evidence added', migrate_trust_magnitude: 'Trust Magnitude migrated', recalibrate_trust_magnitude: 'Trust Magnitude recalibrated', demote: 'Demoted', rank_up: 'Ranked up', type_change: 'Type changed', note: 'Note', upstream_synced: 'Upstream synced', add: 'Added to the registry', suite_ref_set: 'Suite set', evidence_removed: 'Evidence removed', calibrate: 'Calibrated' };
+const APEX = { aGradedOriginsGte5: 'Five A-graded origins', directNestedSuiteGte1: 'One directly nested Suite', depth2OnlyReachableGte1: 'One depth-two-only origin', overallGradeS: 'Overall Trust Grade S', sourceTenureDaysGte180AorS: 'A or S source held 180 days', apexPromotionPrSigned: 'Promotion pull request signed' };
+function fmtDate(d) { const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p = (d || '').split('-'); return p.length === 3 ? (+p[2]) + ' ' + m[+p[1] - 1] + ' ' + p[0] : d; }
+/* the snapshot cuts long descriptions mid-sentence; end on a whole word with an ellipsis instead of a stray fragment */
+function clip(t) { t = (t || '').trim(); if (!t || /[.!?)]$/.test(t)) return t; const k = t.lastIndexOf(' '); return (k > 40 ? t.slice(0, k) : t).replace(/[,;:]$/, '') + '…'; }
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, copied: false }; }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate(pp) { if (pp.skill !== this.props.skill && this.state.copied) this.setState({ copied: false }); }
+  renderVals() {
+    const d = this.state.d, world = this.props.world || 'ygg', arb = world === 'arbor';
+    const id = this.props.skill || 'mattpocock/grill-me';
+    const full = d ? d.dossiers[id] : null;
+    const sum = d ? (d.skills.find((x) => x.id === id) || null) : null;
+    const r = full || sum || { id: id, slug: id.split('/')[1], c: id.split('/')[0], lv: 0, gName: '', g: '', title: '', d: '' };
+    const br = r.br === 'unique' ? 'unique' : 'suite';
+    const med = r.lv >= 4 && br === 'unique' ? MEDU[r.lv] : MED[r.lv];
+    const gh = (r.gh || '').replace(/^https?:\/\//, '');
+    const s = {
+      id: r.id, idLabel: arb ? r.id : '/' + r.slug, headline: arb ? r.id : '/' + r.slug, title: r.title || '', c: r.c, initial: (r.c || '?').charAt(0).toUpperCase(),
+      lv: arb ? 0 : r.lv, br: br, rank: r.lv != null ? rankName(r.lv, r.br) : '', o: !!r.o, d: clip(r.d || ''), g: r.g, gName: r.gName || r.g,
+      gTypeLabel: r.gType === 'fusion' ? '◇ Fusion' : '○ Basic', branchLabel: r.lv >= 4 ? (br === 'unique' ? '◉ Unique' : '◆ Suite') : 'Shared ladder (below 4★)',
+      prereqs: full && full.gPrereq && full.gPrereq.length ? full.gPrereq.join(', ') : 'No prerequisites (a root capability)', gSummary: full ? full.gSummary : '',
+      med: med || MED[1], medAlt: (r.lv >= 4 && br === 'unique' ? RNU[r.lv] : RN[r.lv]) + ' rank medallion',
+      tm: r.tm != null ? r.tm.toFixed(2) : 'n/a', pct: meterPct(r.tm), gr: r.gr || '-', nev: r.nev || 0, ntl: full ? full.ntl : 0, ghShort: gh,
+      av: d ? (d.avatars[r.c] || '') : ''
+    };
+    const sharePl = { id: r.id, slug: r.slug, title: r.title || '', c: r.c, lv: r.lv, br: r.lv >= 4 && r.br === 'unique' ? 'unique' : (r.br === 'suite' ? 'suite' : 'standard'), tm: r.tm, gr: r.gr, o: !!r.o, av: s.av, med: s.med, rank: s.rank, g: r.g, gName: r.gName || '' };
+    const ceilingStars = CEIL[s.gr] || 1;
+    const evidence = full ? full.evidence.map((e) => ({ grade: e.grade, gradeName: GN[e.grade] || 'Ungraded', type: e.type, date: fmtDate(e.date), src: e.src, notes: e.notes })) : [];
+    const timeline = full ? full.timeline.slice().reverse().map((t) => ({ ts: fmtDate(t.ts), label: ACT[t.action] || t.action.replace(/_/g, ' '), details: t.details, k: (t.action === 'demote' || t.action === 'rank_up' || t.action === 'calibrate') ? 'rank' : 'ev' })) : [];
+    const tb = full && full.typeBreakdown ? full.typeBreakdown : null;
+    let breakdown = [];
+    if (tb) { const mx = Math.max.apply(null, Object.values(tb)); breakdown = Object.keys(tb).sort((a, b) => tb[b] - tb[a]).map((k) => ({ t: k, v: tb[k].toFixed(1), pct: (tb[k] / mx * 100).toFixed(0) })); }
+    const ap = full && full.apex ? Object.keys(APEX).filter((k) => full.apex[k] !== null && full.apex[k] !== undefined).map((k) => ({ label: APEX[k], state: full.apex[k] ? 'met' : 'not met', cls: full.apex[k] ? 'ok' : 'no' })) : [];
+    const a = full && full.arbor ? full.arbor : null;
+    const arbV = a ? {
+      sha: a.behavioralSha.slice(0, 16) + '…', identity: a.identity || 'pinned', baseline: (a.baseline || 'unknown').replace(/-/g, ' '),
+      relState: a.rels.length ? 'present' : 'none', relCls: a.rels.length ? 'state present' : 'state', relText: a.rels.length ? a.rels.length + ' declared relation, unmeasured' : 'No relation declared.',
+      hasRels: a.rels.length > 0, noRels: a.rels.length === 0, rels: a.rels.map((x) => ({ from: x.from, to: x.to, rel: x.rel, cond: x.cond, claim: x.claim }))
+    } : { hasRels: false, noRels: true, rels: [] };
+    const pinned = !!(sum && sum.pinned) || !!a;
+    const cmd = 'gaia skills install ' + r.id;
+    return {
+      world: world, isYgg: !arb, isArbor: arb, s: s, arb: arbV, showWreath: !arb && !!r.o, share: () => { if (this.props.share) this.props.share(sharePl); },
+      plateMark: arb ? 'Subject' : 'Specimen', plateB: arb ? (a ? 'behavioral identity pinned' : 'not pinned') : (s.ntl ? s.ntl + ' timeline events' : 'summary record'),
+      originText: 'Origin of ' + (r.gName || r.g),
+      snap: d ? fmtDate(d.counts.ledgerAt) : '',
+      ceilingText: 'Grade ' + s.gr + ' allows up to ' + ceilingStars + '★. ' + (s.lv > ceilingStars ? 'Its stored rank is shown at the ceiling.' : 'Its rank of ' + s.lv + '★ sits within that ceiling.'),
+      hasBreakdown: breakdown.length > 0, breakdown: breakdown, evidence: evidence, timeline: timeline, tlCount: timeline.length,
+      hasApex: !arb && r.lv >= 5 && ap.length > 0, apex: ap, apexMet: ap.filter((x) => x.cls === 'ok').length, apexTotal: ap.length,
+      hasSiblings: !!(full && full.siblings && full.siblings.length), siblings: full ? full.siblings : [],
+      noDossier: !!d && !full && !(arb && !pinned),
+      showYgg: !arb && !!full, showArbor: arb && !!a, arborNotPinned: arb && !!d && !a && !(!full && !pinned && false),
+      fullList: d ? Object.keys(d.dossiers).map((k) => ({ id: k, open: () => { if (this.props.pick) this.props.pick({ id: k, generic: d.dossiers[k].g }); } })) : [],
+      installLabel: this.state.copied ? 'Copied: ' + cmd : 'Copy install command',
+      copyInstall: () => { try { navigator.clipboard.writeText(cmd); } catch (e) {} this.setState({ copied: true }); },
+      swapLabel: arb ? 'See its standing in Yggdrasil' : 'See its behavior in Arbor',
+      swapLens: () => { if (this.props.setWorld) this.props.setWorld(arb ? 'ygg' : 'arbor'); },
+      goSkills: () => { if (this.props.go) this.props.go('skills'); },
+      goEvidence: () => { if (this.props.go) this.props.go('evidence'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

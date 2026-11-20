@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home: Yggdrasil and Arbor compositions</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.show-sm-wx { display: none !important; }
+.hero { position: relative; min-height: 800px; display: flex; flex-direction: column; }
+.hero-scene { position: absolute; inset: 0; clip-path: inset(0 0 0 0 round 0); transition: clip-path 1.1s var(--ease-io); }
+.hero[data-w="arbor"] .hero-scene { clip-path: inset(104px 3rem 104px 45% round 10px); }
+.hero-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--ground) 0%, color-mix(in oklch, var(--ground) 82%, transparent) 30%, transparent 58%); transition: opacity 1s var(--ease); }
+.hero[data-w="arbor"] .hero-scrim { opacity: 0; }
+.tree-cta { position: absolute; right: 3rem; top: 2rem; z-index: 2; display: inline-flex; align-items: center; gap: .5rem; min-height: 40px; padding: 0 .9rem; border-radius: 8px; border: 1px solid var(--accent-line); background: color-mix(in oklch, var(--ground) 70%, transparent); color: var(--accent-ink); font-family: var(--f-hud); font-size: .75rem; letter-spacing: .04em; cursor: pointer; transition: border-color .2s, background .2s; }
+.tree-cta:hover { border-color: var(--accent); background: var(--accent-wash); }
+.tree-cta svg { width: 15px; height: 15px; }
+@container atlas (max-width: 860px) { .tree-cta { right: 1rem; top: auto; bottom: 1.25rem; min-height: 44px; } }
+.hero-frame { position: absolute; top: 104px; bottom: 104px; left: 45%; right: 3rem; pointer-events: none; border: 1px solid var(--line-2); border-radius: 10px; opacity: 0; transition: opacity .6s var(--ease) .5s; }
+.hero[data-w="arbor"] .hero-frame { opacity: 1; }
+.hero-frame::before, .hero-frame::after { content: ''; position: absolute; width: 14px; height: 14px; border-color: var(--accent); border-style: solid; }
+.hero-frame::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-top-left-radius: 10px; }
+.hero-frame::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-bottom-right-radius: 10px; }
+.frame-hud { position: absolute; left: calc(45% + 1rem); right: calc(3rem + 1rem); bottom: calc(104px + 1rem); display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; z-index: 2; }
+.frame-hud[data-wx="hell"] .hud, .frame-hud[data-wx="hell"] .row { color: #3a383c; }
+.frame-top[data-wx="hell"] .proto-tag { color: #3a383c; border-color: #8a8790; }
+.hero-frame[data-wx="ultra"] { border-color: oklch(0.88 0.16 88 / .55); box-shadow: inset 0 0 90px oklch(0.88 0.16 88 / .10), 0 0 0 1px oklch(0.88 0.16 88 / .10); }
+.hero-frame[data-wx="ultra"]::before, .hero-frame[data-wx="ultra"]::after { width: 28px; height: 28px; border-color: var(--ultra-hot); }
+.hero-frame[data-wx="ultra"]::before { border-width: 3px 0 0 3px; }
+.hero-frame[data-wx="ultra"]::after { border-width: 0 3px 3px 0; }
+.frame-hud[data-wx="ultra"] .hud { color: var(--ultra-hot); font-weight: 700; letter-spacing: .08em; }
+.frame-top[data-wx="ultra"] .proto-tag { color: oklch(0.86 0.09 88); border-color: oklch(0.88 0.16 88 / .5); }
+.frame-top { position: absolute; left: calc(45% + 1rem); top: calc(104px + .9rem); z-index: 2; }
+.hero-copy { position: relative; z-index: 1; padding-top: clamp(5rem, 9cqi, 8.5rem); padding-bottom: 2rem; flex: 1; }
+.hero-col { max-width: 560px; display: flex; flex-direction: column; gap: 1.6rem; }
+.hero-title .gold-line { display: block; color: var(--apex-gold); }
+.install { display: flex; flex-direction: column; gap: .6rem; max-width: 520px; }
+.install-row { display: flex; align-items: center; gap: .5rem; padding: .4rem .4rem .4rem .9rem; border-radius: 8px; background: color-mix(in oklch, var(--ground-2) 92%, transparent); border: 1px solid var(--line); }
+.install-row code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: .8125rem; color: var(--ink); scrollbar-width: none; }
+.copy { min-height: 36px; padding: 0 .75rem; border-radius: 6px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink-2); cursor: pointer; font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .04em; }
+.copy:hover { color: var(--ink); border-color: var(--accent); }
+.search-cta { display: flex; align-items: center; gap: .75rem; width: 100%; max-width: 520px; min-height: 54px; padding: 0 1rem; border-radius: 10px; border: 1px solid var(--line-2); background: color-mix(in oklch, var(--panel) 90%, transparent); color: var(--ink-2); cursor: pointer; font-size: 1rem; text-align: left; transition: border-color .2s; }
+.search-cta:hover { border-color: var(--accent); color: var(--ink); }
+.search-cta svg { width: 18px; height: 18px; flex: none; }
+.search-cta .kbd { margin-left: auto; }
+.strip { position: relative; z-index: 1; border-top: 1px solid var(--line); }
+.strip-in { display: flex; flex-wrap: wrap; gap: .5rem 2rem; padding-block: 1.1rem; font-family: var(--f-hud); font-size: .75rem; color: var(--ink-3); letter-spacing: .03em; }
+.strip-in b { color: var(--ink); font-weight: 400; margin-right: .4rem; }
+.strip-in .apex b { color: var(--apex-gold); }
+.readout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 8px; max-width: 480px; }
+.readout > div { padding: .8rem 1rem; display: flex; flex-direction: column; gap: .15rem; }
+.readout > div:nth-child(odd) { border-right: 1px solid var(--line); }
+.readout > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+.readout b { font-family: var(--f-hud); font-weight: 400; font-size: 1.35rem; color: var(--ink); }
+.readout b.zero { color: var(--ink-3); }
+
+/* Hall */
+.hall { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(2rem, 5cqi, 4.5rem); align-items: center; }
+.pedestals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; align-items: end; }
+.ped { position: relative; display: flex; flex-direction: column; gap: .75rem; padding: 1.4rem 1rem 1.1rem; border-top: 1px solid var(--line-2); background: linear-gradient(180deg, color-mix(in oklch, var(--panel) 70%, transparent), transparent 85%); border-radius: 10px 10px 0 0; transition: transform .35s var(--ease), background .35s; }
+.ped:hover { transform: translateY(-4px); background: linear-gradient(180deg, var(--panel-2), transparent 85%); }
+.ped-open { position: absolute; inset: 0; z-index: 1; border: 0; background: none; cursor: pointer; border-radius: inherit; }
+.ped-av { position: relative; width: min(100%, 132px); aspect-ratio: 1; margin: .4rem auto .5rem; }
+.ped-av .ph { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--panel-2); box-shadow: 0 0 0 1.5px oklch(0.80 0.115 82 / .5), 0 16px 34px rgba(0,0,0,.5); }
+.ped-av .wr { position: absolute; inset: -14%; width: 128%; height: 128%; pointer-events: none; }
+.ped-av .md { position: absolute; right: -12%; bottom: -6%; width: 44%; height: 44%; filter: drop-shadow(0 6px 12px rgba(0,0,0,.6)); }
+.ped.apex { border-top: 1px dashed var(--line-2); background: none; }
+.ped.apex:hover { transform: none; }
+.ped.apex .ped-av { display: grid; place-items: center; }
+.ped.apex .ped-av img { width: 100%; opacity: .2; filter: grayscale(1); }
+.ped .meta { display: flex; flex-direction: column; gap: .3rem; align-items: flex-start; min-width: 0; }
+.ped .rk { white-space: normal; }
+.ped-share { position: relative; z-index: 2; align-self: flex-start; display: inline-flex; align-items: center; gap: .35rem; min-height: 36px; padding: 0 .55rem; margin-left: -.55rem; border: 0; border-radius: 6px; background: none; color: var(--apex-gold); font-weight: 600; font-size: .8125rem; cursor: pointer; }
+.ped-share:hover { background: var(--accent-wash); }
+.ped-share svg { width: 14px; height: 14px; }
+.lav { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex: none; background: var(--panel-2); }
+@container atlas (max-width: 1000px) { .hall { grid-template-columns: minmax(0, 1fr); } }
+@container atlas (max-width: 640px) { .pedestals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Begin console */
+.console { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5cqi, 5rem); align-items: start; }
+@container atlas (max-width: 900px) { .console { grid-template-columns: minmax(0, 1fr); } }
+.console-box { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--ground-2); }
+.console-box .tabs { padding-inline: 1.25rem; }
+.console-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+
+/* Review assay line: a real ordered sequence */
+.assay { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; }
+.assay::before { content: ''; position: absolute; left: 0; right: 0; top: 22px; height: 1px; background: linear-gradient(90deg, var(--accent-line), var(--line) 80%); }
+.assay li { position: relative; padding-right: 1.5rem; display: flex; flex-direction: column; gap: .55rem; }
+.assay .no { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-2); background: var(--ground); font-family: var(--f-hud); font-size: .8125rem; color: var(--ink); position: relative; }
+.assay li.human .no { border-color: var(--accent); color: var(--accent-ink); }
+@container atlas (max-width: 900px) { .assay { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; } .assay::before { left: 22px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; } .assay li { flex-direction: row; align-items: flex-start; gap: 1rem; padding: 0; } }
+
+/* Metals */
+.alloy { display: flex; height: 18px; border-radius: 2px; overflow: hidden; gap: 2px; }
+.alloy > div { height: 100%; }
+.metals { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem; }
+.metals > div { display: flex; flex-direction: column; gap: .5rem; }
+@container atlas (max-width: 760px) { .metals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Reports */
+.reports { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5cqi, 4.5rem); }
+.rep-feature { padding: 1.75rem; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); display: flex; flex-direction: column; gap: 1rem; min-height: 260px; justify-content: space-between; }
+.rep-list { list-style: none; margin: 0; padding: 0; }
+.rep-list li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+@container atlas (max-width: 900px) { .reports { grid-template-columns: minmax(0, 1fr); } .rep-list li { grid-template-columns: minmax(0, 1fr); gap: .2rem; } }
+
+/* Relations reel (Arbor) */
+.rel-row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr) minmax(0, 5fr); gap: 1.5rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
+.rel-row:first-child { border-top: 1px solid var(--line); }
+.rel-glyph { display: flex; flex-direction: column; gap: .4rem; align-items: center; }
+.rel-glyph svg { width: 100%; max-width: 140px; height: 18px; }
+@container atlas (max-width: 900px) { .rel-row { grid-template-columns: minmax(0, 1fr); gap: .6rem; } .rel-glyph { align-items: flex-start; } }
+.subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 0 2rem; }
+.subjects > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.two-q { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.two-q > div { padding: clamp(1.5rem, 3cqi, 2.5rem); display: flex; flex-direction: column; gap: 1rem; }
+.two-q > div + div { border-left: 1px solid var(--line); background: var(--ground-2); }
+.two-q .q { font-family: var(--f-display); font-size: clamp(1.5rem, 1.1rem + 1.4cqi, 2.1rem); line-height: 1.15; }
+.two-q .q.arb { font-family: var(--f-ui); font-stretch: 75%; font-weight: 600; }
+@container atlas (max-width: 760px) { .two-q { grid-template-columns: minmax(0, 1fr); } .two-q > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+.wx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.wx-card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.wx-card .wx-art { height: 120px; border-bottom: 1px solid var(--line); }
+.wx-card .wx-txt { padding: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+@container atlas (max-width: 860px) { .wx-grid { grid-template-columns: minmax(0, 1fr); } }
+.stamps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .75rem; }
+@container atlas (max-width: 900px) { .stamps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.stamp { aspect-ratio: 1 / 1.15; border: 1px dashed var(--line-2); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; padding: .75rem; text-align: center; opacity: .78; }
+.stamp svg { width: 46px; height: 46px; }
+
+/* Observatory threshold */
+.threshold { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.aperture { padding: 2rem 1.5rem 1.75rem; display: flex; flex-direction: column; gap: .75rem; position: relative; overflow: hidden; min-height: 240px; }
+.aperture + .aperture { border-left: 1px solid var(--line); }
+.aperture .slit { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%); opacity: .55; }
+.aperture > *:not(.slit) { position: relative; }
+@container atlas (max-width: 760px) { .threshold { grid-template-columns: minmax(0, 1fr); } .aperture + .aperture { border-left: 0; border-top: 1px solid var(--line); } }
+
+@container atlas (max-width: 860px) {
+  .hero { min-height: 0; }
+  .hero-scene { position: relative; height: 420px; inset: auto; clip-path: none !important; order: 2; }
+  .hero-scene .scene { height: 420px !important; }
+  .hero-scrim, .hero-frame, .frame-hud, .frame-top { display: none; }
+  .hero-copy { order: 1; padding-top: 2.5rem; }
+  .hero[data-w="arbor"] .hero-scene { border-block: 1px solid var(--line); }
+  .strip { order: 3; }
+  .show-sm-wx { display: flex !important; }
+}
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+
+  <section class="hero" data-w="{{world}}" aria-label="{{heroLabel}}">
+    <div class="hero-scene">
+      <dc-import name="Scene" world="{{world}}" weather="{{weather}}" mode="hero" align="hero" height="800px" focus="interview-me" subject="mattpocock/grill-me" on-select="{{onScene}}" hint-size="100%,800px"></dc-import>
+    </div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}"><button class="tree-cta fade" onClick="{{open3d}}"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.2"></circle><ellipse cx="8" cy="8" rx="2.6" ry="6" fill="none" stroke="currentColor" stroke-width="1.2"></ellipse></svg>Explore in 3D</button></sc-if>
+    <div class="hero-frame" data-wx="{{weather}}" aria-hidden="true"></div>
+    <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+      <div class="frame-top fade" data-wx="{{weather}}"><span class="proto-tag">Prototype topology · positions are illustrative until the Arbor projection lands</span></div>
+      <div class="frame-hud fade" data-wx="{{weather}}">
+        <div class="stack gap-1">
+          <span class="hud">Runtime weather</span>
+          <div class="wx" data-wx="{{weather}}" role="group" aria-label="Runtime weather on the Arbor instrument">
+            <button onClick="{{wxNone}}" aria-pressed="{{wxIsNone}}">Clear</button>
+            <button onClick="{{wxHeaven}}" aria-pressed="{{wxIsHeaven}}">Heaven</button>
+            <button onClick="{{wxHell}}" aria-pressed="{{wxIsHell}}">Hell</button>
+            <button onClick="{{wxUltra}}" aria-pressed="{{wxIsUltra}}">Ultra</button>
+          </div>
+        </div>
+        <div class="row gap-2 wrapx">
+          <span class="row gap-1 hud"><svg width="30" height="8" aria-hidden="true"><path d="M1 2h28M1 6h28" stroke="currentColor" stroke-width="1.2"></path></svg>duplicates</span>
+          <span class="row gap-1 hud"><svg width="30" height="8" aria-hidden="true"><path d="M1 4h28M12 1l3 3-3 3" stroke="currentColor" stroke-width="1.2" fill="none"></path></svg>unlocks</span>
+          <span class="row gap-1 hud"><svg width="30" height="8" aria-hidden="true"><path d="M1 4h28" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.5 4" stroke-linecap="round"></path></svg>recovers</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <div class="wrap hero-copy">
+      <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+        <div class="hero-col">
+          <div class="plate enter"><span class="pl-mark">Plate I</span><i class="pl-sep"></i><span>The World Tree</span><i class="pl-sep"></i><span>Snapshot {{snap}}</span><i class="pl-rule"></i></div>
+          <h1 class="display hero-title enter enter-1">Gaia<span class="gold-line">Skill Tree</span></h1>
+          <p class="lede enter enter-2">See what agents can do, who proved it first, and the evidence behind every claim.</p>
+          <button class="search-cta enter enter-3" onClick="{{goSkills}}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            <span>Search {{nGenerics}} capabilities and {{nNamed}} named skills</span><span class="kbd">⌘K</span>
+          </button>
+          <div class="install enter enter-4">
+            <div class="row gap-2">
+              <div class="seg" role="group" aria-label="Install command">
+                <button onClick="{{osUnix}}" aria-pressed="{{isUnix}}">macOS / Linux</button>
+                <button onClick="{{osWin}}" aria-pressed="{{isWin}}">Windows</button>
+              </div>
+            </div>
+            <div class="install-row"><code>{{installCmd}}</code><button class="copy" onClick="{{copyInstall}}" aria-label="Copy install command">{{copyLabel}}</button></div>
+          </div>
+          <div class="row gap-3 wrapx enter enter-5">
+            <button class="link" onClick="{{goAtlas}}">Explore the tree <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+            <button class="link" onClick="{{goDocs}}">Submit a skill <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+        <div class="hero-col" style="max-width: 500px">
+          <div class="plate enter"><span class="pl-mark">Lens</span><i class="pl-sep"></i><span>Arbor I</span><i class="pl-sep"></i><span>Behavioral projection</span><i class="pl-rule"></i></div>
+          <h1 class="display enter enter-1">Arbor</h1>
+          <p class="lede enter enter-2">Arbor reads what a capability does to an agent, and what changes when two of them meet. It does not rank, and it shows nothing it has not observed.</p>
+          <div class="readout enter enter-3" role="list" aria-label="Arbor coverage">
+            <div role="listitem"><span class="hud">Pinned subjects</span><b>{{nSubjects}}</b></div>
+            <div role="listitem"><span class="hud">Declared relations</span><b>{{nRelations}}</b></div>
+            <div role="listitem"><span class="hud">Observed pairs</span><b class="zero">0</b></div>
+            <div role="listitem"><span class="hud">Hell-Heaven stamps</span><b class="zero">0</b></div>
+          </div>
+          <div class="row gap-2 wrapx enter enter-4">
+            <button class="btn btn-solid" onClick="{{goAtlas}}">Open the instrument</button>
+            <button class="btn btn-ghost" onClick="{{goBench}}">How stamps are earned</button>
+          </div>
+          <div class="show-sm-wx stack gap-1">
+            <span class="hud">Runtime weather</span>
+            <div class="wx" data-wx="{{weather}}" role="group" aria-label="Runtime weather on the Arbor instrument">
+              <button onClick="{{wxNone}}" aria-pressed="{{wxIsNone}}">Clear</button>
+              <button onClick="{{wxHeaven}}" aria-pressed="{{wxIsHeaven}}">Heaven</button>
+              <button onClick="{{wxHell}}" aria-pressed="{{wxIsHell}}">Hell</button>
+              <button onClick="{{wxUltra}}" aria-pressed="{{wxIsUltra}}">Ultra</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div class="strip">
+      <div class="wrap strip-in">
+        <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+          <span><b>{{nGenerics}}</b>capabilities</span><span><b>{{nNamed}}</b>named skills</span><span><b>{{nContrib}}</b>contributors</span><span><b>{{nUlt}}</b>Ultimate</span><span class="apex"><b>Apex</b>unclaimed</span><span>Ledger {{snap}}</span>
+        </sc-if>
+        <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+          <span><b>{{nGenerics}}</b>capabilities in view</span><span><b>{{nSubjects}}</b>pinned</span><span><b>0</b>pairs evaluated</span><span>Absence means not evaluated, never safe</span>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= YGGDRASIL COMPOSITION ================= -->
+  <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+    <div class="fade">
+      <section class="section" aria-labelledby="hall-h">
+        <div class="wrap hall">
+          <div class="stack gap-3">
+            <h2 class="h1" id="hall-h">Hall of Heroes</h2>
+            <p class="body">Forty-eight named skills stand in the Hall at four stars or more, each with the person who made it. Three hold five. The sixth rung, Apex, asks for six predicates at once, and no record has met them yet.</p>
+            <div class="row gap-3 wrapx">
+              <button class="btn btn-ghost" onClick="{{goHall}}">Enter the Hall</button>
+              <button class="link" onClick="{{goContributors}}">All {{nContrib}} contributors <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+            </div>
+          </div>
+          <div class="pedestals">
+            <sc-for list="{{fiveStars}}" as="p" hint-placeholder-count="3">
+              <div class="ped">
+                <button class="ped-open" onClick="{{p.open}}" aria-label="{{p.aria}}"></button>
+                <div class="ped-av">
+                  <img class="ph" src="{{p.av}}" alt="" width="132" height="132" loading="lazy" decoding="async">
+                  <sc-if value="{{p.o}}" hint-placeholder-val="{{true}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" loading="lazy" decoding="async"></sc-if>
+                  <img class="md" src="{{p.img}}" alt="" width="58" height="58" loading="lazy" decoding="async">
+                </div>
+                <div class="meta">
+                  <span class="sk-name" data-l="5" data-b="{{p.br}}">/{{p.slug}}</span>
+                  <span class="handle small">@{{p.c}}</span>
+                  <span class="rk" data-l="5" data-b="{{p.br}}">{{p.rank}} · 5★</span>
+                  <span class="row gap-1"><span class="metal" data-g="S">S · {{p.tm}}</span></span>
+                </div>
+                <button class="ped-share" onClick="{{p.share}}" aria-label="{{p.shareAria}}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M5 7.5 3.6 8.9a2.5 2.5 0 0 0 3.5 3.5L8.5 11M11 8.5l1.4-1.4a2.5 2.5 0 0 0-3.5-3.5L7.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>Share plaque</button>
+              </div>
+            </sc-for>
+            <div class="ped apex" aria-label="Apex, six stars, unclaimed">
+              <div class="ped-av"><img src="/_blob/670ae5fd0ba207ea8ec029f130247610" alt="" width="132" height="132" loading="lazy"></div>
+              <div class="meta">
+                <span class="sk-name" style="color: var(--ink-3)">Apex · 6★</span>
+                <span class="fine">Unclaimed</span>
+                <span class="fine">Six predicates, all at once</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-label="Leaderboard">
+        <dc-import name="Leaderboard" world="{{world}}" go="{{goRaw}}" pick="{{pickRaw}}" compact="{{true}}" hint-size="100%,620px"></dc-import>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- ================= ARBOR COMPOSITION ================= -->
+  <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+    <div class="fade">
+      <section class="section" aria-label="Two lenses, one skill">
+        <div class="wrap stack gap-4">
+          <div class="two-q">
+            <div>
+              <span class="hud">Yggdrasil asks</span>
+              <p class="q" style="margin: 0">What has this capability earned?</p>
+              <p class="small">/grill-me · Evolved · 3★ · Trust grade B (63.71)</p>
+            </div>
+            <div>
+              <span class="hud">Arbor asks</span>
+              <p class="q arb" style="margin: 0">What does this capability do?</p>
+              <p class="small">mattpocock/grill-me · pinned subject · 1 declared relation · Hell-Heaven: no accepted record</p>
+            </div>
+          </div>
+          <p class="fine">The same skill keeps its identity in both Trees. Its position, measurements and vocabulary change with the lens. Neither answer feeds the other.</p>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-labelledby="rel-h">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="h2" id="rel-h">Declared relations</h2>
+              <p class="body">A declared relation is a source-backed hypothesis with stated conditions. It is not an observation and it never earns a stamp. These are the three on record.</p>
+            </div>
+            <span class="proto-tag">Real records · expert-declared · unmeasured</span>
+          </div>
+          <div>
+            <sc-for list="{{relations}}" as="r" hint-placeholder-count="3">
+              <div class="rel-row">
+                <button class="sk-name" onClick="{{r.openFrom}}" style="background: none; border: 0; padding: 0; cursor: pointer; text-align: left">{{r.from}}</button>
+                <div class="rel-glyph">
+                  <svg viewBox="0 0 140 18" preserveAspectRatio="none" aria-hidden="true"><path d="{{r.path}}" stroke="currentColor" stroke-width="1.4" fill="none" stroke-dasharray="{{r.dash}}" stroke-linecap="round"></path></svg>
+                  <span class="hud" style="color: var(--ink)">{{r.rel}}</span>
+                </div>
+                <button class="sk-name" onClick="{{r.openTo}}" style="background: none; border: 0; padding: 0; cursor: pointer; text-align: left">{{r.to}}</button>
+                <div class="stack gap-1">
+                  <p class="small">{{r.cond}}</p>
+                  <span class="hud">claim · {{r.claim}}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-labelledby="wx-h">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="h2" id="wx-h">Runtime weather</h2>
+              <p class="body">Heaven, Hell and Ultra are conditions applied to the instrument. The Tree underneath stays Arbor; only the weather changes. Try them on the instrument above.</p>
+            </div>
+          </div>
+          <div class="wx-grid">
+            <div class="wx-card">
+              <svg class="wx-art" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true" style="background: var(--ground-2)"><path d="M20 100H110L140 70H280" stroke="#6f96d8" stroke-width="1.4" fill="none"></path><path d="M20 102H110L140 72H280" stroke="#a58ae0" stroke-width="1" fill="none" opacity=".8"></path><path d="M20 98H110L140 68H280" stroke="#5fc2d6" stroke-width="1" fill="none" opacity=".8"></path><path d="M60 100V40M200 70V20M240 70v40" stroke="var(--line-2)" stroke-width="1" fill="none" opacity=".5"></path><circle cx="280" cy="70" r="4" fill="var(--ink)"></circle></svg>
+              <div class="wx-txt"><h3 class="h3">Heaven converges</h3><p class="small">Search narrows to selected routes. Split light travels the chosen branch; the alternatives dim.</p></div>
+            </div>
+            <div class="wx-card">
+              <svg class="wx-art" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true" style="background: #efece7"><path d="M20 100H110L140 70H280M60 100V40l20-20M200 70V20M240 70v40" stroke="#171618" stroke-width="1.2" fill="none"></path><rect x="137" y="67" width="6" height="6" fill="#c2181d"></rect><circle cx="280" cy="70" r="4" fill="#9e3378"></circle></svg>
+              <div class="wx-txt"><h3 class="h3">Hell explores</h3><p class="small">An impact cut inverts the instrument to ink on paper. The topology holds; red marks only the impact points.</p></div>
+            </div>
+            <div class="wx-card">
+              <svg class="wx-art" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true" style="background: var(--ground-2)"><path d="M20 100H110L140 70H280M60 100V40M200 70V20M240 70v40" stroke="oklch(0.745 0.15 148)" stroke-width="1.1" fill="none" opacity=".6"></path><path d="M60 100H110L140 70H230" stroke="#d9b25c" stroke-width="6" fill="none" opacity=".12"></path><path d="M60 100H110L140 70H230" stroke="#d9b25c" stroke-width="1.4" fill="none"></path></svg>
+              <div class="wx-txt"><h3 class="h3">Ultra governs</h3><p class="small">A long-horizon governor that moves between the two. Its gold is a passing wake of light, never the material of the Tree.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-labelledby="st-h">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="h2" id="st-h">Hell-Heaven stamps</h2>
+              <p class="body">A stamp is derived from an observed, interpreted benchmark receipt. It is never a contributor claim. None has been issued, so every skill reads as not measured.</p>
+            </div>
+            <button class="link" onClick="{{goBench}}">How a stamp is earned <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+          </div>
+          <div class="stamps">
+            <sc-for list="{{stamps}}" as="s" hint-placeholder-count="6">
+              <div class="stamp">
+                <svg viewBox="0 0 46 46" aria-hidden="true"><rect x="3" y="3" width="40" height="40" rx="3" fill="none" stroke="var(--line-2)" stroke-dasharray="2 3"></rect><path d="{{s.mark}}" fill="none" stroke="var(--ink-3)" stroke-width="1.4"></path></svg>
+                <span class="small" style="color: var(--ink)">{{s.label}}</span>
+                <span class="hud">Specimen · not issued</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-labelledby="sub-h">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="h2" id="sub-h">Pinned subjects</h2>
+              <p class="body">Each subject is pinned to a behavioral identity hash. Its instructions have a baseline; its claims and Hell-Heaven lenses have no accepted record yet.</p>
+            </div>
+          </div>
+          <div class="subjects">
+            <sc-for list="{{subjects}}" as="s" hint-placeholder-count="10">
+              <div><button class="sk-name" onClick="{{s.open}}" style="background: none; border: 0; padding: 0; cursor: pointer; text-align: left">{{s.id}}</button><span class="hud">{{s.sha}}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- ================= SHARED ================= -->
+  <section class="section" style="padding-top: 0" aria-labelledby="begin-h">
+    <div class="wrap console">
+      <div class="stack gap-3">
+        <h2 class="h2" id="begin-h">{{beginTitle}}</h2>
+        <p class="body">{{beginBody}}</p>
+      </div>
+      <div class="console-box">
+        <div class="tabs" role="tablist" aria-label="Ways to begin">
+          <button role="tab" aria-selected="{{bInstall}}" onClick="{{tabInstall}}">Install the CLI</button>
+          <button role="tab" aria-selected="{{bSubmit}}" onClick="{{tabSubmit}}">Submit a repo</button>
+          <button role="tab" aria-selected="{{bPrompt}}" onClick="{{tabPrompt}}">Prompt your agent</button>
+        </div>
+        <div class="console-body" role="tabpanel">
+          <sc-if value="{{isInstall}}" hint-placeholder-val="{{true}}">
+            <div class="code" role="group" aria-label="Install commands"><span class="ln c-cmt"># install, then read your own repo</span><span class="ln"><span class="c-cmd">curl</span> -fsSL https://gaiaskilltree.com/install.sh | sh</span><span class="ln"><span class="c-cmd">gaia</span> init</span><span class="ln"><span class="c-cmd">gaia</span> scan   <span class="c-cmt"># skills and fusions you already hold</span></span><span class="ln"><span class="c-cmd">gaia</span> tree   <span class="c-cmt"># renders your tree locally</span></span></div>
+            <p class="fine">Nothing leaves your machine until you run gaia push.</p>
+          </sc-if>
+          <sc-if value="{{isSubmit}}" hint-placeholder-val="{{false}}">
+            <div class="code" role="group" aria-label="Submit commands"><span class="ln"><span class="c-cmd">gaia</span> push   <span class="c-cmt"># proposes your structure to canon</span></span><span class="ln c-cmt"># curators review topology, then evidence</span><span class="ln c-cmt"># rank is assigned by canon, never self-declared</span></div>
+            <p class="fine">A pushed skill appears in both Trees once canon accepts it. Arbor pins it separately.</p>
+          </sc-if>
+          <sc-if value="{{isPrompt}}" hint-placeholder-val="{{false}}">
+            <div class="code" style="white-space: normal" role="group" aria-label="Agent prompt"><span class="ln" style="white-space: normal">Read https://gaiaskilltree.com/llms.txt, then scan this repository with the Gaia CLI and tell me which skills I hold, which fusions I am one prerequisite away from, and what evidence would raise each skill's Trust Magnitude.</span></div>
+            <p class="fine">Works with any agent that can run a shell and read a URL.</p>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+    <div>
+      <section class="section" style="padding-top: 0" aria-labelledby="rev-h">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="h2" id="rev-h">How a skill is reviewed</h2>
+              <p class="body">Five stations, in order. Two of them are human gates. Every station leaves an event on the skill's timeline.</p>
+            </div>
+          </div>
+          <ol class="assay">
+            <li><span class="no">1</span><div class="stack gap-1"><h3 class="h4">Intake</h3><p class="small">gaia push opens a proposal. Nothing is ranked yet.</p></div></li>
+            <li class="human"><span class="no">2</span><div class="stack gap-1"><h3 class="h4">Topology review</h3><p class="small">A curator approves where the skill sits in the tree.</p></div></li>
+            <li><span class="no">3</span><div class="stack gap-1"><h3 class="h4">Evidence pipeline</h3><p class="small">Stars, benchmarks, an adversarial audit and link checks.</p></div></li>
+            <li><span class="no">4</span><div class="stack gap-1"><h3 class="h4">Ingest and appraise</h3><p class="small">Verified rows land; Trust Magnitude is computed.</p></div></li>
+            <li class="human"><span class="no">5</span><div class="stack gap-1"><h3 class="h4">Calibration</h3><p class="small">Canon sets the rank, within the grade's ceiling.</p></div></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="locked" aria-labelledby="locked-h">
+        <h2 id="locked-h" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ascension Overdrive (locked section)</h2>
+        <span class="locked-tag"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"></rect><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg>Ascension Overdrive · locked · live section, unchanged</span>
+        <div class="locked-window" style="max-height: {{odMax}}">
+          <picture>
+            <source media="(max-width: 600px)" srcset="/_blob/4ef143c437116175bb61ebf5456688ed">
+            <img src="/_blob/ac2cc5993d8a4b999aefcac268fcfe49" alt="Capture of the live Ascension Overdrive section: Awakened, Named and Evolved medallions, the Suite and Unique fork, Ultimate, Apex and Unique Impossible." width="1440" height="9493" loading="lazy">
+          </picture>
+          <sc-if value="{{odCollapsed}}" hint-placeholder-val="{{true}}">
+            <div class="locked-fade"><button class="btn btn-ghost" onClick="{{odToggle}}" style="background: oklch(0.14 0.01 60)">Show the full section</button></div>
+          </sc-if>
+        </div>
+        <sc-if value="{{odExpanded}}" hint-placeholder-val="{{false}}">
+          <div class="row" style="justify-content: center; padding: 1.25rem"><button class="btn btn-ghost" onClick="{{odToggle}}">Collapse the section</button></div>
+        </sc-if>
+      </section>
+
+      <section class="section" aria-labelledby="ev-h">
+        <div class="wrap stack gap-4">
+          <div class="section-head" style="margin-bottom: 0">
+            <div>
+              <h2 class="h2" id="ev-h">Evidence, graded like metal</h2>
+              <p class="body">Every evidence row carries a grade. The metal shows it at a glance, the same in every Tree: Platinum, Gold, Silver, Bronze, or ungraded.</p>
+            </div>
+            <button class="link" onClick="{{goEvidence}}">Open the Evidence Library <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+          </div>
+          <div class="alloy" role="img" aria-label="{{alloyAria}}">
+            <sc-for list="{{metals}}" as="m" hint-placeholder-count="5"><div class="ingot" data-g="{{m.g}}" style="flex: {{m.n}} 1 0"></div></sc-for>
+          </div>
+          <div class="metals">
+            <sc-for list="{{metals}}" as="m" hint-placeholder-count="5">
+              <div><span class="metal" data-g="{{m.g}}" style="align-self: flex-start">{{m.name}}</span><span class="num" style="font-size: 1.5rem; color: var(--ink)">{{m.n}}</span><span class="fine">{{m.pct}}% of {{nEv}} named-skill rows</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0" aria-labelledby="rep-h">
+        <div class="wrap reports">
+          <div class="rep-feature">
+            <div class="stack gap-2">
+              <span class="hud">Meta report · {{rep0date}}</span>
+              <h2 class="h2" id="rep-h" style="font-size: clamp(1.5rem, 1.1rem + 1.4cqi, 2.1rem)">{{rep0title}}</h2>
+            </div>
+            <div class="row gap-3 wrapx"><button class="link" onClick="{{goReports}}">Read the report <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+            <button class="link" onClick="{{goChangelog}}">Full changelog of skills <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button></div>
+          </div>
+          <ul class="rep-list">
+            <sc-for list="{{reportsRest}}" as="r" hint-placeholder-count="5">
+              <li><span class="hud">{{r.date}}</span><button class="small" onClick="{{goReports}}" style="background: none; border: 0; padding: 0; text-align: left; cursor: pointer; color: var(--ink); font-size: .9875rem">{{r.title}}</button></li>
+            </sc-for>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <section class="section-tight" aria-labelledby="obs-h">
+    <div class="wrap stack gap-3">
+      <div class="row gap-3 wrapx" style="justify-content: space-between; align-items: end">
+        <h2 class="h3" id="obs-h">One house, three rooms</h2>
+        <button class="link" onClick="{{goObservatory}}">Enter the Observatory <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></button>
+      </div>
+      <div class="threshold">
+        <div class="aperture"><i class="slit" style="background: linear-gradient(transparent, oklch(0.80 0.115 82), transparent)"></i><span class="hud">gaiaskilltree.com</span><h3 class="h3" style="font-family: var(--f-display); font-size: 1.5rem; font-weight: 500">Gaia Skill Tree</h3><p class="small">The record. Skills, evidence, standing.</p></div>
+        <div class="aperture"><i class="slit" style="background: linear-gradient(transparent, #38bdf8 40%, #ec4899 70%, transparent)"></i><span class="hud">research.gaiaskilltree.com</span><h3 class="h3" style="font-family: var(--f-display); font-size: 1.5rem; font-weight: 500">Gaia Research</h3><p class="small">The laboratory. Benchmarks and methods.</p></div>
+        <div class="aperture"><i class="slit" style="background: linear-gradient(transparent, #a58ae0 30%, #5fc2d6 50%, #e094c8 70%, transparent)"></i><span class="hud">Skill Heaven</span><h3 class="h3" style="font-family: var(--f-display); font-size: 1.5rem; font-weight: 500">Gaia Skill Heaven</h3><p class="small">The runtime. One skill, summoned when needed.</p></div>
+      </div>
+    </div>
+  </section>
+  <p class="wx-live" aria-live="polite">{{wxMsg}}</p>
+  <div class="wxfx" ref="{{fxRef}}" aria-hidden="true"><i class="fx-sheet"></i><i class="fx-sheet2"></i><i class="fx-burst"></i><i class="fx-wedge"></i><i class="fx-wedge2"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-slice"></i><i class="fx-scan"></i><i class="fx-mark"></i><b class="fx-stamp">Ultra</b></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"share":{"editor":null},"$preview":{"width":1440,"height":5060}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const RANK_NAMES = { 0: 'Basic', 1: 'Awakened', 2: 'Named', 3: 'Evolved', 4: 'Extra', 5: 'Ultimate', 6: 'Apex' };
+const RANK_NAMES_U = { 4: 'Unique', 5: 'Unique Ultimate', 6: 'Unique Impossible' };
+function rankName(lv, br) { return (lv >= 4 && br === 'unique' ? RANK_NAMES_U[lv] : RANK_NAMES[lv]) + ' · ' + lv + '★'; }
+function meterPct(tm) { return Math.min(100, Math.log(1 + (tm || 0)) / Math.log(501) * 100).toFixed(1); }
+function fmtDate(d) { const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const p = (d || '').split('-'); return p.length === 3 ? (+p[2]) + ' ' + m[+p[1] - 1] + ' ' + p[0] : d; }
+const MEDC = { 1: '/_blob/a683094ec451ed1421d6e3c772818798', 2: '/_blob/245265bcf720c3554a92d4deebdf13ca', 3: '/_blob/d762e0fb037e3eff0ed7123da1031186', 4: '/_blob/7ecf86e4708fc19c0b59821d6c743613', 5: '/_blob/067317f281dd6808e896e3baa06d8a89', 6: '/_blob/670ae5fd0ba207ea8ec029f130247610' };
+const MEDU = { 4: '/_blob/7601aadaeb67b8b9616c4f70239a5f5a', 5: '/_blob/5a4f089a79116491433e15afa4296e82', 6: '/_blob/25a22d936d7985205d6d77f23460d572' };
+/* The share payload every plaque hands to the shell's Share view. */
+function shareOf(s, avatars) {
+  const c = s.c || s.id.split('/')[0], u = s.br === 'unique' && s.lv >= 4;
+  return { id: s.id, slug: s.slug || s.id.split('/')[1], title: s.title || '', c: c, lv: s.lv, br: u ? 'unique' : (s.br === 'suite' ? 'suite' : 'standard'), tm: s.tm, gr: s.gr, o: !!s.o,
+    av: (avatars || {})[c] || '', med: (u ? MEDU : MEDC)[s.lv] || MEDC[1], rank: rankName(s.lv, s.br), g: s.g, gName: s.gName || '' };
+}
+const STAMPS = [
+  { label: 'Heaven-native', mark: 'M12 30h22M14 24l9-9 9 9M23 15v15' },
+  { label: 'Heaven-safe', mark: 'M12 26h22M15 20l8-6 8 6M18 32h10' },
+  { label: 'Hell-native', mark: 'M12 16h22M14 22l9 9 9-9M23 31V16' },
+  { label: 'Hell-safe', mark: 'M12 20h22M15 26l8 6 8-6M18 14h10' },
+  { label: 'Dual-safe', mark: 'M12 16h22M12 30h22M23 12v22' },
+  { label: 'Ultra-ready', mark: 'M12 32l11-18 11 18M17 24h12' }
+];
+// Runtime weather transition: an impact frame (hard cuts, no easing), then a glitch (slice tear, scanlines,
+// a <=8px shear), resolving into the new weather. Transform and opacity only, via the Web Animations API, so a
+// new change cancels the running one and the overlay never stacks. Flash budget: at most 3 in any second
+// (WCAG 2.3.1); a change that would exceed it plays the glitch without the impact sheets. Reduced motion
+// replaces all of it with a 150 ms crossfade.
+const WXFX = { none: { dur: 450, n: 1, amp: 8 }, heaven: { dur: 520, n: 1, amp: 14 }, hell: { dur: 480, n: 1, amp: 26 }, ultra: { dur: 640, n: 2, amp: 22 } };
+const WX_NAME = { none: 'Clear', heaven: 'Heaven', hell: 'Hell', ultra: 'Ultra' };
+function wxfxRun(el, dur, ks, hard) {
+  if (!el) return;
+  el.animate(ks.map((k) => Object.assign({ offset: Math.min(1, k[0] / dur), easing: hard ? 'steps(1, end)' : 'linear' }, k[1])), { duration: dur, fill: 'none', id: 'wxfx' });
+}
+function wxfxPlay(root, to, shear, log) {
+  if (!root || !root.animate) return;
+  root.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+  (shear || []).forEach((s) => s && s.getAnimations().forEach((a) => { if (a.id === 'wxfx') a.cancel(); }));
+  root.dataset.to = to;
+  const q = (c) => root.querySelector(c), P = WXFX[to] || WXFX.none, D = P.dur;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { wxfxRun(q('.fx-sheet'), 150, [[0, { opacity: 0 }], [60, { opacity: 0.22 }], [150, { opacity: 0 }]], false); return; }
+  const now = performance.now();
+  while (log.length && now - log[0].t > 1000) log.shift();
+  const calm = log.reduce((a, r) => a + r.n, 0) + P.n > 3;
+  if (!calm) log.push({ t: now, n: P.n });
+  const O = (o, t) => (t ? { opacity: o, transform: t } : { opacity: o });
+  if (!calm) {
+    if (to === 'heaven') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.42)], [46, O(0.3)], [92, O(0.36)], [120, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.85, 'rotate(-28deg) translateX(-6%)')], [46, O(0.85, 'rotate(-28deg) translateX(3%) scaleY(.6)')], [92, O(0.6, 'rotate(-28deg) translateX(8%) scaleY(.3)')], [120, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else if (to === 'hell') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.9)], [60, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(1, 'rotate(-28deg)')], [60, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [60, O(0.92, 'rotate(-28deg) translateX(-4%) scaleY(.5)')], [110, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-mark'), D, [[0, O(1, 'scale(1)')], [60, O(1, 'scale(1.6) rotate(45deg)')], [110, O(0)], [D, O(0)]], true);
+    } else if (to === 'ultra') {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.55)], [58, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.9, 'rotate(-28deg)')], [58, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+      wxfxRun(q('.fx-sheet2'), D, [[0, O(0)], [58, O(0.78)], [124, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge2'), D, [[0, O(0, 'rotate(-28deg)')], [58, O(0.9, 'rotate(-28deg) translateX(-3%)')], [124, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    } else {
+      wxfxRun(q('.fx-sheet'), D, [[0, O(0.16)], [90, O(0)], [D, O(0)]], true);
+      wxfxRun(q('.fx-wedge'), D, [[0, O(0.7, 'rotate(-28deg) scaleY(.12)')], [46, O(0.7, 'rotate(-28deg) translateY(-30%) scaleY(.08)')], [90, O(0, 'rotate(-28deg)')], [D, O(0, 'rotate(-28deg)')]], true);
+    }
+  }
+  if (to === 'ultra') {
+    wxfxRun(q('.fx-stamp'), D, [[0, O(0, 'scale(1.3)')], [58, O(1, 'scale(1.22) skewX(-8deg)')], [104, O(1, 'scale(1.04) skewX(3deg)')], [150, O(1, 'scale(1)')], [400, O(calm ? 0.7 : 1, 'scale(1)')], [D, O(0, 'scale(.98)')]], false);
+    wxfxRun(q('.fx-burst'), D, [[0, O(0, 'scale(.6)')], [118, O(0, 'scale(.6)')], [124, O(0.75, 'scale(.8)')], [420, O(0.3, 'scale(1.15)')], [580, O(0, 'scale(1.25)')], [D, O(0, 'scale(1.25)')]], false);
+  }
+  // glitch: slices tear on 46 ms steps, scanlines decay
+  const g0 = calm ? 0 : (to === 'ultra' ? 124 : 110), A = P.amp;
+  root.querySelectorAll('.fx-slice').forEach((s, i) => {
+    s.style.top = (8 + Math.random() * 82).toFixed(1) + '%';
+    s.style.height = (0.4 + Math.random() * (to === 'hell' ? 3.2 : 4.2)).toFixed(2) + '%';
+    const sg = i % 2 ? 1 : -1, a = A * (0.6 + Math.random() * 0.6) * sg, op = to === 'none' ? 0.6 : 0.85;
+    const ks = [[0, O(0, 'translateX(0)')]];
+    if (g0) ks.push([g0, O(0, 'translateX(0)')]);
+    for (let k = 0; k < 6; k++) ks.push([g0 + k * 46 + (i % 3) * 8, O(op * (1 - k * 0.12), 'translateX(' + (k % 2 ? -a * 0.7 : a) * (1 - k * 0.14) + 'px)')]);
+    ks.push([Math.min(D - 1, g0 + 300), O(0, 'translateX(0)')], [D, O(0, 'translateX(0)')]);
+    wxfxRun(s, D, ks, true);
+  });
+  const sc = to === 'ultra' ? 0.6 : 1;
+  wxfxRun(q('.fx-scan'), D, [[0, O(calm ? 0.3 : 0)], [g0, O(0.6 * sc)], [g0 + 92, O(0.45 * sc)], [g0 + 184, O(0.3 * sc)], [g0 + (to === 'ultra' ? 230 : 300), O(0)], [D, O(0)]], true);
+  (shear || []).forEach((s) => wxfxRun(s, D, [[0, { transform: 'none' }], [g0, { transform: 'translate3d(-8px, 1px, 0) skewX(3deg)' }], [g0 + 46, { transform: 'translate3d(6px, -2px, 0) skewX(-2deg)' }], [g0 + 92, { transform: 'translate3d(-3px, 0, 0)' }], [g0 + 138, { transform: 'none' }], [D, { transform: 'none' }]], true));
+}
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null, os: 'unix', copied: false, tab: 'install', od: false, weather: 'none', wxMsg: '' }; this.fx = null; this.fxLog = []; this.fxRef = (el) => { this.fx = el; }; }
+  setWeather(w) {
+    if (w === this.state.weather) return;
+    this.setState({ weather: w, wxMsg: 'Runtime weather: ' + WX_NAME[w] });
+    const host = this.fx && this.fx.parentElement;
+    wxfxPlay(this.fx, w, host ? [host.querySelector('.hero-scene')] : [], this.fxLog);
+  }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  componentDidUpdate(pp) { if (pp.world !== this.props.world && this.props.world !== 'arbor' && this.state.weather !== 'none') this.setState({ weather: 'none' }); }
+  renderVals() {
+    const d = this.state.d, world = this.props.world || 'ygg';
+    const go = (r, o) => () => { if (this.props.go) this.props.go(r, o); };
+    const open = (id, g) => () => { if (this.props.pick) this.props.pick({ id: id, generic: g }); };
+    const c = d ? d.counts : null;
+    const bySkill = {};
+    if (d) d.skills.forEach((s) => { bySkill[s.id] = s; });
+    const avs = d ? d.avatars : {};
+    const share = (s) => () => { if (this.props.share) this.props.share(shareOf(s, avs)); };
+    const fiveStars = d ? d.plates.filter((s) => s.lv === 5).slice(0, 3).map((s) => ({
+      slug: s.slug, c: s.c, br: s.br === 'unique' ? 'unique' : 'suite', tm: (s.tm || 0).toFixed(2), rank: s.br === 'unique' ? 'Unique Ultimate' : 'Ultimate',
+      img: s.br === 'unique' ? MEDU[5] : MEDC[5], av: avs[s.c] || '', o: !!s.o,
+      aria: 'Open ' + s.id + ', ' + (s.br === 'unique' ? 'Unique Ultimate' : 'Ultimate') + ', five stars', open: open(s.id, s.g),
+      share: share(s), shareAria: 'Share the /' + s.slug + ' plaque'
+    })) : [];
+    const ledger = d ? d.ledger.slice(0, 8).map((r, i) => {
+      const s = bySkill[r.id] || {};
+      const lv = parseInt(r.stars, 10) || r.lv || 0;
+      return { n: String(i + 1).padStart(2, '0'), slug: r.id.split('/')[1], c: r.id.split('/')[0], title: r.title || s.title || '', lv: lv, br: r.br === 'unique' ? 'unique' : 'suite',
+        rank: rankName(lv, r.br), tm: r.tm.toFixed(2), pct: meterPct(r.tm), gr: r.gr || '-', open: open(r.id, s.g), av: avs[r.id.split('/')[0]] || '' };
+    }) : [];
+    const gd = c ? c.grades : {};
+    const nEv = c ? c.evidence : 0;
+    const metals = [['S', 'Platinum'], ['A', 'Gold'], ['B', 'Silver'], ['C', 'Bronze'], ['-', 'Ungraded']].map((m) => ({ g: m[0], name: m[1], n: gd[m[0]] || 0, pct: nEv ? ((gd[m[0]] || 0) / nEv * 100).toFixed(1) : '0' }));
+    const relPath = { duplicates: 'M2 6H138M2 12H138', unlocks: 'M2 9H138M64 4l6 5-6 5M100 4l6 5-6 5', recovers: 'M2 9H138' };
+    const relations = d ? d.relations.map((r) => ({ from: r.from, to: r.to, rel: r.rel, cond: r.cond, claim: r.claim,
+      path: relPath[r.rel] || 'M2 9H138', dash: r.rel === 'recovers' ? '1.5 5' : 'none', openFrom: open(r.from), openTo: open(r.to) })) : [];
+    const subjects = d ? d.subjects.map((s) => ({ id: s.id, sha: s.sha, open: open(s.id, s.g) })) : [];
+    const reports = d ? d.reports.map((r) => ({ date: fmtDate(r.date), title: r.title })) : [];
+    const wx = this.state.weather;
+    const setWx = (w) => () => this.setWeather(w);
+    const tab = this.state.tab;
+    const cmd = this.state.os === 'unix' ? 'curl -fsSL https://gaiaskilltree.com/install.sh | sh' : 'iwr -useb https://gaiaskilltree.com/install.ps1 | iex';
+    return {
+      world: world, isYgg: world === 'ygg', isArbor: world === 'arbor',
+      heroLabel: world === 'arbor' ? 'Arbor instrument' : 'The World Tree', fxRef: this.fxRef, wxMsg: this.state.wxMsg,
+      weather: world === 'arbor' ? wx : 'none',
+      wxIsNone: wx === 'none' ? 'true' : 'false', wxIsHeaven: wx === 'heaven' ? 'true' : 'false', wxIsHell: wx === 'hell' ? 'true' : 'false', wxIsUltra: wx === 'ultra' ? 'true' : 'false',
+      wxNone: setWx('none'), wxHeaven: setWx('heaven'), wxHell: setWx('hell'), wxUltra: setWx('ultra'),
+      onScene: (sel) => { if (sel.kind === 'subject') { if (this.props.pick) this.props.pick({ id: sel.id, generic: sel.generic }); } else if (this.props.go) this.props.go('atlas'); },
+      snap: c ? fmtDate(c.snapshot) : '…', nGenerics: c ? c.generics : '317', nNamed: c ? c.named : '436', nContrib: c ? c.contributors : '…', nUlt: c ? (c.levels['5'] || 0) : '…',
+      nLedger: c ? c.ledger.total : '…', nSubjects: c ? c.subjects : '22', nRelations: c ? c.relations : '3',
+      fiveStars: fiveStars, ledger: ledger, metals: metals, nEv: nEv,
+      alloyAria: 'Evidence grade distribution: ' + metals.map((m) => m.name + ' ' + m.n).join(', '),
+      relations: relations, subjects: subjects, stamps: STAMPS,
+      rep0date: reports[0] ? reports[0].date : '', rep0title: reports[0] ? reports[0].title : 'Loading the latest report', reportsRest: reports.slice(1, 6),
+      installCmd: cmd, isUnix: this.state.os === 'unix' ? 'true' : 'false', isWin: this.state.os === 'win' ? 'true' : 'false',
+      osUnix: () => this.setState({ os: 'unix', copied: false }), osWin: () => this.setState({ os: 'win', copied: false }),
+      copyLabel: this.state.copied ? 'Copied' : 'Copy',
+      copyInstall: () => { try { navigator.clipboard.writeText(cmd); } catch (e) {} this.setState({ copied: true }); },
+      bInstall: tab === 'install' ? 'true' : 'false', bSubmit: tab === 'submit' ? 'true' : 'false', bPrompt: tab === 'prompt' ? 'true' : 'false',
+      isInstall: tab === 'install', isSubmit: tab === 'submit', isPrompt: tab === 'prompt',
+      tabInstall: () => this.setState({ tab: 'install' }), tabSubmit: () => this.setState({ tab: 'submit' }), tabPrompt: () => this.setState({ tab: 'prompt' }),
+      beginTitle: world === 'arbor' ? 'One skill, both Trees' : 'Put your skills on the record',
+      beginBody: world === 'arbor' ? 'Arbor reads the same canonical skills as Yggdrasil. Install the CLI and submit once; Arbor pins accepted skills as subjects on its own schedule.' : 'Scan your own repository, see which skills and fusions you already hold, then propose them to canon. Rank is assigned by review, never self-declared.',
+      odMax: this.state.od ? 'none' : '880px', odCollapsed: !this.state.od, odExpanded: this.state.od, odToggle: () => this.setState({ od: !this.state.od }),
+      open3d: () => { if (this.props.explore3d) this.props.explore3d(); else if (this.props.go) this.props.go('atlas'); },
+      goSkills: go('skills'), goAtlas: go('atlas'), goDocs: go('docs'), goBench: go('benchmarks'), goHall: go('heroes'), goContributors: go('contributors'),
+      goLedger: go('evidence', { tab: 'ledger' }), goEvidence: go('evidence'), goReports: go('reports'), goChangelog: go('changelog'), goRaw: this.props.go, pickRaw: this.props.pick, goObservatory: go('observatory')
+    };
+  }
+}
+</script>
+</body>
+</html>

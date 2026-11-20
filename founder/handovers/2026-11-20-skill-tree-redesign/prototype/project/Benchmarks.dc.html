@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Benchmarks and Hell-Heaven stamps</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.bh { padding-block: clamp(3rem, 6cqi, 5rem) 3rem; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 2.5rem; align-items: end; }
+@container atlas (max-width: 900px) { .bh { grid-template-columns: minmax(0, 1fr); } }
+.receipt { border: 1px solid var(--line-2); border-radius: 4px; background: var(--ground-2); font-family: var(--f-hud); font-size: .75rem; color: var(--ink-2); }
+.receipt-h { display: flex; justify-content: space-between; gap: 1rem; padding: .9rem 1.1rem; border-bottom: 1px dashed var(--line-2); }
+.receipt-b { padding: .4rem 1.1rem 1rem; }
+.rf { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem; padding: .5rem 0; border-bottom: 1px dotted var(--line); }
+.rf span:last-child { color: var(--ink-3); overflow-wrap: anywhere; }
+.pillars { display: grid; grid-template-columns: 40fr 30fr 20fr 10fr; gap: 3px; margin-top: .6rem; }
+.pillars > div { border: 1px dashed var(--line-2); padding: .45rem .5rem; display: flex; flex-direction: column; gap: .15rem; }
+.pillars b { font-weight: 400; color: var(--ink); }
+.pillars > div { min-width: 0; overflow-wrap: anywhere; }
+@container atlas (max-width: 600px) { .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rf { grid-template-columns: minmax(0, 1fr); gap: .2rem; } }
+.split2 { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 1.5rem; align-items: stretch; }
+.split2 > .arrow { display: grid; place-items: center; color: var(--ink-3); }
+.reading { border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+.reading.ygg { background: linear-gradient(160deg, oklch(0.80 0.115 82 / .08), transparent 60%); }
+.reading.arb { background: linear-gradient(160deg, oklch(0.745 0.15 148 / .08), transparent 60%); }
+@container atlas (max-width: 860px) { .split2 { grid-template-columns: minmax(0, 1fr); } .split2 > .arrow { transform: rotate(90deg); } }
+.catalog > div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr); gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: center; }
+.ladder { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.ladder > div { padding: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+.ladder > div + div { border-left: 1px solid var(--line); }
+.ladder .k { font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-3); }
+.ladder .now { background: var(--accent-wash); }
+@container atlas (max-width: 860px) { .ladder { grid-template-columns: minmax(0, 1fr); } .ladder > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+.stampsheet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+@container atlas (max-width: 900px) { .stampsheet { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container atlas (max-width: 520px) { .stampsheet { grid-template-columns: minmax(0, 1fr); } }
+.st-card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.st-art { aspect-ratio: 16 / 10; display: grid; place-items: center; position: relative; }
+.st-art.dark { background: oklch(0.225 0.004 145); }
+.st-art.paper { background: #efece7; }
+.st-art svg { width: 46%; height: auto; }
+.st-art .spec { position: absolute; top: .7rem; left: .7rem; font-family: var(--f-hud); font-size: .625rem; letter-spacing: .05em; color: oklch(0.82 0.01 110); border: 1px dashed currentColor; padding: .15rem .4rem; border-radius: 2px; }
+.st-art.paper .spec { color: #3a383c; }
+.st-txt { padding: 1.1rem 1.25rem 1.3rem; display: flex; flex-direction: column; gap: .45rem; }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap bh">
+    <div class="stack gap-3">
+      <div class="plate"><span class="pl-mark">Signals</span><i class="pl-sep"></i><span>Benchmarks and stamps</span><i class="pl-sep"></i><span>{{nSources}} registered sources</span><i class="pl-rule"></i></div>
+      <h1 class="h1">How do we know a skill works?</h1>
+      <p class="lede">A benchmark receipt is an observation. Yggdrasil reads it as credibility; Arbor reads it as behavior. The two readings never merge into one score.</p>
+    </div>
+    <div class="stack gap-1">
+      <span class="hud">In this snapshot</span>
+      <p class="small"><span class="num" style="color: var(--ink)">{{nBenchRows}}</span> benchmark-result rows across named skills · <span class="num" style="color: var(--ink)">0</span> Hell-Heaven stamps issued · <span class="num" style="color: var(--ink)">0</span> Arbor pairs evaluated</p>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top: 1rem" aria-labelledby="rc-h">
+    <div class="wrap split" style="align-items: center">
+      <div class="stack gap-3">
+        <h2 class="h2" id="rc-h">Anatomy of a receipt</h2>
+        <p class="body">A receipt pins exactly what ran: the skill's content hash, the harness and its version, the model, and a container digest. Its score is a weighted sum of four pillars. Change any input and it is a different receipt.</p>
+        <span class="proto-tag" style="align-self: flex-start">Specimen layout · field names only, no published values</span>
+      </div>
+      <div class="receipt" role="group" aria-label="Benchmark receipt specimen">
+        <div class="receipt-h"><span style="color: var(--ink)">Benchmark receipt</span><span>gsb-submission · v1</span></div>
+        <div class="receipt-b">
+          <div class="rf"><span>subject</span><span>[skill id] @ [content sha256]</span></div>
+          <div class="rf"><span>harness</span><span>[harness] [pinned version]</span></div>
+          <div class="rf"><span>model</span><span>[model id, as served]</span></div>
+          <div class="rf"><span>containerSha</span><span>sha256:[64 hex]</span></div>
+          <div class="rf"><span>suite</span><span>[registered benchmark source id]</span></div>
+          <div class="rf"><span>observed</span><span>[UTC date] · [observer]</span></div>
+          <div class="pillars" aria-label="Pillar weights">
+            <div><b>0.40</b><span>performance</span></div>
+            <div><b>0.30</b><span>reliability</span></div>
+            <div><b>0.20</b><span>triggering</span></div>
+            <div><b>0.10</b><span>efficiency</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0" aria-labelledby="two-h">
+    <div class="wrap stack gap-4">
+      <div><h2 class="h2" id="two-h">One receipt, two readings</h2></div>
+      <div class="split2">
+        <div class="reading ygg"><span class="hud" style="color: oklch(0.86 0.10 84)">Yggdrasil · Trust Magnitude</span><h3 class="h3">How strongly should Gaia believe the claim?</h3><p class="small">A benchmark-result row scores into Trust Magnitude, counts as an independent witness for the S gate, and can move a grade ceiling.</p></div>
+        <div class="arrow" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M6 20h28M26 12l8 8-8 8" fill="none" stroke="currentColor" stroke-width="1.4"></path></svg></div>
+        <div class="reading arb"><span class="hud" style="color: oklch(0.84 0.13 148)">Arbor · Hell-Heaven Index</span><h3 class="h3">What behavioral effect was demonstrated?</h3><p class="small">The same receipt, interpreted under governance, can derive a Hell-Heaven stamp. It never changes Trust Magnitude, and Trust never grants a stamp.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0" aria-labelledby="cat-h">
+    <div class="wrap">
+      <div class="section-head"><div><h2 class="h2" id="cat-h">Registered sources</h2><p class="body">Benchmark results score only against a registered source. Vendor claims stay out until a source is registered and verified.</p></div></div>
+      <div class="catalog">
+        <sc-for list="{{sources}}" as="s" hint-placeholder-count="3">
+          <div><span class="h4">{{s.name}}</span><span><span class="state" style="font-family: var(--f-hud); font-size: .6875rem; padding: .2rem .5rem; border: 1px solid var(--line-2); border-radius: 3px; color: {{s.color}}">{{s.status}}</span></span><span class="hud">{{s.id}}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0" aria-labelledby="lad-h">
+    <div class="wrap stack gap-4">
+      <div class="section-head" style="margin-bottom: 0"><div><h2 class="h2" id="lad-h">From nothing to a stamp</h2><p class="body">Five states, in order. Most of Arbor sits in the first; a declared relation is the second; no skill has reached the last.</p></div></div>
+      <div class="ladder">
+        <div class="now"><span class="k">1 · today, almost everywhere</span><h3 class="h4">Not measured</h3><span class="unknown">no record</span><p class="fine">Shown as unknown. Never zero, never safe.</p></div>
+        <div><span class="k">2</span><h3 class="h4">Declared</h3><p class="fine">A sourced hypothesis with conditions. Never a stamp.</p></div>
+        <div><span class="k">3</span><h3 class="h4">Observed</h3><p class="fine">A receipt exists for the subject and pair.</p></div>
+        <div><span class="k">4</span><h3 class="h4">Interpreted</h3><p class="fine">A governed reading of the receipt is accepted.</p></div>
+        <div><span class="k">5</span><h3 class="h4">Stamp issued</h3><p class="fine">The derived label appears on the Arbor dossier.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0" aria-labelledby="st-h">
+    <div class="wrap">
+      <div class="section-head"><div><h2 class="h2" id="st-h">The six stamps</h2><p class="body">Stamps are impressions, not medallions: square, struck, and specific to the weather they describe. Heaven is split light, Hell is ink on paper, Ultra is a gold trace. None has been issued.</p><span class="proto-tag" style="margin-top: .75rem">Placeholder marks · the stamp artwork is not ratified; only the placement is</span></div></div>
+      <div class="stampsheet">
+        <div class="st-card"><div class="st-art dark"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Heaven-native stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="#eeeae2" stroke-width="1.5"></rect><rect x="9" y="9" width="62" height="62" rx="2" fill="none" stroke="#eeeae2" stroke-width=".8"></rect><path d="M18 26L40 50M62 26L40 50M40 22V50" fill="none" stroke="#a58ae0" stroke-width="1.2"></path><path d="M19 25L41 49M63 25L41 49M41 21V49" fill="none" stroke="#5fc2d6" stroke-width="1.2"></path><path d="M40 50V62" stroke="#eeeae2" stroke-width="2"></path><circle cx="40" cy="50" r="2.5" fill="#eeeae2"></circle></svg></div>
+          <div class="st-txt"><h3 class="h4">Heaven-native</h3><p class="small">Converging is what the skill does best: many routes into one.</p></div></div>
+        <div class="st-card"><div class="st-art dark"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Heaven-safe stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="#eeeae2" stroke-width="1.5"></rect><rect x="9" y="9" width="62" height="62" rx="2" fill="none" stroke="#eeeae2" stroke-width=".8" stroke-dasharray="3 3"></rect><path d="M24 30L40 46M56 30L40 46" fill="none" stroke="#6f96d8" stroke-width="1.2"></path><path d="M25 29L41 45M57 29L41 45" fill="none" stroke="#71ccae" stroke-width="1.2"></path><path d="M40 46V58" stroke="#eeeae2" stroke-width="2"></path></svg></div>
+          <div class="st-txt"><h3 class="h4">Heaven-safe</h3><p class="small">Holds up when the search is narrowed. Dashed inner frame marks safe, not native.</p></div></div>
+        <div class="st-card"><div class="st-art paper"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Hell-native stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="#171618" stroke-width="1.5"></rect><rect x="9" y="9" width="62" height="62" rx="2" fill="none" stroke="#171618" stroke-width=".8"></rect><path d="M40 62V36M40 36L22 22M40 36L58 22M40 44L28 36M40 44L54 38" fill="none" stroke="#171618" stroke-width="1.6"></path><rect x="37" y="33" width="6" height="6" fill="#c2181d"></rect></svg></div>
+          <div class="st-txt"><h3 class="h4">Hell-native</h3><p class="small">Exploring is what the skill does best: one route into many.</p></div></div>
+        <div class="st-card"><div class="st-art paper"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Hell-safe stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="#171618" stroke-width="1.5"></rect><rect x="9" y="9" width="62" height="62" rx="2" fill="none" stroke="#171618" stroke-width=".8" stroke-dasharray="3 3"></rect><path d="M40 58V40M40 40L28 30M40 40L52 30" fill="none" stroke="#171618" stroke-width="1.6"></path></svg></div>
+          <div class="st-txt"><h3 class="h4">Hell-safe</h3><p class="small">Survives widened search without breaking.</p></div></div>
+        <div class="st-card"><div class="st-art dark" style="background: linear-gradient(180deg, oklch(0.225 0.004 145) 50%, #efece7 50%)"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Dual-safe stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="#8a8790" stroke-width="1.5"></rect><path d="M24 14L40 32M56 14L40 32" fill="none" stroke="#5fc2d6" stroke-width="1.3"></path><path d="M40 48L24 66M40 48L56 66" fill="none" stroke="#171618" stroke-width="1.5"></path><path d="M10 40H70" stroke="#8a8790" stroke-width="1"></path></svg></div>
+          <div class="st-txt"><h3 class="h4">Dual-safe</h3><p class="small">Safe in both directions. The stamp is split at the horizon.</p></div></div>
+        <div class="st-card"><div class="st-art dark"><span class="spec">Specimen</span>
+          <svg viewBox="0 0 80 80" role="img" aria-label="Ultra-ready stamp specimen"><rect x="4" y="4" width="72" height="72" rx="3" fill="none" stroke="oklch(0.745 0.15 148)" stroke-width="1.5"></rect><path d="M16 50C24 30 32 30 40 40S56 50 64 30" fill="none" stroke="#d9b25c" stroke-width="6" opacity=".18"></path><path d="M16 50C24 30 32 30 40 40S56 50 64 30" fill="none" stroke="#d9b25c" stroke-width="1.6"></path><circle cx="64" cy="30" r="3" fill="#d9b25c"></circle></svg></div>
+          <div class="st-txt"><h3 class="h4">Ultra-ready</h3><p class="small">Governs the swing between the two. Gold here is a trace of movement, not a metal.</p></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"$preview":{"width":1440,"height":3080}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const SOURCES = [
+  { id: 'humaneval@v1.0', name: 'HumanEval', status: 'verified' },
+  { id: 'alphaxiv-arxivqa@v1.0', name: 'alphaXiv ArXivQA Retrieval', status: 'reported' },
+  { id: 'mmlu@2024-03', name: 'MMLU', status: 'reported' }
+];
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { d: null }; }
+  componentDidMount() { fx().then((d) => this.setState({ d: d })).catch(() => {}); }
+  renderVals() {
+    const d = this.state.d;
+    return {
+      world: this.props.world || 'ygg', nSources: SOURCES.length,
+      nBenchRows: d ? (d.counts.types['benchmark-result'] || 0) : '…',
+      sources: SOURCES.map((s) => ({ id: s.id, name: s.name, status: s.status, color: s.status === 'verified' ? 'var(--ink)' : 'var(--ink-3)' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Leaderboard: vertical Trust Magnitude bars</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.lbx { padding-block: clamp(3rem, 6cqi, 5rem) 4rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.lbx.cmp { padding-block: 0; gap: 1rem; }
+.lbx-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; }
+.lbx-note { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem; }
+.lbx-note p { max-width: 62ch; }
+.ctl { display: flex; flex-direction: column; gap: .9rem; }
+.ctl-row { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; min-width: 0; }
+.ctl .tabs { gap: 1.25rem; }
+.cnt { font-family: var(--f-hud); font-size: .75rem; color: var(--ink-3); letter-spacing: .02em; margin-inline-end: auto; }
+.cnt b { color: var(--ink); font-weight: 400; }
+.ctl .field { min-height: 44px; flex: 1 1 200px; max-width: 320px; }
+.ctl .field input { height: 42px; }
+.sel { min-height: 44px; padding: 0 .8rem; background: var(--ground-2); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font: inherit; font-size: .875rem; }
+.sel:focus-visible { border-color: var(--accent); }
+.ms { position: relative; }
+.ms-t { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: 0 .9rem; background: var(--ground-2); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: .875rem; color: var(--ink-2); }
+.ms-t[aria-expanded="true"], .ms-t:hover { border-color: var(--accent); color: var(--ink); }
+.ms-d { position: absolute; z-index: var(--z-panel); top: calc(100% + 6px); left: 0; width: min(320px, calc(100cqi - 2rem)); background: var(--panel); border: 1px solid var(--line-2); border-radius: 10px; padding: .6rem; display: flex; flex-direction: column; gap: .5rem; box-shadow: 0 14px 40px oklch(0 0 0 / .4); }
+.ms-d .field { min-height: 40px; max-width: none; }
+.ms-d .field input { height: 38px; }
+.ms-l { display: flex; flex-direction: column; max-height: 240px; overflow-y: auto; }
+.ms-o { display: flex; align-items: center; gap: .6rem; min-height: 40px; padding: 0 .5rem; background: none; border: 0; border-radius: 6px; cursor: pointer; text-align: left; font-size: .875rem; color: var(--ink-2); }
+.ms-o:hover { background: var(--panel-2); color: var(--ink); }
+.ms-o .bx { width: 16px; height: 16px; border: 1px solid var(--line-2); border-radius: 4px; flex: none; display: grid; place-items: center; font-size: .7rem; line-height: 1; }
+.ms-o[aria-pressed="true"] .bx { background: var(--accent); border-color: var(--accent); color: var(--ground); }
+.ms-o .n { margin-left: auto; font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-3); }
+.ms-f { display: flex; justify-content: space-between; align-items: center; }
+.dist { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.gchip { display: inline-flex; align-items: end; gap: .5rem; min-height: 44px; padding: .35rem .7rem; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; color: var(--ink-2); font-size: .8125rem; font-weight: 600; }
+.gchip:hover { border-color: var(--line-2); color: var(--ink); }
+.gchip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-wash); color: var(--ink); }
+.gchip i { display: block; width: 6px; background: var(--ink-3); border-radius: 1px; }
+.gchip[aria-pressed="true"] i { background: var(--accent); }
+.gchip .gc { font-family: var(--f-hud); font-size: .75rem; font-weight: 400; color: var(--ink-3); }
+.leg { display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: center; }
+.leg span { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-3); }
+.leg i { width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+.r0 { --c: var(--rank-0); --t: oklch(0.2 0.01 75); } .r1 { --c: var(--rank-1); --t: oklch(0.2 0.01 75); }
+.r2 { --c: var(--rank-2); --t: oklch(0.2 0.01 75); } .r3 { --c: var(--rank-3); --t: oklch(0.2 0.01 75); }
+.r4 { --c: var(--rank-4); --t: oklch(0.2 0.01 75); } .r5 { --c: var(--rank-5); --t: oklch(0.2 0.01 75); }
+.u4 { --c: var(--rank-4-unique); --t: oklch(0.97 0.01 85); } .u5 { --c: var(--rank-5-unique); --t: oklch(0.97 0.01 85); }
+.chart { position: relative; display: flex; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 1rem 0 1rem .25rem; }
+.yax { position: relative; flex: none; width: 46px; margin-top: 44px; }
+.yax b {font-weight: 400; line-height: 1; position: absolute; right: 8px; transform: translateY(50%); font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-3); }
+.scr { flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; padding-top: 44px; padding-right: 1rem; scrollbar-color: var(--line-2) transparent; }
+.plot { position: relative; display: flex; align-items: flex-end; gap: 7px; min-width: 100%; width: max-content; border-bottom: 1px solid var(--line-2); }
+.gl { position: absolute; left: 0; right: 0; height: 0; border-top: 1px dashed var(--line); pointer-events: none; }
+.bar { position: relative; flex: none; width: 34px; padding: 0; border: 0; background: linear-gradient(to top, color-mix(in oklab, var(--c) 72%, var(--ground)), var(--c)); border-radius: 4px 4px 0 0; cursor: pointer; transition: filter .2s, transform .2s var(--ease); display: block; }
+.bar:hover, .bar:focus-visible { filter: brightness(1.12); }
+.bar:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; z-index: 2; }
+.bar .av { position: absolute; left: 50%; top: 4px; width: 24px; height: 24px; margin-left: -12px; }
+.bar.sm .av { top: auto; bottom: 100%; margin-bottom: 5px; }
+.ph, .bar .av .ph { display: block; width: 100%; height: 100%; border-radius: 50%; background-color: var(--ground-2); background-repeat: no-repeat; object-fit: cover; box-shadow: 0 0 0 1.5px var(--ground); }
+.sp { background-image: url('/_blob/759fe54d3c8d6fc4b0f4b817c52cd7f9'); background-size: calc(var(--s) * 8) auto; background-position: calc(var(--bx) * var(--s) * -1) calc(var(--by) * var(--s) * -1); }
+.mono { display: grid; place-items: center; font-family: var(--f-hud); font-size: .6875rem; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); }
+.bar .nm { position: absolute; left: 0; right: 0; top: 34px; bottom: 6px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: end; margin: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .6875rem; font-weight: 600; color: var(--t); line-height: 34px; padding: 0; }
+.bar .gn { position: absolute; bottom: 4px; left: 0; right: 0; text-align: center; font-family: var(--f-hud); font-size: .625rem; color: var(--t); }
+.tip { position: absolute; z-index: var(--z-tip); top: 8px; width: 240px; pointer-events: none; background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 8px; padding: .7rem .8rem; box-shadow: 0 12px 32px oklch(0 0 0 / .45); display: flex; flex-direction: column; gap: .25rem; }
+.tip b { font-size: .9375rem; font-weight: 600; }
+.tip .r { display: flex; justify-content: space-between; gap: 1rem; font-size: .8125rem; color: var(--ink-2); }
+.tip .r span:last-child { font-family: var(--f-hud); color: var(--ink); }
+.tip .or { color: var(--apex-gold); }
+.otip { display: flex; align-items: center; gap: .6rem; }
+.fx { display: flex; justify-content: center; }
+.tbl { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
+.tr { display: grid; grid-template-columns: 3rem minmax(0, 2.2fr) minmax(0, 1.4fr) 4rem 4rem 5rem 6rem; gap: .75rem; align-items: center; width: 100%; min-height: 52px; padding: .35rem 1rem; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; color: var(--ink); font-size: .875rem; }
+.tr:last-child { border-bottom: 0; }
+button.tr:hover { background: var(--panel-2); }
+.th { min-height: 40px; cursor: default; font-family: var(--f-hud); font-size: .6875rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.tr .c { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr .num { font-family: var(--f-hud); font-size: .8125rem; color: var(--ink-2); }
+.tr .who { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+.tr .who .av { position: relative; flex: none; width: 28px; height: 28px; }
+.ori { color: var(--apex-gold); font-family: var(--f-hud); font-size: .75rem; }
+.stz { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--f-hud); font-size: .8125rem; }
+.stz i { width: 8px; height: 8px; border-radius: 2px; background: var(--c); }
+@container atlas (max-width: 760px) {
+  .tr { grid-template-columns: 2rem minmax(0, 1fr) 4.5rem 4.5rem; }
+  .tr .hc { display: none; }
+  .ctl .field { max-width: none; flex-basis: 100%; }
+  .cnt { flex-basis: 100%; }
+  .ms, .ms-t { width: 100%; } .ms-t { justify-content: space-between; }
+  .sel { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .bar { transition: none; } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap lbx {{cmpCls}}">
+    <sc-if value="{{showFull}}" hint-placeholder-val="{{true}}">
+      <div class="stack gap-2">
+        <div class="plate"><span class="pl-mark">Standing</span><i class="pl-sep"></i><span>Trust Magnitude, by named skill</span><i class="pl-sep"></i><span>{{nTotal}} graded skills · {{updated}}</span><i class="pl-rule"></i></div>
+        <h1 class="h1">Leaderboard</h1>
+        <p class="lede">Every graded named skill, one bar each. Height is Trust Magnitude, colour is the skill's current star rank, and the golden wreath marks Origin.</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{showCompact}}" hint-placeholder-val="{{false}}">
+      <div class="lbx-head"><h2 class="h2">Leaderboard</h2><button class="btn btn-ghost" onClick="{{goFull}}">Full leaderboard <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button></div>
+    </sc-if>
+
+    <sc-if value="{{isArbor}}" hint-placeholder-val="{{false}}">
+      <div class="lbx-note"><p class="small">The leaderboard ranks standing: Trust Magnitude, grade and Origin, which are Yggdrasil readings. Arbor does not rank skills, so switch to Yggdrasil to see it.</p><button class="btn btn-solid" onClick="{{toYgg}}">Switch to Yggdrasil</button></div>
+    </sc-if>
+
+    <sc-if value="{{isYgg}}" hint-placeholder-val="{{true}}">
+      <div class="ctl">
+        <div class="tabs" role="tablist" aria-label="Filter by evidence type">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="6"><button role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
+        </div>
+        <div class="ctl-row">
+          <span class="cnt" aria-live="polite"><b>{{nShown}}</b> of {{nTotal}} skills{{groupedNote}}</span>
+          <label class="field"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5 17 17"/></svg><input type="search" placeholder="Search skills" aria-label="Search skills" value="{{q}}" onInput="{{onQ}}" autocomplete="off"></label>
+          <sc-if value="{{showFull}}" hint-placeholder-val="{{true}}">
+            <div class="ms">
+              <button class="ms-t" type="button" aria-expanded="{{msOpen}}" aria-haspopup="listbox" onClick="{{toggleMs}}"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="7" r="3.2"/><path d="M3.5 17c.8-3.2 3.3-4.8 6.5-4.8s5.7 1.6 6.5 4.8"/></svg><span>{{msLabel}}</span><span aria-hidden="true">▾</span></button>
+              <sc-if value="{{msOpenB}}" hint-placeholder-val="{{false}}">
+                <div class="ms-d" role="listbox" aria-label="Contributors" aria-multiselectable="true">
+                  <label class="field"><input type="search" placeholder="Search contributors" aria-label="Search contributors" value="{{msq}}" onInput="{{onMsq}}" autocomplete="off"></label>
+                  <div class="ms-l"><sc-for list="{{contribs}}" as="c" hint-placeholder-count="6"><button class="ms-o" type="button" role="option" aria-pressed="{{c.on}}" aria-selected="{{c.on}}" onClick="{{c.toggle}}"><span class="bx" aria-hidden="true">{{c.tick}}</span><span>{{c.h}}</span><span class="n">{{c.n}}</span></button></sc-for></div>
+                  <div class="ms-f"><button class="btn btn-quiet" type="button" onClick="{{clearMs}}">Clear all</button><span class="fine">{{msCount}}</span></div>
+                </div>
+              </sc-if>
+            </div>
+            <select class="sel" aria-label="Sort" onChange="{{onSort}}"><option value="tm" selected="{{sTm}}">Sort: Trust Magnitude</option><option value="grade" selected="{{sGrade}}">Sort: Grade</option><option value="contributor" selected="{{sContrib}}">Sort: Contributor</option></select>
+            <button class="chip" type="button" aria-pressed="{{grouped}}" onClick="{{toggleGroup}}" title="Group skills with the same contributor, grade and Trust Magnitude" style="min-height:44px">Grouped</button>
+          </sc-if>
+        </div>
+        <sc-if value="{{showFull}}" hint-placeholder-val="{{true}}">
+          <div class="dist" role="group" aria-label="Filter by Overall Trust Grade">
+            <sc-for list="{{gchips}}" as="g" hint-placeholder-count="5"><button class="gchip" type="button" aria-pressed="{{g.on}}" onClick="{{g.pick}}"><i style="height: {{g.h}}px"></i><span>{{g.l}}</span><span class="gc">{{g.n}}</span></button></sc-for>
+          </div>
+        </sc-if>
+        <div class="leg" aria-label="Bar colour is star rank"><sc-for list="{{legend}}" as="l" hint-placeholder-count="5"><span class="{{l.cls}}"><i></i>{{l.t}}</span></sc-for></div>
+      </div>
+
+      <div class="chart" style="--s: 24px">
+        <div class="yax" style="height: {{H}}px" aria-hidden="true"><sc-for list="{{ticks}}" as="k" hint-placeholder-count="5"><b style="bottom: {{k.y}}px">{{k.l}}</b></sc-for></div>
+        <div class="scr" id="lbScr" onScroll="{{hideTip}}">
+          <div class="plot" style="height: {{H}}px">
+            <sc-for list="{{ticks}}" as="k" hint-placeholder-count="5"><i class="gl" style="bottom: {{k.y}}px"></i></sc-for>
+            <sc-for list="{{bars}}" as="r" hint-placeholder-count="40">
+              <button class="bar {{r.cls}} {{r.sm}}" type="button" style="height: {{r.h}}px" aria-label="{{r.aria}}" onClick="{{r.open}}" onMouseEnter="{{r.show}}" onFocus="{{r.show}}" onMouseLeave="{{hideTip}}" onBlur="{{hideTip}}">
+                <span class="av" style="--bx: {{r.bx}}; --by: {{r.by}}">
+                  <sc-if value="{{r.avS}}" hint-placeholder-val="{{false}}"><span class="ph sp"></span></sc-if>
+                  <sc-if value="{{r.avI}}" hint-placeholder-val="{{false}}"><img class="ph" src="{{r.img}}" alt="" width="24" height="24" loading="lazy" decoding="async"></sc-if>
+                  <sc-if value="{{r.avM}}" hint-placeholder-val="{{true}}"><span class="ph mono">{{r.m}}</span></sc-if>
+                  <sc-if value="{{r.o}}" hint-placeholder-val="{{false}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" decoding="async"></sc-if>
+                </span>
+                <sc-if value="{{r.tall}}" hint-placeholder-val="{{false}}"><span class="nm">{{r.name}}</span></sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{tip}}" hint-placeholder-val="{{false}}">
+          <div class="tip" style="left: {{tip.x}}px" role="status">
+            <b>{{tip.name}}</b><span class="fine">{{tip.id}}</span>
+            <div class="r"><span>Stars</span><span>{{tip.stars}}</span></div>
+            <div class="r"><span>{{tip.tmLabel}}</span><span>{{tip.tm}}</span></div>
+            <div class="r"><span>Overall Trust Grade</span><span>{{tip.grade}}</span></div>
+            <div class="r"><span>Branch</span><span>{{tip.branch}}</span></div>
+            <div class="r"><span>Origin</span><span class="{{tip.oc}}">{{tip.origin}}</span></div>
+            <sc-if value="{{tip.grp}}" hint-placeholder-val="{{false}}"><div class="r"><span>Grouped</span><span>{{tip.grp}} skills</span></div></sc-if>
+          </div>
+        </sc-if>
+      </div>
+      <sc-if value="{{noBars}}" hint-placeholder-val="{{false}}"><p class="small">No skills match these filters.</p></sc-if>
+      <div class="otip"><img src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" width="28" height="28" style="width:28px;height:28px;flex:none"><p class="fine"><b style="color:var(--ink-2)">Origin skills</b> are the current highest-merit implementation of a generic skill, chosen automatically. Tied top contenders share Origin. They carry the golden wreath on the avatar.</p></div>
+      <sc-if value="{{showFull}}" hint-placeholder-val="{{true}}">
+        <div class="stack gap-2" style="margin-top:1.5rem">
+          <h2 class="h3">Ranked list</h2>
+          <div class="tbl" role="table" aria-label="Ranked skills">
+            <div class="tr th" role="row"><span role="columnheader">#</span><span role="columnheader">Skill</span><span role="columnheader" class="hc">Contributor</span><span role="columnheader">Stars</span><span role="columnheader">Grade</span><span role="columnheader" class="hc">Origin</span><span role="columnheader" style="text-align:end">TM</span></div>
+            <sc-for list="{{rowsT}}" as="r" hint-placeholder-count="10">
+              <button class="tr {{r.cls}}" role="row" type="button" onClick="{{r.open}}">
+                <span class="num">{{r.n}}</span>
+                <span class="who"><span class="av" style="--s: 28px; --bx: {{r.bx}}; --by: {{r.by}}">
+                  <sc-if value="{{r.avS}}" hint-placeholder-val="{{false}}"><span class="ph sp"></span></sc-if>
+                  <sc-if value="{{r.avI}}" hint-placeholder-val="{{false}}"><img class="ph" src="{{r.img}}" alt="" width="28" height="28" loading="lazy" decoding="async"></sc-if>
+                  <sc-if value="{{r.avM}}" hint-placeholder-val="{{true}}"><span class="ph mono">{{r.m}}</span></sc-if>
+                  <sc-if value="{{r.o}}" hint-placeholder-val="{{false}}"><img class="wr" src="/_blob/0d2eb07f0432c1cefb75dd02485bfb39" alt="" loading="lazy" decoding="async"></sc-if>
+                </span><span class="c">{{r.name}}</span></span>
+                <span class="c hc">{{r.who}}</span>
+                <span class="stz"><i></i>{{r.stars}}</span>
+                <span class="num">{{r.grade}}</span>
+                <span class="hc ori">{{r.oLabel}}</span>
+                <span class="num" style="text-align:end">{{r.tm}}</span>
+              </button>
+            </sc-for>
+          </div>
+          <sc-if value="{{canMore}}" hint-placeholder-val="{{true}}"><div class="fx"><button class="btn btn-ghost" onClick="{{more}}">Show {{moreN}} more</button></div></sc-if>
+        </div>
+      </sc-if>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"compact":{"editor":"boolean","default":false},"go":{"editor":null},"pick":{"editor":null},"setWorld":{"editor":null},"$preview":{"width":1440,"height":3810}}'>
+const LB = {"at":"2026-11-17","dist":{"S":3,"A":50,"B":55,"C":237},"rows":[["garrytan/gstack",356.11,"S",5,1,"S",{"arxiv":70.0,"peer-review":60.0,"repo-own":36.0,"github-stars-own":144.5,"social-signal":45.6}],["safishamsi/graphify",318.14,"S",5,1,"u",{"arxiv":100.0,"peer-review":75.0,"github-stars-own":143.1}],["mattpocock/skills",280.39,"S",5,1,"S",{"arxiv":10.6,"peer-review":75.0,"github-stars-own":155.3,"social-signal":39.5}],["panniantong/agent-reach",260.83,"A",3,1,"s",{"social-signal":48.9,"self-attestation":5.0,"github-stars-own":141.0,"repo-own":36.0,"peer-review":30.0}],["nextlevelbuilder/ui-ux-pro-max",227.51,"A",4,1,"u",{"github-stars-own":144.2,"peer-review":30.0,"social-signal":53.3}],["dietrichgebert/ponytail",225.42,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":146.1,"social-signal":42.6,"arxiv":0.7}],["obra/superpowers",221.52,"A",4,1,"S",{"repo-own":36.0,"github-stars-own":156.4,"social-signal":29.1}],["mattpocock/misc",220.87,"A",4,1,"S",{"github-stars-own":155.3,"repo-own":20.6,"peer-review":45.0}],["mvanhorn/last30days",205.75,"A",4,1,"u",{"github-stars-own":133.1,"repo-own":36.0,"social-signal":36.7}],["addy-osmani/code-simplification",189.9,"A",4,1,"u",{"github-stars-own":39.7,"repo-own":10.2,"benchmark-result":140.0}],["anthropics/brand-guidelines",184.87,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":148.9}],["addy-osmani/agent-skills",176.04,"A",4,1,"S",{"github-stars-own":140.0,"repo-own":36.0}],["ruvnet/ruflo",175.34,"A",4,1,"S",{"repo-own":36.0,"github-stars-own":135.3,"arxiv":4.0}],["leonxlnx/taste-skill",174.68,"A",4,1,"S",{"github-stars-own":138.7,"repo-own":36.0}],["t3dotgg/tstack",172.41,"A",4,1,"S",{"repo-own":1.2,"github-stars-own":91.2,"social-signal":80.0}],["heygen-com/hyperframes",171.92,"A",4,1,"S",{"github-stars-own":130.9,"repo-own":36.0,"self-attestation":5.0}],["pbakaus/impeccable",171.27,"A",4,0,"u",{"repo-own":36.0,"github-stars-own":135.3}],["gsd-build/get-shit-done",169.31,"A",4,0,"S",{"github-stars-own":133.3,"repo-own":36.0}],["vercel-labs/vercel-react-best-practices",163.19,"A",4,1,"u",{"github-stars-own":122.6,"arxiv":0.2,"social-signal":35.4,"self-attestation":5.0}],["wheresryan22/anatomy",157.48,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":116.5,"self-attestation":5.0}],["mksglu/context-mode",154.71,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":118.7}],["trailhq/graft",145.16,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":104.2,"self-attestation":5.0}],["latent-spaces/brag",144.54,"A",4,1,"u",{"github-stars-own":108.5,"repo-own":36.0}],["cathrynlavery/diagram-design",132.67,"A",4,1,"u",{"github-stars-own":132.7}],["nvidia/accelerated-computing-cudf",131.12,"A",4,1,"u",{"repo-own":36.0,"github-stars-own":90.1,"self-attestation":5.0}],["ayghri/i-have-adhd",130.23,"A",4,1,"u",{"github-stars-own":130.2}],["t3dotgg/council",129.9,"A",4,1,"u",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":80.0}],["emilkowalski/animate",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/animate-expo",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/animation-performance",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/apple-design",129.67,"A",2,0,"s",{"github-stars-own":129.7}],["emilkowalski/break-ui",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/emil-design-eng",129.67,"A",2,0,"s",{"github-stars-own":129.7}],["emilkowalski/find-animation-opportunities",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/improve-animations",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/mobile-native",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/prototype",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/review-animations",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["emilkowalski/write-swift",129.67,"A",4,1,"u",{"github-stars-own":129.7}],["anthropics/creating-financial-models",127.83,"A",4,1,"u",{"github-stars-own":127.8}],["zhaoxuya520/reverse-skill",127.37,"A",2,1,"s",{"github-stars-own":127.4}],["t3dotgg/full-send",124.01,"A",4,1,"u",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":74.1}],["t3dotgg/full-stop",124.01,"A",4,1,"u",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":74.1}],["t3dotgg/sol-loop",124.01,"A",4,1,"u",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":74.1}],["garrytan/gbrain",121.94,"A",4,1,"S",{"github-stars-own":121.9}],["browser-use/browser-harness",118.59,"A",3,1,"s",{"repo-own":36.0,"social-signal":37.6,"peer-review":45.0}],["obra/subagent-driven-development",117.65,"A",4,1,"u",{"repo-own":36.0,"peer-review":52.5,"social-signal":29.1}],["obra/using-git-worktrees",117.65,"A",4,1,"u",{"repo-own":36.0,"peer-review":52.5,"social-signal":29.1}],["obra/brainstorming",110.15,"A",4,1,"u",{"repo-own":36.0,"peer-review":45.0,"social-signal":29.1}],["obra/writing-plans",110.15,"A",4,1,"u",{"repo-own":36.0,"peer-review":45.0,"social-signal":29.1}],["firecrawl/firecrawl-build-scrape",109.92,"A",4,1,"u",{"social-signal":60.0,"repo-own":24.7,"github-stars-own":25.2}],["mattpocock/engineering",102.4,"A",4,1,"S",{"github-stars-own":44.1,"repo-own":5.8,"peer-review":52.5}],["mattpocock/productivity",102.4,"A",4,1,"S",{"github-stars-own":44.1,"repo-own":5.8,"peer-review":52.5}],["obra/verification-before-completion",97.81,"B",3,1,"s",{"repo-own":36.0,"social-signal":29.1,"peer-review":30.0,"arxiv":2.7}],["obra/executing-plans",95.15,"B",3,1,"s",{"repo-own":36.0,"peer-review":30.0,"social-signal":29.1}],["mattpocock/diagnose",94.92,"B",3,1,"s",{"repo-own":3.4,"github-stars-own":46.5,"social-signal":44.9}],["mattpocock/edit-article",94.92,"B",3,1,"s",{"repo-own":3.4,"github-stars-own":46.5,"social-signal":44.9}],["mattpocock/obsidian-vault",94.92,"B",3,1,"s",{"repo-own":3.4,"github-stars-own":46.5,"social-signal":44.9}],["mattpocock/ubiquitous-language",94.92,"B",3,1,"s",{"repo-own":3.4,"github-stars-own":46.5,"social-signal":44.9}],["ruvnet/hive-mind",94.92,"B",3,1,"s",{"github-stars-own":39.4,"repo-own":10.5,"social-signal":45.0}],["addy-osmani/incremental-implementation",94.9,"B",3,0,"s",{"github-stars-own":39.7,"repo-own":10.2,"peer-review":45.0}],["addy-osmani/planning-and-task-breakdown",94.9,"B",3,1,"s",{"github-stars-own":39.7,"repo-own":10.2,"peer-review":45.0}],["mattpocock/to-tickets",94.82,"B",3,0,"s",{"repo-own":3.4,"github-stars-own":46.5,"social-signal":44.9}],["t3dotgg/takeover",92.9,"B",3,1,"s",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":43.0}],["nateherkai/scroll-craft",92.38,"B",3,1,"s",{"repo-own":1.2,"github-stars-own":86.1,"self-attestation":5.0}],["leonxlnx/unlazy",91.46,"B",3,1,"s",{"github-stars-own":90.2,"repo-own":1.2}],["hikari9/auto-office",88.97,"B",3,1,"S",{"repo-own":21.7,"arxiv":67.3}],["garrytan/browse",88.5,"B",3,0,"s",{"repo-own":36.0,"peer-review":52.5}],["ruvnet/reasoningbank",88.5,"B",3,1,"S",{"repo-own":36.0,"peer-review":52.5}],["t3dotgg/modernize",83.83,"B",3,1,"s",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":33.9}],["firecrawl/firecrawl-build-search",83.52,"B",3,1,"s",{"social-signal":33.6,"repo-own":24.7,"github-stars-own":25.2}],["t3dotgg/babysit-pr",81.01,"B",3,1,"s",{"repo-own":0.7,"github-stars-own":49.2,"social-signal":31.1}],["garrytan/retro",81.0,"B",3,1,"s",{"repo-own":36.0,"peer-review":45.0}],["ruvnet/agentdb",81.0,"B",3,1,"S",{"repo-own":36.0,"peer-review":45.0}],["addy-osmani/spec-driven-development",79.9,"B",3,1,"s",{"github-stars-own":39.7,"repo-own":10.2,"peer-review":30.0}],["firecrawl/firecrawl-skills",72.86,"B",3,1,"S",{"repo-own":36.0,"github-stars-own":36.9}],["garrytan/careful",66.0,"B",3,1,"s",{"repo-own":36.0,"peer-review":30.0}],["garrytan/office-hours",66.0,"B",3,1,"s",{"repo-own":36.0,"peer-review":30.0}],["garrytan/plan-eng-review",66.0,"B",3,1,"s",{"repo-own":36.0,"peer-review":30.0}],["obra/systematic-debugging",65.15,"B",3,1,"s",{"repo-own":36.0,"social-signal":29.1}],["mattpocock/grill-me",63.71,"B",3,1,"s",{"repo-own":11.2,"peer-review":52.5}],["mattpocock/grill-with-docs",63.71,"B",3,1,"s",{"repo-own":11.2,"peer-review":52.5}],["mattpocock/handoff",63.71,"B",3,1,"s",{"repo-own":11.2,"peer-review":52.5}],["mattpocock/to-spec",63.71,"B",3,0,"s",{"repo-own":11.2,"peer-review":52.5}],["oso95/scroll-world",60.98,"B",3,1,"s",{"social-signal":61.0}],["theqtcompanyrnd/qt-qml-review",59.74,"B",3,0,"s",{"github-stars-own":59.7}],["google-deepmind/workflow-skill-creator",59.65,"B",3,1,"s",{"repo-own":24.6,"self-attestation":5.0,"peer-review":30.0}],["obra/test-driven-development",58.9,"B",3,1,"s",{"github-stars-own":40.6,"repo-own":9.3,"peer-review":9.0}],["mattpocock/setup-matt-pocock-skills",56.21,"B",3,1,"s",{"repo-own":11.2,"peer-review":45.0}],["mattpocock/triage",56.21,"B",3,1,"s",{"repo-own":11.2,"peer-review":45.0}],["garrytan/db-repair",54.9,"B",3,1,"s",{"github-stars-own":49.9,"self-attestation":5.0}],["garrytan/postgres-adopt",54.9,"B",3,1,"s",{"github-stars-own":49.9,"self-attestation":5.0}],["gsd-build/gsd-verify-work",52.56,"B",3,0,"s",{"github-stars-own":39.3,"repo-own":10.6,"arxiv":2.7}],["garrytan/investigate",50.0,"B",3,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["heygen-com/embedded-captions",50.0,"B",3,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/faceless-explainer",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-animation",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-audio",50.0,"B",3,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-core",50.0,"B",3,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-creative",50.0,"B",3,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-keyframes",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/motion-graphics",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/music-to-video",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/pr-to-video",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/product-launch-video",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/talking-head-recut",50.0,"B",3,0,"s",{"github-stars-own":39.1,"repo-own":10.8}],["leonxlnx/output-skill",50.0,"B",3,0,"s",{"github-stars-own":39.6,"repo-own":10.3}],["mattpocock/tdd",50.0,"B",2,0,"s",{"repo-own":36.0,"self-attestation":5.0,"peer-review":9.0}],["addy-osmani/api-and-interface-design",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/browser-testing-with-devtools",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/ci-cd-and-automation",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/code-review-and-quality",49.9,"C",2,0,"s",{"github-stars-own":39.7,"repo-own":10.2}],["addy-osmani/constraint-driven-development",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/context-engineering",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/debugging-and-error-recovery",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["addy-osmani/deprecation-and-migration",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/documentation-and-adrs",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/doubt-driven-development",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/frontend-ui-engineering",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/git-workflow-and-versioning",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["addy-osmani/idea-refine",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["addy-osmani/interview-me",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["addy-osmani/observability-and-instrumentation",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/performance-optimization",49.9,"C",2,1,"s",{"repo-own":10.2,"github-stars-own":39.7}],["addy-osmani/security-and-hardening",49.9,"C",2,0,"s",{"github-stars-own":39.8,"repo-own":10.1}],["addy-osmani/shipping-and-launch",49.9,"C",2,0,"s",{"github-stars-own":39.7,"repo-own":10.2}],["addy-osmani/source-driven-development",49.9,"C",2,1,"s",{"github-stars-own":39.8,"repo-own":10.1}],["firecrawl/firecrawl-build-interact",49.9,"C",2,0,"s",{"repo-own":24.7,"github-stars-own":25.2}],["firecrawl/firecrawl-build-onboarding",49.9,"C",2,0,"s",{"repo-own":24.7,"github-stars-own":25.2}],["firecrawl/firecrawl-research-index",49.9,"C",2,1,"s",{"repo-own":24.7,"github-stars-own":25.2}],["garrytan/academic-verify",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/archive-crawler",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/article-enrichment",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/ask-user",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/benchmark",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/blog-ingest",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/book-mirror",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/brain-ingest-gate",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/brain-link-discipline",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/brain-ops",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/brain-pdf",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/brain-taxonomist",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/briefing",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/bulk-ingestion",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/canary",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/capture",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/chat-connectors",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/citation-fixer",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/citation-graph-ingest",49.9,"C",2,0,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/cold-start",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/company-brainify",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/concept-synthesis",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/context-audit",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/conversation-archive",49.9,"C",2,0,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/correction-pipeline",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/cron-scheduler",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/cross-modal-review",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/cso",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/daily-task-manager",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/daily-task-prep",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/data-loss-gate",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/data-research",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/design-consultation",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/design-html",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/design-shotgun",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/document-generate",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/draft-in-voice",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/eiirp",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/enrich",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/fact-check",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/frontmatter-guard",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/functional-area-resolver",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/gbrain-upgrade",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/google-loops",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/idea-ingest",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/idea-lineage",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/ingest",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/land-and-deploy",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/mcp-access",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/measure-before-you-fix",49.9,"C",2,0,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/media-ingest",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/meeting-ingestion",49.9,"C",2,0,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/minion-orchestrator",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/perplexity-research",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/plan-ceo-review",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/plan-design-review",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/plan-devex-review",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/publish",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/qa",49.9,"C",2,1,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/query",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/remote-mcp",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/repo-architecture",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/reports",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/research-compendium",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/resolve-before-asking",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/review",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/schema-author",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/schema-unify",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/ship",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/signal-detector",49.9,"C",2,0,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/skill-autobench",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/skill-creator",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/skill-optimizer",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/skillify",49.9,"C",2,0,"s",{"repo-own":9.9,"github-stars-own":40.0}],["garrytan/skillpack-harvest",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/smoke-test",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/soul-audit",49.9,"C",2,0,"s",{"github-stars-own":49.9}],["garrytan/strategic-reading",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/testing",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/two-tier-extraction",49.9,"C",2,1,"s",{"github-stars-own":38.6,"repo-own":11.3}],["garrytan/voice-note-ingest",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["garrytan/webhook-transforms",49.9,"C",2,1,"s",{"github-stars-own":49.9}],["gsd-build/gsd-discuss-phase",49.9,"C",2,0,"s",{"github-stars-own":39.3,"repo-own":10.6}],["gsd-build/gsd-execute-phase",49.9,"C",2,0,"s",{"github-stars-own":39.3,"repo-own":10.6}],["gsd-build/gsd-plan-phase",49.9,"C",2,0,"s",{"github-stars-own":39.3,"repo-own":10.6}],["gsd-build/gsd-ship",49.9,"C",2,0,"s",{"github-stars-own":39.3,"repo-own":10.6}],["heygen-com/figma",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-cli",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/hyperframes-registry",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/media-use",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/remotion-to-hyperframes",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["heygen-com/slideshow",49.9,"C",2,1,"s",{"github-stars-own":39.1,"repo-own":10.8}],["leonxlnx/brandkit",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/brutalist-skill",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/gpt-tasteskill",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/image-to-code-skill",49.9,"C",2,1,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/imagegen-frontend-mobile",49.9,"C",2,1,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/imagegen-frontend-web",49.9,"C",2,1,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/minimalist-skill",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/redesign-skill",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/soft-skill",49.9,"C",2,0,"s",{"repo-own":10.2,"github-stars-own":39.7}],["leonxlnx/stitch-skill",49.9,"C",2,1,"s",{"repo-own":10.2,"github-stars-own":39.7}],["obra/dispatching-parallel-agents",49.9,"C",2,1,"s",{"repo-own":9.3,"github-stars-own":40.6}],["obra/writing-skills",49.9,"C",2,0,"s",{"github-stars-own":40.6,"repo-own":9.3}],["t3dotgg/file-pr",49.9,"C",2,1,"s",{"repo-own":0.7,"github-stars-own":49.2}],["t3dotgg/leaving-pr-comments",49.9,"C",2,0,"s",{"repo-own":0.7,"github-stars-own":49.2}],["aj-geddes/causal-inference",48.62,"C",2,1,"s",{"github-stars-own":48.6}],["addy-osmani/test-driven-development",45.0,"C",2,0,"s",{"repo-own":36.0,"peer-review":9.0}],["mattpocock/improve-codebase-architecture",45.0,"C",2,0,"s",{"peer-review":45.0}],["mattpocock/write-a-skill",45.0,"C",2,1,"s",{"peer-review":45.0}],["mattpocock/teach",44.48,"C",2,0,"s",{"self-attestation":5.0,"social-signal":39.5}],["anthropics/canvas-design",43.52,"C",2,1,"s",{"arxiv":0.4,"social-signal":43.1}],["gaia-research/fuse",41.62,"C",2,1,"s",{"repo-own":36.6,"self-attestation":5.0}],["mattpocock/prototype",41.21,"C",2,1,"s",{"repo-own":11.2,"peer-review":30.0}],["gaia-research/ci-churn",41.0,"C",2,1,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/ask-matt",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/codebase-design",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/diagnosing-bugs",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/domain-modeling",41.0,"C",2,1,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/git-guardrails-claude-code",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/grilling",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/implement",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/migrate-to-shoehorn",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/resolving-merge-conflicts",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/scaffold-exercises",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/setup-pre-commit",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["mattpocock/writing-for-agents",41.0,"C",2,0,"s",{"repo-own":36.0,"self-attestation":5.0}],["firecrawl/firecrawl-build",39.9,"C",2,1,"s",{"github-stars-own":39.9}],["ruvnet/verification-quality",38.66,"C",2,0,"s",{"repo-own":36.0,"arxiv":2.7}],["disler/agent-fusion",37.54,"C",2,1,"S",{"repo-own":1.2,"social-signal":36.3}],["bradautomates/watch",37.47,"C",2,1,"s",{"repo-own":1.2,"social-signal":36.2}],["yylo-dev/ledger-tasks-yylo",36.6,"C",2,0,"s",{"repo-own":36.6}],["disler/auto-review",36.34,"C",2,1,"s",{"social-signal":36.3}],["disler/opinion",36.34,"C",2,1,"s",{"social-signal":36.3}],["disler/plan-synthesis",36.34,"C",2,1,"s",{"social-signal":36.3}],["Manavarya09/design-extract",36.0,"C",2,0,"s",{"repo-own":36.0}],["anthropic/pptx",36.0,"C",2,0,"s",{"repo-own":36.0}],["balukosuri/autoresearch-universal",36.0,"C",2,0,"s",{"repo-own":36.0}],["citrolabs/ego-browser",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/benchmark-models",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/codex",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/context-restore",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/context-save",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/design-review",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/devex-review",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/document-release",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/freeze",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/garrytan",36.0,"C",2,0,"S",{"repo-own":36.0}],["garrytan/gstack-upgrade",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/guard",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/health",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/landing-report",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/learn",36.0,"C",2,1,"s",{"repo-own":36.0}],["garrytan/make-pdf",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/open-gstack-browser",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/pair-agent",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/plan-tune",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/qa-only",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/scrape",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/setup-browser-cookies",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/setup-deploy",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/setup-gbrain",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/sync-gbrain",36.0,"C",2,0,"s",{"repo-own":36.0}],["garrytan/unfreeze",36.0,"C",2,0,"s",{"repo-own":36.0}],["mbtiongson1/gaia-audit",36.0,"C",2,1,"s",{"repo-own":36.0}],["mbtiongson1/gaia-curation-review",36.0,"C",2,1,"s",{"repo-own":36.0}],["mbtiongson1/gaia-meta-audit",36.0,"C",2,1,"s",{"repo-own":36.0}],["mbtiongson1/gaia-preview",36.0,"C",2,0,"s",{"repo-own":36.0}],["mbtiongson1/graphify-triage",36.0,"C",2,1,"s",{"repo-own":36.0}],["nexu-io/open-design",36.0,"C",2,0,"s",{"repo-own":36.0}],["nousresearch/feed-monitoring",36.0,"C",2,1,"s",{"repo-own":36.0}],["obra/finishing-a-development-branch",36.0,"C",2,0,"s",{"repo-own":36.0}],["obra/receiving-code-review",36.0,"C",2,0,"s",{"repo-own":36.0}],["obra/requesting-code-review",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/agentdb-advanced",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/agentdb-memory-patterns",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/agentdb-optimization",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/agentdb-vector-search",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/agentic-jujutsu",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/dual-collect",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/dual-coordinate",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/dual-mode",36.0,"C",2,1,"S",{"repo-own":36.0}],["ruvnet/dual-spawn",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/flow-nexus",36.0,"C",2,1,"S",{"repo-own":36.0}],["ruvnet/flow-nexus-neural",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/flow-nexus-platform",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/github-multi-repo",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/github-suite",36.0,"C",2,0,"S",{"repo-own":36.0}],["ruvnet/pair-programming",36.0,"C",2,0,"s",{"repo-own":36.0}],["ruvnet/reasoningbank-intelligence",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/ruflo-v3",36.0,"C",2,1,"S",{"repo-own":36.0}],["ruvnet/stream-chain",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/swarm-advanced",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/swarm-orchestration",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/v3-cli-modernization",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/v3-core-implementation",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/v3-ddd-architecture",36.0,"C",2,0,"s",{"repo-own":36.0}],["ruvnet/v3-integration-deep",36.0,"C",2,1,"s",{"repo-own":36.0}],["ruvnet/worker-integration",36.0,"C",2,1,"s",{"repo-own":36.0}],["santifer/career-ops",36.0,"C",2,1,"s",{"repo-own":36.0}],["spring-ai/readme-generate",36.0,"C",2,0,"s",{"repo-own":36.0}],["vercel/find-skills",36.0,"C",2,0,"s",{"repo-own":36.0}],["dralgorhythm/compliance",34.38,"C",2,1,"s",{"github-stars-own":34.4}],["omer-metin/synthetic-data",33.06,"C",2,1,"s",{"github-stars-own":33.1}],["arcmira/find-quotes",30.83,"C",2,1,"s",{"github-stars-own":30.8}],["anthropic/skill-creator",30.0,"C",2,0,"s",{"peer-review":30.0}],["upsonic/unittest-generator",30.0,"C",2,1,"s",{"peer-review":30.0}],["hikari9/office-submit",24.34,"C",2,0,"s",{"repo-own":21.7,"arxiv":2.7}],["aplaceforallmystuff/log-to-daily",22.67,"C",2,1,"s",{"repo-own":1.2,"github-stars-own":21.4}],["mattpocock/code-review",20.77,"C",2,0,"s",{"repo-own":20.8}],["mattpocock/research",20.77,"C",2,0,"s",{"repo-own":20.8}],["mattpocock/to-questionnaire",20.77,"C",2,0,"s",{"repo-own":20.8}],["mattpocock/wait-what",20.77,"C",2,1,"s",{"repo-own":20.8}],["mattpocock/wayfinder",20.77,"C",2,1,"s",{"repo-own":20.8}],["mattpocock/wizard",20.77,"C",2,1,"s",{"repo-own":20.8}]]};
+const AV_HANDLES = 'addy-osmani aj-geddes anthropics aplaceforallmystuff arcmira ayghri bradautomates browser-use cathrynlavery dietrichgebert disler dralgorhythm emilkowalski firecrawl gaia-research garrytan google-deepmind heygen-com hikari9 latent-spaces leonxlnx mattpocock mbtiongson1 mksglu mvanhorn nateherkai nextlevelbuilder nousresearch nvidia obra omer-metin oso95 panniantong ruvnet safishamsi santifer t3dotgg trailhq upsonic vercel-labs wheresryan22 zhaoxuya52041'.split(' ');
+const AV_IDX = {}; AV_HANDLES.forEach(function (h, i) { AV_IDX[h] = i; });
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+let FX_P = null;
+function fx() { if (!FX_P) FX_P = fetch(FX_URL).then(function (r) { return r.json(); }); return FX_P; }
+const TYPES = [['all','All'],['peer-review','Peer review'],['repo-own','Repo'],['github-stars-own','Stars'],['social-signal','Social'],['benchmark-result','Benchmark'],['arxiv','arXiv'],['verifier-attestation','Verifier'],['proxy-containment','Proxy'],['fusion-recipe','Fusion'],['self-attestation','Self']];
+const GRADE_NAME = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
+const GRADE_ORDER = { S: 0, A: 1, B: 2, C: 3 };
+const BRANCH = { s: 'Standard', u: 'Unique', S: 'Suite' };
+const ROWS = LB.rows.map(function (r) {
+  const slash = r[0].indexOf('/');
+  return { id: r[0], c: r[0].slice(0, slash), name: r[0].slice(slash + 1), tm: r[1], g: r[2], lv: r[3], o: !!r[4], br: r[5], bd: r[6] };
+});
+function branchOf(r) { return r.br; }
+function rankCls(r) { return (r.br === 'u' && r.lv >= 4) ? 'u' + Math.min(r.lv, 5) : 'r' + r.lv; }
+function nice(max) { const raw = max / 4; const p = Math.pow(10, Math.floor(Math.log10(raw))); const f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: 'all', q: '', contribs: [], grade: 'all', sort: 'tm', grouped: true, msOpen: false, msq: '', tip: null, shown: 50, fx: null }; this.bk = {}; }
+  componentDidMount() {
+    fx().then((d) => this.setState({ fx: d.avatars || {} })).catch(() => {});
+    this.onDoc = (e) => { if (this.state.msOpen && !(e.target.closest && e.target.closest('.ms'))) this.setState({ msOpen: false }); };
+    this.onKey = (e) => { if (e.key === 'Escape') this.setState({ msOpen: false, tip: null }); };
+    document.addEventListener('click', this.onDoc); document.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { document.removeEventListener('click', this.onDoc); document.removeEventListener('keydown', this.onKey); }
+  tmOf(r) { return this.state.tab === 'all' ? r.tm : (r.bd[this.state.tab] || 0); }
+  av(h) {
+    const i = AV_IDX[h]; const f = this.state.fx && this.state.fx[h];
+    if (i != null) return { avS: true, avI: false, avM: false, bx: i % 8, by: Math.floor(i / 8), img: '', m: '' };
+    if (f) return { avS: false, avI: true, avM: false, bx: 0, by: 0, img: f, m: '' };
+    return { avS: false, avI: false, avM: true, bx: 0, by: 0, img: '', m: h.charAt(0) };
+  }
+  filtered() {
+    const s = this.state, q = s.q.trim().toLowerCase();
+    let l = ROWS.filter((r) => (!s.contribs.length || s.contribs.indexOf(r.c) >= 0) && (s.grade === 'all' || r.g === s.grade) && (!q || r.id.toLowerCase().indexOf(q) >= 0) && (s.tab === 'all' || (r.bd[s.tab] || 0) > 0));
+    l = l.slice().sort((a, b) => {
+      if (s.sort === 'grade') { const d = GRADE_ORDER[a.g] - GRADE_ORDER[b.g]; if (d) return d; }
+      else if (s.sort === 'contributor') { const d = a.c.localeCompare(b.c); if (d) return d; }
+      return this.tmOf(b) - this.tmOf(a);
+    });
+    return l;
+  }
+  showTip(r, n) { return (e) => {
+    const el = e.currentTarget, wrap = el.closest('.chart'); if (!wrap) return;
+    const a = el.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+    let x = a.left - w.left + a.width / 2 - 120; x = Math.max(8, Math.min(w.width - 248, x));
+    this.setState({ tip: { x: Math.round(x), r: r, n: n } });
+  }; }
+  renderVals() {
+    const s = this.state, compact = !!this.props.compact, world = this.props.world || 'ygg';
+    const H = compact ? 250 : 340;
+    const base = { world: world, isArbor: world === 'arbor', isYgg: world !== 'arbor', showFull: !compact, showCompact: compact, cmpCls: compact ? 'cmp' : '',
+      nTotal: ROWS.length, updated: LB.at, H: H, goFull: () => this.props.go && this.props.go('leaderboard'), toYgg: () => this.props.setWorld && this.props.setWorld('ygg'), hideTip: () => { if (this.state.tip) this.setState({ tip: null }); } };
+    if (world === 'arbor') return base;
+    const list = this.filtered();
+    let vis = list, groupedAway = 0;
+    if (s.grouped && !compact) {
+      const m = {}, o = [];
+      list.forEach((r) => { const k = r.c + '|' + r.g + '|' + Math.round(r.tm); if (!m[k]) { m[k] = []; o.push(k); } m[k].push(r); });
+      vis = o.map((k) => { const g = m[k]; return { r: g[0], n: g.length, mem: g }; });
+      groupedAway = list.length - vis.length;
+    } else vis = list.map((r) => ({ r: r, n: 1, mem: [r] }));
+    const shownBars = compact ? vis.slice(0, 40) : vis;
+    const maxTM = Math.max(1, ...shownBars.map((v) => this.tmOf(v.r)));
+    const step = nice(maxTM), top = Math.ceil(maxTM / step) * step;
+    const ticks = []; for (let t = 0; t <= top; t += step) ticks.push({ l: String(Math.round(t * 10) / 10), y: Math.round(t / top * H) });
+    const bars = shownBars.map((v) => {
+      const r = v.r, tm = this.tmOf(r), h = Math.max(3, Math.round(tm / top * H)), av = this.av(r.c);
+      return Object.assign({ cls: rankCls(r), sm: h < 34 ? 'sm' : '', h: h, tall: h >= 120, name: r.name + (v.n > 1 ? ' x' + v.n : ''), o: r.o,
+        aria: r.id + ', ' + r.lv + ' stars, ' + tm.toFixed(1) + ' Trust Magnitude, grade ' + r.g + (r.o ? ', Origin' : '') + (v.n > 1 ? ', grouped with ' + (v.n - 1) + ' more' : ''),
+        open: () => this.props.pick && this.props.pick(r.id), show: this.showTip(r, v.n) }, av);
+    });
+    const tp = s.tip, tipo = tp ? { x: tp.x, name: tp.r.name, id: tp.r.id, stars: tp.r.lv + '★', tmLabel: s.tab === 'all' ? 'Trust Magnitude' : 'TM, ' + (TYPES.filter((t) => t[0] === s.tab)[0] || [])[1], tm: this.tmOf(tp.r).toFixed(2), grade: GRADE_NAME[tp.r.g] + ' (' + tp.r.g + ')', branch: BRANCH[tp.r.br] || 'Standard', origin: tp.r.o ? 'Yes' : 'No', oc: tp.r.o ? 'or' : '', grp: tp.n > 1 ? tp.n : 0 } : null;
+    const cnt = {}; ROWS.forEach((r) => { cnt[r.c] = (cnt[r.c] || 0) + 1; });
+    const mq = s.msq.trim().toLowerCase();
+    const contribs = Object.keys(cnt).filter((h) => !mq || h.toLowerCase().indexOf(mq) >= 0).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b)).map((h) => { const on = s.contribs.indexOf(h) >= 0; return { h: h, n: cnt[h], on: on ? 'true' : 'false', tick: on ? '✓' : '', toggle: () => this.setState({ contribs: on ? s.contribs.filter((x) => x !== h) : s.contribs.concat(h), shown: 50 }) }; });
+    const dist = LB.dist, mx = Math.max(dist.S, dist.A, dist.B, dist.C);
+    const gchips = [['all', 'All', ROWS.length, 100]].concat(['S', 'A', 'B', 'C'].map((g) => [g, g, dist[g], Math.round(dist[g] / mx * 100)])).map((g) => ({ l: g[1], n: g[2], h: Math.max(4, Math.round(g[3] * 0.22)), on: s.grade === g[0] ? 'true' : 'false', pick: () => this.setState({ grade: g[0], shown: 50 }) }));
+    const lc = {}; ROWS.forEach((r) => { const k = rankCls(r); lc[k] = (lc[k] || 0) + 1; });
+    const legend = ['r1', 'r2', 'r3', 'r4', 'u4', 'r5', 'u5'].filter((k) => lc[k]).map((k) => ({ cls: k, t: (k[0] === 'u' ? 'Unique ' : '') + k[1] + '★ (' + lc[k] + ')' }));
+    const rowsT = vis.slice(0, s.shown).map((v, i) => { const r = v.r, av = this.av(r.c); return Object.assign({ n: i + 1, cls: rankCls(r), name: r.name + (v.n > 1 ? ' x' + v.n : ''), who: r.c, stars: r.lv + '★', grade: r.g, oLabel: r.o ? 'Origin' : '', o: r.o, tm: this.tmOf(r).toFixed(1), open: () => this.props.pick && this.props.pick(r.id) }, av); });
+    return Object.assign(base, {
+      tabs: TYPES.map((t) => ({ label: t[1], sel: s.tab === t[0] ? 'true' : 'false', pick: () => this.setState({ tab: t[0], shown: 50, tip: null }) })),
+      nShown: list.length, groupedNote: groupedAway > 0 ? ', ' + groupedAway + ' grouped' : '', q: s.q, onQ: (e) => this.setState({ q: e.target.value, shown: 50 }),
+      msOpen: s.msOpen ? 'true' : 'false', msOpenB: s.msOpen, toggleMs: () => this.setState({ msOpen: !s.msOpen }),
+      msLabel: s.contribs.length ? s.contribs.length + ' contributor' + (s.contribs.length > 1 ? 's' : '') : 'Add contributor', msq: s.msq, onMsq: (e) => this.setState({ msq: e.target.value }), contribs: contribs, clearMs: () => this.setState({ contribs: [] }), msCount: s.contribs.length ? s.contribs.length + ' selected' : 'None selected',
+      onSort: (e) => this.setState({ sort: e.target.value }), sTm: s.sort === 'tm', sGrade: s.sort === 'grade', sContrib: s.sort === 'contributor', grouped: s.grouped ? 'true' : 'false', toggleGroup: () => this.setState({ grouped: !s.grouped }),
+      gchips: gchips, legend: legend, ticks: ticks, bars: bars, tip: tipo, noBars: bars.length === 0, rowsT: rowsT, canMore: vis.length > s.shown, moreN: Math.min(50, vis.length - s.shown), more: () => this.setState({ shown: s.shown + 50 })
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Changelog: every skill change in the registry</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap">
+<style>
+body { margin: 0; }
+.ch-head { padding-block: clamp(3rem, 6cqi, 5rem) 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.ch-stats { display: flex; flex-wrap: wrap; gap: .5rem 2.25rem; padding-top: .5rem; }
+.ch-stat { display: flex; flex-direction: column; gap: .1rem; }
+.ch-stat b { font-family: var(--f-hud); font-weight: 400; font-size: 1.5rem; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.ch-ctl { display: flex; flex-direction: column; gap: .9rem; padding-block: 1.25rem; border-block: 1px solid var(--line); }
+.ch-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.ch-row .field { flex: 1 1 280px; max-width: 460px; }
+.ch-sel { min-height: 48px; padding: 0 .8rem; background: var(--ground-2); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: .9375rem; max-width: 100%; }
+.ch-sel:focus-visible { border-color: var(--accent); }
+.ch-act { display: flex; gap: .5rem; margin-left: auto; flex-wrap: wrap; }
+.ch-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip .n { font-family: var(--f-hud); font-weight: 400; font-size: .6875rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.ch-list { padding-block: .5rem 2rem; }
+.it { min-width: 0; }
+.it-m { position: sticky; top: 0; z-index: 2; background: var(--ground); padding-block: 1.75rem .6rem; border-bottom: 1px solid var(--line-2); display: flex; align-items: baseline; gap: 1rem; }
+.it-m h2 { margin: 0; font-family: var(--d-family); font-weight: var(--d-weight); font-stretch: var(--d-stretch); font-size: clamp(1.5rem, 1.1rem + 1.4cqi, 2.1rem); line-height: 1.1; letter-spacing: var(--d-track); }
+.it-d { display: flex; align-items: center; gap: .7rem; padding-top: 1.1rem; padding-bottom: .3rem; }
+.it-r { display: flex; align-items: center; gap: .6rem; padding: .55rem .75rem; margin: .35rem 0 .15rem; border: 1px dashed var(--accent-line); border-radius: 6px; background: var(--accent-wash); font-size: .875rem; color: var(--ink); }
+.it-r i { width: 6px; height: 6px; border: 1px solid var(--accent-ink); transform: rotate(45deg); flex: none; }
+.it-e { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 11rem; gap: .25rem 1.25rem; align-items: baseline; padding: .7rem 0; border-bottom: 1px solid color-mix(in oklch, var(--line) 55%, transparent); }
+.ev-v { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--f-hud); font-size: .75rem; letter-spacing: .02em; color: var(--ink-2); line-height: 1.4; }
+.ev-v i { width: 8px; height: 8px; border-radius: 50%; background: var(--fc, var(--ink-3)); flex: none; }
+.f-promoted { --fc: var(--rank-2); } .f-demoted { --fc: var(--honor-red); } .f-origin { --fc: var(--apex-gold); } .f-named { --fc: var(--rank-3); }
+.f-evidence { --fc: var(--ev-silver); } .f-added { --fc: var(--rank-1); } .f-fused { --fc: var(--tier-fusion); } .f-trust { --fc: var(--accent); } .f-upstream { --fc: var(--rank-4); } .f-other { --fc: var(--ink-3); }
+.ev-m { min-width: 0; display: flex; flex-direction: column; gap: .2rem; }
+.ev-sk { display: inline-flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; min-width: 0; }
+.sk-b { background: none; border: 0; padding: 0; min-height: 28px; cursor: pointer; text-align: left; font-family: var(--f-display); font-style: italic; font-size: 1.12rem; color: var(--ink); overflow-wrap: anywhere; line-height: 1.3; }
+.sk-b:hover { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+.sk-t { font-family: var(--f-display); font-style: italic; font-size: 1.12rem; color: var(--ink); overflow-wrap: anywhere; line-height: 1.3; }
+.atlas[data-world="arbor"] .sk-b, .atlas[data-world="arbor"] .sk-t { font-family: var(--f-hud); font-style: normal; font-size: .9rem; }
+.ev-ty { font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; }
+.ev-dt { font-size: .875rem; line-height: 1.5; color: var(--ink-2); margin: 0; overflow-wrap: anywhere; text-wrap: pretty; }
+.ev-who { display: flex; align-items: center; gap: .5rem; min-width: 0; justify-content: flex-end; font-size: .8125rem; color: var(--ink-3); }
+.ev-who span.h { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.av { width: 22px; height: 22px; border-radius: 50%; flex: none; background: var(--panel-2); border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-family: var(--f-hud); font-size: .6875rem; color: var(--ink-2); object-fit: cover; text-transform: uppercase; }
+.ch-more { display: flex; flex-direction: column; align-items: center; gap: .75rem; padding-block: 2rem 5rem; }
+.ch-empty { padding: 3rem 0 5rem; }
+@container atlas (max-width: 760px) {
+  .it-e { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "v w" "m m"; gap: .3rem .75rem; padding-block: .85rem; }
+  .it-e > .ev-v { grid-area: v; } .it-e > .ev-who { grid-area: w; } .it-e > .ev-m { grid-area: m; }
+  .ch-act { margin-left: 0; width: 100%; }
+  .ch-act .btn { flex: 1 1 0; }
+  .ch-sel { flex: 1 1 140px; }
+  .sk-b { min-height: 44px; display: inline-flex; align-items: center; }
+  .chip { min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .atlas * { transition: none !important; } }
+</style>
+</helmet>
+<div class="atlas" data-world="{{world}}" data-weather="none">
+  <div class="wrap ch-head">
+    <div class="plate"><span class="pl-mark">Registry</span><i class="pl-sep"></i><span>Full changelog of skills</span><i class="pl-sep"></i><span>{{range}}</span><i class="pl-rule"></i></div>
+    <h1 class="h1">Changelog</h1>
+    <p class="lede">Every recorded change to a skill, newest first: promotions and demotions, Origin moves, evidence, fusions, renames and Trust Magnitude recalibrations. Read straight from the skill timelines in the registry.</p>
+    <div class="ch-stats">
+      <div class="ch-stat"><b>{{nEvents}}</b><span class="fine">events</span></div>
+      <div class="ch-stat"><b>{{nSkills}}</b><span class="fine">skills touched</span></div>
+      <div class="ch-stat"><b>{{nReports}}</b><span class="fine">meta reports marked</span></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="ch-ctl">
+      <div class="ch-row">
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" placeholder="Search a skill or contributor" aria-label="Search a skill or contributor" value="{{q}}" onInput="{{onQ}}"></label>
+        <select class="ch-sel" aria-label="Jump to month" onChange="{{onMonth}}">
+          <sc-for list="{{months}}" as="m" hint-placeholder-count="7"><option value="{{m.v}}" selected="{{m.sel}}">{{m.label}}</option></sc-for>
+        </select>
+        <div class="ch-act">
+          <button class="btn btn-ghost" type="button" onClick="{{copyMd}}">{{copyLabel}}</button>
+          <button class="btn btn-ghost" type="button" onClick="{{dlMd}}">Download .md</button>
+        </div>
+      </div>
+      <div class="ch-chips" role="group" aria-label="Filter by kind of change">
+        <sc-for list="{{fams}}" as="f" hint-placeholder-count="8"><button class="chip" type="button" aria-pressed="{{f.on}}" onClick="{{f.pick}}">{{f.label}} <span class="n">{{f.n}}</span></button></sc-for>
+      </div>
+    </div>
+    <div class="ch-list">
+      <sc-for list="{{items}}" as="r" hint-placeholder-count="10">
+        <div class="it {{r.cls}}">
+          <sc-if value="{{r.isMonth}}" hint-placeholder-val="{{false}}"><div class="it-m"><h2>{{r.text}}</h2><span class="hud">{{r.sub}}</span></div></sc-if>
+          <sc-if value="{{r.isDay}}" hint-placeholder-val="{{false}}"><div class="it-d"><span class="hud">{{r.text}}</span><i class="pl-rule" style="flex:1;height:1px;background:var(--line)"></i></div></sc-if>
+          <sc-if value="{{r.isReport}}" hint-placeholder-val="{{false}}"><div class="it-r"><i></i><span class="hud">Meta report</span><span>{{r.text}}</span></div></sc-if>
+          <sc-if value="{{r.isEv}}" hint-placeholder-val="{{true}}"><div class="it-e f-{{r.fam}}">
+            <span class="ev-v"><i></i>{{r.verb}}</span>
+            <div class="ev-m">
+              <span class="ev-sk">
+                <sc-if value="{{r.named}}" hint-placeholder-val="{{true}}"><button class="sk-b" type="button" onClick="{{r.open}}">{{r.skill}}</button></sc-if>
+                <sc-if value="{{r.generic}}" hint-placeholder-val="{{false}}"><span class="sk-t">{{r.skill}}</span></sc-if>
+                <span class="ev-ty">{{r.kind}}</span>
+              </span>
+              <p class="ev-dt" title="{{r.time}}">{{r.detail}}</p>
+            </div>
+            <span class="ev-who">
+              <sc-if value="{{r.hasWho}}" hint-placeholder-val="{{true}}"><span class="h">@{{r.who}}</span></sc-if>
+              <sc-if value="{{r.hasAv}}" hint-placeholder-val="{{true}}"><span class="av" aria-hidden="true" style="background: var(--u) center / cover no-repeat; --u: {{r.avCss}}"></span></sc-if>
+              <sc-if value="{{r.noAv}}" hint-placeholder-val="{{false}}"><span class="av" aria-hidden="true">{{r.mono}}</span></sc-if>
+            </span>
+          </div></sc-if>
+        </div>
+      </sc-for>
+      <sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><div class="ch-empty stack gap-2"><h2 class="h3">No changes match</h2><p class="small">Clear the search or pick another kind of change or month.</p></div></sc-if>
+      <sc-if value="{{loading}}" hint-placeholder-val="{{false}}"><div class="ch-empty"><p class="small">Synthesizing changelog…</p></div></sc-if>
+    </div>
+    <sc-if value="{{hasMore}}" hint-placeholder-val="{{true}}"><div class="ch-more"><button class="btn btn-solid" type="button" onClick="{{more}}">Show more</button><span class="fine">{{shownOf}}</span></div></sc-if>
+    <sc-if value="{{noMore}}" hint-placeholder-val="{{false}}"><div class="ch-more"><span class="fine">{{shownOf}}</span></div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"world":{"editor":"enum","options":["ygg","arbor"],"default":"ygg"},"go":{"editor":null},"pick":{"editor":null},"$preview":{"width":1440,"height":10300}}'>
+const FX_URL = '/_blob/b5829cd5ed954bed364b2ca99692d4dd';
+const CL_URL = '/_blob/86f35239f6827d7638f172937dcbe2b6';
+const PAGE = 120;
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FAMS = [['all','All'],['promoted','Promoted'],['demoted','Demoted'],['origin','Origin'],['named','Named'],['evidence','Evidence'],['added','Added'],['fused','Fused'],['trust','Trust'],['upstream','Upstream'],['other','Other']];
+const INTRO = 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.';
+let P = null;
+function load() { if (!P) P = Promise.all([fetch(FX_URL).then(function (r) { return r.json(); }), fetch(CL_URL).then(function (r) { return r.json(); })]); return P; }
+function dmy(d) { const p = d.slice(0, 10).split('-'); return (+p[2]) + ' ' + MON[+p[1] - 1] + ' ' + p[0]; }
+function nf(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { fx: null, cl: null, q: '', fam: 'all', month: 'all', shown: PAGE, copied: false };
+    this.cache = { key: null, rows: [] };
+  }
+  componentDidMount() {
+    load().then((a) => {
+      const cl = a[1];
+      cl.ev.forEach((e) => { e.d = e[0].slice(0, 10); e.mo = e[0].slice(0, 7); const s = cl.skills[e[1]]; e.hay = (s[0] + ' ' + s[1] + ' ' + (e[4] >= 0 ? cl.hand[e[4]] : '')).toLowerCase(); });
+      const rep = {}; (a[0].reports || []).forEach((r) => { (rep[r.date] = rep[r.date] || []).push(r.title); });
+      cl.rep = rep; this.setState({ fx: a[0], cl: cl });
+    }).catch(() => {});
+  }
+  filtered() {
+    const s = this.state, cl = s.cl; if (!cl) return { rows: [], base: [] };
+    const q = s.q.trim().toLowerCase();
+    const base = cl.ev.filter((e) => (!q || e.hay.indexOf(q) >= 0) && (s.month === 'all' || e.mo === s.month));
+    const rows = s.fam === 'all' ? base : base.filter((e) => e[2] === s.fam);
+    return { rows: rows, base: base };
+  }
+  markdown(rows) {
+    const cl = this.state.cl;
+    let t = '# Gaia Skill Tree - Meta Changelog\nGenerated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n' + INTRO + '\n\n';
+    rows.forEach((e) => { const s = cl.skills[e[1]]; t += '- **[' + e.d + ']** [' + e[3].toUpperCase().replace('_', ' ') + '] ' + s[1] + ' (' + e[7] + '): ' + e[6] + '\n'; });
+    return t;
+  }
+  renderVals() {
+    const s = this.state, cl = s.cl, fx = s.fx;
+    const world = this.props.world || 'ygg';
+    if (!cl) return { world: world, loading: true, empty: false, items: [], fams: [], months: [], range: 'Loading', nEvents: '…', nSkills: '…', nReports: '…', q: '', onQ: () => {}, onMonth: () => {}, copyMd: () => {}, dlMd: () => {}, copyLabel: 'Copy as Markdown', hasMore: false, noMore: false, more: () => {}, shownOf: '' };
+    const f = this.filtered(), rows = f.rows, base = f.base;
+    const vis = rows.slice(0, s.shown);
+    const items = []; let lm = null, ld = null;
+    const av = (fx && fx.avatars) || {};
+    const pick = this.props.pick;
+    vis.forEach((e, i) => {
+      if (e.mo !== lm) {
+        lm = e.mo; ld = null; const y = +e.mo.slice(0, 4), m = +e.mo.slice(5, 7) - 1;
+        let c = 0; for (let k = i; k < rows.length && rows[k].mo === e.mo; k++) c++;
+        items.push({ cls: 'it-month', isMonth: true, text: MONL[m] + ' ' + y, sub: c + ' event' + (c === 1 ? '' : 's') });
+      }
+      if (e.d !== ld) {
+        ld = e.d; const dt = new Date(e.d + 'T00:00:00Z');
+        items.push({ cls: '', isDay: true, text: DOW[dt.getUTCDay()] + ' ' + dmy(e.d) });
+        (cl.rep[e.d] || []).forEach((t) => items.push({ cls: '', isReport: true, text: t }));
+      }
+      const sk = cl.skills[e[1]], hn = e[4] >= 0 ? cl.hand[e[4]] : '';
+      const named = sk[3] === 1;
+      items.push({ cls: '', isEv: true, fam: e[2], verb: e[5], skill: sk[1], named: named, generic: !named, kind: sk[2] + (named ? ' · named' : ' · generic'), detail: e[6], time: e[0] + ' UTC',
+        hasWho: !!hn, who: hn, avCss: av[hn] ? 'url(' + av[hn] + ')' : 'none', hasAv: !!av[hn], noAv: !!hn && !av[hn], mono: hn.charAt(0),
+        open: () => { if (named && pick) pick(sk[0]); } });
+    });
+    const cnt = {}; base.forEach((e) => { cnt[e[2]] = (cnt[e[2]] || 0) + 1; });
+    const fams = FAMS.map((x) => ({ label: x[1], n: x[0] === 'all' ? base.length : (cnt[x[0]] || 0), on: s.fam === x[0] ? 'true' : 'false', pick: () => this.setState({ fam: x[0], shown: PAGE }) }));
+    const ms = {}; cl.ev.forEach((e) => { ms[e.mo] = (ms[e.mo] || 0) + 1; });
+    const months = [{ v: 'all', label: 'All months', sel: s.month === 'all' }].concat(Object.keys(ms).sort().reverse().map((k) => ({ v: k, label: MONL[+k.slice(5) - 1] + ' ' + k.slice(0, 4) + ' (' + nf(ms[k]) + ')', sel: s.month === k })));
+    const touched = {}; cl.ev.forEach((e) => { touched[e[1]] = 1; });
+    const last = cl.ev[0].d, first = cl.ev[cl.ev.length - 1].d;
+    const rest = rows.length - vis.length;
+    return {
+      world: world, loading: false, empty: rows.length === 0, items: items, fams: fams, months: months,
+      range: dmy(first) + ' to ' + dmy(last), nEvents: nf(cl.ev.length), nSkills: nf(Object.keys(touched).length), nReports: Object.keys(cl.rep).length,
+      q: s.q, onQ: (ev) => this.setState({ q: ev.target.value, shown: PAGE }),
+      onMonth: (ev) => this.setState({ month: ev.target.value, shown: PAGE }),
+      copyLabel: s.copied ? 'Copied' : 'Copy as Markdown',
+      copyMd: () => {
+        const t = this.markdown(rows);
+        const done = () => { this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 1800); };
+        const fb = () => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} document.body.removeChild(ta); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fb); else fb();
+      },
+      dlMd: () => {
+        const b = new Blob([this.markdown(rows)], { type: 'text/markdown;charset=utf-8;' });
+        const u = URL.createObjectURL(b), a = document.createElement('a');
+        a.href = u; a.download = 'gaia-meta-changelog.md'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(u), 1000);
+      },
+      hasMore: rest > 0, noMore: rest <= 0 && rows.length > 0, more: () => this.setState({ shown: s.shown + PAGE }),
+      shownOf: 'Showing ' + nf(vis.length) + ' of ' + nf(rows.length) + ' events'
+    };
+  }
+}
+</script>
+</body>
+</html>
