@@ -502,7 +502,14 @@ def _build_redacted_receipt(
                 "componentRemoveCount": sum(len(vals) for key, vals in s.structural_delta if key == "componentRemoves"),
                 "canonicalRemovalCount": len(s.canonical_removals),
                 "livenessCount": len(s.liveness),
-                "nameDriftCount": len(s.name_drift_ids),
+                "nameDriftStatus": s.name_drift_status,
+                "nameDriftCount": None if s.name_drift_status == "unknown" else len(s.name_drift_ids),
+                "nameDriftVerifiedUnchangedCount": len(s.name_drift_unchanged_ids),
+                "nameDriftVerifiedDriftCount": len(s.name_drift_ids),
+                "nameDriftUnknownCount": len(s.name_drift_unknown),
+                "nameDriftUnknown": [
+                    {"namedId": nid, "reason": code} for nid, code in s.name_drift_unknown
+                ],
             }
             for s in census.scopes
         ],
@@ -510,6 +517,7 @@ def _build_redacted_receipt(
             "observation-only-no-writes",
             "non-atomic-live-snapshot-same-count-churn-possible",
             "concurrency-does-not-prevent-separate-future-dispatch",
+            "tag-ref-recheck-not-atomic-or-immutable",
         ],
     }
 

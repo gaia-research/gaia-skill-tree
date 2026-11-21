@@ -25,9 +25,12 @@ check_name_drift(components, registry_map)
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import re
 import sys
-from typing import Any
+from typing import Any, Mapping, Sequence
+
+import yaml
 
 from scripts.lib.frontmatter import load_yaml_simple, split_frontmatter
 from scripts.lib.github_api import fetch_text
@@ -157,3 +160,209 @@ def check_name_drift(
         )
 
     return drift
+
+
+# ---------------------------------------------------------------------------
+# Hosted-only bounded, silent name-drift verification
+# ---------------------------------------------------------------------------
+
+MAX_HOSTED_SKILL_MD_CHARS = 256 * 1024
+MAX_HOSTED_FRONTMATTER_CHARS = 16 * 1024
+MAX_HOSTED_FRONTMATTER_LINES = 256
+MAX_HOSTED_YAML_EVENTS = 1024
+MAX_HOSTED_NAME_LEN = 255
+
+_COMPONENT_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+_HAS_ALNUM_RE = re.compile(r"[A-Za-z0-9]")
+
+HOSTED_NAME_DRIFT_UNKNOWN_REASONS = frozenset({
+    "invalid-component-id",
+    "missing-registry-entry",
+    "missing-github-link",
+    "invalid-raw-url",
+    "fetch-failed",
+    "content-too-large",
+    "invalid-utf8-replacement",
+    "missing-frontmatter",
+    "frontmatter-too-large",
+    "malformed-frontmatter",
+    "missing-upstream-name",
+    "invalid-upstream-name",
+})
+
+
+@dataclass(frozen=True)
+class HostedNameDriftResult:
+    """Redacted hosted-only name-drift outcome: local named IDs and allowlisted codes only.
+
+    Never carries upstream names, sanitized names, URLs, exception strings,
+    parse excerpts, or reviewer fix instructions.
+    """
+
+    verified_unchanged: tuple[str, ...]
+    verified_drift: tuple[str, ...]
+    unknown: tuple[tuple[str, str], ...]
+
+    @property
+    def complete(self) -> bool:
+        return len(self.unknown) == 0
+
+    @property
+    def status(self) -> str:
+        return "verified" if self.complete else "unknown"
+
+
+class _HostedUniqueKeySafeLoader(yaml.SafeLoader):
+    """Safe YAML loader that rejects duplicate mapping keys."""
+
+
+def _construct_unique_mapping(
+    loader: _HostedUniqueKeySafeLoader,
+    node: yaml.MappingNode,
+    deep: bool = False,
+) -> dict[Any, Any]:
+    mapping: dict[Any, Any] = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if not isinstance(key, str) or key in mapping:
+            raise yaml.constructor.ConstructorError("duplicate-or-nonstring-key")
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+_HostedUniqueKeySafeLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_unique_mapping,
+)
+
+
+def _parse_hosted_frontmatter(fm_raw: str) -> tuple[dict[str, Any] | None, str | None]:
+    """Parse bounded YAML frontmatter silently without anchors, aliases, tags, or duplicate keys."""
+    if len(fm_raw) > MAX_HOSTED_FRONTMATTER_CHARS:
+        return None, "frontmatter-too-large"
+    if fm_raw.count("\n") >= MAX_HOSTED_FRONTMATTER_LINES:
+        return None, "frontmatter-too-large"
+    if "\x00" in fm_raw:
+        return None, "malformed-frontmatter"
+    if "\ufffd" in fm_raw:
+        return None, "invalid-utf8-replacement"
+
+    try:
+        doc_count = 0
+        event_count = 0
+        for ev in yaml.parse(fm_raw, Loader=yaml.SafeLoader):
+            event_count += 1
+            if event_count > MAX_HOSTED_YAML_EVENTS:
+                return None, "frontmatter-too-large"
+            if isinstance(ev, yaml.DocumentStartEvent):
+                doc_count += 1
+                if doc_count > 1:
+                    return None, "malformed-frontmatter"
+            if isinstance(ev, yaml.AliasEvent):
+                return None, "malformed-frontmatter"
+            if getattr(ev, "anchor", None) is not None:
+                return None, "malformed-frontmatter"
+            if getattr(ev, "tag", None) is not None:
+                return None, "malformed-frontmatter"
+        parsed = yaml.load(fm_raw, Loader=_HostedUniqueKeySafeLoader)
+    except Exception:  # noqa: BLE001 — never log or propagate untrusted parse excerpts
+        return None, "malformed-frontmatter"
+
+    if not isinstance(parsed, dict):
+        return None, "malformed-frontmatter"
+    return parsed, None
+
+
+def _is_valid_hosted_upstream_name(value: Any) -> bool:
+    if type(value) is not str:
+        return False
+    if not value or len(value) > MAX_HOSTED_NAME_LEN:
+        return False
+    if any(ord(c) < 32 or ord(c) == 127 or c == "\ufffd" for c in value):
+        return False
+    if not value.strip() or not _HAS_ALNUM_RE.search(value):
+        return False
+    return True
+
+
+def check_name_drift_hosted(
+    components: Sequence[str],
+    registry_map: Mapping[str, Mapping[str, Any]],
+    *,
+    fetch_text_fn: Any,
+) -> HostedNameDriftResult:
+    """Hosted-only bounded name-drift verification with explicit unknown classification.
+
+    Reuses :func:`sanitize_name` without altering ordinary watcher semantics.
+    Never logs to stdout/stderr and never retains upstream text, URLs,
+    exception strings, parse excerpts, or fix instructions.
+    """
+    unchanged: set[str] = set()
+    drifted: set[str] = set()
+    unknown: dict[str, str] = {}
+
+    for comp_id in components:
+        if not isinstance(comp_id, str) or not _COMPONENT_ID_RE.fullmatch(comp_id):
+            unknown["?"] = "invalid-component-id"
+            continue
+
+        comp_fm = registry_map.get(comp_id)
+        if not isinstance(comp_fm, Mapping) or comp_fm.get("id") != comp_id:
+            unknown[comp_id] = "missing-registry-entry"
+            continue
+
+        links = comp_fm.get("links")
+        gh_url = links.get("github") if isinstance(links, Mapping) else None
+        if not isinstance(gh_url, str) or not gh_url:
+            unknown[comp_id] = "missing-github-link"
+            continue
+
+        raw_url = blob_to_raw(gh_url)
+        if not isinstance(raw_url, str) or not raw_url.startswith("https://raw.githubusercontent.com/"):
+            unknown[comp_id] = "invalid-raw-url"
+            continue
+
+        try:
+            content = fetch_text_fn(raw_url)
+        except Exception:  # noqa: BLE001 — never log untrusted fetch diagnostics
+            unknown[comp_id] = "fetch-failed"
+            continue
+
+        if not isinstance(content, str) or not content:
+            unknown[comp_id] = "fetch-failed"
+            continue
+        if len(content) > MAX_HOSTED_SKILL_MD_CHARS:
+            unknown[comp_id] = "content-too-large"
+            continue
+
+        _, fm_raw, _ = split_frontmatter(content)
+        if not fm_raw or not fm_raw.strip():
+            unknown[comp_id] = "missing-frontmatter"
+            continue
+
+        upstream_fm, fm_err = _parse_hosted_frontmatter(fm_raw)
+        if fm_err is not None or upstream_fm is None:
+            unknown[comp_id] = fm_err or "malformed-frontmatter"
+            continue
+
+        if "name" not in upstream_fm or upstream_fm["name"] is None:
+            unknown[comp_id] = "missing-upstream-name"
+            continue
+
+        upstream_name = upstream_fm["name"]
+        if not _is_valid_hosted_upstream_name(upstream_name):
+            unknown[comp_id] = "invalid-upstream-name"
+            continue
+
+        sanitized = sanitize_name(upstream_name)
+        registry_slug = comp_id.split("/")[-1] if "/" in comp_id else comp_id
+        if sanitized == registry_slug:
+            unchanged.add(comp_id)
+        else:
+            drifted.add(comp_id)
+
+    return HostedNameDriftResult(
+        verified_unchanged=tuple(sorted(unchanged)),
+        verified_drift=tuple(sorted(drifted)),
+        unknown=tuple(sorted(unknown.items())),
+    )

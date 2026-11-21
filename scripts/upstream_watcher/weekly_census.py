@@ -14,8 +14,9 @@ import tempfile
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
-from scripts.upstream_watcher import envelope, liveness as watcher_liveness, repository_batch, weekly_binding, weekly_collector, weekly_journal, weekly_reducer
+from scripts.upstream_watcher import envelope, liveness as watcher_liveness, name_drift as watcher_name_drift, repository_batch, weekly_binding, weekly_collector, weekly_journal, weekly_reducer
 from scripts.upstream_watcher.approval import PayloadError
+from scripts.upstream_watcher.name_drift import HostedNameDriftResult
 from scripts.upstream_watcher.readonly_issue_port import ReadOnlyIssuePort
 from scripts.upstream_watcher.weekly_effect import FakeIssueService
 from scripts.upstream_watcher.weekly_collector import CollectedPoll
@@ -86,6 +87,9 @@ class CensusScope:
     delta_status: str = "unknown"
     canonical_removals: tuple[str, ...] = ()
     hold_reason: str | None = None
+    name_drift_status: str = "not-applicable"
+    name_drift_unchanged_ids: tuple[str, ...] = ()
+    name_drift_unknown: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -120,6 +124,85 @@ class WeeklyCensus:
 
 _TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,127}\Z")
 _EMPTY_PROJECTION = (None, None, None, None, (), (), (), ())
+
+
+def _validate_hosted_name_drift(
+    result: Any,
+    authority: Mapping[str, dict[str, Any]],
+) -> tuple[bool, str, tuple[str, ...], tuple[tuple[str, str], ...]]:
+    """Validate hosted-only ``HostedNameDriftResult`` against local authority and allowlisted codes."""
+    nd = getattr(result, "name_drift_result", None)
+    if nd is None:
+        return True, "not-applicable", (), ()
+    if type(nd) is not HostedNameDriftResult:
+        return False, "unknown", (), ()
+    meta = authority.get(result.named_id)
+    if not isinstance(meta, dict):
+        return False, "unknown", (), ()
+    components = set(meta.get("suiteComponents") or [])
+    if (
+        not isinstance(nd.verified_unchanged, tuple)
+        or not isinstance(nd.verified_drift, tuple)
+        or not isinstance(nd.unknown, tuple)
+    ):
+        return False, "unknown", (), ()
+    if (
+        len(nd.verified_unchanged) > envelope.MAX_ROWS
+        or len(nd.verified_drift) > envelope.MAX_ROWS
+        or len(nd.unknown) > envelope.MAX_ROWS
+    ):
+        return False, "unknown", (), ()
+    unchanged_set: set[str] = set()
+    for ident in nd.verified_unchanged:
+        if (
+            not isinstance(ident, str)
+            or ident not in components
+            or not envelope.IDENTIFIER.fullmatch(ident)
+            or ident in unchanged_set
+        ):
+            return False, "unknown", (), ()
+        unchanged_set.add(ident)
+    drift_set: set[str] = set()
+    for ident in nd.verified_drift:
+        if (
+            not isinstance(ident, str)
+            or ident not in components
+            or not envelope.IDENTIFIER.fullmatch(ident)
+            or ident in drift_set
+            or ident in unchanged_set
+        ):
+            return False, "unknown", (), ()
+        drift_set.add(ident)
+    unknown_pairs: list[tuple[str, str]] = []
+    seen_unknown: set[str] = set()
+    for pair in nd.unknown:
+        if not isinstance(pair, tuple) or len(pair) != 2:
+            return False, "unknown", (), ()
+        ident, code = pair
+        if (
+            not isinstance(code, str)
+            or code not in watcher_name_drift.HOSTED_NAME_DRIFT_UNKNOWN_REASONS
+            or not isinstance(ident, str)
+            or ident in seen_unknown
+            or ident in unchanged_set
+            or ident in drift_set
+        ):
+            return False, "unknown", (), ()
+        if ident != "?" and (ident not in components or not envelope.IDENTIFIER.fullmatch(ident)):
+            return False, "unknown", (), ()
+        seen_unknown.add(ident)
+        unknown_pairs.append((ident, code))
+    if not unknown_pairs and (unchanged_set | drift_set) != components:
+        return False, "unknown", (), ()
+    if isinstance(result.finding, dict):
+        finding_drift_ids = {
+            row.get("skillId")
+            for row in (result.finding.get("nameDrift") or [])
+            if isinstance(row, dict)
+        }
+        if finding_drift_ids != drift_set:
+            return False, "unknown", (), ()
+    return True, nd.status, tuple(sorted(unchanged_set)), tuple(sorted(unknown_pairs))
 
 
 def _safe_release_projection(result, authority, accepted):
@@ -305,12 +388,15 @@ def _run_weekly_census_impl(
 
     invalid_observed_ids: set[str] = set()
     valid_observed_findings: list[dict[str, Any]] = []
+    validated_name_drift: dict[str, tuple[str, tuple[str, ...], tuple[tuple[str, str], ...]]] = {}
     for item in collected.results:
         if item.status != "observed":
             continue
-        if _safe_release_projection(item, authority, True) == _EMPTY_PROJECTION:
+        nd_ok, nd_status, nd_unchanged, nd_unknown = _validate_hosted_name_drift(item, authority)
+        if not nd_ok or _safe_release_projection(item, authority, True) == _EMPTY_PROJECTION:
             invalid_observed_ids.add(item.named_id)
         else:
+            validated_name_drift[item.named_id] = (nd_status, nd_unchanged, nd_unknown)
             valid_observed_findings.append(item.finding)
 
     # reader is already validated by run_weekly_census / run_hosted_weekly_census.
@@ -338,9 +424,18 @@ def _run_weekly_census_impl(
         and item.finding.get("mode") == "components"
         and item.named_id not in verified_inv_ids
     }
+    incomplete_name_drift_ids = {
+        item.named_id
+        for item in collected.results
+        if item.status == "observed"
+        and item.named_id not in invalid_observed_ids
+        and item.named_id in validated_name_drift
+        and validated_name_drift[item.named_id][0] == "unknown"
+    }
+    incomplete_proof_ids = incomplete_component_ids | incomplete_name_drift_ids
     poll_for_binding = (
-        dataclasses.replace(poll, held_named_ids=poll.held_named_ids | frozenset(incomplete_component_ids))
-        if incomplete_component_ids
+        dataclasses.replace(poll, held_named_ids=poll.held_named_ids | frozenset(incomplete_proof_ids))
+        if incomplete_proof_ids
         else poll
     )
 
@@ -418,7 +513,7 @@ def _run_weekly_census_impl(
                 decision = "held-repository-scope"
             else:
                 decision = "same-version" if same_version_ok else "no-visible-latest-release"
-        elif result.status in {"unknown", "up-to-date"} or result.named_id in invalid_observed_ids or result.named_id in incomplete_component_ids:
+        elif result.status in {"unknown", "up-to-date"} or result.named_id in invalid_observed_ids or result.named_id in incomplete_proof_ids:
             decision = "unknown"
         elif result.named_id in held_named_set:
             decision = "held-named-scope"
@@ -451,7 +546,7 @@ def _run_weekly_census_impl(
         if (not accepted and commit.reduction.status == "applied" and planned is not None
                 and result.named_id not in invalid_observed_ids
                 and (result.repository in held_repo_set or result.named_id in held_named_set
-                     or result.named_id in incomplete_component_ids)
+                     or result.named_id in incomplete_proof_ids)
                 and not any(r.named_id == result.named_id for r in commit.reduction.rejected_observations)):
             try:
                 pr, pn, _, pv = weekly_reducer._validate_planned_finding(planned, authority)
@@ -513,10 +608,20 @@ def _run_weekly_census_impl(
             hold_reason = "held-repository-scope"
         elif result.named_id in incomplete_component_ids:
             hold_reason = "incomplete-tree"
+        elif result.named_id in incomplete_name_drift_ids:
+            hold_reason = "incomplete-name-drift"
         elif decision == "hold":
             hold_reason = "non-flush-window"
         else:
             hold_reason = None
+        if result.named_id in invalid_observed_ids:
+            nd_status, nd_unchanged, nd_unknown = "unknown", (), ()
+        elif same_version_ok or no_visible_latest_ok or result.status != "observed":
+            nd_status, nd_unchanged, nd_unknown = "not-applicable", (), ()
+        else:
+            nd_status, nd_unchanged, nd_unknown = validated_name_drift.get(
+                result.named_id, ("not-applicable", (), ())
+            )
         if same_version_ok and isinstance(result.finding, dict):
             current_version = result.finding.get("currentVersion")
             version = result.finding.get("newVersion")
@@ -541,13 +646,14 @@ def _run_weekly_census_impl(
             result.named_id, result.repository, collection_status, proof, decision,
             current_version, version, source, released, delta, inventory, liveness, drift_ids,
             version_status, delta_status, removals, hold_reason,
+            nd_status, nd_unchanged, nd_unknown,
         ))
 
     repo_statuses = tuple((repo, item.status) for repo, item in sorted(bound.repositories.items()))
     global_unknown = (planner_code != 0 or bool(report.get("unknownEvidence"))
                       or bool(collected.unknown_evidence)
                       or bool(invalid_observed_ids)
-                      or bool(incomplete_component_ids)
+                      or bool(incomplete_proof_ids)
                       or commit.reduction.status != "applied"
                       or bool(commit.reduction.rejected_observations)
                       or any(item.status in {"ambiguous", "declined", "incomplete"}

@@ -44,6 +44,7 @@ from scripts.upstream_watcher import envelope, finder, liveness as watcher_liven
 from scripts.upstream_watcher.approval import PayloadError
 from scripts.upstream_watcher.live import GhError, SuiteUnavailable, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import ComponentTreeEnumeration
+from scripts.upstream_watcher.name_drift import HostedNameDriftResult
 from scripts.upstream_watcher.readonly_issue_port import HostedUpstreamClient
 from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 from scripts.upstream_watcher.weekly_reducer import (
@@ -68,6 +69,7 @@ class SuiteCollectionResult:
     unavailable_reason: str | None = None
     error_detail: str | None = None
     release_status: str | None = None
+    name_drift_result: HostedNameDriftResult | None = None
 
 
 @dataclass(frozen=True)
@@ -214,6 +216,54 @@ _APPROVED_RELEASE_PROOF_UNKNOWN_REASONS = frozenset({
     "missing-release-body",
     "release-proof-finding-mismatch",
     "unexpected-release-proof-status",
+    "invalid-tag-tree-repository",
+    "invalid-tag-tree-tag",
+    "tag-ref-fetch-failed",
+    "tag-ref-redirect",
+    "tag-ref-not-found",
+    "tag-ref-non-200",
+    "tag-ref-malformed",
+    "tag-ref-namespace-mismatch",
+    "tag-ref-url-mismatch",
+    "tag-ref-unexpected-pagination",
+    "tag-ref-invalid-object-type",
+    "tag-ref-invalid-object-sha",
+    "tag-ref-object-url-mismatch",
+    "tag-object-fetch-failed",
+    "tag-object-redirect",
+    "tag-object-not-found",
+    "tag-object-non-200",
+    "tag-object-malformed",
+    "tag-object-sha-mismatch",
+    "tag-object-url-mismatch",
+    "tag-object-unexpected-pagination",
+    "tag-object-name-mismatch",
+    "tag-object-invalid-target-type",
+    "tag-object-invalid-target-sha",
+    "tag-object-target-url-mismatch",
+    "tag-peel-cycle",
+    "tag-peel-depth-exceeded",
+    "commit-fetch-failed",
+    "commit-redirect",
+    "commit-not-found",
+    "commit-non-200",
+    "commit-malformed",
+    "commit-sha-mismatch",
+    "commit-url-mismatch",
+    "commit-unexpected-pagination",
+    "commit-invalid-tree-sha",
+    "commit-tree-url-mismatch",
+    "tree-fetch-failed",
+    "tree-redirect",
+    "tree-not-found",
+    "tree-non-200",
+    "tree-malformed",
+    "tree-sha-mismatch",
+    "tree-url-mismatch",
+    "tree-unexpected-pagination",
+    "tree-truncated",
+    "tag-ref-recheck-failed",
+    "tag-ref-changed",
 })
 
 
@@ -230,7 +280,7 @@ def _collect_suite_hosted(
     fm: dict[str, Any],
     authority: Mapping[str, dict[str, Any]],
     upstream_client: HostedUpstreamClient,
-) -> tuple[str, dict[str, Any] | None, ComponentTreeEnumeration | None, str | None]:
+) -> tuple[str, dict[str, Any] | None, ComponentTreeEnumeration | None, str | None, HostedNameDriftResult | None]:
     """Hosted read-only poll path using ``HostedUpstreamClient`` + ``classify_release_proof``."""
     if type(upstream_client) is not HostedUpstreamClient:
         raise PayloadError("hosted collector requires exact HostedUpstreamClient")
@@ -253,13 +303,13 @@ def _collect_suite_hosted(
         repo_metadata_response=meta_obs,
     )
     if proof.status == "unknown":
-        return "unknown", None, None, _sanitize_release_proof_unknown_reason(proof.reason)
+        return "unknown", None, None, _sanitize_release_proof_unknown_reason(proof.reason), None
     if proof.status == "unavailable":
         raise SuiteUnavailable(proof.reason, reason="permanent")
     if proof.status == "no-visible-latest-release":
-        return "no-visible-latest-release", None, None, None
+        return "no-visible-latest-release", None, None, None, None
     if proof.status != "observed":
-        return "unknown", None, None, "unexpected-release-proof-status"
+        return "unknown", None, None, "unexpected-release-proof-status", None
 
     if proof.relation == "same-version":
         return (
@@ -273,17 +323,18 @@ def _collect_suite_hosted(
             },
             None,
             None,
+            None,
         )
 
     if not isinstance(latest_obs.body, Mapping):
-        return "unknown", None, None, "missing-release-body"
+        return "unknown", None, None, "missing-release-body", None
     finding = finder.compute_finding(fm, dict(latest_obs.body))
     if (
         not isinstance(finding, dict)
         or finding.get("newVersion") != proof.release_version
         or finding.get("sourceUrl") != proof.release_source
     ):
-        return "unknown", None, None, "release-proof-finding-mismatch"
+        return "unknown", None, None, "release-proof-finding-mismatch", None
 
     registry_map = dict(authority)
     mode = finder.detect_mode(fm, registry_map)
@@ -292,15 +343,24 @@ def _collect_suite_hosted(
     components = fm.get("suiteComponents") or []
     component_root = fm.get("upstreamComponentRoot") or "skills"
     enumeration: ComponentTreeEnumeration | None = None
+    drift_result: HostedNameDriftResult | None = None
     if finding["finding_type"] == "update" and mode == "components":
-        enumeration = watcher_liveness.enumerate_component_tree(
-            owner,
-            repo,
-            new_version,
-            component_root,
-            components,
-            fetch_json_fn=upstream_client.fetch_json,
-        )
+        tree_proof = upstream_client.fetch_verified_tag_tree(owner, repo, new_version)
+        if not tree_proof.ok or tree_proof.tree_data is None or tree_proof.tree_sha is None:
+            return "unknown", None, None, _sanitize_release_proof_unknown_reason(tree_proof.reason), None
+        try:
+            enumeration = watcher_liveness.enumerate_component_tree_from_verified_data(
+                owner,
+                repo,
+                new_version,
+                component_root,
+                components,
+                tree_data=tree_proof.tree_data,
+                expected_tree_sha=tree_proof.tree_sha,
+            )
+        except UnknownEvidenceError as exc:
+            reason = _sanitize_release_proof_unknown_reason(str(exc))
+            return "unknown", None, None, reason if reason != "unknown-evidence" else "tree-malformed", None
         finding["componentAdds"] = list(enumeration.adds)
         finding["componentRemoves"] = list(enumeration.removes)
         live_rows = watcher_liveness.check_component_liveness(
@@ -312,18 +372,19 @@ def _collect_suite_hosted(
         finding["linkLivenessUnknown"] = sorted(
             row["skillId"] for row in live_rows if row["status"] == "network_error"
         )
-        finding["nameDrift"] = name_drift.check_name_drift(
+        drift_result = name_drift.check_name_drift_hosted(
             components,
             registry_map,
             fetch_text_fn=upstream_client.fetch_text,
         )
+        finding["nameDrift"] = [{"skillId": comp_id} for comp_id in drift_result.verified_drift]
     else:
         finding["componentAdds"] = []
         finding["componentRemoves"] = []
         finding["linkLiveness"] = []
         finding["linkLivenessUnknown"] = []
         finding["nameDrift"] = []
-    return "observed", finding, enumeration, None
+    return "observed", finding, enumeration, None, drift_result
 
 
 def collect_suite_observation(
@@ -362,9 +423,10 @@ def collect_suite_observation(
 
     auth_repo = _authority_repo_safe(named_id, authority)
 
+    drift_result: HostedNameDriftResult | None = None
     try:
         if upstream_client is not None:
-            rel_status, finding, enumeration, hosted_reason = _collect_suite_hosted(
+            rel_status, finding, enumeration, hosted_reason, drift_result = _collect_suite_hosted(
                 copy.deepcopy(dict(fm)),
                 authority,
                 upstream_client,
@@ -439,6 +501,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason=str(exc),
+            name_drift_result=drift_result,
         )
 
     try:
@@ -452,6 +515,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason=str(exc),
+            name_drift_result=drift_result,
         )
 
     observed["upstreamComponentRoot"] = auth_root
@@ -465,6 +529,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason="bootstrap-finding",
+            name_drift_result=drift_result,
         )
     if observed.get("mode") != "components":
         return SuiteCollectionResult(
@@ -475,6 +540,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason="non-component-mode",
+            name_drift_result=drift_result,
         )
     if enumeration is None:
         return SuiteCollectionResult(
@@ -485,6 +551,7 @@ def collect_suite_observation(
             enumeration=None,
             complete_inventory=None,
             proof_reason="missing-tree-enumeration",
+            name_drift_result=drift_result,
         )
     if (
         not enumeration.complete
@@ -501,6 +568,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason=enumeration.proof_reason or "incomplete-tree-enumeration",
+            name_drift_result=drift_result,
         )
     if enumeration.component_root != auth_root:
         return SuiteCollectionResult(
@@ -511,6 +579,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason="component-root-mismatch",
+            name_drift_result=drift_result,
         )
 
     candidate = ScopedCompleteInventory(
@@ -542,6 +611,7 @@ def collect_suite_observation(
             enumeration=enumeration,
             complete_inventory=None,
             proof_reason=inv_reason or "inventory-qualification-failed",
+            name_drift_result=drift_result,
         )
 
     return SuiteCollectionResult(
@@ -552,6 +622,7 @@ def collect_suite_observation(
         enumeration=enumeration,
         complete_inventory=candidate,
         proof_reason=None,
+        name_drift_result=drift_result,
     )
 
 

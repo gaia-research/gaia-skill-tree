@@ -15,10 +15,12 @@ from urllib.request import OpenerDirector
 import pytest
 import yaml
 
+from scripts.lib.github_api import GitHubFetchError
 from scripts.upstream_watcher import (
     batch,
     envelope,
     hosted_census,
+    name_drift,
     readonly_issue_port as rip,
     weekly_census,
     weekly_collector,
@@ -600,16 +602,70 @@ def test_hosted_census_e2e_planner_reducer_binder_holds_and_redaction(tmp_path: 
             if path == "/repos/obra/superpowers/releases/latest":
                 return 200, json.dumps({
                     "tag_name": "v1.1.0",
+                    "target_commitish": "9" * 40,  # must never be used as commit proof
                     "published_at": "2026-11-23T08:00:00Z",
                     "html_url": "https://github.com/obra/superpowers/releases/tag/v1.1.0",
+                }), {}
+            if path == "/repos/obra/superpowers/git/ref/tags/v1.1.0":
+                return 200, json.dumps({
+                    "ref": "refs/tags/v1.1.0",
+                    "url": "https://api.github.com/repos/obra/superpowers/git/refs/tags/v1.1.0",
+                    "object": {
+                        "type": "commit",
+                        "sha": "1" * 40,
+                        "url": f"https://api.github.com/repos/obra/superpowers/git/commits/{'1' * 40}",
+                    },
+                }), {}
+            if path == f"/repos/obra/superpowers/git/commits/{'1' * 40}":
+                return 200, json.dumps({
+                    "sha": "1" * 40,
+                    "url": f"https://api.github.com/repos/obra/superpowers/git/commits/{'1' * 40}",
+                    "tree": {
+                        "sha": "a" * 40,
+                        "url": f"https://api.github.com/repos/obra/superpowers/git/trees/{'a' * 40}",
+                    },
                 }), {}
             if path == "/repos/hikari9/auto-office/releases/latest":
                 return 200, json.dumps({
                     "tag_name": "v1.1.0",
+                    "target_commitish": "8" * 40,  # must never be used as commit proof
                     "published_at": "2026-11-23T08:00:00Z",
                     "html_url": "https://github.com/hikari9/auto-office/releases/tag/v1.1.0",
                 }), {}
-            if path in ("/repos/obra/superpowers/git/trees/v1.1.0", "/repos/hikari9/auto-office/git/trees/v1.1.0"):
+            if path == "/repos/hikari9/auto-office/git/ref/tags/v1.1.0":
+                return 200, json.dumps({
+                    "ref": "refs/tags/v1.1.0",
+                    "url": "https://api.github.com/repos/hikari9/auto-office/git/refs/tags/v1.1.0",
+                    "object": {
+                        "type": "tag",
+                        "sha": "2" * 40,
+                        "url": f"https://api.github.com/repos/hikari9/auto-office/git/tags/{'2' * 40}",
+                    },
+                }), {}
+            if path == f"/repos/hikari9/auto-office/git/tags/{'2' * 40}":
+                return 200, json.dumps({
+                    "sha": "2" * 40,
+                    "tag": "v1.1.0",
+                    "url": f"https://api.github.com/repos/hikari9/auto-office/git/tags/{'2' * 40}",
+                    "object": {
+                        "type": "commit",
+                        "sha": "3" * 40,
+                        "url": f"https://api.github.com/repos/hikari9/auto-office/git/commits/{'3' * 40}",
+                    },
+                }), {}
+            if path == f"/repos/hikari9/auto-office/git/commits/{'3' * 40}":
+                return 200, json.dumps({
+                    "sha": "3" * 40,
+                    "url": f"https://api.github.com/repos/hikari9/auto-office/git/commits/{'3' * 40}",
+                    "tree": {
+                        "sha": "a" * 40,
+                        "url": f"https://api.github.com/repos/hikari9/auto-office/git/trees/{'a' * 40}",
+                    },
+                }), {}
+            if path in (
+                f"/repos/obra/superpowers/git/trees/{'a' * 40}",
+                f"/repos/hikari9/auto-office/git/trees/{'a' * 40}",
+            ) and q.get("recursive") == "1":
                 return 200, json.dumps({
                     "sha": "a" * 40,
                     "truncated": False,
@@ -667,10 +723,11 @@ def test_hosted_census_e2e_planner_reducer_binder_holds_and_redaction(tmp_path: 
     }
 
     # Monday flush window so good finding flows through planner -> reducer -> binder
+    up_opener = _FakeOpener(_make_e2e_handler())
     receipt = hosted_census.run_hosted_census(
         scope_path=SCOPE_PATH,
         issue_port=rip.ReadOnlyIssuePort(repo, "tok", opener=_FakeOpener(_make_e2e_handler())),
-        upstream_client=rip.HostedUpstreamClient(opener=_FakeOpener(_make_e2e_handler())),
+        upstream_client=rip.HostedUpstreamClient(opener=up_opener),
         registry_root=reg_dir,
         index_loader=lambda: {"byId": {}, "bySlug": {}},
         historical_loader=_historical_loader,
@@ -678,6 +735,8 @@ def test_hosted_census_e2e_planner_reducer_binder_holds_and_redaction(tmp_path: 
         now=dt.datetime(2026, 11, 23, 9, 0, 0, tzinfo=dt.timezone.utc),
         provenance_env=prov_env,
     )
+    assert not any("/git/trees/v1.1.0" in url for _, url, _, _ in up_opener.requests)
+    assert "tag-ref-recheck-not-atomic-or-immutable" in receipt["constraints"]
     assert receipt["status"] == "scoped-holds-or-unavailable"
     assert receipt["actualCreates"] == 0
     assert receipt["actualUpdates"] == 0
@@ -697,9 +756,15 @@ def test_hosted_census_e2e_planner_reducer_binder_holds_and_redaction(tmp_path: 
     assert by_id["obra/superpowers"]["collectionStatus"] == "observed"
     assert by_id["obra/superpowers"]["inventoryStatus"] == "verified"
     assert by_id["obra/superpowers"]["decision"] == "eligible-for-read-only-binding"
+    assert by_id["obra/superpowers"]["nameDriftStatus"] == "verified"
+    assert by_id["obra/superpowers"]["nameDriftCount"] == 0
+    assert by_id["obra/superpowers"]["nameDriftVerifiedUnchangedCount"] == 1
+    assert by_id["obra/superpowers"]["nameDriftVerifiedDriftCount"] == 0
+    assert by_id["obra/superpowers"]["nameDriftUnknownCount"] == 0
     assert by_id["hikari9/auto-office"]["collectionStatus"] == "observed"
     assert by_id["hikari9/auto-office"]["inventoryStatus"] == "verified"
     assert by_id["hikari9/auto-office"]["decision"] == "held-repository-scope"
+    assert by_id["hikari9/auto-office"]["nameDriftStatus"] == "verified"
     assert by_id["leonxlnx/taste-skill"]["collectionStatus"] == "no-visible-latest-release"
     assert by_id["garrytan/gbrain"]["collectionStatus"] == "same-version"
 
@@ -913,3 +978,471 @@ def test_preflight_baseline_scope_and_raw_event_strictness(tmp_path: Path) -> No
             "inputs": good_inputs,
         }), encoding="utf-8")
         hosted_census.validate_raw_event_payload(ev)
+
+
+def test_hosted_name_drift_redaction_verification_and_mixed_scopes(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    malformed_sentinel = "MALFORMED_YAML_SENTINEL_9a8b7c"
+    upstream_name_sentinel = "SENTINEL_UPSTREAM_DRIFT_NAME_4d5e6f"
+    comp_map = {
+        "owner/base-comp": {
+            "id": "owner/base-comp",
+            "links": {"github": "https://github.com/owner/repo/blob/main/skills/base-comp/SKILL.md"},
+        },
+    }
+
+    # 1. Verified unchanged (reusing sanitize_name) vs verified drift
+    res_match = name_drift.check_name_drift_hosted(
+        ["owner/base-comp"],
+        comp_map,
+        fetch_text_fn=lambda _u: "---\nname: Base Comp\n---\n",
+    )
+    assert res_match.complete is True
+    assert res_match.status == "verified"
+    assert res_match.verified_unchanged == ("owner/base-comp",)
+    assert res_match.verified_drift == ()
+    assert res_match.unknown == ()
+
+    res_drift = name_drift.check_name_drift_hosted(
+        ["owner/base-comp"],
+        comp_map,
+        fetch_text_fn=lambda _u: f"---\nname: {upstream_name_sentinel}\n---\n",
+    )
+    assert res_drift.complete is True
+    assert res_drift.verified_unchanged == ()
+    assert res_drift.verified_drift == ("owner/base-comp",)
+    assert res_drift.unknown == ()
+    assert upstream_name_sentinel not in repr(res_drift)
+
+    # 2. Malformed frontmatter, missing/unreadable, non-string name, alias bomb, duplicate keys
+    for payload, expected_code in (
+        (None, "fetch-failed"),
+        ("no frontmatter here", "missing-frontmatter"),
+        (f"---\nname: [unterminated {malformed_sentinel}\n---\n", "malformed-frontmatter"),
+        ("---\ndescription: only\n---\n", "missing-upstream-name"),
+        ("---\nname: 12345\n---\n", "invalid-upstream-name"),
+        ("---\nname: true\n---\n", "invalid-upstream-name"),
+        ("---\na: &a [x]\nname: *a\n---\n", "malformed-frontmatter"),
+        ("---\nname: base-comp\nname: other\n---\n", "malformed-frontmatter"),
+    ):
+        res_bad = name_drift.check_name_drift_hosted(
+            ["owner/base-comp"],
+            comp_map,
+            fetch_text_fn=lambda _u, p=payload: p,
+        )
+        assert res_bad.complete is False
+        assert res_bad.status == "unknown"
+        assert res_bad.verified_unchanged == ()
+        assert res_bad.verified_drift == ()
+        assert res_bad.unknown == (("owner/base-comp", expected_code),)
+    captured_unit = capsys.readouterr()
+    assert captured_unit.out == ""
+    assert captured_unit.err == ""
+    assert malformed_sentinel not in captured_unit.out + captured_unit.err
+
+    # 3. Ordinary offline check_name_drift contract preserved unchanged
+    ordinary = name_drift.check_name_drift(
+        ["owner/base-comp"],
+        comp_map,
+        fetch_text_fn=lambda _u: "---\nname: Other Name\n---\n",
+    )
+    assert ordinary == [{
+        "skillId": "owner/base-comp",
+        "registrySlug": "base-comp",
+        "upstreamName": "Other Name",
+        "sanitizedName": "other-name",
+        "fixCommand": "gaia dev rename owner/base-comp owner/other-name",
+    }]
+
+    # 4. Combined good scope (verified drift) + incomplete scope (malformed frontmatter with sentinel)
+    #    + qualifying knownLegacyHold preserved, zero sentinel/upstream-name/instruction leakage
+    authority, _ = _scope_authority()
+    repo = "gaia-research/gaia-skill-tree"
+    node_id = "R_kgDO100"
+    legacy_payload = envelope.seal({
+        "payloadVersion": 2,
+        "skillId": "hikari9/auto-office",
+        "newVersion": "v0.9.0",
+        "releasedAt": "2026-10-01T00:00:00Z",
+        "sourceUrl": "https://github.com/hikari9/legacy-auto-office/releases/tag/v0.9.0",
+        "mode": "components",
+        "componentAdds": [],
+        "componentRemoves": [],
+        "linkLiveness": [],
+        "nameDrift": [],
+        "candidates": [],
+    })
+    legacy_issue = {
+        "number": 1833,
+        "state": "open",
+        "title": "[upstream] hikari9/legacy-auto-office → v0.9.0",
+        "labels": [{"name": "upstream:release"}],
+        "updated_at": "2026-11-01T00:00:00Z",
+        "body": batch.payload_block(legacy_payload),
+    }
+
+    def _historical_loader(identifier: str) -> dict[str, Any]:
+        if identifier == "hikari9/auto-office":
+            return {
+                "hikari9/auto-office": {
+                    "id": "hikari9/auto-office",
+                    "links": {"github": "https://github.com/hikari9/legacy-auto-office"},
+                    "upstream": {"repo": "hikari9/legacy-auto-office", "version": "v0.8.0"},
+                }
+            }
+        return {}
+
+    def mixed_handler(method: str, url: str, _h: dict[str, str], data: bytes | None) -> tuple[int, str, dict[str, str]]:
+        path, q = _parse_url(url)
+        if path == f"/repos/{repo}":
+            return 200, json.dumps({"id": 100, "node_id": node_id, "full_name": repo, "open_issues_count": 1}), {}
+        if method == "POST" and path == "/graphql":
+            gql = json.loads(data.decode("utf-8"))
+            if "states:OPEN" in gql["query"]:
+                return 200, _gql_repo_response(node_id, repo, 1, 0), {}
+            return 200, _gql_repo_response(node_id, repo, 0, 0), {}
+        if path == f"/repos/{repo}/issues":
+            if q.get("state") == "open" and q.get("page") == "1" and "after" not in q:
+                return 200, json.dumps([legacy_issue]), {}
+            return 200, "[]", {}
+        if path in ("/repos/obra/superpowers/releases/latest", "/repos/hikari9/auto-office/releases/latest"):
+            rp = path[len("/repos/"):-len("/releases/latest")]
+            return 200, json.dumps({
+                "tag_name": "v1.1.0",
+                "published_at": "2026-11-23T08:00:00Z",
+                "html_url": f"https://github.com/{rp}/releases/tag/v1.1.0",
+            }), {}
+        if path in ("/repos/obra/superpowers/git/ref/tags/v1.1.0", "/repos/hikari9/auto-office/git/ref/tags/v1.1.0"):
+            return 200, json.dumps({
+                "ref": "refs/tags/v1.1.0",
+                "object": {"type": "commit", "sha": "1" * 40},
+            }), {}
+        if path in (
+            f"/repos/obra/superpowers/git/commits/{'1' * 40}",
+            f"/repos/hikari9/auto-office/git/commits/{'1' * 40}",
+        ):
+            return 200, json.dumps({"sha": "1" * 40, "tree": {"sha": "a" * 40}}), {}
+        if path in (
+            f"/repos/obra/superpowers/git/trees/{'a' * 40}",
+            f"/repos/hikari9/auto-office/git/trees/{'a' * 40}",
+        ) and q.get("recursive") == "1":
+            return 200, json.dumps({
+                "sha": "a" * 40,
+                "truncated": False,
+                "tree": [
+                    {"path": "skills", "type": "tree", "sha": "b" * 40},
+                    {"path": "skills/base-comp", "type": "tree", "sha": "c" * 40},
+                    {"path": "skills/base-comp/SKILL.md", "type": "blob", "sha": "d" * 40},
+                    {"path": "skills/alpha", "type": "tree", "sha": "e" * 40},
+                    {"path": "skills/alpha/SKILL.md", "type": "blob", "sha": "f" * 40},
+                ],
+            }), {}
+        if "raw.githubusercontent.com" in url:
+            if "/obra/superpowers/" in url and method == "GET":
+                return 200, f"---\nname: {upstream_name_sentinel}\n---\n", {}
+            if "/hikari9/auto-office/" in url and method == "GET":
+                return 200, f"---\nname: [unterminated {malformed_sentinel}\n---\n", {}
+            return 200, "", {}
+        if path.endswith("/releases/latest"):
+            rp = path[len("/repos/"):-len("/releases/latest")]
+            return 200, json.dumps({
+                "tag_name": "v1.0.0",
+                "published_at": "2026-11-10T00:00:00Z",
+                "html_url": f"https://github.com/{rp}/releases/tag/v1.0.0",
+            }), {}
+        raise AssertionError(f"unexpected url: {url}")
+
+    reg_dir = tmp_path / "registry_named_mixed"
+    for nid, meta in authority.items():
+        md = reg_dir / f"{nid}.md"
+        md.parent.mkdir(parents=True, exist_ok=True)
+        md.write_text(f"---\n{yaml.safe_dump(meta)}---\n", encoding="utf-8")
+
+    receipt = hosted_census.run_hosted_census(
+        scope_path=SCOPE_PATH,
+        issue_port=rip.ReadOnlyIssuePort(repo, "tok", opener=_FakeOpener(mixed_handler)),
+        upstream_client=rip.HostedUpstreamClient(opener=_FakeOpener(mixed_handler)),
+        registry_root=reg_dir,
+        index_loader=lambda: {"byId": {}, "bySlug": {}},
+        historical_loader=_historical_loader,
+        verify_historical_commit=False,
+        now=dt.datetime(2026, 11, 23, 9, 0, 0, tzinfo=dt.timezone.utc),
+        provenance_env={},
+    )
+    captured_e2e = capsys.readouterr()
+    receipt_json = json.dumps(receipt)
+    for forbidden_text in (malformed_sentinel, upstream_name_sentinel, "gaia dev rename"):
+        assert forbidden_text not in captured_e2e.out
+        assert forbidden_text not in captured_e2e.err
+        assert forbidden_text not in receipt_json
+
+    assert receipt["status"] == "unknown-incomplete"
+    assert receipt["logicalCandidateCount"] == 1
+    assert len(receipt["knownLegacyHolds"]) == 1
+    assert receipt["knownLegacyHolds"][0]["issue"] == 1833
+
+    by_id = {s["namedId"]: s for s in receipt["scopes"]}
+    assert by_id["obra/superpowers"]["decision"] == "eligible-for-read-only-binding"
+    assert by_id["obra/superpowers"]["nameDriftStatus"] == "verified"
+    assert by_id["obra/superpowers"]["nameDriftCount"] == 1
+    assert by_id["obra/superpowers"]["nameDriftVerifiedDriftCount"] == 1
+    assert by_id["obra/superpowers"]["nameDriftUnknownCount"] == 0
+
+    assert by_id["hikari9/auto-office"]["decision"] == "unknown"
+    assert by_id["hikari9/auto-office"]["nameDriftStatus"] == "unknown"
+    assert by_id["hikari9/auto-office"]["nameDriftCount"] is None
+    assert by_id["hikari9/auto-office"]["nameDriftUnknownCount"] == 1
+    assert by_id["hikari9/auto-office"]["nameDriftUnknown"] == [
+        {"namedId": "hikari9/base-comp", "reason": "malformed-frontmatter"}
+    ]
+
+
+def test_hosted_tag_tree_proof_positive_and_adversarial() -> None:
+    authority, _ = _scope_authority()
+    fm = authority["obra/superpowers"]
+    repo = "gaia-research/gaia-skill-tree"
+    tree_body = {
+        "sha": "a" * 40,
+        "truncated": False,
+        "tree": [
+            {"path": "skills", "type": "tree", "sha": "b" * 40},
+            {"path": "skills/base-comp", "type": "tree", "sha": "c" * 40},
+            {"path": "skills/base-comp/SKILL.md", "type": "blob", "sha": "d" * 40},
+            {"path": "skills/added", "type": "tree", "sha": "e" * 40},
+            {"path": "skills/added/SKILL.md", "type": "blob", "sha": "f" * 40},
+        ],
+    }
+
+    # 1. HostedUpstreamClient.fetch_json refuses tag-string tree URLs
+    tag_client = rip.HostedUpstreamClient(opener=_FakeOpener(lambda *_a: (200, "{}", {})))
+    with pytest.raises(GitHubFetchError, match="disallowed-upstream-tree-url"):
+        tag_client.fetch_json("https://api.github.com/repos/obra/superpowers/git/trees/v1.1.0?recursive=1")
+
+    # 2. Positive lightweight tag fixture (target_commitish ignored)
+    def lightweight_handler(method: str, url: str, _h: dict[str, str], _d: bytes | None) -> tuple[int, str, dict[str, str]]:
+        path, q = _parse_url(url)
+        if path == "/repos/obra/superpowers/releases/latest":
+            return 200, json.dumps({
+                "tag_name": "v1.1.0",
+                "target_commitish": "9" * 40,
+                "published_at": "2026-11-23T08:00:00Z",
+                "html_url": "https://github.com/obra/superpowers/releases/tag/v1.1.0",
+            }), {}
+        if path == "/repos/obra/superpowers/git/ref/tags/v1.1.0":
+            return 200, json.dumps({
+                "ref": "refs/tags/v1.1.0",
+                "object": {"type": "commit", "sha": "1" * 40},
+            }), {}
+        if path == f"/repos/obra/superpowers/git/commits/{'1' * 40}":
+            return 200, json.dumps({"sha": "1" * 40, "tree": {"sha": "a" * 40}}), {}
+        if path == f"/repos/obra/superpowers/git/trees/{'a' * 40}" and q.get("recursive") == "1":
+            return 200, json.dumps(tree_body), {}
+        if "raw.githubusercontent.com" in url:
+            return 200, "---\nname: base-comp\n---\n" if method == "GET" else "", {}
+        raise AssertionError(f"unexpected url: {url}")
+
+    lw_opener = _FakeOpener(lightweight_handler)
+    res_lw = weekly_collector.collect_suite_observation(
+        fm,
+        authority,
+        poll_id="p-lw",
+        upstream_client=rip.HostedUpstreamClient(opener=lw_opener),
+    )
+    assert res_lw.status == "observed"
+    assert res_lw.complete_inventory is not None
+    assert res_lw.complete_inventory.present_slugs == frozenset({"base-comp", "added"})
+    assert not any("/git/trees/v1.1.0" in u for _, u, _, _ in lw_opener.requests)
+    assert sum(1 for _, u, _, _ in lw_opener.requests if u.endswith("/git/ref/tags/v1.1.0")) == 2
+
+    # 3. Positive 2-hop annotated tag fixture
+    def annotated_handler(method: str, url: str, _h: dict[str, str], _d: bytes | None) -> tuple[int, str, dict[str, str]]:
+        path, q = _parse_url(url)
+        if path == "/repos/obra/superpowers/releases/latest":
+            return 200, json.dumps({
+                "tag_name": "v1.1.0",
+                "published_at": "2026-11-23T08:00:00Z",
+                "html_url": "https://github.com/obra/superpowers/releases/tag/v1.1.0",
+            }), {}
+        if path == "/repos/obra/superpowers/git/ref/tags/v1.1.0":
+            return 200, json.dumps({
+                "ref": "refs/tags/v1.1.0",
+                "object": {"type": "tag", "sha": "2" * 40},
+            }), {}
+        if path == f"/repos/obra/superpowers/git/tags/{'2' * 40}":
+            return 200, json.dumps({
+                "sha": "2" * 40,
+                "tag": "v1.1.0",
+                "object": {"type": "tag", "sha": "3" * 40},
+            }), {}
+        if path == f"/repos/obra/superpowers/git/tags/{'3' * 40}":
+            return 200, json.dumps({
+                "sha": "3" * 40,
+                "tag": "v1.1.0-inner",
+                "object": {"type": "commit", "sha": "4" * 40},
+            }), {}
+        if path == f"/repos/obra/superpowers/git/commits/{'4' * 40}":
+            return 200, json.dumps({"sha": "4" * 40, "tree": {"sha": "a" * 40}}), {}
+        if path == f"/repos/obra/superpowers/git/trees/{'a' * 40}" and q.get("recursive") == "1":
+            return 200, json.dumps(tree_body), {}
+        if "raw.githubusercontent.com" in url:
+            return 200, "---\nname: base-comp\n---\n" if method == "GET" else "", {}
+        raise AssertionError(f"unexpected url: {url}")
+
+    ann_opener = _FakeOpener(annotated_handler)
+    res_ann = weekly_collector.collect_suite_observation(
+        fm,
+        authority,
+        poll_id="p-ann",
+        upstream_client=rip.HostedUpstreamClient(opener=ann_opener),
+    )
+    assert res_ann.status == "observed"
+    assert res_ann.complete_inventory is not None
+    assert not any("/git/trees/v1.1.0" in u for _, u, _, _ in ann_opener.requests)
+
+    # 4. Negative cases: mismatched tree, changing ref, malformed/contradictory annotated hops, wrong namespace
+    def _run_negative(mode: str, expected_reason: str) -> None:
+        ref_reads = [0]
+
+        def neg_handler(method: str, url: str, _h: dict[str, str], _d: bytes | None) -> tuple[int, str, dict[str, str]]:
+            path, q = _parse_url(url)
+            assert "/git/trees/v1.1.0" not in path
+            assert "evil.example" not in url
+            if path == "/repos/obra/superpowers/releases/latest":
+                return 200, json.dumps({
+                    "tag_name": "v1.1.0",
+                    "published_at": "2026-11-23T08:00:00Z",
+                    "html_url": "https://github.com/obra/superpowers/releases/tag/v1.1.0",
+                }), {}
+            if path == "/repos/obra/superpowers/git/ref/tags/v1.1.0":
+                ref_reads[0] += 1
+                if mode == "wrong-namespace":
+                    return 200, json.dumps({
+                        "ref": "refs/heads/v1.1.0",
+                        "object": {"type": "commit", "sha": "1" * 40},
+                    }), {}
+                if mode == "foreign-obj-url":
+                    return 200, json.dumps({
+                        "ref": "refs/tags/v1.1.0",
+                        "object": {
+                            "type": "commit",
+                            "sha": "1" * 40,
+                            "url": f"https://evil.example/repos/obra/superpowers/git/commits/{'1' * 40}",
+                        },
+                    }), {}
+                if mode == "changing-ref":
+                    sha = "1" * 40 if ref_reads[0] == 1 else "9" * 40
+                    return 200, json.dumps({
+                        "ref": "refs/tags/v1.1.0",
+                        "object": {"type": "commit", "sha": sha},
+                    }), {}
+                if mode.startswith("ann-"):
+                    return 200, json.dumps({
+                        "ref": "refs/tags/v1.1.0",
+                        "object": {"type": "tag", "sha": "2" * 40},
+                    }), {}
+                return 200, json.dumps({
+                    "ref": "refs/tags/v1.1.0",
+                    "object": {"type": "commit", "sha": "1" * 40},
+                }), {}
+            if path.startswith("/repos/obra/superpowers/git/tags/"):
+                req_sha = path.rsplit("/", 1)[-1]
+                if mode == "ann-wrong-name":
+                    return 200, json.dumps({
+                        "sha": req_sha,
+                        "tag": "v9.9.9",
+                        "object": {"type": "commit", "sha": "1" * 40},
+                    }), {}
+                if mode == "ann-sha-mismatch":
+                    return 200, json.dumps({
+                        "sha": "7" * 40,
+                        "tag": "v1.1.0",
+                        "object": {"type": "commit", "sha": "1" * 40},
+                    }), {}
+                if mode == "ann-invalid-target-type":
+                    return 200, json.dumps({
+                        "sha": req_sha,
+                        "tag": "v1.1.0",
+                        "object": {"type": "tree", "sha": "a" * 40},
+                    }), {}
+                if mode == "ann-cycle":
+                    return 200, json.dumps({
+                        "sha": req_sha,
+                        "tag": "v1.1.0",
+                        "object": {"type": "tag", "sha": req_sha},
+                    }), {}
+                if mode == "ann-depth":
+                    next_hex = format(int(req_sha[0], 16) + 1, "x") * 40
+                    return 200, json.dumps({
+                        "sha": req_sha,
+                        "tag": "v1.1.0",
+                        "object": {"type": "tag", "sha": next_hex},
+                    }), {}
+            if path == f"/repos/obra/superpowers/git/commits/{'1' * 40}":
+                return 200, json.dumps({"sha": "1" * 40, "tree": {"sha": "a" * 40}}), {}
+            if path == f"/repos/obra/superpowers/git/trees/{'a' * 40}" and q.get("recursive") == "1":
+                if mode == "mismatched-tree":
+                    return 200, json.dumps({**tree_body, "sha": "f" * 40}), {}
+                # Even if base-comp is missing from tree, changing-ref must never produce removals
+                return 200, json.dumps({
+                    "sha": "a" * 40,
+                    "truncated": False,
+                    "tree": [{"path": "skills", "type": "tree", "sha": "b" * 40}],
+                }), {}
+            if "raw.githubusercontent.com" in url:
+                # 404 link would be urgent if proof had succeeded
+                return 404, "", {}
+            raise AssertionError(f"unexpected url for {mode}: {url}")
+
+        collected = weekly_collector.collect_suites(
+            [fm],
+            authority,
+            poll_id=f"p-neg-{mode}",
+            upstream_client=rip.HostedUpstreamClient(opener=_FakeOpener(neg_handler)),
+        )
+        res = collected.results[0]
+        assert res.status == "unknown"
+        assert res.proof_reason == expected_reason
+        assert res.complete_inventory is None
+
+        def empty_inv(method: str, url: str, _h: dict[str, str], _d: bytes | None) -> tuple[int, str, dict[str, str]]:
+            p, _q = _parse_url(url)
+            if p == f"/repos/{repo}":
+                return 200, json.dumps({"id": 100, "node_id": "R_kgDO100", "full_name": repo, "open_issues_count": 0}), {}
+            if method == "POST" and p == "/graphql":
+                return 200, _gql_repo_response("R_kgDO100", repo, 0, 0), {}
+            if p == f"/repos/{repo}/issues":
+                return 200, "[]", {}
+            raise AssertionError(url)
+
+        census = weekly_census.run_hosted_weekly_census(
+            [fm],
+            authority,
+            rip.ReadOnlyIssuePort(repo, "tok", opener=_FakeOpener(empty_inv)),
+            collected,
+            poll_id=f"p-neg-{mode}",
+            observed_at="2026-11-24T09:00:00Z",  # Tuesday (only urgent could flush)
+            state_mode="ephemeral-empty",
+            config_repo=repo,
+            index_loader=lambda: {"byId": {}, "bySlug": {}},
+            policy={},
+        )
+        assert census.status == "unknown-incomplete"
+        assert census.logical_candidate_count == 0
+        assert census.scopes[0].decision == "unknown"
+        assert census.scopes[0].canonical_removals == ()
+        assert census.scopes[0].inventory_status == "unknown"
+
+    for neg_mode, exp_reason in (
+        ("mismatched-tree", "tree-sha-mismatch"),
+        ("changing-ref", "tag-ref-changed"),
+        ("wrong-namespace", "tag-ref-namespace-mismatch"),
+        ("foreign-obj-url", "tag-ref-object-url-mismatch"),
+        ("ann-wrong-name", "tag-object-name-mismatch"),
+        ("ann-sha-mismatch", "tag-object-sha-mismatch"),
+        ("ann-invalid-target-type", "tag-object-invalid-target-type"),
+        ("ann-cycle", "tag-peel-cycle"),
+        ("ann-depth", "tag-peel-depth-exceeded"),
+    ):
+        _run_negative(neg_mode, exp_reason)

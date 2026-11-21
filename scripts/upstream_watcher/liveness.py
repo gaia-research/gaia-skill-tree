@@ -37,6 +37,7 @@ from scripts.upstream_watcher.live import SuiteUnavailable, UnknownEvidenceError
 TREE_REQUEST_BUDGET = 200
 
 _SLUG_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+_GIT_SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
 _VALID_TREE_TYPES = frozenset({"blob", "tree", "commit"})
 
 
@@ -284,6 +285,31 @@ def enumerate_component_tree(
             proof_reason="tree-truncated",
         )
 
+    return _evaluate_component_tree_data(
+        tree_data,
+        owner=owner,
+        repo=repo,
+        tag=tag,
+        component_root=component_root,
+        current_components=current_components,
+        _legacy_malformed_blob_exc=_legacy_malformed_blob_exc,
+    )
+
+
+def _evaluate_component_tree_data(
+    tree_data: dict[str, Any],
+    *,
+    owner: str,
+    repo: str,
+    tag: str,
+    component_root: str,
+    current_components: list[str],
+    _legacy_malformed_blob_exc: bool = False,
+) -> ComponentTreeEnumeration:
+    """Apply component-tree topology checks and compute slug diff over a non-truncated tree payload."""
+    tree_items = tree_data["tree"]
+    raw_sha = tree_data.get("sha")
+    tree_sha = raw_sha if isinstance(raw_sha, str) and raw_sha else None
     truncated_is_false = tree_data.get("truncated") is False
     component_root_norm = component_root.strip("/")
     prefix = f"{component_root_norm}/"
@@ -435,6 +461,44 @@ def enumerate_component_tree(
         truncated=False,
         root_verified=True,
         proof_reason=None,
+    )
+
+
+def enumerate_component_tree_from_verified_data(
+    owner: str,
+    repo: str,
+    tag: str,
+    component_root: str,
+    current_components: list[str],
+    *,
+    tree_data: dict[str, Any],
+    expected_tree_sha: str,
+) -> ComponentTreeEnumeration:
+    """Hosted-only component-tree evaluation over an already-verified SHA tree payload.
+
+    Performs zero network I/O and never falls back to tag-string tree fetches.
+    Enforces exact response SHA match, non-truncated listing, and all existing
+    component-tree topology checks before claiming complete inventory proof.
+    """
+    if not isinstance(expected_tree_sha, str) or not _GIT_SHA_RE.fullmatch(expected_tree_sha):
+        raise UnknownEvidenceError("commit-invalid-tree-sha")
+    if not isinstance(tree_data, dict):
+        raise UnknownEvidenceError("tree-malformed")
+    if tree_data.get("sha") != expected_tree_sha:
+        raise UnknownEvidenceError("tree-sha-mismatch")
+    if tree_data.get("truncated") is not False:
+        raise UnknownEvidenceError("tree-truncated")
+    tree_items = tree_data.get("tree")
+    if not isinstance(tree_items, list) or any(not isinstance(item, dict) for item in tree_items):
+        raise UnknownEvidenceError("tree-malformed")
+    return _evaluate_component_tree_data(
+        tree_data,
+        owner=owner,
+        repo=repo,
+        tag=tag,
+        component_root=component_root,
+        current_components=current_components,
+        _legacy_malformed_blob_exc=False,
     )
 
 

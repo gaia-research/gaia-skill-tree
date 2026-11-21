@@ -9,9 +9,10 @@ from __future__ import annotations
 import json
 import re
 import time
+from dataclasses import dataclass
 from typing import Any, Mapping
 from urllib.error import HTTPError
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, quote, urlsplit
 from urllib.request import HTTPRedirectHandler, OpenerDirector, Request, build_opener
 
 from scripts.lib.github_api import GitHubFetchError, GitHubNotFound
@@ -51,8 +52,89 @@ _GQL_CLOSED_TOTALS = (
     "issues(states:CLOSED){totalCount} pullRequests(states:[CLOSED,MERGED]){totalCount}}}"
 )
 
-_TREE_URL_RE = re.compile(r"^/repos/[A-Za-z0-9-]+/[A-Za-z0-9_.-]+/git/trees/[^/?#]+$")
+_TREE_URL_RE = re.compile(r"^/repos/[A-Za-z0-9-]+/[A-Za-z0-9_.-]+/git/trees/[0-9a-f]{40}$")
 _RAW_PATH_RE = re.compile(r"^/[A-Za-z0-9-]+/[A-Za-z0-9_.-]+/.+$")
+_GIT_SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
+_TAG_TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,127}\Z")
+MAX_TAG_PEEL_DEPTH = 4
+
+
+@dataclass(frozen=True)
+class HostedTagTreeProof:
+    """Bracketed pinned-repository tag -> commit -> tree SHA proof for hosted reads.
+
+    Uses closed tokenless HTTPS endpoint builders and rechecks the exact tag ref
+    after listing. Does not claim immutability or atomic proof.
+    """
+
+    ok: bool
+    reason: str | None = None
+    tag: str | None = None
+    ref_type: str | None = None
+    ref_sha: str | None = None
+    commit_sha: str | None = None
+    tree_sha: str | None = None
+    tree_data: dict[str, Any] | None = None
+
+
+def _build_git_ref_tag_url(owner: str, repo: str, tag: str) -> str:
+    if not _REPO_RE.fullmatch(f"{owner}/{repo}"):
+        raise UnknownEvidenceError("invalid-tag-tree-repository")
+    if not isinstance(tag, str) or not _TAG_TOKEN_RE.fullmatch(tag):
+        raise UnknownEvidenceError("invalid-tag-tree-tag")
+    return f"{API}/repos/{quote(owner, safe='')}/{quote(repo, safe='')}/git/ref/tags/{quote(tag, safe='')}"
+
+
+def _build_git_tag_object_url(owner: str, repo: str, tag_sha: str) -> str:
+    if not _REPO_RE.fullmatch(f"{owner}/{repo}"):
+        raise UnknownEvidenceError("invalid-tag-tree-repository")
+    if not isinstance(tag_sha, str) or not _GIT_SHA_RE.fullmatch(tag_sha):
+        raise UnknownEvidenceError("tag-ref-invalid-object-sha")
+    return f"{API}/repos/{quote(owner, safe='')}/{quote(repo, safe='')}/git/tags/{tag_sha}"
+
+
+def _build_git_commit_url(owner: str, repo: str, commit_sha: str) -> str:
+    if not _REPO_RE.fullmatch(f"{owner}/{repo}"):
+        raise UnknownEvidenceError("invalid-tag-tree-repository")
+    if not isinstance(commit_sha, str) or not _GIT_SHA_RE.fullmatch(commit_sha):
+        raise UnknownEvidenceError("tag-ref-invalid-object-sha")
+    return f"{API}/repos/{quote(owner, safe='')}/{quote(repo, safe='')}/git/commits/{commit_sha}"
+
+
+def _build_git_tree_sha_url(owner: str, repo: str, tree_sha: str) -> str:
+    if not _REPO_RE.fullmatch(f"{owner}/{repo}"):
+        raise UnknownEvidenceError("invalid-tag-tree-repository")
+    if not isinstance(tree_sha, str) or not _GIT_SHA_RE.fullmatch(tree_sha):
+        raise UnknownEvidenceError("commit-invalid-tree-sha")
+    return f"{API}/repos/{quote(owner, safe='')}/{quote(repo, safe='')}/git/trees/{tree_sha}?recursive=1"
+
+
+def _validate_optional_git_url(url: Any, owner: str, repo: str, exact_suffix: str) -> bool:
+    """Validate an optional response ``url`` field against pinned origin/repo/suffix without ever following it."""
+    if url is None:
+        return True
+    if not isinstance(url, str):
+        return False
+    try:
+        parsed = _check_safe_url_basics(url, expected_host="api.github.com")
+    except GhError:
+        return False
+    if parsed.query or parsed.fragment:
+        return False
+    expected_prefix = f"/repos/{quote(owner, safe='')}/{quote(repo, safe='')}"
+    if not parsed.path[: len(expected_prefix)].casefold() == expected_prefix.casefold():
+        return False
+    return parsed.path[len(expected_prefix) :] == exact_suffix
+
+
+def _has_unexpected_pagination(headers: Mapping[str, str]) -> bool:
+    link = headers.get("link", "")
+    if not link:
+        return False
+    if len(link) > 16384:
+        return True
+    parsed = parseLinks(link)
+    return "next" in parsed or "last" in parsed
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -831,8 +913,222 @@ class HostedUpstreamClient:
             )
         return latest_obs, meta_obs
 
+    def _read_exact_tag_ref(
+        self,
+        owner: str,
+        repo: str,
+        tag: str,
+        *,
+        is_recheck: bool = False,
+    ) -> tuple[tuple[str, str] | None, str | None]:
+        """Read and validate ``GET /repos/{owner}/{repo}/git/ref/tags/{tag}``."""
+        try:
+            ref_url = _build_git_ref_tag_url(owner, repo, tag)
+        except UnknownEvidenceError as exc:
+            return None, str(exc)
+        try:
+            status, headers, body, redir = self._api_get_raw(ref_url)
+        except UnknownEvidenceError:
+            return None, "tag-ref-recheck-failed" if is_recheck else "tag-ref-fetch-failed"
+        if redir:
+            return None, "tag-ref-recheck-failed" if is_recheck else "tag-ref-redirect"
+        if status == 404:
+            return None, "tag-ref-recheck-failed" if is_recheck else "tag-ref-not-found"
+        if status != 200:
+            return None, "tag-ref-recheck-failed" if is_recheck else "tag-ref-non-200"
+        if _has_unexpected_pagination(headers):
+            return None, "tag-ref-unexpected-pagination"
+        if not isinstance(body, dict):
+            return None, "tag-ref-malformed"
+        expected_ref = f"refs/tags/{tag}"
+        if body.get("ref") != expected_ref:
+            return None, "tag-ref-namespace-mismatch"
+        encoded_tag = quote(tag, safe="")
+        valid_ref_suffixes = (
+            f"/git/refs/tags/{tag}",
+            f"/git/refs/tags/{encoded_tag}",
+            f"/git/ref/tags/{tag}",
+            f"/git/ref/tags/{encoded_tag}",
+        )
+        if "url" in body and not any(
+            _validate_optional_git_url(body.get("url"), owner, repo, suffix)
+            for suffix in valid_ref_suffixes
+        ):
+            return None, "tag-ref-url-mismatch"
+        obj = body.get("object")
+        if not isinstance(obj, dict):
+            return None, "tag-ref-malformed"
+        obj_type = obj.get("type")
+        if obj_type not in ("commit", "tag"):
+            return None, "tag-ref-invalid-object-type"
+        obj_sha = obj.get("sha")
+        if not isinstance(obj_sha, str) or not _GIT_SHA_RE.fullmatch(obj_sha):
+            return None, "tag-ref-invalid-object-sha"
+        expected_obj_suffix = f"/git/{'commits' if obj_type == 'commit' else 'tags'}/{obj_sha}"
+        if "url" in obj and not _validate_optional_git_url(obj.get("url"), owner, repo, expected_obj_suffix):
+            return None, "tag-ref-object-url-mismatch"
+        return (obj_type, obj_sha), None
+
+    def fetch_verified_tag_tree(
+        self,
+        owner: str,
+        repo: str,
+        tag: str,
+    ) -> HostedTagTreeProof:
+        """Resolve pinned-repo ``refs/tags/<tag>`` -> commit -> tree SHA -> recursive tree listing, then recheck ref.
+
+        Uses closed tokenless HTTPS endpoint builders (never dynamic URLs from
+        responses and never ``target_commitish``). Bounded peeling, pagination,
+        and time/request budget. Rechecks exact ref after listing; does not
+        claim immutability or atomic proof. Never falls back to tag-string fetch.
+        """
+        if not _REPO_RE.fullmatch(f"{owner}/{repo}"):
+            return HostedTagTreeProof(ok=False, reason="invalid-tag-tree-repository")
+        if not isinstance(tag, str) or not _TAG_TOKEN_RE.fullmatch(tag):
+            return HostedTagTreeProof(ok=False, reason="invalid-tag-tree-tag")
+
+        initial_ref, ref_err = self._read_exact_tag_ref(owner, repo, tag, is_recheck=False)
+        if ref_err is not None or initial_ref is None:
+            return HostedTagTreeProof(ok=False, reason=ref_err or "tag-ref-malformed", tag=tag)
+
+        ref_type, ref_sha = initial_ref
+        current_type, current_sha = ref_type, ref_sha
+        seen_tag_shas: set[str] = set()
+        hops = 0
+        while current_type == "tag":
+            if current_sha in seen_tag_shas:
+                return HostedTagTreeProof(ok=False, reason="tag-peel-cycle", tag=tag)
+            if hops >= MAX_TAG_PEEL_DEPTH:
+                return HostedTagTreeProof(ok=False, reason="tag-peel-depth-exceeded", tag=tag)
+            seen_tag_shas.add(current_sha)
+            tag_url = _build_git_tag_object_url(owner, repo, current_sha)
+            try:
+                status, headers, body, redir = self._api_get_raw(tag_url)
+            except UnknownEvidenceError:
+                return HostedTagTreeProof(ok=False, reason="tag-object-fetch-failed", tag=tag)
+            if redir:
+                return HostedTagTreeProof(ok=False, reason="tag-object-redirect", tag=tag)
+            if status == 404:
+                return HostedTagTreeProof(ok=False, reason="tag-object-not-found", tag=tag)
+            if status != 200:
+                return HostedTagTreeProof(ok=False, reason="tag-object-non-200", tag=tag)
+            if _has_unexpected_pagination(headers):
+                return HostedTagTreeProof(ok=False, reason="tag-object-unexpected-pagination", tag=tag)
+            if not isinstance(body, dict):
+                return HostedTagTreeProof(ok=False, reason="tag-object-malformed", tag=tag)
+            if body.get("sha") != current_sha:
+                return HostedTagTreeProof(ok=False, reason="tag-object-sha-mismatch", tag=tag)
+            if "url" in body and not _validate_optional_git_url(
+                body.get("url"), owner, repo, f"/git/tags/{current_sha}"
+            ):
+                return HostedTagTreeProof(ok=False, reason="tag-object-url-mismatch", tag=tag)
+            if "tag" in body:
+                raw_tag_name = body.get("tag")
+                if not isinstance(raw_tag_name, str) or not _TAG_TOKEN_RE.fullmatch(raw_tag_name):
+                    return HostedTagTreeProof(ok=False, reason="tag-object-name-mismatch", tag=tag)
+                if hops == 0 and raw_tag_name != tag:
+                    return HostedTagTreeProof(ok=False, reason="tag-object-name-mismatch", tag=tag)
+            target = body.get("object")
+            if not isinstance(target, dict):
+                return HostedTagTreeProof(ok=False, reason="tag-object-malformed", tag=tag)
+            target_type = target.get("type")
+            if target_type not in ("commit", "tag"):
+                return HostedTagTreeProof(ok=False, reason="tag-object-invalid-target-type", tag=tag)
+            target_sha = target.get("sha")
+            if not isinstance(target_sha, str) or not _GIT_SHA_RE.fullmatch(target_sha):
+                return HostedTagTreeProof(ok=False, reason="tag-object-invalid-target-sha", tag=tag)
+            if target_sha == current_sha:
+                return HostedTagTreeProof(ok=False, reason="tag-peel-cycle", tag=tag)
+            expected_target_suffix = f"/git/{'commits' if target_type == 'commit' else 'tags'}/{target_sha}"
+            if "url" in target and not _validate_optional_git_url(
+                target.get("url"), owner, repo, expected_target_suffix
+            ):
+                return HostedTagTreeProof(ok=False, reason="tag-object-target-url-mismatch", tag=tag)
+            current_type, current_sha = target_type, target_sha
+            hops += 1
+
+        if current_type != "commit" or not _GIT_SHA_RE.fullmatch(current_sha):
+            return HostedTagTreeProof(ok=False, reason="tag-ref-invalid-object-type", tag=tag)
+        commit_sha = current_sha
+
+        commit_url = _build_git_commit_url(owner, repo, commit_sha)
+        try:
+            c_status, c_headers, c_body, c_redir = self._api_get_raw(commit_url)
+        except UnknownEvidenceError:
+            return HostedTagTreeProof(ok=False, reason="commit-fetch-failed", tag=tag)
+        if c_redir:
+            return HostedTagTreeProof(ok=False, reason="commit-redirect", tag=tag)
+        if c_status == 404:
+            return HostedTagTreeProof(ok=False, reason="commit-not-found", tag=tag)
+        if c_status != 200:
+            return HostedTagTreeProof(ok=False, reason="commit-non-200", tag=tag)
+        if _has_unexpected_pagination(c_headers):
+            return HostedTagTreeProof(ok=False, reason="commit-unexpected-pagination", tag=tag)
+        if not isinstance(c_body, dict):
+            return HostedTagTreeProof(ok=False, reason="commit-malformed", tag=tag)
+        if c_body.get("sha") != commit_sha:
+            return HostedTagTreeProof(ok=False, reason="commit-sha-mismatch", tag=tag)
+        if "url" in c_body and not _validate_optional_git_url(
+            c_body.get("url"), owner, repo, f"/git/commits/{commit_sha}"
+        ):
+            return HostedTagTreeProof(ok=False, reason="commit-url-mismatch", tag=tag)
+        tree_ref = c_body.get("tree")
+        if not isinstance(tree_ref, dict):
+            return HostedTagTreeProof(ok=False, reason="commit-malformed", tag=tag)
+        tree_sha = tree_ref.get("sha")
+        if not isinstance(tree_sha, str) or not _GIT_SHA_RE.fullmatch(tree_sha):
+            return HostedTagTreeProof(ok=False, reason="commit-invalid-tree-sha", tag=tag)
+        if "url" in tree_ref and not _validate_optional_git_url(
+            tree_ref.get("url"), owner, repo, f"/git/trees/{tree_sha}"
+        ):
+            return HostedTagTreeProof(ok=False, reason="commit-tree-url-mismatch", tag=tag)
+
+        tree_url = _build_git_tree_sha_url(owner, repo, tree_sha)
+        try:
+            t_status, t_headers, t_body, t_redir = self._api_get_raw(tree_url)
+        except UnknownEvidenceError:
+            return HostedTagTreeProof(ok=False, reason="tree-fetch-failed", tag=tag)
+        if t_redir:
+            return HostedTagTreeProof(ok=False, reason="tree-redirect", tag=tag)
+        if t_status == 404:
+            return HostedTagTreeProof(ok=False, reason="tree-not-found", tag=tag)
+        if t_status != 200:
+            return HostedTagTreeProof(ok=False, reason="tree-non-200", tag=tag)
+        if _has_unexpected_pagination(t_headers):
+            return HostedTagTreeProof(ok=False, reason="tree-unexpected-pagination", tag=tag)
+        if not isinstance(t_body, dict):
+            return HostedTagTreeProof(ok=False, reason="tree-malformed", tag=tag)
+        if t_body.get("sha") != tree_sha:
+            return HostedTagTreeProof(ok=False, reason="tree-sha-mismatch", tag=tag)
+        if "url" in t_body and not _validate_optional_git_url(
+            t_body.get("url"), owner, repo, f"/git/trees/{tree_sha}"
+        ):
+            return HostedTagTreeProof(ok=False, reason="tree-url-mismatch", tag=tag)
+        if t_body.get("truncated") is not False:
+            return HostedTagTreeProof(ok=False, reason="tree-truncated", tag=tag)
+        tree_items = t_body.get("tree")
+        if not isinstance(tree_items, list) or any(not isinstance(item, dict) for item in tree_items):
+            return HostedTagTreeProof(ok=False, reason="tree-malformed", tag=tag)
+
+        recheck_ref, recheck_err = self._read_exact_tag_ref(owner, repo, tag, is_recheck=True)
+        if recheck_err is not None or recheck_ref is None:
+            return HostedTagTreeProof(ok=False, reason=recheck_err or "tag-ref-recheck-failed", tag=tag)
+        if recheck_ref != initial_ref:
+            return HostedTagTreeProof(ok=False, reason="tag-ref-changed", tag=tag)
+
+        return HostedTagTreeProof(
+            ok=True,
+            reason=None,
+            tag=tag,
+            ref_type=ref_type,
+            ref_sha=ref_sha,
+            commit_sha=commit_sha,
+            tree_sha=tree_sha,
+            tree_data=t_body,
+        )
+
     def fetch_json(self, url: str, *, strict: bool = True) -> dict[str, Any]:
-        """Strict tokenless tree JSON fetch for ``enumerate_component_tree`` / ``walk_truncated_tree``."""
+        """Strict tokenless SHA-addressed tree JSON fetch (refuses tag-string tree URLs)."""
         parsed = _check_safe_url_basics(url, expected_host="api.github.com")
         if not _TREE_URL_RE.fullmatch(parsed.path):
             raise GitHubFetchError("disallowed-upstream-tree-url")
